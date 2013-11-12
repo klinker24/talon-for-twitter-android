@@ -52,7 +52,7 @@ public class LoginActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.login_activity);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -83,13 +83,13 @@ public class LoginActivity extends Activity {
         btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
 
         /**
-         * Twitter login button click event will call loginToTwitter() function
+         * Twitter login_activity button click event will call loginToTwitter() function
          * */
         btnLoginTwitter.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                // Call login twitter function
+                // Call login_activity twitter function
                 if (btnLoginTwitter.getText().equals(getResources().getString(R.string.login_to_twitter))) {
                     new RetreiveFeedTask().execute();
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
@@ -119,7 +119,7 @@ public class LoginActivity extends Activity {
                     Log.v("twitter_login_activity", "retreiving");
 
                 } catch (Exception e) {
-                    // Check log for login errors
+                    // Check log for login_activity errors
                     e.printStackTrace();
                     Log.e("Twitter Login Error", "> " + e.getMessage());
                 }
@@ -128,7 +128,7 @@ public class LoginActivity extends Activity {
     }
 
     private boolean isTwitterLoggedInAlready() {
-        // return twitter login status from Shared Preferences
+        // return twitter login_activity status from Shared Preferences
         return sharedPrefs.getBoolean("is_logged_in", false);
     }
 
@@ -148,7 +148,7 @@ public class LoginActivity extends Activity {
         }
 
         /**
-         * Function to login twitter
+         * Function to login_activity twitter
          */
         private void loginToTwitter() {
             // Check if already logged in
@@ -196,13 +196,13 @@ public class LoginActivity extends Activity {
                 e.putString("authentication_token", accessToken.getToken());
                 e.putString("authentication_token_secret", accessToken.getTokenSecret());
 
-                // Store login status - true
+                // Store login_activity status - true
                 e.putBoolean("is_logged_in", true);
                 e.commit(); // save changes
 
                 Log.e("Twitter OAuth Token", "> " + accessToken.getToken());
 
-                // Hide login button
+                // Hide login_activity button
                 btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
 
             } catch (Exception e) {

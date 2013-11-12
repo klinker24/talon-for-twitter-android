@@ -81,8 +81,21 @@
                     android:paddingBottom="15dp"
                     android:text="@string/placeholder"/>
 
+            <TextView
+                    android:id="@+id/retweeter"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textSize="11dp"
+                    android:layout_below="@id/tweet"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:paddingBottom="15dp"
+                    android:textStyle="italic"
+                    android:text="@string/placeholder"
+                    android:visibility="gone" />
+
             <ImageView android:id="@+id/image"
-                       android:layout_below="@id/tweet"
+                       android:layout_below="@id/retweeter"
                        android:layout_height="96dp"
                        android:layout_width="fill_parent"
                        android:scaleType="centerCrop"

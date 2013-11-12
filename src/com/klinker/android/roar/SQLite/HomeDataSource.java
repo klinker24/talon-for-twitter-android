@@ -23,7 +23,8 @@ public class HomeDataSource {
     private HomeSQLiteHelper dbHelper;
     public String[] allColumns = {HomeSQLiteHelper.COLUMN_ID,
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
-            HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL };
+            HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
+            HomeSQLiteHelper.COLUMN_RETWEETER };
 
     public HomeDataSource(Context context) {
         dbHelper = new HomeSQLiteHelper(context);
@@ -39,13 +40,20 @@ public class HomeDataSource {
 
     public void createTweet(Status status) {
         ContentValues values = new ContentValues();
-        String tweetText =  status.getText();
-        values.put(HomeSQLiteHelper.COLUMN_TEXT,tweetText);
+        String originalName = "";
+
+        if(status.isRetweet()) {
+            originalName = status.getUser().getName();
+            status = status.getRetweetedStatus();
+        }
+
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
         values.put(HomeSQLiteHelper.COLUMN_ID, status.getId());
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
         values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
         values.put(HomeSQLiteHelper.COLUMN_TIME, status.getCreatedAt().getTime());
+        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
 
         MediaEntity[] entities = status.getMediaEntities();
 

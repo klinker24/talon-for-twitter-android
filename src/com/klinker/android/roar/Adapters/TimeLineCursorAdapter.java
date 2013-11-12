@@ -36,6 +36,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public ImageView profilePic;
         public TextView tweet;
         public TextView time;
+        public TextView retweeter;
         public ImageButton expand;
         public EditText reply;
         public ImageButton favorite;
@@ -82,6 +83,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
         holder.image = (ImageView) v.findViewById(R.id.image);
+        holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
 
         v.setTag(holder);
         return v;  //To change body of implemented methods use File | Settings | File Templates.
@@ -98,6 +100,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         long date = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+        String retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
 
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(tweetText);
@@ -110,6 +113,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             holder.image.setVisibility(View.GONE);
         }
+
+        if (retweeter.length() > 0) {
+            holder.retweeter.setText("retweeted by " + retweeter);
+            holder.retweeter.setVisibility(View.VISIBLE);
+        } else {
+            holder.retweeter.setVisibility(View.GONE);
+        }
+
 
         holder.name.setText(name);
         holder.time.setText(Utils.getTimeAgo(date));
