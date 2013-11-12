@@ -379,19 +379,20 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
 
                 MediaEntity[] entities = status.getMediaEntities();
 
-                Picasso.with(context)
-                        .load(entities[0].getMediaURL())
-                        .placeholder(R.drawable.ic_action_accept)
-                        .error(R.drawable.ic_action_remove)
-                        .into(holder.image);
 
-                return null;
+
+                return entities[0].getMediaURL();
             } catch (Exception e) {
                 return null;
             }
         }
 
-        protected void onPostExecute(String count) {
+        protected void onPostExecute(String url) {
+            Picasso.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.ic_action_accept)
+                    .error(R.drawable.ic_action_remove)
+                    .into(holder.image);
         }
     }
 }
