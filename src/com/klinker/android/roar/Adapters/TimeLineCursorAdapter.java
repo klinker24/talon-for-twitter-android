@@ -114,8 +114,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     .load(picUrl)
                     .error(resource)
                     .into(holder.image);
-        } else {
-            holder.image.setVisibility(View.GONE);
         }
 
         if (retweeter.length() > 0) {
@@ -209,6 +207,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
 
             holder.profilePic.setImageDrawable(context.getResources().getDrawable(R.drawable.circle_border));
+            holder.image.setVisibility(View.GONE);
         }
 
         bindView(v, context, cursor);
