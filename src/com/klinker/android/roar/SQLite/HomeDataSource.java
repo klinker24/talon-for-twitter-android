@@ -43,7 +43,7 @@ public class HomeDataSource {
         String originalName = "";
 
         if(status.isRetweet()) {
-            originalName = status.getUser().getName();
+            originalName = status.getUser().getScreenName();
             status = status.getRetweetedStatus();
         }
 

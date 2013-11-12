@@ -115,7 +115,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         if (retweeter.length() > 0) {
-            holder.retweeter.setText("retweeted by " + retweeter);
+            holder.retweeter.setText("retweeted by @" + retweeter);
             holder.retweeter.setVisibility(View.VISIBLE);
         } else {
             holder.retweeter.setVisibility(View.GONE);

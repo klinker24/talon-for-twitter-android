@@ -187,7 +187,6 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         protected void onPostExecute(User user) {
             try {
                 String username = user.getName();
-                Log.v("twitter_login", "User name:" + username);
             } catch (Exception e) {
                 //e.printStackTrace();
             }

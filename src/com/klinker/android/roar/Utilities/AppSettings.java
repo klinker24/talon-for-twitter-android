@@ -18,9 +18,9 @@ public class AppSettings {
     public static String TWITTER_CONSUMER_KEY = "l1RXEJCfdU7q1CRYkTmeaw";
     public static String TWITTER_CONSUMER_SECRET = "uVsk5H5umoLcYdcVSa6rWFQMN0kFOoTBxAnBid4OAkM";
 
-    public static String authenticationToken;
-    public static String authenticationTokenSecret;
-    public static boolean isTwitterLoggedIn;
+    public String authenticationToken;
+    public String authenticationTokenSecret;
+    public boolean isTwitterLoggedIn;
 
     public AppSettings(Context context) {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
