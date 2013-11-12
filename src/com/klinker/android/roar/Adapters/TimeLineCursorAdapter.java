@@ -1,6 +1,7 @@
 package com.klinker.android.roar.Adapters;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -106,9 +107,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         Matcher matcher = pattern.matcher(tweetText);
 
         if (matcher.find()) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
             Picasso.with(context)
                     .load(picUrl)
-                    .error(R.drawable.ic_action_remove)
+                    .error(resource)
                     .into(holder.image);
         } else {
             holder.image.setVisibility(View.GONE);
@@ -264,10 +268,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.favCount.setText("- " + status.getFavoriteCount());
 
                 if (status.isFavorited()) {
-                    holder.favorite.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_important));
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                    int resource = a.getResourceId(0, 0);
+                    a.recycle();
+
+                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                     holder.isFavorited = true;
                 } else {
-                    holder.favorite.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_not_important));
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
+                    int resource = a.getResourceId(0, 0);
+                    a.recycle();
+
+                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                     holder.isFavorited = false;
                 }
             }

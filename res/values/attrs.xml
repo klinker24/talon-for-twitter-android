@@ -39,7 +39,8 @@ limitations under the License.
     <attr name="rotateButton" format="reference"/>
     <attr name="showMoreButton" format="reference"/>
     <attr name="retweetButton" format="reference"/>
-    <attr name="favoriteButton" format="reference"/>
+    <attr name="favoritedButton" format="reference"/>
+    <attr name="notFavoritedButton" format="reference"/>
     <attr name="acceptButton" format="reference"/>
 
     <!-- Actionbar Icons -->

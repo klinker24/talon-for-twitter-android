@@ -46,6 +46,9 @@ limitations under the License.
         <item name="drawerDrawable">@drawable/drawer_background_dark</item>
         <item name="acceptButton">@drawable/ic_action_accept_dark</item>
         <item name="showMoreButton">@drawable/ic_action_expand_dark</item>
+        <item name="retweetButton">@drawable/ic_action_repeat_dark</item>
+        <item name="favoritedButton">@drawable/ic_action_important_dark</item>
+        <item name="notFavoritedButton">@drawable/ic_action_not_important_dark</item>
 
         <item name="actionbar">@drawable/ab_solid_dark</item>
         <item name="searchIcon">@drawable/ic_action_search_dark</item>
