@@ -242,10 +242,8 @@ public class LoginActivity extends Activity {
 
                 User user = twitter.verifyCredentials();
                 Paging paging;
-                paging = new Paging(1, 500);
+                paging = new Paging(2, 200);
                 List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
-
-                sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
 
                 HomeDataSource dataSource = new HomeDataSource(context);
                 dataSource.open();
@@ -258,6 +256,21 @@ public class LoginActivity extends Activity {
                         break;
                     }
                 }
+                paging = new Paging(1, 200);
+                statuses = twitter.getHomeTimeline(paging);
+
+                sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
+
+                Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
+                for (twitter4j.Status status : statuses) {
+                    try {
+                        dataSource.createTweet(status);
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
+
+                dataSource.close();
 
             } catch (TwitterException e) {
                 // Error in updating status
