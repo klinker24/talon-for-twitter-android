@@ -138,7 +138,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     .load(picUrl)
                     .error(R.drawable.ic_action_remove)
                     .into(holder.image);
-            holder.image.setVisibility(View.VISIBLE);
+            //holder.image.setVisibility(View.VISIBLE);
         } else {
             holder.image.setVisibility(View.GONE);
         }

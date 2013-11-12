@@ -83,9 +83,12 @@
 
             <ImageView android:id="@+id/image"
                        android:layout_below="@id/tweet"
-                       android:layout_height="wrap_content"
+                       android:layout_height="96dp"
                        android:layout_width="fill_parent"
-                       android:src="@drawable/ic_action_refresh"
+                       android:scaleType="centerCrop"
+                       android:layout_marginLeft="8dp"
+                       android:layout_marginRight="8dp"
+                       android:layout_marginBottom="15dp"
                        android:visibility="gone"
                        />
         </RelativeLayout>
@@ -157,6 +160,7 @@
                         android:layout_weight="1"
                         android:hint="@string/reply"
                         android:textSize="14dp"
+                        android:layout_marginBottom="8dp"
                         android:inputType="textNoSuggestions|textMultiLine"/>
 
                 <ImageButton
