@@ -18,12 +18,14 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/profile_pic"
-                android:src="@drawable/circle_border"
+                android:src="@drawable/circle_border_light"
+                android:background="?circleBorder"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:maxWidth="48dp" android:maxHeight="48dp"
                 android:contentDescription="@string/placeholder"
-                android:layout_marginRight="2dp"/>
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"/>
 
         <ImageButton
                 android:id="@+id/show_more"

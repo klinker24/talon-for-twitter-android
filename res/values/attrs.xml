@@ -42,6 +42,7 @@ limitations under the License.
     <attr name="favoritedButton" format="reference"/>
     <attr name="notFavoritedButton" format="reference"/>
     <attr name="acceptButton" format="reference"/>
+    <attr name="circleBorder" format="reference"/>
 
     <!-- Actionbar Icons -->
     <attr name="actionbar" format="reference"/>

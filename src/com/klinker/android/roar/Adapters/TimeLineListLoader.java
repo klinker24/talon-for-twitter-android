@@ -1,10 +1,13 @@
 package com.klinker.android.roar.Adapters;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.*;
 import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+import com.klinker.android.roar.R;
 import com.klinker.android.roar.SQLite.HomeSQLiteHelper;
 import org.lucasr.smoothie.SimpleItemLoader;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -14,9 +17,11 @@ import java.net.URL;
 
 public class TimeLineListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
     final BitmapLruCache mCache;
+    private Context context;
 
-    public TimeLineListLoader(BitmapLruCache cache) {
+    public TimeLineListLoader(BitmapLruCache cache, Context context) {
         mCache = cache;
+        this.context = context;
     }
 
     @Override
@@ -79,6 +84,7 @@ public class TimeLineListLoader extends SimpleItemLoader<String, CacheableBitmap
                 currentImage.getHeight() / 2, (currentImage.getWidth() / 2) - (currentImage.getWidth() / 25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, null, rect, paint);
+
         return output;
     }
 }

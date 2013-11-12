@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -206,7 +205,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 removeExpansionNoAnimation(holder);
             }
 
-            holder.profilePic.setImageDrawable(context.getResources().getDrawable(R.drawable.circle_border));
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.profilePic.setImageDrawable(context.getResources().getDrawable(resource));
             holder.image.setVisibility(View.GONE);
         }
 

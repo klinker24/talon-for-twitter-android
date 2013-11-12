@@ -85,7 +85,7 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
 
         BitmapLruCache cache = App.getInstance(this).getBitmapCache();
-        TimeLineListLoader loader = new TimeLineListLoader(cache);
+        TimeLineListLoader loader = new TimeLineListLoader(cache, context);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
         builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
