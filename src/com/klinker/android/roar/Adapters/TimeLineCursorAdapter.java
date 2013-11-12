@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -22,7 +23,6 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
     public Context context;
     private final LayoutInflater inflater;
 
-    public boolean showMore = false;
 
     public static class ViewHolder {
         public TextView name;
@@ -42,6 +42,7 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         public int position;
         public long tweetId;
         public boolean isFavorited;
+        public boolean showMore = false;
 
     }
 
@@ -82,13 +83,15 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
             holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
 
             v.setTag(holder);
+
+            //removeExpansionNoAnimation(holder);
         } else {
             Log.v("listview_scrolling", "recycled");
             v = convertView;
 
             holder = (ViewHolder) v.getTag();
 
-            if (!showMore) {
+            if (!holder.showMore) {
                 removeExpansionNoAnimation(holder);
             }
         }
@@ -117,10 +120,10 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
             public void onClick(View view) {
                 if (holder.expandArea.getVisibility() == View.GONE) {
                     addExpansion(holder);
-                    showMore = true;
+                    holder.showMore = false;
                 } else {
                     removeExpansionWithAnimation(holder);
-                    showMore = false;
+                    holder.showMore = false;
                     removeKeyboard(holder);
                 }
             }
@@ -147,16 +150,31 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
             }
         });
 
+        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b) {
+                    holder.showMore = true;
+                } else {
+                    holder.showMore = false;
+                }
+            }
+        });
+
+
+
         return v;
     }
 
     public void removeExpansionWithAnimation(ViewHolder holder) {
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 250);
         holder.expandArea.startAnimation(expandAni);
+        holder.showMore = false;
     }
 
     public void removeExpansionNoAnimation(ViewHolder holder) {
         holder.expandArea.setVisibility(View.GONE);
+        holder.showMore = false;
     }
 
     public void addExpansion(ViewHolder holder) {
