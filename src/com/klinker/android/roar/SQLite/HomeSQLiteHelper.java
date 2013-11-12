@@ -14,8 +14,7 @@ public class HomeSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRO_PIC = "profile_pic";
     public static final String COLUMN_SCREEN_NAME = "screen_name";
     public static final String COLUMN_TIME = "time";
-    public static final String COLUMN_RETWEET_COUNT = "retweets";
-    public static final String COLUMN_FAVORITE_COUNT = "favorites";
+    public static final String COLUMN_PIC_URL = "pic_url";
 
     private static final String DATABASE_NAME = "tweets.db";
     private static final int DATABASE_VERSION = 1;
@@ -28,9 +27,8 @@ public class HomeSQLiteHelper extends SQLiteOpenHelper {
             + " text users name, " + COLUMN_PRO_PIC
             + " text url of pic, " + COLUMN_SCREEN_NAME
             + " text user screen, " + COLUMN_TIME
-            + " integer time, " + COLUMN_FAVORITE_COUNT
-            + " text favorite count, " + COLUMN_RETWEET_COUNT
-            + " text retweet count);";
+            + " integer time, " + COLUMN_PIC_URL
+            + " text pic url);";
 
     public HomeSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

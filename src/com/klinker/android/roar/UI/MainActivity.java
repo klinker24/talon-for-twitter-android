@@ -90,7 +90,7 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         TimeLineListLoader loader = new TimeLineListLoader(cache);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(5);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
         builder.setThreadPoolSize(4);
 
         listView.setItemManager(builder.build());

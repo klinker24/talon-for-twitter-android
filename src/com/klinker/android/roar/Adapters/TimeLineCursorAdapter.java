@@ -22,7 +22,7 @@ import twitter4j.Twitter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TimeLineCursorAdapter extends SimpleCursorAdapter {
+public class TimeLineCursorAdapter extends CursorAdapter {
 
     public Cursor cursor;
     public Context context;
@@ -55,11 +55,42 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor) {
-        super(context, -1, null, new String[]{}, new int[]{}, 0);
+        super(context, cursor, 0);
 
         this.cursor = cursor;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+        View v;
+        final ViewHolder holder;
+        v = inflater.inflate(R.layout.tweet, viewGroup, false);
+
+        holder = new ViewHolder();
+
+        holder.name = (TextView) v.findViewById(R.id.name);
+        holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
+        holder.time = (TextView) v.findViewById(R.id.time);
+        holder.tweet = (TextView) v.findViewById(R.id.tweet);
+        holder.expand = (ImageButton) v.findViewById(R.id.show_more);
+        holder.reply = (EditText) v.findViewById(R.id.reply);
+        holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
+        holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
+        holder.favCount = (TextView) v.findViewById(R.id.fav_count);
+        holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
+        holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
+        holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
+        holder.image = (ImageView) v.findViewById(R.id.image);
+
+        v.setTag(holder);
+        return v;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -73,25 +104,10 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         final ViewHolder holder;
         if (convertView == null) {
             Log.v("listview_scrolling", "not recycled");
-            v = inflater.inflate(R.layout.tweet, parent, false);
 
-            holder = new ViewHolder();
+            v = newView(context, cursor, parent);
 
-            holder.name = (TextView) v.findViewById(R.id.name);
-            holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
-            holder.time = (TextView) v.findViewById(R.id.time);
-            holder.tweet = (TextView) v.findViewById(R.id.tweet);
-            holder.expand = (ImageButton) v.findViewById(R.id.show_more);
-            holder.reply = (EditText) v.findViewById(R.id.reply);
-            holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
-            holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
-            holder.favCount = (TextView) v.findViewById(R.id.fav_count);
-            holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
-            holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-            holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
-            holder.image = (ImageView) v.findViewById(R.id.image);
-
-            v.setTag(holder);
+            holder = (ViewHolder) v.getTag();
 
             //removeExpansionNoAnimation(holder);
         } else {
@@ -112,12 +128,17 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         long date = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
+        String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
 
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(tweetText);
 
         if (matcher.find()) {
-            new GetImage(holder, holder.tweetId).execute();
+            Picasso.with(context)
+                    .load(picUrl)
+                    .error(R.drawable.ic_action_remove)
+                    .into(holder.image);
+            holder.image.setVisibility(View.VISIBLE);
         } else {
             holder.image.setVisibility(View.GONE);
         }
@@ -386,11 +407,7 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         }
 
         protected void onPostExecute(String url) {
-            Picasso.with(context)
-                    .load(url)
-                    .error(R.drawable.ic_action_remove)
-                    .into(holder.image);
-            holder.image.setVisibility(View.VISIBLE);
+
         }
     }
 }
