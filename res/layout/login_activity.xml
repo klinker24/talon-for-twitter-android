@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:gravity="center">
+
+    <TextView
+            android:id="@+id/welcome"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/welcome_to_roar"
+            android:visibility="gone"/>
+
+    <!-- Twitter Login Button -->
+    <Button android:id="@+id/btnLoginTwitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_to_twitter"/>
+
+</LinearLayout>

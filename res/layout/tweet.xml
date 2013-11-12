@@ -24,6 +24,7 @@
                 android:maxWidth="48dp" android:maxHeight="48dp"
                 android:contentDescription="@string/placeholder"
                 android:layout_marginRight="2dp"/>
+
         <ImageButton
                 android:id="@+id/show_more"
                 android:layout_width="30dp"
@@ -42,7 +43,7 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/received_background_dark">
+            android:background="?tweetBackground">
 
         <!-- Holds the name, screen name, and time-->
         <RelativeLayout
@@ -67,6 +68,7 @@
                     android:layout_marginStart="5dp"
                     android:textSize="11dp"
                     android:textStyle="italic"
+                    android:textColor="?dateColor"
                     android:layout_toRightOf="@id/name"
                     android:layout_alignBaseline="@id/name" />
 

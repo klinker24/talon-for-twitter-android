@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.klinker.android.roar.R;
 import com.klinker.android.roar.SQLite.HomeDataSource;
 import com.klinker.android.roar.Utilities.AlertDialogManager;
+import com.klinker.android.roar.Utilities.AppSettings;
 import com.klinker.android.roar.Utilities.ConnectionDetector;
 import com.klinker.android.roar.Utilities.Utils;
 import twitter4j.*;
@@ -59,9 +60,11 @@ public class LoginActivity extends Activity {
 
         context = this;
 
+        AppSettings settings = new AppSettings(context);
+
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey(MainActivity.settings.TWITTER_CONSUMER_KEY);
-        builder.setOAuthConsumerSecret(MainActivity.settings.TWITTER_CONSUMER_SECRET);
+        builder.setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY);
+        builder.setOAuthConsumerSecret(settings.TWITTER_CONSUMER_SECRET);
         Configuration configuration = builder.build();
 
         TwitterFactory factory = new TwitterFactory(configuration);

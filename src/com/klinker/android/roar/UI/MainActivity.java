@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
     private AsyncListView listView;
     private CursorAdapter cursorAdapter;
 
-    public static AppSettings settings;
+    public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
 
@@ -59,8 +59,9 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_TalonBlack);
         setContentView(R.layout.main_activity);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 

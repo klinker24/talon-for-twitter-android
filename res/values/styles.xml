@@ -6,68 +6,6 @@
         <item name="android:windowExitAnimation">@anim/activity_slide_down</item>
     </style>
 
-    <style name="Theme.FloatingWindow.Popup" parent="@style/Theme.TalonDark">
-        <item name="android:windowFrame">@drawable/rect_border</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">stateUnchanged</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowActionModeOverlay">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-
-    </style>
-
-    <style name="Theme.TalonDark" parent="@android:style/Theme.Holo">
-
-        <item name="android:windowBackground">@color/dark_background</item>
-        <item name="android:colorBackground">@color/dark_background</item>
-        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
-        <item name="android:actionBarStyle">@style/DarkActionBar</item>
-        <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
-
-        <!--<item name="textColor">@color/dark_text</item>
-        <item name="dateColor">@color/dark_date</item>
-        <item name="drawerBackground">@color/dark_drawer</item>
-        <item name="headerTextColor">@android:color/white</item>
-        <item name="textShadowColor">@android:color/black</item>
-        <item name="windowBackground">@color/dark_background</item> -->
-        <!--
-       <item name="sentMessageBackground">@drawable/sent_background_dark</item>
-       <item name="sentMessageBackgroundSending">@drawable/sent_background_sending_dark</item>
-       <item name="sentMessageBackgroundDelivered">@drawable/sent_background_delivered_dark</item>
-       <item name="sentMessageBackgroundError">@drawable/sent_background_error_dark</item>
-       <item name="sentMessageBackgroundLocked">@drawable/sent_background_locked_dark</item>
-       <item name="receivedMessageBackground">@drawable/received_background_dark</item>
-       <item name="receivedMessageBackgroundLocked">@drawable/received_background_locked_dark</item>
-       <item name="messageBackground">@drawable/received_bubble_dark</item>
-       <item name="messageBackgroundLocked">@drawable/received_bubble_locked_dark</item>
-       <item name="cancelButton">@drawable/ic_cancel_dark</item>
-       <item name="sendButton">@drawable/ic_send_dark</item>
-       <item name="attachButton">@drawable/ic_attach_dark</item>
-       <item name="contactPicture">@drawable/default_avatar</item>
-       <item name="groupPicture">@drawable/group_avatar</item>
-       <item name="drawerIcon">@drawable/ic_drawer_dark</item>
-       <item name="newIcon">@drawable/ic_action_new_dark</item>
-       <item name="delete">@drawable/ic_menu_delete</item>
-       <item name="drawerDrawable">@drawable/drawer_background_dark</item>
-       <item name="playVideo">@drawable/ic_play_dark</item>
-       <item name="rotateButton">@drawable/rotate_clockwise_dark</item>
-
-       <item name="actionbar">@drawable/ab_solid_dark</item>
-       <item name="saveImages">@drawable/content_save_dark</item>
-       <item name="done">@drawable/ic_menu_done_holo_dark</item>
-       <item name="searchIcon">@drawable/ic_action_search_dark</item>
-       <item name="newMessage">@drawable/ic_reply_dark</item>
-       <item name="call">@drawable/ic_menu_call</item>  -->
-
-    </style>
-
-    <style name="DarkActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">@drawable/ab_solid_dark</item>
-    </style>
-
     <style name="Widget.Custom.PtrHeader" parent="android:Widget">
         <item name="ptrProgressBarColor">@color/app_color</item>
     </style>
