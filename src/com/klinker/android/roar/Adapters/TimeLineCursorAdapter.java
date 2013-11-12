@@ -47,7 +47,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public ImageView image;
         //public Bitmap tweetPic;
 
-        public int position;
         public long tweetId;
         public boolean isFavorited;
         public boolean showMore = false;
@@ -89,39 +88,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+    public void bindView(final View view, Context mContext, final Cursor cursor) {
+        final ViewHolder holder = (ViewHolder) view.getTag();
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (!cursor.moveToPosition(cursor.getCount() - 1 - position)) {
-            throw new IllegalStateException("couldn't move cursor to position " + position);
-        }
-
-        View v;
-        final ViewHolder holder;
-        if (convertView == null) {
-            Log.v("listview_scrolling", "not recycled");
-
-            v = newView(context, cursor, parent);
-
-            holder = (ViewHolder) v.getTag();
-
-            //removeExpansionNoAnimation(holder);
-        } else {
-            Log.v("listview_scrolling", "recycled");
-            v = convertView;
-
-            holder = (ViewHolder) v.getTag();
-
-            if (!holder.showMore) {
-                removeExpansionNoAnimation(holder);
-            }
-        }
-
-        holder.position = position;
         holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
 
         String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
@@ -138,7 +107,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     .load(picUrl)
                     .error(R.drawable.ic_action_remove)
                     .into(holder.image);
-            //holder.image.setVisibility(View.VISIBLE);
         } else {
             holder.image.setVisibility(View.GONE);
         }
@@ -200,7 +168,33 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
+    }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if (!cursor.moveToPosition(cursor.getCount() - 1 - position)) {
+            throw new IllegalStateException("couldn't move cursor to position " + position);
+        }
+
+        View v;
+        if (convertView == null) {
+            Log.v("listview_scrolling", "not recycled");
+
+            v = newView(context, cursor, parent);
+
+        } else {
+            Log.v("listview_scrolling", "recycled");
+            v = convertView;
+
+            final ViewHolder holder = (ViewHolder) v.getTag();
+
+            if (!holder.showMore) {
+                removeExpansionNoAnimation(holder);
+            }
+        }
+
+        bindView(v, context, cursor);
 
         return v;
     }
