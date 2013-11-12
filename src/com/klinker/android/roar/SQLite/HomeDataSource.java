@@ -41,6 +41,7 @@ public class HomeDataSource {
     public void createTweet(Status status) {
         ContentValues values = new ContentValues();
         String originalName = "";
+        long time = status.getCreatedAt().getTime();
 
         if(status.isRetweet()) {
             originalName = status.getUser().getScreenName();
@@ -52,7 +53,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
         values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
-        values.put(HomeSQLiteHelper.COLUMN_TIME, status.getCreatedAt().getTime());
+        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
         values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
 
         MediaEntity[] entities = status.getMediaEntities();

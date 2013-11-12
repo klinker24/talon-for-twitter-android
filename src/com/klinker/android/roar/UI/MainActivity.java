@@ -59,11 +59,12 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Theme_TalonBlack);
-        setContentView(R.layout.main_activity);
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        setTheme(R.style.Theme_TalonDark);
+        setContentView(R.layout.main_activity);
 
         cd = new ConnectionDetector(getApplicationContext());
 
