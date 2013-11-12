@@ -207,6 +207,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             if (!holder.showMore) {
                 removeExpansionNoAnimation(holder);
             }
+
+            holder.profilePic.setImageDrawable(context.getResources().getDrawable(R.drawable.circle_border));
         }
 
         bindView(v, context, cursor);
