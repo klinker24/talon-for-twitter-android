@@ -17,11 +17,16 @@ import com.klinker.android.roar.Utilities.Utils;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class TimeLineCursorAdapter extends SimpleCursorAdapter {
 
     public Cursor cursor;
     public Context context;
     private final LayoutInflater inflater;
+
+    private final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
 
 
     public static class ViewHolder {
@@ -37,6 +42,7 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         public TextView retweetCount;
         public LinearLayout expandArea;
         public ImageButton replyButton;
+        public ImageView image;
         //public Bitmap tweetPic;
 
         public int position;
@@ -81,6 +87,7 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
             holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
             holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
             holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
+            holder.image = (ImageView) v.findViewById(R.id.image);
 
             v.setTag(holder);
 
@@ -103,6 +110,15 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         long date = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
+
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(tweetText);
+
+        if (matcher.find()) {
+            holder.image.setVisibility(View.VISIBLE);
+        } else {
+            holder.image.setVisibility(View.GONE);
+        }
 
         holder.name.setText(name);
         holder.time.setText(Utils.getTimeAgo(date));
