@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Talon</string>
+    <string name="app_name_full">Talon for Twitter</string>
+
+    <!-- Action Bar -->
+    <string name="menu_refresh">Refresh Timeline</string>
+    <string name="menu_compose">New Tweet</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_settings">Settings</string>
+
+    <!-- Login Screen -->
+    <string name="setup_roar">Setup Talon</string>
+    <string name="login_to_twitter">Login to Twitter</string>
+    <string name="welcome_to_roar">Welcome to Talon!</string>
+    <string name="back_to_timeline">Back to Timeline!</string>
+    <string name="initial_sync">Sync Now!</string>
+
+    <!-- ComposeActivity New Activity -->
+    <string name="compose_activity">New Tweet</string>
+    <string name="compose_tweet_hint">Type tweet here...</string>
+
+    <!-- Actionbar Done-Discard -->
+    <string name="discard">Discard</string>
+    <string name="send">Send</string>
+
+    <!-- Other -->
+    <string name="placeholder">Placeholder</string>
+    <string name="reply">Reply...</string>
+</resources>
