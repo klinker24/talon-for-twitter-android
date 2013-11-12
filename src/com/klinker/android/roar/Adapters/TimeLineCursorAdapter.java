@@ -14,6 +14,8 @@ import com.klinker.android.roar.ExpansionAnimation;
 import com.klinker.android.roar.R;
 import com.klinker.android.roar.SQLite.HomeSQLiteHelper;
 import com.klinker.android.roar.Utilities.Utils;
+import com.squareup.picasso.Picasso;
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
@@ -116,6 +118,8 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
 
         if (matcher.find()) {
             holder.image.setVisibility(View.VISIBLE);
+            Log.v("image_url", tweetText.substring(matcher.start(), matcher.end()));
+            new GetImage(holder, holder.tweetId).execute();
         } else {
             holder.image.setVisibility(View.GONE);
         }
@@ -355,6 +359,39 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         protected void onPostExecute(String count) {
             removeExpansionWithAnimation(holder);
             removeKeyboard(holder);
+        }
+    }
+
+    class GetImage extends AsyncTask<String, Void, String> {
+
+        private ViewHolder holder;
+        private long tweetId;
+
+        public GetImage(ViewHolder holder, long tweetId) {
+            this.holder = holder;
+            this.tweetId = tweetId;
+        }
+
+        protected String doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+                twitter4j.Status status = twitter.showStatus(tweetId);
+
+                MediaEntity[] entities = status.getMediaEntities();
+
+                Picasso.with(context)
+                        .load(entities[0].getMediaURL())
+                        .placeholder(R.drawable.ic_action_accept)
+                        .error(R.drawable.ic_action_remove)
+                        .into(holder.image);
+
+                return null;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String count) {
         }
     }
 }
