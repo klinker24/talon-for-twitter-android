@@ -11,6 +11,7 @@ import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.klinker.android.roar.R;
+import com.klinker.android.roar.Utilities.AppSettings;
 import com.klinker.android.roar.Utilities.Utils;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -18,11 +19,15 @@ import twitter4j.TwitterException;
 
 public class ComposeActivity extends Activity {
 
-    ProgressDialog pDialog;
+    public AppSettings settings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        settings = new AppSettings(this);
+
+        setUpTheme();
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
@@ -81,6 +86,21 @@ public class ComposeActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
+    }
+
+    public void setUpTheme() {
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_TalonLight_Popup);
+                break;
+            case AppSettings.THEME_DARK:
+                setTheme(R.style.Theme_TalonDark_Popup);
+                break;
+            case AppSettings.THEME_BLACK:
+                setTheme(R.style.Theme_TalonBlack_Popup);
+                break;
+        }
     }
 
     public boolean doneClick() {

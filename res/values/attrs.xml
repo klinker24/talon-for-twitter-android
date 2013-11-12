@@ -37,6 +37,10 @@ limitations under the License.
     <attr name="drawerDrawable" format="reference"/>
     <attr name="playVideo" format="reference"/>
     <attr name="rotateButton" format="reference"/>
+    <attr name="showMoreButton" format="reference"/>
+    <attr name="retweetButton" format="reference"/>
+    <attr name="favoriteButton" format="reference"/>
+    <attr name="acceptButton" format="reference"/>
 
     <!-- Actionbar Icons -->
     <attr name="actionbar" format="reference"/>

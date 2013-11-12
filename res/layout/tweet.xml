@@ -29,7 +29,7 @@
                 android:id="@+id/show_more"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_action_expand"
+                android:src="?showMoreButton"
                 android:minHeight="40dp" android:minWidth="40dp"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:maxWidth="40dp" android:maxHeight="40dp"
@@ -93,6 +93,7 @@
                     android:layout_marginLeft="8dp"
                     android:paddingBottom="15dp"
                     android:textStyle="italic"
+                    android:textColor="?dateColor"
                     android:text="@string/placeholder"
                     android:visibility="gone" />
 

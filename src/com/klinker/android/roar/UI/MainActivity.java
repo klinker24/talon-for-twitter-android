@@ -62,19 +62,15 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        setTheme(R.style.Theme_TalonDark);
-        setContentView(R.layout.main_activity);
-
+        settings = new AppSettings(this);
         cd = new ConnectionDetector(getApplicationContext());
 
+        setUpTheme();
+        setContentView(R.layout.main_activity);
         // Check if Internet present
         if (!cd.isConnectingToInternet()) {
             Crouton.makeText(this, "No internet connection", Style.ALERT);
         }
-
-        settings = new AppSettings(this);
-
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
@@ -102,6 +98,21 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         // Retrieve the PullToRefreshLayout from the content view
         PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
         ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
+    }
+
+    public void setUpTheme() {
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_TalonLight);
+                break;
+            case AppSettings.THEME_DARK:
+                setTheme(R.style.Theme_TalonDark);
+                break;
+            case AppSettings.THEME_BLACK:
+                setTheme(R.style.Theme_TalonBlack);
+                break;
+        }
     }
 
     @Override
