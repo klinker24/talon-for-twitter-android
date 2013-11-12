@@ -29,7 +29,6 @@ public class TimeLineListLoader extends SimpleItemLoader<String, CacheableBitmap
         Cursor cursor = (Cursor) adapter.getItem(0);
         cursor.moveToPosition(cursor.getCount() - position - 1);
         String url = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
-        Log.v("getting_params", position + "");
         return url;
     }
 

@@ -117,8 +117,6 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         Matcher matcher = pattern.matcher(tweetText);
 
         if (matcher.find()) {
-            holder.image.setVisibility(View.VISIBLE);
-            Log.v("image_url", tweetText.substring(matcher.start(), matcher.end()));
             new GetImage(holder, holder.tweetId).execute();
         } else {
             holder.image.setVisibility(View.GONE);
@@ -390,9 +388,9 @@ public class TimeLineCursorAdapter extends SimpleCursorAdapter {
         protected void onPostExecute(String url) {
             Picasso.with(context)
                     .load(url)
-                    .placeholder(R.drawable.ic_action_accept)
                     .error(R.drawable.ic_action_remove)
                     .into(holder.image);
+            holder.image.setVisibility(View.VISIBLE);
         }
     }
 }
