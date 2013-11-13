@@ -22,6 +22,8 @@ limitations under the License.
     <color name="holo_blue">#33B5E5</color>
     <color name="holo_blue_alpha">#4433B5E5</color>
 
+    <color name="image_darken">#25222222</color>
+
     <!-- Light Theme -->
     <color name="light_background">#f6f6f6</color>
     <color name="light_text">#020202</color>

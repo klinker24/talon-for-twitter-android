@@ -10,6 +10,9 @@
     <string name="menu_settings">Settings</string>
 
     <!-- Main Activity -->
+    <string name="timeline">Timeline</string>
+    <string name="mentions">Mentions</string>
+    <string name="direct_messages">Direct Messages</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>

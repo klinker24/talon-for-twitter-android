@@ -43,6 +43,9 @@ limitations under the License.
     <attr name="notFavoritedButton" format="reference"/>
     <attr name="acceptButton" format="reference"/>
     <attr name="circleBorder" format="reference"/>
+    <attr name="timelineItem" format="reference"/>
+    <attr name="mentionItem" format="reference"/>
+    <attr name="directMessageItem" format="reference"/>
 
     <!-- Actionbar Icons -->
     <attr name="actionbar" format="reference"/>

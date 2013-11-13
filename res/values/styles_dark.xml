@@ -50,6 +50,9 @@ limitations under the License.
         <item name="favoritedButton">@drawable/ic_action_important_dark</item>
         <item name="notFavoritedButton">@drawable/ic_action_not_important_dark</item>
         <item name="circleBorder">@drawable/circle_border_dark</item>
+        <item name="timelineItem">@drawable/timeline_dark</item>
+        <item name="mentionItem">@drawable/mentions_dark</item>
+        <item name="directMessageItem">@drawable/ic_action_reply_dark</item>
 
         <item name="actionbar">@drawable/ab_solid_dark</item>
         <item name="searchIcon">@drawable/ic_action_search_dark</item>
