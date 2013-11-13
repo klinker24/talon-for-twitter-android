@@ -12,50 +12,34 @@ import com.squareup.picasso.Transformation;
  */
 public class CircleTransform implements Transformation{
     @Override
-    public Bitmap transform(Bitmap currentImage) {
-        /*Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(currentImage.getWidth(),
-                currentImage.getHeight(), Bitmap.Config.ARGB_8888);
+    public Bitmap transform(Bitmap source) {
+        int size = Math.min(source.getWidth(), source.getHeight());
 
-        Canvas canvas = new Canvas(output);
+        int x = (source.getWidth() - size) / 2;
+        int y = (source.getHeight() - size) / 2;
+
+        Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
+        if (squaredBitmap != source) {
+            source.recycle();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
+
+        Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, currentImage.getWidth(),
-                currentImage.getHeight());
-
+        BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
+        paint.setShader(shader);
         paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(currentImage.getWidth() / 2,
-                currentImage.getHeight() / 2, (currentImage.getWidth() / 2) - (currentImage.getWidth() / 25), paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, null, rect, paint);
 
-        Log.v("image_transform", "" + output);*/
+        float r = size/2f;
+        canvas.drawCircle(r, r, r, paint);
 
-        return currentImage;
+        squaredBitmap.recycle();
+        return bitmap;
     }
 
     @Override
     public String key() {
-        return "circle()";  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    private Bitmap getClip(Bitmap currentImage) {
-        Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(currentImage.getWidth(),
-                currentImage.getHeight(), Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(output);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, currentImage.getWidth(),
-                currentImage.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(currentImage.getWidth() / 2,
-                currentImage.getHeight() / 2, (currentImage.getWidth() / 2) - (currentImage.getWidth() / 25), paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, null, rect, paint);
-
-        return output;
+        return "circle";
     }
 }
