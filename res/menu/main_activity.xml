@@ -7,13 +7,8 @@
           android:showAsAction="always"
           android:icon="?sendButton" />
 
-    <item android:id="@+id/menu_logout"
-          android:orderInCategory="2"
-          android:title="@string/menu_logout"
-          android:showAsAction="never" />
-
     <item android:id="@+id/menu_settings"
-          android:orderInCategory="3"
+          android:orderInCategory="2"
           android:title="@string/menu_settings"
           android:showAsAction="never" />
 

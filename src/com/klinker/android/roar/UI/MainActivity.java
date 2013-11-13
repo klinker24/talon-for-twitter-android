@@ -72,14 +72,14 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
-        //cd = new ConnectionDetector(getApplicationContext());
+        cd = new ConnectionDetector(getApplicationContext());
 
         setUpTheme();
         setContentView(R.layout.main_activity);
         // Check if Internet present
-        //if (!cd.isConnectingToInternet()) {
-            //Crouton.makeText(this, "No internet connection", Style.ALERT);
-        //}
+        if (!cd.isConnectingToInternet()) {
+            Crouton.makeText(this, "No internet connection", Style.ALERT);
+        }
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
@@ -412,10 +412,6 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
             case R.id.menu_compose:
                 Intent compose = new Intent(context, ComposeActivity.class);
                 startActivity(compose);
-                return true;
-
-            case R.id.menu_logout:
-                logoutFromTwitter();
                 return true;
 
             default:
