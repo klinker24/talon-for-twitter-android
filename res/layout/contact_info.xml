@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" >
+    <RelativeLayout
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent">
+
+        <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/profile_pic"
+                android:background="?circleBorder"
+                android:minHeight="48dp" android:minWidth="48dp"
+                android:scaleType="fitCenter" android:adjustViewBounds="true"
+                android:maxWidth="48dp" android:maxHeight="48dp"
+                android:contentDescription="@string/placeholder"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"/>
+
+        <LinearLayout
+                      android:layout_toRightOf="@id/profile_pic"
+                      android:layout_alignTop="@id/profile_pic"
+                      android:orientation="vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="48dp"
+                      android:gravity="center_vertical"
+                      android:layout_marginLeft="10dp">
+            <TextView
+                android:id="@+id/name"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@id/profile_pic"
+                android:layout_alignTop="@id/profile_pic"
+                android:text="name"
+                android:maxLines="1"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                    android:id="@+id/screen_name"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@id/name"
+                    android:layout_alignLeft="@id/name"
+                    android:text="screen name"
+                    android:maxLines="1"
+                    android:paddingBottom="3dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

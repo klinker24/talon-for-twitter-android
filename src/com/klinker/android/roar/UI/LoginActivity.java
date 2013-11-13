@@ -232,15 +232,16 @@ public class LoginActivity extends Activity {
             pDialog.show();
         }
 
-        /**
-         * getting Places JSON
-         */
         protected String doInBackground(Void... args) {
 
             try {
                 twitter = Utils.getTwitter(context);
 
                 User user = twitter.verifyCredentials();
+                sharedPrefs.edit().putString("twitter_users_name", user.getName()).commit();
+                sharedPrefs.edit().putString("twitter_screen_name", user.getScreenName()).commit();
+                sharedPrefs.edit().putString("twitter_background_url", user.getProfileBackgroundImageURL()).commit();
+                sharedPrefs.edit().putString("profile_pic_url", user.getBiggerProfileImageURL()).commit();
                 Paging paging;
                 paging = new Paging(2, 200);
                 List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
@@ -248,7 +249,6 @@ public class LoginActivity extends Activity {
                 HomeDataSource dataSource = new HomeDataSource(context);
                 dataSource.open();
 
-                Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
                 for (twitter4j.Status status : statuses) {
                     try {
                         dataSource.createTweet(status);
@@ -261,7 +261,6 @@ public class LoginActivity extends Activity {
 
                 sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
 
-                Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
                 for (twitter4j.Status status : statuses) {
                     try {
                         dataSource.createTweet(status);

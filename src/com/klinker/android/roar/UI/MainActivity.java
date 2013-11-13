@@ -6,25 +6,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CursorAdapter;
-import android.widget.LinearLayout;
+import android.widget.*;
 import com.klinker.android.roar.Adapters.TimeLineCursorAdapter;
 import com.klinker.android.roar.Adapters.TimeLineListLoader;
 import com.klinker.android.roar.App;
 import com.klinker.android.roar.R;
 import com.klinker.android.roar.SQLite.HomeDataSource;
 import com.klinker.android.roar.Utilities.AppSettings;
+import com.klinker.android.roar.Utilities.CircleTransform;
 import com.klinker.android.roar.Utilities.ConnectionDetector;
 import com.klinker.android.roar.Utilities.Utils;
+import com.squareup.picasso.Picasso;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.lucasr.smoothie.AsyncListView;
@@ -56,6 +61,10 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
 
     private HomeDataSource dataSource;
 
+    private DrawerLayout mDrawerLayout;
+    private LinearLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +72,14 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
-        cd = new ConnectionDetector(getApplicationContext());
+        //cd = new ConnectionDetector(getApplicationContext());
 
         setUpTheme();
         setContentView(R.layout.main_activity);
         // Check if Internet present
-        if (!cd.isConnectingToInternet()) {
-            Crouton.makeText(this, "No internet connection", Style.ALERT);
-        }
+        //if (!cd.isConnectingToInternet()) {
+            //Crouton.makeText(this, "No internet connection", Style.ALERT);
+        //}
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
@@ -98,6 +107,100 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         // Retrieve the PullToRefreshLayout from the content view
         PullToRefreshLayout ptrLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
         ptrLayout.setPullToRefreshAttacher(mPullToRefreshAttacher, this);
+
+        setUpDrawer();
+    }
+
+    public void setUpDrawer() {
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
+
+        TextView name = (TextView) mDrawer.findViewById(R.id.name);
+        TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
+        ImageView backgroundPic = (ImageView) mDrawer.findViewById(R.id.background_image);
+        ImageView profilePic = (ImageView) mDrawer.findViewById(R.id.profile_pic);
+        ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
+        final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logout);
+        final ListView drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                resource,  /* nav drawer icon to replace 'Up' caret */
+                R.string.app_name,  /* "open drawer" description */
+                R.string.app_name  /* "close drawer" description */
+        ) {
+
+            public void onDrawerClosed(View view) {
+                logoutDrawer.setVisibility(View.GONE);
+                drawerList.setVisibility(View.VISIBLE);
+
+            }
+
+            public void onDrawerOpened(View drawerView) {
+
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        showMoreDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(logoutDrawer.getVisibility() == View.GONE) {
+                    logoutDrawer.setVisibility(View.VISIBLE);
+                    drawerList.setVisibility(View.GONE);
+                } else {
+                    logoutDrawer.setVisibility(View.GONE);
+                    drawerList.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        logoutDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutFromTwitter();
+            }
+        });
+
+        String sName = sharedPrefs.getString("twitter_users_name", "");
+        String sScreenName = sharedPrefs.getString("twitter_screen_name", "");
+        String backgroundUrl = sharedPrefs.getString("twitter_background_url", "");
+        String profilePicUrl = sharedPrefs.getString("profile_pic_url", "");
+
+        Log.v("twitter_drawer", profilePicUrl);
+
+        name.setText(sName);
+        screenName.setText("@" + sScreenName);
+
+        try {
+            Picasso.with(context)
+                    .load(backgroundUrl)
+                    .into(backgroundPic);
+        } catch (Exception e) {
+            // empty path for some reason
+        }
+
+        try {
+            Picasso.with(context)
+                    .load(profilePicUrl)
+                    .transform(new CircleTransform())
+                    .into(profilePic);
+        } catch (Exception e) {
+            // empty path again
+        }
+
     }
 
     public void setUpTheme() {
@@ -113,6 +216,19 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
                 setTheme(R.style.Theme_TalonBlack);
                 break;
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -287,6 +403,10 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
         switch (item.getItemId()) {
             case R.id.menu_compose:

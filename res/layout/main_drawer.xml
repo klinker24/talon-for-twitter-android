@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="?drawerBackground" >
+
+    <include layout="@layout/user_header"
+             android:id="@+id/header"
+             android:layout_height="120dp"
+             android:layout_width="match_parent" />
+
+    <Button android:id="@+id/logout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/menu_logout"
+            android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/drawer_list"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:dividerHeight="5dp"
+        android:divider="@null" />
+
+</LinearLayout>

@@ -9,6 +9,8 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_settings">Settings</string>
 
+    <!-- Main Activity -->
+
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>
     <string name="login_to_twitter">Login to Twitter</string>
