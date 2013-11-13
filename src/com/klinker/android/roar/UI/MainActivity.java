@@ -74,7 +74,7 @@ public class MainActivity extends Activity implements PullToRefreshAttacher.OnRe
         settings = new AppSettings(this);
         cd = new ConnectionDetector(getApplicationContext());
 
-        setUpTheme();
+        //setUpTheme();
         setContentView(R.layout.main_activity);
         // Check if Internet present
         if (!cd.isConnectingToInternet()) {
