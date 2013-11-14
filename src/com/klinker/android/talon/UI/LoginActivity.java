@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.SQLite.HomeDataSource;
+import com.klinker.android.talon.SQLite.MentionsDataSource;
 import com.klinker.android.talon.Utilities.AlertDialogManager;
 import com.klinker.android.talon.Utilities.AppSettings;
 import com.klinker.android.talon.Utilities.ConnectionDetector;
@@ -98,7 +99,7 @@ public class LoginActivity extends Activity {
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
                 } else {
-                    Intent timeline = new Intent(context, MainActivity.class);
+                    Intent timeline = new Intent(context, HomeTimeline.class);
                     startActivity(timeline);
                 }
 
@@ -242,8 +243,10 @@ public class LoginActivity extends Activity {
                 sharedPrefs.edit().putString("twitter_screen_name", user.getScreenName()).commit();
                 sharedPrefs.edit().putString("twitter_background_url", user.getProfileBannerURL()).commit();
                 sharedPrefs.edit().putString("profile_pic_url", user.getBiggerProfileImageURL()).commit();
+
+                // syncs 200 timeline messages
                 Paging paging;
-                paging = new Paging(2, 200);
+                paging = new Paging(2, 100);
                 List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
 
                 HomeDataSource dataSource = new HomeDataSource(context);
@@ -256,7 +259,7 @@ public class LoginActivity extends Activity {
                         break;
                     }
                 }
-                paging = new Paging(1, 200);
+                paging = new Paging(1, 100);
                 statuses = twitter.getHomeTimeline(paging);
 
                 sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
@@ -267,6 +270,49 @@ public class LoginActivity extends Activity {
                     } catch (Exception e) {
                         break;
                     }
+                }
+
+                dataSource.close();
+
+                MentionsDataSource mentionsSource = new MentionsDataSource(context);
+                mentionsSource.open();
+
+                // syncs 100 mentions
+                paging = new Paging(1, 100);
+                statuses = twitter.getMentionsTimeline(paging);
+
+                sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
+
+
+                for (twitter4j.Status status : statuses) {
+                    Log.v("mention_found", "found mention");
+                    try {
+                        mentionsSource.createTweet(status);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                }
+
+                mentionsSource.close();
+
+                // syncs 100 Direct Messages
+                try {
+                    /*paging = new Paging(1, 100);
+
+                    List<DirectMessage> dm = twitter.getDirectMessages(paging);
+
+                    sharedPrefs.edit().putLong("last_direct_message_id", dm.get(0).getId()).commit();
+
+                    for (DirectMessage directMessage : dm) {
+                        try {
+                            dataSource.createDirectMessage(directMessage);
+                        } catch (Exception e) {
+                            break;
+                        }
+                    } */
+                } catch (Exception e) {
+                    // they have no direct messages
                 }
 
                 dataSource.close();
