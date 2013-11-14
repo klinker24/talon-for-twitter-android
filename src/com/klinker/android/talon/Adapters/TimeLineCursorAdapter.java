@@ -33,9 +33,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private final LayoutInflater inflater;
     private boolean isDM = false;
     private SharedPreferences sharedPrefs;
+    private int cancelButton;
 
-    private final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
-
+    private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
+    private static Pattern pattern = Pattern.compile(REGEX);
 
     public static class ViewHolder {
         public TextView name;
@@ -70,6 +71,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.isDM = isDM;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
+        cancelButton = a.getResourceId(0, 0);
+        a.recycle();
     }
 
     @Override
@@ -106,8 +111,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
 
         String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-        String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
-        long date = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
         String retweeter;
@@ -117,16 +120,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             retweeter = "";
         }
 
-        Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(tweetText);
 
         if (matcher.find()) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
             Picasso.with(context)
                     .load(picUrl)
-                    .error(resource)
+                    .error(cancelButton)
                     .into(holder.image);
         }
 
@@ -140,9 +139,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.GONE);
         }
 
-
-        holder.name.setText(name);
-        holder.time.setText(Utils.getTimeAgo(date));
+        holder.name.setText(cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME)));
+        holder.time.setText(Utils.getTimeAgo(cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME))));
         holder.tweet.setText(tweetText);
 
         if (!isDM) {
