@@ -28,6 +28,7 @@ import com.klinker.android.talon.Adapters.TimeLineListLoader;
 import com.klinker.android.talon.App;
 import com.klinker.android.talon.ExpansionAnimation;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.SQLite.DMDataSource;
 import com.klinker.android.talon.SQLite.HomeDataSource;
 import com.klinker.android.talon.SQLite.HomeSQLiteHelper;
 import com.klinker.android.talon.SQLite.MentionsDataSource;
@@ -297,13 +298,13 @@ public class MentionsTimeline extends Activity implements PullToRefreshAttacher.
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
                 if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor());
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
                     refreshCursor();
-                    CharSequence text = numberNew + " new tweets";
+                    CharSequence text = numberNew == 1 ?  numberNew + " new mention" :  numberNew + " new mentions";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                     listView.smoothScrollToPosition(numberNew + 1);
                 } else {
-                    CharSequence text = "No new tweets";
+                    CharSequence text = "No new mentions";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
@@ -351,6 +352,16 @@ public class MentionsTimeline extends Activity implements PullToRefreshAttacher.
 
         dataSource.deleteAllTweets();
 
+        DMDataSource dmSource = new DMDataSource(context);
+        dmSource.open();
+        dmSource.deleteAllTweets();
+        dmSource.close();
+
+        HomeDataSource homeSource = new HomeDataSource(context);
+        homeSource.open();
+        homeSource.deleteAllTweets();
+        homeSource.close();
+
         Intent login = new Intent(context, LoginActivity.class);
         startActivity(login);
     }
@@ -360,7 +371,7 @@ public class MentionsTimeline extends Activity implements PullToRefreshAttacher.
 
         protected String doInBackground(Void... args) {
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor());
+            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
 
             return null;
         }

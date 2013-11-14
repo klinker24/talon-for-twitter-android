@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.UI.DMTimeline;
 import com.klinker.android.talon.UI.HomeTimeline;
 import com.klinker.android.talon.UI.MentionsTimeline;
 
@@ -44,6 +45,9 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 } else if (pos == 1) {
                     intent = new Intent(context, MentionsTimeline.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                } else if (pos == 2) {
+                    intent = new Intent(context, DMTimeline.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 }
 

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.SQLite.DMDataSource;
 import com.klinker.android.talon.SQLite.HomeDataSource;
 import com.klinker.android.talon.SQLite.MentionsDataSource;
 import com.klinker.android.talon.Utilities.AlertDialogManager;
@@ -50,18 +51,22 @@ public class LoginActivity extends Activity {
 
     private Button btnLoginTwitter;
 
+    private AppSettings settings;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         context = this;
 
-        AppSettings settings = new AppSettings(context);
+        settings = new AppSettings(context);
+
+        setUpTheme();
+        setContentView(R.layout.login_activity);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY);
@@ -128,6 +133,21 @@ public class LoginActivity extends Activity {
                     Log.e("Twitter Login Error", "> " + e.getMessage());
                 }
             }
+        }
+    }
+
+    public void setUpTheme() {
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_TalonLight);
+                break;
+            case AppSettings.THEME_DARK:
+                setTheme(R.style.Theme_TalonDark);
+                break;
+            case AppSettings.THEME_BLACK:
+                setTheme(R.style.Theme_TalonBlack);
+                break;
         }
     }
 
@@ -227,7 +247,7 @@ public class LoginActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(LoginActivity.this);
-            pDialog.setMessage("Getting Timeline from Twitter...");
+            pDialog.setMessage("Getting data from Twitter...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -274,6 +294,8 @@ public class LoginActivity extends Activity {
 
                 dataSource.close();
 
+                //pDialog.setMessage("Getting mentions...");
+
                 MentionsDataSource mentionsSource = new MentionsDataSource(context);
                 mentionsSource.open();
 
@@ -296,9 +318,13 @@ public class LoginActivity extends Activity {
 
                 mentionsSource.close();
 
+                //pDialog.setMessage("Getting direct messages...");
+
                 // syncs 100 Direct Messages
+                DMDataSource dmSource = new DMDataSource(context);
+                dmSource.open();
                 try {
-                    /*paging = new Paging(1, 100);
+                    paging = new Paging(1, 100);
 
                     List<DirectMessage> dm = twitter.getDirectMessages(paging);
 
@@ -306,14 +332,29 @@ public class LoginActivity extends Activity {
 
                     for (DirectMessage directMessage : dm) {
                         try {
-                            dataSource.createDirectMessage(directMessage);
+                            dmSource.createDirectMessage(directMessage);
                         } catch (Exception e) {
                             break;
                         }
-                    } */
+                    }
+
+                    List<DirectMessage> sent = twitter.getSentDirectMessages();
+
+                    for (DirectMessage directMessage : sent) {
+                        try {
+                            dmSource.createDirectMessage(directMessage);
+                        } catch (Exception e) {
+                            break;
+                        }
+                    }
+
+                    dmSource.close();
+
                 } catch (Exception e) {
                     // they have no direct messages
                 }
+
+
 
                 dataSource.close();
 

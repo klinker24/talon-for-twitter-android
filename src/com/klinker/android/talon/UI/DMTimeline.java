@@ -36,10 +36,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
-import twitter4j.Paging;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
+import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
@@ -49,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRefreshListener {
+public class DMTimeline extends Activity implements PullToRefreshAttacher.OnRefreshListener {
 
     private static Twitter twitter;
     private ConnectionDetector cd;
@@ -63,7 +60,7 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
 
-    private HomeDataSource dataSource;
+    private DMDataSource dataSource;
 
     private DrawerLayout mDrawerLayout;
     private LinearLayout mDrawer;
@@ -90,7 +87,7 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
             finish();
         }
 
-        dataSource = new HomeDataSource(this);
+        dataSource = new DMDataSource(this);
         dataSource.open();
 
         listView = (AsyncListView) findViewById(R.id.listView);
@@ -117,7 +114,7 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 0;
+        MainDrawerArrayAdapter.current = 2;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -208,8 +205,8 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
         }
 
         String[] items = new String[] {getResources().getString(R.string.timeline),
-                                    getResources().getString(R.string.mentions),
-                                    getResources().getString(R.string.direct_messages)};
+                getResources().getString(R.string.mentions),
+                getResources().getString(R.string.direct_messages)};
 
         MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(items)));
         drawerList.setAdapter(adapter);
@@ -259,28 +256,38 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
                     twitter = Utils.getTwitter(context);
 
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_tweet_id", 0);
+                    long lastId = sharedPrefs.getLong("last_direct_message_id", 0);
                     Paging paging;
                     if (lastId != 0) {
                         paging = new Paging(1).sinceId(lastId);
                     } else {
                         paging = new Paging(1, 500);
                     }
-                    List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
 
-                    if (statuses.size() != 0) {
-                        sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
+                    List<DirectMessage> dm = twitter.getDirectMessages(paging);
+                    List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
+
+                    if (dm.size() != 0) {
+                        sharedPrefs.edit().putLong("last_direct_message_id", dm.get(0).getId()).commit();
                         update = true;
-                        numberNew = statuses.size();
+                        numberNew = dm.size();
                     } else {
                         update = false;
                         numberNew = 0;
                     }
 
                     Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
-                    for (twitter4j.Status status : statuses) {
+                    for (DirectMessage directMessage : dm) {
                         try {
-                            dataSource.createTweet(status);
+                            dataSource.createDirectMessage(directMessage);
+                        } catch (Exception e) {
+                            break;
+                        }
+                    }
+
+                    for (DirectMessage directMessage : sent) {
+                        try {
+                            dataSource.createDirectMessage(directMessage);
                         } catch (Exception e) {
                             break;
                         }
@@ -297,13 +304,13 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
                 if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
                     refreshCursor();
-                    CharSequence text = numberNew == 1 ?  numberNew + " new tweet" :  numberNew + " new tweets";
+                    CharSequence text = numberNew == 1 ?  numberNew +  " new direct message" :  numberNew + " new direct messages";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                     listView.smoothScrollToPosition(numberNew + 1);
                 } else {
-                    CharSequence text = "No new tweets";
+                    CharSequence text = "No new direct messages";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
@@ -351,15 +358,15 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
 
         dataSource.deleteAllTweets();
 
+        HomeDataSource homeSource = new HomeDataSource(context);
+        homeSource.open();
+        homeSource.deleteAllTweets();
+        homeSource.close();
+
         MentionsDataSource mentionsSources = new MentionsDataSource(context);
         mentionsSources.open();
         mentionsSources.deleteAllTweets();
         mentionsSources.close();
-
-        DMDataSource dmSource = new DMDataSource(context);
-        dmSource.open();
-        dmSource.deleteAllTweets();
-        dmSource.close();
 
         Intent login = new Intent(context, LoginActivity.class);
         startActivity(login);
@@ -370,7 +377,7 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
 
         protected String doInBackground(Void... args) {
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
 
             return null;
         }
