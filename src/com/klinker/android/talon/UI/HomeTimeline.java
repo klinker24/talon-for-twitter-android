@@ -24,6 +24,7 @@ import com.klinker.android.talon.Adapters.MainDrawerClickListener;
 import com.klinker.android.talon.Adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.Adapters.TimeLineListLoader;
 import com.klinker.android.talon.App;
+import com.klinker.android.talon.ExpansionAnimation;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.SQLite.HomeDataSource;
 import com.klinker.android.talon.SQLite.HomeSQLiteHelper;
@@ -129,7 +130,8 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
         ImageView backgroundPic = (ImageView) mDrawer.findViewById(R.id.background_image);
         ImageView profilePic = (ImageView) mDrawer.findViewById(R.id.profile_pic);
         ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
-        final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logout);
+        final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
+        final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
         final ListView drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -33,6 +33,6 @@ public class AppSettings {
         authenticationToken = sharedPrefs.getString("authentication_token", "none");
         authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret", "none");
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
-        theme = 1;
+        theme = 0;
     }
 }

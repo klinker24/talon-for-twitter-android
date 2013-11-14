@@ -4,19 +4,29 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:animateLayoutChanges="true"
               android:background="?drawerBackground" >
 
     <include layout="@layout/user_header"
              android:id="@+id/header"
              android:layout_height="120dp"
-             android:layout_width="match_parent" />
+             android:layout_width="match_parent"/>
 
-    <Button android:id="@+id/logout"
+    <LinearLayout
+            android:id="@+id/logoutLayout"
+            android:orientation="vertical"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="@string/menu_logout"
-            android:animateLayoutChanges="true"
-            android:visibility="gone"/>
+            android:animateLayoutChanges="true" >
+
+        <Button android:id="@+id/logoutButton"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/menu_logout"
+                android:animateLayoutChanges="true"
+                android:visibility="gone"/>
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/drawer_list"
