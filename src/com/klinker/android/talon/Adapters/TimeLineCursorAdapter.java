@@ -255,7 +255,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         ranim.setFillAfter(true);
         holder.expand.startAnimation(ranim);
 
-        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 250);
+        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
         holder.showMore = false;
     }
@@ -283,7 +283,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         ranim.setFillAfter(true);
         holder.expand.startAnimation(ranim);
 
-        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 250);
+        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
 
         if (holder.favCount.getText().toString().equals("- ")) {

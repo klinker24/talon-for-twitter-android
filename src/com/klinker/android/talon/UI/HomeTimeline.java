@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.klinker.android.talon.Adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.Adapters.MainDrawerClickListener;
@@ -130,7 +132,7 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
         TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
         ImageView backgroundPic = (ImageView) mDrawer.findViewById(R.id.background_image);
         ImageView profilePic = (ImageView) mDrawer.findViewById(R.id.profile_pic);
-        ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
+        final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
         final ListView drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
@@ -163,9 +165,17 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
             @Override
             public void onClick(View view) {
                 if(logoutDrawer.getVisibility() == View.GONE) {
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
+                    ranim.setFillAfter(true);
+                    showMoreDrawer.startAnimation(ranim);
+
                     logoutDrawer.setVisibility(View.VISIBLE);
                     drawerList.setVisibility(View.GONE);
                 } else {
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                    ranim.setFillAfter(true);
+                    showMoreDrawer.startAnimation(ranim);
+
                     logoutDrawer.setVisibility(View.GONE);
                     drawerList.setVisibility(View.VISIBLE);
                 }
