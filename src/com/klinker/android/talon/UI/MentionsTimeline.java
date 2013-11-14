@@ -285,7 +285,7 @@ public class MentionsTimeline extends Activity implements PullToRefreshAttacher.
                     List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
                     if (statuses.size() != 0) {
-                        sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
                         update = true;
                         numberNew = statuses.size();
                     } else {
