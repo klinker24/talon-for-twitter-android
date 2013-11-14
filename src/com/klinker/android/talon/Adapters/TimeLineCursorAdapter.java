@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.klinker.android.talon.ExpansionAnimation;
@@ -245,12 +248,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void removeExpansionWithAnimation(ViewHolder holder) {
-        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 250);
+
+        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+        ranim.setFillAfter(true);
+        holder.expand.startAnimation(ranim);
+
+        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
         holder.showMore = false;
     }
 
     public void removeExpansionNoAnimation(ViewHolder holder) {
+
         holder.expandArea.setVisibility(View.GONE);
         holder.showMore = false;
     }
@@ -267,7 +276,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.favCount.setVisibility(View.VISIBLE);
             holder.favorite.setVisibility(View.VISIBLE);
         }
-        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 250);
+
+        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
+        ranim.setFillAfter(true);
+        holder.expand.startAnimation(ranim);
+
+        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
 
         if (holder.favCount.getText().toString().equals("- ")) {
