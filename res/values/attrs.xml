@@ -19,6 +19,7 @@ limitations under the License.
 
     <!-- Colors -->
     <attr name="textColor" format="color"/>
+    <attr name="drawerDividerColor" format="color"/>
     <attr name="dateColor" format="color"/>
     <attr name="textShadowColor" format="color"/>
     <attr name="drawerBackground" format="color"/>

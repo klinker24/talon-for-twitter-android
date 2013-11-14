@@ -144,11 +144,9 @@ public class MentionsTimeline extends Activity implements PullToRefreshAttacher.
             public void onDrawerClosed(View view) {
                 logoutDrawer.setVisibility(View.GONE);
                 drawerList.setVisibility(View.VISIBLE);
-
             }
 
             public void onDrawerOpened(View drawerView) {
-
             }
         };
 

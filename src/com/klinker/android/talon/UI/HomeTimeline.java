@@ -144,11 +144,9 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
             public void onDrawerClosed(View view) {
                 logoutDrawer.setVisibility(View.GONE);
                 drawerList.setVisibility(View.VISIBLE);
-
             }
 
             public void onDrawerOpened(View drawerView) {
-
             }
         };
 

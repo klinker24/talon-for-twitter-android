@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/menu_logout"
+            android:animateLayoutChanges="true"
             android:visibility="gone"/>
 
     <ListView
@@ -22,7 +23,12 @@
         android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:dividerHeight="5dp"
-        android:divider="@null" />
+        android:dividerHeight="1dp"
+        android:animateLayoutChanges="true"
+        android:divider="?drawerDividerColor"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"/>
 
 </LinearLayout>

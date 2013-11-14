@@ -1,11 +1,13 @@
 package com.klinker.android.talon.Adapters;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.UI.HomeTimeline;
 import com.klinker.android.talon.UI.MentionsTimeline;
 
@@ -35,21 +37,27 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Intent intent = null;
+
+                if (pos == 0) {
+                    intent = new Intent(context, HomeTimeline.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                } else if (pos == 1) {
+                    intent = new Intent(context, MentionsTimeline.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                }
+
                 try {
                     Thread.sleep(400);
                 } catch (Exception e) {
 
                 }
+                try {
+                    context.startActivity(intent);
+                } catch (Exception e) {
 
-                if (pos == 0) {
-                    Intent timeline = new Intent(context, HomeTimeline.class);
-                    timeline.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    context.startActivity(timeline);
-                } else if (pos == 1) {
-                    Intent mentions = new Intent(context, MentionsTimeline.class);
-                    mentions.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    context.startActivity(mentions);
                 }
+
             }
         }).start();
 

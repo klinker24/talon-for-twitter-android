@@ -30,6 +30,7 @@ limitations under the License.
         <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
 
         <item name="textColor">@color/dark_text</item>
+        <item name="drawerDividerColor">@color/dark_text_drawer</item>
         <item name="dateColor">@color/dark_date</item>
         <item name="drawerBackground">@color/dark_drawer</item>
         <item name="headerTextColor">@android:color/white</item>
