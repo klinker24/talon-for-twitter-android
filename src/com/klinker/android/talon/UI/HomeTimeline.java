@@ -147,6 +147,11 @@ public class HomeTimeline extends Activity implements PullToRefreshAttacher.OnRe
         ) {
 
             public void onDrawerClosed(View view) {
+
+                Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                ranim.setFillAfter(true);
+                showMoreDrawer.startAnimation(ranim);
+
                 logoutDrawer.setVisibility(View.GONE);
                 drawerList.setVisibility(View.VISIBLE);
             }
