@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,15 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.klinker.android.talon.ExpansionAnimation;
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.SQLite.DMDataSource;
 import com.klinker.android.talon.SQLite.HomeSQLiteHelper;
 import com.klinker.android.talon.Utilities.Utils;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
@@ -114,6 +114,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
 
         String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+        String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
         String retweeter;
@@ -123,13 +124,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             retweeter = "";
         }
 
+        holder.name.setText(name);
+        holder.time.setText(Utils.getTimeAgo(cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME))));
+        holder.tweet.setText(tweetText);
+
         Matcher matcher = pattern.matcher(tweetText);
 
         if (matcher.find()) {
-            Picasso.with(context)
+            final RequestCreator rc = Picasso.with(context)
                     .load(picUrl)
-                    .error(cancelButton)
-                    .into(holder.image);
+                    .error(cancelButton);
+            rc.into(holder.image);
+
         }
 
         if (retweeter.length() > 0 && !isDM) {
@@ -141,10 +147,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
         }
-
-        holder.name.setText(cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME)));
-        holder.time.setText(Utils.getTimeAgo(cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME))));
-        holder.tweet.setText(tweetText);
 
         if (!isDM) {
             holder.reply.setText("@" + screenname + " ");
