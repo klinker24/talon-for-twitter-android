@@ -20,7 +20,7 @@
             android:icon="@drawable/ic_launcher"
             android:allowBackup="true" >
 
-        <activity android:name=".UI.HomeTimeline"
+        <activity android:name=".UI.MainActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize"
@@ -39,22 +39,6 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
             </intent-filter>
-
-        </activity>
-
-        <activity android:name=".UI.MentionsTimeline"
-                  android:label="@string/app_name"
-                  android:configChanges="orientation|screenSize"
-                  android:windowSoftInputMode="adjustResize"
-                  android:theme="@style/Theme.TalonDark" >
-
-        </activity>
-
-        <activity android:name=".UI.DMTimeline"
-                  android:label="@string/app_name"
-                  android:configChanges="orientation|screenSize"
-                  android:windowSoftInputMode="adjustResize"
-                  android:theme="@style/Theme.TalonDark" >
 
         </activity>
 

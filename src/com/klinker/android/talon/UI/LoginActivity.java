@@ -104,7 +104,7 @@ public class LoginActivity extends Activity {
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
                 } else {
-                    Intent timeline = new Intent(context, HomeTimeline.class);
+                    Intent timeline = new Intent(context, HomeFragment.class);
                     startActivity(timeline);
                 }
 
