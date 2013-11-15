@@ -104,7 +104,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
 
         v.setTag(holder);
-        return v;  //To change body of implemented methods use File | Settings | File Templates.
+        return v;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else if (isDM && screenname.equals(sharedPrefs.getString("twitter_screen_name", ""))) {
             holder.retweeter.setText("reply to @" + retweeter);
             holder.retweeter.setVisibility(View.VISIBLE);
-        } else {
+        } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
         }
 
@@ -150,14 +150,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.reply.setText("@" + screenname + " ");
         }
 
-        holder.reply.setSelection(holder.reply.getText().length());
-        holder.screenName = screenname;
-
-        if (holder.favCount.getText().toString().length() <= 2) {
-            holder.favCount.setText("- ");
-            holder.retweetCount.setText("- ");
-        }
-
         if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
             holder.expand.setVisibility(View.VISIBLE);
             holder.expand.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +157,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 public void onClick(View view) {
 
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder);
+                            addExpansion(holder, screenname);
                             holder.showMore = false;
                         } else {
                             removeExpansionWithAnimation(holder);
@@ -177,38 +169,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             holder.expand.setVisibility(View.GONE);
         }
-
-        holder.favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FavoriteStatus(holder, holder.tweetId).execute();
-            }
-        });
-
-        holder.retweet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new RetweetStatus(holder, holder.tweetId).execute();
-            }
-        });
-
-        holder.replyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new ReplyToStatus(holder, holder.tweetId).execute();
-            }
-        });
-
-        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b) {
-                    holder.showMore = true;
-                } else {
-                    holder.showMore = false;
-                }
-            }
-        });
 
     }
 
@@ -264,7 +224,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.showMore = false;
     }
 
-    public void addExpansion(ViewHolder holder) {
+    public void addExpansion(final ViewHolder holder, String screenname) {
         if (isDM) {
             holder.retweet.setVisibility(View.GONE);
             holder.retweetCount.setVisibility(View.GONE);
@@ -275,6 +235,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweetCount.setVisibility(View.VISIBLE);
             holder.favCount.setVisibility(View.VISIBLE);
             holder.favorite.setVisibility(View.VISIBLE);
+        }
+
+        holder.reply.setSelection(holder.reply.getText().length());
+        holder.screenName = screenname;
+
+        if (holder.favCount.getText().toString().length() <= 2) {
+            holder.favCount.setText("- ");
+            holder.retweetCount.setText("- ");
         }
 
         Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
@@ -291,6 +259,38 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.retweetCount.getText().toString().equals("- ")) {
             new GetRetweetCount(holder, holder.tweetId).execute();
         }
+
+        holder.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FavoriteStatus(holder, holder.tweetId).execute();
+            }
+        });
+
+        holder.retweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new RetweetStatus(holder, holder.tweetId).execute();
+            }
+        });
+
+        holder.replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ReplyToStatus(holder, holder.tweetId).execute();
+            }
+        });
+
+        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b) {
+                    holder.showMore = true;
+                } else {
+                    holder.showMore = false;
+                }
+            }
+        });
     }
 
     public void removeKeyboard(ViewHolder holder) {

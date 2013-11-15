@@ -34,8 +34,6 @@ public class ExpansionAnimation extends Animation {
 
         mMarginStart = mViewLayoutParams.bottomMargin;
         mMarginEnd = (mMarginStart == 0 ? (0- view.getHeight()) : 0);
-
-        view.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -50,6 +48,8 @@ public class ExpansionAnimation extends Animation {
 
             // Invalidating the layout, making us seeing the changes we made
             mAnimatedView.requestLayout();
+
+            mAnimatedView.setVisibility(View.VISIBLE);
 
             // Making sure we didn't run the ending before (it happens!)
         } else if (!mWasEndedAlready) {
