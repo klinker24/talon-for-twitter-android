@@ -282,6 +282,7 @@ public class LoginActivity extends Activity {
             progressBar.setIndeterminate(true);
 
             btnLoginTwitter.setEnabled(false);
+            btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
 
             progDescription.setVisibility(View.VISIBLE);
             progDescription.setText(getResources().getString(R.string.syncing_timeline));
@@ -414,7 +415,6 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(String file_url) {
 
             btnLoginTwitter.setEnabled(true);
-            btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
 
             progressBar.setIndeterminate(false);
             progressBar.setProgress(100);
