@@ -32,8 +32,10 @@
              android:layout_width="fill_parent"
              android:layout_weight="1"
              android:background="?tweetBackgroundNoDialog"
-             android:layout_marginTop="10dp"
-             android:layout_margin="3dp"
+             android:layout_marginTop="5dp"
+             android:layout_marginBottom="3dp"
+             android:layout_marginRight="4dp"
+             android:layout_marginLeft="1dp"
              android:visibility="gone" />
 
 </LinearLayout>

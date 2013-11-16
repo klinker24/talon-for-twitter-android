@@ -24,6 +24,13 @@
                 android:layout_marginTop="55dp"
                 android:layout_marginLeft="5dp"/>
 
+        <View android:id="@+id/divider"
+              android:background="@android:color/white"
+              android:layout_width="1dp"
+              android:layout_height="40dp"
+              android:layout_marginTop="59dp"
+              android:layout_marginRight="14dp" />
+
         <ImageButton
                 android:id="@+id/options"
                 android:layout_width="24dp"
