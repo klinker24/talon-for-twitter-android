@@ -1,5 +1,6 @@
 package com.klinker.android.talon.UI;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
     private SharedPreferences sharedPrefs;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
+    private ActionBar actionBar;
 
     private TimelinePagerAdapter mSectionsPagerAdapter;
     public static ViewPager mViewPager;
@@ -58,6 +60,7 @@ public class MainActivity extends Activity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
+        actionBar = getActionBar();
 
         setUpTheme();
         setContentView(R.layout.main_activity);
@@ -91,13 +94,13 @@ public class MainActivity extends Activity {
 
                 switch (position) {
                     case 0:
-                        getActionBar().setTitle(getResources().getString(R.string.timeline));
+                        actionBar.setTitle(getResources().getString(R.string.timeline));
                         break;
                     case 1:
-                        getActionBar().setTitle(getResources().getString(R.string.mentions));
+                        actionBar.setTitle(getResources().getString(R.string.mentions));
                         break;
                     case 2:
-                        getActionBar().setTitle(getResources().getString(R.string.direct_messages));
+                        actionBar.setTitle(getResources().getString(R.string.direct_messages));
                         break;
                 }
             }
@@ -148,17 +151,32 @@ public class MainActivity extends Activity {
 
                     logoutVisible = false;
                 }
+
+                int position = mViewPager.getCurrentItem();
+
+                switch (position) {
+                    case 0:
+                        actionBar.setTitle(getResources().getString(R.string.timeline));
+                        break;
+                    case 1:
+                        actionBar.setTitle(getResources().getString(R.string.mentions));
+                        break;
+                    case 2:
+                        actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                        break;
+                }
             }
 
             public void onDrawerOpened(View drawerView) {
+                actionBar.setTitle(getResources().getString(R.string.app_name));
             }
         };
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 
         showMoreDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,7 +263,7 @@ public class MainActivity extends Activity {
                 break;
         }
 
-        getActionBar().setTitle(getResources().getString(R.string.timeline));
+        actionBar.setTitle(getResources().getString(R.string.timeline));
     }
 
     @Override
