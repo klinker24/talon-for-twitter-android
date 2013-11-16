@@ -243,7 +243,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.screenName = screenname;
 
 
-
+        // used to find the other names on a tweet... could be optimized i guess, but only run when button is pressed
         if (!isDM) {
             String text = holder.tweet.getText().toString();
             String extraNames = "";
