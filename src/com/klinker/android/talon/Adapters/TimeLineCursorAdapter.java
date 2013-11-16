@@ -257,7 +257,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
 
                     if (s.contains("@") && !s.contains(myScreenName) && !s.contains(screenname)) {
-                        extraNames += s.substring(s.indexOf("@"));
+                        extraNames += s.substring(s.indexOf("@")) + " ";
                     }
                 }
             }
