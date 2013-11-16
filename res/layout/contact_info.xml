@@ -37,6 +37,9 @@
                 android:maxLines="1"
                 android:textSize="16dp"
                 android:textStyle="bold"
+                android:shadowColor="?textShadowColor"
+                android:shadowDy="1"
+                android:shadowRadius="3"
                 android:textColor="@android:color/white"/>
 
             <TextView
@@ -48,6 +51,9 @@
                     android:text="screen name"
                     android:maxLines="1"
                     android:paddingBottom="3dp"
+                    android:shadowColor="?textShadowColor"
+                    android:shadowDy="1"
+                    android:shadowRadius="3"
                     android:textColor="@android:color/white"/>
 
         </LinearLayout>
