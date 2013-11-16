@@ -1,6 +1,7 @@
 package com.klinker.android.talon.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
@@ -18,6 +19,7 @@ import android.widget.*;
 import com.klinker.android.talon.ExpansionAnimation;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.SQLite.HomeSQLiteHelper;
+import com.klinker.android.talon.UI.TweetActivity;
 import com.klinker.android.talon.Utilities.Utils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -58,6 +60,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public LinearLayout expandArea;
         public ImageButton replyButton;
         public ImageView image;
+        public LinearLayout background;
         //public Bitmap tweetPic;
 
         public long tweetId;
@@ -106,6 +109,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
         holder.image = (ImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+        holder.background = (LinearLayout) v.findViewById(R.id.background);
 
         v.setTag(holder);
         return v;
@@ -117,16 +121,36 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
 
-        String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-        String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
+        final String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+        final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
-        String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+        final String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
         String retweeter;
         try {
             retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
         } catch (Exception e) {
             retweeter = "";
         }
+
+        final String fRetweeter = retweeter;
+
+        holder.background.setFocusable(true);
+        holder.background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("tweet_page", "clicked");
+                Intent viewTweet = new Intent(context, TweetActivity.class);
+                viewTweet.putExtra("name", name);
+                viewTweet.putExtra("screenname", screenname);
+                viewTweet.putExtra("time", holder.time.getText().toString());
+                viewTweet.putExtra("tweet", tweetText);
+                viewTweet.putExtra("retweeter", fRetweeter);
+                viewTweet.putExtra("webpage", picUrl);
+                viewTweet.putExtra("picture", false);
+
+                context.startActivity(viewTweet);
+            }
+        });
 
         holder.name.setText(name);
         holder.time.setText(Utils.getTimeAgo(cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME))));

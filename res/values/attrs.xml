@@ -29,6 +29,7 @@ limitations under the License.
     <!-- Drawables -->
     <attr name="myTweetBackground" format="reference"/>
     <attr name="tweetBackground" format="reference"/>
+    <attr name="tweetBackgroundNoDialog" format="reference"/>
     <attr name="cancelButton" format="reference"/>
     <attr name="sendButton" format="reference"/>
     <attr name="attachButton" format="reference"/>

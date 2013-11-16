@@ -39,15 +39,17 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.auth.AccessToken;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements PullToRefreshAttacher.OnRefreshListener {
+public class HomeFragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
     private ConnectionDetector cd;
@@ -59,6 +61,7 @@ public class HomeFragment extends Fragment implements PullToRefreshAttacher.OnRe
     private SharedPreferences sharedPrefs;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     private HomeDataSource dataSource;
 
@@ -88,10 +91,28 @@ public class HomeFragment extends Fragment implements PullToRefreshAttacher.OnRe
         dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CharSequence text = "Hello toast!";
+                int duration = Toast.LENGTH_SHORT;
 
-        mPullToRefreshAttacher = ((MainActivity) getActivity())
-                .getPullToRefreshAttacher();
-        mPullToRefreshAttacher.addRefreshableView(listView, this);
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
+
+        // Now find the PullToRefreshLayout to setup
+        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(context)
+                // Mark All Children as pullable
+                .allChildrenArePullable()
+                        // Set the OnRefreshListener
+                .listener(this)
+                        // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         TimeLineListLoader loader = new TimeLineListLoader(cache, context);
@@ -168,7 +189,7 @@ public class HomeFragment extends Fragment implements PullToRefreshAttacher.OnRe
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
-                mPullToRefreshAttacher.setRefreshComplete();
+                mPullToRefreshLayout.setRefreshComplete();
             }
         }.execute();
     }

@@ -39,15 +39,17 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.auth.AccessToken;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MentionsFragment extends Fragment implements PullToRefreshAttacher.OnRefreshListener {
+public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
     private ConnectionDetector cd;
@@ -59,6 +61,7 @@ public class MentionsFragment extends Fragment implements PullToRefreshAttacher.
     private SharedPreferences sharedPrefs;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     private MentionsDataSource dataSource;
 
@@ -89,9 +92,16 @@ public class MentionsFragment extends Fragment implements PullToRefreshAttacher.
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
-        mPullToRefreshAttacher = ((MainActivity) getActivity())
-                .getPullToRefreshAttacher();
-        mPullToRefreshAttacher.addRefreshableView(listView, this);
+        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(context)
+                // Mark All Children as pullable
+                .allChildrenArePullable()
+                        // Set the OnRefreshListener
+                .listener(this)
+                        // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
 
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
@@ -169,7 +179,7 @@ public class MentionsFragment extends Fragment implements PullToRefreshAttacher.
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
-                mPullToRefreshAttacher.setRefreshComplete();
+                mPullToRefreshLayout.setRefreshComplete();
             }
         }.execute();
     }

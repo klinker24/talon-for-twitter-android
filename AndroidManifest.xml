@@ -69,5 +69,13 @@
                   android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 
+        <activity android:name=".UI.TweetActivity"
+                  android:label="@string/app_name"
+                  android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+                  android:excludeFromRecents="true"
+                  android:theme="@style/Theme.TalonDark.Popup">
+        </activity>
+
     </application>
 </manifest>

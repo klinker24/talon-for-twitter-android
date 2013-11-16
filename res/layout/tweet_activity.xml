@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal">
+
+    <include layout="@layout/contact_info"
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:layout_marginBottom="10dp"
+             android:layout_marginTop="10dp"/>
+
+    <include layout="@layout/tweet_for_activity"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent" />
+
+    <WebView android:id="@+id/webview"
+             android:layout_height="0dp"
+             android:layout_width="fill_parent"
+             android:layout_weight="1"
+             android:background="?tweetBackgroundNoDialog"
+             android:layout_marginTop="10dp"/>
+
+</LinearLayout>

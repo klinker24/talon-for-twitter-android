@@ -4,49 +4,14 @@
               android:id="@+id/background"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="10dp">
-
-    <LinearLayout
-                  android:orientation="vertical"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:gravity="center_horizontal">
-
-        <!-- The tweeters picture -->
-        <uk.co.senab.bitmapcache.CacheableImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:id="@+id/profile_pic"
-                android:src="@drawable/circle_border_light"
-                android:background="?circleBorder"
-                android:minHeight="48dp" android:minWidth="48dp"
-                android:scaleType="fitCenter" android:adjustViewBounds="true"
-                android:maxWidth="48dp" android:maxHeight="48dp"
-                android:contentDescription="@string/placeholder"
-                android:layout_marginRight="2dp"
-                android:layout_marginLeft="2dp"/>
-
-        <ImageButton
-                android:id="@+id/show_more"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="?showMoreButton"
-                android:minHeight="40dp" android:minWidth="40dp"
-                android:scaleType="fitCenter" android:adjustViewBounds="true"
-                android:maxWidth="40dp" android:maxHeight="40dp"
-                android:background="@android:color/transparent"
-                android:layout_marginRight="2dp"
-                />
-        </LinearLayout>
+              android:layout_height="match_parent" >
 
     <!-- Tweet's Content -->
     <LinearLayout
-            android:id="@+id/background"
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="?tweetBackground">
+            android:background="?tweetBackgroundNoDialog">
 
         <!-- Holds the name, screen name, and time-->
         <RelativeLayout
@@ -55,62 +20,38 @@
                 android:layout_height="wrap_content">
 
             <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/tweet"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:text="Name"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_width="fill_parent"
+                    android:textSize="14dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:paddingBottom="15dp" />
+
             <TextView
                     android:id="@+id/time"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginRight="2dp"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="11dp"
-                    android:maxLines="1"
                     android:textStyle="italic"
-                    android:textColor="?dateColor"
-                    android:layout_toRightOf="@id/name"
-                    android:layout_alignBaseline="@id/name" />
-
-            <TextView
-                    android:id="@+id/tweet"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:textSize="14dp"
-                    android:layout_below="@id/name"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:paddingBottom="15dp"
-                    android:text="@string/placeholder"/>
+                    android:layout_below="@id/tweet"
+                    android:textColor="?dateColor"  />
 
             <TextView
                     android:id="@+id/retweeter"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:textSize="11dp"
-                    android:layout_below="@id/tweet"
+                    android:layout_below="@id/time"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="8dp"
                     android:paddingBottom="15dp"
                     android:textStyle="italic"
                     android:textColor="?dateColor"
-                    android:text="@string/placeholder"
                     android:visibility="gone" />
 
-            <ImageView android:id="@+id/image"
-                       android:layout_below="@id/retweeter"
-                       android:layout_height="96dp"
-                       android:layout_width="fill_parent"
-                       android:scaleType="centerCrop"
-                       android:layout_marginLeft="8dp"
-                       android:layout_marginRight="8dp"
-                       android:layout_marginBottom="15dp"
-                       android:visibility="gone"
-                       />
         </RelativeLayout>
 
         <LinearLayout
@@ -118,8 +59,7 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="3dp"
-                android:visibility="gone">
+                android:paddingRight="3dp" >
 
             <LinearLayout
                     android:orientation="horizontal"
@@ -140,11 +80,11 @@
                         android:layout_marginLeft="5dp" />
 
                 <TextView
-                    android:layout_height="37dp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:textSize="15dp"
-                    android:id="@+id/fav_count" />
+                        android:layout_height="37dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:textSize="15dp"
+                        android:id="@+id/fav_count" />
 
                 <ImageButton
                         android:id="@+id/retweet"

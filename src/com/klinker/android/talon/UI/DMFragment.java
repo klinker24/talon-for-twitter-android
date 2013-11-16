@@ -36,15 +36,17 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DMFragment extends Fragment implements PullToRefreshAttacher.OnRefreshListener {
+public class DMFragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
     private ConnectionDetector cd;
@@ -56,6 +58,7 @@ public class DMFragment extends Fragment implements PullToRefreshAttacher.OnRefr
     private SharedPreferences sharedPrefs;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     private DMDataSource dataSource;
 
@@ -86,9 +89,17 @@ public class DMFragment extends Fragment implements PullToRefreshAttacher.OnRefr
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
-        mPullToRefreshAttacher = ((MainActivity) getActivity())
-                .getPullToRefreshAttacher();
-        mPullToRefreshAttacher.addRefreshableView(listView, this);
+        // Now find the PullToRefreshLayout to setup
+        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(context)
+                // Mark All Children as pullable
+                .allChildrenArePullable()
+                        // Set the OnRefreshListener
+                .listener(this)
+                        // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         TimeLineListLoader loader = new TimeLineListLoader(cache, context);
@@ -175,7 +186,7 @@ public class DMFragment extends Fragment implements PullToRefreshAttacher.OnRefr
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
-                mPullToRefreshAttacher.setRefreshComplete();
+                mPullToRefreshLayout.setRefreshComplete();
             }
         }.execute();
     }

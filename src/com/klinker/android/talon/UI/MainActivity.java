@@ -79,8 +79,6 @@ public class MainActivity extends Activity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        mPullToRefreshAttacher = PullToRefreshAttacher.get(this);
-
         setUpDrawer();
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
