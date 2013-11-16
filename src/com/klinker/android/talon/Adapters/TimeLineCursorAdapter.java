@@ -145,7 +145,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewTweet.putExtra("tweet", tweetText);
                 viewTweet.putExtra("retweeter", fRetweeter);
                 viewTweet.putExtra("webpage", picUrl);
-                viewTweet.putExtra("picture", false);
+                viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE );
                 viewTweet.putExtra("tweetid", holder.tweetId);
                 viewTweet.putExtra("proPic", profilePic);
 

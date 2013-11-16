@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TweetActivity extends Activity {
 
@@ -121,6 +122,8 @@ public class TweetActivity extends Activity {
         proPic = from.getStringExtra("proPic");
     }
 
+    PhotoViewAttacher mAttacher;
+
     public void setUIElements() {
         TextView nametv = (TextView) findViewById(R.id.name);
         TextView screennametv = (TextView) findViewById(R.id.screen_name);
@@ -128,6 +131,7 @@ public class TweetActivity extends Activity {
         TextView timetv = (TextView) findViewById(R.id.time);
         TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         WebView website = (WebView) findViewById(R.id.webview);
+        ImageView pictureIv = (ImageView) findViewById(R.id.imageView);
 
         ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
@@ -160,7 +164,8 @@ public class TweetActivity extends Activity {
             }
         }
 
-        if (webpage != null) {
+        if (webpage != null && !picture) {
+            website.setVisibility(View.VISIBLE);
             website.getSettings().setJavaScriptEnabled(true);
             website.getSettings().setBuiltInZoomControls(true);
 
@@ -180,8 +185,15 @@ public class TweetActivity extends Activity {
             });
 
             website.loadUrl(webpage);
-        } else {
-            website.setVisibility(View.GONE);
+        } else if(picture) {
+            pictureIv.setVisibility(View.VISIBLE);
+
+            Picasso.with(context)
+                    .load(webpage)
+                    .into(pictureIv);
+
+            mAttacher = new PhotoViewAttacher(pictureIv);
+
         }
 
         nametv.setText(name);
