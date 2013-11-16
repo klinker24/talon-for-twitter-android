@@ -7,11 +7,9 @@ import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.Display;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -75,8 +73,9 @@ public class TweetActivity extends Activity {
                 break;
         }
 
-
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(true);
     }
 
     public void setUpWindow() {
@@ -419,5 +418,16 @@ public class TweetActivity extends Activity {
         protected void onPostExecute(String count) {
             finish();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
