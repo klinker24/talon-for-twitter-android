@@ -62,6 +62,8 @@ public class MainActivity extends Activity {
         settings = new AppSettings(this);
         actionBar = getActionBar();
 
+        actionBar.setTitle(getResources().getString(R.string.timeline));
+
         setUpTheme();
         setContentView(R.layout.main_activity);
 
