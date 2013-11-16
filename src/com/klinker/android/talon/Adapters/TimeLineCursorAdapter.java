@@ -492,8 +492,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     String screenName = holder.screenName;
                     String message = holder.reply.getText().toString();
                     DirectMessage dm = twitter.sendDirectMessage(screenName, message);
-
-                    sharedPrefs.edit().putLong("last_direct_message_id", dm.getId()).commit();
                 }
 
                 return null;

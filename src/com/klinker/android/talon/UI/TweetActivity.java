@@ -14,9 +14,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
+import com.klinker.android.talon.Utilities.Utils;
+import twitter4j.Status;
+import twitter4j.Twitter;
 
 public class TweetActivity extends Activity {
 
@@ -135,14 +140,11 @@ public class TweetActivity extends Activity {
         website.getSettings().setBuiltInZoomControls(true);
         website.setWebViewClient(new WebViewClient());
 
-
         if (webpage != null) {
-            //new LoadWeb(webpage, website).execute();
             website.loadUrl(webpage);
         } else {
             website.setVisibility(View.GONE);
         }
-
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
@@ -157,30 +159,18 @@ public class TweetActivity extends Activity {
         }
     }
 
-    class LoadWeb extends AsyncTask<String, Void, Void> {
+    private boolean isFavorited = false;
 
-        String address;
-        WebView website;
+    class GetFavoriteCount extends AsyncTask<String, Void, Status> {
 
-        public LoadWeb(String address, WebView website) {
-            this.address = address;
-            this.website = website;
-        }
-
-        protected Void doInBackground(String... urls) {
-            website.loadUrl(address);
-            return null;
-        }
-    }
-
-    /*class GetFavoriteCount extends AsyncTask<String, Void, Status> {
-
-        private ViewHolder holder;
         private long tweetId;
+        private TextView favs;
+        private ImageButton favButton;
 
-        public GetFavoriteCount(ViewHolder holder, long tweetId) {
-            this.holder = holder;
+        public GetFavoriteCount(TextView favs, ImageButton favButton, long tweetId) {
             this.tweetId = tweetId;
+            this.favButton = favButton;
+            this.favs = favs;
         }
 
         protected twitter4j.Status doInBackground(String... urls) {
@@ -194,22 +184,22 @@ public class TweetActivity extends Activity {
 
         protected void onPostExecute(twitter4j.Status status) {
             if (status != null) {
-                holder.favCount.setText("- " + status.getFavoriteCount());
+                favs.setText("- " + status.getFavoriteCount());
 
                 if (status.isFavorited()) {
                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
                     int resource = a.getResourceId(0, 0);
                     a.recycle();
 
-                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                    holder.isFavorited = true;
+                    favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                    isFavorited = true;
                 } else {
                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
                     int resource = a.getResourceId(0, 0);
                     a.recycle();
 
-                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                    holder.isFavorited = false;
+                    favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                    isFavorited = false;
                 }
             }
         }
@@ -217,11 +207,11 @@ public class TweetActivity extends Activity {
 
     class GetRetweetCount extends AsyncTask<String, Void, String> {
 
-        private ViewHolder holder;
         private long tweetId;
+        private TextView retweetCount;
 
-        public GetRetweetCount(ViewHolder holder, long tweetId) {
-            this.holder = holder;
+        public GetRetweetCount(TextView retweetCount, long tweetId) {
+            this.retweetCount = retweetCount;
             this.tweetId = tweetId;
         }
 
@@ -237,25 +227,27 @@ public class TweetActivity extends Activity {
 
         protected void onPostExecute(String count) {
             if (count != null) {
-                holder.retweetCount.setText("- " + count);
+                retweetCount.setText("- " + count);
             }
         }
     }
 
     class FavoriteStatus extends AsyncTask<String, Void, String> {
 
-        private ViewHolder holder;
         private long tweetId;
+        private TextView favs;
+        private ImageButton favButton;
 
-        public FavoriteStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
+        public FavoriteStatus(TextView favs, ImageButton favButton, long tweetId) {
             this.tweetId = tweetId;
+            this.favButton = favButton;
+            this.favs = favs;
         }
 
         protected String doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
-                if (holder.isFavorited) {
+                if (isFavorited) {
                     twitter.destroyFavorite(tweetId);
                 } else {
                     twitter.createFavorite(tweetId);
@@ -267,17 +259,17 @@ public class TweetActivity extends Activity {
         }
 
         protected void onPostExecute(String count) {
-            new GetFavoriteCount(holder, tweetId).execute();
+            new GetFavoriteCount(favs, favButton, tweetId).execute();
         }
     }
 
     class RetweetStatus extends AsyncTask<String, Void, String> {
 
-        private ViewHolder holder;
         private long tweetId;
+        private TextView retweetCount;
 
-        public RetweetStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
+        public RetweetStatus(TextView retweetCount, long tweetId) {
+            this.retweetCount = retweetCount;
             this.tweetId = tweetId;
         }
 
@@ -292,17 +284,17 @@ public class TweetActivity extends Activity {
         }
 
         protected void onPostExecute(String count) {
-            new GetRetweetCount(holder, tweetId).execute();
+            new GetRetweetCount(retweetCount, tweetId).execute();
         }
     }
 
     class ReplyToStatus extends AsyncTask<String, Void, String> {
 
-        private ViewHolder holder;
         private long tweetId;
+        private EditText message;
 
-        public ReplyToStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
+        public ReplyToStatus(EditText message, long tweetId) {
+            this.message = message;
             this.tweetId = tweetId;
         }
 
@@ -310,18 +302,11 @@ public class TweetActivity extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
 
-                if (!isDM) {
-                    twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
-                    reply.setInReplyToStatusId(tweetId);
+                twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message.getText().toString());
+                reply.setInReplyToStatusId(tweetId);
 
-                    twitter.updateStatus(reply);
-                } else {
-                    String screenName = holder.screenName;
-                    String message = holder.reply.getText().toString();
-                    DirectMessage dm = twitter.sendDirectMessage(screenName, message);
+                twitter.updateStatus(reply);
 
-                    sharedPrefs.edit().putLong("last_direct_message_id", dm.getId()).commit();
-                }
 
                 return null;
             } catch (Exception e) {
@@ -330,8 +315,7 @@ public class TweetActivity extends Activity {
         }
 
         protected void onPostExecute(String count) {
-            removeExpansionWithAnimation(holder);
-            removeKeyboard(holder);
+            finish();
         }
-    }   */
+    }
 }
