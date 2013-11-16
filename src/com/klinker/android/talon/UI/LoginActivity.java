@@ -11,9 +11,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.*;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.SQLite.DMDataSource;
 import com.klinker.android.talon.SQLite.HomeDataSource;
@@ -39,9 +41,6 @@ import java.util.List;
  */
 public class LoginActivity extends Activity {
 
-    private ConnectionDetector cd;
-    private ProgressDialog pDialog;
-    AlertDialogManager alert = new AlertDialogManager();
     private Context context;
     private SharedPreferences sharedPrefs;
 
@@ -50,6 +49,10 @@ public class LoginActivity extends Activity {
     private static String verifier;
 
     private Button btnLoginTwitter;
+    private TextSwitcher title;
+    private TextSwitcher summary;
+    private TextSwitcher progDescription;
+    private ProgressBar progressBar;
 
     private AppSettings settings;
 
@@ -76,24 +79,60 @@ public class LoginActivity extends Activity {
         TwitterFactory factory = new TwitterFactory(configuration);
         twitter = factory.getInstance();
 
-        cd = new ConnectionDetector(getApplicationContext());
-
-        // Check if Internet present
-        if (!cd.isConnectingToInternet()) {
-            // Internet Connection is not present
-            alert.showAlertDialog(LoginActivity.this,
-                    "Internet Connection Error",
-                    "Please connect to working Internet connection", false);
-            // stop executing code by return
-            return;
-        }
-
-        // All UI elements
         btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
+        title = (TextSwitcher) findViewById(R.id.welcome);
+        summary = (TextSwitcher) findViewById(R.id.info);
+        progDescription = (TextSwitcher) findViewById(R.id.progress_desc);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
-        /**
-         * Twitter login_activity button click event will call loginToTwitter() function
-         * */
+
+        Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(this,android.R.anim.slide_out_right);
+
+        title.setFactory(new ViewSwitcher.ViewFactory() {
+
+            public View makeView() {
+                TextView myText = new TextView(LoginActivity.this);
+                myText.setTextSize(30);
+                return myText;
+            }
+        });
+
+        // set the animation type of textSwitcher
+        title.setInAnimation(in);
+        title.setOutAnimation(out);
+
+        summary.setFactory(new ViewSwitcher.ViewFactory() {
+
+            public View makeView() {
+                TextView myText = new TextView(LoginActivity.this);
+                myText.setTextSize(17);
+                return myText;
+            }
+        });
+
+        // set the animation type of textSwitcher
+        summary.setInAnimation(in);
+        summary.setOutAnimation(out);
+
+        progDescription.setFactory(new ViewSwitcher.ViewFactory() {
+
+            public View makeView() {
+                TextView myText = new TextView(LoginActivity.this);
+                myText.setTextSize(17);
+                return myText;
+            }
+        });
+
+        // set the animation type of textSwitcher
+        progDescription.setInAnimation(in);
+        progDescription.setOutAnimation(out);
+
+        title.setText(getResources().getString(R.string.first_welcome));
+        summary.setText(getResources().getString(R.string.first_info));
+
+        progressBar.setProgress(100);
+
         btnLoginTwitter.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -185,9 +224,7 @@ public class LoginActivity extends Activity {
                 }
 
             } else {
-                // user already logged into twitter
-                Toast.makeText(getApplicationContext(),
-                        "Already Logged into twitter", Toast.LENGTH_LONG).show();
+
             }
         }
     }
@@ -198,13 +235,14 @@ public class LoginActivity extends Activity {
 
         protected AccessToken doInBackground(String... urls) {
             try {
-                Log.v("twitter_login_activity", "request token: " + requestToken);
-                Log.v("twitter_login_activity", "verifier: " + verifier);
+
                 return twitter.getOAuthAccessToken(requestToken, verifier);
+
             } catch (Exception e) {
+
                 this.exception = e;
                 e.printStackTrace();
-                Log.v("twitter_login_activity", "caught executing");
+
                 return null;
             }
         }
@@ -224,10 +262,10 @@ public class LoginActivity extends Activity {
                 e.putBoolean("is_logged_in", true);
                 e.commit(); // save changes
 
-                Log.e("Twitter OAuth Token", "> " + accessToken.getToken());
-
                 // Hide login_activity button
                 btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
+                title.setText(getResources().getString(R.string.second_welcome));
+                summary.setText(getResources().getString(R.string.second_info));
 
             } catch (Exception e) {
 
@@ -235,22 +273,20 @@ public class LoginActivity extends Activity {
         }
     }
 
-    /**
-     * Function to get timeline
-     */
     class getTimeLine extends AsyncTask<Void, Void, String> {
 
-        /**
-         * Before starting background thread Show Progress Dialog
-         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(LoginActivity.this);
-            pDialog.setMessage("Getting data from Twitter...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+
+            progressBar.setIndeterminate(true);
+
+            btnLoginTwitter.setEnabled(false);
+
+            progDescription.setVisibility(View.VISIBLE);
+            progDescription.setText(getResources().getString(R.string.syncing_timeline));
+
+            summary.setText("");
         }
 
         protected String doInBackground(Void... args) {
@@ -264,7 +300,7 @@ public class LoginActivity extends Activity {
                 sharedPrefs.edit().putString("twitter_background_url", user.getProfileBannerURL()).commit();
                 sharedPrefs.edit().putString("profile_pic_url", user.getBiggerProfileImageURL()).commit();
 
-                // syncs 200 timeline messages
+                // syncs 200 timeline tweets with 2 pages
                 Paging paging;
                 paging = new Paging(2, 100);
                 List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
@@ -294,7 +330,12 @@ public class LoginActivity extends Activity {
 
                 dataSource.close();
 
-                //pDialog.setMessage("Getting mentions...");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progDescription.setText(getResources().getString(R.string.syncing_mentions));
+                    }
+                });
 
                 MentionsDataSource mentionsSource = new MentionsDataSource(context);
                 mentionsSource.open();
@@ -318,7 +359,12 @@ public class LoginActivity extends Activity {
 
                 mentionsSource.close();
 
-                //pDialog.setMessage("Getting direct messages...");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progDescription.setText(getResources().getString(R.string.syncing_direct_messages));
+                    }
+                });
 
                 // syncs 100 Direct Messages
                 DMDataSource dmSource = new DMDataSource(context);
@@ -366,11 +412,21 @@ public class LoginActivity extends Activity {
         }
 
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog after getting all products
-            pDialog.dismiss();
 
+            btnLoginTwitter.setEnabled(true);
             btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
+
+            progressBar.setIndeterminate(false);
+            progressBar.setProgress(100);
+
+            progDescription.setText(getResources().getString(R.string.done_syncing));
+            title.setText(getResources().getString(R.string.third_welcome));
+            summary.setText(getResources().getString(R.string.third_info));
         }
 
+    }
+
+    public int toDP(int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 }

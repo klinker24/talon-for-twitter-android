@@ -3,19 +3,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:gravity="center">
+              android:layout_height="match_parent"
+              android:gravity="center_vertical"
+              android:padding="25dp" >
 
-    <TextView
-            android:id="@+id/welcome"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/welcome_to_roar"
-            android:visibility="gone"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="310dp"  >
+
+        <TextSwitcher
+                android:id="@+id/welcome"
+                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:textSize="30dp"
+                android:textColor="?textColor" />
+
+        <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/progress_bar"
+                android:minHeight="24dip"
+                android:maxHeight="24dip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"  />
+
+        <TextSwitcher
+                android:id="@+id/progress_desc"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="20dp"
+                android:textColor="?textColor"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:visibility="invisible"/>
+
+        <TextSwitcher
+                android:id="@+id/info"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="20dp"
+                android:textColor="?textColor"
+                android:padding="10dp"/>
+        </LinearLayout>
 
     <!-- Twitter Login Button -->
-    <Button android:id="@+id/btnLoginTwitter"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="fill_parent"
+                  android:gravity="center" >
+
+        <Button android:id="@+id/btnLoginTwitter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_to_twitter"/>
+
+        </LinearLayout>
 
 </LinearLayout>

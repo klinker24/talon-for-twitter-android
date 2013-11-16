@@ -24,6 +24,7 @@ limitations under the License.
         <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
         <item name="android:actionBarStyle">@style/BlackActionBar</item>
         <item name="android:editTextBackground">@drawable/edit_text_holo_dark</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarDark</item>
         <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_dark</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_dark</item>
         <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>

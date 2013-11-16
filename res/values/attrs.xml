@@ -34,6 +34,7 @@ limitations under the License.
     <attr name="attachButton" format="reference"/>
     <attr name="drawerIcon" format="reference"/>
     <attr name="newIcon" format="reference"/>
+    <attr name="progressBar" format="reference"/>
     <attr name="delete" format="reference"/>
     <attr name="drawerDrawable" format="reference"/>
     <attr name="playVideo" format="reference"/>
