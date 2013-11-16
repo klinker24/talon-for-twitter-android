@@ -12,12 +12,10 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
 import com.klinker.android.talon.Utilities.CircleTransform;
@@ -75,6 +73,9 @@ public class TweetActivity extends Activity {
                 setTheme(R.style.Theme_TalonBlack);
                 break;
         }
+
+
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
     }
 
     public void setUpWindow() {
@@ -159,11 +160,25 @@ public class TweetActivity extends Activity {
             }
         }
 
-        website.getSettings().setJavaScriptEnabled(true);
-        website.getSettings().setBuiltInZoomControls(true);
-        website.setWebViewClient(new WebViewClient());
-
         if (webpage != null) {
+            website.getSettings().setJavaScriptEnabled(true);
+            website.getSettings().setBuiltInZoomControls(true);
+
+            final Activity activity = this;
+            website.setWebChromeClient(new WebChromeClient() {
+                public void onProgressChanged(WebView view, int progress) {
+                    // Activities and WebViews measure progress with different scales.
+                    // The progress meter will automatically disappear when we reach 100%
+                    activity.setProgress(progress * 100);
+                }
+            });
+
+            website.setWebViewClient(new WebViewClient() {
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                    Toast.makeText(activity, "Couldn't load the web page. " + description, Toast.LENGTH_SHORT).show();
+                }
+            });
+
             website.loadUrl(webpage);
         } else {
             website.setVisibility(View.GONE);
