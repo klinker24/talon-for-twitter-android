@@ -49,6 +49,8 @@ public class MainActivity extends Activity {
     private ListView drawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    private boolean logoutVisible = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,13 +138,16 @@ public class MainActivity extends Activity {
         ) {
 
             public void onDrawerClosed(View view) {
+                if (logoutVisible) {
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                    ranim.setFillAfter(true);
+                    showMoreDrawer.startAnimation(ranim);
 
-                Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
-                ranim.setFillAfter(true);
-                showMoreDrawer.startAnimation(ranim);
+                    logoutDrawer.setVisibility(View.GONE);
+                    drawerList.setVisibility(View.VISIBLE);
 
-                logoutDrawer.setVisibility(View.GONE);
-                drawerList.setVisibility(View.VISIBLE);
+                    logoutVisible = false;
+                }
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -165,6 +170,8 @@ public class MainActivity extends Activity {
 
                     logoutDrawer.setVisibility(View.VISIBLE);
                     drawerList.setVisibility(View.GONE);
+
+                    logoutVisible = true;
                 } else {
                     Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
                     ranim.setFillAfter(true);
@@ -172,6 +179,8 @@ public class MainActivity extends Activity {
 
                     logoutDrawer.setVisibility(View.GONE);
                     drawerList.setVisibility(View.VISIBLE);
+
+                    logoutVisible = false;
                 }
             }
         });
