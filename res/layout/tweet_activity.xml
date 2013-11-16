@@ -14,13 +14,15 @@
 
     <include layout="@layout/tweet_for_activity"
              android:layout_height="wrap_content"
-             android:layout_width="match_parent" />
+             android:layout_width="match_parent"
+             android:layout_marginRight="3dp"/>
 
     <WebView android:id="@+id/webview"
              android:layout_height="0dp"
              android:layout_width="fill_parent"
              android:layout_weight="1"
              android:background="?tweetBackgroundNoDialog"
-             android:layout_marginTop="10dp"/>
+             android:layout_marginTop="10dp"
+             android:layout_margin="3dp"/>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
@@ -114,8 +115,26 @@ public class TweetActivity extends Activity {
         WebView website = (WebView) findViewById(R.id.webview);
 
         if (tweet.contains("http://")) {
+            String[] split = tweet.split(" ");
 
+            for (String s : split) {
+                if (s.contains("http://")) {
+                    s.replaceAll("!", "");
+                    s.replaceAll("\"", "");
+
+                    if(webpage == null) {
+                        webpage = s;
+                    }
+
+                    break;
+                }
+            }
         }
+
+        website.getSettings().setJavaScriptEnabled(true);
+        website.getSettings().setBuiltInZoomControls(true);
+        website.setWebViewClient(new WebViewClient());
+
 
         if (webpage != null) {
             //new LoadWeb(webpage, website).execute();
@@ -123,6 +142,7 @@ public class TweetActivity extends Activity {
         } else {
             website.setVisibility(View.GONE);
         }
+
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);

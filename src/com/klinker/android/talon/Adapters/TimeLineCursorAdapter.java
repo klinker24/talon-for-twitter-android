@@ -134,7 +134,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String fRetweeter = retweeter;
 
-        holder.background.setFocusable(true);
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,7 +279,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         s = s.substring(0, s.length() - 1);
                     }
 
-                    if (s.contains("@") && !s.contains(myScreenName) && !s.contains(screenname)) {
+                    if (s.contains("@") && !s.contains(myScreenName) && !s.contains(screenname) && s.length() > 1) {
                         extraNames += s.substring(s.indexOf("@")) + " ";
                     }
                 }
