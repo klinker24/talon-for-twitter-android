@@ -38,6 +38,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private SharedPreferences sharedPrefs;
     private int cancelButton;
 
+    public String myScreenName;
+
     private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
     private static Pattern pattern = Pattern.compile(REGEX);
 
@@ -78,6 +80,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
+
+        myScreenName = sharedPrefs.getString("twitter_screen_name", "");
     }
 
     @Override
@@ -146,10 +150,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
-        }
-
-        if (!isDM) {
-            holder.reply.setText("@" + screenname + " ");
         }
 
         if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
@@ -241,6 +241,28 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         holder.reply.setSelection(holder.reply.getText().length());
         holder.screenName = screenname;
+
+
+
+        if (!isDM) {
+            String text = holder.tweet.getText().toString();
+            String extraNames = "";
+
+            if (text.contains("@")) {
+                String[] split = text.split(" ");
+
+                for (String s : split) {
+                    if (s.endsWith(":")) {
+                        s = s.substring(0, s.length() - 1);
+                    }
+
+                    if (s.contains("@") && !s.contains(myScreenName) && !s.contains(screenname)) {
+                        extraNames += s.substring(s.indexOf("@"));
+                    }
+                }
+            }
+            holder.reply.setText("@" + screenname + " " + extraNames);
+        }
 
         if (holder.favCount.getText().toString().length() <= 2) {
             holder.favCount.setText("- ");
