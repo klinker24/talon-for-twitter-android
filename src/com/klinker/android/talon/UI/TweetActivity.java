@@ -16,10 +16,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
+import com.klinker.android.talon.Utilities.CircleTransform;
 import com.klinker.android.talon.Utilities.Utils;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
@@ -34,7 +38,9 @@ public class TweetActivity extends Activity {
     private String time;
     private String retweeter;
     private String webpage;
+    private String proPic;
     private boolean picture;
+    private long tweetId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,7 +114,9 @@ public class TweetActivity extends Activity {
         time = from.getStringExtra("time");
         retweeter = from.getStringExtra("retweeter");
         webpage = from.getStringExtra("webpage");
+        tweetId = from.getLongExtra("tweetid", 0);
         picture = from.getBooleanExtra("picture", false);
+        proPic = from.getStringExtra("proPic");
     }
 
     public void setUIElements() {
@@ -118,6 +126,18 @@ public class TweetActivity extends Activity {
         TextView timetv = (TextView) findViewById(R.id.time);
         TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         WebView website = (WebView) findViewById(R.id.webview);
+
+        ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+
+        final ImageButton favoriteButton = (ImageButton) findViewById(R.id.favorite);
+        final ImageButton retweetButton = (ImageButton) findViewById(R.id.retweet);
+        final TextView favoriteCount = (TextView) findViewById(R.id.fav_count);
+        final TextView retweetCount = (TextView) findViewById(R.id.retweet_count);
+
+        Picasso.with(context)
+                .load(proPic)
+                .transform(new CircleTransform())
+                .into(profilePic);
 
         if (tweet.contains("http://")) {
             String[] split = tweet.split(" ");
@@ -156,10 +176,30 @@ public class TweetActivity extends Activity {
         if (retweeter.length() > 0 ) {
             retweetertv.setText("Retweeted by @" + retweeter);
             retweetertv.setVisibility(View.VISIBLE);
+            isRetweet = true;
         }
+
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FavoriteStatus(favoriteCount, favoriteButton, tweetId).execute();
+            }
+        });
+
+        retweetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new RetweetStatus(retweetCount, tweetId).execute();
+            }
+        });
+
+        new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
+        new GetRetweetCount(retweetCount, tweetId).execute();
+
     }
 
     private boolean isFavorited = false;
+    private boolean isRetweet = false;
 
     class GetFavoriteCount extends AsyncTask<String, Void, Status> {
 
@@ -176,6 +216,10 @@ public class TweetActivity extends Activity {
         protected twitter4j.Status doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
+                if (isRetweet) {
+                    twitter4j.Status retweeted = twitter.showStatus(tweetId).getRetweetedStatus();
+                    return retweeted;
+                }
                 return twitter.showStatus(tweetId);
             } catch (Exception e) {
                 return null;

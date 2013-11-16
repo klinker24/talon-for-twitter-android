@@ -120,7 +120,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
-
+        final String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
         final String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
         final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
@@ -146,6 +146,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewTweet.putExtra("retweeter", fRetweeter);
                 viewTweet.putExtra("webpage", picUrl);
                 viewTweet.putExtra("picture", false);
+                viewTweet.putExtra("tweetid", holder.tweetId);
+                viewTweet.putExtra("proPic", profilePic);
 
                 context.startActivity(viewTweet);
             }
@@ -359,6 +361,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         protected twitter4j.Status doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
+                if (holder.retweeter.getVisibility() != View.GONE) {
+                    twitter4j.Status retweeted = twitter.showStatus(tweetId).getRetweetedStatus();
+                    return retweeted;
+                }
                 return twitter.showStatus(tweetId);
             } catch (Exception e) {
                 return null;

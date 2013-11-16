@@ -18,7 +18,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:id="@+id/profile_pic"
-                android:src="@drawable/circle_border_light"
+                android:src="?circleBorder"
                 android:background="?circleBorder"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
