@@ -42,6 +42,7 @@ public class TweetActivity extends Activity {
     private boolean picture;
     private long tweetId;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +134,8 @@ public class TweetActivity extends Activity {
         final ImageButton retweetButton = (ImageButton) findViewById(R.id.retweet);
         final TextView favoriteCount = (TextView) findViewById(R.id.fav_count);
         final TextView retweetCount = (TextView) findViewById(R.id.retweet_count);
+        final EditText reply = (EditText) findViewById(R.id.reply);
+        final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
 
         Picasso.with(context)
                 .load(proPic)
@@ -195,6 +198,27 @@ public class TweetActivity extends Activity {
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
         new GetRetweetCount(retweetCount, tweetId).execute();
+
+        String text = tweet;
+        String extraNames = "";
+
+        if (text.contains("@")) {
+            String[] split = text.split(" ");
+
+            for (String s : split) {
+                if (s.endsWith(":")) {
+                    s = s.substring(0, s.length() - 1);
+                }
+
+                if (s.contains("@") && !s.contains(settings.myScreenName) && !s.contains(screenName) && s.length() > 1) {
+                    extraNames += s.substring(s.indexOf("@")) + " ";
+                }
+            }
+        }
+
+        reply.setText("@" + screenName + " " + extraNames);
+
+        reply.setSelection(reply.getText().length());
 
     }
 

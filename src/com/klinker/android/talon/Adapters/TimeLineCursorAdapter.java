@@ -264,7 +264,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.favorite.setVisibility(View.VISIBLE);
         }
 
-        holder.reply.setSelection(holder.reply.getText().length());
         holder.screenName = screenname;
 
 
@@ -288,6 +287,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
             holder.reply.setText("@" + screenname + " " + extraNames);
         }
+
+        holder.reply.setSelection(holder.reply.getText().length());
 
         if (holder.favCount.getText().toString().length() <= 2) {
             holder.favCount.setText("- ");

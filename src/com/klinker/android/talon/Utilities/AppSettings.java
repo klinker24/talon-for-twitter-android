@@ -24,6 +24,7 @@ public class AppSettings {
 
     public String authenticationToken;
     public String authenticationTokenSecret;
+    public String myScreenName;
     public boolean isTwitterLoggedIn;
     public int theme;
 
@@ -33,6 +34,7 @@ public class AppSettings {
         authenticationToken = sharedPrefs.getString("authentication_token", "none");
         authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret", "none");
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
+        myScreenName = sharedPrefs.getString("twitter_screen_name", "");
         theme = 1;
     }
 }
