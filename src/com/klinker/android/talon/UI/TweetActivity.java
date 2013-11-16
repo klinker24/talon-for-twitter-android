@@ -220,6 +220,13 @@ public class TweetActivity extends Activity {
 
         reply.setSelection(reply.getText().length());
 
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ReplyToStatus(reply, tweetId).execute();
+            }
+        });
+
     }
 
     private boolean isFavorited = false;
