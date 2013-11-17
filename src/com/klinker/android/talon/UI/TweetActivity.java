@@ -129,10 +129,11 @@ public class TweetActivity extends Activity {
         TextView tweettv = (TextView) findViewById(R.id.tweet);
         TextView timetv = (TextView) findViewById(R.id.time);
         TextView retweetertv = (TextView) findViewById(R.id.retweeter);
-        WebView website = (WebView) findViewById(R.id.webview);
-        ImageView pictureIv = (ImageView) findViewById(R.id.imageView);
-        ListView replyList = (ListView) findViewById(R.id.reply_list);
+        final WebView website = (WebView) findViewById(R.id.webview);
+        final ImageView pictureIv = (ImageView) findViewById(R.id.imageView);
+        final ListView replyList = (ListView) findViewById(R.id.reply_list);
         LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
+        ImageButton switchViews = (ImageButton) findViewById(R.id.switchViews);
 
         ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
@@ -181,6 +182,15 @@ public class TweetActivity extends Activity {
 
         // If there is a web page that isn't a picture already loaded
         if (webpage != null && !picture) {
+            /*switchViews.setVisibility(View.VISIBLE);
+            switchViews.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    website.setVisibility(View.GONE);
+                    replyList.setVisibility(View.VISIBLE);
+                }
+            });*/
+
             progressSpinner.setVisibility(View.GONE);
             website.setVisibility(View.VISIBLE);
             website.getSettings().setJavaScriptEnabled(true);
@@ -210,9 +220,17 @@ public class TweetActivity extends Activity {
                 }
             });
         } else if(picture) { // if there is a picture already loaded
+            /*switchViews.setVisibility(View.VISIBLE);
+            switchViews.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pictureIv.setVisibility(View.GONE);
+                    replyList.setVisibility(View.VISIBLE);
+                }
+            });*/
+
             progressSpinner.setVisibility(View.GONE);
             pictureIv.setVisibility(View.VISIBLE);
-            pictureIv.requestFocus();
 
             Picasso.with(context)
                     .load(webpage)
@@ -220,7 +238,7 @@ public class TweetActivity extends Activity {
 
             mAttacher = new PhotoViewAttacher(pictureIv);
 
-        } else {
+        } else { // just show the replys
             progressSpinner.setVisibility(View.VISIBLE);
         }
 
