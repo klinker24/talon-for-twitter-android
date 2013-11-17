@@ -60,11 +60,12 @@ public class MainActivity extends Activity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
-        actionBar = getActionBar();
-
-        actionBar.setTitle(getResources().getString(R.string.timeline));
 
         setUpTheme();
+
+        actionBar = getActionBar();
+        actionBar.setTitle(getResources().getString(R.string.timeline));
+
         setContentView(R.layout.main_activity);
 
         if (!settings.isTwitterLoggedIn) {
@@ -105,10 +106,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-    }
-
-    public PullToRefreshAttacher getPullToRefreshAttacher() {
-        return mPullToRefreshAttacher;
     }
 
     public void setUpDrawer() {
@@ -262,8 +259,6 @@ public class MainActivity extends Activity {
                 setTheme(R.style.Theme_TalonBlack);
                 break;
         }
-
-        actionBar.setTitle(getResources().getString(R.string.timeline));
     }
 
     @Override

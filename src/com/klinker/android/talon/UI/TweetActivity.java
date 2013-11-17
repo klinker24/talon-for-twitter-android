@@ -143,6 +143,13 @@ public class TweetActivity extends Activity {
         final EditText reply = (EditText) findViewById(R.id.reply);
         final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
 
+        if (settings.theme == 0) {
+            nametv.setTextColor(getResources().getColor(android.R.color.black));
+            nametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
+            screennametv.setTextColor(getResources().getColor(android.R.color.black));
+            screennametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
+        }
+
         if (name.contains(settings.myName)) {
             reply.setVisibility(View.GONE);
             replyButton.setVisibility(View.GONE);
