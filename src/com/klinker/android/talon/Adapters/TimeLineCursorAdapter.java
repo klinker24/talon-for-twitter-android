@@ -20,6 +20,7 @@ import com.klinker.android.talon.ExpansionAnimation;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.SQLite.HomeSQLiteHelper;
 import com.klinker.android.talon.UI.TweetActivity;
+import com.klinker.android.talon.Utilities.AppSettings;
 import com.klinker.android.talon.Utilities.Utils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -40,7 +41,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private SharedPreferences sharedPrefs;
     private int cancelButton;
 
-    public String myScreenName;
+    public AppSettings settings;
 
     private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
     private static Pattern pattern = Pattern.compile(REGEX);
@@ -84,7 +85,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        myScreenName = sharedPrefs.getString("twitter_screen_name", "");
+        settings = new AppSettings(context);
     }
 
     @Override
@@ -196,7 +197,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             holder.expand.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -264,6 +264,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.favorite.setVisibility(View.VISIBLE);
         }
 
+        if (holder.name.getText().toString().contains(settings.myName)) {
+            holder.reply.setVisibility(View.GONE);
+            holder.replyButton.setVisibility(View.GONE);
+        }
+
         holder.screenName = screenname;
 
 
@@ -280,7 +285,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         s = s.substring(0, s.length() - 1);
                     }
 
-                    if (s.contains("@") && !s.contains(myScreenName) && !s.contains(screenname) && s.length() > 1) {
+                    if (s.contains("@") && !s.contains(settings.myScreenName) && !s.contains(screenname) && s.length() > 1) {
                         extraNames += s.substring(s.indexOf("@")) + " ";
                     }
                 }

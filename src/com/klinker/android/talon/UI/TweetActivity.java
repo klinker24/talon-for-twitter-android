@@ -143,6 +143,13 @@ public class TweetActivity extends Activity {
         final EditText reply = (EditText) findViewById(R.id.reply);
         final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
 
+        if (name.contains(settings.myName)) {
+            reply.setVisibility(View.GONE);
+            replyButton.setVisibility(View.GONE);
+            favoriteButton.setEnabled(false);
+            retweetButton.setEnabled(false);
+        }
+
         Picasso.with(context)
                 .load(proPic)
                 .transform(new CircleTransform())
