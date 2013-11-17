@@ -167,6 +167,7 @@ public class TweetActivity extends Activity {
 
         // If there is a web page that isn't a picture already loaded
         if (webpage != null && !picture) {
+            progressSpinner.setVisibility(View.GONE);
             website.setVisibility(View.VISIBLE);
             website.getSettings().setJavaScriptEnabled(true);
             website.getSettings().setBuiltInZoomControls(true);
@@ -195,6 +196,7 @@ public class TweetActivity extends Activity {
                 }
             });
         } else if(picture) { // if there is a picture already loaded
+            progressSpinner.setVisibility(View.GONE);
             pictureIv.setVisibility(View.VISIBLE);
             pictureIv.requestFocus();
 
@@ -204,12 +206,6 @@ public class TweetActivity extends Activity {
 
             mAttacher = new PhotoViewAttacher(pictureIv);
 
-            pictureIv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    Toast.makeText(context, "" + b , Toast.LENGTH_SHORT).show();
-                }
-            });
         } else {
             progressSpinner.setVisibility(View.VISIBLE);
         }
@@ -495,6 +491,7 @@ public class TweetActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> replies) {
             progressSpinner.setVisibility(View.GONE);
+
             try {
                 if (replies.size() > 0) {
                     listView.setAdapter(new RepliesArrayAdapter(context, replies));
@@ -505,7 +502,9 @@ public class TweetActivity extends Activity {
                 // none and it got the null object
             }
 
-            listView.setVisibility(View.VISIBLE);
+            if(!picture && webpage == "") {
+                listView.setVisibility(View.VISIBLE);
+            }
         }
     }
 }
