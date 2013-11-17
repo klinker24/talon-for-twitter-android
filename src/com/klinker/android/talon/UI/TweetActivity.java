@@ -7,22 +7,22 @@ import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.*;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+import com.klinker.android.talon.Adapters.RepliesArrayAdapter;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
 import com.klinker.android.talon.Utilities.CircleTransform;
 import com.klinker.android.talon.Utilities.Utils;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-import twitter4j.Status;
-import twitter4j.Twitter;
+import twitter4j.*;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import java.util.ArrayList;
 
 public class TweetActivity extends Activity {
 
@@ -131,6 +131,8 @@ public class TweetActivity extends Activity {
         TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         WebView website = (WebView) findViewById(R.id.webview);
         ImageView pictureIv = (ImageView) findViewById(R.id.imageView);
+        ListView replyList = (ListView) findViewById(R.id.reply_list);
+        LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
 
         ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
@@ -163,6 +165,7 @@ public class TweetActivity extends Activity {
             }
         }
 
+        // If there is a web page that isn't a picture already loaded
         if (webpage != null && !picture) {
             website.setVisibility(View.VISIBLE);
             website.getSettings().setJavaScriptEnabled(true);
@@ -179,13 +182,21 @@ public class TweetActivity extends Activity {
 
             website.setWebViewClient(new WebViewClient() {
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    Toast.makeText(activity, "Couldn't load the web page. " + description, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Couldn't load the web page. ", Toast.LENGTH_SHORT).show();
                 }
             });
 
             website.loadUrl(webpage);
-        } else if(picture) {
+
+            website.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    Toast.makeText(context, "" + b , Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else if(picture) { // if there is a picture already loaded
             pictureIv.setVisibility(View.VISIBLE);
+            pictureIv.requestFocus();
 
             Picasso.with(context)
                     .load(webpage)
@@ -193,6 +204,14 @@ public class TweetActivity extends Activity {
 
             mAttacher = new PhotoViewAttacher(pictureIv);
 
+            pictureIv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    Toast.makeText(context, "" + b , Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            progressSpinner.setVisibility(View.VISIBLE);
         }
 
         nametv.setText(name);
@@ -224,6 +243,7 @@ public class TweetActivity extends Activity {
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
         new GetRetweetCount(retweetCount, tweetId).execute();
+        new GetReplies(replyList, screenName, tweetId, progressSpinner).execute();
 
         String text = tweet;
         String extraNames = "";
@@ -429,5 +449,63 @@ public class TweetActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class GetReplies extends AsyncTask<String, Void, ArrayList<Status>> {
+
+        private String username;
+        private ListView listView;
+        private long tweetId;
+        private LinearLayout progressSpinner;
+
+        public GetReplies(ListView listView, String username, long tweetId, LinearLayout progressBar) {
+            this.listView = listView;
+            this.username = username;
+            this.tweetId = tweetId;
+            this.progressSpinner = progressBar;
+        }
+
+        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
+            Twitter twitter = Utils.getTwitter(context);
+            try {
+                twitter4j.Status status = twitter.showStatus(tweetId);
+
+                twitter4j.Status replyStatus = twitter.showStatus(status.getInReplyToStatusId());
+
+                ArrayList<twitter4j.Status> replies = new ArrayList<twitter4j.Status>();
+
+                try {
+                    while(!replyStatus.getText().equals("")) {
+                        replies.add(replyStatus);
+                        Log.v("reply_status", replyStatus.getText());
+
+                        replyStatus = twitter.showStatus(replyStatus.getInReplyToStatusId());
+                    }
+                } catch (Exception e) {
+                    // the list of replies has ended, but we dont want to go to null
+                }
+
+                return replies;
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(ArrayList<twitter4j.Status> replies) {
+            progressSpinner.setVisibility(View.GONE);
+            try {
+                if (replies.size() > 0) {
+                    listView.setAdapter(new RepliesArrayAdapter(context, replies));
+                } else {
+
+                }
+            } catch (Exception e) {
+                // none and it got the null object
+            }
+
+            listView.setVisibility(View.VISIBLE);
+        }
     }
 }

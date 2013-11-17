@@ -38,4 +38,30 @@
              android:layout_marginLeft="1dp"
              android:visibility="gone" />
 
+    <LinearLayout android:id="@+id/list_progress"
+                  android:orientation="vertical"
+                  android:layout_height="0dp"
+                  android:layout_width="fill_parent"
+                  android:layout_weight="1"
+                  android:gravity="center">
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+                android:indeterminateOnly="true" />
+        </LinearLayout>
+
+    <ListView android:id="@+id/reply_list"
+              android:layout_height="0dp"
+              android:layout_width="fill_parent"
+              android:layout_weight="1"
+              android:divider="@null"
+              android:layout_marginTop="20dp"
+              android:layout_margin="3dp"
+              android:paddingRight="4dp"
+              android:paddingLeft="4dp"
+              android:listSelector="@android:color/transparent"
+              android:visibility="gone" />
+
 </LinearLayout>
