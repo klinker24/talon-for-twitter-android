@@ -20,6 +20,7 @@ import com.klinker.android.talon.ExpansionAnimation;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.SQLite.HomeSQLiteHelper;
 import com.klinker.android.talon.UI.TweetActivity;
+import com.klinker.android.talon.UI.UserProfileActivity;
 import com.klinker.android.talon.Utilities.AppSettings;
 import com.klinker.android.talon.Utilities.Utils;
 import com.squareup.picasso.Picasso;
@@ -124,6 +125,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         final String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+
         String retweeter;
         try {
             retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
@@ -170,6 +172,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             });
         }
+
+        holder.profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                viewProfile.putExtra("name", name);
+                viewProfile.putExtra("screenname", screenname);
+                viewProfile.putExtra("proPic", profilePic);
+
+                context.startActivity(viewProfile);
+            }
+        });
 
         holder.name.setText(name);
         holder.time.setText(Utils.getTimeAgo(cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME))));

@@ -74,6 +74,14 @@
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
                   android:excludeFromRecents="true"
+                  android:theme="@style/Theme.TalonLight">
+        </activity>
+
+        <activity android:name=".UI.UserProfileActivity"
+                  android:label="@string/app_name"
+                  android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+                  android:excludeFromRecents="true"
                   android:theme="@style/Theme.TalonLight.Popup">
         </activity>
 
