@@ -24,8 +24,6 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         public ImageView profilePic;
         public TextView tweet;
         public TextView time;
-        public ImageButton expand;
-
     }
 
     public RepliesArrayAdapter(Context context, ArrayList<Status> statuses) {
@@ -54,14 +52,11 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
             viewHolder.profilePic = (ImageView) rowView.findViewById(R.id.profile_pic);
             viewHolder.tweet = (TextView) rowView.findViewById(R.id.tweet);
             viewHolder.time = (TextView) rowView.findViewById(R.id.time);
-            viewHolder.expand = (ImageButton) rowView.findViewById(R.id.show_more);
 
             rowView.setTag(viewHolder);
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-
-        holder.expand.setVisibility(View.GONE);
 
         holder.name.setText(statuses.get(position).getUser().getName());
         holder.tweet.setText(statuses.get(position).getText());

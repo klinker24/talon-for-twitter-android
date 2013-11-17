@@ -27,17 +27,6 @@
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"/>
 
-        <ImageButton
-                android:id="@+id/show_more"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="?showMoreButton"
-                android:minHeight="40dp" android:minWidth="40dp"
-                android:scaleType="fitCenter" android:adjustViewBounds="true"
-                android:maxWidth="40dp" android:maxHeight="40dp"
-                android:background="@android:color/transparent"
-                android:layout_marginRight="2dp"
-                />
         </LinearLayout>
 
     <!-- Tweet's Content -->

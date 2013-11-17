@@ -52,7 +52,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public TextView tweet;
         public TextView time;
         public TextView retweeter;
-        public ImageButton expand;
         public EditText reply;
         public ImageButton favorite;
         public ImageButton retweet;
@@ -100,7 +99,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
         holder.time = (TextView) v.findViewById(R.id.time);
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
-        holder.expand = (ImageButton) v.findViewById(R.id.show_more);
         holder.reply = (EditText) v.findViewById(R.id.reply);
         holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
         holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
@@ -135,9 +133,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String fRetweeter = retweeter;
 
-        holder.background.setOnClickListener(new View.OnClickListener() {
+        holder.background.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View view) {
                 Log.v("tweet_page", "clicked");
                 Intent viewTweet = new Intent(context, TweetActivity.class);
                 viewTweet.putExtra("name", name);
@@ -146,13 +144,31 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewTweet.putExtra("tweet", tweetText);
                 viewTweet.putExtra("retweeter", fRetweeter);
                 viewTweet.putExtra("webpage", picUrl);
-                viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE );
+                viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
                 viewTweet.putExtra("tweetid", holder.tweetId);
                 viewTweet.putExtra("proPic", profilePic);
 
                 context.startActivity(viewTweet);
+
+                return true;
             }
         });
+
+        if (!isDM) {
+            holder.background.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (holder.expandArea.getVisibility() == View.GONE) {
+                        addExpansion(holder, screenname);
+                        holder.showMore = false;
+                    } else {
+                        removeExpansionWithAnimation(holder);
+                        holder.showMore = false;
+                        removeKeyboard(holder);
+                    }
+                }
+            });
+        }
 
         holder.name.setText(name);
         holder.time.setText(Utils.getTimeAgo(cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME))));
@@ -176,26 +192,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
-        }
-
-        if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
-            holder.expand.setVisibility(View.VISIBLE);
-            holder.expand.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                        if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname);
-                            holder.showMore = false;
-                        } else {
-                            removeExpansionWithAnimation(holder);
-                            holder.showMore = false;
-                            removeKeyboard(holder);
-                        }
-                }
-            });
-        } else {
-            holder.expand.setVisibility(View.GONE);
         }
     }
 
@@ -235,11 +231,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void removeExpansionWithAnimation(ViewHolder holder) {
-
-        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
-        ranim.setFillAfter(true);
-        holder.expand.startAnimation(ranim);
-
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
         holder.showMore = false;
@@ -299,10 +290,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.favCount.setText("- ");
             holder.retweetCount.setText("- ");
         }
-
-        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
-        ranim.setFillAfter(true);
-        holder.expand.startAnimation(ranim);
 
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
