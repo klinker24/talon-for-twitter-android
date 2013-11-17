@@ -502,7 +502,7 @@ public class TweetActivity extends Activity {
                 // none and it got the null object
             }
 
-            if(!picture && webpage == "") {
+            if(!picture && webpage == null) {
                 listView.setVisibility(View.VISIBLE);
             }
         }
