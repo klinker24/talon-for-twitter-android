@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -13,11 +14,16 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
 import com.klinker.android.talon.Utilities.CircleTransform;
+import com.klinker.android.talon.Utilities.DarkenTransform;
+import com.klinker.android.talon.Utilities.Utils;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
+import twitter4j.Twitter;
+import twitter4j.User;
 
 public class UserProfileActivity extends Activity {
 
@@ -28,6 +34,8 @@ public class UserProfileActivity extends Activity {
     private String name;
     private String screenName;
     private String proPic;
+    private long tweetId;
+    private boolean isRetweet;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +48,7 @@ public class UserProfileActivity extends Activity {
         setUpTheme();
         getFromIntent();
 
-        setContentView(R.layout.user_profile_activity);
+        setContentView(R.layout.user_profile_header);
 
         setUpUI();
     }
@@ -86,7 +94,7 @@ public class UserProfileActivity extends Activity {
 
         // You could also easily used an integer value from the shared preferences to set the percent
         if (height > width) {
-            getWindow().setLayout((int) (width * .9), (int) (height * .7));
+            getWindow().setLayout((int) (width * .9), (int) (height * .8));
         } else {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
@@ -99,7 +107,8 @@ public class UserProfileActivity extends Activity {
         name = from.getStringExtra("name");
         screenName = from.getStringExtra("screenname");
         proPic = from.getStringExtra("proPic");
-
+        tweetId = from.getLongExtra("tweetid", 0);
+        isRetweet = from.getBooleanExtra("retweet", false);
 
     }
 
@@ -107,12 +116,12 @@ public class UserProfileActivity extends Activity {
         actionBar.setTitle(name);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
-        final ImageView placeholder = new ImageView(context);
+        final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
         Picasso.with(context)
                 .load(proPic)
                 .transform(new CircleTransform())
-                .into(placeholder);
+                .into(profilePic);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -120,12 +129,23 @@ public class UserProfileActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        actionBar.setIcon(placeholder.getDrawable());
+                        actionBar.setIcon(profilePic.getDrawable());
                     }
                 });
             }
-        }, 2000);
+        }, 1000);
 
+        final ImageView background = (ImageView) findViewById(R.id.background_image);
+        final TextView numTweets = (TextView) findViewById(R.id.num_tweets);
+        final TextView numFollowers = (TextView) findViewById(R.id.num_followers);
+        final TextView numFollowing = (TextView) findViewById(R.id.num_following);
+        final TextView statement = (TextView) findViewById(R.id.user_statement);
+        final TextView screenname = (TextView) findViewById(R.id.username);
+        final ListView listView = null;
+
+        new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
+
+        screenname.setText("@" + screenName);
     }
 
     @Override
@@ -138,4 +158,56 @@ public class UserProfileActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    class GetData extends AsyncTask<String, Void, User> {
+
+        private long tweetId;
+        private TextView numTweets;
+        private TextView numFollowers;
+        private TextView numFollowing;
+        private ListView listView;
+        private ImageView background;
+        private TextView statement;
+
+        public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, ListView listView, ImageView background) {
+            this.tweetId = tweetId;
+            this.numFollowers = numFollowers;
+            this.numFollowing = numFollowing;
+            this.numTweets = numTweets;
+            this.listView = listView;
+            this.background = background;
+            this.statement = statement;
+        }
+
+        protected twitter4j.User doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                if (isRetweet) {
+                    return twitter.showStatus(tweetId).getRetweetedStatus().getUser();
+                } else {
+                    return twitter.showStatus(tweetId).getUser();
+                }
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        protected void onPostExecute(twitter4j.User user) {
+            if (user != null) {
+
+                Picasso.with(context)
+                        .load(user.getProfileBannerURL())
+                        .transform(new DarkenTransform(context))
+                        .into(background);
+
+                //new GetTimeline(user, listView).execute();
+                //new GetFollowers(user, listView, numFollowers).execute();
+                //new GetFollowing(user, listView, numFollowing).execute();
+                //new GetUserStatement(user, numTweets, statement);
+            }
+        }
+    }
+
+
 }

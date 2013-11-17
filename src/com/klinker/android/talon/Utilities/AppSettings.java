@@ -37,6 +37,6 @@ public class AppSettings {
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
         myScreenName = sharedPrefs.getString("twitter_screen_name", "");
         myName = sharedPrefs.getString("twitter_users_name", "");
-        theme = 0;
+        theme = 1;
     }
 }

@@ -180,6 +180,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
                 viewProfile.putExtra("proPic", profilePic);
+                viewProfile.putExtra("tweetid", holder.tweetId);
+                viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
 
                 context.startActivity(viewProfile);
             }

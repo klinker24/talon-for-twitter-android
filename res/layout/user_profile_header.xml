@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView android:id="@+id/background_image"
+               android:layout_height="140dp"
+               android:layout_width="match_parent"
+               android:scaleType="centerCrop"
+            />
+
+    <View android:layout_below="@id/background_image"
+          android:layout_height="120dp"
+          android:id="@+id/view"
+          android:layout_width="match_parent"
+          android:background="?drawerBackground" />
+
+    <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_below="@id/background_image"
+            android:id="@+id/profile_pic"
+            android:src="?circleBorder"
+            android:background="?circleBorder"
+            android:minHeight="96dp" android:minWidth="96dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:maxWidth="96dp" android:maxHeight="96dp"
+            android:contentDescription="@string/placeholder"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="-70dp" />
+
+    <TextView android:id="@+id/num_following"
+              android:layout_above="@id/view"
+              android:layout_alignParentRight="true"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="5dp"
+              android:textSize="14dp"
+              android:shadowColor="?textShadowColor"
+              android:shadowDy="1"
+              android:shadowRadius="3"
+              android:drawableLeft="@drawable/ic_send_dark"
+              android:gravity="center_vertical"
+              android:text="320"/>
+
+    <TextView android:id="@+id/num_followers"
+              android:layout_above="@id/num_following"
+              android:layout_alignLeft="@id/num_following"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="5dp"
+              android:textSize="14dp"
+              android:shadowColor="?textShadowColor"
+              android:shadowDy="1"
+              android:shadowRadius="3"
+              android:drawableLeft="@drawable/ic_send_dark"
+              android:gravity="center_vertical"
+              android:text="320"/>
+
+    <TextView android:id="@+id/num_tweets"
+              android:layout_above="@id/num_followers"
+              android:layout_alignLeft="@id/num_followers"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="5dp"
+              android:textSize="14dp"
+              android:shadowColor="?textShadowColor"
+              android:shadowDy="1"
+              android:shadowRadius="3"
+              android:drawableLeft="@drawable/ic_send_dark"
+              android:gravity="center_vertical"
+              android:text="5k"/>
+
+    <TextView android:id="@+id/username"
+              android:layout_below="@id/num_following"
+              android:layout_toRightOf="@id/profile_pic"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:layout_marginLeft="5dp"
+              android:text="fasterklinker"/>
+
+    <TextView android:id="@+id/user_statement"
+              android:layout_below="@id/username"
+              android:layout_alignParentLeft="@id/username"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="8dp"
+              android:layout_marginLeft="10dp"
+              android:layout_marginRight="10dp"
+              android:maxLines="2"
+              android:text="i make twitter apps that work on anroid! this one is pretty awesome! yay me!"/>
+
+    <LinearLayout
+            android:layout_below="@id/view"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-40dp">
+
+            <Button android:id="@+id/tweets"
+                    android:layout_height="30dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textSize="14dp"
+                    android:background="@android:color/transparent"
+                    android:maxLines="1"
+                    android:text="@string/tweets" />
+
+        <View android:id="@+id/divider"
+              android:background="?textColor"
+              android:layout_width="1dp"
+              android:layout_height="30dp" />
+
+        <Button android:id="@+id/followers"
+                android:layout_height="30dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"
+                android:text="@string/followers" />
+
+        <View android:id="@+id/divider"
+              android:background="?textColor"
+              android:layout_width="1dp"
+              android:layout_height="30dp" />
+
+        <Button android:id="@+id/following"
+                android:layout_height="30dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:background="@android:color/transparent"
+                android:maxLines="1"
+                android:text="@string/following" />
+
+    </LinearLayout>
+
+</RelativeLayout>
