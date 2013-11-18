@@ -132,42 +132,82 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             retweeter = "";
         }
 
-        final String fRetweeter = retweeter;
-        if (!isDM) {
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    Log.v("tweet_page", "clicked");
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", holder.time.getText().toString());
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", picUrl);
-                    viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
-                    viewTweet.putExtra("tweetid", holder.tweetId);
-                    viewTweet.putExtra("proPic", profilePic);
+        if(!settings.reverseClickActions) {
+            final String fRetweeter = retweeter;
+            if (!isDM) {
+                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        Log.v("tweet_page", "clicked");
+                        Intent viewTweet = new Intent(context, TweetActivity.class);
+                        viewTweet.putExtra("name", name);
+                        viewTweet.putExtra("screenname", screenname);
+                        viewTweet.putExtra("time", holder.time.getText().toString());
+                        viewTweet.putExtra("tweet", tweetText);
+                        viewTweet.putExtra("retweeter", fRetweeter);
+                        viewTweet.putExtra("webpage", picUrl);
+                        viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
+                        viewTweet.putExtra("tweetid", holder.tweetId);
+                        viewTweet.putExtra("proPic", profilePic);
 
-                    context.startActivity(viewTweet);
+                        context.startActivity(viewTweet);
 
-                    return true;
-                }
-            });
-        }
-
-        if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
-            holder.background.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (holder.expandArea.getVisibility() == View.GONE) {
-                        addExpansion(holder, screenname);
-                    } else {
-                        removeExpansionWithAnimation(holder);
-                        removeKeyboard(holder);
+                        return true;
                     }
-                }
-            });
+                });
+            }
+
+            if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
+                holder.background.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (holder.expandArea.getVisibility() == View.GONE) {
+                            addExpansion(holder, screenname);
+                        } else {
+                            removeExpansionWithAnimation(holder);
+                            removeKeyboard(holder);
+                        }
+                    }
+                });
+            }
+        } else {
+            final String fRetweeter = retweeter;
+            if (!isDM) {
+                holder.background.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.v("tweet_page", "clicked");
+                        Intent viewTweet = new Intent(context, TweetActivity.class);
+                        viewTweet.putExtra("name", name);
+                        viewTweet.putExtra("screenname", screenname);
+                        viewTweet.putExtra("time", holder.time.getText().toString());
+                        viewTweet.putExtra("tweet", tweetText);
+                        viewTweet.putExtra("retweeter", fRetweeter);
+                        viewTweet.putExtra("webpage", picUrl);
+                        viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
+                        viewTweet.putExtra("tweetid", holder.tweetId);
+                        viewTweet.putExtra("proPic", profilePic);
+
+                        context.startActivity(viewTweet);
+                    }
+                });
+            }
+
+            if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
+                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        if (holder.expandArea.getVisibility() == View.GONE) {
+                            addExpansion(holder, screenname);
+                        } else {
+                            removeExpansionWithAnimation(holder);
+                            removeKeyboard(holder);
+                        }
+
+                        return true;
+                    }
+                });
+            }
         }
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {

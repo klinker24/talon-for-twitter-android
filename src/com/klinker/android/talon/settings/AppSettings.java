@@ -30,6 +30,7 @@ public class AppSettings {
     public String myProfilePicUrl;
 
     public boolean isTwitterLoggedIn;
+    public boolean reverseClickActions;
 
     public int theme;
 
@@ -46,6 +47,7 @@ public class AppSettings {
 
         // Booleans
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
+        reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
 
         // Integers
         theme = 0;
