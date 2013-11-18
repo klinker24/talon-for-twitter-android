@@ -8,16 +8,14 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
@@ -218,14 +216,22 @@ public class MainActivity extends Activity {
         backgroundPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
-                viewProfile.putExtra("name", sName);
-                viewProfile.putExtra("screenname", sScreenName);
-                viewProfile.putExtra("proPic", profilePicUrl);
-                viewProfile.putExtra("tweetid", 0);
-                viewProfile.putExtra("retweet", false);
+                mDrawerLayout.closeDrawer(Gravity.START);
 
-                context.startActivity(viewProfile);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                        viewProfile.putExtra("name", sName);
+                        viewProfile.putExtra("screenname", sScreenName);
+                        viewProfile.putExtra("proPic", profilePicUrl);
+                        viewProfile.putExtra("tweetid", 0);
+                        viewProfile.putExtra("retweet", false);
+
+                        context.startActivity(viewProfile);
+                    }
+                }, 400);
+
             }
         });
 
