@@ -79,7 +79,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="5dp"
-              android:layout_marginLeft="5dp" />
+              android:layout_marginLeft="1dp" />
 
     <TextView android:id="@+id/user_statement"
               android:layout_below="@id/username"

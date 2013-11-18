@@ -210,10 +210,24 @@ public class MainActivity extends Activity {
             }
         });
 
-        String sName = sharedPrefs.getString("twitter_users_name", "");
-        String sScreenName = sharedPrefs.getString("twitter_screen_name", "");
-        String backgroundUrl = sharedPrefs.getString("twitter_background_url", "");
-        String profilePicUrl = sharedPrefs.getString("profile_pic_url", "");
+        final String sName = settings.myName;
+        final String sScreenName = settings.myScreenName;
+        final String backgroundUrl = settings.myBackgroundUrl;
+        final String profilePicUrl = settings.myProfilePicUrl;
+
+        backgroundPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                viewProfile.putExtra("name", sName);
+                viewProfile.putExtra("screenname", sScreenName);
+                viewProfile.putExtra("proPic", profilePicUrl);
+                viewProfile.putExtra("tweetid", 0);
+                viewProfile.putExtra("retweet", false);
+
+                context.startActivity(viewProfile);
+            }
+        });
 
         Log.v("twitter_drawer", profilePicUrl);
 

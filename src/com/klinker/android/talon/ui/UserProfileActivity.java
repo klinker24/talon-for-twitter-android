@@ -121,6 +121,8 @@ public class UserProfileActivity extends Activity {
 
     }
 
+    private boolean isMyProfile = false;
+
     public void getFromIntent() {
         Intent from = getIntent();
 
@@ -130,6 +132,9 @@ public class UserProfileActivity extends Activity {
         tweetId = from.getLongExtra("tweetid", 0);
         isRetweet = from.getBooleanExtra("retweet", false);
 
+        if (tweetId == 0) {
+            isMyProfile = true;
+        }
     }
 
     public void setUpUI() {
@@ -193,10 +198,14 @@ public class UserProfileActivity extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
 
-                if (isRetweet) {
-                    return twitter.showStatus(tweetId).getRetweetedStatus().getUser();
+                if (!isMyProfile) {
+                    if (isRetweet) {
+                        return twitter.showStatus(tweetId).getRetweetedStatus().getUser();
+                    } else {
+                        return twitter.showStatus(tweetId).getUser();
+                    }
                 } else {
-                    return twitter.showStatus(tweetId).getUser();
+                    return twitter.showUser(settings.myScreenName);
                 }
             } catch (Exception e) {
                 return null;

@@ -26,17 +26,28 @@ public class AppSettings {
     public String authenticationTokenSecret;
     public String myScreenName;
     public String myName;
+    public String myBackgroundUrl;
+    public String myProfilePicUrl;
+
     public boolean isTwitterLoggedIn;
+
     public int theme;
 
     public AppSettings(Context context) {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
+        // Strings
         authenticationToken = sharedPrefs.getString("authentication_token", "none");
         authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret", "none");
-        isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
         myScreenName = sharedPrefs.getString("twitter_screen_name", "");
         myName = sharedPrefs.getString("twitter_users_name", "");
+        myBackgroundUrl = sharedPrefs.getString("twitter_background_url", "");
+        myProfilePicUrl = sharedPrefs.getString("profile_pic_url", "");
+
+        // Booleans
+        isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
+
+        // Integers
         theme = 0;
     }
 }
