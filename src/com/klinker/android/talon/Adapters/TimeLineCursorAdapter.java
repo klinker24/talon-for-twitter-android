@@ -47,6 +47,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
     private static Pattern pattern = Pattern.compile(REGEX);
 
+    public boolean hasKeyboard = false;
+
     public static class ViewHolder {
         public TextView name;
         public ImageView profilePic;
@@ -228,7 +230,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            if (holder.expandArea.getVisibility() == View.VISIBLE) {
+            if (holder.expandArea.getVisibility() == View.VISIBLE && !hasKeyboard) {
                 removeExpansionNoAnimation(holder);
             }
 
@@ -333,6 +335,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View view) {
                 new ReplyToStatus(holder, holder.tweetId).execute();
+            }
+        });
+
+        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                hasKeyboard = b;
             }
         });
     }

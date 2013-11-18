@@ -55,10 +55,19 @@ public class UserProfileActivity extends Activity {
         setUpTheme();
         getFromIntent();
 
-        FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(R.drawable.ab_solid_dark)
-                .headerLayout(R.layout.user_profile_header)
-                .contentLayout(R.layout.user_profile_list);
+        FadingActionBarHelper helper;
+
+        if (settings.theme == 0) {
+            helper = new FadingActionBarHelper()
+                    .actionBarBackground(R.drawable.ab_solid_light_holo)
+                    .headerLayout(R.layout.user_profile_header)
+                    .contentLayout(R.layout.user_profile_list);
+        } else {
+            helper = new FadingActionBarHelper()
+                    .actionBarBackground(R.drawable.ab_solid_dark)
+                    .headerLayout(R.layout.user_profile_header)
+                    .contentLayout(R.layout.user_profile_list);
+        }
 
         setContentView(helper.createView(this));
 
