@@ -107,7 +107,8 @@
                     android:textSize="14dp"
                     android:background="@android:color/transparent"
                     android:maxLines="1"
-                    android:text="@string/tweets" />
+                    android:text="@string/tweets"
+                    android:textColor="?textColor" />
 
         <View android:id="@+id/divider"
               android:background="?textColor"
@@ -121,7 +122,8 @@
                 android:textSize="14dp"
                 android:background="@android:color/transparent"
                 android:maxLines="1"
-                android:text="@string/followers" />
+                android:text="@string/followers"
+                android:textColor="?textColor" />
 
         <View android:id="@+id/divider"
               android:background="?textColor"
@@ -135,7 +137,8 @@
                 android:textSize="14dp"
                 android:background="@android:color/transparent"
                 android:maxLines="1"
-                android:text="@string/following" />
+                android:text="@string/following"
+                android:textColor="?textColor" />
 
     </LinearLayout>
 

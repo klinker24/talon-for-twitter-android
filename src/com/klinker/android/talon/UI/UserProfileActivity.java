@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.klinker.android.talon.Adapters.ProfileArrayAdapter;
 import com.klinker.android.talon.Adapters.RepliesArrayAdapter;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
@@ -95,7 +96,7 @@ public class UserProfileActivity extends Activity {
         // You can easily set the alpha and the dim behind the window from here
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .6f;  // set it higher if you want to dim behind the window
+        params.dimAmount = .75f;  // set it higher if you want to dim behind the window
         getWindow().setAttributes(params);
 
         // Gets the display size so that you can set the window to a percent of that
@@ -255,7 +256,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses);
+                final ProfileArrayAdapter adapter = new ProfileArrayAdapter(context, statuses);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

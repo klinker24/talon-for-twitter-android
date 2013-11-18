@@ -5,13 +5,14 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginTop="10dp" >
+              android:layout_marginTop="10dp"
+              android:background="?drawerBackground">
 
     <LinearLayout
-                  android:orientation="vertical"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:gravity="center_horizontal">
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
         <!-- The tweeters picture -->
         <uk.co.senab.bitmapcache.CacheableImageView
@@ -27,7 +28,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
     <!-- Tweet's Content -->
     <LinearLayout
@@ -99,7 +100,7 @@
                        android:layout_marginRight="8dp"
                        android:layout_marginBottom="15dp"
                        android:visibility="gone"
-                       />
+                    />
         </RelativeLayout>
 
         <LinearLayout
@@ -130,11 +131,11 @@
                         android:layout_marginLeft="5dp" />
 
                 <TextView
-                    android:layout_height="37dp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:textSize="15dp"
-                    android:id="@+id/fav_count" />
+                        android:layout_height="37dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:textSize="15dp"
+                        android:id="@+id/fav_count" />
 
                 <ImageButton
                         android:id="@+id/retweet"
