@@ -22,6 +22,7 @@ limitations under the License.
         <item name="android:windowBackground">@color/dark_background</item>
         <item name="android:colorBackground">@color/dark_background</item>
         <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:actionBarStyle">@style/DarkActionBar</item>
         <item name="android:editTextBackground">@drawable/edit_text_holo_dark</item>
         <item name="android:progressBarStyleHorizontal">@style/ProgressBarDark</item>

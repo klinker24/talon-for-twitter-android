@@ -25,11 +25,12 @@ limitations under the License.
     <color name="image_darken">#25222222</color>
 
     <!-- Light Theme -->
-    <color name="light_background">#f6f6f6</color>
+    <color name="light_background">#dddddd</color>
+    <color name="light_background_settings">#f6f6f6</color>
     <color name="light_text">#020202</color>
     <color name="light_text_drawer">#20020202</color>
     <color name="light_date">#555555</color>
-    <color name="light_drawer">#f3f3f3</color>
+    <color name="light_drawer">#ffffff</color>
 
     <!-- Dark Theme -->
     <color name="dark_background">#262626</color>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -189,12 +190,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         Matcher matcher = pattern.matcher(tweetText);
 
-        if (matcher.find()) {
-            final RequestCreator rc = Picasso.with(context)
-                    .load(picUrl)
-                    .error(cancelButton);
-            rc.into(holder.image);
+        final long mTweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
 
+        if (matcher.find()) {
+            new ShowPic(holder, mTweetId, picUrl).execute();
         }
 
         if (retweeter.length() > 0 && !isDM) {
@@ -205,6 +204,43 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
+        }
+    }
+    class ShowPic extends AsyncTask<String, Void, Boolean> {
+
+        private ViewHolder holder;
+        private long tweetId;
+        private RequestCreator rc;
+        private String picUrl;
+
+        public ShowPic(ViewHolder holder, long tweetId, String picUrl) {
+            this.holder = holder;
+            this.tweetId = tweetId;
+            this.picUrl = picUrl;
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            rc = Picasso.with(context)
+                    .load(picUrl)
+                    .error(cancelButton);
+
+            try {
+                Thread.sleep(100);
+            } catch (Exception e) {
+
+            }
+
+            if (holder.tweetId != tweetId) {
+                return false;
+            }
+
+            return true;
+        }
+
+        protected void onPostExecute(Boolean display) {
+            if (display) {
+                rc.into(holder.image);
+            }
         }
     }
 
