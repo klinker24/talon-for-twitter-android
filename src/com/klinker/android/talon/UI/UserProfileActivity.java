@@ -9,13 +9,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Display;
-import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.klinker.android.talon.Adapters.ProfileArrayAdapter;
 import com.klinker.android.talon.Adapters.RepliesArrayAdapter;
 import com.klinker.android.talon.R;
@@ -25,10 +23,7 @@ import com.klinker.android.talon.Utilities.DarkenTransform;
 import com.klinker.android.talon.Utilities.Utils;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.squareup.picasso.Picasso;
-import twitter4j.Paging;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.User;
+import twitter4j.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +33,8 @@ public class UserProfileActivity extends Activity {
     private Context context;
     private AppSettings settings;
     private ActionBar actionBar;
+
+    private User thisUser;
 
     private String name;
     private String screenName;
@@ -160,27 +157,17 @@ public class UserProfileActivity extends Activity {
         }, 1000);
 
         final ImageView background = (ImageView) findViewById(R.id.background_image);
-        final TextView numTweets = (TextView) findViewById(R.id.num_tweets);
-        final TextView numFollowers = (TextView) findViewById(R.id.num_followers);
-        final TextView numFollowing = (TextView) findViewById(R.id.num_following);
+        //final TextView numTweets = (TextView) findViewById(R.id.num_tweets);
+        //final TextView numFollowers = (TextView) findViewById(R.id.num_followers);
+        //final TextView numFollowing = (TextView) findViewById(R.id.num_following);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
         final ListView listView = (ListView) findViewById(android.R.id.list);
 
-        new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
+        //new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
+        new GetData(tweetId, null, null, null, statement, listView, background).execute();
 
         screenname.setText("@" + screenName);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     class GetData extends AsyncTask<String, Void, User> {
@@ -220,6 +207,8 @@ public class UserProfileActivity extends Activity {
         protected void onPostExecute(twitter4j.User user) {
             if (user != null) {
 
+                thisUser = user;
+
                 Picasso.with(context)
                         .load(user.getProfileBannerURL())
                         .transform(new DarkenTransform(context))
@@ -229,6 +218,54 @@ public class UserProfileActivity extends Activity {
                 //new GetFollowers(user, listView, numFollowers).execute();
                 //new GetFollowing(user, listView, numFollowing).execute();
                 //new GetUserStatement(user, numTweets, statement);
+
+                statement.setText(user.getDescription());
+                //try { numFollowing.setText(user.getFollowersCount()); } catch (Exception e) { }
+                //try { numFollowing.setText(user.getFriendsCount()); } catch (Exception e) { }
+            }
+        }
+    }
+
+    class GetFollowers extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {
+
+        private User user;
+        private ListView listView;
+        private ImageView background;
+        private TextView statement;
+
+        public GetFollowers(User user, ListView listView, TextView numFollowers) {
+            this.user = user;
+            this.listView = listView;
+        }
+
+        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId(), new Paging(1, 100));
+
+                ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
+
+                for (twitter4j.Status s : statuses) {
+                    all.add(s);
+                }
+
+                return all;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
+            if (statuses != null) {
+                final ProfileArrayAdapter adapter = new ProfileArrayAdapter(context, statuses);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(adapter);
+                    }
+                });
             }
         }
     }
@@ -277,5 +314,84 @@ public class UserProfileActivity extends Activity {
         }
     }
 
+    class FollowUser extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                if (thisUser != null) {
+                    Twitter twitter =  Utils.getTwitter(context);
+
+                    String otherUserName = thisUser.getScreenName();
+
+                    Relationship friendship = twitter.showFriendship(settings.myScreenName, otherUserName);
+
+                    boolean isFollowing = friendship.isSourceFollowingTarget();
+
+                    if (isFollowing) {
+                        twitter.destroyFriendship(otherUserName);
+                        return false;
+                    } else {
+                        twitter.createFriendship(otherUserName);
+                        return true;
+                    }
+                }
+
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Boolean created) {
+            // add a toast - now following or unfollowed
+            // true = followed
+            // false = unfollowed
+            if (created != null) {
+                if (created) {
+                    Toast.makeText(context, "Followed user!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Unfollowed user!", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.profile_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.menu_follow:
+                new FollowUser().execute();
+                return true;
+
+            case R.id.menu_tweet:
+                Intent compose = new Intent(context, ComposeActivity.class);
+                compose.putExtra("user", "@" + screenName);
+                startActivity(compose);
+                return true;
+
+            case R.id.menu_dm:
+                //Intent compose = new Intent(context, ComposeActivity.class);
+                //startActivity(compose);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

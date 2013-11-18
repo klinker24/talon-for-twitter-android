@@ -31,7 +31,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="-70dp" />
 
-    <TextView android:id="@+id/num_following"
+    <!--<TextView android:id="@+id/num_following"
               android:layout_above="@id/view"
               android:layout_alignParentRight="true"
               android:layout_width="wrap_content"
@@ -43,8 +43,7 @@
               android:shadowDy="1"
               android:shadowRadius="3"
               android:drawableLeft="@drawable/ic_send_dark"
-              android:gravity="center_vertical"
-              android:text="320"/>
+              android:gravity="center_vertical" />
 
     <TextView android:id="@+id/num_followers"
               android:layout_above="@id/num_following"
@@ -58,8 +57,7 @@
               android:shadowDy="1"
               android:shadowRadius="3"
               android:drawableLeft="@drawable/ic_send_dark"
-              android:gravity="center_vertical"
-              android:text="320"/>
+              android:gravity="center_vertical" />
 
     <TextView android:id="@+id/num_tweets"
               android:layout_above="@id/num_followers"
@@ -73,29 +71,26 @@
               android:shadowDy="1"
               android:shadowRadius="3"
               android:drawableLeft="@drawable/ic_send_dark"
-              android:gravity="center_vertical"
-              android:text="5k"/>
+              android:gravity="center_vertical" />  -->
 
     <TextView android:id="@+id/username"
-              android:layout_below="@id/num_following"
+              android:layout_alignTop="@id/view"
               android:layout_toRightOf="@id/profile_pic"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="5dp"
-              android:layout_marginLeft="5dp"
-              android:text="fasterklinker"/>
+              android:layout_marginLeft="5dp" />
 
     <TextView android:id="@+id/user_statement"
               android:layout_below="@id/username"
               android:layout_alignParentLeft="@id/username"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="8dp"
               android:layout_marginLeft="10dp"
               android:layout_marginRight="10dp"
               android:maxLines="2"
-              android:text="i make twitter apps that work on anroid! this one is pretty awesome! yay me!"/>
-
+              android:gravity="center"/>
     <LinearLayout
             android:layout_below="@id/view"
             android:orientation="horizontal"

@@ -46,4 +46,7 @@
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="tweets">Tweets</string>
+    <string name="menu_follow">Change Following Status</string>
+    <string name="menu_tweet">Send Tweet</string>
+    <string name="menu_dm">Send Direct Message</string>
 </resources>
