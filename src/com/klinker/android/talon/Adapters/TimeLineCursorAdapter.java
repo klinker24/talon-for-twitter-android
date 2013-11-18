@@ -66,7 +66,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         public long tweetId;
         public boolean isFavorited;
-        public boolean showMore = false;
         public String screenName;
 
     }
@@ -163,10 +162,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 public void onClick(View view) {
                     if (holder.expandArea.getVisibility() == View.GONE) {
                         addExpansion(holder, screenname);
-                        holder.showMore = false;
                     } else {
                         removeExpansionWithAnimation(holder);
-                        holder.showMore = false;
                         removeKeyboard(holder);
                     }
                 }
@@ -231,7 +228,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            if (!holder.showMore) {
+            if (holder.expandArea.getVisibility() == View.VISIBLE) {
                 removeExpansionNoAnimation(holder);
             }
 
@@ -250,13 +247,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void removeExpansionWithAnimation(ViewHolder holder) {
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
-        holder.showMore = false;
     }
 
     public void removeExpansionNoAnimation(ViewHolder holder) {
 
-        holder.expandArea.setVisibility(View.GONE);
-        holder.showMore = false;
+        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 10);
+        holder.expandArea.startAnimation(expandAni);
     }
 
     public void addExpansion(final ViewHolder holder, String screenname) {
@@ -337,17 +333,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View view) {
                 new ReplyToStatus(holder, holder.tweetId).execute();
-            }
-        });
-
-        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b) {
-                    holder.showMore = true;
-                } else {
-                    holder.showMore = false;
-                }
             }
         });
     }

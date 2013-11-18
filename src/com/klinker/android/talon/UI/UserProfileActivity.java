@@ -16,14 +16,20 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.klinker.android.talon.Adapters.RepliesArrayAdapter;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.Utilities.AppSettings;
 import com.klinker.android.talon.Utilities.CircleTransform;
 import com.klinker.android.talon.Utilities.DarkenTransform;
 import com.klinker.android.talon.Utilities.Utils;
+import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.squareup.picasso.Picasso;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserProfileActivity extends Activity {
 
@@ -48,7 +54,14 @@ public class UserProfileActivity extends Activity {
         setUpTheme();
         getFromIntent();
 
-        setContentView(R.layout.user_profile_header);
+        FadingActionBarHelper helper = new FadingActionBarHelper()
+                .actionBarBackground(R.drawable.ab_solid_dark)
+                .headerLayout(R.layout.user_profile_header)
+                .contentLayout(R.layout.user_profile_list);
+
+        setContentView(helper.createView(this));
+
+        helper.initActionBar(this);
 
         setUpUI();
     }
@@ -82,7 +95,7 @@ public class UserProfileActivity extends Activity {
         // You can easily set the alpha and the dim behind the window from here
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .9f;  // set it higher if you want to dim behind the window
+        params.dimAmount = .6f;  // set it higher if you want to dim behind the window
         getWindow().setAttributes(params);
 
         // Gets the display size so that you can set the window to a percent of that
@@ -141,7 +154,7 @@ public class UserProfileActivity extends Activity {
         final TextView numFollowing = (TextView) findViewById(R.id.num_following);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
-        final ListView listView = null;
+        final ListView listView = (ListView) findViewById(android.R.id.list);
 
         new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
 
@@ -201,10 +214,54 @@ public class UserProfileActivity extends Activity {
                         .transform(new DarkenTransform(context))
                         .into(background);
 
-                //new GetTimeline(user, listView).execute();
+                new GetTimeline(user, listView).execute();
                 //new GetFollowers(user, listView, numFollowers).execute();
                 //new GetFollowing(user, listView, numFollowing).execute();
                 //new GetUserStatement(user, numTweets, statement);
+            }
+        }
+    }
+
+    class GetTimeline extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {
+
+        private User user;
+        private ListView listView;
+        private ImageView background;
+        private TextView statement;
+
+        public GetTimeline(User user, ListView listView) {
+            this.user = user;
+            this.listView = listView;
+        }
+
+        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId());
+
+                ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
+
+                for (twitter4j.Status s : statuses) {
+                    all.add(s);
+                }
+
+                return all;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
+            if (statuses != null) {
+                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(adapter);
+                    }
+                });
             }
         }
     }
