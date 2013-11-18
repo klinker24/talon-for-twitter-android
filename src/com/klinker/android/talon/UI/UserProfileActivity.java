@@ -25,6 +25,7 @@ import com.klinker.android.talon.Utilities.DarkenTransform;
 import com.klinker.android.talon.Utilities.Utils;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.squareup.picasso.Picasso;
+import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
@@ -248,7 +249,7 @@ public class UserProfileActivity extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
 
-                List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId());
+                List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId(), new Paging(1, 100));
 
                 ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
 
