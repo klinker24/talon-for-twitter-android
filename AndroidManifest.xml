@@ -15,12 +15,12 @@
 
 
     <application
-            android:name=".App"
+            android:name=".utilities.App"
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
             android:allowBackup="true" >
 
-        <activity android:name=".UI.MainActivity"
+        <activity android:name=".ui.MainActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize"
@@ -42,7 +42,7 @@
 
         </activity>
 
-        <activity android:name=".UI.LoginActivity"
+        <activity android:name=".ui.LoginActivity"
                   android:label="@string/app_name_full"
                   android:configChanges="orientation|screenSize"
                   android:excludeFromRecents="true"
@@ -61,7 +61,7 @@
 
         </activity>
 
-        <activity android:name=".UI.ComposeActivity"
+        <activity android:name=".ui.ComposeActivity"
                   android:label="@string/compose_activity"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
@@ -69,7 +69,7 @@
                   android:theme="@style/Theme.TalonLight.Popup">
         </activity>
 
-        <activity android:name=".UI.TweetActivity"
+        <activity android:name=".ui.TweetActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
@@ -77,7 +77,7 @@
                   android:theme="@style/Theme.TalonLight">
         </activity>
 
-        <activity android:name=".UI.UserProfileActivity"
+        <activity android:name=".ui.UserProfileActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
