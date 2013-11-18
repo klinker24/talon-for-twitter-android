@@ -85,6 +85,14 @@ public class ComposeActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
+        String to = getIntent().getStringExtra("user") + " ";
+
+        if (to.length() > 0) {
+            EditText editText = (EditText) findViewById(R.id.tweet_content);
+            editText.setText(to);
+            editText.setSelection(editText.getText().toString().length());
+        }
+
     }
 
     public void setUpTheme() {
