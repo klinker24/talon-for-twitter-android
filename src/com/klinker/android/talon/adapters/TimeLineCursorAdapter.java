@@ -268,7 +268,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     .load(picUrl);
 
             try {
-                Thread.sleep(50);
+                Thread.sleep(100);
             } catch (Exception e) {
 
             }

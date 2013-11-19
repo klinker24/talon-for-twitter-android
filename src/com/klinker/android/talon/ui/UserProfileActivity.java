@@ -199,11 +199,12 @@ public class UserProfileActivity extends Activity {
                 Twitter twitter =  Utils.getTwitter(context);
 
                 if (!isMyProfile) {
-                    if (isRetweet) {
+                    /*if (isRetweet) {
                         return twitter.showStatus(tweetId).getRetweetedStatus().getUser();
                     } else {
                         return twitter.showStatus(tweetId).getUser();
-                    }
+                    }*/
+                    return twitter.showUser(screenName);
                 } else {
                     return twitter.showUser(settings.myScreenName);
                 }
