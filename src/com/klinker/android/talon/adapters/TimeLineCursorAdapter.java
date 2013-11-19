@@ -261,7 +261,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected void onPreExecute() {
             holder.image.setVisibility(View.INVISIBLE);
-            holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_accept_dark));
         }
 
         protected Boolean doInBackground(String... urls) {
