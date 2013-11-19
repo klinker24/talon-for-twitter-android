@@ -87,7 +87,7 @@ public class ComposeActivity extends Activity {
 
         String to = getIntent().getStringExtra("user") + " ";
 
-        if (to != null) {
+        if (!to.equals("null ")) {
             EditText editText = (EditText) findViewById(R.id.tweet_content);
             editText.setText(to);
             editText.setSelection(editText.getText().toString().length());
