@@ -259,13 +259,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             this.picUrl = picUrl;
         }
 
+        protected void onPreExecute() {
+            holder.image.setVisibility(View.INVISIBLE);
+            holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_action_accept_dark));
+        }
+
         protected Boolean doInBackground(String... urls) {
             rc = Picasso.with(context)
-                    .load(picUrl)
-                    .error(cancelButton);
+                    .load(picUrl);
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (Exception e) {
 
             }
@@ -280,6 +284,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         protected void onPostExecute(Boolean display) {
             if (display) {
                 rc.into(holder.image);
+            } else {
+                holder.image.setVisibility(View.GONE);
             }
         }
     }

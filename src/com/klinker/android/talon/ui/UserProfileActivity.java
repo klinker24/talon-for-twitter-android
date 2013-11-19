@@ -219,7 +219,6 @@ public class UserProfileActivity extends Activity {
 
                 Picasso.with(context)
                         .load(user.getProfileBannerURL())
-                        .transform(new BlurTransform(context))
                         .into(background);
 
                 new GetTimeline(user, listView).execute();
