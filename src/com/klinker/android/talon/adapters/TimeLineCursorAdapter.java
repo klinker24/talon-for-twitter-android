@@ -259,10 +259,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             this.picUrl = picUrl;
         }
 
-        protected void onPreExecute() {
-            holder.image.setVisibility(View.INVISIBLE);
-        }
-
         protected Boolean doInBackground(String... urls) {
             rc = Picasso.with(context)
                     .load(picUrl);

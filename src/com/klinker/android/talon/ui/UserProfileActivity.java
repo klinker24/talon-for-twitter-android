@@ -14,10 +14,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.klinker.android.talon.adapters.ProfileArrayAdapter;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.adapters.RepliesArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.utilities.Utils;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
@@ -267,7 +266,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final ProfileArrayAdapter adapter = new ProfileArrayAdapter(context, statuses);
+                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses, true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -311,7 +310,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final ProfileArrayAdapter adapter = new ProfileArrayAdapter(context, statuses);
+                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses, true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

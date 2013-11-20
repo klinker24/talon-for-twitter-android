@@ -231,12 +231,6 @@ public class TweetActivity extends Activity {
 
             website.loadUrl(webpage);
 
-            website.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    Toast.makeText(context, "" + b , Toast.LENGTH_SHORT).show();
-                }
-            });
         } else if(picture) { // if there is a picture already loaded
             /*switchViews.setVisibility(View.VISIBLE);
             switchViews.setOnClickListener(new View.OnClickListener() {
@@ -570,7 +564,7 @@ public class TweetActivity extends Activity {
 
             try {
                 if (replies.size() > 0) {
-                    listView.setAdapter(new RepliesArrayAdapter(context, replies));
+                    listView.setAdapter(new RepliesArrayAdapter(context, replies, false));
                     expand.setVisibility(View.VISIBLE);
                     expand.setOnClickListener(new View.OnClickListener() {
                         @Override
