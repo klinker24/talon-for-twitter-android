@@ -171,7 +171,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         try{
             picUr = thisStatus.getMediaEntities()[0].getMediaURL();
         }catch (Exception e) {
-            picUr = "";
+            picUr = null;
         }
 
         final String picUrl = picUr;
@@ -299,7 +299,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         }
 
         protected Boolean doInBackground(String... urls) {
-            if(!picUrl.equals("")) {
+            if(picUrl != null) {
                 rc = Picasso.with(context)
                         .load(picUrl);
             } else {
