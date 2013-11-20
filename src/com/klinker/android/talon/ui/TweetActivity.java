@@ -9,12 +9,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
 import com.klinker.android.talon.adapters.RepliesArrayAdapter;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.utilities.Utils;
@@ -133,7 +136,8 @@ public class TweetActivity extends Activity {
         final ImageView pictureIv = (ImageView) findViewById(R.id.imageView);
         final ListView replyList = (ListView) findViewById(R.id.reply_list);
         LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
-        ImageButton switchViews = (ImageButton) findViewById(R.id.switchViews);
+        final LinearLayout background = (LinearLayout) findViewById(R.id.tweet_background);
+        final ImageButton expand = (ImageButton) findViewById(R.id.switchViews);
 
         ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
@@ -242,6 +246,28 @@ public class TweetActivity extends Activity {
             progressSpinner.setVisibility(View.VISIBLE);
         }
 
+        if (website.getVisibility() == View.VISIBLE || pictureIv.getVisibility() == View.VISIBLE) {
+            expand.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(background.getVisibility() == View.VISIBLE) {
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
+                        ranim.setFillAfter(true);
+                        expand.startAnimation(ranim);
+                    } else {
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                        ranim.setFillAfter(true);
+                        expand.startAnimation(ranim);
+                    }
+
+                    ExpansionAnimation expandAni = new ExpansionAnimation(background, 450);
+                    background.startAnimation(expandAni);
+                }
+            });
+        } else {
+            expand.setVisibility(View.GONE);
+        }
+
         nametv.setText(name);
         screennametv.setText("@" + screenName);
         tweettv.setText(tweet);
@@ -271,7 +297,7 @@ public class TweetActivity extends Activity {
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
         new GetRetweetCount(retweetCount, tweetId).execute();
-        new GetReplies(replyList, screenName, tweetId, progressSpinner).execute();
+        new GetReplies(replyList, screenName, tweetId, progressSpinner, expand, background).execute();
 
         String text = tweet;
         String extraNames = "";
@@ -485,12 +511,16 @@ public class TweetActivity extends Activity {
         private ListView listView;
         private long tweetId;
         private LinearLayout progressSpinner;
+        private LinearLayout background;
+        private ImageButton expand;
 
-        public GetReplies(ListView listView, String username, long tweetId, LinearLayout progressBar) {
+        public GetReplies(ListView listView, String username, long tweetId, LinearLayout progressBar, ImageButton expand, LinearLayout background) {
             this.listView = listView;
             this.username = username;
             this.tweetId = tweetId;
             this.progressSpinner = progressBar;
+            this.expand = expand;
+            this.background = background;
         }
 
         protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
@@ -527,6 +557,24 @@ public class TweetActivity extends Activity {
             try {
                 if (replies.size() > 0) {
                     listView.setAdapter(new RepliesArrayAdapter(context, replies));
+                    expand.setVisibility(View.VISIBLE);
+                    expand.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(background.getVisibility() == View.VISIBLE) {
+                                Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
+                                ranim.setFillAfter(true);
+                                expand.startAnimation(ranim);
+                            } else {
+                                Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                                ranim.setFillAfter(true);
+                                expand.startAnimation(ranim);
+                            }
+
+                            ExpansionAnimation expandAni = new ExpansionAnimation(background, 450);
+                            background.startAnimation(expandAni);
+                        }
+                    });
                 } else {
 
                 }

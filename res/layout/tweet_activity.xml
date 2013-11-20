@@ -9,7 +9,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:gravity="center">
 
         <include layout="@layout/contact_info"
                  android:id="@+id/contact_info"
@@ -21,17 +21,17 @@
             android:id="@+id/switchViews"
             android:layout_height="48dp"
             android:layout_width="48dp"
-            android:src="?directMessageItem"
+            android:src="?showMoreButton"
             android:minHeight="48dp" android:minWidth="48dp"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="48dp" android:maxHeight="48dp"
             android:background="@null"
-            android:layout_margin="10dp"
-            android:visibility="gone"/>
+            android:layout_margin="10dp" />
 
     </LinearLayout>
 
-    <include layout="@layout/tweet_for_activity"
+    <include android:id="@+id/tweet_background"
+             layout="@layout/tweet_for_activity"
              android:layout_height="wrap_content"
              android:layout_width="match_parent"
              android:layout_marginRight="3dp"/>
@@ -81,6 +81,7 @@
               android:layout_margin="3dp"
               android:paddingRight="4dp"
               android:paddingLeft="4dp"
+              android:background="?windowBackground"
               android:listSelector="@android:color/transparent"
               android:visibility="gone" />
 
