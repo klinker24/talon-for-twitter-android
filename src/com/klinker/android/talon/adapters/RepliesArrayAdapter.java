@@ -247,19 +247,21 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        holder.profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
-                viewProfile.putExtra("name", name);
-                viewProfile.putExtra("screenname", screenname);
-                viewProfile.putExtra("proPic", profilePic);
-                viewProfile.putExtra("tweetid", holder.tweetId);
-                viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
+        if (!screenname.equals(settings.myScreenName)) {
+            holder.profilePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                    viewProfile.putExtra("name", name);
+                    viewProfile.putExtra("screenname", screenname);
+                    viewProfile.putExtra("proPic", profilePic);
+                    viewProfile.putExtra("tweetid", holder.tweetId);
+                    viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
 
-                context.startActivity(viewProfile);
-            }
-        });
+                    context.startActivity(viewProfile);
+                }
+            });
+        }
 
         holder.name.setText(name);
         holder.time.setText(time);
