@@ -26,7 +26,8 @@
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="48dp" android:maxHeight="48dp"
             android:background="@null"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:rotation="180"/>
 
     </LinearLayout>
 

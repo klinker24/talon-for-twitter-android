@@ -131,7 +131,7 @@ public class TweetActivity extends Activity {
         TextView screennametv = (TextView) findViewById(R.id.screen_name);
         TextView tweettv = (TextView) findViewById(R.id.tweet);
         TextView timetv = (TextView) findViewById(R.id.time);
-        TextView retweetertv = (TextView) findViewById(R.id.retweeter);
+        final TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         final WebView website = (WebView) findViewById(R.id.webview);
         final ImageView pictureIv = (ImageView) findViewById(R.id.imageView);
         final ListView replyList = (ListView) findViewById(R.id.reply_list);
@@ -139,7 +139,7 @@ public class TweetActivity extends Activity {
         final LinearLayout background = (LinearLayout) findViewById(R.id.tweet_background);
         final ImageButton expand = (ImageButton) findViewById(R.id.switchViews);
 
-        ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+        final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
         final ImageButton favoriteButton = (ImageButton) findViewById(R.id.favorite);
         final ImageButton retweetButton = (ImageButton) findViewById(R.id.retweet);
@@ -166,6 +166,20 @@ public class TweetActivity extends Activity {
                 .load(proPic)
                 .transform(new CircleTransform())
                 .into(profilePic);
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                viewProfile.putExtra("name", name);
+                viewProfile.putExtra("screenname", screenName);
+                viewProfile.putExtra("proPic", proPic);
+                viewProfile.putExtra("tweetid", tweetId);
+                viewProfile.putExtra("retweet", retweetertv.getVisibility() == View.VISIBLE);
+
+                context.startActivity(viewProfile);
+            }
+        });
 
         if (tweet.contains("http://")) {
             String[] split = tweet.split(" ");
