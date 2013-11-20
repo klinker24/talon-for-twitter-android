@@ -75,7 +75,7 @@ public class UserProfileActivity extends Activity {
         final View header = inflater.inflate(R.layout.user_profile_header, null);
 
         listView.addHeaderView(header);
-        listView.setAdapter(new RepliesArrayAdapter(context, new ArrayList<Status>(0), true));
+        listView.setAdapter(new RepliesArrayAdapter(context, new ArrayList<Status>(0)));
 
         //helper.initActionBar(this);
 
@@ -278,7 +278,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses, true);
+                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -322,7 +322,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses, true);
+                final RepliesArrayAdapter adapter = new RepliesArrayAdapter(context, statuses);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

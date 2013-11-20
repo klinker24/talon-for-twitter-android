@@ -564,7 +564,7 @@ public class TweetActivity extends Activity {
 
             try {
                 if (replies.size() > 0) {
-                    listView.setAdapter(new RepliesArrayAdapter(context, replies, false));
+                    listView.setAdapter(new RepliesArrayAdapter(context, replies));
                     expand.setVisibility(View.VISIBLE);
                     expand.setOnClickListener(new View.OnClickListener() {
                         @Override

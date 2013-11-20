@@ -68,7 +68,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
 
     }
 
-    public RepliesArrayAdapter(Context context, ArrayList<Status> statuses, boolean isProfile) {
+    public RepliesArrayAdapter(Context context, ArrayList<Status> statuses) {
         super(context, R.layout.tweet);
 
         this.context = context;
@@ -87,11 +87,8 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
     public View newView(ViewGroup viewGroup) {
         View v;
         final ViewHolder holder;
-        if (isProfile) {
-            v = inflater.inflate(R.layout.tweet_for_profile, viewGroup, false);
-        } else {
-            v = inflater.inflate(R.layout.tweet, viewGroup, false);
-        }
+
+        v = inflater.inflate(R.layout.tweet, viewGroup, false);
 
         holder = new ViewHolder();
 
