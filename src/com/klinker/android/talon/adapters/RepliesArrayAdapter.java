@@ -278,7 +278,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         final long mTweetId = status.getId();
 
         if (matcher.find()) {
-            //new ShowPic(holder, mTweetId, picUrl).execute();
+            new ShowPic(holder, mTweetId, picUrl).execute();
         }
 
         if (retweeter.length() > 0) {
