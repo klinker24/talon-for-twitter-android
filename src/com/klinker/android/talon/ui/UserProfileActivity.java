@@ -39,6 +39,7 @@ public class UserProfileActivity extends Activity {
     private String proPic;
     private long tweetId;
     private boolean isRetweet;
+    private LayoutInflater inflater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,9 @@ public class UserProfileActivity extends Activity {
 
         FadingActionBarHelper helper;
 
-        if (settings.theme == 0) {
+        inflater = LayoutInflater.from(context);
+
+        /*if (settings.theme == 0) {
             helper = new FadingActionBarHelper()
                     .actionBarBackground(R.drawable.ab_solid_light_holo)
                     .headerLayout(R.layout.user_profile_header)
@@ -63,11 +66,18 @@ public class UserProfileActivity extends Activity {
                     .actionBarBackground(R.drawable.ab_solid_dark)
                     .headerLayout(R.layout.user_profile_header)
                     .contentLayout(R.layout.user_profile_list);
-        }
+        }*/
 
-        setContentView(helper.createView(this));
+        //setContentView(helper.createView(this));
+        setContentView(R.layout.user_profile_list);
 
-        helper.initActionBar(this);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        final View header = inflater.inflate(R.layout.user_profile_header, null);
+
+        listView.addHeaderView(header);
+        listView.setAdapter(new RepliesArrayAdapter(context, new ArrayList<Status>(0), true));
+
+        //helper.initActionBar(this);
 
         setUpUI();
     }
@@ -142,10 +152,12 @@ public class UserProfileActivity extends Activity {
 
         final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
-        Picasso.with(context)
-                .load(proPic)
-                .transform(new CircleTransform())
-                .into(profilePic);
+        if(!proPic.equals("")) {
+            Picasso.with(context)
+                    .load(proPic)
+                    .transform(new CircleTransform())
+                    .into(profilePic);
+        }
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -165,7 +177,7 @@ public class UserProfileActivity extends Activity {
         //final TextView numFollowing = (TextView) findViewById(R.id.num_following);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
-        final ListView listView = (ListView) findViewById(android.R.id.list);
+        final ListView listView = (ListView) findViewById(R.id.listView);
 
         //new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
         new GetData(tweetId, null, null, null, statement, listView, background).execute();
