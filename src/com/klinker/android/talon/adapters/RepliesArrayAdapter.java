@@ -148,17 +148,21 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         Status thisStatus;
 
         String retweeter;
-        final String time = Utils.getTimeAgo(status.getCreatedAt().getTime());
+        final long time = status.getCreatedAt().getTime();
+        long originalTime = 0;
 
         if (status.isRetweet()) {
             retweeter = status.getUser().getScreenName();
 
             thisStatus = status.getRetweetedStatus();
+            originalTime = thisStatus.getCreatedAt().getTime();
         } else {
             retweeter = "";
 
             thisStatus = status;
         }
+
+        final long fOriginalTime = originalTime;
 
         User user = thisStatus.getUser();
 
@@ -185,7 +189,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
                     Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", holder.time.getText().toString());
+                    viewTweet.putExtra("time", time);
                     viewTweet.putExtra("tweet", tweetText);
                     viewTweet.putExtra("retweeter", fRetweeter);
                     viewTweet.putExtra("webpage", picUrl);
@@ -220,7 +224,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
                     Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", holder.time.getText().toString());
+                    viewTweet.putExtra("time", time);
                     viewTweet.putExtra("tweet", tweetText);
                     viewTweet.putExtra("retweeter", fRetweeter);
                     viewTweet.putExtra("webpage", picUrl);
@@ -264,7 +268,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         }
 
         holder.name.setText(name);
-        holder.time.setText(time);
+        holder.time.setText(Utils.getTimeAgo(time));
         holder.tweet.setText(tweetText);
 
         Picasso.with(context)

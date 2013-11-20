@@ -25,7 +25,10 @@ import com.squareup.picasso.Picasso;
 import twitter4j.*;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class TweetActivity extends Activity {
 
@@ -35,7 +38,7 @@ public class TweetActivity extends Activity {
     private String name;
     private String screenName;
     private String tweet;
-    private String time;
+    private long time;
     private String retweeter;
     private String webpage;
     private String proPic;
@@ -116,7 +119,7 @@ public class TweetActivity extends Activity {
         name = from.getStringExtra("name");
         screenName = from.getStringExtra("screenname");
         tweet = from.getStringExtra("tweet");
-        time = from.getStringExtra("time");
+        time = from.getLongExtra("time", 0);
         retweeter = from.getStringExtra("retweeter");
         webpage = from.getStringExtra("webpage");
         tweetId = from.getLongExtra("tweetid", 0);
@@ -279,7 +282,9 @@ public class TweetActivity extends Activity {
         nametv.setText(name);
         screennametv.setText("@" + screenName);
         tweettv.setText(tweet);
-        timetv.setText(time);
+        //Date tweetDate = new Date(time);
+        String timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
+        timetv.setText(timeDisplay);
 
         tweettv.setLinksClickable(true);
 

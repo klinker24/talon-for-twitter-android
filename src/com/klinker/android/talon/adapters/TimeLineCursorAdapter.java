@@ -124,6 +124,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         final String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+        final long longTime = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
 
         String retweeter;
         try {
@@ -142,7 +143,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
-                        viewTweet.putExtra("time", holder.time.getText().toString());
+                        viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
                         viewTweet.putExtra("webpage", picUrl);
@@ -180,7 +181,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
-                        viewTweet.putExtra("time", holder.time.getText().toString());
+                        viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
                         viewTweet.putExtra("webpage", picUrl);
@@ -225,7 +226,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         });
 
         holder.name.setText(name);
-        holder.time.setText(Utils.getTimeAgo(cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME))));
+        holder.time.setText(Utils.getTimeAgo(longTime));
         holder.tweet.setText(tweetText);
 
         Matcher matcher = pattern.matcher(tweetText);
