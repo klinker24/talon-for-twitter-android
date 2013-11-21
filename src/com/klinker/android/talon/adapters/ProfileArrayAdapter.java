@@ -44,7 +44,7 @@ public class ProfileArrayAdapter extends ArrayAdapter<Status> {
         View rowView = convertView;
 
         if (rowView == null) {
-            rowView = inflater.inflate(R.layout.tweet_for_profile, null);
+            rowView = inflater.inflate(R.layout.tweet, null);
 
             ViewHolder viewHolder = new ViewHolder();
 

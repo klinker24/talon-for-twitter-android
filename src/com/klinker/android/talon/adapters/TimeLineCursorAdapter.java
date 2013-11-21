@@ -16,10 +16,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.utilities.Utils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -27,7 +29,10 @@ import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
+import java.lang.ref.WeakReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,6 +50,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
     private static Pattern pattern = Pattern.compile(REGEX);
 
+    private BitmapLruCache cache;
+
     public boolean hasKeyboard = false;
 
     public static class ViewHolder {
@@ -60,7 +67,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public TextView retweetCount;
         public LinearLayout expandArea;
         public ImageButton replyButton;
-        public ImageView image;
+        public NetworkedCacheableImageView image;
         public LinearLayout background;
         //public Bitmap tweetPic;
 
@@ -85,6 +92,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         a.recycle();
 
         settings = new AppSettings(context);
+
+        cache = App.getInstance(context).getBitmapCache();
     }
 
     @Override
@@ -106,7 +115,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
-        holder.image = (ImageView) v.findViewById(R.id.image);
+        holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
 
@@ -234,7 +243,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final long mTweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
 
         if (matcher.find()) {
-            new ShowPic(holder, mTweetId, picUrl).execute();
+
+            holder.image.loadImage(picUrl == null ? "" : picUrl, false, new UpdateTextViewListener());
+            if (picUrl == null) {
+                holder.image.setVisibility(View.GONE);
+            } else {
+                holder.image.setVisibility(View.VISIBLE);
+            }
         }
 
         if (retweeter.length() > 0 && !isDM) {
@@ -245,44 +260,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
-        }
-    }
-    class ShowPic extends AsyncTask<String, Void, Boolean> {
-
-        private ViewHolder holder;
-        private long tweetId;
-        private RequestCreator rc;
-        private String picUrl;
-
-        public ShowPic(ViewHolder holder, long tweetId, String picUrl) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-            this.picUrl = picUrl;
-        }
-
-        protected Boolean doInBackground(String... urls) {
-            rc = Picasso.with(context)
-                    .load(picUrl);
-
-            try {
-                //Thread.sleep(100);
-            } catch (Exception e) {
-
-            }
-
-            if (holder.tweetId != tweetId) {
-                return false;
-            }
-
-            return true;
-        }
-
-        protected void onPostExecute(Boolean display) {
-            if (display) {
-                rc.into(holder.image);
-            } else {
-                holder.image.setVisibility(View.GONE);
-            }
         }
     }
 
@@ -617,6 +594,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         protected void onPostExecute(String url) {
+
+        }
+    }
+
+    static class UpdateTextViewListener
+            implements NetworkedCacheableImageView.OnImageLoadedListener {
+
+        @Override
+        public void onImageLoaded(CacheableBitmapDrawable result) {
 
         }
     }
