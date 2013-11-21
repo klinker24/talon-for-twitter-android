@@ -244,7 +244,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (matcher.find()) {
 
-            holder.image.loadImage(picUrl == null ? "" : picUrl, false, new UpdateTextViewListener());
+            holder.image.loadImage(picUrl == null ? "" : picUrl, false, null);
+
             if (picUrl == null) {
                 holder.image.setVisibility(View.GONE);
             } else {

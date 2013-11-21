@@ -14,6 +14,7 @@ import android.widget.*;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RepliesArrayAdapter extends ArrayAdapter<Status> {
+public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     private Context context;
     private ArrayList<Status> statuses;
@@ -58,7 +59,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         public TextView retweetCount;
         public LinearLayout expandArea;
         public ImageButton replyButton;
-        public ImageView image;
+        public NetworkedCacheableImageView image;
         public LinearLayout background;
         //public Bitmap tweetPic;
 
@@ -68,7 +69,7 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
 
     }
 
-    public RepliesArrayAdapter(Context context, ArrayList<Status> statuses) {
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses) {
         super(context, R.layout.tweet);
 
         this.context = context;
@@ -82,6 +83,11 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
     @Override
     public int getCount() {
         return statuses.size();
+    }
+
+    @Override
+    public Status getItem(int position) {
+        return statuses.get(position);
     }
 
     public View newView(ViewGroup viewGroup) {
@@ -103,44 +109,13 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
-        holder.image = (ImageView) v.findViewById(R.id.image);
+        holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
 
         v.setTag(holder);
         return v;
     }
-
-    /*@Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View rowView = convertView;
-
-        if (rowView == null) {
-            rowView = inflater.inflate(R.layout.tweet, null);
-
-            ViewHolder viewHolder = new ViewHolder();
-
-            viewHolder.name = (TextView) rowView.findViewById(R.id.name);
-            viewHolder.profilePic = (ImageView) rowView.findViewById(R.id.profile_pic);
-            viewHolder.tweet = (TextView) rowView.findViewById(R.id.tweet);
-            viewHolder.time = (TextView) rowView.findViewById(R.id.time);
-
-            rowView.setTag(viewHolder);
-        }
-
-        ViewHolder holder = (ViewHolder) rowView.getTag();
-
-        holder.name.setText(statuses.get(position).getUser().getName());
-        holder.tweet.setText(statuses.get(position).getText());
-        holder.time.setText(Utils.getTimeAgo(statuses.get(position).getCreatedAt().getTime()));
-
-        Picasso.with(context)
-                .load(statuses.get(position).getUser().getBiggerProfileImageURL())
-                .transform(new CircleTransform())
-                .into(holder.profilePic);
-
-        return rowView;
-    }*/
 
     public void bindView(final View view, Context mContext, Status status) {
         final ViewHolder holder = (ViewHolder) view.getTag();
@@ -271,17 +246,18 @@ public class RepliesArrayAdapter extends ArrayAdapter<Status> {
         holder.time.setText(Utils.getTimeAgo(time));
         holder.tweet.setText(tweetText);
 
-        Picasso.with(context)
-                .load(profilePic)
-                .transform(new CircleTransform())
-                .into(holder.profilePic);
-
         Matcher matcher = pattern.matcher(tweetText);
 
         final long mTweetId = status.getId();
 
         if (matcher.find()) {
-            new ShowPic(holder, mTweetId, picUrl).execute();
+            holder.image.loadImage(picUrl == null ? "" : picUrl, false, null);
+
+            if (picUrl == null) {
+                holder.image.setVisibility(View.GONE);
+            } else {
+                holder.image.setVisibility(View.VISIBLE);
+            }
         }
 
         if (retweeter.length() > 0) {

@@ -15,7 +15,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
-import com.klinker.android.talon.adapters.RepliesArrayAdapter;
+import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.settings.AppSettings;
@@ -27,7 +27,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class TweetActivity extends Activity {
@@ -569,7 +568,7 @@ public class TweetActivity extends Activity {
 
             try {
                 if (replies.size() > 0) {
-                    listView.setAdapter(new RepliesArrayAdapter(context, replies));
+                    listView.setAdapter(new TimelineArrayAdapter(context, replies));
                     expand.setVisibility(View.VISIBLE);
                     expand.setOnClickListener(new View.OnClickListener() {
                         @Override

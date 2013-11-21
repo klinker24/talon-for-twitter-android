@@ -1,11 +1,10 @@
 package com.klinker.android.talon.adapters;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.*;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
-import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import org.lucasr.smoothie.SimpleItemLoader;
 import twitter4j.Status;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -31,10 +30,11 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
     public String getItemParams(Adapter adapter, int position) {
         try {
             Status staus = (Status) adapter.getItem(position);
-            String url = staus.getUser().getOriginalProfileImageURL();
+            String url = staus.getUser().getBiggerProfileImageURL();
             return url;
         } catch (Exception e) {
             // no items...
+            Log.v("getting_url", "no url found");
             return "";
         }
     }
@@ -61,7 +61,7 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
 
     @Override
     public void displayItem(View itemView, CacheableBitmapDrawable result, boolean fromMemory) {
-        RepliesArrayAdapter.ViewHolder holder = (RepliesArrayAdapter.ViewHolder) itemView.getTag();
+        TimelineArrayAdapter.ViewHolder holder = (TimelineArrayAdapter.ViewHolder) itemView.getTag();
 
         if (result == null) {
             return;

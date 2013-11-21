@@ -15,7 +15,7 @@
             android:layout_height="140dp"
                android:layout_width="match_parent"
                android:minHeight="140dp"
-               android:background="?windowBackground"
+               android:background="@android:color/transparent"
             />
 
     <View android:layout_below="@id/view2"
