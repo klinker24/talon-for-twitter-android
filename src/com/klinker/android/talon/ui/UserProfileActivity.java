@@ -514,6 +514,10 @@ public class UserProfileActivity extends Activity {
             menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
         }
 
+        // todo - take this out when they get added
+        menu.getItem(MENU_CHANGE_BIO).setVisible(false);
+        menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
+
         return true;
     }
 
