@@ -50,8 +50,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
     private static Pattern pattern = Pattern.compile(REGEX);
 
-    private BitmapLruCache cache;
-
     public boolean hasKeyboard = false;
 
     public static class ViewHolder {
@@ -92,8 +90,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         a.recycle();
 
         settings = new AppSettings(context);
-
-        cache = App.getInstance(context).getBitmapCache();
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.widget.*;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.utilities.Utils;
@@ -135,7 +136,7 @@ public class TweetActivity extends Activity {
         TextView timetv = (TextView) findViewById(R.id.time);
         final TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         final WebView website = (WebView) findViewById(R.id.webview);
-        final ImageView pictureIv = (ImageView) findViewById(R.id.imageView);
+        final NetworkedCacheableImageView pictureIv = (NetworkedCacheableImageView) findViewById(R.id.imageView);
         final ListView replyList = (ListView) findViewById(R.id.reply_list);
         LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
         final LinearLayout background = (LinearLayout) findViewById(R.id.tweet_background);
@@ -246,9 +247,7 @@ public class TweetActivity extends Activity {
             progressSpinner.setVisibility(View.GONE);
             pictureIv.setVisibility(View.VISIBLE);
 
-            Picasso.with(context)
-                    .load(webpage)
-                    .into(pictureIv);
+            pictureIv.loadImage(webpage, false, null);
 
             mAttacher = new PhotoViewAttacher(pictureIv);
 

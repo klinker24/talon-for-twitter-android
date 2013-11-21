@@ -32,6 +32,9 @@ import uk.co.senab.bitmapcache.CacheableImageView;
  */
 public class NetworkedCacheableImageView extends CacheableImageView {
 
+    public static final int BLUR = 0;
+    public static final int CIRCLE = 1;
+
     public interface OnImageLoadedListener {
         void onImageLoaded(CacheableBitmapDrawable result);
     }
@@ -166,4 +169,46 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         }
     }
 
+
+    public boolean loadImage(String url, final boolean fullSize, OnImageLoadedListener listener, int transform) {
+        // First check whether there's already a task running, if so cancel it
+        if (null != mCurrentTask) {
+            mCurrentTask.cancel(true);
+        }
+
+        // Check to see if the memory cache already has the bitmap. We can
+        // safely do
+        // this on the main thread.
+        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
+
+        if (null != wrapper) {
+            // The cache has it, so just display it
+            setImageDrawable(wrapper);
+            return true;
+        } else {
+            // Memory Cache doesn't have the URL, do threaded request...
+            setImageDrawable(null);
+
+            BitmapFactory.Options decodeOpts = null;
+
+            if (!fullSize) {
+                //decodeOpts = new BitmapFactory.Options();
+                //decodeOpts.inSampleSize = 2;
+            }
+
+            mCurrentTask = new ImageUrlAsyncTask(this, mCache, decodeOpts, listener);
+
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    SDK11.executeOnThreadPool(mCurrentTask, url);
+                } else {
+                    mCurrentTask.execute(url);
+                }
+            } catch (RejectedExecutionException e) {
+                // This shouldn't happen, but might.
+            }
+
+            return false;
+        }
+    }
 }

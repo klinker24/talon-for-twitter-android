@@ -24,6 +24,7 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
@@ -122,8 +123,8 @@ public class MainActivity extends Activity {
 
         TextView name = (TextView) mDrawer.findViewById(R.id.name);
         TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
-        ImageView backgroundPic = (ImageView) mDrawer.findViewById(R.id.background_image);
-        ImageView profilePic = (ImageView) mDrawer.findViewById(R.id.profile_pic);
+        NetworkedCacheableImageView backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
+        NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
@@ -240,11 +241,14 @@ public class MainActivity extends Activity {
         name.setText(sName);
         screenName.setText("@" + sScreenName);
 
+        // Keeping picasso right now because of the transforms...
+        // Don't know how to do them yet with the manual caching
         try {
             Picasso.with(context)
                     .load(backgroundUrl)
                     .transform(new BlurTransform(context))
                     .into(backgroundPic);
+            //backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
         } catch (Exception e) {
             // empty path for some reason
         }
@@ -254,6 +258,7 @@ public class MainActivity extends Activity {
                     .load(profilePicUrl)
                     .transform(new CircleTransform())
                     .into(profilePic);
+            //backgroundPic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
         } catch (Exception e) {
             // empty path again
         }
