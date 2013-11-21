@@ -20,4 +20,9 @@
           android:orderInCategory="4"
           android:title="@string/menu_open_web"
           android:showAsAction="never"  />
+
+    <item android:id="@+id/menu_save_image"
+          android:orderInCategory="5"
+          android:title="@string/menu_save_image"
+          android:showAsAction="never"  />
 </menu>

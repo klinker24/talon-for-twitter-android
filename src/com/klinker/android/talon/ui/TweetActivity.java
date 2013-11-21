@@ -6,7 +6,10 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.utilities.App;
+import com.klinker.android.talon.utilities.IOUtils;
 import com.klinker.android.talon.utilities.Utils;
 import com.squareup.picasso.Picasso;
 import org.lucasr.smoothie.AsyncListView;
@@ -39,6 +43,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 
 public class TweetActivity extends Activity {
 
@@ -706,6 +711,20 @@ public class TweetActivity extends Activity {
                 Uri weburi = Uri.parse(webpage);
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                 startActivity(launchBrowser);
+
+                return true;
+
+            case R.id.menu_save_image:
+
+                ImageView pic = (ImageView) findViewById(R.id.imageView);
+                Bitmap bitmap = ((BitmapDrawable)pic.getDrawable()).getBitmap();
+
+                Random generator = new Random();
+                int n = 10000;
+                n = generator.nextInt(n);
+                String fname = "Image-" + n;
+
+                IOUtils.saveImage(bitmap, fname, context);
 
                 return true;
 

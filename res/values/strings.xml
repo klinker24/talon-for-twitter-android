@@ -18,6 +18,7 @@
     <string name="menu_change_picture">Change Profile Picture</string>
     <string name="menu_change_bio">Change Bio.</string>
     <string name="menu_direct_message">New Direct Message</string>
+    <string name="menu_save_image">Save Image</string>
 
     <!-- Main Activity -->
     <string name="timeline">Timeline</string>
@@ -59,6 +60,7 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="delete_direct_message">Delete Message?</string>
+    <string name="save_image">Image Saved</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>

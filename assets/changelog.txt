@@ -14,3 +14,5 @@
 - Retweets of you page
 - New actions in the action bar on the tweets
 - Compose new direct messages from action bar and profiles
+- Delete direct messages with long click
+- Save images from tweets
