@@ -138,9 +138,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         Paging paging2 = new Paging(1, 150);
                         List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
 
-                        for (int i = 0; i < statuses.size(); i++) {
-                            if (statuses.get(i).getId() == lastId) {
-                                statuses = statuses.subList(0, i);
+                        for (int i = 0; i < statuses2.size(); i++) {
+                            if (statuses2.get(i).getId() == lastId) {
+                                statuses2 = statuses2.subList(0, i);
                                 break;
                             }
                         }
