@@ -7,3 +7,5 @@
 - Expand tweets contents from the tweet activity
 - Reply lists now fully working, can't look into the future yet though, only back
 - Better handling of dates in the tweet activity
+
+- Way better handling of images everywhere (still can't get instagram yet...)

@@ -39,7 +39,5 @@
         - Add a button to switch to that from the regular compose
     - Length counter for message
 
-
 - Bugs:
-    - Sometimes won't display the profile pics
     - Feedback for buttons
