@@ -83,9 +83,9 @@ public class HomeDataSource {
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
     }
 
-    public void deleteTweet(Tweet tweet) {
-        long id = tweet.getId();
-        System.out.println("Comment deleted with id: " + id);
+    public void deleteTweet(long tweetId) {
+        long id = tweetId;
+
         database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }

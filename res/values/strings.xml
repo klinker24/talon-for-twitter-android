@@ -53,6 +53,7 @@
     <string name="placeholder">Placeholder</string>
     <string name="reply">Reply...</string>
     <string name="error">Error</string>
+    <string name="error_loading_page">Error loading web page</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
@@ -73,6 +74,8 @@
     <string name="menu_copy_text">Copy Tweet Text</string>
     <string name="menu_share">Share Tweet</string>
     <string name="menu_delete_tweet">Delete Tweet</string>
+    <string name="deleted_tweet">Tweet deleted</string>
+    <string name="error_deleting">Error deleting tweet</string>
 
 
 </resources>

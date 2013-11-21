@@ -26,6 +26,7 @@ import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.utilities.Utils;
 import com.squareup.picasso.Picasso;
@@ -253,7 +254,7 @@ public class TweetActivity extends Activity {
 
             website.setWebViewClient(new WebViewClient() {
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    Toast.makeText(activity, "Couldn't load the web page. ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, getResources().getString(R.string.error_loading_page), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -613,6 +614,37 @@ public class TweetActivity extends Activity {
         }
     }
 
+    class DeleteTweet extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            Twitter twitter = Utils.getTwitter(context);
+
+            try {
+                twitter.destroyStatus(tweetId);
+
+                HomeDataSource source = new HomeDataSource(context);
+                source.open();
+                source.deleteTweet(tweetId);
+                source.close();
+
+                return true;
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            if (deleted) {
+                Toast.makeText(context, getResources().getString(R.string.deleted_tweet), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
+            }
+
+            finish();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -630,7 +662,7 @@ public class TweetActivity extends Activity {
         final int MENU_COPY_TEXT = 2;
         final int MENU_OPEN_WEB = 3;
 
-        if (!isMyTweet || !isMyRetweet) {
+        if (!isMyTweet) {
             menu.getItem(MENU_DELETE_TWEET).setVisible(false);
         }
 
@@ -646,11 +678,16 @@ public class TweetActivity extends Activity {
                 return true;
 
             case R.id.menu_delete_tweet:
-                // delete the tweet
+                new DeleteTweet().execute();
                 return true;
 
             case R.id.menu_share:
-                // open the share dialog
+                String message = tweet;
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, message);
+
+                startActivity(Intent.createChooser(share, getResources().getString(R.string.menu_share)));
                 return true;
 
             case R.id.menu_copy_text:
