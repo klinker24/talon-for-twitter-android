@@ -56,6 +56,9 @@
     <string name="reply">Reply...</string>
     <string name="error">Error</string>
     <string name="error_loading_page">Error loading web page</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_direct_message">Delete Message?</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>

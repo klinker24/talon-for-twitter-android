@@ -53,9 +53,8 @@ public class DMDataSource {
         database.insert(DMSQLiteHelper.TABLE_DM, null, values);
     }
 
-    public void deleteTweet(Tweet tweet) {
-        long id = tweet.getId();
-        System.out.println("Comment deleted with id: " + id);
+    public void deleteTweet(long tweetId) {
+        long id = tweetId;
         database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }

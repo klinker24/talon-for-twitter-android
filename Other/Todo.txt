@@ -1,6 +1,4 @@
 - Main Drawer Items/Activities:
-    - Retweets
-    - Favorite Tweets
     - Favorite Users
     - Lists
     - Trending (Local and worldwide)
@@ -19,7 +17,6 @@
 - User Profiles Activity:
     - followers and following list
     - Add to list option
-    - Direct Message option
     - "My profile" stuff:
         - Change bio
         - Change profile pic
@@ -46,4 +43,4 @@
 
 - Bugs:
     - Feedback for buttons
-    - Limiting cache to 10 mb
+    - Limiting cache to 15 mb

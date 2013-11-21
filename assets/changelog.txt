@@ -8,8 +8,9 @@
 - Reply lists now fully working, can't look into the future yet though, only back
 - Better handling of dates in the tweet activity
 
-- Way better handling of images everywhere (still can't get instagram yet...)
+- Reduced memory footprint
+- Better Handling of images everywhere
 - Favorite Tweets page
 - Retweets of you page
 - New actions in the action bar on the tweets
-- Compose new direct messages
+- Compose new direct messages from action bar and profiles

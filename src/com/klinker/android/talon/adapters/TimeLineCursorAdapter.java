@@ -1,6 +1,8 @@
 package com.klinker.android.talon.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -17,6 +19,8 @@ import android.widget.*;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
+import com.klinker.android.talon.sq_lite.DMDataSource;
+import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
@@ -25,10 +29,7 @@ import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.utilities.Utils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
-import twitter4j.DirectMessage;
-import twitter4j.MediaEntity;
-import twitter4j.Status;
-import twitter4j.Twitter;
+import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
@@ -217,10 +218,29 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         if (isDM) {
-            holder.background.setOnClickListener(new View.OnClickListener() {
+            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View view) {
-                    // Todo - dialog to delete the direct message
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                    builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            new DeleteTweet().execute("" + holder.tweetId);
+                        }
+                    });
+
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.setTitle(R.string.delete_direct_message);
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    return true;
                 }
             });
         }
@@ -408,6 +428,36 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(holder.reply.getWindowToken(), 0);
+    }
+
+    class DeleteTweet extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            Twitter twitter = Utils.getTwitter(context);
+
+            try {
+                long tweetId = Long.parseLong(urls[0]);
+                twitter.destroyDirectMessage(tweetId);
+
+                DMDataSource source = new DMDataSource(context);
+                source.open();
+                source.deleteTweet(tweetId);
+                source.close();
+
+                return true;
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            if (deleted) {
+                Toast.makeText(context, context.getResources().getString(R.string.deleted_tweet), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     class GetFavoriteCount extends AsyncTask<String, Void, Status> {

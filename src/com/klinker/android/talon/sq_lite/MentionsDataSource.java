@@ -81,9 +81,8 @@ public class MentionsDataSource {
         database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
     }
 
-    public void deleteTweet(Tweet tweet) {
-        long id = tweet.getId();
-        System.out.println("Comment deleted with id: " + id);
+    public void deleteTweet(long tweetId) {
+        long id = tweetId;
         database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
