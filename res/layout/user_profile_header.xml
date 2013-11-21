@@ -7,10 +7,18 @@
     <ImageView android:id="@+id/background_image"
                android:layout_height="140dp"
                android:layout_width="match_parent"
+               android:minHeight="140dp"
                android:scaleType="centerCrop"
             />
 
-    <View android:layout_below="@id/background_image"
+    <View   android:id="@+id/view2"
+            android:layout_height="140dp"
+               android:layout_width="match_parent"
+               android:minHeight="140dp"
+               android:background="?windowBackground"
+            />
+
+    <View android:layout_below="@id/view2"
           android:layout_height="120dp"
           android:id="@+id/view"
           android:layout_width="match_parent"
@@ -19,7 +27,7 @@
     <ImageView
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:layout_below="@id/background_image"
+            android:layout_below="@id/view2"
             android:id="@+id/profile_pic"
             android:src="?circleBorder"
             android:background="?circleBorder"

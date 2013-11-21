@@ -15,13 +15,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.adapters.ArrayListLoader;
+import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.RepliesArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.utilities.Utils;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 import com.squareup.picasso.Picasso;
+import org.lucasr.smoothie.AsyncListView;
+import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,9 +79,19 @@ public class UserProfileActivity extends Activity {
         }*/
 
         //setContentView(helper.createView(this));
-        setContentView(R.layout.user_profile_list);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
+        setContentView(R.layout.main_fragments);
+
+        AsyncListView listView = (AsyncListView) findViewById(R.id.listView);
+        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+        ArrayListLoader loader = new ArrayListLoader(cache, context);
+
+        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
+        builder.setThreadPoolSize(4);
+
+        listView.setItemManager(builder.build());
+
         final View header = inflater.inflate(R.layout.user_profile_header, null);
 
         listView.addHeaderView(header);

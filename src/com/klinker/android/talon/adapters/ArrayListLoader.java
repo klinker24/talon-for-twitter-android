@@ -7,16 +7,17 @@ import android.view.View;
 import android.widget.Adapter;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import org.lucasr.smoothie.SimpleItemLoader;
+import twitter4j.Status;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 import java.net.URL;
 
-public class TimeLineListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
+public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
     final BitmapLruCache mCache;
     private Context context;
 
-    public TimeLineListLoader(BitmapLruCache cache, Context context) {
+    public ArrayListLoader(BitmapLruCache cache, Context context) {
         mCache = cache;
         this.context = context;
     }
@@ -28,10 +29,14 @@ public class TimeLineListLoader extends SimpleItemLoader<String, CacheableBitmap
 
     @Override
     public String getItemParams(Adapter adapter, int position) {
-        Cursor cursor = (Cursor) adapter.getItem(0);
-        cursor.moveToPosition(cursor.getCount() - position - 1);
-        String url = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
-        return url;
+        try {
+            Status staus = (Status) adapter.getItem(position);
+            String url = staus.getUser().getOriginalProfileImageURL();
+            return url;
+        } catch (Exception e) {
+            // no items...
+            return "";
+        }
     }
 
     @Override
@@ -56,7 +61,7 @@ public class TimeLineListLoader extends SimpleItemLoader<String, CacheableBitmap
 
     @Override
     public void displayItem(View itemView, CacheableBitmapDrawable result, boolean fromMemory) {
-        TimeLineCursorAdapter.ViewHolder holder = (TimeLineCursorAdapter.ViewHolder) itemView.getTag();
+        RepliesArrayAdapter.ViewHolder holder = (RepliesArrayAdapter.ViewHolder) itemView.getTag();
 
         if (result == null) {
             return;

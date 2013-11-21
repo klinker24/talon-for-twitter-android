@@ -10,8 +10,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
+import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
-import com.klinker.android.talon.adapters.TimeLineListLoader;
 import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -86,7 +86,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 .setup(mPullToRefreshLayout);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        TimeLineListLoader loader = new TimeLineListLoader(cache, context);
+        CursorListLoader loader = new CursorListLoader(cache, context);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
         builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
