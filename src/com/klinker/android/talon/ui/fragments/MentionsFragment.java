@@ -117,12 +117,36 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     User user = twitter.verifyCredentials();
                     long lastId = sharedPrefs.getLong("last_mention_id", 0);
                     Paging paging;
-                    if (lastId != 0) {
-                        paging = new Paging(1).sinceId(lastId);
-                    } else {
-                        paging = new Paging(1, 500);
-                    }
+                    paging = new Paging(1, 50);
+
                     List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
+
+                    boolean broken = false;
+
+                    // first try to get the top 50 tweets
+                    for (int i = 0; i < statuses.size(); i++) {
+                        if (statuses.get(i).getId() == lastId) {
+                            statuses = statuses.subList(0, i);
+                            broken = true;
+                            break;
+                        }
+                    }
+
+                    // if that doesn't work, then go for the top 150
+                    if (!broken) {
+                        Log.v("updating_timeline", "not broken");
+                        Paging paging2 = new Paging(1, 150);
+                        List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
+
+                        for (int i = 0; i < statuses.size(); i++) {
+                            if (statuses.get(i).getId() == lastId) {
+                                statuses = statuses.subList(0, i);
+                                break;
+                            }
+                        }
+
+                        statuses = statuses2;
+                    }
 
                     if (statuses.size() != 0) {
                         sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
