@@ -1,0 +1,9 @@
+- Style changes for main timeline activity (long press opens tweet, click expands, this will be an option later)
+- Fixed the animations stuttering
+- Direct message fixes
+- Made profile activities! Yay! Man that was a lot of work
+    - Not everything is implemented yet though, but the main part is
+    - You can follow/unfollow, block/unblock, tweet at them from action bar
+- Expand tweets contents from the tweet activity
+- Reply lists now fully working, can't look into the future yet though, only back
+- Better handling of dates in the tweet activity

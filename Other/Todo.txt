@@ -13,6 +13,7 @@
     - Clear cache
     - Theme Stuff
     - Get Help item
+    - Reverse clicks option
 
 - User Profiles Activity:
     - followers and following list
