@@ -61,6 +61,7 @@ public class TweetActivity extends Activity {
     private long tweetId;
 
     private WebView website;
+    private NetworkedCacheableImageView pictureIv;
 
     private boolean isMyTweet = false;
     private boolean isMyRetweet = true;
@@ -160,7 +161,7 @@ public class TweetActivity extends Activity {
         TextView timetv = (TextView) findViewById(R.id.time);
         final TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         website = (WebView) findViewById(R.id.webview);
-        final NetworkedCacheableImageView pictureIv = (NetworkedCacheableImageView) findViewById(R.id.imageView);
+        pictureIv = (NetworkedCacheableImageView) findViewById(R.id.imageView);
         final AsyncListView replyList = (AsyncListView) findViewById(R.id.reply_list);
         LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
         final LinearLayout background = (LinearLayout) findViewById(R.id.tweet_background);
@@ -668,6 +669,7 @@ public class TweetActivity extends Activity {
         final int MENU_SHARE = 1;
         final int MENU_COPY_TEXT = 2;
         final int MENU_OPEN_WEB = 3;
+        final int MENU_SAVE_IMAGE = 4;
 
         if (!isMyTweet) {
             menu.getItem(MENU_DELETE_TWEET).setVisible(false);
@@ -675,6 +677,10 @@ public class TweetActivity extends Activity {
 
         if (website.getVisibility() != View.VISIBLE) {
             menu.getItem(MENU_OPEN_WEB).setVisible(false);
+        }
+
+        if (pictureIv.getVisibility() != View.VISIBLE) {
+            menu.getItem(MENU_SAVE_IMAGE).setVisible(false);
         }
 
         return true;
@@ -716,8 +722,7 @@ public class TweetActivity extends Activity {
 
             case R.id.menu_save_image:
 
-                ImageView pic = (ImageView) findViewById(R.id.imageView);
-                Bitmap bitmap = ((BitmapDrawable)pic.getDrawable()).getBitmap();
+                Bitmap bitmap = ((BitmapDrawable)pictureIv.getDrawable()).getBitmap();
 
                 Random generator = new Random();
                 int n = 10000;
