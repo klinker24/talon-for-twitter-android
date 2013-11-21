@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.drawer_activities.RetweetActivity;
 
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {
 
@@ -23,14 +25,40 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (i < 3) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawer.closeDrawer(Gravity.START);
-                }
-            }, 300);
+            if (viewPager != null) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawer.closeDrawer(Gravity.START);
+                    }
+                }, 300);
 
-            viewPager.setCurrentItem(i, true);
+                viewPager.setCurrentItem(i, true);
+            } else {
+                final int pos = i;
+                drawer.closeDrawer(Gravity.START);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        intent.putExtra("page_to_open", pos);
+
+                        try {
+                            Thread.sleep(400);
+                        } catch (Exception e) {
+
+                        }
+
+                        try {
+                            context.startActivity(intent);
+                        } catch (Exception e) {
+
+                        }
+
+                    }
+                }).start();
+            }
         } else {
             final int pos = i;
             drawer.closeDrawer(Gravity.START);
@@ -40,6 +68,9 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     Intent intent = null;
 
                     switch (pos) {
+                        case 3:
+                            intent = new Intent(context, RetweetActivity.class);
+                            break;
 
                     }
 
@@ -49,6 +80,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
                     }
                     try {
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         context.startActivity(intent);
                     } catch (Exception e) {
 

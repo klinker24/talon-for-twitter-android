@@ -22,6 +22,7 @@
     <string name="timeline">Timeline</string>
     <string name="mentions">Mentions</string>
     <string name="direct_messages">Direct Messages</string>
+    <string name="retweets">Retweets</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>
@@ -60,4 +61,11 @@
     <string name="unblocked_user">Unblocked User</string>
     <string name="followed_user">Followed User</string>
     <string name="unfollowed_user">Un-Followed User</string>
+
+    <!-- Retweets Activity -->
+    <string name="retweets_lower">retweets</string>
+    <string name="retweet_lower">retweet</string>
+    <string name="retweeter">retweeted by @</string>
+
+
 </resources>

@@ -108,6 +108,8 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+        mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 0), false);
     }
 
     public void setUpDrawer() {
@@ -263,11 +265,7 @@ public class MainActivity extends Activity {
             // empty path again
         }
 
-        String[] items = new String[] {getResources().getString(R.string.timeline),
-                getResources().getString(R.string.mentions),
-                getResources().getString(R.string.direct_messages)};
-
-        MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(items)));
+        MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
         drawerList.setAdapter(adapter);
 
         drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager));

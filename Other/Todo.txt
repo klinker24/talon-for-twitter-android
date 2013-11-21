@@ -42,3 +42,4 @@
 
 - Bugs:
     - Feedback for buttons
+    - Limiting cache to 10 mb

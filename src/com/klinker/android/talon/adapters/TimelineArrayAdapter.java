@@ -35,6 +35,10 @@ import java.util.regex.Pattern;
 
 public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
+    public static final int NORMAL = 0;
+    public static final int RETWEET = 1;
+    public static final int FAVORITE = 2;
+
     private Context context;
     private ArrayList<Status> statuses;
     private LayoutInflater inflater;
@@ -45,6 +49,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public boolean hasKeyboard = false;
     public boolean isProfile = false;
+
+    private int type;
 
     public static class ViewHolder {
         public TextView name;
@@ -78,6 +84,21 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
+
+        this.type = NORMAL;
+    }
+
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, int type) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.statuses = statuses;
+        this.inflater = LayoutInflater.from(context);
+        this.isProfile = isProfile;
+
+        this.settings = new AppSettings(context);
+
+        this.type = type;
     }
 
     @Override
@@ -260,11 +281,24 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        if (retweeter.length() > 0) {
-            holder.retweeter.setText("retweeted by @" + retweeter);
-            holder.retweeter.setVisibility(View.VISIBLE);
-        } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
-            holder.retweeter.setVisibility(View.GONE);
+        if (type == NORMAL) {
+            if (retweeter.length() > 0) {
+                holder.retweeter.setText(context.getResources().getString(R.string.retweeter) + retweeter);
+                holder.retweeter.setVisibility(View.VISIBLE);
+            } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                holder.retweeter.setVisibility(View.GONE);
+            }
+        } else if (type == RETWEET) {
+
+            int count = status.getRetweetCount();
+
+            if (count > 1) {
+                holder.retweeter.setText(status.getRetweetCount() + " " + context.getResources().getString(R.string.retweets_lower));
+                holder.retweeter.setVisibility(View.VISIBLE);
+            } else if (count == 1) {
+                holder.retweeter.setText(status.getRetweetCount() + " " + context.getResources().getString(R.string.retweet_lower));
+                holder.retweeter.setVisibility(View.VISIBLE);
+            }
         }
     }
     class ShowPic extends AsyncTask<String, Void, Boolean> {

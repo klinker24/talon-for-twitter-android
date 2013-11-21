@@ -26,6 +26,15 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         public ImageView icon;
     }
 
+    public static String[] getItems(Context context1) {
+        String[] items = new String[] {context1.getResources().getString(R.string.timeline),
+                context1.getResources().getString(R.string.mentions),
+                context1.getResources().getString(R.string.direct_messages),
+                context1.getResources().getString(R.string.retweets)};
+
+        return items;
+    }
+
     public MainDrawerArrayAdapter(Context context, ArrayList<String> text) {
         super(context, 0);
         this.context = (Activity) context;
@@ -72,6 +81,11 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
             holder.icon.setImageResource(resource);
         } else if (text.get(position).equals(context.getResources().getString(R.string.direct_messages))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.directMessageItem});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.retweets))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.retweetButton});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);

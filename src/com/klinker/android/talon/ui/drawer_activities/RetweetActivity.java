@@ -21,9 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.talon.adapters.TimelineArrayAdapter;
-import com.klinker.android.talon.adapters.TimelinePagerAdapter;
+import com.klinker.android.talon.adapters.*;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -35,14 +33,17 @@ import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.utilities.Utils;
 import com.squareup.picasso.Picasso;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.lucasr.smoothie.AsyncListView;
+import org.lucasr.smoothie.ItemManager;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +79,7 @@ public class RetweetActivity extends Activity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.timeline));
+        actionBar.setTitle(getResources().getString(R.string.retweets));
 
         setContentView(R.layout.retweets_activity);
 
@@ -90,15 +91,24 @@ public class RetweetActivity extends Activity {
 
         listView = (AsyncListView) findViewById(R.id.listView);
 
-        setUpDrawer();
-        new GetRetweets().execute();
+        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+        ArrayListLoader loader = new ArrayListLoader(cache, context);
 
+        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
+        builder.setThreadPoolSize(4);
+
+        listView.setItemManager(builder.build());
+
+        setUpDrawer();
+
+        new GetRetweets().execute();
 
     }
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 0;
+        MainDrawerArrayAdapter.current = 3;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -137,19 +147,7 @@ public class RetweetActivity extends Activity {
                     logoutVisible = false;
                 }
 
-                int position = mViewPager.getCurrentItem();
-
-                switch (position) {
-                    case 0:
-                        actionBar.setTitle(getResources().getString(R.string.timeline));
-                        break;
-                    case 1:
-                        actionBar.setTitle(getResources().getString(R.string.mentions));
-                        break;
-                    case 2:
-                        actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                        break;
-                }
+                actionBar.setTitle(getResources().getString(R.string.retweets));
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -249,11 +247,7 @@ public class RetweetActivity extends Activity {
             // empty path again
         }
 
-        String[] items = new String[] {getResources().getString(R.string.timeline),
-                getResources().getString(R.string.mentions),
-                getResources().getString(R.string.direct_messages)};
-
-        MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(items)));
+        MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
         drawerList.setAdapter(adapter);
 
         drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager));
@@ -378,7 +372,22 @@ public class RetweetActivity extends Activity {
                 arrayList.add(s);
             }
 
-            listView.setAdapter(new TimelineArrayAdapter(context, arrayList));
+            listView.setAdapter(new TimelineArrayAdapter(context, arrayList, TimelineArrayAdapter.RETWEET));
+            listView.setVisibility(View.VISIBLE);
+
+            /*LinearLayout viewHeader = new LinearLayout(context);
+            viewHeader.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
+            viewHeader.setLayoutParams(lp);
+
+            try {
+                listView.addHeaderView(viewHeader, null, false);
+            } catch (Exception e) {
+
+            }   */
+
+            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+            spinner.setVisibility(View.GONE);
         }
     }
 
