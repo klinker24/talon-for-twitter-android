@@ -15,6 +15,8 @@
     <string name="menu_block">Block User</string>
     <string name="menu_unblock">Unblock User</string>
     <string name="menu_add_to_list">Add to List</string>
+    <string name="menu_change_picture">Change Profile Picture</string>
+    <string name="menu_change_bio">Change Bio.</string>
 
     <!-- Main Activity -->
     <string name="timeline">Timeline</string>

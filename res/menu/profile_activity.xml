@@ -36,4 +36,15 @@
           android:orderInCategory="7"
           android:title="@string/menu_dm"
           android:showAsAction="never"  />
+
+    <item android:id="@+id/menu_change_picture"
+          android:orderInCategory="8"
+          android:title="@string/menu_change_picture"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_change_bio"
+          android:orderInCategory="9"
+          android:title="@string/menu_change_bio"
+          android:showAsAction="never" />
+
 </menu>

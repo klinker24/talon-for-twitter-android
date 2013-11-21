@@ -479,6 +479,8 @@ public class UserProfileActivity extends Activity {
         final int MENU_UNBLOCK = 4;
         final int MENU_ADD_LIST = 5;
         final int MENU_DM = 6;
+        final int MENU_CHANGE_PICTURE = 7;
+        final int MENU_CHANGE_BIO = 8;
 
         if (isMyProfile) {
             menu.getItem(MENU_TWEET).setVisible(false);
@@ -507,6 +509,9 @@ public class UserProfileActivity extends Activity {
                 menu.getItem(MENU_BLOCK).setVisible(false);
                 menu.getItem(MENU_UNBLOCK).setVisible(false);
             }
+
+            menu.getItem(MENU_CHANGE_BIO).setVisible(false);
+            menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
         }
 
         return true;
@@ -550,6 +555,14 @@ public class UserProfileActivity extends Activity {
                 // todo - compose new DM activity
                 //Intent compose = new Intent(context, ComposeActivity.class);
                 //startActivity(compose);
+                return true;
+
+            case R.id.menu_change_picture:
+                // todo - be able to select and upload a picture
+                return true;
+
+            case  R.id.menu_change_bio:
+                // TODO - open dialog to change the bio text
                 return true;
 
             default:
