@@ -8,6 +8,13 @@
     <string name="menu_compose">New Tweet</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_follow">Follow User</string>
+    <string name="menu_unfollow">Un-Follow User</string>
+    <string name="menu_tweet">Send Tweet</string>
+    <string name="menu_dm">Send Direct Message</string>
+    <string name="menu_block">Block User</string>
+    <string name="menu_unblock">Unblock User</string>
+    <string name="menu_add_to_list">Add to List</string>
 
     <!-- Main Activity -->
     <string name="timeline">Timeline</string>
@@ -41,12 +48,14 @@
     <!-- Other -->
     <string name="placeholder">Placeholder</string>
     <string name="reply">Reply...</string>
+    <string name="error">Error</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="tweets">Tweets</string>
-    <string name="menu_follow">Change Following Status</string>
-    <string name="menu_tweet">Send Tweet</string>
-    <string name="menu_dm">Send Direct Message</string>
+    <string name="blocked_user">Blocked User</string>
+    <string name="unblocked_user">Unblocked User</string>
+    <string name="followed_user">Followed User</string>
+    <string name="unfollowed_user">Un-Followed User</string>
 </resources>

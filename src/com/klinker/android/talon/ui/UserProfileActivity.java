@@ -41,6 +41,10 @@ public class UserProfileActivity extends Activity {
     private boolean isRetweet;
     private LayoutInflater inflater;
 
+    private boolean isBlocking;
+    private boolean isFollowing;
+    private boolean isFollowingSet = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +145,7 @@ public class UserProfileActivity extends Activity {
         tweetId = from.getLongExtra("tweetid", 0);
         isRetweet = from.getBooleanExtra("retweet", false);
 
-        if (tweetId == 0) {
+        if (screenName.equals(settings.myScreenName)) {
             isMyProfile = true;
         }
     }
@@ -210,11 +214,9 @@ public class UserProfileActivity extends Activity {
                 Twitter twitter =  Utils.getTwitter(context);
 
                 if (!isMyProfile) {
-                    /*if (isRetweet) {
-                        return twitter.showStatus(tweetId).getRetweetedStatus().getUser();
-                    } else {
-                        return twitter.showStatus(tweetId).getUser();
-                    }*/
+
+
+
                     return twitter.showUser(screenName);
                 } else {
                     return twitter.showUser(settings.myScreenName);
@@ -234,6 +236,7 @@ public class UserProfileActivity extends Activity {
                         .into(background);
 
                 new GetTimeline(user, listView).execute();
+                new GetActionBarInfo(user).execute();
                 //new GetFollowers(user, listView, numFollowers).execute();
                 //new GetFollowing(user, listView, numFollowing).execute();
                 //new GetUserStatement(user, numTweets, statement);
@@ -242,6 +245,37 @@ public class UserProfileActivity extends Activity {
                 //try { numFollowing.setText(user.getFollowersCount()); } catch (Exception e) { }
                 //try { numFollowing.setText(user.getFriendsCount()); } catch (Exception e) { }
             }
+        }
+    }
+
+
+    class GetActionBarInfo extends AsyncTask<String, Void, Void> {
+
+        private User user;
+        public GetActionBarInfo(User user) {
+            this.user = user;
+        }
+
+        protected Void doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                String otherUserName = thisUser.getScreenName();
+                Relationship friendship = twitter.showFriendship(settings.myScreenName, otherUserName);
+
+                isFollowing = friendship.isSourceFollowingTarget();
+                isBlocking = friendship.isSourceBlockingTarget();
+                isFollowingSet = true;
+
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Void none) {
+            invalidateOptionsMenu();
         }
     }
 
@@ -368,21 +402,114 @@ public class UserProfileActivity extends Activity {
             // false = unfollowed
             if (created != null) {
                 if (created) {
-                    Toast.makeText(context, "Followed user!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getResources().getString(R.string.followed_user), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "Unfollowed user!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getResources().getString(R.string.unfollowed_user), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
+
+            new GetActionBarInfo(thisUser).execute();
+        }
+    }
+
+    class BlockUser extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                if (thisUser != null) {
+                    Twitter twitter =  Utils.getTwitter(context);
+
+                    String otherUserName = thisUser.getScreenName();
+
+                    Relationship friendship = twitter.showFriendship(settings.myScreenName, otherUserName);
+
+                    boolean isBlocking = friendship.isSourceBlockingTarget();
+
+                    if (isBlocking) {
+                        twitter.destroyBlock(otherUserName);
+                        return false;
+                    } else {
+                        twitter.createBlock(otherUserName);
+                        return true;
+                    }
+                }
+
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Boolean isBlocked) {
+            // true = followed
+            // false = unfollowed
+            if (isBlocked != null) {
+                if (isBlocked) {
+                    Toast.makeText(context, getResources().getString(R.string.blocked_user), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.unblocked_user), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+
+            new GetActionBarInfo(thisUser).execute();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+
         inflater.inflate(R.menu.profile_activity, menu);
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        final int MENU_TWEET = 0;
+        final int MENU_FOLLOW = 1;
+        final int MENU_UNFOLLOW = 2;
+        final int MENU_BLOCK = 3;
+        final int MENU_UNBLOCK = 4;
+        final int MENU_ADD_LIST = 5;
+        final int MENU_DM = 6;
+
+        if (isMyProfile) {
+            menu.getItem(MENU_TWEET).setVisible(false);
+            menu.getItem(MENU_FOLLOW).setVisible(false);
+            menu.getItem(MENU_UNFOLLOW).setVisible(false);
+            menu.getItem(MENU_BLOCK).setVisible(false);
+            menu.getItem(MENU_UNBLOCK).setVisible(false);
+            menu.getItem(MENU_ADD_LIST).setVisible(false);
+            menu.getItem(MENU_DM).setVisible(false);
+        } else {
+            if (isFollowingSet) {
+                if (isFollowing) {
+                    menu.getItem(MENU_FOLLOW).setVisible(false);
+                } else {
+                    menu.getItem(MENU_UNFOLLOW).setVisible(false);
+                }
+
+                if (isBlocking) {
+                    menu.getItem(MENU_BLOCK).setVisible(false);
+                } else {
+                    menu.getItem(MENU_UNBLOCK).setVisible(false);
+                }
+            } else {
+                menu.getItem(MENU_FOLLOW).setVisible(false);
+                menu.getItem(MENU_UNFOLLOW).setVisible(false);
+                menu.getItem(MENU_BLOCK).setVisible(false);
+                menu.getItem(MENU_UNBLOCK).setVisible(false);
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -397,6 +524,22 @@ public class UserProfileActivity extends Activity {
                 new FollowUser().execute();
                 return true;
 
+            case R.id.menu_unfollow:
+                new FollowUser().execute();
+                return true;
+
+            case R.id.menu_block:
+                new BlockUser().execute();
+                return true;
+
+            case R.id.menu_unblock:
+                new BlockUser().execute();
+                return true;
+
+            case R.id.menu_add_to_list:
+                //TODO - get the lists working here
+                return true;
+
             case R.id.menu_tweet:
                 Intent compose = new Intent(context, ComposeActivity.class);
                 compose.putExtra("user", "@" + screenName);
@@ -404,6 +547,7 @@ public class UserProfileActivity extends Activity {
                 return true;
 
             case R.id.menu_dm:
+                // todo - compose new DM activity
                 //Intent compose = new Intent(context, ComposeActivity.class);
                 //startActivity(compose);
                 return true;
