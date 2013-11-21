@@ -1,0 +1,44 @@
+- Main Drawer Items/Activities:
+    - Retweets
+    - Favorites
+    - Lists
+    - Trending (Local and worldwide)
+    - Search
+
+- Settings:
+    - Refresh on start
+    - Auto-Refresh
+    - Notifications
+    - Caching limits
+    - Clear cache
+    - Theme Stuff
+    - Get Help item
+
+- User Profiles Activity:
+    - followers and following list
+    - Add to list option
+    - Direct Message option
+    - "My profile" stuff:
+        - Change bio
+        - Change profile pic
+        - change banner pic
+    - Spinning progress bar while loading
+    - Maybe find a good way to display the number of tweets, followers, and following counts
+
+- Tweet Viewer Activity:
+    - View full conversations and be able to switch to and from web articles and pictures back to the list
+    - Share option to other social networking apps
+
+- Features:
+    - Cool icon
+    - Image uploading
+    - Emoji Support
+    - Search for users when composing
+    - New direct message activity
+        - Add a button to switch to that from the regular compose
+    - Length counter for message
+
+
+- Bugs:
+    - Sometimes won't display the profile pics
+    - Feedback for buttons
