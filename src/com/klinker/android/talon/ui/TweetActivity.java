@@ -55,6 +55,8 @@ public class TweetActivity extends Activity {
     private boolean picture;
     private long tweetId;
 
+    private WebView website;
+
     private boolean isMyTweet = false;
     private boolean isMyRetweet = true;
 
@@ -152,7 +154,7 @@ public class TweetActivity extends Activity {
         TextView tweettv = (TextView) findViewById(R.id.tweet);
         TextView timetv = (TextView) findViewById(R.id.time);
         final TextView retweetertv = (TextView) findViewById(R.id.retweeter);
-        final WebView website = (WebView) findViewById(R.id.webview);
+        website = (WebView) findViewById(R.id.webview);
         final NetworkedCacheableImageView pictureIv = (NetworkedCacheableImageView) findViewById(R.id.imageView);
         final AsyncListView replyList = (AsyncListView) findViewById(R.id.reply_list);
         LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
@@ -664,6 +666,10 @@ public class TweetActivity extends Activity {
 
         if (!isMyTweet) {
             menu.getItem(MENU_DELETE_TWEET).setVisible(false);
+        }
+
+        if (website.getVisibility() != View.VISIBLE) {
+            menu.getItem(MENU_OPEN_WEB).setVisible(false);
         }
 
         return true;
