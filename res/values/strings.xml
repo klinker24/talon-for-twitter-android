@@ -23,7 +23,7 @@
     <string name="mentions">Mentions</string>
     <string name="direct_messages">Direct Messages</string>
     <string name="retweets">Retweets</string>
-    <string name="favorites">Favorites</string>
+    <string name="favorite_tweets">Favorite Tweets</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>
@@ -67,6 +67,12 @@
     <string name="retweets_lower">retweets</string>
     <string name="retweet_lower">retweet</string>
     <string name="retweeter">retweeted by @</string>
+
+    <!-- Tweet Activity -->
+    <string name="menu_open_web">Open Web Link</string>
+    <string name="menu_copy_text">Copy Tweet Text</string>
+    <string name="menu_share">Share Tweet</string>
+    <string name="menu_delete_tweet">Delete Tweet</string>
 
 
 </resources>

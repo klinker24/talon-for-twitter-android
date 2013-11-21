@@ -31,7 +31,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 context1.getResources().getString(R.string.mentions),
                 context1.getResources().getString(R.string.direct_messages),
                 context1.getResources().getString(R.string.retweets),
-                context1.getResources().getString(R.string.favorites)};
+                context1.getResources().getString(R.string.favorite_tweets)};
 
         return items;
     }
@@ -90,7 +90,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.favorites))) {
+        } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_tweets))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
             int resource = a.getResourceId(0, 0);
             a.recycle();

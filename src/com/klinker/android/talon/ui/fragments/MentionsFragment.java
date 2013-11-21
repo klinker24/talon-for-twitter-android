@@ -157,7 +157,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew + " new mention" :  numberNew + " new mentions";
                     Crouton.makeText(context, text, Style.INFO).show();
-                    listView.smoothScrollToPosition(numberNew + 1);
+                    listView.smoothScrollToPosition(numberNew);
                 } else {
                     CharSequence text = "No new mentions";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();

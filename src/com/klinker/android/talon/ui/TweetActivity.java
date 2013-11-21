@@ -1,10 +1,13 @@
 package com.klinker.android.talon.ui;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +53,9 @@ public class TweetActivity extends Activity {
     private String proPic;
     private boolean picture;
     private long tweetId;
+
+    private boolean isMyTweet = false;
+    private boolean isMyRetweet = true;
 
 
     @Override
@@ -129,6 +135,12 @@ public class TweetActivity extends Activity {
         tweetId = from.getLongExtra("tweetid", 0);
         picture = from.getBooleanExtra("picture", false);
         proPic = from.getStringExtra("proPic");
+
+        if (screenName.equals(settings.myScreenName)) {
+            isMyTweet = true;
+        } else if (screenName.equals(retweeter)) {
+            isMyRetweet = true;
+        }
     }
 
     PhotoViewAttacher mAttacher;
@@ -300,7 +312,7 @@ public class TweetActivity extends Activity {
         tweettv.setLinksClickable(true);
 
         if (retweeter.length() > 0 ) {
-            retweetertv.setText("Retweeted by @" + retweeter);
+            retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
             retweetertv.setVisibility(View.VISIBLE);
             isRetweet = true;
         }
@@ -518,17 +530,6 @@ public class TweetActivity extends Activity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     class GetReplies extends AsyncTask<String, Void, ArrayList<Status>> {
 
         private String username;
@@ -609,6 +610,64 @@ public class TweetActivity extends Activity {
             if(!picture && webpage == null) {
                 listView.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.tweet_activity, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        final int MENU_DELETE_TWEET = 0;
+        final int MENU_SHARE = 1;
+        final int MENU_COPY_TEXT = 2;
+        final int MENU_OPEN_WEB = 3;
+
+        if (!isMyTweet || !isMyRetweet) {
+            menu.getItem(MENU_DELETE_TWEET).setVisible(false);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.menu_delete_tweet:
+                // delete the tweet
+                return true;
+
+            case R.id.menu_share:
+                // open the share dialog
+                return true;
+
+            case R.id.menu_copy_text:
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("tweet_text", tweet);
+                clipboard.setPrimaryClip(clip);
+                return true;
+
+            case R.id.menu_open_web:
+                Uri weburi = Uri.parse(webpage);
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                startActivity(launchBrowser);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

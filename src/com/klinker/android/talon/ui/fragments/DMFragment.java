@@ -164,7 +164,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew +  " new direct message" :  numberNew + " new direct messages";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
-                    listView.smoothScrollToPosition(numberNew + 1);
+                    listView.smoothScrollToPosition(numberNew);
                 } else {
                     CharSequence text = "No new direct messages";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();

@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew + " new tweet" :  numberNew + " new tweets";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
-                    listView.smoothScrollToPosition(numberNew + 1);
+                    listView.smoothScrollToPosition(numberNew);
                 } else {
                     CharSequence text = "No new tweets";
                     Crouton.makeText((Activity) context, text, Style.INFO).show();

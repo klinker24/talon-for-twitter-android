@@ -79,7 +79,7 @@ public class FavoritesActivity extends Activity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.favorites));
+        actionBar.setTitle(getResources().getString(R.string.favorite_tweets));
 
         setContentView(R.layout.retweets_activity);
 
@@ -147,7 +147,7 @@ public class FavoritesActivity extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(getResources().getString(R.string.favorites));
+                actionBar.setTitle(getResources().getString(R.string.favorite_tweets));
             }
 
             public void onDrawerOpened(View drawerView) {

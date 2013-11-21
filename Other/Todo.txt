@@ -1,6 +1,7 @@
 - Main Drawer Items/Activities:
     - Retweets
-    - Favorites
+    - Favorite Tweets
+    - Favorite Users
     - Lists
     - Trending (Local and worldwide)
     - Search
@@ -39,6 +40,7 @@
     - New direct message activity
         - Add a button to switch to that from the regular compose
     - Length counter for message
+    - Remove retweets
 
 - Bugs:
     - Feedback for buttons
