@@ -46,7 +46,17 @@
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize"
-                  android:theme="@style/Theme.TalonLight" >
+                  android:theme="@style/Theme.TalonLight"
+                  android:excludeFromRecents="true">
+
+        </activity>
+
+        <activity android:name=".ui.drawer_activities.FavoritesActivity"
+                  android:label="@string/app_name"
+                  android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="adjustResize"
+                  android:theme="@style/Theme.TalonLight"
+                  android:excludeFromRecents="true">
 
         </activity>
 

@@ -23,6 +23,7 @@
     <string name="mentions">Mentions</string>
     <string name="direct_messages">Direct Messages</string>
     <string name="retweets">Retweets</string>
+    <string name="favorites">Favorites</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>

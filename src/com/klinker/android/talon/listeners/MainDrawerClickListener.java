@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.drawer_activities.FavoritesActivity;
 import com.klinker.android.talon.ui.drawer_activities.RetweetActivity;
 
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {
@@ -71,7 +72,9 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                         case 3:
                             intent = new Intent(context, RetweetActivity.class);
                             break;
-
+                        case 4:
+                            intent = new Intent(context, FavoritesActivity.class);
+                            break;
                     }
 
                     try {
