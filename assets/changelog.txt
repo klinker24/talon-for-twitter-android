@@ -9,3 +9,6 @@
 - Better handling of dates in the tweet activity
 
 - Way better handling of images everywhere (still can't get instagram yet...)
+- Favorite Tweets page
+- Retweets of you page
+- New actions in the action bar on the tweets

@@ -41,6 +41,7 @@
         - Add a button to switch to that from the regular compose
     - Length counter for message
     - Remove retweets
+    - Save images
 
 - Bugs:
     - Feedback for buttons
