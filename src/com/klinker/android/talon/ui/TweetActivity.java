@@ -15,15 +15,21 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+import com.klinker.android.talon.adapters.ArrayListLoader;
+import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.utilities.Utils;
 import com.squareup.picasso.Picasso;
+import org.lucasr.smoothie.AsyncListView;
+import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 import java.text.DateFormat;
@@ -56,8 +62,6 @@ public class TweetActivity extends Activity {
         setUpTheme();
         //setUpWindow();
         getFromIntent();
-
-        Log.v("tweet_page", "done with setup");
 
         setContentView(R.layout.tweet_activity);
 
@@ -137,7 +141,7 @@ public class TweetActivity extends Activity {
         final TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         final WebView website = (WebView) findViewById(R.id.webview);
         final NetworkedCacheableImageView pictureIv = (NetworkedCacheableImageView) findViewById(R.id.imageView);
-        final ListView replyList = (ListView) findViewById(R.id.reply_list);
+        final AsyncListView replyList = (AsyncListView) findViewById(R.id.reply_list);
         LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
         final LinearLayout background = (LinearLayout) findViewById(R.id.tweet_background);
         final ImageButton expand = (ImageButton) findViewById(R.id.switchViews);
@@ -150,6 +154,15 @@ public class TweetActivity extends Activity {
         final TextView retweetCount = (TextView) findViewById(R.id.retweet_count);
         final EditText reply = (EditText) findViewById(R.id.reply);
         final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
+
+        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+        ArrayListLoader loader = new ArrayListLoader(cache, context);
+
+        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
+        builder.setThreadPoolSize(4);
+
+        replyList.setItemManager(builder.build());
 
         if (settings.theme == 0) {
             nametv.setTextColor(getResources().getColor(android.R.color.black));

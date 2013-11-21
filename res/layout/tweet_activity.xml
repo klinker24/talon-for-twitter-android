@@ -73,7 +73,8 @@
                 android:indeterminateOnly="true" />
         </LinearLayout>
 
-    <ListView android:id="@+id/reply_list"
+    <org.lucasr.smoothie.AsyncListView
+              android:id="@+id/reply_list"
               android:layout_height="0dp"
               android:layout_width="fill_parent"
               android:layout_weight="1"

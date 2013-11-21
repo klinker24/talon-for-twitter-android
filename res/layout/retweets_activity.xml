@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <org.lucasr.smoothie.AsyncListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/listView"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="8dp"
+            android:divider="@null"
+            android:dividerHeight="5dp"
+            android:listSelector="@android:color/transparent"
+            />
+
+    <!-- The navigation drawer -->
+    <include layout="@layout/main_drawer"
+             android:id="@+id/left_drawer"
+             android:layout_width="280dp"
+             android:layout_height="match_parent"
+             android:layout_gravity="start" >
+
+    </include>
+
+</android.support.v4.widget.DrawerLayout>
