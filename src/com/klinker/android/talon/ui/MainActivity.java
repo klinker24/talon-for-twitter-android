@@ -363,6 +363,11 @@ public class MainActivity extends Activity {
                 startActivity(compose);
                 return true;
 
+            case R.id.menu_direct_message:
+                Intent dm = new Intent(context, ComposeDMActivity.class);
+                startActivity(dm);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

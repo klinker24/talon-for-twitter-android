@@ -12,3 +12,4 @@
 - Favorite Tweets page
 - Retweets of you page
 - New actions in the action bar on the tweets
+- Compose new direct messages

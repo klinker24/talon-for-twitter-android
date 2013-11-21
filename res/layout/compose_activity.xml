@@ -3,8 +3,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="bottom">
+              android:layout_height="match_parent" >
+
+    <EditText android:id="@+id/contact_entry"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/send_to"
+              android:visibility="gone"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <EditText android:id="@+id/tweet_content"
               android:layout_height="wrap_content"

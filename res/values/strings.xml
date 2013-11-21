@@ -17,6 +17,7 @@
     <string name="menu_add_to_list">Add to List</string>
     <string name="menu_change_picture">Change Profile Picture</string>
     <string name="menu_change_bio">Change Bio.</string>
+    <string name="menu_direct_message">New Direct Message</string>
 
     <!-- Main Activity -->
     <string name="timeline">Timeline</string>
@@ -44,6 +45,7 @@
     <!-- ComposeActivity New Activity -->
     <string name="compose_activity">New Tweet</string>
     <string name="compose_tweet_hint">Type tweet here...</string>
+    <string name="send_to">Enter user\'s screen name</string>
 
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>

@@ -7,8 +7,13 @@
           android:showAsAction="always"
           android:icon="?sendButton" />
 
-    <item android:id="@+id/menu_settings"
+    <item android:id="@+id/menu_direct_message"
           android:orderInCategory="2"
+          android:title="@string/menu_direct_message"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_settings"
+          android:orderInCategory="3"
           android:title="@string/menu_settings"
           android:showAsAction="never" />
 

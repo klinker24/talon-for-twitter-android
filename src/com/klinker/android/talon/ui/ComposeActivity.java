@@ -20,6 +20,8 @@ public class ComposeActivity extends Activity {
 
     public AppSettings settings;
 
+    private EditText contactEntry;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,7 @@ public class ComposeActivity extends Activity {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
 
-        setContentView(R.layout.compose_activity);
+        setUpLayout();
 
         LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -95,6 +97,12 @@ public class ComposeActivity extends Activity {
 
     }
 
+    public void setUpLayout() {
+        setContentView(R.layout.compose_activity);
+
+        contactEntry = (EditText) findViewById(R.id.contact_entry);
+    }
+
     public void setUpTheme() {
 
         switch (settings.theme) {
@@ -117,7 +125,7 @@ public class ComposeActivity extends Activity {
         // Check for blank text
         if (status.trim().length() > 0) {
             // update status
-            new updateTwitterStatus().execute(status);
+            sendStatus(status);
         } else {
             // EditText is empty
             Toast.makeText(getApplicationContext(),
@@ -127,23 +135,18 @@ public class ComposeActivity extends Activity {
         return true;
     }
 
-    /**
-     * Function to update status
-     */
-    class updateTwitterStatus extends AsyncTask<String, String, String> {
+    private void sendStatus(String status) {
+        new updateTwitterStatus().execute(status);
+    }
 
-        /**
-         * Before starting background thread Show Progress Dialog
-         */
+    private class updateTwitterStatus extends AsyncTask<String, String, String> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
 
-        /**
-         * getting Places JSON
-         */
         protected String doInBackground(String... args) {
             Log.d("Tweet Text", "> " + args[0]);
             String status = args[0];
@@ -161,12 +164,6 @@ public class ComposeActivity extends Activity {
             return null;
         }
 
-        /**
-         * After completing background task Dismiss the progress dialog and show
-         * the data in ui Always use runOnUiThread(new Runnable()) to update ui
-         * from background thread, otherwise you will get error
-         * *
-         */
         protected void onPostExecute(String file_url) {
             // dismiss the dialog after getting all products
 

@@ -42,6 +42,7 @@
     - Length counter for message
     - Remove retweets
     - Save images
+    - Delete Direct messages with click
 
 - Bugs:
     - Feedback for buttons

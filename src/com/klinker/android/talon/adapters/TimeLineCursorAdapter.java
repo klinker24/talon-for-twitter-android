@@ -216,6 +216,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
+        if (isDM) {
+            holder.background.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Todo - dialog to delete the direct message
+                }
+            });
+        }
+
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

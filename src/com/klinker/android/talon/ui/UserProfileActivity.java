@@ -572,8 +572,9 @@ public class UserProfileActivity extends Activity {
 
             case R.id.menu_dm:
                 // todo - compose new DM activity
-                //Intent compose = new Intent(context, ComposeActivity.class);
-                //startActivity(compose);
+                Intent dm = new Intent(context, ComposeDMActivity.class);
+                dm.putExtra("screenname", screenName);
+                startActivity(dm);
                 return true;
 
             case R.id.menu_change_picture:
