@@ -199,9 +199,10 @@ public class ComposeActivity extends Activity {
                     twitter4j.Status response = twitter.updateStatus(status);
 
                 } else {
+                    Log.v("updating_with_pic", attachedFilePath);
                     StatusUpdate media = new StatusUpdate(status);
                     media.setMedia(new File(attachedFilePath));
-                    twitter.updateStatus(status);
+                    twitter.updateStatus(media);
                 }
 
             } catch (TwitterException e) {
