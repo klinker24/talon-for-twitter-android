@@ -27,7 +27,7 @@
 - Tweet Viewer Activity:
     - View full conversations and be able to switch to and from web articles and pictures back to the list
     - Share option to other social networking apps
-    - Delete your own tweets
+    - Delete Retweet
 
 - Features:
     - Cool icon
@@ -37,8 +37,9 @@
     - New direct message activity
         - Add a button to switch to that from the regular compose
     - Length counter for message
-    - Remove retweets
+    - Switch tweet background when it is my tweet
 
 - Bugs:
     - Feedback for buttons
     - Limiting cache to 15 mb
+    - Convert everything away from picasso

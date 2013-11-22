@@ -571,7 +571,6 @@ public class UserProfileActivity extends Activity {
                 return true;
 
             case R.id.menu_dm:
-                // todo - compose new DM activity
                 Intent dm = new Intent(context, ComposeDMActivity.class);
                 dm.putExtra("screenname", screenName);
                 startActivity(dm);

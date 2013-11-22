@@ -1,3 +1,4 @@
+Version 0.20:
 - Style changes for main timeline activity (long press opens tweet, click expands, this will be an option later)
 - Fixed the animations stuttering
 - Direct message fixes
@@ -8,6 +9,7 @@
 - Reply lists now fully working, can't look into the future yet though, only back
 - Better handling of dates in the tweet activity
 
+Version 0.30:
 - Reduced memory footprint
 - Better Handling of images everywhere
 - Favorite Tweets page
