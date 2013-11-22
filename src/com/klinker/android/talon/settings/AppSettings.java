@@ -50,6 +50,6 @@ public class AppSettings {
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
 
         // Integers
-        theme = 0;
+        theme = 1;
     }
 }

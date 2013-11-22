@@ -10,10 +10,46 @@
               android:layout_height="wrap_content"
               android:hint="@string/send_to"
               android:visibility="gone"/>
-    <View
-        android:layout_width="match_parent"
+
+    <LinearLayout
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+               <ImageView
+                   android:id="@+id/attach"
+                   android:layout_height="match_parent"
+                   android:layout_width="0dp"
+                   android:layout_weight="1"
+                   android:background="?rectangle_boarder"
+                   android:src="?attachButton"
+                   android:scaleType="center"
+                   android:layout_margin="15dp"/>
+
+            <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="48dp"
+                    android:orientation="vertical"
+                    android:gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="10dp">
+
+
+                    <ImageButton
+                            android:id="@+id/emoji"
+                            android:layout_height="48dp"
+                            android:layout_width="48dp"
+                            android:src="?emoji_button"
+                            android:background="@android:color/transparent"
+                            android:minHeight="48dp" android:minWidth="48dp"
+                            android:scaleType="center" android:adjustViewBounds="true"
+                            android:maxWidth="48dp" android:maxHeight="48dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
     <EditText android:id="@+id/tweet_content"
               android:layout_height="wrap_content"

@@ -57,6 +57,8 @@ limitations under the License.
         <item name="timelineItem">@drawable/timeline_light</item>
         <item name="mentionItem">@drawable/mentions_light</item>
         <item name="directMessageItem">@drawable/ic_action_reply_light</item>
+        <item name="rectangle_boarder">@drawable/rect_border_light</item>
+        <item name="emoji_button">@drawable/ic_emoji_keyboard_dark</item>
 
         <item name="actionbar">@drawable/ab_solid_light_holo</item>
         <item name="searchIcon">@drawable/ic_action_search_light</item>
@@ -81,7 +83,7 @@ limitations under the License.
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowIsTranslucent">true</item>
 
-        <item name="android:windowFrame">@drawable/rect_border</item>
+        <item name="android:windowFrame">@drawable/rect_border_light</item>
         <!-- <item name="android:windowAnimationStyle">@style/PopupAnimation</item> -->
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:backgroundDimEnabled">false</item>

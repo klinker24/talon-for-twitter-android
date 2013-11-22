@@ -49,6 +49,8 @@ limitations under the License.
     <attr name="timelineItem" format="reference"/>
     <attr name="mentionItem" format="reference"/>
     <attr name="directMessageItem" format="reference"/>
+    <attr name="rectangle_boarder" format="reference"/>
+    <attr name="emoji_button" format="reference"/>
 
     <!-- Actionbar Icons -->
     <attr name="actionbar" format="reference"/>
