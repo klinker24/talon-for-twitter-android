@@ -26,7 +26,8 @@
                    android:background="?rectangle_boarder"
                    android:src="?attachButton"
                    android:scaleType="center"
-                   android:layout_margin="15dp"/>
+                   android:layout_margin="15dp"
+                   android:padding="4dp"/>
 
             <LinearLayout
                     android:layout_height="match_parent"

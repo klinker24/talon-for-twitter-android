@@ -2,12 +2,21 @@ package com.klinker.android.talon.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.TypedArray;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -16,18 +25,25 @@ import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
+import java.io.File;
+
 
 public class ComposeActivity extends Activity {
 
     public AppSettings settings;
+    private Context context;
 
     private EditText contactEntry;
+    private ImageView attachImage;
+
+    private String attachedFilePath = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         settings = new AppSettings(this);
+        context = this;
 
         setUpTheme();
 
@@ -98,10 +114,34 @@ public class ComposeActivity extends Activity {
 
     }
 
+    private static final int SELECT_PHOTO = 100;
+
     public void setUpLayout() {
         setContentView(R.layout.compose_activity);
 
         contactEntry = (EditText) findViewById(R.id.contact_entry);
+        attachImage = (ImageView) findViewById(R.id.attach);
+
+        attachImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (attachedFilePath.equals("")) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                } else {
+                    attachedFilePath = "";
+
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
+                    int resource = a.getResourceId(0, 0);
+                    a.recycle();
+                    attachImage.setImageDrawable(context.getResources().getDrawable(resource));
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                }
+            }
+        });
     }
 
     public void setUpTheme() {
@@ -124,7 +164,7 @@ public class ComposeActivity extends Activity {
         String status = editText.getText().toString();
 
         // Check for blank text
-        if (status.trim().length() > 0) {
+        if (status.trim().length() > 0 || !attachedFilePath.equals("")) {
             // update status
             sendStatus(status);
         } else {
@@ -154,13 +194,18 @@ public class ComposeActivity extends Activity {
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext());
 
-                // Update status
-                twitter4j.Status response = twitter.updateStatus(status);
+                if (attachedFilePath.equals("")) {
+                    // Update status
+                    twitter4j.Status response = twitter.updateStatus(status);
 
-                Log.d("Status", "> " + response.getText());
+                } else {
+                    StatusUpdate media = new StatusUpdate(status);
+                    media.setMedia(new File(attachedFilePath));
+                    twitter.updateStatus(status);
+                }
+
             } catch (TwitterException e) {
                 // Error in updating status
-                Log.d("Twitter Update Error", e.getMessage());
             }
             return null;
         }
@@ -180,5 +225,33 @@ public class ComposeActivity extends Activity {
             });
         }
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                    Cursor cursor = getContentResolver().query(
+                            selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+
+                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+
+                    attachImage.setImageBitmap(yourSelectedImage);
+
+                    attachedFilePath = filePath;
+                }
+        }
     }
 }
