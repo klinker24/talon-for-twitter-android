@@ -57,7 +57,7 @@ limitations under the License.
         <item name="timelineItem">@drawable/timeline_dark</item>
         <item name="mentionItem">@drawable/mentions_dark</item>
         <item name="directMessageItem">@drawable/ic_action_reply_dark</item>
-        <item name="rectangle_boarder">@drawable/rect_border_dark</item>
+        <item name="rectangle_border">@drawable/rect_border_dark</item>
         <item name="emoji_button">@drawable/ic_emoji_keyboard_light</item>
 
         <item name="actionbar">@drawable/ab_solid_dark</item>

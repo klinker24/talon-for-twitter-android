@@ -26,17 +26,12 @@
 
 - Tweet Viewer Activity:
     - View full conversations and be able to switch to and from web articles and pictures back to the list
-    - Share option to other social networking apps
     - Delete Retweet
-    - Upload Images
 
 - Features:
     - Cool icon
-    - Image uploading
     - Emoji Support
     - Search for users when composing
-    - New direct message activity
-        - Add a button to switch to that from the regular compose
     - Length counter for message
     - Switch tweet background to right side when it is my tweet
 

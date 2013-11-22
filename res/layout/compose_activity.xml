@@ -23,7 +23,7 @@
                    android:layout_height="match_parent"
                    android:layout_width="0dp"
                    android:layout_weight="1"
-                   android:background="?rectangle_boarder"
+                   android:background="?rectangle_border"
                    android:src="?attachButton"
                    android:scaleType="center"
                    android:layout_margin="15dp"
