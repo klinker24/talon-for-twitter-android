@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.utilities.IOUtils;
 import com.klinker.android.talon.utilities.Utils;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -236,16 +237,7 @@ public class ComposeActivity extends Activity {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                    Cursor cursor = getContentResolver().query(
-                            selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String filePath = cursor.getString(columnIndex);
-                    cursor.close();
-
+                    String filePath = IOUtils.getPath(selectedImage, context);
 
                     Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
 

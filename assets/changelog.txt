@@ -24,3 +24,4 @@ Version 0.40:
 - Feedback on button presses
 - Attach images from the compose activity
 - Style changes
+- Fix for user pictures on profiles

@@ -2,7 +2,9 @@ package com.klinker.android.talon.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
@@ -44,5 +46,19 @@ public class IOUtils {
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         Toast.makeText(context, context.getResources().getString(R.string.save_image), Toast.LENGTH_SHORT).show();
+    }
+
+    public static String getPath(Uri uri, Context context) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = context.getContentResolver().query(
+                uri, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String filePath = cursor.getString(columnIndex);
+        cursor.close();
+
+        return filePath;
     }
 }

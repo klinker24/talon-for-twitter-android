@@ -40,6 +40,7 @@ import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -62,6 +63,9 @@ public class TweetActivity extends Activity {
 
     private WebView website;
     private NetworkedCacheableImageView pictureIv;
+
+    private ImageView attachImage;
+    private String attachedFilePath = "";
 
     private boolean isMyTweet = false;
     private boolean isMyRetweet = true;
@@ -175,6 +179,7 @@ public class TweetActivity extends Activity {
         final TextView retweetCount = (TextView) findViewById(R.id.retweet_count);
         final EditText reply = (EditText) findViewById(R.id.reply);
         final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
+        ImageButton attachButton = (ImageButton) findViewById(R.id.attach_button);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
@@ -195,6 +200,8 @@ public class TweetActivity extends Activity {
         if (name.contains(settings.myName)) {
             reply.setVisibility(View.GONE);
             replyButton.setVisibility(View.GONE);
+            attachButton.setVisibility(View.GONE);
+            attachButton.setEnabled(false);
             favoriteButton.setEnabled(false);
             retweetButton.setEnabled(false);
         }
@@ -372,6 +379,26 @@ public class TweetActivity extends Activity {
             }
         });
 
+        attachImage = (ImageView) findViewById(R.id.attach);
+
+        attachButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (attachedFilePath.equals("")) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                } else {
+                    attachedFilePath = "";
+
+                    attachImage.setVisibility(View.GONE);
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                }
+            }
+        });
+
     }
 
     private boolean isFavorited = false;
@@ -524,6 +551,10 @@ public class TweetActivity extends Activity {
 
                 twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message.getText().toString());
                 reply.setInReplyToStatusId(tweetId);
+
+                if (!attachedFilePath.equals("")) {
+                    reply.setMedia(new File(attachedFilePath));
+                }
 
                 twitter.updateStatus(reply);
 
@@ -735,6 +766,28 @@ public class TweetActivity extends Activity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private static final int SELECT_PHOTO = 100;
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    String filePath = IOUtils.getPath(selectedImage, context);
+
+                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+
+                    attachImage.setImageBitmap(yourSelectedImage);
+                    attachImage.setVisibility(View.VISIBLE);
+
+                    attachedFilePath = filePath;
+                }
         }
     }
 }

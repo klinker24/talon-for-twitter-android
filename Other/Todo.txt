@@ -28,6 +28,7 @@
     - View full conversations and be able to switch to and from web articles and pictures back to the list
     - Share option to other social networking apps
     - Delete Retweet
+    - Upload Images
 
 - Features:
     - Cool icon

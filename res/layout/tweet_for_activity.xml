@@ -113,6 +113,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical">
 
+                <ImageButton
+                        android:id="@+id/attach_button"
+                        android:layout_width="37dp"
+                        android:layout_height="37dp"
+                        android:src="?attachButton"
+                        android:minHeight="37dp" android:minWidth="37dp"
+                        android:scaleType="fitCenter" android:adjustViewBounds="true"
+                        android:maxWidth="37dp" android:maxHeight="37dp"
+                        android:layout_marginLeft="4dp"
+                        android:background="@drawable/pressed_button" />
+
                 <EditText
                         android:id="@+id/reply"
                         android:layout_height="wrap_content"
@@ -135,6 +146,15 @@
                         android:background="@drawable/pressed_button" />
 
             </LinearLayout>
+
+            <ImageView
+                    android:id="@+id/attach"
+                    android:layout_height="96dp"
+                    android:layout_width="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_margin="15dp"
+                    android:padding="4dp"
+                    android:visibility="gone"/>
 
         </LinearLayout>
 
