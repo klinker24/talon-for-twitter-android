@@ -61,6 +61,9 @@
     <string name="cancel">Cancel</string>
     <string name="delete_direct_message">Delete Message?</string>
     <string name="save_image">Image Saved</string>
+    <string name="tweet_success">Tweet Successful</string>
+    <string name="error_sending_tweet">Error Sending Tweet</string>
+    <string name="tweet_to_long">Tweet to long!</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>

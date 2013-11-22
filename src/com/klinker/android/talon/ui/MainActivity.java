@@ -376,5 +376,4 @@ public class MainActivity extends Activity {
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
-
 }

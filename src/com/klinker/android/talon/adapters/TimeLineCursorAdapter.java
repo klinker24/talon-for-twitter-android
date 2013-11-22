@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +70,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public ImageButton replyButton;
         public NetworkedCacheableImageView image;
         public LinearLayout background;
+        public TextView charRemaining;
         //public Bitmap tweetPic;
 
         public long tweetId;
@@ -115,6 +118,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
 
         v.setTag(holder);
         return v;
@@ -287,6 +291,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
         }
+
+
     }
 
     @Override
@@ -420,6 +426,25 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onFocusChange(View view, boolean b) {
                 hasKeyboard = b;
+            }
+        });
+
+        holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
+
+        holder.reply.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }
@@ -587,40 +612,62 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
     }
 
-    class ReplyToStatus extends AsyncTask<String, Void, String> {
+    class ReplyToStatus extends AsyncTask<String, Void, Boolean> {
 
         private ViewHolder holder;
         private long tweetId;
+        private boolean dontgo = false;
 
         public ReplyToStatus(ViewHolder holder, long tweetId) {
             this.holder = holder;
             this.tweetId = tweetId;
         }
 
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context);
-
-                if (!isDM) {
-                    twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
-                    reply.setInReplyToStatusId(tweetId);
-
-                    twitter.updateStatus(reply);
-                } else {
-                    String screenName = holder.screenName;
-                    String message = holder.reply.getText().toString();
-                    DirectMessage dm = twitter.sendDirectMessage(screenName, message);
-                }
-
-                return null;
-            } catch (Exception e) {
-                return null;
+        protected void onPreExecute() {
+            if (Integer.parseInt(holder.charRemaining.getText().toString()) >= 0) {
+                removeExpansionWithAnimation(holder);
+                removeKeyboard(holder);
+            } else {
+                dontgo = true;
             }
         }
 
-        protected void onPostExecute(String count) {
-            removeExpansionWithAnimation(holder);
-            removeKeyboard(holder);
+        protected Boolean doInBackground(String... urls) {
+            try {
+                if (!dontgo) {
+                    Twitter twitter =  Utils.getTwitter(context);
+
+                    if (!isDM) {
+                        twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
+                        reply.setInReplyToStatusId(tweetId);
+
+                        twitter.updateStatus(reply);
+                    } else {
+                        String screenName = holder.screenName;
+                        String message = holder.reply.getText().toString();
+                        DirectMessage dm = twitter.sendDirectMessage(screenName, message);
+                    }
+
+
+                    return true;
+                }
+            } catch (Exception e) {
+
+            }
+
+            return false;
+        }
+
+        protected void onPostExecute(Boolean finished) {
+             if (finished) {
+                 Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
+             } else {
+                 if (dontgo) {
+                     Toast.makeText(context, context.getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                 } else {
+                     Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
+                 }
+             }
         }
     }
 
