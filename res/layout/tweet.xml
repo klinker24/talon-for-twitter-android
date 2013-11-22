@@ -128,7 +128,7 @@
                         android:minHeight="32dp" android:minWidth="32dp"
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
                         android:maxWidth="32dp" android:maxHeight="32dp"
-                        android:background="@android:color/transparent"
+                        android:background="@drawable/pressed_button"
                         android:layout_marginLeft="5dp" />
 
                 <TextView
@@ -147,7 +147,7 @@
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
                         android:maxWidth="37dp" android:maxHeight="37dp"
                         android:layout_marginLeft="8dp"
-                        android:background="@android:color/transparent" />
+                        android:background="@drawable/pressed_button" />
 
                 <TextView
                         android:layout_height="37dp"
@@ -184,7 +184,7 @@
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
                         android:maxWidth="37dp" android:maxHeight="37dp"
                         android:layout_marginLeft="4dp"
-                        android:background="@android:color/transparent" />
+                        android:background="@drawable/pressed_button" />
 
             </LinearLayout>
 

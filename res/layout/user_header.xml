@@ -10,6 +10,7 @@
                android:layout_height="120dp"
                android:layout_width="match_parent"
                android:scaleType="centerCrop"
+               android:background="@drawable/pressed_button"
             />
 
     <LinearLayout
@@ -40,7 +41,7 @@
                 android:minHeight="24dp" android:minWidth="24dp"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:maxWidth="24dp" android:maxHeight="24dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/pressed_button"
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="65dp"
                 />

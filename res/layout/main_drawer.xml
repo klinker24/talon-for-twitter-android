@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:text="@string/menu_logout"
                 android:animateLayoutChanges="true"
+                android:background="@drawable/pressed_button"
                 android:visibility="gone"/>
 
     </LinearLayout>

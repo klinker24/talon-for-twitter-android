@@ -111,7 +111,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:textSize="14dp"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/pressed_button"
                     android:maxLines="1"
                     android:text="@string/tweets"
                     android:textColor="?textColor" />
@@ -126,7 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textSize="14dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/pressed_button"
                 android:maxLines="1"
                 android:text="@string/followers"
                 android:textColor="?textColor" />
@@ -141,7 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textSize="14dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/pressed_button"
                 android:maxLines="1"
                 android:text="@string/following"
                 android:textColor="?textColor" />

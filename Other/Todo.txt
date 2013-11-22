@@ -40,18 +40,5 @@
     - Switch tweet background to right side when it is my tweet
 
 - Bugs:
-    - Feedback for buttons
     - Limiting cache to 15 mb
     - Convert everything away from picasso
-
-
-public void uploadPic(File file, String message,Twitter twitter) throws Exception  {
-    try{
-        StatusUpdate status = new StatusUpdate(message);
-        status.setMedia(file);
-        twitter.updateStatus(status);}
-    catch(TwitterException e){
-        Log.d("TAG", "Pic Upload error" + e.getErrorMessage());
-        throw e;
-    }
-}

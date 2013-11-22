@@ -25,7 +25,7 @@
             android:minHeight="48dp" android:minWidth="48dp"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="48dp" android:maxHeight="48dp"
-            android:background="@null"
+            android:background="@drawable/pressed_button"
             android:layout_margin="10dp"
             android:rotation="180"/>
 
