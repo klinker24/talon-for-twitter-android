@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.utilities.Utils;
@@ -17,6 +18,9 @@ public class ComposeDMActivity extends ComposeActivity {
 
     public void setUpLayout() {
         setContentView(R.layout.compose_activity);
+
+        LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
+        buttons.setVisibility(View.INVISIBLE);
 
         contactEntry = (EditText) findViewById(R.id.contact_entry);
         contactEntry.setVisibility(View.VISIBLE);
