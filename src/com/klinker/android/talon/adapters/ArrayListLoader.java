@@ -29,8 +29,14 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
     @Override
     public String getItemParams(Adapter adapter, int position) {
         try {
-            Status staus = (Status) adapter.getItem(position);
-            String url = staus.getUser().getBiggerProfileImageURL();
+            Status status = (Status) adapter.getItem(position);
+            String url;
+
+            if (!status.isRetweet()) {
+                url = status.getUser().getBiggerProfileImageURL();
+            } else {
+                url = status.getRetweetedStatus().getUser().getBiggerProfileImageURL();
+            }
             return url;
         } catch (Exception e) {
             // no items...
