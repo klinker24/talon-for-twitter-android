@@ -37,7 +37,7 @@
     - New direct message activity
         - Add a button to switch to that from the regular compose
     - Length counter for message
-    - Switch tweet background when it is my tweet
+    - Switch tweet background to right side when it is my tweet
 
 - Bugs:
     - Feedback for buttons
