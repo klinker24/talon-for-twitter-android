@@ -19,3 +19,7 @@ Version 0.30:
 - Delete direct messages with long click
 - Save images from tweets
 - Fix for not going back and finding all the tweets
+
+Version 0.40:
+- Feedback on button presses
+- Attach images from the compose activity
