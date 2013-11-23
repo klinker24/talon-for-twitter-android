@@ -45,6 +45,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 public class TweetActivity extends Activity {
 
@@ -60,6 +61,8 @@ public class TweetActivity extends Activity {
     private String proPic;
     private boolean picture;
     private long tweetId;
+
+    private TextView timetv;
 
     private WebView website;
     private NetworkedCacheableImageView pictureIv;
@@ -78,11 +81,16 @@ public class TweetActivity extends Activity {
         context = this;
         settings = new AppSettings(context);
 
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+
         setUpTheme();
-        //setUpWindow();
+        setUpWindow();
         getFromIntent();
 
         setContentView(R.layout.tweet_activity);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(true);
 
         setUIElements();
 
@@ -92,24 +100,21 @@ public class TweetActivity extends Activity {
 
         switch (settings.theme) {
             case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight);
+                setTheme(R.style.Theme_TalonLight_Popup);
                 break;
             case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark);
+                setTheme(R.style.Theme_TalonDark_Popup);
                 break;
             case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack);
+                setTheme(R.style.Theme_TalonBlack_Popup);
                 break;
         }
 
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
     }
 
     public void setUpWindow() {
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
@@ -117,7 +122,7 @@ public class TweetActivity extends Activity {
         // You can easily set the alpha and the dim behind the window from here
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .9f;  // set it higher if you want to dim behind the window
+        params.dimAmount = .75f;  // set it higher if you want to dim behind the window
         getWindow().setAttributes(params);
 
         // Gets the display size so that you can set the window to a percent of that
@@ -162,7 +167,7 @@ public class TweetActivity extends Activity {
         TextView nametv = (TextView) findViewById(R.id.name);
         TextView screennametv = (TextView) findViewById(R.id.screen_name);
         TextView tweettv = (TextView) findViewById(R.id.tweet);
-        TextView timetv = (TextView) findViewById(R.id.time);
+        timetv = (TextView) findViewById(R.id.time);
         final TextView retweetertv = (TextView) findViewById(R.id.retweeter);
         website = (WebView) findViewById(R.id.webview);
         pictureIv = (NetworkedCacheableImageView) findViewById(R.id.imageView);
@@ -456,6 +461,7 @@ public class TweetActivity extends Activity {
 
         private long tweetId;
         private TextView retweetCount;
+        private String via = "";
 
         public GetRetweetCount(TextView retweetCount, long tweetId) {
             this.retweetCount = retweetCount;
@@ -466,6 +472,9 @@ public class TweetActivity extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
                 twitter4j.Status status = twitter.showStatus(tweetId);
+
+                via = android.text.Html.fromHtml(status.getSource()).toString();
+
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
                 return null;
@@ -475,6 +484,12 @@ public class TweetActivity extends Activity {
         protected void onPostExecute(String count) {
             if (count != null) {
                 retweetCount.setText("- " + count);
+            }
+
+            try {
+                timetv.append(" via " + via);
+            } catch (Exception e) {
+
             }
         }
     }

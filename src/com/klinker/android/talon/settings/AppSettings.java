@@ -47,7 +47,7 @@ public class AppSettings {
 
         // Booleans
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
-        reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
+        reverseClickActions = true;//sharedPrefs.getBoolean("reverse_click_option", false);
 
         // Integers
         theme = 1;

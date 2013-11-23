@@ -100,7 +100,7 @@
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
                   android:excludeFromRecents="true"
-                  android:theme="@style/Theme.TalonLight">
+                  android:theme="@style/Theme.TalonLight.Popup">
         </activity>
 
         <activity android:name=".ui.UserProfileActivity"
