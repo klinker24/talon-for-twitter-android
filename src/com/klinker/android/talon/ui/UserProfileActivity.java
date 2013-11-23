@@ -327,7 +327,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses);
+                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses, screenName);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -371,7 +371,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses);
+                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses, screenName);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

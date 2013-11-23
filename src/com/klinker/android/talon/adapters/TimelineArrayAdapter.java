@@ -51,6 +51,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public boolean isProfile = false;
 
     private int type;
+    private String username;
 
     public static class ViewHolder {
         public TextView name;
@@ -86,6 +87,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.settings = new AppSettings(context);
 
         this.type = NORMAL;
+
+        this.username = "";
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, int type) {
@@ -99,6 +102,21 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.settings = new AppSettings(context);
 
         this.type = type;
+        this.username = "";
+    }
+
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, String username) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.statuses = statuses;
+        this.inflater = LayoutInflater.from(context);
+        this.isProfile = isProfile;
+
+        this.settings = new AppSettings(context);
+
+        this.type = NORMAL;
+        this.username = username;
     }
 
     @Override
@@ -247,7 +265,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        if (!screenname.equals(settings.myScreenName)) {
+        if (!screenname.equals(username)) {
             holder.profilePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
