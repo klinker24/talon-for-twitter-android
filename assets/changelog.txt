@@ -25,3 +25,7 @@ Version 0.40:
 - Attach images from the compose activity and reply activity
 - Style changes
 - Fix for user pictures on profiles
+- Option to advance in windowed form
+- Refresh changes
+- number of tweets, followers, and following on profile
+- tons of other bug fixes

@@ -21,8 +21,8 @@
         - Change bio
         - Change profile pic
         - change banner pic
-    - Spinning progress bar while loading
-    - Maybe find a good way to display the number of tweets, followers, and following counts
+    - Spinning progress bar while loading (over the profile pic)
+    - change button text color
 
 - Tweet Viewer Activity:
     - View full conversations and be able to switch to and from web articles and pictures back to the list
@@ -34,6 +34,9 @@
     - Search for users when composing
     - Length counter for message
     - Switch tweet background to right side when it is my tweet
+    - Change cacheing of the banners for memory reduction again
+    - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current
+    
 
 - Bugs:
     - Limiting cache to 15 mb
