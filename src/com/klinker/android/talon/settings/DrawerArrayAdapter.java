@@ -59,22 +59,47 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
 
         holder.name.setText(settingName);
 
-        if (text.get(position).equals(context.getResources().getString(R.string.theme_settings)))
-            holder.icon.setImageResource(R.drawable.drawer_theme);
-        else if (text.get(position).equals(context.getResources().getString(R.string.sync_settings)))
-            holder.icon.setImageResource(R.drawable.drawer_sync);
-        else if (text.get(position).equals(context.getResources().getString(R.string.notification_settings)))
-            holder.icon.setImageResource(R.drawable.drawer_notification);
-        else if (text.get(position).equals(context.getResources().getString(R.string.advanced_settings)))
-            holder.icon.setImageResource(R.drawable.drawer_advanced);
-        else if (text.get(position).equals(context.getResources().getString(R.string.get_help_settings)))
-            holder.icon.setImageResource(R.drawable.drawer_help);
-        else if (text.get(position).equals(context.getResources().getString(R.string.whats_new)))
-            holder.icon.setImageResource(R.drawable.drawer_what_new);
-        else if (text.get(position).equals(context.getResources().getString(R.string.other_apps)))
-            holder.icon.setImageResource(R.drawable.drawer_other_apps);
-        else if (text.get(position).equals(context.getResources().getString(R.string.rate_it)))
-            holder.icon.setImageResource(R.drawable.drawer_rate_it);
+        if (text.get(position).equals(context.getResources().getString(R.string.theme_settings))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.themeSettings});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.sync_settings))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.syncSettings});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.notification_settings))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notificationSettings});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.advanced_settings))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.advancedSettings});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.get_help_settings))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.getHelp});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.whats_new))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.whatsNew});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.other_apps))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.otherApps});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.rate_it))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.rateIt});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        }
 
         if ((current == position && SettingsPagerActivity.settingsLinksActive && !SettingsPagerActivity.inOtherLinks) ||
                 (!SettingsPagerActivity.settingsLinksActive && current == position && SettingsPagerActivity.inOtherLinks)) {
