@@ -190,6 +190,15 @@ public class TweetActivity extends Activity {
         final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
         ImageButton attachButton = (ImageButton) findViewById(R.id.attach_button);
 
+        nametv.setTextSize(settings.textSize +2);
+        screennametv.setTextSize(settings.textSize);
+        tweettv.setTextSize(settings.textSize);
+        timetv.setTextSize(settings.textSize - 3);
+        retweetertv.setTextSize(settings.textSize - 3);
+        favoriteCount.setTextSize(settings.textSize + 1);
+        retweetCount.setTextSize(settings.textSize + 1);
+        reply.setTextSize(settings.textSize);
+
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
 

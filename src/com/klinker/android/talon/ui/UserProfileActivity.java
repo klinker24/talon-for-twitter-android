@@ -203,9 +203,6 @@ public class UserProfileActivity extends Activity {
         }, 1000);
 
         final ImageView background = (ImageView) findViewById(R.id.background_image);
-        //final TextView numTweets = (TextView) findViewById(R.id.num_tweets);
-        //final TextView numFollowers = (TextView) findViewById(R.id.num_followers);
-        //final TextView numFollowing = (TextView) findViewById(R.id.num_following);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
         final ListView listView = (ListView) findViewById(R.id.listView);

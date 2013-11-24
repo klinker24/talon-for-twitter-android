@@ -25,9 +25,10 @@
                       android:layout_alignTop="@id/profile_pic"
                       android:orientation="vertical"
                       android:layout_width="wrap_content"
-                      android:layout_height="48dp"
+                      android:layout_height="wrap_content"
                       android:gravity="center_vertical"
                       android:layout_marginLeft="10dp">
+            
             <com.klinker.android.talon.ui.widgets.HoloTextView
                 android:id="@+id/name"
                 android:layout_height="wrap_content"
