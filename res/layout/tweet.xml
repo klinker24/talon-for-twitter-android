@@ -43,7 +43,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-            <TextView
+            <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:id="@+id/name"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     android:text="Name"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="8dp"/>
-            <TextView
+            <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:id="@+id/time"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:layout_toRightOf="@id/name"
                     android:layout_alignBaseline="@id/name" />
 
-            <TextView
+            <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:id="@+id/tweet"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
@@ -76,7 +76,7 @@
                     android:paddingBottom="15dp"
                     android:text="@string/placeholder"/>
 
-            <TextView
+            <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:id="@+id/retweeter"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
@@ -131,7 +131,7 @@
                         android:background="@drawable/pressed_button"
                         android:layout_marginLeft="5dp" />
 
-                <TextView
+                <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:layout_height="37dp"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="3dp"
@@ -149,7 +149,7 @@
                         android:layout_marginLeft="8dp"
                         android:background="@drawable/pressed_button" />
 
-                <TextView
+                <com.klinker.android.talon.ui.widgets.HoloTextView
                         android:layout_height="37dp"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="3dp"
@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom">
 
-                <EditText
+                <com.klinker.android.talon.ui.widgets.HoloEditText
                         android:id="@+id/reply"
                         android:layout_height="50dp"
                         android:layout_width="0dp"
@@ -181,7 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical">
-                    <TextView
+                    <com.klinker.android.talon.ui.widgets.HoloTextView
                             android:layout_height="13dp"
                             android:layout_width="match_parent"
                             android:layout_marginLeft="3dp"

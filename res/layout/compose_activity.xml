@@ -53,7 +53,8 @@
 
         </LinearLayout>
 
-    <EditText android:id="@+id/tweet_content"
+    <com.klinker.android.talon.ui.widgets.HoloEditText
+              android:id="@+id/tweet_content"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"
               android:hint="@string/compose_tweet_hint"/>

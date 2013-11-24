@@ -10,7 +10,8 @@
         android:layout_width="35dp"
         android:layout_marginLeft="15dp" />
 
-    <TextView android:id="@+id/title"
+    <com.klinker.android.talon.ui.widgets.HoloTextView
+        android:id="@+id/title"
         android:layout_height="wrap_content"
         android:layout_width="340dp"
         android:layout_weight="3"

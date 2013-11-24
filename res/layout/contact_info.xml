@@ -28,7 +28,7 @@
                       android:layout_height="48dp"
                       android:gravity="center_vertical"
                       android:layout_marginLeft="10dp">
-            <TextView
+            <com.klinker.android.talon.ui.widgets.HoloTextView
                 android:id="@+id/name"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
                 android:shadowRadius="3"
                 android:textColor="@android:color/white"/>
 
-            <TextView
+            <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:id="@+id/screen_name"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"

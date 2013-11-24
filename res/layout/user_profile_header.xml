@@ -83,7 +83,7 @@
               android:drawableLeft="@drawable/ic_send_dark"
               android:gravity="center_vertical" />  -->
 
-    <TextView android:id="@+id/username"
+    <com.klinker.android.talon.ui.widgets.HoloTextView android:id="@+id/username"
               android:layout_alignTop="@id/view"
               android:layout_toRightOf="@id/profile_pic"
               android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
               android:layout_marginTop="5dp"
               android:layout_marginLeft="1dp" />
 
-    <TextView android:id="@+id/user_statement"
+    <com.klinker.android.talon.ui.widgets.HoloTextView android:id="@+id/user_statement"
               android:layout_below="@id/username"
               android:layout_alignParentLeft="@id/username"
               android:layout_width="match_parent"
