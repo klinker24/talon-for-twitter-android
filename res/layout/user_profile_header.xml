@@ -21,8 +21,10 @@
     <View android:layout_below="@id/view2"
           android:layout_height="165dp"
           android:id="@+id/view"
+          android:layout_marginTop="-1dp"
+          android:layout_marginLeft="-12dp"
           android:layout_width="match_parent"
-          android:background="?drawerBackground" />
+          android:background="?tweetBackgroundNoDialog" />
 
     <ImageView
             android:layout_width="96dp"
