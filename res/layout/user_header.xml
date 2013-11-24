@@ -35,15 +35,15 @@
 
         <ImageButton
                 android:id="@+id/options"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:src="@drawable/ic_action_expand_dark"
-                android:minHeight="24dp" android:minWidth="24dp"
+                android:minHeight="36dp" android:minWidth="36dp"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
-                android:maxWidth="24dp" android:maxHeight="24dp"
+                android:maxWidth="36dp" android:maxHeight="36dp"
                 android:background="@drawable/pressed_button"
-                android:layout_marginRight="14dp"
-                android:layout_marginTop="65dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="61dp"
                 />
 
     </LinearLayout>
