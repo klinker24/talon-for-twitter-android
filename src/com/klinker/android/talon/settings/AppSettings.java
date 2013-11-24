@@ -32,8 +32,14 @@ public class AppSettings {
     public boolean isTwitterLoggedIn;
     public boolean reverseClickActions;
     public boolean advanceWindowed;
+    public boolean notifications;
 
     public int theme;
+    public int textSize;
+    public int maxTweetsRefresh;
+
+    public long timelineRefresh;
+    public long mentionsRefresh;
 
     public AppSettings(Context context) {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -50,8 +56,15 @@ public class AppSettings {
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
+        notifications = sharedPrefs.getBoolean("notifications", true);
 
         // Integers
-        theme = sharedPrefs.getInt("theme", THEME_DARK);
+        theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
+        textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
+        maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "150"));
+
+        // Longs
+        timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));
+        mentionsRefresh = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "1800000"));
     }
 }

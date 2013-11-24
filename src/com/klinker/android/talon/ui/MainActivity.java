@@ -384,8 +384,7 @@ public class MainActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
         if (requestCode == SETTINGS_RESULT) {
-            if (resultCode == RESULT_OK)
-                recreate();
+            recreate();
         }
     }
 

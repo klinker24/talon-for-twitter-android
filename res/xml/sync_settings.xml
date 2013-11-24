@@ -2,4 +2,37 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <CheckBoxPreference
+        android:key="notifications"
+        android:title="@string/notifications"
+        android:defaultValue="true"
+        />
+
+    <!-- Default of 30 mins -->
+    <ListPreference
+        android:key="timeline_sync_intervol"
+        android:title="@string/timeline_sync_interval"
+        android:defaultValue="1800000"
+        android:entries="@array/sync_interval"
+        android:entryValues="@array/sync_interval_inserted"
+        />
+
+    <!-- Default of 30 mins -->
+    <ListPreference
+        android:key="mentions_sync_intervol"
+        android:title="@string/mentions_sync_interval"
+        android:defaultValue="1800000"
+        android:entries="@array/sync_interval"
+        android:entryValues="@array/sync_interval_inserted"
+        />
+
+    <ListPreference
+        android:key="max_tweets"
+        android:title="@string/max_number_on_refresh"
+        android:summary="@string/max_number_summary"
+        android:defaultValue="150"
+        android:entries="@array/max_number"
+        android:entryValues="@array/max_number"
+        />
+
 </PreferenceScreen>

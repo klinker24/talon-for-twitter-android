@@ -13,7 +13,7 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="textSize">
+    <string-array name="text_size">
         <item>8</item>
         <item>9</item>
         <item>10</item>
@@ -32,6 +32,43 @@
         <item>23</item>
         <item>24</item>
         <item>25</item>
+    </string-array>
+
+    <string-array name="sync_interval">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>20 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>4 hours</item>
+        <item>Manual</item>
+    </string-array>
+
+    <string-array name="sync_interval_inserted">
+        <item>300000</item>
+        <item>600000</item>
+        <item>1200000</item>
+        <item>1800000</item>
+        <item>2700000</item>
+        <item>3600000</item>
+        <item>7200000</item>
+        <item>10800000</item>
+        <item>14400000</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="max_number">
+        <item>50</item>
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>300</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
     </string-array>
 
 </resources>

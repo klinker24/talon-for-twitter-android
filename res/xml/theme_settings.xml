@@ -14,8 +14,8 @@
         android:key="text_size"
         android:title="@string/text_size"
         android:defaultValue="14"
-        android:entries="@array/textSize"
-        android:entryValues="@array/textSize"
+        android:entries="@array/text_size"
+        android:entryValues="@array/text_size"
         />
 
     <CheckBoxPreference

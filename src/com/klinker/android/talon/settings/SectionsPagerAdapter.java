@@ -15,7 +15,7 @@ import com.klinker.android.talon.R;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public static final int NUM_PAGES = 6;
+    public static final int NUM_PAGES = 5;
     private Context context;
     private ListView mDrawerList;
 
@@ -45,19 +45,15 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            //case 0:
-            //return getResources().getString(R.string.menu_settings);
             case 0:
                 return context.getResources().getString(R.string.theme_settings);
             case 1:
                 return context.getResources().getString(R.string.sync_settings);
             case 2:
-                return context.getResources().getString(R.string.notification_settings);
-            case 3:
                 return context.getResources().getString(R.string.advanced_settings);
-            case 4:
+            case 3:
                 return context.getResources().getString(R.string.get_help_settings);
-            case 5:
+            case 4:
                 return context.getResources().getString(R.string.other_apps);
         }
         return null;
