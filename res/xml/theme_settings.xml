@@ -2,4 +2,26 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ListPreference
+        android:key="theme"
+        android:title="@string/theme"
+        android:defaultValue="1"
+        android:entries="@array/choose_theme"
+        android:entryValues="@array/choose_theme_inserted"
+        />
+
+    <ListPreference
+        android:key="text_size"
+        android:title="@string/text_size"
+        android:defaultValue="14"
+        android:entries="@array/textSize"
+        android:entryValues="@array/textSize"
+        />
+
+    <CheckBoxPreference
+        android:key="device_font"
+        android:title="@string/device_font"
+        android:defaultValue="false"
+        />
+
 </PreferenceScreen>

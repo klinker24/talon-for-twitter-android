@@ -48,10 +48,10 @@ public class AppSettings {
 
         // Booleans
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
-        reverseClickActions = true;//sharedPrefs.getBoolean("reverse_click_option", false);
+        reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
 
         // Integers
-        theme = 1;
+        theme = sharedPrefs.getInt("theme", THEME_DARK);
     }
 }
