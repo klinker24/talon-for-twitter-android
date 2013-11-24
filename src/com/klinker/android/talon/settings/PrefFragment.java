@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.ui.widgets.HoloEditText;
+import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utilities.IOUtils;
 
 import java.io.File;
@@ -79,7 +81,15 @@ public class PrefFragment extends PreferenceFragment {
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-
+        Preference deviceFont = findPreference("device_font");
+        deviceFont.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                HoloTextView.typeface = null;
+                HoloEditText.typeface = null;
+                return false;
+            }
+        });
     }
 
     public void setUpNotificationSettings() {

@@ -181,6 +181,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical">
+                    
                     <com.klinker.android.talon.ui.widgets.HoloTextView
                             android:layout_height="13dp"
                             android:layout_width="match_parent"
