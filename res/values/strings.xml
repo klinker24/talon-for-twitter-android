@@ -108,7 +108,14 @@
             <string name="max_number_summary">Higher max means a slower refresh</string>
 
     <string name="notification_settings">Notification Settings</string>
+
     <string name="advanced_settings">Advanced Settings</string>
+        <string name="advance_windowed">Advance Windowed</string>
+            <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines</string>
+        <string name="backup_category">Backup and Restore</string>
+        <string name="backup_settings">Backup Settings</string>
+        <string name="restore_settings">Restore Settings</string>
+
     <string name="get_help_settings">Get Help</string>
     <string name="other_apps">Other Apps</string>
     <string name="whats_new">What\'s New</string>

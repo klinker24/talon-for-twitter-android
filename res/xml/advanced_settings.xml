@@ -2,4 +2,26 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <CheckBoxPreference
+        android:key="advance_windowed"
+        android:title="@string/advance_windowed"
+        android:defaultValue="true"
+        />
+
+    <PreferenceCategory
+        android:key="backup_category"
+        android:title="@string/backup_category">
+
+        <Preference
+            android:key="backup"
+            android:title="@string/backup_settings"
+            />
+
+        <Preference
+            android:key="restore"
+            android:title="@string/restore_settings"
+            />
+        
+    </PreferenceCategory>
+
 </PreferenceScreen>
