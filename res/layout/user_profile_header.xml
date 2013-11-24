@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="?tweetBackgroundNoDialog" >
 
 
     <View   android:id="@+id/view2"
@@ -18,15 +19,9 @@
         android:layout_width="match_parent"
         android:minHeight="140dp"
         android:scaleType="centerCrop"
+        android:layout_marginTop="-5dp"
         />
 
-    <View android:layout_below="@id/view2"
-          android:layout_height="165dp"
-          android:id="@+id/view"
-          android:layout_marginTop="-1dp"
-          android:layout_marginLeft="-12dp"
-          android:layout_width="match_parent"
-          android:background="?tweetBackgroundNoDialog" />
 
     <ImageView
             android:layout_width="96dp"
@@ -43,74 +38,33 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="-70dp" />
 
-    <!--<TextView android:id="@+id/num_following"
-              android:layout_above="@id/view"
-              android:layout_alignParentRight="true"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="5dp"
-              android:textSize="14dp"
-              android:textColor="@android:color/white"
-              android:shadowColor="?textShadowColor"
-              android:shadowDy="1"
-              android:shadowRadius="3"
-              android:drawableLeft="@drawable/ic_send_dark"
-              android:gravity="center_vertical" />
-
-    <TextView android:id="@+id/num_followers"
-              android:layout_above="@id/num_following"
-              android:layout_alignLeft="@id/num_following"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="5dp"
-              android:textSize="14dp"
-              android:textColor="@android:color/white"
-              android:shadowColor="?textShadowColor"
-              android:shadowDy="1"
-              android:shadowRadius="3"
-              android:drawableLeft="@drawable/ic_send_dark"
-              android:gravity="center_vertical" />
-
-    <TextView android:id="@+id/num_tweets"
-              android:layout_above="@id/num_followers"
-              android:layout_alignLeft="@id/num_followers"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="5dp"
-              android:textSize="14dp"
-              android:textColor="@android:color/white"
-              android:shadowColor="?textShadowColor"
-              android:shadowDy="1"
-              android:shadowRadius="3"
-              android:drawableLeft="@drawable/ic_send_dark"
-              android:gravity="center_vertical" />  -->
-
-    <com.klinker.android.talon.ui.widgets.HoloTextView
-              android:id="@+id/username"
-              android:layout_alignTop="@id/view"
-              android:layout_toRightOf="@id/profile_pic"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="5dp"
-              android:layout_marginLeft="1dp" />
-
     <com.klinker.android.talon.ui.widgets.HoloTextView
               android:id="@+id/user_statement"
-              android:layout_below="@id/username"
-              android:layout_alignParentLeft="@id/username"
+              android:layout_below="@id/profile_pic"
+              android:layout_alignParentLeft="true"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="12dp"
               android:layout_marginLeft="10dp"
               android:layout_marginRight="10dp"
-              android:maxLines="3"
               android:gravity="center"/>
+
+
+    <com.klinker.android.talon.ui.widgets.HoloTextView
+        android:id="@+id/username"
+        android:layout_below="@id/view2"
+        android:layout_toRightOf="@id/profile_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:layout_marginLeft="-4dp" />
+
     <LinearLayout
-            android:layout_below="@id/view"
+            android:layout_below="@id/user_statement"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-70dp"
             android:gravity="center_vertical">
 
             <Button android:id="@+id/tweets"
