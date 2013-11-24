@@ -86,8 +86,10 @@ public class ComposeActivity extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        doneClick();
-                        finish();
+                        boolean close = doneClick();
+                        if (close) {
+                            finish();
+                        }
                     }
                 });
         customActionBarView.findViewById(R.id.actionbar_discard).setOnClickListener(
@@ -192,6 +194,7 @@ public class ComposeActivity extends Activity {
         if ((status.trim().length() > 0 || !attachedFilePath.equals("")) && editText.getText().length() < 140) {
             // update status
             sendStatus(status);
+            return true;
         } else {
             if (editText.getText().length() < 140) {
                 // EditText is empty
@@ -199,8 +202,8 @@ public class ComposeActivity extends Activity {
             } else {
                 Toast.makeText(context, context.getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
             }
+            return false;
         }
-        return true;
     }
 
     private void sendStatus(String status) {

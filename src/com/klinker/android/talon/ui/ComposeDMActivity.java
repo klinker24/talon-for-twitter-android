@@ -65,6 +65,7 @@ public class ComposeDMActivity extends ComposeActivity {
         if (status.trim().length() > 0 && status.length() < 140) {
             // update status
             sendStatus(status);
+            return true;
         } else {
             if (editText.getText().length() < 140) {
                 // EditText is empty
@@ -72,8 +73,8 @@ public class ComposeDMActivity extends ComposeActivity {
             } else {
                 Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
             }
+            return false;
         }
-        return true;
     }
 
     private void sendStatus(String status) {
