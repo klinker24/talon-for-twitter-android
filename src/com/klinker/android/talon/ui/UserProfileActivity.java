@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.utilities.App;
@@ -54,6 +55,8 @@ public class UserProfileActivity extends Activity {
     private boolean isBlocking;
     private boolean isFollowing;
     private boolean isFollowingSet = false;
+
+    private NetworkedCacheableImageView background;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -202,7 +205,7 @@ public class UserProfileActivity extends Activity {
             }
         }, 1000);
 
-        final ImageView background = (ImageView) findViewById(R.id.background_image);
+        background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
         final ListView listView = (ListView) findViewById(R.id.listView);
@@ -211,7 +214,7 @@ public class UserProfileActivity extends Activity {
         screenname.setTextSize(settings.textSize);
 
         //new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
-        new GetData(tweetId, null, null, null, statement, listView, background).execute();
+        new GetData(tweetId, null, null, null, statement, listView).execute();
 
         screenname.setText("@" + screenName);
     }
@@ -223,16 +226,14 @@ public class UserProfileActivity extends Activity {
         private TextView numFollowers;
         private TextView numFollowing;
         private ListView listView;
-        private ImageView background;
         private TextView statement;
 
-        public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, ListView listView, ImageView background) {
+        public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, ListView listView) {
             this.tweetId = tweetId;
             this.numFollowers = numFollowers;
             this.numFollowing = numFollowing;
             this.numTweets = numTweets;
             this.listView = listView;
-            this.background = background;
             this.statement = statement;
         }
 
@@ -257,9 +258,7 @@ public class UserProfileActivity extends Activity {
 
                 thisUser = user;
 
-                Picasso.with(context)
-                        .load(user.getProfileBannerURL())
-                        .into(background);
+                background.loadImage(user.getProfileBannerURL(), false, null);
 
                 new GetTimeline(user, listView).execute();
                 new GetActionBarInfo(user).execute();
@@ -313,7 +312,6 @@ public class UserProfileActivity extends Activity {
 
         private User user;
         private ListView listView;
-        private ImageView background;
         private TextView statement;
 
         public GetFollowers(User user, ListView listView, TextView numFollowers) {
@@ -357,7 +355,6 @@ public class UserProfileActivity extends Activity {
 
         private User user;
         private ListView listView;
-        private ImageView background;
         private TextView statement;
 
         public GetTimeline(User user, ListView listView) {
@@ -394,6 +391,8 @@ public class UserProfileActivity extends Activity {
                     }
                 });
             }
+
+            background.loadImage(thisUser.getProfileBannerMobileURL(), false, null);
         }
     }
 

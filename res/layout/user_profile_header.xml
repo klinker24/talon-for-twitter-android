@@ -4,12 +4,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <ImageView android:id="@+id/background_image"
-               android:layout_height="140dp"
-               android:layout_width="match_parent"
-               android:minHeight="140dp"
-               android:scaleType="centerCrop"
-            />
 
     <View   android:id="@+id/view2"
             android:layout_height="140dp"
@@ -17,6 +11,14 @@
                android:minHeight="140dp"
                android:background="@android:color/transparent"
             />
+
+    <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+        android:id="@+id/background_image"
+        android:layout_height="140dp"
+        android:layout_width="match_parent"
+        android:minHeight="140dp"
+        android:scaleType="centerCrop"
+        />
 
     <View android:layout_below="@id/view2"
           android:layout_height="165dp"

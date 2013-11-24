@@ -16,6 +16,7 @@
             android:layout_marginRight="8dp"
             android:divider="@null"
             android:dividerHeight="5dp"
+            android:background="@android:color/transparent"
             android:listSelector="@android:color/transparent"
             />
 
