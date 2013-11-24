@@ -207,6 +207,9 @@ public class UserProfileActivity extends Activity {
         final TextView screenname = (TextView) findViewById(R.id.username);
         final ListView listView = (ListView) findViewById(R.id.listView);
 
+        statement.setTextSize(settings.textSize);
+        screenname.setTextSize(settings.textSize);
+
         //new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
         new GetData(tweetId, null, null, null, statement, listView, background).execute();
 
