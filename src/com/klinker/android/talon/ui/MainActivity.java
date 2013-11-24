@@ -26,6 +26,7 @@ import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
@@ -366,6 +367,11 @@ public class MainActivity extends Activity {
             case R.id.menu_direct_message:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
                 startActivity(dm);
+                return true;
+
+            case R.id.menu_settings:
+                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                startActivity(settings);
                 return true;
 
             default:

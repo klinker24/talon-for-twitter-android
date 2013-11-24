@@ -100,6 +100,7 @@
     <string name="feature_requests">Feature Requests</string>
     <string name="rate_it">Rate Talon</string>
     <string name="other_apps">Other Apps</string>
+    <string name="talon_settings">Talon Settings</string>
 
 
 </resources>

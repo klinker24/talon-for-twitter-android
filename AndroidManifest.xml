@@ -111,5 +111,13 @@
                   android:theme="@style/Theme.TalonLight.Popup">
         </activity>
 
+        <activity android:name=".settings.SettingsPagerActivity"
+            android:label="@string/talon_settings"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.TalonLight">
+        </activity>
+
     </application>
 </manifest>
