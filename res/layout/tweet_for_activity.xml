@@ -111,7 +111,8 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp">
 
                 <ImageButton
                         android:id="@+id/attach_button"

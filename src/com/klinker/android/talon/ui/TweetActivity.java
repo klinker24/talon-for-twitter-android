@@ -84,7 +84,11 @@ public class TweetActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
         setUpTheme();
-        setUpWindow();
+
+        if (settings.advanceWindowed) {
+            setUpWindow();
+        }
+
         getFromIntent();
 
         setContentView(R.layout.tweet_activity);

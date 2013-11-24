@@ -62,7 +62,10 @@ public class UserProfileActivity extends Activity {
         context = this;
         settings = new AppSettings(context);
 
-        setUpWindow();
+        if (settings.advanceWindowed) {
+            setUpWindow();
+        }
+
         setUpTheme();
         getFromIntent();
 
