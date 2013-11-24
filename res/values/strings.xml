@@ -95,8 +95,8 @@
     <string name="sync_settings">Sync Settings</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="advanced_settings">Advanced Settings</string>
-    <string name="get_help_settings">Get Help!</string>
-    <string name="whats_new">What's New?</string>
+    <string name="get_help_settings">Get Help</string>
+    <string name="whats_new">What\'s New</string>
     <string name="feature_requests">Feature Requests</string>
     <string name="rate_it">Rate Talon</string>
     <string name="other_apps">Other Apps</string>
