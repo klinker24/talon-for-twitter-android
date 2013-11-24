@@ -21,6 +21,7 @@ Version 0.30:
 - Fix for not going back and finding all the tweets
 
 Version 0.40:
+- SOME settings working, not refresh, notification, or text size
 - Feedback on button presses
 - Attach images from the compose activity and reply activity
 - Style changes
