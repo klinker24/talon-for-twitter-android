@@ -187,7 +187,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 if (update) {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
                     refreshCursor();
-                    CharSequence text = numberNew == 1 ?  numberNew + " new tweet" :  numberNew + " new tweets";
+                    CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                     listView.setSelectionFromTop(numberNew + 1, toDP(5));
                 } else {
