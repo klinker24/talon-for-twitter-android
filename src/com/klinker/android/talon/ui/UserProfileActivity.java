@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +39,10 @@ public class UserProfileActivity extends Activity {
     private ActionBar actionBar;
 
     private User thisUser;
+
+    private Button tweetsBtn;
+    private Button followersBtn;
+    private Button followingBtn;
 
     private String name;
     private String screenName;
@@ -171,6 +176,10 @@ public class UserProfileActivity extends Activity {
 
         final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
 
+        tweetsBtn = (Button) findViewById(R.id.tweets);
+        followersBtn = (Button) findViewById(R.id.followers);
+        followingBtn = (Button) findViewById(R.id.following);
+
         if(!proPic.equals("")) {
             Picasso.with(context)
                     .load(proPic)
@@ -229,10 +238,9 @@ public class UserProfileActivity extends Activity {
                 Twitter twitter =  Utils.getTwitter(context);
 
                 if (!isMyProfile) {
+                    User user = twitter.showUser(screenName);
 
-
-
-                    return twitter.showUser(screenName);
+                    return user;
                 } else {
                     return twitter.showUser(settings.myScreenName);
                 }
@@ -257,6 +265,9 @@ public class UserProfileActivity extends Activity {
                 //new GetUserStatement(user, numTweets, statement);
 
                 statement.setText(user.getDescription());
+                tweetsBtn.setText("Tweets\n" + "(" + thisUser.getStatusesCount() + ")");
+                followersBtn.setText("Followers\n" + "(" + thisUser.getFollowersCount() + ")");
+                followingBtn.setText("Following\n" + "(" + thisUser.getFriendsCount() + ")");
                 //try { numFollowing.setText(user.getFollowersCount()); } catch (Exception e) { }
                 //try { numFollowing.setText(user.getFriendsCount()); } catch (Exception e) { }
             }
