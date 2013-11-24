@@ -22,7 +22,7 @@ Version 0.30:
 
 Version 0.40:
 - SOME settings working, not refresh or notification
-- New slim font
+- New slim font (Roboto light)
 - Changes to the profiles
 - Feedback on button presses
 - Attach images from the compose activity and reply activity
@@ -31,5 +31,5 @@ Version 0.40:
 - Option to advance in windowed form
 - Refresh changes
 - number of tweets, followers, and following on profile
-- length counter on tweets
+- length counter on tweets (can't go over 140)
 - tons of other bug fixes

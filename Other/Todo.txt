@@ -30,7 +30,6 @@
     - Cool icon
     - Emoji Support
     - Search for users when composing
-    - Length counter for message
     - Switch tweet background to right side when it is my tweet
     - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current
     
