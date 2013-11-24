@@ -1,0 +1,27 @@
+Version 0.20:
+- Style changes for main timeline activity (long press opens tweet, click expands, this will be an option later)
+- Fixed the animations stuttering
+- Direct message fixes
+- Made profile activities! Yay! Man that was a lot of work
+    - Not everything is implemented yet though, but the main part is
+    - You can follow/unfollow, block/unblock, tweet at them from action bar
+- Expand tweets contents from the tweet activity
+- Reply lists now fully working, can't look into the future yet though, only back
+- Better handling of dates in the tweet activity
+
+Version 0.30:
+- Reduced memory footprint
+- Better Handling of images everywhere
+- Favorite Tweets page
+- Retweets of you page
+- New actions in the action bar on the tweets
+- Compose new direct messages from action bar and profiles
+- Delete direct messages with long click
+- Save images from tweets
+- Fix for not going back and finding all the tweets
+
+Version 0.40:
+- Feedback on button presses
+- Attach images from the compose activity and reply activity
+- Style changes
+- Fix for user pictures on profiles

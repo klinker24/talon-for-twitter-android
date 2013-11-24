@@ -60,6 +60,15 @@ limitations under the License.
         <item name="rectangle_border">@drawable/rect_border_dark</item>
         <item name="emoji_button">@drawable/ic_emoji_keyboard_light</item>
 
+        <item name="themeSettings">@drawable/drawer_theme_dark</item>
+        <item name="notificationSettings">@drawable/drawer_notifications_dark</item>
+        <item name="syncSettings">@drawable/drawer_sync_dark</item>
+        <item name="advancedSettings">@drawable/drawer_advanced</item>
+        <item name="whatsNew">@drawable/ic_action_new_dark</item>
+        <item name="getHelp">@drawable/drawer_get_help_dark</item>
+        <item name="otherApps">@drawable/drawer_other_apps_dark</item>
+        <item name="rateIt">@drawable/drawer_rate_it_dark</item>
+
         <item name="actionbar">@drawable/ab_solid_black</item>
         <item name="searchIcon">@drawable/ic_action_search_dark</item>
 

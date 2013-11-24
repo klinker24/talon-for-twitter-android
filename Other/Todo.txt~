@@ -1,0 +1,40 @@
+- Main Drawer Items/Activities:
+    - Favorite Users
+    - Lists
+    - Trending (Local and worldwide)
+    - Search
+
+- Settings:
+    - Refresh on start
+    - Auto-Refresh
+    - Notifications
+    - Caching limits
+    - Clear cache
+    - Theme Stuff
+    - Get Help item
+    - Reverse clicks option
+
+- User Profiles Activity:
+    - followers and following list
+    - Add to list option
+    - "My profile" stuff:
+        - Change bio
+        - Change profile pic
+        - change banner pic
+    - Spinning progress bar while loading
+    - Maybe find a good way to display the number of tweets, followers, and following counts
+
+- Tweet Viewer Activity:
+    - View full conversations and be able to switch to and from web articles and pictures back to the list
+    - Delete Retweet
+
+- Features:
+    - Cool icon
+    - Emoji Support
+    - Search for users when composing
+    - Length counter for message
+    - Switch tweet background to right side when it is my tweet
+
+- Bugs:
+    - Limiting cache to 15 mb
+    - Convert everything away from picasso
