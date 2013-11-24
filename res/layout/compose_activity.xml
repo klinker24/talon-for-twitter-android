@@ -48,6 +48,13 @@
                             android:scaleType="center" android:adjustViewBounds="true"
                             android:maxWidth="48dp" android:maxHeight="48dp" />
 
+                <com.klinker.android.talon.ui.widgets.HoloTextView
+                    android:id="@+id/char_remaining"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:gravity="right"/>
+
             </LinearLayout>
 
 

@@ -13,10 +13,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -143,6 +146,27 @@ public class ComposeActivity extends Activity {
                 }
             }
         });
+
+        final TextView charRemaining = (TextView) findViewById(R.id.char_remaining);
+        final EditText reply = (EditText) findViewById(R.id.tweet_content);
+
+        charRemaining.setText(140 - reply.getText().length() + "");
+        reply.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                charRemaining.setText(140 - reply.getText().length() + "");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     public void setUpTheme() {
@@ -165,14 +189,16 @@ public class ComposeActivity extends Activity {
         String status = editText.getText().toString();
 
         // Check for blank text
-        if (status.trim().length() > 0 || !attachedFilePath.equals("")) {
+        if ((status.trim().length() > 0 || !attachedFilePath.equals("")) && editText.getText().length() < 140) {
             // update status
             sendStatus(status);
         } else {
-            // EditText is empty
-            Toast.makeText(getApplicationContext(),
-                    "Please enter status message", Toast.LENGTH_SHORT)
-                    .show();
+            if (editText.getText().length() < 140) {
+                // EditText is empty
+                Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+            }
         }
         return true;
     }
