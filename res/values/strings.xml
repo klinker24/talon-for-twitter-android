@@ -66,6 +66,8 @@
     <string name="tweet_success">Tweet Successful</string>
     <string name="error_sending_tweet">Error Sending Tweet</string>
     <string name="tweet_to_long">Tweet to long!</string>
+    <string name="ok">OK</string>
+    <string name="no">No</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
@@ -117,6 +119,10 @@
             <string name="reverse_click_actions_summary">Reverse the click actions on tweets\n\nDefault:\nLong click is to open tweet\nShort click is to expand tweet</string>
         <string name="backup_category">Backup and Restore</string>
             <string name="backup_settings">Backup Settings</string>
+                <string name="backup_settings_dialog">Create new backup?</string>
+                <string name="backup_settings_dialog_summary">This will override all previous backups.</string>
+                <string name="backup_success">Backup Successful</string>
+                <string name="restore_success">Restore Successful</string>
             <string name="restore_settings">Restore Settings</string>
 
     <string name="get_help_settings">Get Help</string>

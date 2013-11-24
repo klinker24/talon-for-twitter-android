@@ -2,16 +2,22 @@ package com.klinker.android.talon.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,5 +66,89 @@ public class IOUtils {
         cursor.close();
 
         return filePath;
+    }
+
+    public static boolean loadSharedPreferencesFromFile(File src, Context context) {
+        boolean res = false;
+        ObjectInputStream input = null;
+
+        try {
+            if (!src.getParentFile().exists()) {
+                src.getParentFile().mkdirs();
+                src.createNewFile();
+            }
+
+            input = new ObjectInputStream(new FileInputStream(src));
+            SharedPreferences.Editor prefEdit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+            prefEdit.clear();
+
+            @SuppressWarnings("unchecked")
+            Map<String, ?> entries = (Map<String, ?>) input.readObject();
+
+            for (Map.Entry<String, ?> entry : entries.entrySet()) {
+                Object v = entry.getValue();
+                String key = entry.getKey();
+
+                if (v instanceof Boolean) {
+                    prefEdit.putBoolean(key, ((Boolean) v).booleanValue());
+                } else if (v instanceof Float) {
+                    prefEdit.putFloat(key, ((Float) v).floatValue());
+                } else if (v instanceof Integer) {
+                    prefEdit.putInt(key, ((Integer) v).intValue());
+                } else if (v instanceof Long) {
+                    prefEdit.putLong(key, ((Long) v).longValue());
+                } else if (v instanceof String) {
+                    prefEdit.putString(key, ((String) v));
+                }
+            }
+
+            prefEdit.commit();
+
+            res = true;
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                if (input != null) {
+                    input.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+
+        return res;
+    }
+
+    public static boolean saveSharedPreferencesToFile(File dst, Context context) {
+        boolean res = false;
+        ObjectOutputStream output = null;
+
+        try {
+            if (!dst.getParentFile().exists()) {
+                dst.getParentFile().mkdirs();
+                dst.createNewFile();
+            }
+
+            output = new ObjectOutputStream(new FileOutputStream(dst));
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+            output.writeObject(pref.getAll());
+
+            res = true;
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                if (output != null) {
+                    output.flush();
+                    output.close();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+
+        return res;
     }
 }

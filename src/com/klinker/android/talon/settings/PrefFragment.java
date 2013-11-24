@@ -1,16 +1,21 @@
 package com.klinker.android.talon.settings;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.utilities.IOUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
 
 public class PrefFragment extends PreferenceFragment {
 
@@ -57,15 +62,15 @@ public class PrefFragment extends PreferenceFragment {
                 break;
             case 2:
                 addPreferencesFromResource(R.xml.advanced_settings);
-                setUpSlideOverSettings();
+                setUpAdvancedSettings();
                 break;
             case 3:
                 addPreferencesFromResource(R.xml.get_help_settings);
-                setUpMessageSettings();
+                setUpGetHelpSettings();
                 break;
             case 4:
                 addPreferencesFromResource(R.xml.other_apps_settings);
-                setUpConversationSettings();
+                setUpOtherAppSettings();
                 break;
         }
     }
@@ -82,26 +87,66 @@ public class PrefFragment extends PreferenceFragment {
 
     }
 
-    public void setUpPopupSettings() {
+    public void setUpAdvancedSettings() {
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        Preference backup = findPreference("backup");
+        backup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.backup_settings_dialog))
+                        .setMessage(context.getResources().getString(R.string.backup_settings_dialog_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
+                                IOUtils.saveSharedPreferencesToFile(des, context);
+
+                                Toast.makeText(context, context.getResources().getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
+
+        Preference restore = findPreference("restore");
+        restore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                File des = new File(Environment.getExternalStorageDirectory() + "/EvolveSMS/backup.prefs");
+                IOUtils.loadSharedPreferencesFromFile(des, context);
+
+                Toast.makeText(context, context.getResources().getString(R.string.restore_success), Toast.LENGTH_LONG).show();
+
+                return false;
+            }
+
+        });
+
     }
 
-    public void setUpSlideOverSettings() {
+    public void setUpGetHelpSettings() {
 
         final Context context = getActivity();
 
 
     }
 
-    public void setUpMessageSettings() {
-        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-
-    }
-
-    public void setUpConversationSettings() {
+    public void setUpOtherAppSettings() {
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 
