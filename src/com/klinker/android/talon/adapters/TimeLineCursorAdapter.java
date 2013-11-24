@@ -357,6 +357,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.name.getText().toString().contains(settings.myName)) {
             holder.reply.setVisibility(View.GONE);
             holder.replyButton.setVisibility(View.GONE);
+            holder.charRemaining.setVisibility(View.GONE);
         }
 
         holder.screenName = screenname;

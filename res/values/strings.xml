@@ -110,11 +110,14 @@
     <string name="notification_settings">Notification Settings</string>
 
     <string name="advanced_settings">Advanced Settings</string>
-        <string name="advance_windowed">Advance Windowed</string>
-            <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines</string>
+        <string name="app_feel_category">App Feel</string>
+            <string name="advance_windowed">Advance Windowed</string>
+                <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines</string>
+            <string name="reverse_click_actions">Reverse Click Actions</string>
+            <string name="reverse_click_actions_summary">Reverse the click actions on tweets\n\nDefault:\nLong click is to open tweet\nShort click is to expand tweet</string>
         <string name="backup_category">Backup and Restore</string>
-        <string name="backup_settings">Backup Settings</string>
-        <string name="restore_settings">Restore Settings</string>
+            <string name="backup_settings">Backup Settings</string>
+            <string name="restore_settings">Restore Settings</string>
 
     <string name="get_help_settings">Get Help</string>
     <string name="other_apps">Other Apps</string>

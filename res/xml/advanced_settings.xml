@@ -2,11 +2,24 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:key="advance_windowed"
-        android:title="@string/advance_windowed"
-        android:defaultValue="true"
-        />
+    <PreferenceCategory
+        android:key="app_feel_category"
+        android:title="@string/app_feel_category" >
+
+        <CheckBoxPreference
+            android:key="advance_windowed"
+            android:title="@string/advance_windowed"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="reverse_click_option"
+            android:title="@string/reverse_click_actions"
+            android:summary="@string/reverse_click_actions_summary"
+            android:defaultValue="true"
+            />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="backup_category"
@@ -21,7 +34,7 @@
             android:key="restore"
             android:title="@string/restore_settings"
             />
-        
+
     </PreferenceCategory>
 
 </PreferenceScreen>

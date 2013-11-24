@@ -56,18 +56,14 @@ public class PrefFragment extends PreferenceFragment {
                 setUpNotificationSettings();
                 break;
             case 2:
-                addPreferencesFromResource(R.xml.notification_settings);
-                setUpPopupSettings();
-                break;
-            case 3:
                 addPreferencesFromResource(R.xml.advanced_settings);
                 setUpSlideOverSettings();
                 break;
-            case 4:
+            case 3:
                 addPreferencesFromResource(R.xml.get_help_settings);
                 setUpMessageSettings();
                 break;
-            case 5:
+            case 4:
                 addPreferencesFromResource(R.xml.other_apps_settings);
                 setUpConversationSettings();
                 break;
