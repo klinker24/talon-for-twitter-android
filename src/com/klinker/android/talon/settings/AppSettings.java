@@ -49,7 +49,7 @@ public class AppSettings {
         // Booleans
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
         reverseClickActions = true;//sharedPrefs.getBoolean("reverse_click_option", false);
-        advanceWindowed = false;//sharedPrefs.getBoolean("advance_windowed", true);
+        advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
 
         // Integers
         theme = 1;
