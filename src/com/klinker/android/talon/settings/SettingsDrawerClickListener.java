@@ -14,9 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-/**
- * Created by luke on 11/24/13.
- */
+
 public class SettingsDrawerClickListener implements ListView.OnItemClickListener {
 
     private Context context;
@@ -40,7 +38,7 @@ public class SettingsDrawerClickListener implements ListView.OnItemClickListener
 
         final int mPos = position;
 
-        if (mPos < 7) { // one of the settings pages
+        if (mPos < 6) { // one of the settings pages
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -49,7 +47,9 @@ public class SettingsDrawerClickListener implements ListView.OnItemClickListener
             }, 300);
 
             viewPager.setCurrentItem(mPos, true);
-        } else { // rate it option
+        } else if (mPos == 6) {
+
+        } else if (mPos == 7) { // rate it option
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

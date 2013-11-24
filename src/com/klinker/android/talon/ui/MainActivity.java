@@ -351,6 +351,8 @@ public class MainActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private static final int SETTINGS_RESULT = 101;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -371,11 +373,19 @@ public class MainActivity extends Activity {
 
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
-                startActivity(settings);
+                startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
+        if (requestCode == SETTINGS_RESULT) {
+            if (resultCode == RESULT_OK)
+                recreate();
         }
     }
 

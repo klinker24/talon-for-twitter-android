@@ -1,7 +1,9 @@
 package com.klinker.android.talon.settings;
 
+import android.app.Activity;
 import android.content.*;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -36,6 +38,9 @@ public class SettingsPagerActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setUpTheme();
+
         setContentView(R.layout.settings_main);
 
         DrawerArrayAdapter.current = 0;
@@ -67,10 +72,14 @@ public class SettingsPagerActivity extends FragmentActivity {
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new SettingsDrawerClickListener(this, mDrawerLayout, mDrawerList, mViewPager, mDrawer));
 
+        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                resource,  /* nav drawer icon to replace 'Up' caret */
                 R.string.app_name,  /* "open drawer" description */
                 R.string.app_name  /* "close drawer" description */
         );
@@ -108,6 +117,23 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         if (!userKnows) {
             mDrawerLayout.openDrawer(mDrawer);
+        }
+    }
+
+    public void setUpTheme() {
+
+        AppSettings settings = new AppSettings(this);
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_TalonLight);
+                break;
+            case AppSettings.THEME_DARK:
+                setTheme(R.style.Theme_TalonDark);
+                break;
+            case AppSettings.THEME_BLACK:
+                setTheme(R.style.Theme_TalonBlack);
+                break;
         }
     }
 
@@ -150,12 +176,9 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
-//        Intent i = new Intent(this, MainActivity.class);
-//        startActivity(i);
         finish();
         setResult(Activity.RESULT_OK);
-        //overridePendingTransition(R.anim.activity_slide_in_left, R.anim.activity_slide_out_right);
-    }*/
+    }
 }

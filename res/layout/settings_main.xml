@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="#33b5e5"
+            android:background="@color/app_color"
             android:paddingBottom="4dp"
             android:paddingTop="4dp"
             android:textColor="#fff" />
@@ -43,8 +43,8 @@
             android:layout_height="wrap_content" android:layout_width="wrap_content"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
-            android:divider="#d2d2d2" android:dividerHeight="1dp"
-            android:paddingLeft="25dp" android:paddingRight="25dp"
+            android:divider="?drawerDividerColor" android:dividerHeight="1dp"
+            android:paddingLeft="10dp" android:paddingRight="10dp"
             android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
 
     </LinearLayout>
