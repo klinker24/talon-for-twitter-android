@@ -177,7 +177,7 @@ public class TweetActivity extends Activity {
         pictureIv = (NetworkedCacheableImageView) findViewById(R.id.imageView);
         final AsyncListView replyList = (AsyncListView) findViewById(R.id.reply_list);
         LinearLayout progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
-        final LinearLayout background = (LinearLayout) findViewById(R.id.tweet_background);
+        final LinearLayout background = (LinearLayout) findViewById(R.id.linLayout);
         final ImageButton expand = (ImageButton) findViewById(R.id.switchViews);
 
         final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);

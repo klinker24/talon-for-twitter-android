@@ -11,6 +11,7 @@
             android:layout_height="wrap_content"
             android:gravity="center">
 
+
         <include layout="@layout/contact_info"
                  android:id="@+id/contact_info"
                  android:layout_height="wrap_content"
@@ -31,11 +32,20 @@
 
     </LinearLayout>
 
-    <include android:id="@+id/tweet_background"
-             layout="@layout/tweet_for_activity"
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:layout_marginRight="3dp"/>
+    <LinearLayout
+        android:id="@+id/linLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include android:id="@+id/tweet_background"
+                     layout="@layout/tweet_for_activity"
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     android:layout_marginRight="3dp"/>
+        </ScrollView>
+    </LinearLayout>
 
     <WebView android:id="@+id/webview"
              android:layout_height="0dp"
