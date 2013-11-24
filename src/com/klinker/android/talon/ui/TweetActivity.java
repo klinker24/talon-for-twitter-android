@@ -13,6 +13,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
@@ -417,6 +419,26 @@ public class TweetActivity extends Activity {
             }
         });
 
+        final TextView charRemaining = (TextView) findViewById(R.id.char_remaining);
+        charRemaining.setText(140 - reply.getText().length() + "");
+
+        reply.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                charRemaining.setText(140 - reply.getText().length() + "");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     private boolean isFavorited = false;
@@ -563,38 +585,51 @@ public class TweetActivity extends Activity {
         }
     }
 
-    class ReplyToStatus extends AsyncTask<String, Void, String> {
+    class ReplyToStatus extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
         private EditText message;
+        private boolean messageToLong = false;
 
         public ReplyToStatus(EditText message, long tweetId) {
             this.message = message;
             this.tweetId = tweetId;
         }
 
-        protected String doInBackground(String... urls) {
+        protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                if (message.getText().length() < 140) {
+                    Twitter twitter =  Utils.getTwitter(context);
 
-                twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message.getText().toString());
-                reply.setInReplyToStatusId(tweetId);
+                    twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message.getText().toString());
+                    reply.setInReplyToStatusId(tweetId);
 
-                if (!attachedFilePath.equals("")) {
-                    reply.setMedia(new File(attachedFilePath));
+                    if (!attachedFilePath.equals("")) {
+                        reply.setMedia(new File(attachedFilePath));
+                    }
+
+                    twitter.updateStatus(reply);
+                    return true;
+                } else {
+                    messageToLong = true;
+                    return false;
                 }
-
-                twitter.updateStatus(reply);
-
-
-                return null;
             } catch (Exception e) {
-                return null;
+                return false;
             }
         }
 
-        protected void onPostExecute(String count) {
-            finish();
+        protected void onPostExecute(Boolean sent) {
+            if (sent) {
+                Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                if (messageToLong) {
+                    Toast.makeText(context, context.getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 

@@ -107,12 +107,19 @@
 
             </LinearLayout>
 
+            <com.klinker.android.talon.ui.widgets.HoloTextView
+                android:layout_height="13dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="3dp"
+                android:textSize="10dp"
+                android:gravity="right"
+                android:id="@+id/char_remaining" />
+
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp">
+                    android:layout_gravity="center_vertical" >
 
                 <ImageButton
                         android:id="@+id/attach_button"
