@@ -152,6 +152,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
 
+        // sets up the font sizes
+        holder.tweet.setTextSize(settings.textSize);
+        holder.name.setTextSize(settings.textSize + 4);
+        holder.time.setTextSize(settings.textSize - 3);
+        holder.retweeter.setTextSize(settings.textSize - 3);
+        holder.favCount.setTextSize(settings.textSize + 1);
+        holder.retweetCount.setTextSize(settings.textSize + 1);
+        holder.reply.setTextSize(settings.textSize);
+
         v.setTag(holder);
         return v;
     }

@@ -120,6 +120,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
 
+        // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
         holder.name.setTextSize(settings.textSize + 4);
         holder.time.setTextSize(settings.textSize - 3);
