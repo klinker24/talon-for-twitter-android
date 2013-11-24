@@ -392,7 +392,8 @@ public class UserProfileActivity extends Activity {
                 });
             }
 
-            background.loadImage(thisUser.getProfileBannerMobileURL(), false, null);
+            String url = thisUser.getProfileBannerMobileURL();
+            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 
