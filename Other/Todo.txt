@@ -10,9 +10,7 @@
     - Notifications
     - Caching limits
     - Clear cache
-    - Theme Stuff
     - Get Help item
-    - Reverse clicks option
 
 - User Profiles Activity:
     - followers and following list
@@ -34,7 +32,6 @@
     - Search for users when composing
     - Length counter for message
     - Switch tweet background to right side when it is my tweet
-    - Change cacheing of the banners for memory reduction again
     - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current
     
 

@@ -21,7 +21,9 @@ Version 0.30:
 - Fix for not going back and finding all the tweets
 
 Version 0.40:
-- SOME settings working, not refresh, notification, or text size
+- SOME settings working, not refresh or notification
+- New slim font
+- Changes to the profiles
 - Feedback on button presses
 - Attach images from the compose activity and reply activity
 - Style changes
@@ -29,4 +31,5 @@ Version 0.40:
 - Option to advance in windowed form
 - Refresh changes
 - number of tweets, followers, and following on profile
+- length counter on tweets
 - tons of other bug fixes
