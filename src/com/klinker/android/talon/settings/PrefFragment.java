@@ -137,7 +137,7 @@ public class PrefFragment extends PreferenceFragment {
 
             @Override
             public boolean onPreferenceClick(Preference arg0) {
-                File des = new File(Environment.getExternalStorageDirectory() + "/EvolveSMS/backup.prefs");
+                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
                 IOUtils.loadSharedPreferencesFromFile(des, context);
 
                 Toast.makeText(context, context.getResources().getString(R.string.restore_success), Toast.LENGTH_LONG).show();
