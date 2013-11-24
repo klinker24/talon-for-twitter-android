@@ -73,6 +73,7 @@
     <string name="unblocked_user">Unblocked User</string>
     <string name="followed_user">Followed User</string>
     <string name="unfollowed_user">Un-Followed User</string>
+    <string name="no_description">No user description available.</string>
 
     <!-- Retweets Activity -->
     <string name="retweets_lower">retweets</string>

@@ -264,10 +264,15 @@ public class UserProfileActivity extends Activity {
                 //new GetFollowing(user, listView, numFollowing).execute();
                 //new GetUserStatement(user, numTweets, statement);
 
-                statement.setText(user.getDescription());
-                tweetsBtn.setText("Tweets\n" + "(" + thisUser.getStatusesCount() + ")");
-                followersBtn.setText("Followers\n" + "(" + thisUser.getFollowersCount() + ")");
-                followingBtn.setText("Following\n" + "(" + thisUser.getFriendsCount() + ")");
+                String state = user.getDescription();
+                if (state.equals("")) {
+                    statement.setText(getResources().getString(R.string.no_description));
+                } else {
+                    statement.setText(state);
+                }
+                tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
+                followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
+                followingBtn.setText(getResources().getString(R.string.following) + "\n" + "(" + thisUser.getFriendsCount() + ")");
                 //try { numFollowing.setText(user.getFollowersCount()); } catch (Exception e) { }
                 //try { numFollowing.setText(user.getFriendsCount()); } catch (Exception e) { }
             }
