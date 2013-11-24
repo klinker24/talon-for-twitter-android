@@ -49,6 +49,7 @@
     <string name="compose_activity">New Tweet</string>
     <string name="compose_tweet_hint">Type tweet here...</string>
     <string name="send_to">Enter user\'s screen name</string>
+    <string name="direct_message_sent">Direct Message Sent</string>
 
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>
