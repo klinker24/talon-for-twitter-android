@@ -88,7 +88,7 @@ public class DirectMessageRefreshService extends IntentService {
 
             dataSource.close();
 
-            int mId = 2;
+            int mId = 3;
 
             if (numberNew > 0) {
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
