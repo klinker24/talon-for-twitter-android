@@ -102,6 +102,11 @@ public class MentionsRefreshService extends IntentService {
             int mId = 2;
 
             if (numberNew > 0) {
+
+                int currentUnread = sharedPrefs.getInt("mentions_unread", 0);
+                sharedPrefs.edit().putInt("mentions_unread", numberNew + currentUnread).commit();
+                numberNew += currentUnread;
+
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
                 Intent popup = new Intent(context, MainActivityPopup.class);
                 popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

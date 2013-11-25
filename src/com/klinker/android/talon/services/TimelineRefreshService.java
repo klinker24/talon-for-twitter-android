@@ -105,8 +105,10 @@ public class TimelineRefreshService extends IntentService {
             int mId = 1;
 
             if (numberNew > 0) {
-
-                sharedPrefs.edit().putInt("timeline_unread", numberNew).commit();
+                
+                int currentUnread = sharedPrefs.getInt("timeline_unread", 0);
+                sharedPrefs.edit().putInt("timeline_unread", numberNew + currentUnread).commit();
+                numberNew += currentUnread;
 
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
                 Intent popup = new Intent(context, MainActivityPopup.class);

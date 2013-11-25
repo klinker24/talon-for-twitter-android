@@ -78,6 +78,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             Crouton.makeText(context, "No internet connection", Style.ALERT);
         }
 
+        sharedPrefs.edit().putInt("dm_unread", 0).commit();
+
         dataSource = new DMDataSource(context);
         dataSource.open();
 

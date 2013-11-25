@@ -81,6 +81,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             Crouton.makeText(context, "No internet connection", Style.ALERT);
         }
 
+        sharedPrefs.edit().putInt("mentions_unread", 0).commit();
+
         dataSource = new MentionsDataSource(context);
         dataSource.open();
 
