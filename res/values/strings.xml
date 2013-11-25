@@ -76,6 +76,7 @@
     <string name="tweet_to_long">Tweet to long!</string>
     <string name="ok">OK</string>
     <string name="no">No</string>
+    <string name="changelog">What\'s New</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>

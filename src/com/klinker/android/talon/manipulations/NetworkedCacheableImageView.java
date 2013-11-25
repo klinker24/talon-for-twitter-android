@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import java.io.BufferedInputStream;
@@ -18,7 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.RejectedExecutionException;
 
-import com.klinker.android.talon.utilities.App;
+import com.klinker.android.talon.utils.App;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.bitmapcache.CacheableImageView;

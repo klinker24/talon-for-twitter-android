@@ -33,21 +33,19 @@ import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.klinker.android.talon.utilities.App;
-import com.klinker.android.talon.utilities.Utils;
+import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class RetweetActivity extends Activity {
 

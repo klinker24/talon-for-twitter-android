@@ -1,8 +1,9 @@
-package com.klinker.android.talon.utilities;
+package com.klinker.android.talon.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,10 +15,13 @@ import com.klinker.android.talon.R;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
@@ -150,5 +154,23 @@ public class IOUtils {
         }
 
         return res;
+    }
+
+    public static String readChangelog(Context context) {
+        String ret = "";
+        try {
+            AssetManager assetManager = context.getAssets();
+            Scanner in = new Scanner(assetManager.open("changelog.txt"));
+
+            while (in.hasNextLine()) {
+                ret += in.nextLine() + "\n";
+            }
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        return ret;
     }
 }

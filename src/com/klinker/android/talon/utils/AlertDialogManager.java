@@ -1,4 +1,4 @@
-package com.klinker.android.talon.utilities;
+package com.klinker.android.talon.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;

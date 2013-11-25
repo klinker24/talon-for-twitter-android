@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,20 +21,15 @@ import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.utilities.App;
-import com.klinker.android.talon.utilities.Utils;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
+import com.klinker.android.talon.utils.Utils;
+
 import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
-import java.lang.ref.WeakReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

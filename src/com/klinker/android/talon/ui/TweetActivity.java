@@ -24,7 +24,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
 import com.klinker.android.talon.adapters.ArrayListLoader;
-import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
@@ -32,9 +31,9 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.utilities.App;
-import com.klinker.android.talon.utilities.IOUtils;
-import com.klinker.android.talon.utilities.Utils;
+import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.IOUtils;
+import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -47,7 +46,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 
 public class TweetActivity extends Activity {
 

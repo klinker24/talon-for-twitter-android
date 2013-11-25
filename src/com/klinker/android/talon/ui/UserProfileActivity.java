@@ -21,9 +21,8 @@ import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
-import com.klinker.android.talon.utilities.App;
-import com.klinker.android.talon.utilities.Utils;
-import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
+import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -72,23 +71,7 @@ public class UserProfileActivity extends Activity {
         setUpTheme();
         getFromIntent();
 
-        FadingActionBarHelper helper;
-
         inflater = LayoutInflater.from(context);
-
-        /*if (settings.theme == 0) {
-            helper = new FadingActionBarHelper()
-                    .actionBarBackground(R.drawable.ab_solid_light_holo)
-                    .headerLayout(R.layout.user_profile_header)
-                    .contentLayout(R.layout.user_profile_list);
-        } else {
-            helper = new FadingActionBarHelper()
-                    .actionBarBackground(R.drawable.ab_solid_dark)
-                    .headerLayout(R.layout.user_profile_header)
-                    .contentLayout(R.layout.user_profile_list);
-        }*/
-
-        //setContentView(helper.createView(this));
 
         setContentView(R.layout.main_fragments);
 

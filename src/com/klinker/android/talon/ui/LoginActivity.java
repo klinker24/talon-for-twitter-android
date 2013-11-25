@@ -20,7 +20,7 @@ import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.utilities.Utils;
+import com.klinker.android.talon.utils.Utils;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;

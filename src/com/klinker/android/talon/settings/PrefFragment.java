@@ -18,7 +18,7 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
-import com.klinker.android.talon.utilities.IOUtils;
+import com.klinker.android.talon.utils.IOUtils;
 
 import java.io.File;
 

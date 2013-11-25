@@ -1,4 +1,4 @@
-package com.klinker.android.talon.utilities;
+package com.klinker.android.talon.utils;
 
 public class Tweet {
     private long id;
