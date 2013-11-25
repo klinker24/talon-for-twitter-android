@@ -193,7 +193,7 @@ public class PrefFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent tweet = new Intent(getActivity(), ComposeActivity.class);
-                tweet.putExtra("screenname", "@lukeklinker");
+                tweet.putExtra("user", "@lukeklinker");
                 startActivity(tweet);
                 return false;
             }
