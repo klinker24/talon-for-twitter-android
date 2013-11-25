@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -103,6 +104,12 @@ public class DirectMessageRefreshService extends IntentService {
                         );
                 remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
                 remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_direct_message) : numberNew + " " + getResources().getString(R.string.new_direct_messages));
+
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.directMessageItem});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+
+                remoteView.setImageViewResource(R.id.icon, resource);
 
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)

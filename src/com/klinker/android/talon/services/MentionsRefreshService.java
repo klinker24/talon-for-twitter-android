@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -113,6 +114,12 @@ public class MentionsRefreshService extends IntentService {
                         );
                 remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
                 remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_mention) : numberNew + " " + getResources().getString(R.string.new_mentions));
+
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.mentionItem});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+
+                remoteView.setImageViewResource(R.id.icon, resource);
 
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
