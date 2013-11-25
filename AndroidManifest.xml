@@ -119,5 +119,8 @@
             android:theme="@style/Theme.TalonLight">
         </activity>
 
+        <service android:name="com.klinker.android.talon.services.TimelineRefreshService">
+        </service>
+
     </application>
 </manifest>

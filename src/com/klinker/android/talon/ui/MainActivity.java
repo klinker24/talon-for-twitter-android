@@ -25,6 +25,7 @@ import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
+import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
@@ -294,7 +295,16 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        startUp = true;
+        if (!getIntent().getBooleanExtra("fromNotification", false)) {
+            startUp = true;
+        } else {
+            startUp = false;
+        }
+
+        Log.v("background_refresh", "starting service");
+        Intent refresh = new Intent(context, TimelineRefreshService.class);
+        startService(refresh);
+        Log.v("background_refresh", "service started");
     }
 
     @Override
