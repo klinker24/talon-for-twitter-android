@@ -32,6 +32,7 @@ import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.ui.fragments.HomeFragment;
 import com.squareup.picasso.Picasso;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
@@ -117,13 +118,12 @@ public class MainActivity extends Activity {
         });
 
         mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 0), false);
+        mViewPager.setOffscreenPageLimit(3);
 
         // cancels the notifications when the app is opened
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(1);
-        mNotificationManager.cancel(2);
-        mNotificationManager.cancel(3);
+        mNotificationManager.cancelAll();
     }
 
     public void setUpWindow() {
@@ -364,6 +364,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         Crouton.cancelAllCroutons();
+        sharedPrefs.edit().putInt("timeline_unread", HomeFragment.listView.getFirstVisiblePosition()).commit();
         super.onDestroy();
     }
 

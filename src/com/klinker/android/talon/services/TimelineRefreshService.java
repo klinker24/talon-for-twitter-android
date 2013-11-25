@@ -106,6 +106,8 @@ public class TimelineRefreshService extends IntentService {
 
             if (numberNew > 0) {
 
+                sharedPrefs.edit().putInt("timeline_unread", numberNew).commit();
+
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
                 Intent popup = new Intent(context, MainActivityPopup.class);
                 popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -123,7 +125,7 @@ public class TimelineRefreshService extends IntentService {
                 int resource = a.getResourceId(0, 0);
                 a.recycle();
 
-                remoteView.setImageViewResource(R.id.icon, resource);
+                remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
 
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)

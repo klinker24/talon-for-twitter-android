@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     private static Twitter twitter;
     private ConnectionDetector cd;
 
-    private AsyncListView listView;
+    public static AsyncListView listView;
     private CursorAdapter cursorAdapter;
 
     public AppSettings settings;
@@ -86,16 +86,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CharSequence text = "Hello toast!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
 
         // Now find the PullToRefreshLayout to setup
         mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
@@ -355,9 +345,20 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     }
 
     public void refreshCursor() {
-        listView.setAdapter(cursorAdapter);
+        try {
+            listView.setAdapter(cursorAdapter);
+        } catch (Exception e) {
+
+        }
 
         swapCursors();
+    }
+
+    @Override
+    public void onPause() {
+        sharedPrefs.edit().putInt("timeline_unread", listView.getFirstVisiblePosition()).commit();
+
+        super.onPause();
     }
 
     @SuppressWarnings("deprecation")
@@ -375,6 +376,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             listView.addHeaderView(viewHeader, null, false);
         } catch (Exception e) {
 
+        }
+
+        int unread = sharedPrefs.getInt("timeline_unread", 0);
+
+        if (unread > 0) {
+            listView.setSelectionFromTop(unread + 1, toDP(5));
+            sharedPrefs.edit().putInt("timeline_unread", 0).commit();
         }
     }
 
