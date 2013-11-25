@@ -309,16 +309,13 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        if (!getIntent().getBooleanExtra("from_notification", false)) {
+        int unread = sharedPrefs.getInt("timeline_unread", 0);
+
+        if (unread == 0 && settings.refreshOnStart) {
             startUp = true;
         } else {
             startUp = false;
         }
-
-        Log.v("background_refresh", "starting service");
-        //Intent refresh = new Intent(context, TimelineRefreshService.class);
-        //startService(refresh);
-        Log.v("background_refresh", "service started");
     }
 
     @Override
