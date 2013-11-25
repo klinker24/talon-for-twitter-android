@@ -101,8 +101,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
             holder.icon.setImageResource(resource);
         }
 
-        if ((current == position && SettingsPagerActivity.settingsLinksActive && !SettingsPagerActivity.inOtherLinks) ||
-                (!SettingsPagerActivity.settingsLinksActive && current == position && SettingsPagerActivity.inOtherLinks)) {
+        if (current == position) {
             holder.icon.setColorFilter(context.getResources().getColor(R.color.app_color));
             holder.name.setTextColor(context.getResources().getColor(R.color.app_color));
         } else {
