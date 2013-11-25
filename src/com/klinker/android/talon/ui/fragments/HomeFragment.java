@@ -12,6 +12,7 @@ import android.view.*;
 import android.widget.*;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
+import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -113,7 +114,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
-    public void onRefreshStarted(View view) {
+    public void onRefreshStarted(final View view) {
         new AsyncTask<Void, Void, Void>() {
 
             private boolean update;
@@ -184,6 +185,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
+
                 if (update) {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
                     refreshCursor();
@@ -191,13 +193,106 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                     listView.setSelectionFromTop(numberNew + 1, toDP(5));
                 } else {
-                    CharSequence text = "No new tweets";
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+                    refreshCursor();
+
+                    CharSequence text = getResources().getString(R.string.no_new_tweets);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
-                mPullToRefreshLayout.setRefreshComplete();
+                new RefreshMentions().execute();
             }
         }.execute();
+    }
+
+    class RefreshMentions extends AsyncTask<Void, Void, Boolean> {
+
+        private boolean update = false;
+        private int numberNew = 0;
+
+        protected Boolean doInBackground(Void... args) {
+
+            try {
+                twitter = Utils.getTwitter(context);
+
+                User user = twitter.verifyCredentials();
+                long lastId = sharedPrefs.getLong("last_mention_id", 0);
+                Paging paging;
+                paging = new Paging(1, 50);
+
+                List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
+
+                boolean broken = false;
+
+                // first try to get the top 50 tweets
+                for (int i = 0; i < statuses.size(); i++) {
+                    if (statuses.get(i).getId() == lastId) {
+                        statuses = statuses.subList(0, i);
+                        broken = true;
+                        break;
+                    }
+                }
+
+                // if that doesn't work, then go for the top 150
+                if (!broken) {
+                    Log.v("updating_timeline", "not broken");
+                    Paging paging2 = new Paging(1, 150);
+                    List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
+
+                    for (int i = 0; i < statuses2.size(); i++) {
+                        if (statuses2.get(i).getId() == lastId) {
+                            statuses2 = statuses2.subList(0, i);
+                            break;
+                        }
+                    }
+
+                    statuses = statuses2;
+                }
+
+                if (statuses.size() != 0) {
+                    sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
+                    update = true;
+                    numberNew = statuses.size();
+                } else {
+                    update = false;
+                    numberNew = 0;
+                }
+
+                MentionsDataSource dataSource = new MentionsDataSource(context);
+                dataSource.open();
+
+                Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
+                for (twitter4j.Status status : statuses) {
+                    try {
+                        dataSource.createTweet(status);
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
+
+                dataSource.close();
+
+            } catch (TwitterException e) {
+                // Error in updating status
+                Log.d("Twitter Update Error", e.getMessage());
+            }
+
+            return update;
+        }
+
+        protected void onPostExecute(Boolean updated) {
+
+            if (updated) {
+                CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
+                Crouton.makeText(context, text, Style.INFO).show();
+                listView.setSelectionFromTop(numberNew + 1, toDP(5));
+            } else {
+
+            }
+
+            mPullToRefreshLayout.setRefreshComplete();
+        }
+
     }
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {

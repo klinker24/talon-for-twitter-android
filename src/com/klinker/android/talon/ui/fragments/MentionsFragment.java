@@ -179,11 +179,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 if (update) {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
                     refreshCursor();
-                    CharSequence text = numberNew == 1 ?  numberNew + " new mention" :  numberNew + " new mentions";
+                    CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                     Crouton.makeText(context, text, Style.INFO).show();
                     listView.setSelectionFromTop(numberNew + 1, toDP(5));
                 } else {
-                    CharSequence text = "No new mentions";
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+                    refreshCursor();
+
+                    CharSequence text = getResources().getString(R.string.no_new_mentions);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 

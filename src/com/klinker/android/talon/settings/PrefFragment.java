@@ -81,8 +81,6 @@ public class PrefFragment extends PreferenceFragment {
     }
 
     public void setUpThemeSettings() {
-        final Context context = getActivity();
-        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         Preference deviceFont = findPreference("device_font");
         deviceFont.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

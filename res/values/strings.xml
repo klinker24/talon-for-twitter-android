@@ -28,6 +28,13 @@
     <string name="favorite_tweets">Favorite Tweets</string>
     <string name="new_tweet">new tweet</string>
     <string name="new_tweets">new tweets</string>
+    <string name="no_new_tweets">No new tweets</string>
+    <string name="new_mention">new mention</string>
+    <string name="new_mentions">new mentions</string>
+    <string name="no_new_mentions">No new mentions</string>
+    <string name="new_direct_message">new direct message</string>
+    <string name="new_direct_messages">new direct messages</string>
+    <string name="no_new_direct_messages">No new direct messages</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>

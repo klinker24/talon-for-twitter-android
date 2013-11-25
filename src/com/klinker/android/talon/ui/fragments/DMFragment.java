@@ -162,11 +162,14 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 if (update) {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
                     refreshCursor();
-                    CharSequence text = numberNew == 1 ?  numberNew +  " new direct message" :  numberNew + " new direct messages";
+                    CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                     listView.setSelectionFromTop(numberNew + 1, toDP(5));
                 } else {
-                    CharSequence text = "No new direct messages";
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
+                    refreshCursor();
+                    
+                    CharSequence text = getResources().getString(R.string.no_new_direct_messages);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
