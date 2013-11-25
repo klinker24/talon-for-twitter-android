@@ -378,11 +378,18 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         }
 
-        int unread = sharedPrefs.getInt("timeline_unread", 0);
+        int newTweets = sharedPrefs.getInt("timeline_new", 0);
 
-        if (unread > 0) {
-            listView.setSelectionFromTop(unread + 1, toDP(5));
-            sharedPrefs.edit().putInt("timeline_unread", 0).commit();
+        if (newTweets > 0) {
+            listView.setSelectionFromTop(newTweets + 1, toDP(5));
+            sharedPrefs.edit().putInt("timeline_new", 0).commit();
+        } else {
+            int unread = sharedPrefs.getInt("timeline_unread", 0);
+
+            if (unread > 0) {
+                listView.setSelectionFromTop(unread + 1, toDP(5));
+                sharedPrefs.edit().putInt("timeline_unread", 0).commit();
+            }
         }
     }
 
