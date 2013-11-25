@@ -135,6 +135,9 @@
                 <string name="backup_success">Backup Successful</string>
                 <string name="restore_success">Restore Successful</string>
             <string name="restore_settings">Restore Settings</string>
+            <string name="delete_cache">Delete Cache</string>
+                <string name="cache_dialog">Delete Cache?</string>
+                <string name="cache_dialog_summary">This action cannot be un-done.</string>
 
     <string name="get_help_settings">Get Help</string>
         <string name="google_plus">Google+ Community</string>

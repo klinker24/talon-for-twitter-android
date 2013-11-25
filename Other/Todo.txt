@@ -5,8 +5,7 @@
     - Search
 
 - Settings:
-    - Caching limits
-    - Clear cache
+    - notification vibrate and led options
 
 - User Profiles Activity:
     - followers and following list
@@ -24,11 +23,12 @@
 
 - Features:
     - Cool icon
+    - icon for status bar notification
     - Emoji Support
     - Search for users when composing
     - Switch tweet background to right side when it is my tweet
     - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current)
+    - delete old tweets
 
 - Bugs:
-    - Limiting cache to 15 mb
     - Convert everything away from picasso

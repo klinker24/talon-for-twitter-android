@@ -148,6 +148,39 @@ public class PrefFragment extends PreferenceFragment {
 
         });
 
+        Preference cache = findPreference("delete_cache");
+        cache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.cache_dialog))
+                        .setMessage(context.getResources().getString(R.string.cache_dialog_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    IOUtils.trimCache(context);
+                                    // Toast.makeText(this,"onDestroy " ,Toast.LENGTH_LONG).show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
+
     }
 
     public void setUpGetHelpSettings() {

@@ -36,6 +36,11 @@
             android:title="@string/restore_settings"
             />
 
+        <Preference
+            android:key="delete_cache"
+            android:title="@string/delete_cache"
+            />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
