@@ -8,6 +8,12 @@
         android:defaultValue="true"
         />
 
+    <CheckBoxPreference
+        android:key="refresh_on_start"
+        android:title="@string/refresh_on_startup"
+        android:defaultValue="true"
+        />
+
     <!-- Default of 30 mins -->
     <ListPreference
         android:key="timeline_sync_intervol"

@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -13,6 +14,7 @@ import android.widget.*;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -109,6 +111,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         listView.setItemManager(builder.build());
 
         new GetCursorAdapter().execute();
+
+        if(settings.refreshOnStart && MainActivity.startUp) {
+            final View view = layout;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mPullToRefreshLayout.setRefreshing(true);
+                    onRefreshStarted(view);
+                }
+            }, 400);
+            
+            MainActivity.startUp = false;
+        }
 
         return layout;
     }

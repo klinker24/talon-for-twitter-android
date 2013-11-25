@@ -56,6 +56,8 @@ public class MainActivity extends Activity {
 
     private boolean logoutVisible = false;
 
+    public static boolean startUp;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -286,6 +288,13 @@ public class MainActivity extends Activity {
                 setTheme(R.style.Theme_TalonBlack);
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        startUp = true;
     }
 
     @Override

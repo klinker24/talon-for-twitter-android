@@ -10,7 +10,6 @@
     - Notifications
     - Caching limits
     - Clear cache
-    - Get Help item
 
 - User Profiles Activity:
     - followers and following list

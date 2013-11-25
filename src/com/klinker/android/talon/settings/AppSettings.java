@@ -33,6 +33,7 @@ public class AppSettings {
     public boolean reverseClickActions;
     public boolean advanceWindowed;
     public boolean notifications;
+    public boolean refreshOnStart;
 
     public int theme;
     public int textSize;
@@ -57,6 +58,7 @@ public class AppSettings {
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
+        refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
