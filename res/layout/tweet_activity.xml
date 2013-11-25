@@ -96,6 +96,7 @@
               android:paddingRight="4dp"
               android:paddingLeft="4dp"
               android:background="?windowBackground"
+              android:scrollbars="vertical"
               android:listSelector="@android:color/transparent"
               android:visibility="gone" />
 

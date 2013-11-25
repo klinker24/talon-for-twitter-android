@@ -31,11 +31,8 @@
     - Emoji Support
     - Search for users when composing
     - Switch tweet background to right side when it is my tweet
-    - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current
-    
+    - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current)
 
 - Bugs:
     - Limiting cache to 15 mb
     - Convert everything away from picasso
-    - refresh dates better
-    - sync mentions at the same time as timeline

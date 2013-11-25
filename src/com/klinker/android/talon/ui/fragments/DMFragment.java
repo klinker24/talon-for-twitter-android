@@ -168,7 +168,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 } else {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
                     refreshCursor();
-                    
+
                     CharSequence text = getResources().getString(R.string.no_new_direct_messages);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }

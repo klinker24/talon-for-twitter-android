@@ -34,6 +34,7 @@
                 android:layout_marginRight="8dp"
                 android:divider="@null"
                 android:dividerHeight="5dp"
+                android:scrollbars="vertical"
                 android:listSelector="@android:color/transparent"
                 android:visibility="gone"
                 />
