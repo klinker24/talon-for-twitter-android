@@ -5,7 +5,6 @@
     - Search
 
 - Settings:
-    - Refresh on start
     - Auto-Refresh
     - Notifications
     - Caching limits

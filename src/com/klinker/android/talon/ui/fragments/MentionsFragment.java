@@ -12,6 +12,7 @@ import android.view.*;
 import android.widget.*;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
+import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utilities.App;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -98,6 +99,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         listView.setItemManager(builder.build());
 
         new GetCursorAdapter().execute();
+
+        MainActivity.startUp = false;
 
         return layout;
     }

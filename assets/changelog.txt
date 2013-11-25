@@ -21,8 +21,10 @@ Version 0.30:
 - Fix for not going back and finding all the tweets
 
 Version 0.40:
-- SOME settings working, not refresh or notification
+- SOME settings working, not refresh or notification yet
 - New slim font (Roboto light)
+- Auto-refresh on startup
+- Updates mentions when you update the timeline as well
 - Changes to the profiles
 - Feedback on button presses
 - Attach images from the compose activity and reply activity

@@ -113,7 +113,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         new GetCursorAdapter().execute();
 
         if(settings.refreshOnStart && MainActivity.startUp) {
+            
             final View view = layout;
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -121,7 +123,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     onRefreshStarted(view);
                 }
             }, 400);
-            
+
             MainActivity.startUp = false;
         }
 
