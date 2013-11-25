@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utilities.IOUtils;
@@ -152,14 +153,56 @@ public class PrefFragment extends PreferenceFragment {
     }
 
     public void setUpGetHelpSettings() {
+        Preference gPlus = findPreference("google_plus");
+        gPlus.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
+                Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
-        final Context context = getActivity();
+        Preference xda = findPreference("xda_thread");
+        xda.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
+                Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
+        Preference email = findPreference("email_me");
+        email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"lklinker1@gmail.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Android");
+                emailIntent.setType("plain/text");
+
+                startActivity(emailIntent);
+                return false;
+            }
+        });
+
+        Preference tweet = findPreference("tweet_me");
+        tweet.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent tweet = new Intent(getActivity(), ComposeActivity.class);
+                tweet.putExtra("screenname", "@lukeklinker");
+                startActivity(tweet);
+                return false;
+            }
+        });
 
     }
 
     public void setUpOtherAppSettings() {
-        
+
         Preference evolve = findPreference("evolvesms");
         evolve.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
