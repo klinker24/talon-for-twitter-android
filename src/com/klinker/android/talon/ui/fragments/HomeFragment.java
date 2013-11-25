@@ -1,7 +1,11 @@
 package com.klinker.android.talon.ui.fragments;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import android.view.*;
 import android.widget.*;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
+import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utils.App;
@@ -34,9 +39,12 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
+import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OnRefreshListener {
+
+    public static final int HOME_REFRESH_ID = 121;
 
     private static Twitter twitter;
     private ConnectionDetector cd;
@@ -160,7 +168,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
                     // if that doesn't work, then go for the top 150
                     if (!broken) {
-                        Log.v("updating_timeline", "not broken");
                         Paging paging2 = new Paging(1, 150);
                         List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
 
@@ -196,6 +203,20 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     // Error in updating status
                     Log.d("Twitter Update Error", e.getMessage());
                 }
+
+                if (settings.timelineRefresh != 0) { // user only wants manual
+                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+                    long now = new Date().getTime();
+                    long alarm = now + settings.timelineRefresh;
+
+                    Log.v("alarm_date", "timeline " + new Date(alarm).toString());
+
+                    PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
+                }
+
                 return null;
             }
 

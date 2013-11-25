@@ -41,6 +41,7 @@ public class AppSettings {
 
     public long timelineRefresh;
     public long mentionsRefresh;
+    public long dmRefresh;
 
     public AppSettings(Context context) {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -68,5 +69,6 @@ public class AppSettings {
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));
         mentionsRefresh = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "1800000"));
+        dmRefresh = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "1800000"));
     }
 }

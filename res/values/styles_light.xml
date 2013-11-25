@@ -97,8 +97,6 @@ limitations under the License.
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:backgroundDimEnabled">false</item>
 
-        <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
-
     </style>
 
     <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight">

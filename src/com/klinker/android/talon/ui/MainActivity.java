@@ -2,6 +2,7 @@ package com.klinker.android.talon.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,6 +59,7 @@ public class MainActivity extends Activity {
     private boolean logoutVisible = false;
 
     public static boolean startUp;
+    public boolean isPopup = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class MainActivity extends Activity {
         settings = new AppSettings(this);
 
         setUpTheme();
+        setUpWindow();
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.timeline));
@@ -114,6 +117,17 @@ public class MainActivity extends Activity {
         });
 
         mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 0), false);
+
+        // cancels the notifications when the app is opened
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(1);
+        mNotificationManager.cancel(2);
+        mNotificationManager.cancel(3);
+    }
+
+    public void setUpWindow() {
+        // nothing here, will be overrode
     }
 
     public void setUpDrawer() {
@@ -295,15 +309,15 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        if (!getIntent().getBooleanExtra("fromNotification", false)) {
+        if (!isPopup) {
             startUp = true;
         } else {
             startUp = false;
         }
 
         Log.v("background_refresh", "starting service");
-        Intent refresh = new Intent(context, TimelineRefreshService.class);
-        startService(refresh);
+        //Intent refresh = new Intent(context, TimelineRefreshService.class);
+        //startService(refresh);
         Log.v("background_refresh", "service started");
     }
 

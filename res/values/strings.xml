@@ -116,6 +116,7 @@
         <string name="refresh_on_startup">Refresh on Startup</string>
         <string name="timeline_sync_interval">Timeline Refresh Interval</string>
         <string name="mentions_sync_interval">Mentions Refresh Interval</string>
+        <string name="dm_sync_interval">Direct Messages Refresh Interval</string>
         <string name="max_number_on_refresh">Max Tweets to Refresh</string>
             <string name="max_number_summary">Higher max means a slower refresh</string>
 

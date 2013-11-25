@@ -3,7 +3,6 @@ package com.klinker.android.talon.services;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,27 +12,24 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.settings.SettingsPagerActivity;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
+import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
 import com.klinker.android.talon.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class TimelineRefreshService extends IntentService {
+public class MentionsRefreshService extends IntentService {
 
     SharedPreferences sharedPrefs;
 
-    public TimelineRefreshService() {
-        super("TimelineRefreshService");
+    public MentionsRefreshService() {
+        super("MentionsRefreshService");
     }
 
     @Override
@@ -48,9 +44,11 @@ public class TimelineRefreshService extends IntentService {
             Twitter twitter = Utils.getTwitter(context);
 
             User user = twitter.verifyCredentials();
-            long lastId = sharedPrefs.getLong("last_tweet_id", 0);
-            Paging paging = new Paging(1, 50);
-            List<Status> statuses = twitter.getHomeTimeline(paging);
+            long lastId = sharedPrefs.getLong("last_mention_id", 0);
+            Paging paging;
+            paging = new Paging(1, 50);
+
+            List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
             boolean broken = false;
 
@@ -79,7 +77,7 @@ public class TimelineRefreshService extends IntentService {
             }
 
             if (statuses.size() != 0) {
-                sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
                 update = true;
                 numberNew = statuses.size();
             } else {
@@ -87,24 +85,22 @@ public class TimelineRefreshService extends IntentService {
                 numberNew = 0;
             }
 
-            HomeDataSource dataSource = new HomeDataSource(context);
+            MentionsDataSource dataSource = new MentionsDataSource(context);
             dataSource.open();
 
             for (twitter4j.Status status : statuses) {
                 try {
                     dataSource.createTweet(status);
                 } catch (Exception e) {
-                    e.printStackTrace();
                     break;
                 }
             }
 
             dataSource.close();
 
-            int mId = 1;
+            int mId = 2;
 
             if (numberNew > 0) {
-
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
                 Intent popup = new Intent(context, MainActivityPopup.class);
                 popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -116,14 +112,14 @@ public class TimelineRefreshService extends IntentService {
                                 PendingIntent.FLAG_CANCEL_CURRENT
                         );
                 remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
-                remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
+                remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_mention) : numberNew + " " + getResources().getString(R.string.new_mentions));
 
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.ic_action_accept_dark)
                                 .setContent(remoteView);
-                                //.setContentTitle(getResources().getString(R.string.app_name))
-                                //.setContentText(numberNew + " new tweets");
+                //.setContentTitle(getResources().getString(R.string.app_name))
+                //.setContentText(numberNew + " new tweets");
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
                 //resultIntent.putExtra("fromNotification", true);
@@ -143,6 +139,7 @@ public class TimelineRefreshService extends IntentService {
             }
 
         } catch (TwitterException e) {
+            // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
     }
