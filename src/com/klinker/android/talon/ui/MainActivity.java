@@ -46,7 +46,6 @@ public class MainActivity extends Activity {
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     private ActionBar actionBar;
 
     private TimelinePagerAdapter mSectionsPagerAdapter;
@@ -61,6 +60,7 @@ public class MainActivity extends Activity {
 
     public static boolean startUp;
     public boolean isPopup = false;
+    public static boolean fromSettings = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -311,11 +311,13 @@ public class MainActivity extends Activity {
 
         int unread = sharedPrefs.getInt("timeline_unread", 0);
 
-        if (unread == 0 && settings.refreshOnStart) {
+        if (unread == 0 && settings.refreshOnStart && !fromSettings) {
             startUp = true;
         } else {
             startUp = false;
         }
+
+        fromSettings = false;
     }
 
     @Override
@@ -405,6 +407,7 @@ public class MainActivity extends Activity {
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
+                fromSettings = true;
                 return true;
 
             default:
