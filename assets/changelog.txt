@@ -1,14 +1,13 @@
-Version 0.40:<br/><br/>
-    &#8226; SOME settings working, not refresh or notification yet<br/>
+Version 0.40: This is now a real, completely functional twitter app.<br/><br/>
+    &#8226; All settings working in the settings menu.<br/>
+    &#8226; Notifications for new tweets, direct messages, and mentions<br/>
     &#8226; New slim font (Roboto light)<br/>
-    &#8226; Auto-refresh on startup<br/>
     &#8226; Updates mentions when you update the timeline as well<br/>
     &#8226; Changes to the profiles<br/>
     &#8226; Feedback on button presses<br/>
     &#8226; Attach images from the compose activity and reply activity<br/>
     &#8226; Style changes<br/>
     &#8226; Fix for user pictures on profiles<br/>
-    &#8226; Option to advance in windowed form<br/>
     &#8226; Refresh changes<br/>
     &#8226; Changelog added<br/>
     &#8226; number of tweets, followers, and following on profile<br/>

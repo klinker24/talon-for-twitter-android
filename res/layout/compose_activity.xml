@@ -64,6 +64,7 @@
               android:id="@+id/tweet_content"
               android:layout_height="wrap_content"
               android:layout_width="fill_parent"
-              android:hint="@string/compose_tweet_hint"/>
+              android:hint="@string/compose_tweet_hint"
+              android:inputType="textCapSentences"/>
 
 </LinearLayout>
