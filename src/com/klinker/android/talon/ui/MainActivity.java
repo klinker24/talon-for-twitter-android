@@ -309,7 +309,7 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        if (!isPopup) {
+        if (!getIntent().getBooleanExtra("from_notification", false)) {
             startUp = true;
         } else {
             startUp = false;

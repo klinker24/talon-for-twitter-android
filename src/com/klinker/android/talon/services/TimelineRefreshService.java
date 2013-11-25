@@ -113,7 +113,7 @@ public class TimelineRefreshService extends IntentService {
                                 this,
                                 0,
                                 popup,
-                                PendingIntent.FLAG_CANCEL_CURRENT
+                                0
                         );
                 remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
                 remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
@@ -126,14 +126,14 @@ public class TimelineRefreshService extends IntentService {
                                 //.setContentText(numberNew + " new tweets");
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
-                //resultIntent.putExtra("fromNotification", true);
+                resultIntent.putExtra("from_notification", true);
 
                 PendingIntent resultPendingIntent =
                         PendingIntent.getActivity(
                                 this,
                                 0,
                                 resultIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
+                                0
                         );
 
                 mBuilder.setContentIntent(resultPendingIntent);
