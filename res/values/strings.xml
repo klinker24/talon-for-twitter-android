@@ -127,7 +127,19 @@
             <string name="restore_settings">Restore Settings</string>
 
     <string name="get_help_settings">Get Help</string>
-    <string name="other_apps">Other Apps</string>
+        <string name="google_plus">Google+ Community</string>
+        <string name="xda_thread">XDA Thread</string>
+        <string name="email_me">Email Me</string>
+        <string name="tweet_me">Tweet at Me</string>
+
+    <string name="other_apps">Our Other Apps</string> <!-- Don't translate these app names-->
+        <string name="sliding_messaging">Sliding Messaging Pro</string>
+        <string name="sliding_theme_engine">Sliding Messaging Theme Engine</string>
+        <string name="evolvesms">EvolveSMS</string>
+        <string name="emoji_keyboard">Sliding Emoji Keyboard</string>
+        <string name="emoji_keyboard_unlock">Sliding Emoji Keyboard Unlocker</string>
+        <string name="halopop">HaloPop</string>
+
     <string name="whats_new">What\'s New</string>
     <string name="rate_it">Rate Talon</string>
     <string name="talon_settings">Talon Settings</string>

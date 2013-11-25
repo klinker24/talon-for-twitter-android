@@ -2,4 +2,28 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:key="evolvesms"
+        android:title="@string/evolvesms" />
+
+    <Preference
+        android:key="sliding_messaging"
+        android:title="@string/sliding_messaging" />
+
+    <Preference
+        android:key="theme_engine"
+        android:title="@string/sliding_theme_engine" />
+
+    <Preference
+        android:key="emoji_keyboard"
+        android:title="@string/emoji_keyboard" />
+
+    <Preference
+        android:key="emoji_keyboard_unlock"
+        android:title="@string/emoji_keyboard_unlock" />
+
+    <Preference
+        android:key="halopop"
+        android:title="@string/halopop" />
+
 </PreferenceScreen>

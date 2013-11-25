@@ -2,4 +2,20 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:key="google_plus"
+        android:title="@string/google_plus" />
+
+    <Preference
+        android:key="xda_thread"
+        android:title="@string/xda_thread" />
+
+    <Preference
+        android:key="email_me"
+        android:title="@string/email_me" />
+
+    <Preference
+        android:key="tweet_me"
+        android:title="@string/tweet_me" />
+
 </PreferenceScreen>
