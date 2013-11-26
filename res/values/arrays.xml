@@ -61,14 +61,20 @@
     </string-array>
 
     <string-array name="max_number">
-        <item>50</item>
-        <item>100</item>
-        <item>150</item>
         <item>200</item>
-        <item>300</item>
-        <item>500</item>
-        <item>750</item>
+        <item>400</item>
+        <item>600</item>
+        <item>800</item>
         <item>1000</item>
+    </string-array>
+
+    <!-- Number of pages -->
+    <string-array name="max_number_inserted">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
 
 </resources>

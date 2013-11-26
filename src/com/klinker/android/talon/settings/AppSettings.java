@@ -64,7 +64,7 @@ public class AppSettings {
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
-        maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "150"));
+        maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "200"));
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));

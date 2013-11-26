@@ -30,6 +30,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -39,8 +40,12 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class HomeFragment extends Fragment implements OnRefreshListener {
 
@@ -135,6 +140,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             private boolean update;
             private int numberNew;
 
+            public List<twitter4j.Status> getList(int page, Twitter twitter) {
+                try {
+                    return twitter.getHomeTimeline(new Paging(page, 200));
+                } catch (Exception e) {
+                    Log.v("timeline_refreshing", "caught: " + e.getMessage());
+                    return new ArrayList<twitter4j.Status>();
+                }
+            }
+
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -143,36 +157,37 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     User user = twitter.verifyCredentials();
                     long lastId = sharedPrefs.getLong("last_tweet_id", 0);
                     long secondToLastId = sharedPrefs.getLong("second_last_tweet_id", 0);
-                    Paging paging = new Paging(1, 50);
-                    List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
 
-                    boolean broken = false;
+                    List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
-                    // first try to get the top 50 tweets
-                    for (int i = 0; i < statuses.size(); i++) {
-                        long id = statuses.get(i).getId();
-                        if (id == lastId || id == secondToLastId) {
-                            statuses = statuses.subList(0, i);
-                            broken = true;
+                    boolean foundStatus = false;
+                    int lastJ = 0;
+
+                    for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+                        Log.v("timeline_refreshing", "iteration: " + i);
+                        if (foundStatus) {
                             break;
+                        } else {
+                            statuses.addAll(getList(i + 1, twitter));
                         }
-                    }
 
-                    // if that doesn't work, then go for the top 150
-                    if (!broken) {
-                        Paging paging2 = new Paging(1, 150);
-                        List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
-
-                        for (int i = 0; i < statuses2.size(); i++) {
-                            long id = statuses2.get(i).getId();
-                            if (id == lastId || id == secondToLastId) {
-                                statuses2 = statuses2.subList(0, i);
-                                break;
+                        try {
+                            for (int j = lastJ; j < statuses.size(); j++) {
+                                long id = statuses.get(j).getId();
+                                if (id == lastId || id == secondToLastId) {
+                                    statuses = statuses.subList(0, j);
+                                    foundStatus = true;
+                                    break;
+                                }
                             }
+                        } catch (Exception e) {
+                            foundStatus = true;
                         }
 
-                        statuses = statuses2;
+                        lastJ = statuses.size();
                     }
+
+                    Log.v("timeline_refreshing", "" + statuses.size());
 
                     if (statuses.size() != 0) {
                         try {

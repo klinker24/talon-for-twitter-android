@@ -113,12 +113,13 @@
 
     <string name="sync_settings">Sync Settings</string>
         <string name="notifications">Notifications</string>
-        <string name="refresh_on_startup">Refresh on Startup</string>
-        <string name="timeline_sync_interval">Timeline Refresh Interval</string>
-        <string name="mentions_sync_interval">Mentions Refresh Interval</string>
-        <string name="dm_sync_interval">Direct Messages Refresh Interval</string>
         <string name="max_number_on_refresh">Max Tweets to Refresh</string>
-            <string name="max_number_summary">Higher max means a slower refresh</string>
+        <string name="max_number_summary">Higher max means a slower refresh</string>
+        <string name="auto_refresh_category">Auto-Refresh</string>
+            <string name="refresh_on_startup">Refresh on Startup</string>
+            <string name="timeline_sync_interval">Timeline Refresh Rate</string>
+            <string name="mentions_sync_interval">Mentions Refresh Rate</string>
+            <string name="dm_sync_interval">Direct Messages Refresh Rate</string>
 
     <string name="notification_settings">Notification Settings</string>
 

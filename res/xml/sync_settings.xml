@@ -8,46 +8,53 @@
         android:defaultValue="true"
         />
 
-    <CheckBoxPreference
-        android:key="refresh_on_start"
-        android:title="@string/refresh_on_startup"
-        android:defaultValue="true"
-        />
-
-    <!-- Default of 30 mins -->
-    <ListPreference
-        android:key="timeline_sync_interval"
-        android:title="@string/timeline_sync_interval"
-        android:defaultValue="1800000"
-        android:entries="@array/sync_interval"
-        android:entryValues="@array/sync_interval_inserted"
-        />
-
-    <!-- Default of 30 mins -->
-    <ListPreference
-        android:key="mentions_sync_interval"
-        android:title="@string/mentions_sync_interval"
-        android:defaultValue="1800000"
-        android:entries="@array/sync_interval"
-        android:entryValues="@array/sync_interval_inserted"
-        />
-
-    <!-- Default of 30 mins -->
-    <ListPreference
-        android:key="dm_sync_interval"
-        android:title="@string/dm_sync_interval"
-        android:defaultValue="1800000"
-        android:entries="@array/sync_interval"
-        android:entryValues="@array/sync_interval_inserted"
-        />
 
     <ListPreference
         android:key="max_tweets"
         android:title="@string/max_number_on_refresh"
         android:summary="@string/max_number_summary"
-        android:defaultValue="150"
+        android:defaultValue="200"
         android:entries="@array/max_number"
-        android:entryValues="@array/max_number"
+        android:entryValues="@array/max_number_inserted"
         />
+
+    <PreferenceCategory
+        android:key="auto_refresh_category"
+        android:title="@string/auto_refresh_category" >
+
+        <CheckBoxPreference
+            android:key="refresh_on_start"
+            android:title="@string/refresh_on_startup"
+            android:defaultValue="true"
+            />
+
+        <!-- Default of 30 mins -->
+        <ListPreference
+            android:key="timeline_sync_interval"
+            android:title="@string/timeline_sync_interval"
+            android:defaultValue="1800000"
+            android:entries="@array/sync_interval"
+            android:entryValues="@array/sync_interval_inserted"
+            />
+
+        <!-- Default of 30 mins -->
+        <ListPreference
+            android:key="mentions_sync_interval"
+            android:title="@string/mentions_sync_interval"
+            android:defaultValue="1800000"
+            android:entries="@array/sync_interval"
+            android:entryValues="@array/sync_interval_inserted"
+            />
+
+        <!-- Default of 30 mins -->
+        <ListPreference
+            android:key="dm_sync_interval"
+            android:title="@string/dm_sync_interval"
+            android:defaultValue="1800000"
+            android:entries="@array/sync_interval"
+            android:entryValues="@array/sync_interval_inserted"
+            />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
