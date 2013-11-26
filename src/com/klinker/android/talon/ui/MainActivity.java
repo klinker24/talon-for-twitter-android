@@ -375,7 +375,7 @@ public class MainActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
         Intent popup = new Intent(context, MainActivityPopup.class);
         popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent popupPending =
@@ -409,7 +409,7 @@ public class MainActivity extends Activity {
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
-        mNotificationManager.notify(4, mBuilder.build());
+        mNotificationManager.notify(4, mBuilder.build());*/
     }
 
     @Override
