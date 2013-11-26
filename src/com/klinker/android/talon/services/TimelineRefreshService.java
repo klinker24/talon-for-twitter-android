@@ -50,6 +50,7 @@ public class TimelineRefreshService extends IntentService {
 
             User user = twitter.verifyCredentials();
             long lastId = sharedPrefs.getLong("last_tweet_id", 0);
+            long secondToLastId = sharedPrefs.getLong("second_last_tweet_id", 0);
             Paging paging = new Paging(1, 50);
             List<Status> statuses = twitter.getHomeTimeline(paging);
 
@@ -57,7 +58,8 @@ public class TimelineRefreshService extends IntentService {
 
             // first try to get the top 50 tweets
             for (int i = 0; i < statuses.size(); i++) {
-                if (statuses.get(i).getId() == lastId) {
+                long id = statuses.get(i).getId();
+                if (id == lastId || id == secondToLastId) {
                     statuses = statuses.subList(0, i);
                     broken = true;
                     break;
@@ -70,7 +72,8 @@ public class TimelineRefreshService extends IntentService {
                 List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
 
                 for (int i = 0; i < statuses2.size(); i++) {
-                    if (statuses2.get(i).getId() == lastId) {
+                    long id = statuses2.get(i).getId();
+                    if (id == lastId || id == secondToLastId) {
                         statuses2 = statuses2.subList(0, i);
                         break;
                     }
@@ -80,11 +83,15 @@ public class TimelineRefreshService extends IntentService {
             }
 
             if (statuses.size() != 0) {
+                try {
+                    sharedPrefs.edit().putLong("second_last_tweet_id", statuses.get(1).getId()).commit();
+                } catch (Exception e) {
+                    sharedPrefs.edit().putLong("second_last_tweet_id", sharedPrefs.getLong("last_tweet_id", 0)).commit();
+                }
                 sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
-                update = true;
+
                 numberNew = statuses.size();
             } else {
-                update = false;
                 numberNew = 0;
             }
 
