@@ -20,6 +20,8 @@ import java.util.Date;
  */
 public class BootService  extends BroadcastReceiver {
 
+    public static final int TRIM_ID = 131;
+
     private Context context;
     private SharedPreferences sharedPrefs;
 
@@ -74,7 +76,7 @@ public class BootService  extends BroadcastReceiver {
 
             Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
 
-            PendingIntent pendingIntent = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, TrimDataService.class), 0);
+            PendingIntent pendingIntent = PendingIntent.getService(context, TRIM_ID, new Intent(context, TrimDataService.class), 0);
 
             am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
         }
