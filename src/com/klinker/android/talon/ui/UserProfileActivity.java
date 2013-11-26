@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
+import com.klinker.android.talon.adapters.PeopleArrayAdapter;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
@@ -33,6 +35,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileActivity extends Activity {
+
+    private static final int BTN_TWEET = 0;
+    private static final int BTN_FOLLOWERS = 1;
+    private static final int BTN_FOLLOWING = 2;
+
+    private int current = BTN_TWEET;
 
     private Context context;
     private AppSettings settings;
@@ -54,6 +62,13 @@ public class UserProfileActivity extends Activity {
     private boolean isBlocking;
     private boolean isFollowing;
     private boolean isFollowingSet = false;
+
+    private ItemManager.Builder builder;
+
+    private long currentFollowers = -1;
+    private long currentFollowing = -1;
+    private ArrayList<User> friends;
+    private ArrayList<User> following;
 
     private NetworkedCacheableImageView background;
 
@@ -79,7 +94,7 @@ public class UserProfileActivity extends Activity {
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
 
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder = new ItemManager.Builder(loader);
         builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
         builder.setThreadPoolSize(4);
 
@@ -91,6 +106,8 @@ public class UserProfileActivity extends Activity {
         listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
 
         //helper.initActionBar(this);
+        friends = new ArrayList<User>();
+        following = new ArrayList<User>();
 
         setUpUI();
     }
@@ -191,7 +208,7 @@ public class UserProfileActivity extends Activity {
         background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
-        final ListView listView = (ListView) findViewById(R.id.listView);
+        final AsyncListView listView = (AsyncListView) findViewById(R.id.listView);
 
         statement.setTextSize(settings.textSize);
         screenname.setTextSize(settings.textSize);
@@ -200,6 +217,53 @@ public class UserProfileActivity extends Activity {
         new GetData(tweetId, null, null, null, statement, listView).execute();
 
         screenname.setText("@" + screenName);
+
+        tweetsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (current != BTN_TWEET) {
+                    current = BTN_TWEET;
+                    currentFollowing = -1;
+                    currentFollowers = -1;
+
+                    listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
+
+                    new GetTimeline(thisUser, listView).execute();
+                }
+            }
+        });
+
+        followersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (current != BTN_FOLLOWERS) {
+                    current = BTN_FOLLOWERS;
+                    currentFollowers = -1;
+                    friends = new ArrayList<User>();
+
+                    listView.setItemManager(null);
+                    listView.setAdapter(new PeopleArrayAdapter(context, friends));
+
+                    new GetFollowers(thisUser, listView).execute();
+                }
+            }
+        });
+
+        followingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (current != BTN_FOLLOWING) {
+                    current = BTN_FOLLOWING;
+                    currentFollowing = -1;
+                    following = new ArrayList<User>();
+
+                    listView.setItemManager(null);
+                    listView.setAdapter(new PeopleArrayAdapter(context, following));
+
+                    new GetFollowing(thisUser, listView).execute();
+                }
+            }
+        });
     }
 
     class GetData extends AsyncTask<String, Void, User> {
@@ -208,10 +272,10 @@ public class UserProfileActivity extends Activity {
         private TextView numTweets;
         private TextView numFollowers;
         private TextView numFollowing;
-        private ListView listView;
+        private AsyncListView listView;
         private TextView statement;
 
-        public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, ListView listView) {
+        public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, AsyncListView listView) {
             this.tweetId = tweetId;
             this.numFollowers = numFollowers;
             this.numFollowing = numFollowing;
@@ -291,56 +355,112 @@ public class UserProfileActivity extends Activity {
         }
     }
 
-    class GetFollowers extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {
+    class GetFollowers extends AsyncTask<String, Void, ArrayList<twitter4j.User>> {
 
         private User user;
-        private ListView listView;
-        private TextView statement;
+        private AsyncListView listView1;
 
-        public GetFollowers(User user, ListView listView, TextView numFollowers) {
+        public GetFollowers(User user, AsyncListView listView) {
             this.user = user;
-            this.listView = listView;
+            this.listView1 = listView;
         }
 
-        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
+        protected ArrayList<twitter4j.User> doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
 
-                List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId(), new Paging(1, 100));
+                PagableResponseList<User> friendsPaging = twitter.getFollowersList(user.getId(), currentFollowers);
 
-                ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
-
-                for (twitter4j.Status s : statuses) {
-                    all.add(s);
+                for (int i = 0; i < friendsPaging.size(); i++) {
+                    friends.add(friendsPaging.get(i));
+                    Log.v("friends_list", friendsPaging.get(i).getName());
                 }
 
-                return all;
+                currentFollowers = friendsPaging.getNextCursor();
+
+                Log.v("friends_list", friends.size() + "");
+
+                return friends;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
         }
 
-        protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
-            if (statuses != null) {
-                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses, screenName);
+        protected void onPostExecute(ArrayList<twitter4j.User> users) {
+            if (users != null) {
+                final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        listView.setAdapter(adapter);
+                        listView1.setItemManager(null);
+                        listView1.setAdapter(people);
                     }
                 });
             }
+
+            String url = thisUser.getProfileBannerMobileURL();
+            background.loadImage(url == null ? "" : url, false, null);
+        }
+    }
+
+    class GetFollowing extends AsyncTask<String, Void, ArrayList<twitter4j.User>> {
+
+        private User user;
+        private AsyncListView listView;
+        private TextView statement;
+
+        public GetFollowing(User user, AsyncListView listViews) {
+            this.user = user;
+            this.listView = listViews;
+        }
+
+        protected ArrayList<twitter4j.User> doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), currentFollowing);
+
+                for (int i = 0; i < friendsPaging.size(); i++) {
+                    following.add(friendsPaging.get(i));
+                    Log.v("friends_list", friendsPaging.get(i).getName());
+                }
+
+                currentFollowers = friendsPaging.getNextCursor();
+
+                Log.v("friends_list", friends.size() + "");
+
+                return following;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(ArrayList<twitter4j.User> users) {
+            if (users != null) {
+                final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setItemManager(null);
+                        listView.setAdapter(people);
+                    }
+                });
+            }
+
+            String url = thisUser.getProfileBannerMobileURL();
+            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 
     class GetTimeline extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {
 
         private User user;
-        private ListView listView;
+        private AsyncListView listView;
         private TextView statement;
 
-        public GetTimeline(User user, ListView listView) {
+        public GetTimeline(User user, AsyncListView listView) {
             this.user = user;
             this.listView = listView;
         }
@@ -370,6 +490,7 @@ public class UserProfileActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        listView.setItemManager(builder.build());
                         listView.setAdapter(adapter);
                     }
                 });
