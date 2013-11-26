@@ -99,7 +99,7 @@ public class DirectMessageRefreshService extends IntentService {
 
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
                 Intent popup = new Intent(context, MainActivityPopup.class);
-                popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 PendingIntent popupPending =
                         PendingIntent.getActivity(
                                 this,
@@ -110,11 +110,7 @@ public class DirectMessageRefreshService extends IntentService {
                 remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
                 remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_direct_message) : numberNew + " " + getResources().getString(R.string.new_direct_messages));
 
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.directMessageItem});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-
-                remoteView.setImageViewResource(R.id.icon, resource);
+                remoteView.setImageViewResource(R.id.icon, R.drawable.ic_action_reply_dark);
 
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
