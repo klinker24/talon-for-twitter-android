@@ -68,6 +68,7 @@ public class UserProfileActivity extends Activity {
 
     private long currentFollowers = -1;
     private long currentFollowing = -1;
+    private int refreshes = 0;
     private ArrayList<User> friends;
     private ArrayList<User> following;
     private boolean canRefresh = true;
@@ -107,7 +108,6 @@ public class UserProfileActivity extends Activity {
         listView.addHeaderView(header);
         listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
 
-        //helper.initActionBar(this);
         friends = new ArrayList<User>();
         following = new ArrayList<User>();
 
@@ -227,6 +227,7 @@ public class UserProfileActivity extends Activity {
                     current = BTN_TWEET;
                     currentFollowing = -1;
                     currentFollowers = -1;
+                    refreshes = 0;
 
                     listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
 
@@ -242,6 +243,7 @@ public class UserProfileActivity extends Activity {
                     current = BTN_FOLLOWERS;
                     currentFollowers = -1;
                     friends = new ArrayList<User>();
+                    refreshes = 0;
 
                     listView.setItemManager(null);
                     listView.setAdapter(new PeopleArrayAdapter(context, friends));
@@ -258,6 +260,7 @@ public class UserProfileActivity extends Activity {
                     current = BTN_FOLLOWING;
                     currentFollowing = -1;
                     following = new ArrayList<User>();
+                    refreshes = 0;
 
                     listView.setItemManager(null);
                     listView.setAdapter(new PeopleArrayAdapter(context, following));
@@ -353,8 +356,6 @@ public class UserProfileActivity extends Activity {
                 followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
                 followingBtn.setText(getResources().getString(R.string.following) + "\n" + "(" + thisUser.getFriendsCount() + ")");
 
-                String url = thisUser.getProfileBannerMobileURL();
-                background.loadImage(url == null ? "" : url, false, null);
             }
         }
     }
@@ -430,9 +431,14 @@ public class UserProfileActivity extends Activity {
                     public void run() {
                         listView1.setItemManager(null);
                         listView1.setAdapter(people);
+                        listView1.setSelection(refreshes * 20);
+                        refreshes++;
                     }
                 });
             }
+
+            String url = thisUser.getProfileBannerMobileURL();
+            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 
@@ -477,9 +483,14 @@ public class UserProfileActivity extends Activity {
                     public void run() {
                         listView.setItemManager(null);
                         listView.setAdapter(people);
+                        listView.setSelection(refreshes * 20);
+                        refreshes++;
                     }
                 });
             }
+
+            String url = thisUser.getProfileBannerMobileURL();
+            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 
@@ -524,6 +535,9 @@ public class UserProfileActivity extends Activity {
                     }
                 });
             }
+
+            String url = thisUser.getProfileBannerMobileURL();
+            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 

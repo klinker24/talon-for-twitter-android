@@ -89,7 +89,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.name.setText(user.getName());
-        holder.screenName.setText(user.getScreenName());
+        holder.screenName.setText("@" + user.getScreenName());
 
         Picasso.with(context)
                 .load(user.getProfileImageURL())
