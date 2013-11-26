@@ -389,11 +389,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     public void onResume() {
         super.onResume();
 
-        try {
-            attachCursor(false, new TimeLineCursorAdapter(context, dataSource.getCursor(), false));
-        } catch (Exception e) {
-
-        }
+        HomeDataSource dataSource = new HomeDataSource(context);
+        dataSource.open();
+        attachCursor(false, new TimeLineCursorAdapter(context, dataSource.getCursor(), false));
+        dataSource.close();
     }
 
     @SuppressWarnings("deprecation")
