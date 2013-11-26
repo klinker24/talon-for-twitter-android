@@ -140,7 +140,7 @@
             <string name="dm_size">Direct Messages Size</string>
                 <string name="dm_size_summary">Max number of direct messages to store in the database</string>
             <string name="auto_trim">Auto-Trim Databases</string>
-            <string name="trim_now">Trim Now</string>
+            <string name="trim_now">Trim Databases Now</string>
                 <string name="trim_dialog">Trim databases now?</string>
                 <string name="trimming">Trimming...</string>
                 <string name="trim_success">Trim successful</string>
