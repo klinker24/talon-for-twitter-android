@@ -385,16 +385,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         super.onPause();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        HomeDataSource dataSource = new HomeDataSource(context);
-        dataSource.open();
-        attachCursor(false, new TimeLineCursorAdapter(context, dataSource.getCursor(), false));
-        dataSource.close();
-    }
-
     @SuppressWarnings("deprecation")
     public void attachCursor(boolean header, TimeLineCursorAdapter cursorAdapter) {
         listView.setAdapter(cursorAdapter);
