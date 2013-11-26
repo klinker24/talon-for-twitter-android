@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
 
     <application
@@ -139,6 +140,15 @@
 
         <service android:name="com.klinker.android.talon.services.DirectMessageRefreshService">
         </service>
+
+        <service android:name="com.klinker.android.talon.services.TrimDataService">
+        </service>
+
+        <receiver android:name=".services.BootService">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>
