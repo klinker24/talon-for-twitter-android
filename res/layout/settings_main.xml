@@ -41,11 +41,21 @@
 
         <ListView android:id="@+id/links_list"
             android:layout_height="wrap_content" android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
             android:divider="?drawerDividerColor" android:dividerHeight="1dp"
             android:paddingLeft="10dp" android:paddingRight="10dp"
             android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
+
+        <com.klinker.android.talon.ui.widgets.HoloTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="17dp"
+            android:textColor="?textColor"
+            android:layout_marginBottom="10dp"
+            android:text="Created by Luke Klinker" />
 
     </LinearLayout>
 

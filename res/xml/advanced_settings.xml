@@ -37,6 +37,7 @@
             android:summary="@string/timeline_size_summary"
             android:defaultValue="1000"
             android:entries="@array/timeline_size"
+            android:entryValues="@array/timeline_size"
             />
 
         <ListPreference
@@ -45,6 +46,7 @@
             android:summary="@string/mentions_size_summary"
             android:defaultValue="100"
             android:entries="@array/mentions_size"
+            android:entryValues="@array/mentions_size"
             />
 
         <ListPreference
@@ -53,12 +55,13 @@
             android:summary="@string/dm_size_summary"
             android:defaultValue="100"
             android:entries="@array/mentions_size"
+            android:entryValues="@array/mentions_size"
             />
 
         <CheckBoxPreference
             android:key="auto_trim"
             android:title="@string/auto_trim"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <Preference

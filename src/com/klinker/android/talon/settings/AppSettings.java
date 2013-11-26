@@ -64,7 +64,7 @@ public class AppSettings {
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
-        autoTrim = sharedPrefs.getBoolean("auto_trim", false);
+        autoTrim = sharedPrefs.getBoolean("auto_trim", true);
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
