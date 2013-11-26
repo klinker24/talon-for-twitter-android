@@ -27,10 +27,12 @@ import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
+import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.utils.App;
@@ -320,6 +322,8 @@ public class FavoritesActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private static final int SETTINGS_RESULT = 101;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -333,6 +337,16 @@ public class FavoritesActivity extends Activity {
                 startActivity(compose);
                 return true;
 
+            case R.id.menu_direct_message:
+                Intent dm = new Intent(context, ComposeDMActivity.class);
+                startActivity(dm);
+                return true;
+
+            case R.id.menu_settings:
+                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                startActivityForResult(settings, SETTINGS_RESULT);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -341,6 +355,11 @@ public class FavoritesActivity extends Activity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
+        recreate();
     }
 
     public int toDP(int px) {
