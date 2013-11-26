@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.*;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -69,6 +70,7 @@ public class UserProfileActivity extends Activity {
     private long currentFollowing = -1;
     private ArrayList<User> friends;
     private ArrayList<User> following;
+    private boolean canRefresh = true;
 
     private NetworkedCacheableImageView background;
 
@@ -261,6 +263,36 @@ public class UserProfileActivity extends Activity {
                     listView.setAdapter(new PeopleArrayAdapter(context, following));
 
                     new GetFollowing(thisUser, listView).execute();
+                }
+            }
+        });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if(lastItem == totalItemCount) {
+                    // Last item is fully visible.
+                    if (current == BTN_FOLLOWING && canRefresh) {
+                        new GetFollowing(thisUser, listView).execute();
+                    } else if (current == BTN_FOLLOWERS && canRefresh) {
+                        new GetFollowers(thisUser, listView).execute();
+                    }
+
+                    canRefresh = false;
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            canRefresh = true;
+                        }
+                    }, 4000);
+
                 }
             }
         });
