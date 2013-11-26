@@ -131,6 +131,7 @@
             <string name="reverse_click_actions_summary">Reverse the click actions on tweets\n\nDefault:\nLong click to open tweet\nShort click to expand tweet</string>
         <string name="memory_management">Memory Management</string><string name="delete_cache">Delete Cache</string>
             <string name="cache_dialog">Delete Cache?</string>
+            <string name="current_cache_size">Current cache size</string>
                 <string name="cache_dialog_summary">This action cannot be un-done.</string>
             <string name="timeline_size">Timeline Size</string>
                 <string name="timeline_size_summary">Max number of tweets to store in the database</string>
@@ -142,8 +143,8 @@
             <string name="trim_now">Trim Now</string>
                 <string name="trim_dialog">Trim databases now?</string>
                 <string name="trimming">Trimming...</string>
-                <string name="trim_success">Database trim successful</string>
-                <string name="trim_fail">Database trim failed</string>
+                <string name="trim_success">Trim successful</string>
+                <string name="trim_fail">Trim failed</string>
         <string name="backup_category">Backup and Restore</string>
             <string name="backup_settings">Backup Settings</string>
                 <string name="backup_settings_dialog">Create new backup?</string>

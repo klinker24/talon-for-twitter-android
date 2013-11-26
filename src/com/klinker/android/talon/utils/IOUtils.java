@@ -27,6 +27,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * Created with IntelliJ IDEA.
@@ -257,5 +258,30 @@ public class IOUtils {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static long dirSize(File dir) {
+        long result = 0;
+
+        Stack<File> dirlist= new Stack<File>();
+        dirlist.clear();
+
+        dirlist.push(dir);
+
+        while(!dirlist.isEmpty())
+        {
+            File dirCurrent = dirlist.pop();
+
+            File[] fileList = dirCurrent.listFiles();
+            for (int i = 0; i < fileList.length; i++) {
+
+                if(fileList[i].isDirectory())
+                    dirlist.push(fileList[i]);
+                else
+                    result += fileList[i].length();
+            }
+        }
+
+        return result;
     }
 }

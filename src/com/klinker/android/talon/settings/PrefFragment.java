@@ -156,7 +156,9 @@ public class PrefFragment extends PreferenceFragment {
 
         });
 
-        Preference cache = findPreference("delete_cache");
+        final Preference cache = findPreference("delete_cache");
+        long size = IOUtils.dirSize(context.getCacheDir());
+        cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
         cache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
             @Override
@@ -168,7 +170,7 @@ public class PrefFragment extends PreferenceFragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 try {
-                                    IOUtils.trimCache(context);
+                                    new TrimCache(cache).execute();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -220,6 +222,47 @@ public class PrefFragment extends PreferenceFragment {
 
         });
 
+    }
+
+    class TrimCache extends AsyncTask<String, Void, Boolean> {
+
+        private Preference cache;
+        private ProgressDialog pDialog;
+
+        public TrimCache(Preference cache) {
+            this.cache = cache;
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.trimming));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            IOUtils.trimCache(context);
+            return true;
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+
+            long size = IOUtils.dirSize(context.getCacheDir());
+
+            cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
+
+            pDialog.dismiss();
+
+            if (deleted) {
+                Toast.makeText(context, context.getResources().getString(R.string.trim_success), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.trim_fail), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
     }
 
     class TrimDatabase extends AsyncTask<String, Void, Boolean> {
