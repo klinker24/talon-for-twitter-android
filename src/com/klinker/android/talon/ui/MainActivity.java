@@ -3,6 +3,7 @@ package com.klinker.android.talon.ui;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -369,9 +371,45 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        /*NotificationManager mNotificationManager =
+        NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();*/
+        mNotificationManager.cancelAll();
+
+        RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+        Intent popup = new Intent(context, MainActivityPopup.class);
+        popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent popupPending =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        popup,
+                        0
+                );
+        remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
+        remoteView.setTextViewText(R.id.content, "test");
+
+        remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_action_accept_dark)
+                        .setContent(remoteView);
+        //.setContentTitle(getResources().getString(R.string.app_name))
+        //.setContentText(numberNew + " new tweets");
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        resultIntent.putExtra("from_notification", true);
+
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        0
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        mNotificationManager.notify(4, mBuilder.build());
     }
 
     @Override
@@ -419,9 +457,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
-        if (requestCode == SETTINGS_RESULT) {
-            recreate();
-        }
+        recreate();
     }
 
     public int toDP(int px) {
