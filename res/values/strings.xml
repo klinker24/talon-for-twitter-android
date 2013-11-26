@@ -140,6 +140,10 @@
                 <string name="dm_size_summary">Max number of direct messages to store in the database</string>
             <string name="auto_trim">Auto-Trim Databases</string>
             <string name="trim_now">Trim Now</string>
+                <string name="trim_dialog">Trim databases now?</string>
+                <string name="trimming">Trimming...</string>
+                <string name="trim_success">Database trim successful</string>
+                <string name="trim_fail">Database trim failed</string>
         <string name="backup_category">Backup and Restore</string>
             <string name="backup_settings">Backup Settings</string>
                 <string name="backup_settings_dialog">Create new backup?</string>

@@ -1,13 +1,16 @@
 package com.klinker.android.talon.settings;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -15,12 +18,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.IOUtils;
+import com.klinker.android.talon.utils.Utils;
 
 import java.io.File;
+
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 public class PrefFragment extends PreferenceFragment {
 
@@ -161,7 +169,6 @@ public class PrefFragment extends PreferenceFragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 try {
                                     IOUtils.trimCache(context);
-                                    // Toast.makeText(this,"onDestroy " ,Toast.LENGTH_LONG).show();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -181,6 +188,66 @@ public class PrefFragment extends PreferenceFragment {
 
         });
 
+        Preference trim = findPreference("trim_now");
+        trim.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.trim_dialog))
+                        .setMessage(context.getResources().getString(R.string.cache_dialog_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    new TrimDatabase().execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
+
+    }
+
+    class TrimDatabase extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog pDialog;
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.trimming));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            return IOUtils.trimDatabase(context);
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            pDialog.dismiss();
+            if (deleted) {
+                Toast.makeText(context, context.getResources().getString(R.string.trim_success), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.trim_fail), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void setUpGetHelpSettings() {

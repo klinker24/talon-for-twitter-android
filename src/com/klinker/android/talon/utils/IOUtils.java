@@ -12,6 +12,11 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.widget.Toast;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.sq_lite.DMDataSource;
+import com.klinker.android.talon.sq_lite.HomeDataSource;
+import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.talon.sq_lite.MentionsDataSource;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -198,5 +203,59 @@ public class IOUtils {
 
         // The directory is now empty so delete it
         return dir.delete();
+    }
+
+    public static boolean trimDatabase(Context context) {
+        try {
+            AppSettings settings = new AppSettings(context);
+
+            HomeDataSource home = new HomeDataSource(context);
+            home.open();
+
+            if (home.getCursor().getCount() > settings.timelineSize) {
+                Cursor timeline = home.getCursor();
+
+                if(timeline.move(timeline.getCount() - settings.timelineSize)) {
+                    do {
+                        home.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
+                    } while (timeline.moveToPrevious());
+                }
+            }
+
+            home.close();
+
+            MentionsDataSource mentions = new MentionsDataSource(context);
+            mentions.open();
+
+            if (mentions.getCursor().getCount() > settings.mentionsSize) {
+                Cursor timeline = mentions.getCursor();
+
+                if(timeline.move(timeline.getCount() - settings.mentionsSize)) {
+                    do {
+                        mentions.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
+                    } while (timeline.moveToPrevious());
+                }
+            }
+
+            mentions.close();
+
+            DMDataSource dm = new DMDataSource(context);
+            dm.open();
+
+            if (dm.getCursor().getCount() > settings.dmSize) {
+                Cursor timeline = dm.getCursor();
+
+                if(timeline.move(timeline.getCount() - settings.dmSize)) {
+                    do {
+                        dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
+                    } while (timeline.moveToPrevious());
+                }
+            }
+
+            dm.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
