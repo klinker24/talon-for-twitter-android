@@ -128,7 +128,7 @@
             <string name="advance_windowed">Advance Windowed</string>
                 <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines</string>
             <string name="reverse_click_actions">Reverse Click Actions</string>
-            <string name="reverse_click_actions_summary">Reverse the click actions on tweets\n\nDefault:\nLong click is to open tweet\nShort click is to expand tweet</string>
+            <string name="reverse_click_actions_summary">Reverse the click actions on tweets\n\nDefault:\nLong click to open tweet\nShort click to expand tweet</string>
         <string name="backup_category">Backup and Restore</string>
             <string name="backup_settings">Backup Settings</string>
                 <string name="backup_settings_dialog">Create new backup?</string>
