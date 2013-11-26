@@ -334,7 +334,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         protected void onPostExecute(String file_url) {
 
-            attachCursor();
+            attachCursor(true);
         }
 
     }
@@ -361,8 +361,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         super.onPause();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        try {
+            attachCursor(false);
+        } catch (Exception e) {
+
+        }
+    }
+
     @SuppressWarnings("deprecation")
-    public void attachCursor() {
+    public void attachCursor(boolean header) {
         listView.setAdapter(cursorAdapter);
 
         swapCursors();
@@ -373,7 +384,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         viewHeader.setLayoutParams(lp);
 
         try {
-            listView.addHeaderView(viewHeader, null, false);
+            if (header) {
+                listView.addHeaderView(viewHeader, null, false);
+            }
         } catch (Exception e) {
 
         }
