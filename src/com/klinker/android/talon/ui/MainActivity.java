@@ -363,7 +363,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         Crouton.cancelAllCroutons();
-        sharedPrefs.edit().putInt("timeline_unread", HomeFragment.listView.getFirstVisiblePosition()).commit();
+
+        try {
+            sharedPrefs.edit().putInt("timeline_unread", HomeFragment.listView.getFirstVisiblePosition()).commit();
+        } catch (Exception e) {
+            // they haven't logged in yet so there is no listview
+        }
+
         super.onDestroy();
     }
 

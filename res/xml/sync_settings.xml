@@ -13,7 +13,7 @@
         android:key="max_tweets"
         android:title="@string/max_number_on_refresh"
         android:summary="@string/max_number_summary"
-        android:defaultValue="200"
+        android:defaultValue="1"
         android:entries="@array/max_number"
         android:entryValues="@array/max_number_inserted"
         />

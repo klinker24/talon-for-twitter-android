@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     private ConnectionDetector cd;
 
     public static AsyncListView listView;
-    private CursorAdapter cursorAdapter;
+    private TimeLineCursorAdapter cursorAdapter;
 
     public AppSettings settings;
     private SharedPreferences sharedPrefs;
@@ -358,7 +358,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         protected void onPostExecute(String file_url) {
 
-            attachCursor(true);
+            attachCursor(true, cursorAdapter);
         }
 
     }
@@ -390,14 +390,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         super.onResume();
 
         try {
-            attachCursor(false);
+            attachCursor(false, new TimeLineCursorAdapter(context, dataSource.getCursor(), false));
         } catch (Exception e) {
 
         }
     }
 
     @SuppressWarnings("deprecation")
-    public void attachCursor(boolean header) {
+    public void attachCursor(boolean header, TimeLineCursorAdapter cursorAdapter) {
         listView.setAdapter(cursorAdapter);
 
         swapCursors();

@@ -69,7 +69,7 @@ public class AppSettings {
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
-        maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "200"));
+        maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "1000"));
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
