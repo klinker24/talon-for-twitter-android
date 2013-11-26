@@ -34,10 +34,14 @@ public class AppSettings {
     public boolean advanceWindowed;
     public boolean notifications;
     public boolean refreshOnStart;
+    public boolean autoTrim;
 
     public int theme;
     public int textSize;
     public int maxTweetsRefresh;
+    public int timelineSize;
+    public int mentionsSize;
+    public int dmSize;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -60,11 +64,15 @@ public class AppSettings {
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
+        autoTrim = sharedPrefs.getBoolean("auto_trim", false);
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "200"));
+        timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "1000"));
+        mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
+        dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));

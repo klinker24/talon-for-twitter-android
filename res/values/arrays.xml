@@ -77,4 +77,20 @@
         <item>5</item>
     </string-array>
 
+    <string-array name="timeline_size">
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>3000</item>
+        <item>5000</item>
+    </string-array>
+
+    <string-array name="mentions_size">
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+        <item>500</item>
+    </string-array>
+
 </resources>

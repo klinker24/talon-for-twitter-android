@@ -23,6 +23,52 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="memory_management"
+        android:title="@string/memory_management">
+
+        <Preference
+            android:key="delete_cache"
+            android:title="@string/delete_cache"
+            />
+
+        <ListPreference
+            android:key="timeline_size"
+            android:title="@string/timeline_size"
+            android:summary="@string/timeline_size_summary"
+            android:defaultValue="1000"
+            android:entries="@array/timeline_size"
+            />
+
+        <ListPreference
+            android:key="mentions_size"
+            android:title="@string/mentions_size"
+            android:summary="@string/mentions_size_summary"
+            android:defaultValue="100"
+            android:entries="@array/mentions_size"
+            />
+
+        <ListPreference
+            android:key="dm_size"
+            android:title="@string/dm_size"
+            android:summary="@string/dm_size_summary"
+            android:defaultValue="100"
+            android:entries="@array/mentions_size"
+            />
+
+        <CheckBoxPreference
+            android:key="auto_trim"
+            android:title="@string/auto_trim"
+            android:defaultValue="false"
+            />
+
+        <Preference
+            android:key="trim_now"
+            android:title="@string/trim_now"
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="backup_category"
         android:title="@string/backup_category">
 
@@ -34,11 +80,6 @@
         <Preference
             android:key="restore"
             android:title="@string/restore_settings"
-            />
-
-        <Preference
-            android:key="delete_cache"
-            android:title="@string/delete_cache"
             />
 
     </PreferenceCategory>
