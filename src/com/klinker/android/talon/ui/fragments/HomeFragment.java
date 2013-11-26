@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         new GetCursorAdapter().execute();
 
-        if(settings.refreshOnStart && MainActivity.startUp) {
+        if(settings.refreshOnStart && MainActivity.refreshMe) {
             
             final View view = layout;
 
@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 }
             }, 400);
 
-            MainActivity.startUp = false;
+            MainActivity.refreshMe = false;
         }
 
         return layout;

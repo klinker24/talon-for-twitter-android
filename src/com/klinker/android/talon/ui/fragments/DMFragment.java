@@ -17,7 +17,6 @@ import android.widget.*;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.services.DirectMessageRefreshService;
-import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.R;
@@ -108,7 +107,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         new GetCursorAdapter().execute();
 
-        MainActivity.startUp = false;
+        MainActivity.refreshMe = false;
 
         return layout;
     }

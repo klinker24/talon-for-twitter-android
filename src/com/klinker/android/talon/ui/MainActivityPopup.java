@@ -1,10 +1,8 @@
 package com.klinker.android.talon.ui;
 
-import android.content.Intent;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.Window;
-import android.view.WindowManager;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -46,5 +44,11 @@ public class MainActivityPopup extends MainActivity {
                 setTheme(R.style.Theme_TalonBlack_Popup);
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshMe = false;
     }
 }

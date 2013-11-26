@@ -3,7 +3,6 @@ package com.klinker.android.talon.ui;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -28,7 +26,6 @@ import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
-import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
@@ -37,7 +34,6 @@ import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.fragments.HomeFragment;
 import com.squareup.picasso.Picasso;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +56,7 @@ public class MainActivity extends Activity {
 
     private boolean logoutVisible = false;
 
-    public static boolean startUp;
+    public static boolean refreshMe;
     public boolean isPopup = false;
     public static boolean fromSettings = false;
 
@@ -314,9 +310,9 @@ public class MainActivity extends Activity {
         int unread = sharedPrefs.getInt("timeline_unread", 0);
 
         if (unread == 0 && settings.refreshOnStart && !fromSettings) {
-            startUp = true;
+            refreshMe = true;
         } else {
-            startUp = false;
+            refreshMe = false;
         }
 
         fromSettings = false;
