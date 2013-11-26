@@ -352,6 +352,9 @@ public class UserProfileActivity extends Activity {
                 tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
                 followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
                 followingBtn.setText(getResources().getString(R.string.following) + "\n" + "(" + thisUser.getFriendsCount() + ")");
+
+                String url = thisUser.getProfileBannerMobileURL();
+                background.loadImage(url == null ? "" : url, false, null);
             }
         }
     }
@@ -430,9 +433,6 @@ public class UserProfileActivity extends Activity {
                     }
                 });
             }
-
-            String url = thisUser.getProfileBannerMobileURL();
-            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 
@@ -480,9 +480,6 @@ public class UserProfileActivity extends Activity {
                     }
                 });
             }
-
-            String url = thisUser.getProfileBannerMobileURL();
-            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 
@@ -527,9 +524,6 @@ public class UserProfileActivity extends Activity {
                     }
                 });
             }
-
-            String url = thisUser.getProfileBannerMobileURL();
-            background.loadImage(url == null ? "" : url, false, null);
         }
     }
 
