@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.ui.ChoosenListActivity;
 import com.klinker.android.talon.ui.drawer_activities.Search;
 
 import java.util.ArrayList;
@@ -70,14 +71,18 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         final String name = list.getName();
-        final long id = list.getId();
+        final String id = list.getId() + "";
 
         holder.text.setText(name);
 
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent list = new Intent(context, ChoosenListActivity.class);
+                list.putExtra("list_id", id);
+                list.putExtra("list_name", name);
+                list.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                context.startActivity(list);
             }
         });
 

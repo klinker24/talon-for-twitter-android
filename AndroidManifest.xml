@@ -82,6 +82,15 @@
             android:excludeFromRecents="true">
         </activity>
 
+        <activity android:name=".ui.ChoosenListActivity"
+            android:label="@string/lists"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.TalonLight"
+            android:excludeFromRecents="true">
+        </activity>
+
+
         <activity android:name=".ui.drawer_activities.Search"
             android:label="@string/search"
             android:configChanges="orientation|screenSize"
