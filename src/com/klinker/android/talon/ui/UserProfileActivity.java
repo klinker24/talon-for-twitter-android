@@ -248,7 +248,7 @@ public class UserProfileActivity extends Activity {
                     listView.setItemManager(null);
                     listView.setAdapter(new PeopleArrayAdapter(context, friends));
 
-                    new GetFollowers(thisUser, listView).execute();
+                    new GetFollowers(thisUser, listView, false).execute();
                 }
             }
         });
@@ -265,7 +265,7 @@ public class UserProfileActivity extends Activity {
                     listView.setItemManager(null);
                     listView.setAdapter(new PeopleArrayAdapter(context, following));
 
-                    new GetFollowing(thisUser, listView).execute();
+                    new GetFollowing(thisUser, listView, false).execute();
                 }
             }
         });
@@ -282,9 +282,9 @@ public class UserProfileActivity extends Activity {
                 if(lastItem == totalItemCount) {
                     // Last item is fully visible.
                     if (current == BTN_FOLLOWING && canRefresh) {
-                        new GetFollowing(thisUser, listView).execute();
+                        new GetFollowing(thisUser, listView, true).execute();
                     } else if (current == BTN_FOLLOWERS && canRefresh) {
-                        new GetFollowers(thisUser, listView).execute();
+                        new GetFollowers(thisUser, listView, true).execute();
                     }
 
                     canRefresh = false;
@@ -395,10 +395,12 @@ public class UserProfileActivity extends Activity {
 
         private User user;
         private AsyncListView listView1;
+        private boolean shouldIncrement;
 
-        public GetFollowers(User user, AsyncListView listView) {
+        public GetFollowers(User user, AsyncListView listView, boolean inc) {
             this.user = user;
             this.listView1 = listView;
+            this.shouldIncrement = inc;
         }
 
         protected ArrayList<twitter4j.User> doInBackground(String... urls) {
@@ -431,8 +433,13 @@ public class UserProfileActivity extends Activity {
                     public void run() {
                         listView1.setItemManager(null);
                         listView1.setAdapter(people);
-                        listView1.setSelection(refreshes * 20);
-                        refreshes++;
+
+                        if (shouldIncrement) {
+                            refreshes++;
+                        }
+                        
+                        listView1.smoothScrollToPosition(refreshes * 20);
+
                     }
                 });
             }
@@ -446,11 +453,12 @@ public class UserProfileActivity extends Activity {
 
         private User user;
         private AsyncListView listView;
-        private TextView statement;
+        private boolean shouldIncrement;
 
-        public GetFollowing(User user, AsyncListView listViews) {
+        public GetFollowing(User user, AsyncListView listViews, boolean inc) {
             this.user = user;
             this.listView = listViews;
+            this.shouldIncrement = inc;
         }
 
         protected ArrayList<twitter4j.User> doInBackground(String... urls) {
@@ -483,8 +491,13 @@ public class UserProfileActivity extends Activity {
                     public void run() {
                         listView.setItemManager(null);
                         listView.setAdapter(people);
-                        listView.setSelection(refreshes * 20);
-                        refreshes++;
+
+                        if (shouldIncrement) {
+                            refreshes++;
+                        }
+
+                        listView.smoothScrollToPosition(refreshes * 20);
+
                     }
                 });
             }

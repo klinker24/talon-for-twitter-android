@@ -4,8 +4,10 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -43,7 +45,7 @@ import java.util.Arrays;
 public class MainActivity extends Activity {
 
     public AppSettings settings;
-    private Context context;
+    public Context context;
     private SharedPreferences sharedPrefs;
 
     private ActionBar actionBar;
@@ -311,7 +313,7 @@ public class MainActivity extends Activity {
 
         int unread = sharedPrefs.getInt("timeline_unread", 0);
 
-        if (unread == 0 && settings.refreshOnStart && !fromSettings) {
+        if (unread == 0 && settings.refreshOnStart && !fromSettings && !getIntent().getBooleanExtra("from_notification", false)) {
             refreshMe = true;
         } else {
             refreshMe = false;
@@ -377,13 +379,18 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+        IntentFilter filter = new IntentFilter("com.klinker.android.talon.KILL_FOR_NOTIF");
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(killReceiver, filter);
+
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
         /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
         Intent popup = new Intent(context, MainActivityPopup.class);
-        popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        popup.putExtra("from_notification", true);
         PendingIntent popupPending =
                 PendingIntent.getActivity(
                         this,
@@ -421,6 +428,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        unregisterReceiver(killReceiver);
     }
 
     @Override
@@ -469,4 +478,11 @@ public class MainActivity extends Activity {
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
+
+    private BroadcastReceiver killReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ((Activity) context).finish();
+        }
+    };
 }

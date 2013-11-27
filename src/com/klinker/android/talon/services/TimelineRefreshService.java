@@ -115,6 +115,9 @@ public class TimelineRefreshService extends IntentService {
 
             if (numberNew > 0) {
 
+                Intent kill = new Intent("com.klinker.android.talon.KILL_FOR_NOTIF");
+                context.sendBroadcast(kill);
+
                 int currentUnread = sharedPrefs.getInt("timeline_new", 0);
                 sharedPrefs.edit().putInt("timeline_new", numberNew + currentUnread).commit();
                 numberNew += currentUnread;
@@ -122,6 +125,7 @@ public class TimelineRefreshService extends IntentService {
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
                 Intent popup = new Intent(context, MainActivityPopup.class);
                 popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                popup.putExtra("from_notification", true);
                 PendingIntent popupPending =
                         PendingIntent.getActivity(
                                 this,

@@ -1,8 +1,15 @@
 package com.klinker.android.talon.ui;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
+import android.support.v4.app.NotificationCompat;
 import android.view.Display;
 import android.view.Window;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;

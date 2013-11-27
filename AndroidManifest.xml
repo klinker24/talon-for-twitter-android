@@ -88,7 +88,7 @@
             android:clearTaskOnLaunch="true"
             android:launchMode="singleInstance"
             android:exported="true"
-            tools:ignore="ExportedActivity">
+            tools:ignore="ExportedActivity" >
         </activity>
 
         <activity android:name=".ui.ComposeActivity"

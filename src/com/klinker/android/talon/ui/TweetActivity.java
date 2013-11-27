@@ -222,6 +222,7 @@ public class TweetActivity extends Activity {
             attachButton.setEnabled(false);
             favoriteButton.setEnabled(false);
             retweetButton.setEnabled(false);
+
         }
 
         Picasso.with(context)
@@ -419,6 +420,10 @@ public class TweetActivity extends Activity {
 
         final TextView charRemaining = (TextView) findViewById(R.id.char_remaining);
         charRemaining.setText(140 - reply.getText().length() + "");
+
+        if (isMyTweet) {
+            charRemaining.setVisibility(View.GONE);
+        }
 
         reply.addTextChangedListener(new TextWatcher() {
             @Override
