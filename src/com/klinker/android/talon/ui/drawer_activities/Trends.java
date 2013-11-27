@@ -287,6 +287,12 @@ public class Trends extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpDrawer();
+    }
+
     private void logoutFromTwitter() {
         // Clear the shared preferences
         SharedPreferences.Editor e = sharedPrefs.edit();
