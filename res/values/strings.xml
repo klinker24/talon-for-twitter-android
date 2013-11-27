@@ -20,7 +20,7 @@
     <string name="menu_direct_message">New Direct Message</string>
     <string name="menu_save_image">Save Image</string>
     <string name="menu_favorite">Favorite User</string>
-    <string name="menu_unfavorite">Un-favorite User</string>
+    <string name="menu_unfavorite">Un-Favorite User</string>
 
     <!-- Main Activity -->
     <string name="timeline">Timeline</string>
@@ -89,6 +89,8 @@
     <string name="followed_user">Followed User</string>
     <string name="unfollowed_user">Un-Followed User</string>
     <string name="no_description">No user description available.</string>
+    <string name="favorite_user">Favorited User</string>
+    <string name="unfavorite_user">Un-Favorited User</string>
 
     <!-- Retweets Activity -->
     <string name="retweets_lower">retweets</string>

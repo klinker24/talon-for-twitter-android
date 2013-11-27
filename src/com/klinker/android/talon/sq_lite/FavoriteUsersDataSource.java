@@ -12,8 +12,8 @@ public class FavoriteUsersDataSource {
 
     private SQLiteDatabase database;
     private FavoriteUsersSQLiteHelper dbHelper;
-    public String[] allColumns = {HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
-            HomeSQLiteHelper.COLUMN_SCREEN_NAME };
+    public String[] allColumns = {FavoriteUsersSQLiteHelper.COLUMN_ID, FavoriteUsersSQLiteHelper.COLUMN_NAME, FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC,
+            FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME };
 
     public FavoriteUsersDataSource(Context context) {
         dbHelper = new FavoriteUsersSQLiteHelper(context);
@@ -46,7 +46,7 @@ public class FavoriteUsersDataSource {
     public void deleteUser(long userId) {
         long id = userId;
 
-        database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_ID
+        database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, FavoriteUsersSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 

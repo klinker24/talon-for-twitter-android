@@ -384,7 +384,7 @@ public class UserProfileActivity extends Activity {
 
                 isFollowing = friendship.isSourceFollowingTarget();
                 isBlocking = friendship.isSourceBlockingTarget();
-                isFavorite = settings.favoriteUserNames.contains(otherUserName);
+                isFavorite = sharedPrefs.getString("favorite_user_names", "").contains(otherUserName);
                 isFollowingSet = true;
 
                 return null;
@@ -711,6 +711,9 @@ public class UserProfileActivity extends Activity {
 
                         String favs = sharedPrefs.getString("favorite_user_names", "");
                         favs.replaceAll(thisUser.getScreenName() + " ", "");
+                        sharedPrefs.edit().putString("favorite_user_names", favs).commit();
+
+                        return false;
 
                     } else {
                         FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
@@ -719,6 +722,8 @@ public class UserProfileActivity extends Activity {
                         data.close();
 
                         sharedPrefs.edit().putString("favorite_user_names", sharedPrefs.getString("favorite_user_names", "") + thisUser.getScreenName() + " ").commit();
+
+                        return true;
                     }
                 }
 
@@ -729,14 +734,14 @@ public class UserProfileActivity extends Activity {
             }
         }
 
-        protected void onPostExecute(Boolean isBlocked) {
+        protected void onPostExecute(Boolean isFavorited) {
             // true = followed
             // false = unfollowed
-            if (isBlocked != null) {
-                if (isBlocked) {
-                    Toast.makeText(context, getResources().getString(R.string.blocked_user), Toast.LENGTH_SHORT).show();
+            if (isFavorited != null) {
+                if (isFavorited) {
+                    Toast.makeText(context, getResources().getString(R.string.favorite_user), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, getResources().getString(R.string.unblocked_user), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getResources().getString(R.string.favorite_user), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -879,5 +884,4 @@ public class UserProfileActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
