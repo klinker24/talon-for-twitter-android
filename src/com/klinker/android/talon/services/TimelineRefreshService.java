@@ -140,10 +140,10 @@ public class TimelineRefreshService extends IntentService {
 
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
-                                .setSmallIcon(R.drawable.ic_action_accept_dark)
-                                .setContent(remoteView);
-                                //.setContentTitle(getResources().getString(R.string.app_name))
-                                //.setContentText(numberNew + " new tweets");
+                                .setSmallIcon(R.drawable.timeline_dark)
+                                //.setContent(remoteView);
+                                .setContentTitle(getResources().getString(R.string.app_name))
+                                .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
                 resultIntent.putExtra("from_notification", true);

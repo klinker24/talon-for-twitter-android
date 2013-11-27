@@ -8,7 +8,6 @@
     - notification vibrate and led options
 
 - User Profiles Activity:
-    - followers and following list
     - Add to list option
     - "My profile" stuff:
         - Change bio
