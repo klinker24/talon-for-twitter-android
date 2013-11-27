@@ -2,7 +2,10 @@ package com.klinker.android.talon.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -48,9 +51,11 @@ import java.util.List;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.Relationship;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
+import twitter4j.UserList;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class UserProfileActivity extends Activity {
@@ -872,7 +877,7 @@ public class UserProfileActivity extends Activity {
                 return true;
 
             case R.id.menu_add_to_list:
-                //TODO - get the lists working here
+                new GetLists().execute();
                 return true;
 
             case R.id.menu_tweet:
@@ -897,6 +902,84 @@ public class UserProfileActivity extends Activity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+    class GetLists extends AsyncTask<String, Void, ResponseList<UserList>> {
+
+        ProgressDialog pDialog;
+
+        protected void onPreExecute() {
+
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.finding_lists));
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        protected ResponseList<UserList> doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
+
+                return lists;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        protected void onPostExecute(final ResponseList<UserList> lists) {
+
+            ArrayList<String> names = new ArrayList<String>();
+            for(UserList l : lists) {
+                names.add(l.getName());
+            }
+
+            pDialog.dismiss();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setItems(names.toArray(new CharSequence[lists.size()]), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
+                }
+            });
+            builder.setTitle(getResources().getString(R.string.choose_list) + ":");
+            builder.create();
+            builder.show();
+        }
+    }
+
+    class AddToList extends AsyncTask<String, Void, Boolean> {
+
+        int listId;
+        long userId;
+
+        public AddToList(int listId, long userId) {
+            this.listId = listId;
+            this.userId = userId;
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                twitter.createUserListMember(listId, userId);
+
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean added) {
+            if (added) {
+                Toast.makeText(context, getResources().getString(R.string.added_to_list), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

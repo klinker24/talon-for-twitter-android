@@ -125,6 +125,9 @@
     <string name="back_to_refresh">Back out to refresh lists</string>
     <string name="sPrivate">Private</string>
     <string name="sPublic">Public</string>
+    <string name="finding_lists">Finding Lists...</string>
+    <string name="choose_list">Choose List</string>
+    <string name="added_to_list">Added to list</string>
 
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>

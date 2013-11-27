@@ -33,3 +33,4 @@
 - Bugs:
     - Convert everything away from picasso
     - stupid popup not working correctly
+    - double insert on creating new lists

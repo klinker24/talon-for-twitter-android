@@ -158,13 +158,10 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
         protected void onPostExecute(Boolean deleted) {
 
             if (deleted) {
-                //make deleted toast
-                // back out to see changes
-                Toast.makeText(context, context.getResources().getString(R.string.deleted_list), Toast.LENGTH_SHORT);
-                Toast.makeText(context, context.getResources().getString(R.string.back_to_refresh), Toast.LENGTH_SHORT);
+                Toast.makeText(context, context.getResources().getString(R.string.deleted_list), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.back_to_refresh), Toast.LENGTH_SHORT).show();
             } else {
-                // not deleted toast
-                Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
 
         }

@@ -413,7 +413,6 @@ public class ListsActivity extends Activity {
 
                 ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
 
-
                 return lists;
             } catch (Exception e) {
                 return null;
