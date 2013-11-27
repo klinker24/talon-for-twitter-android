@@ -710,7 +710,7 @@ public class UserProfileActivity extends Activity {
                         data.close();
 
                         String favs = sharedPrefs.getString("favorite_user_names", "");
-                        favs.replaceAll(thisUser.getScreenName() + " ", "");
+                        favs = favs.replaceAll(thisUser.getScreenName() + " ", "");
                         sharedPrefs.edit().putString("favorite_user_names", favs).commit();
 
                         return false;
@@ -741,7 +741,7 @@ public class UserProfileActivity extends Activity {
                 if (isFavorited) {
                     Toast.makeText(context, getResources().getString(R.string.favorite_user), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, getResources().getString(R.string.favorite_user), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getResources().getString(R.string.unfavorite_user), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
