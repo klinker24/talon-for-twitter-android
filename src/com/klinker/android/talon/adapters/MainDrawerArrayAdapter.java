@@ -97,7 +97,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
             a.recycle();
             holder.icon.setImageResource(resource);
         } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_users))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favUser});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);

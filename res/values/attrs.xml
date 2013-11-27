@@ -61,6 +61,7 @@ limitations under the License.
     <attr name="getHelp" format="reference"/>
     <attr name="otherApps" format="reference"/>
     <attr name="rateIt" format="reference"/>
+    <attr name="favUser" format="reference"/>
 
     <!-- Actionbar Icons -->
     <attr name="actionbar" format="reference"/>

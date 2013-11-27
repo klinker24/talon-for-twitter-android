@@ -1,5 +1,4 @@
 - Main Drawer Items/Activities:
-    - Favorite Users
     - Lists
     - Trending (Local and worldwide)
     - Search

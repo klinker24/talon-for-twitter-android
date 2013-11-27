@@ -68,6 +68,7 @@ limitations under the License.
         <item name="getHelp">@drawable/drawer_get_help_dark</item>
         <item name="otherApps">@drawable/drawer_other_apps_dark</item>
         <item name="rateIt">@drawable/drawer_rate_it_dark</item>
+        <item name="favUser">@drawable/drawer_user_dark</item>
 
         <item name="actionbar">@drawable/ab_solid_black</item>
         <item name="searchIcon">@drawable/ic_action_search_dark</item>
