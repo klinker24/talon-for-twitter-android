@@ -68,7 +68,7 @@ import twitter4j.UserList;
  */
 public class ListsActivity extends Activity {
     public AppSettings settings;
-    private Context context;
+    private static Context context;
     private SharedPreferences sharedPrefs;
 
     private ActionBar actionBar;
@@ -421,6 +421,4 @@ public class ListsActivity extends Activity {
             spinner.setVisibility(View.GONE);
         }
     }
-
-
 }

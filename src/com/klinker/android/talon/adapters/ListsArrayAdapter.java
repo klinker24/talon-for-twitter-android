@@ -5,20 +5,29 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.ChoosenListActivity;
+import com.klinker.android.talon.ui.ViewUsers;
+import com.klinker.android.talon.ui.drawer_activities.ListsActivity;
 import com.klinker.android.talon.ui.drawer_activities.Search;
+import com.klinker.android.talon.utils.Utils;
 
 import java.util.ArrayList;
 
+import twitter4j.Paging;
 import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
 import twitter4j.User;
 import twitter4j.UserList;
 
@@ -100,14 +109,19 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
                         final int VIEW_USERS = 1;
                         switch (i) {
                             case DELETE_LIST:
+                                new DeleteList().execute(id + "");
                                 break;
-                            
+
                             case VIEW_USERS:
+                                Intent viewUsers = new Intent(context, ViewUsers.class);
+                                viewUsers.putExtra("list_id", Integer.parseInt(id));
+                                context.startActivity(viewUsers);
                                 break;
                         }
 
                     }
                 });
+                builder.setTitle(name);
 
                 builder.create();
                 builder.show();
@@ -131,5 +145,32 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
         bindView(v, context, lists.get(position));
 
         return v;
+    }
+
+    class DeleteList extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                twitter.destroyUserList(Integer.parseInt(urls[0]));
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+
+            if (deleted) {
+                //make deleted toast
+                // back out to see changes
+            } else {
+                // not deleted toast
+            }
+
+        }
     }
 }

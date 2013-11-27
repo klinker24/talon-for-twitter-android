@@ -66,6 +66,14 @@
             android:excludeFromRecents="true">
         </activity>
 
+        <activity android:name=".ui.ViewUsers"
+            android:label="@string/favorite_users"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.TalonLight"
+            android:excludeFromRecents="true">
+        </activity>
+
         <activity android:name=".ui.drawer_activities.Trends"
             android:label="@string/trends"
             android:configChanges="orientation|screenSize"

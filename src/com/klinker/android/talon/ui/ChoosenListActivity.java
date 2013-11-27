@@ -85,6 +85,7 @@ public class ChoosenListActivity extends Activity {
     private boolean logoutVisible = false;
 
     private int listId;
+    private String listName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,10 +119,12 @@ public class ChoosenListActivity extends Activity {
 
         listView.setItemManager(builder.build());
 
+        listName = getIntent().getStringExtra("list_name");
+
         setUpDrawer();
 
         listId = Integer.parseInt(getIntent().getStringExtra("list_id"));
-        actionBar.setTitle(getIntent().getStringExtra("list_name"));
+        actionBar.setTitle(listName);
 
         new GetList().execute();
 
@@ -168,7 +171,7 @@ public class ChoosenListActivity extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(getResources().getString(R.string.lists));
+                actionBar.setTitle(listName);
             }
 
             public void onDrawerOpened(View drawerView) {
