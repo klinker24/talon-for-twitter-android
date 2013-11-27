@@ -31,10 +31,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.talon.adapters.TextArrayAdapter;
-import com.klinker.android.talon.adapters.TimelineArrayAdapter;
+import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -407,7 +405,7 @@ public class Trends extends Activity {
 
         protected void onPostExecute(ArrayList<String> trends) {
 
-            listView.setAdapter(new TextArrayAdapter(context, trends));
+            listView.setAdapter(new TrendsArrayAdapter(context, trends));
             listView.setVisibility(View.VISIBLE);
 
             /*LinearLayout viewHeader = new LinearLayout(context);

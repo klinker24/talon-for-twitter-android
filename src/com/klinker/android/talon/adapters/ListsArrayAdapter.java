@@ -3,34 +3,27 @@ package com.klinker.android.talon.adapters;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.drawer_activities.Search;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import twitter4j.ResponseList;
 import twitter4j.User;
+import twitter4j.UserList;
 
-/**
- * Created by luke on 11/27/13.
- */
-public class TextArrayAdapter extends ArrayAdapter<User> {
+public class ListsArrayAdapter extends ArrayAdapter<User> {
 
     private Context context;
 
-    private ArrayList<String> text;
+    private ResponseList<UserList> lists;
 
     private LayoutInflater inflater;
     private AppSettings settings;
@@ -39,11 +32,11 @@ public class TextArrayAdapter extends ArrayAdapter<User> {
         public TextView text;
     }
 
-    public TextArrayAdapter(Context context, ArrayList<String> text) {
+    public ListsArrayAdapter(Context context, ResponseList<UserList> lists) {
         super(context, R.layout.tweet);
 
         this.context = context;
-        this.text = text;
+        this.lists = lists;
 
         settings = new AppSettings(context);
         inflater = LayoutInflater.from(context);
@@ -52,8 +45,9 @@ public class TextArrayAdapter extends ArrayAdapter<User> {
 
     @Override
     public int getCount() {
-        return text.size();
+        return lists.size();
     }
+
 
     public View newView(ViewGroup viewGroup) {
         View v;
@@ -72,18 +66,18 @@ public class TextArrayAdapter extends ArrayAdapter<User> {
         return v;
     }
 
-    public void bindView(final View view, Context mContext, final String trend) {
+    public void bindView(final View view, Context mContext, final UserList list) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.text.setText(trend);
+        final String name = list.getName();
+        final long id = list.getId();
+
+        holder.text.setText(name);
 
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent search = new Intent(context, Search.class);
-                search.setAction(Intent.ACTION_SEARCH);
-                search.putExtra(SearchManager.QUERY, trend);
-                context.startActivity(search);
+
             }
         });
 
@@ -94,16 +88,12 @@ public class TextArrayAdapter extends ArrayAdapter<User> {
 
         View v;
         if (convertView == null) {
-
             v = newView(parent);
-
         } else {
             v = convertView;
-
-            final ViewHolder holder = (ViewHolder) v.getTag();
         }
 
-        bindView(v, context, text.get(position));
+        bindView(v, context, lists.get(position));
 
         return v;
     }

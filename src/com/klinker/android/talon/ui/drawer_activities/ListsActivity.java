@@ -2,7 +2,6 @@ package com.klinker.android.talon.ui.drawer_activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,18 +24,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.ArrayListLoader;
+import com.klinker.android.talon.adapters.ListsArrayAdapter;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.talon.adapters.TimelineArrayAdapter;
+import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -48,28 +45,28 @@ import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.ui.ComposeActivity;
+import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import twitter4j.Query;
-import twitter4j.QueryResult;
+import twitter4j.ResponseList;
+import twitter4j.Trend;
 import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
+import twitter4j.UserList;
 
 /**
  * Created by luke on 11/27/13.
  */
-public class Search extends Activity {
+public class ListsActivity extends Activity {
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -84,7 +81,6 @@ public class Search extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private AsyncListView listView;
-    private LinearLayout spinner;
 
     private boolean logoutVisible = false;
 
@@ -99,7 +95,7 @@ public class Search extends Activity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.search));
+        actionBar.setTitle(getResources().getString(R.string.lists));
 
         setContentView(R.layout.retweets_activity);
 
@@ -112,33 +108,15 @@ public class Search extends Activity {
         listView = (AsyncListView) findViewById(R.id.listView);
         listView.setDividerHeight(toDP(5));
 
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
-
-        listView.setItemManager(builder.build());
-
         setUpDrawer();
 
-        spinner = (LinearLayout) findViewById(R.id.list_progress);
-        spinner.setVisibility(View.GONE);
-
-        Log.v("inside_search", "before check");
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-
-        }
-
-        handleIntent(getIntent());
+        new GetLists().execute();
 
     }
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 8;
+        MainDrawerArrayAdapter.current = 6;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -177,12 +155,11 @@ public class Search extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(getResources().getString(R.string.search));
+                actionBar.setTitle(getResources().getString(R.string.lists));
             }
 
             public void onDrawerOpened(View drawerView) {
                 actionBar.setTitle(getResources().getString(R.string.app_name));
-                removeKeyboard();
             }
         };
 
@@ -358,45 +335,10 @@ public class Search extends Activity {
     }
 
     @Override
-    public void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        handleIntent(intent);
-        removeKeyboard();
-    }
-
-    public void removeKeyboard() {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            new DoSearch(query).execute();
-
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
-        }
-    }
-
-    private SearchView searchView;
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_activity, menu);
-
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-
-        return true;
+        inflater.inflate(R.menu.main_activity, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private static final int SETTINGS_RESULT = 101;
@@ -409,6 +351,15 @@ public class Search extends Activity {
         }
 
         switch (item.getItemId()) {
+            case R.id.menu_compose:
+                Intent compose = new Intent(context, ComposeActivity.class);
+                startActivity(compose);
+                return true;
+
+            case R.id.menu_direct_message:
+                Intent dm = new Intent(context, ComposeDMActivity.class);
+                startActivity(dm);
+                return true;
 
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
@@ -435,43 +386,24 @@ public class Search extends Activity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    class DoSearch extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {
+    class GetLists extends AsyncTask<String, Void, ResponseList<UserList>> {
 
-        String mQuery;
-
-        public DoSearch(String query) {
-            this.mQuery = query;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            spinner.setVisibility(View.VISIBLE);
-        }
-
-        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
+        protected ResponseList<UserList> doInBackground(String... urls) {
             try {
-                Log.v("inside_search", mQuery);
+                Twitter twitter =  Utils.getTwitter(context);
 
-                Twitter twitter = Utils.getTwitter(context);
-                Query query = new Query(mQuery);
-                QueryResult result = twitter.search(query);
-                Log.v("inside_search", "got data");
+                ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
 
-                ArrayList<twitter4j.Status> tweets = new ArrayList<twitter4j.Status>();
-                for (twitter4j.Status status : result.getTweets()) {
-                    tweets.add(status);
-                }
 
-                return tweets;
+                return lists;
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             }
         }
 
-        protected void onPostExecute(ArrayList<twitter4j.Status> searches) {
+        protected void onPostExecute(ResponseList<UserList> lists) {
 
-            listView.setAdapter(new TimelineArrayAdapter(context, searches));
+            listView.setAdapter(new ListsArrayAdapter(context, lists));
             listView.setVisibility(View.VISIBLE);
 
             /*LinearLayout viewHeader = new LinearLayout(context);
@@ -485,8 +417,10 @@ public class Search extends Activity {
 
             }   */
 
+            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
     }
+
 
 }
