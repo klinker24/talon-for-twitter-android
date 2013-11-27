@@ -1,7 +1,6 @@
 - Main Drawer Items/Activities:
     - Lists
-    - Trending (Local and worldwide)
-    - Search
+    - Trending (Local)
 
 - Settings:
     - notification vibrate and led options
