@@ -1,12 +1,10 @@
 - Main Drawer Items/Activities:
-    - Lists (create new in action bar)
     - Trending (Local)
 
 - Settings:
     - notification vibrate and led options
 
 - User Profiles Activity:
-    - Add to list option
     - "My profile" stuff:
         - Change bio
         - Change profile pic
@@ -28,7 +26,6 @@
     - Vine and instagram support
     - Some kind of notifications for fav users
     - Drawer shadows
-    - make list activity look better (dividers maybe?)
 
 - Bugs:
     - Convert everything away from picasso

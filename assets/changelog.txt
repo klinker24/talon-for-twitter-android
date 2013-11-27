@@ -1,8 +1,8 @@
-Version 0.40: This is now a real, completely functional twitter app.<br/><br/>
+Version 0.40: This is now a real, completely functional twitter app. EVERYTHING seems to be working<br/><br/>
     &#8226; All settings working in the settings menu.<br/>
     &#8226; World trends working <br/>
     &#8226; Searching twitter working <br/>
-    &#8226; Twitter lists working. can't add to them yet though <br/>
+    &#8226; Twitter lists working<br/>
     &#8226; Followers and following lists now working for profiles <br/>
     &#8226; Notifications for new tweets, direct messages, and mentions<br/>
     &#8226; Favorite Users page. They can be added from the profile activities
