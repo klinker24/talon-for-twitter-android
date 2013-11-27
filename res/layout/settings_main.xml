@@ -55,7 +55,8 @@
             android:textSize="17dp"
             android:textColor="?textColor"
             android:layout_marginBottom="10dp"
-            android:text="Created by Luke Klinker" />
+            android:text="@string/created_by"
+            android:id="@+id/created_by" />
 
     </LinearLayout>
 

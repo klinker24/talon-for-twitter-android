@@ -1,9 +1,11 @@
 package com.klinker.android.talon.settings;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -119,6 +122,13 @@ public class SettingsPagerActivity extends FragmentActivity {
         if (!userKnows) {
             mDrawerLayout.openDrawer(mDrawer);
         }
+
+        findViewById(R.id.created_by).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
+                    }
+            });
     }
 
     public void setUpTheme() {

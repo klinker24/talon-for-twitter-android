@@ -26,11 +26,6 @@
         android:key="memory_management"
         android:title="@string/memory_management">
 
-        <Preference
-            android:key="delete_cache"
-            android:title="@string/delete_cache"
-            />
-
         <ListPreference
             android:key="timeline_size"
             android:title="@string/timeline_size"
@@ -61,12 +56,18 @@
         <CheckBoxPreference
             android:key="auto_trim"
             android:title="@string/auto_trim"
+            android:summary="@string/not_cache"
             android:defaultValue="true"
             />
 
         <Preference
             android:key="trim_now"
             android:title="@string/trim_now"
+            />
+
+        <Preference
+            android:key="delete_cache"
+            android:title="@string/delete_cache"
             />
 
         </PreferenceCategory>

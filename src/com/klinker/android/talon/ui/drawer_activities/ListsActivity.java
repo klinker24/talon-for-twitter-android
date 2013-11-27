@@ -342,7 +342,7 @@ public class ListsActivity extends Activity {
     }
 
     private static final int SETTINGS_RESULT = 101;
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
