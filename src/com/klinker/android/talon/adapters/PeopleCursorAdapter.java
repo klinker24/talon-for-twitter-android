@@ -85,7 +85,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
         final long id = cursor.getLong(cursor.getColumnIndex(FavoriteUsersSQLiteHelper.COLUMN_ID));
 
         holder.name.setText(name);
-        holder.screenName.setText(screenName);
+        holder.screenName.setText("@" + screenName);
 
 
         Picasso.with(context)
