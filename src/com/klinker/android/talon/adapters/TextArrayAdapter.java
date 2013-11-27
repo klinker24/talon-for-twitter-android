@@ -1,5 +1,6 @@
 package com.klinker.android.talon.adapters;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -15,6 +16,7 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.ui.drawer_activities.Search;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -74,6 +76,16 @@ public class TextArrayAdapter extends ArrayAdapter<User> {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.text.setText(trend);
+
+        holder.text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent search = new Intent(context, Search.class);
+                search.setAction(Intent.ACTION_SEARCH);
+                search.putExtra(SearchManager.QUERY, trend);
+                context.startActivity(search);
+            }
+        });
 
     }
 

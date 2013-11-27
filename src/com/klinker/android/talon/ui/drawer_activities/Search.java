@@ -137,7 +137,7 @@ public class Search extends Activity {
 
         }
 
-        //new GetTrends().execute();
+        handleIntent(getIntent());
 
     }
 
