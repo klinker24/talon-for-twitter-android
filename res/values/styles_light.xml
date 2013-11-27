@@ -69,6 +69,7 @@ limitations under the License.
         <item name="otherApps">@drawable/drawer_other_apps_light</item>
         <item name="rateIt">@drawable/drawer_rate_it_light</item>
         <item name="favUser">@drawable/drawer_user_light</item>
+        <item name="listIcon">@drawable/list_light</item>
 
         <item name="actionbar">@drawable/ab_solid_light_holo</item>
         <item name="searchIcon">@drawable/ic_action_search_light</item>

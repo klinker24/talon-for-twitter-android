@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+
+import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoritesActivity;
@@ -57,12 +59,14 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
                         try {
                             context.startActivity(intent);
+                            ((Activity)context).finish();
                         } catch (Exception e) {
 
                         }
 
                     }
                 }).start();
+
             }
         } else {
             final int pos = i;
@@ -82,10 +86,10 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                         case 5:
                             intent = new Intent(context, FavoriteUsersActivity.class);
                             break;
-                        case 6:
+                        case 7:
                             intent = new Intent(context, Trends.class);
                             break;
-                        case 7:
+                        case 8:
                             intent = new Intent(context, Search.class);
                             break;
                     }

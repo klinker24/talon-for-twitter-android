@@ -37,6 +37,7 @@
         android:dividerHeight="1dp"
         android:animateLayoutChanges="true"
         android:divider="?drawerDividerColor"
+        android:scrollbars="none"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:footerDividersEnabled="false"

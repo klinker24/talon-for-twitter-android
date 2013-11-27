@@ -115,7 +115,7 @@ public class Trends extends Activity {
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 6;
+        MainDrawerArrayAdapter.current = 7;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);

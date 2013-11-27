@@ -143,7 +143,7 @@ public class Search extends Activity {
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 7;
+        MainDrawerArrayAdapter.current = 8;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
