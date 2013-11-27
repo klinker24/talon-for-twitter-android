@@ -315,7 +315,11 @@ public class MainActivity extends Activity {
 
         int unread = sharedPrefs.getInt("timeline_unread", 0);
 
-        if (unread == 0 && settings.refreshOnStart && !fromSettings && !getIntent().getBooleanExtra("from_notification", false)) {
+        if (unread == 0
+                && settings.refreshOnStart
+                && !fromSettings
+                && !getIntent().getBooleanExtra("from_notification", false)
+                && !getIntent().getBooleanExtra("from_drawer", false)) {
             refreshMe = true;
         } else {
             refreshMe = false;

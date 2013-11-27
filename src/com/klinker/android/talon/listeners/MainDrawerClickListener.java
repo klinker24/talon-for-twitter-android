@@ -52,6 +52,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent.putExtra("page_to_open", pos);
+                        intent.putExtra("from_drawer", true);
 
                         try {
                             Thread.sleep(400);
