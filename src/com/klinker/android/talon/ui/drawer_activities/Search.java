@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -40,6 +41,7 @@ import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
@@ -114,7 +116,7 @@ public class Search extends Activity {
 
         listView = (AsyncListView) findViewById(R.id.listView);
         listView.setDividerHeight(toDP(5));
-        
+
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
 
@@ -185,6 +187,7 @@ public class Search extends Activity {
 
             public void onDrawerOpened(View drawerView) {
                 actionBar.setTitle(getResources().getString(R.string.app_name));
+                removeKeyboard();
             }
         };
 
@@ -345,6 +348,10 @@ public class Search extends Activity {
 
         sharedPrefs.edit().putString("favorite_user_names", "").commit();
 
+        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+        suggestions.clearHistory();
+
         Intent login = new Intent(context, LoginActivity.class);
         startActivity(login);
     }
@@ -371,9 +378,12 @@ public class Search extends Activity {
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            Log.v("inside_search", "search");
             String query = intent.getStringExtra(SearchManager.QUERY);
             new DoSearch(query).execute();
+
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+            suggestions.saveRecentQuery(query, null);
         }
     }
 

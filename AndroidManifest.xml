@@ -178,5 +178,8 @@
             </intent-filter>
         </receiver>
 
+        <provider android:name=".manipulations.MySuggestionsProvider"
+            android:authorities="com.klinker.android.MySuggestionsProvider" />
+
     </application>
 </manifest>

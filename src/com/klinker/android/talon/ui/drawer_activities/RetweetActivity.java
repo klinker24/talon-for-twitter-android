@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +26,7 @@ import com.klinker.android.talon.adapters.*;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
@@ -312,6 +314,10 @@ public class RetweetActivity extends Activity {
         favSource.close();
 
         sharedPrefs.edit().putString("favorite_user_names", "").commit();
+
+        SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+        suggestions.clearHistory();
 
         Intent login = new Intent(context, LoginActivity.class);
         startActivity(login);
