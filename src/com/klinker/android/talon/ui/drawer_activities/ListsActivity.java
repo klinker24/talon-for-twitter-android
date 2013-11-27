@@ -110,7 +110,8 @@ public class ListsActivity extends Activity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
+        listView.setDividerHeight(toDP(2));
+        listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
 
         setUpDrawer();
 
