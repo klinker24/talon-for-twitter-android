@@ -78,8 +78,16 @@
             android:label="@string/search"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight"
             android:excludeFromRecents="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
         </activity>
 
         <activity android:name=".ui.LoginActivity"
