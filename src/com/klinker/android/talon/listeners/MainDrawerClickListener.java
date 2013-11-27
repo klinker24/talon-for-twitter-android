@@ -13,6 +13,7 @@ import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoritesActivity;
 import com.klinker.android.talon.ui.drawer_activities.RetweetActivity;
+import com.klinker.android.talon.ui.drawer_activities.Search;
 import com.klinker.android.talon.ui.drawer_activities.Trends;
 
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {
@@ -83,6 +84,9 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                             break;
                         case 6:
                             intent = new Intent(context, Trends.class);
+                            break;
+                        case 7:
+                            intent = new Intent(context, Search.class);
                             break;
                     }
 

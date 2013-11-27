@@ -40,7 +40,6 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
             </intent-filter>
-
         </activity>
 
         <activity android:name=".ui.drawer_activities.RetweetActivity"
@@ -49,7 +48,6 @@
                   android:windowSoftInputMode="adjustResize"
                   android:theme="@style/Theme.TalonLight"
                   android:excludeFromRecents="true">
-
         </activity>
 
         <activity android:name=".ui.drawer_activities.FavoritesActivity"
@@ -58,7 +56,6 @@
                   android:windowSoftInputMode="adjustResize"
                   android:theme="@style/Theme.TalonLight"
                   android:excludeFromRecents="true">
-
         </activity>
 
         <activity android:name=".ui.drawer_activities.FavoriteUsersActivity"
@@ -67,7 +64,6 @@
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonLight"
             android:excludeFromRecents="true">
-
         </activity>
 
         <activity android:name=".ui.drawer_activities.Trends"
@@ -76,7 +72,14 @@
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonLight"
             android:excludeFromRecents="true">
+        </activity>
 
+        <activity android:name=".ui.drawer_activities.Search"
+            android:label="@string/search"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.TalonLight"
+            android:excludeFromRecents="true">
         </activity>
 
         <activity android:name=".ui.LoginActivity"
@@ -95,7 +98,6 @@
                         android:host="roartotweet"
                         android:scheme="oauth"/>
             </intent-filter>
-
         </activity>
 
         <activity android:name=".ui.MainActivityPopup"

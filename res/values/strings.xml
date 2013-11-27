@@ -30,6 +30,7 @@
     <string name="favorite_tweets">Favorite Tweets</string>
     <string name="favorite_users">Favorite Users</string>
     <string name="trends">Trending</string>
+    <string name="search">Search</string>
     <string name="new_tweet">new tweet</string>
     <string name="new_tweets">new tweets</string>
     <string name="no_new_tweets">No new tweets</string>
