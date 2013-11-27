@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
@@ -168,8 +169,11 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
             if (deleted) {
                 //make deleted toast
                 // back out to see changes
+                Toast.makeText(context, context.getResources().getString(R.string.deleted_list), Toast.LENGTH_SHORT);
+                Toast.makeText(context, context.getResources().getString(R.string.back_to_refresh), Toast.LENGTH_SHORT);
             } else {
                 // not deleted toast
+                Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT);
             }
 
         }

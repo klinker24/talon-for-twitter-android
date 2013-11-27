@@ -344,60 +344,6 @@ public class ChoosenListActivity extends Activity {
         startActivity(login);
     }
 
-    @Override
-    protected void onDestroy() {
-        Crouton.cancelAllCroutons();
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private static final int SETTINGS_RESULT = 101;
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        switch (item.getItemId()) {
-            case R.id.menu_compose:
-                Intent compose = new Intent(context, ComposeActivity.class);
-                startActivity(compose);
-                return true;
-
-            case R.id.menu_direct_message:
-                Intent dm = new Intent(context, ComposeDMActivity.class);
-                startActivity(dm);
-                return true;
-
-            case R.id.menu_settings:
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
-                startActivityForResult(settings, SETTINGS_RESULT);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
-        recreate();
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }

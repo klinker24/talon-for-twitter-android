@@ -21,6 +21,7 @@
     <string name="menu_save_image">Save Image</string>
     <string name="menu_favorite">Favorite User</string>
     <string name="menu_unfavorite">Un-Favorite User</string>
+    <string name="menu_create_list">Create New List</string>
 
     <!-- Main Activity -->
     <string name="timeline">Timeline</string>
@@ -117,6 +118,13 @@
     <string name="remove">Remove</string>
     <string name="from_list">from list</string>
     <string name="removed_user">Removed User</string>
+    <string name="create_new_list">Create New List</string>
+    <string name="list_name">List name...</string>
+    <string name="list_description">Optional list description...</string>
+    <string name="deleted_list">Deleted List</string>
+    <string name="back_to_refresh">Back out to refresh lists</string>
+    <string name="sPrivate">Private</string>
+    <string name="sPublic">Public</string>
 
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>

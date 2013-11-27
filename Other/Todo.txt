@@ -1,5 +1,5 @@
 - Main Drawer Items/Activities:
-    - Lists
+    - Lists (create new in action bar)
     - Trending (Local)
 
 - Settings:
