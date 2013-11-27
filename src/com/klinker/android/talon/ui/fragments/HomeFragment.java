@@ -381,11 +381,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onPause() {
         sharedPrefs.edit().putInt("timeline_unread", listView.getFirstVisiblePosition()).commit();
-        try {
+        /*try {
             dataSource.close();
         } catch (Exception e) {
 
         }
+        */
 
         super.onPause();
     }
@@ -393,11 +394,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onResume() {
         super.onResume();
-        try {
+        /*try {
             dataSource.open();
         } catch (Exception e) {
 
-        }
+        }*/
     }
 
     @SuppressWarnings("deprecation")

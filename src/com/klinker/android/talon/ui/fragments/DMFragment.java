@@ -204,7 +204,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         }.execute();
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         try {
@@ -222,7 +222,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         } catch (Exception e) {
 
         }
-    }
+    }*/
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 

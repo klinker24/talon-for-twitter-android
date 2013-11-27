@@ -267,7 +267,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         }
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         try {
@@ -285,7 +285,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         } catch (Exception e) {
 
         }
-    }
+    }*/
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
