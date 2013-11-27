@@ -1,5 +1,6 @@
 package com.klinker.android.talon.listeners;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoritesActivity;
 import com.klinker.android.talon.ui.drawer_activities.RetweetActivity;
+import com.klinker.android.talon.ui.drawer_activities.Trends;
 
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {
 
@@ -79,6 +81,9 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                         case 5:
                             intent = new Intent(context, FavoriteUsersActivity.class);
                             break;
+                        case 6:
+                            intent = new Intent(context, Trends.class);
+                            break;
                     }
 
                     try {
@@ -89,6 +94,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     try {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         context.startActivity(intent);
+                        ((Activity)context).finish();
                     } catch (Exception e) {
 
                     }

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,7 +32,7 @@ import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.talon.adapters.PeopleCursorAdapter;
+import com.klinker.android.talon.adapters.TextArrayAdapter;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
@@ -49,28 +48,22 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Status;
+import twitter4j.Trend;
 import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 /**
  * Created by luke on 11/27/13.
  */
-public class FavoriteUsersActivity extends Activity {
-
+public class Trends extends Activity {
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -88,8 +81,6 @@ public class FavoriteUsersActivity extends Activity {
 
     private boolean logoutVisible = false;
 
-    private FavoriteUsersDataSource dataSource;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +92,7 @@ public class FavoriteUsersActivity extends Activity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.favorite_users));
+        actionBar.setTitle(getResources().getString(R.string.trends));
 
         setContentView(R.layout.retweets_activity);
 
@@ -112,16 +103,17 @@ public class FavoriteUsersActivity extends Activity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
+        listView.setDividerHeight(toDP(5));
 
         setUpDrawer();
 
-        new GetFavUsers().execute();
+        new GetTrends().execute();
 
     }
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 5;
+        MainDrawerArrayAdapter.current = 6;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -160,7 +152,7 @@ public class FavoriteUsersActivity extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(getResources().getString(R.string.favorite_users));
+                actionBar.setTitle(getResources().getString(R.string.trends));
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -336,26 +328,6 @@ public class FavoriteUsersActivity extends Activity {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        /*try {
-            dataSource.close();
-        } catch (Exception e) {
-            // not opened?
-        }*/
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        /*try {
-            dataSource.open();
-        } catch (Exception e) {
-            // not initialized
-        }*/
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity, menu);
@@ -393,38 +365,43 @@ public class FavoriteUsersActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
         recreate();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    class GetFavUsers extends AsyncTask<String, Void, Cursor> {
+    class GetTrends extends AsyncTask<String, Void, ArrayList<String>> {
 
-        protected Cursor doInBackground(String... urls) {
+        protected ArrayList<String> doInBackground(String... urls) {
             try {
-                dataSource = new FavoriteUsersDataSource(context);
-                dataSource.open();
+                Twitter twitter =  Utils.getTwitter(context);
 
-                return dataSource.getCursor();
+                twitter4j.Trends trends = twitter.getPlaceTrends(1);
+                ArrayList<String> currentTrends = new ArrayList<String>();
+
+                for(Trend t: trends.getTrends()){
+                    String name = t.getName();
+                    currentTrends.add(name);
+                }
+
+                return currentTrends;
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             }
         }
 
-        protected void onPostExecute(Cursor cursor) {
+        protected void onPostExecute(ArrayList<String> trends) {
 
-            Log.v("fav_users", cursor.getCount() + "");
-
-            listView.setAdapter(new PeopleCursorAdapter(context, cursor));
+            listView.setAdapter(new TextArrayAdapter(context, trends));
             listView.setVisibility(View.VISIBLE);
 
             /*LinearLayout viewHeader = new LinearLayout(context);
@@ -436,7 +413,7 @@ public class FavoriteUsersActivity extends Activity {
                 listView.addHeaderView(viewHeader, null, false);
             } catch (Exception e) {
 
-            }*/
+            }   */
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
