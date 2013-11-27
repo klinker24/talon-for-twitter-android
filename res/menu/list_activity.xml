@@ -6,4 +6,9 @@
         android:orderInCategory="1"
         android:title="@string/menu_create_list"
         android:showAsAction="never" />
+
+    <item android:id="@+id/menu_settings"
+        android:orderInCategory="2"
+        android:title="@string/menu_settings"
+        android:showAsAction="never" />
 </menu>

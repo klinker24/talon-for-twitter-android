@@ -41,6 +41,7 @@ import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
@@ -340,6 +341,8 @@ public class ListsActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private static final int SETTINGS_RESULT = 101;
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -385,6 +388,11 @@ public class ListsActivity extends Activity {
                 dialog.show();
                 return true;
 
+            case R.id.menu_settings:
+                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                startActivityForResult(settings, SETTINGS_RESULT);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -423,17 +431,6 @@ public class ListsActivity extends Activity {
 
             listView.setAdapter(new ListsArrayAdapter(context, lists));
             listView.setVisibility(View.VISIBLE);
-
-            /*LinearLayout viewHeader = new LinearLayout(context);
-            viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-            viewHeader.setLayoutParams(lp);
-
-            try {
-                listView.addHeaderView(viewHeader, null, false);
-            } catch (Exception e) {
-
-            }   */
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
