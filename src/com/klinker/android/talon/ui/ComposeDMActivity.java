@@ -9,8 +9,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.utils.Utils;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 

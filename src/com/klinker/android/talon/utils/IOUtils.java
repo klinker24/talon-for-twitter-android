@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;

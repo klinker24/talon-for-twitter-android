@@ -16,22 +16,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
-import com.klinker.android.talon.manipulations.ExpansionAnimation;
+import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
+import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.utils.Utils;
-
-import twitter4j.*;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import twitter4j.DirectMessage;
+import twitter4j.MediaEntity;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimeLineCursorAdapter extends CursorAdapter {
 

@@ -13,24 +13,33 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.services.TimelineRefreshService;
+import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utils.App;
-import com.klinker.android.talon.R;
-import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.utils.*;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+import com.klinker.android.talon.utils.ConnectionDetector;
+import com.klinker.android.talon.utils.Utils;
+
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -39,13 +48,6 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class HomeFragment extends Fragment implements OnRefreshListener {
 

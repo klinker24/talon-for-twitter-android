@@ -1,7 +1,6 @@
 package com.klinker.android.talon.listeners;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -11,7 +10,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoritesActivity;

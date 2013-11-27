@@ -12,31 +12,46 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.*;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.PeopleArrayAdapter;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
+import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
+
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
-import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import twitter4j.PagableResponseList;
+import twitter4j.Paging;
+import twitter4j.Relationship;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.User;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class UserProfileActivity extends Activity {
 

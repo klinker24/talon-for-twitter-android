@@ -3,7 +3,6 @@ package com.klinker.android.talon.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,11 @@ import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import twitter4j.Status;
 import twitter4j.User;
 
 /**

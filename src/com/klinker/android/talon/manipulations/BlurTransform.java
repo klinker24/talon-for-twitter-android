@@ -7,6 +7,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.util.TypedValue;
+
 import com.squareup.picasso.Transformation;
 
 /**

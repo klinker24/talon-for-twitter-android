@@ -5,13 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.klinker.android.talon.utils.Tweet;
-import twitter4j.DirectMessage;
-import twitter4j.MediaEntity;
-import twitter4j.Status;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import twitter4j.DirectMessage;
+import twitter4j.MediaEntity;
+import twitter4j.Status;
 
 public class HomeDataSource {
 

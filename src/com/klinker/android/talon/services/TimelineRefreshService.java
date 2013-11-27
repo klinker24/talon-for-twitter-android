@@ -3,11 +3,9 @@ package com.klinker.android.talon.services;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -15,7 +13,6 @@ import android.widget.RemoteViews;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
@@ -25,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;

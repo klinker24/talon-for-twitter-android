@@ -2,9 +2,10 @@ package com.klinker.android.talon.utils;
 
 import android.app.Application;
 import android.content.Context;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.io.File;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class App extends Application {
     private BitmapLruCache mCache;

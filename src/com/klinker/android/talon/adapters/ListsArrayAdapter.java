@@ -1,17 +1,14 @@
 package com.klinker.android.talon.adapters;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,15 +16,9 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.ChoosenListActivity;
 import com.klinker.android.talon.ui.ViewUsers;
-import com.klinker.android.talon.ui.drawer_activities.ListsActivity;
-import com.klinker.android.talon.ui.drawer_activities.Search;
 import com.klinker.android.talon.utils.Utils;
 
-import java.util.ArrayList;
-
-import twitter4j.Paging;
 import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
 import twitter4j.UserList;

@@ -1,6 +1,10 @@
 package com.klinker.android.talon.manipulations;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 import com.squareup.picasso.Transformation;
 
 /**

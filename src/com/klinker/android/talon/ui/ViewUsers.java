@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.PeopleArrayAdapter;
 import com.klinker.android.talon.adapters.UserListPeopleArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.utils.Utils;

@@ -1,16 +1,24 @@
 package com.klinker.android.talon.adapters;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+
 import org.lucasr.smoothie.SimpleItemLoader;
+
+import java.net.URL;
+
 import twitter4j.Status;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
-
-import java.net.URL;
 
 public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
     final BitmapLruCache mCache;

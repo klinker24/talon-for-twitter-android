@@ -35,20 +35,16 @@ import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ListsArrayAdapter;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
-import com.klinker.android.talon.ui.ComposeActivity;
-import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
@@ -62,10 +58,8 @@ import java.util.Arrays;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import twitter4j.ResponseList;
-import twitter4j.Trend;
 import twitter4j.Twitter;
 import twitter4j.UserList;
-import twitter4j.examples.list.CreateUserList;
 
 /**
  * Created by luke on 11/27/13.
@@ -110,8 +104,8 @@ public class ListsActivity extends Activity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(2));
-        listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
+        listView.setDividerHeight(toDP(8));
+        //listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
 
         setUpDrawer();
 

@@ -12,30 +12,41 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
+
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.services.DirectMessageRefreshService;
-import com.klinker.android.talon.ui.MainActivity;
-import com.klinker.android.talon.utils.App;
-import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.utils.*;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.ConnectionDetector;
+import com.klinker.android.talon.utils.Utils;
+
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
-import twitter4j.*;
+
+import java.util.Date;
+import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import twitter4j.DirectMessage;
+import twitter4j.Paging;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
-
-import java.util.Date;
-import java.util.List;
 
 public class DMFragment extends Fragment implements OnRefreshListener {
 

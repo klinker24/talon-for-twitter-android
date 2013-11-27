@@ -2,10 +2,11 @@ package com.klinker.android.talon.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
+
 import com.klinker.android.talon.ui.fragments.DMFragment;
 import com.klinker.android.talon.ui.fragments.HomeFragment;
 import com.klinker.android.talon.ui.fragments.MentionsFragment;
-import android.support.v13.app.FragmentPagerAdapter;
 
 /**
  * Created with IntelliJ IDEA.

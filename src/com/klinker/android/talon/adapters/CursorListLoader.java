@@ -2,15 +2,24 @@ package com.klinker.android.talon.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.view.View;
 import android.widget.Adapter;
+
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
+
 import org.lucasr.smoothie.SimpleItemLoader;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 import java.net.URL;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
     final BitmapLruCache mCache;

@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -18,17 +17,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.IOUtils;
-import com.klinker.android.talon.utils.Utils;
 
 import java.io.File;
-
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
 
 public class PrefFragment extends PreferenceFragment {
 

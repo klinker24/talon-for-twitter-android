@@ -16,36 +16,53 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.*;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
-import com.klinker.android.talon.R;
+import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
+
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
-import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TweetActivity extends Activity {
 

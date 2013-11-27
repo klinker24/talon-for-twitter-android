@@ -3,21 +3,15 @@ package com.klinker.android.talon.adapters;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.drawer_activities.Search;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

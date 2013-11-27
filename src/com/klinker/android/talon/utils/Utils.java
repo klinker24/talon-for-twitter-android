@@ -1,12 +1,14 @@
 package com.klinker.android.talon.utils;
 
 import android.content.Context;
+
 import com.klinker.android.talon.settings.AppSettings;
+
+import java.util.Date;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
-
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.

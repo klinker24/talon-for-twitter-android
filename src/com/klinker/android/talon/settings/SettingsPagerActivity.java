@@ -1,17 +1,19 @@
 package com.klinker.android.talon.settings;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.os.*;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
-import android.widget.*;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+
 import com.klinker.android.talon.R;
 
 import java.util.ArrayList;

@@ -17,12 +17,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.*;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.*;
+import com.klinker.android.talon.adapters.ArrayListLoader;
+import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -41,16 +52,18 @@ import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
+
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RetweetActivity extends Activity {
 

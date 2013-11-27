@@ -32,10 +32,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.adapters.PeopleCursorAdapter;
-import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -51,22 +49,14 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.klinker.android.talon.utils.App;
-import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 /**
  * Created by luke on 11/27/13.
