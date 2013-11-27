@@ -359,6 +359,8 @@ public class FavoriteUsersActivity extends Activity {
         } catch (Exception e) {
             // not initialized
         }*/
+
+        new GetFavUsers().execute();
     }
 
     @Override
