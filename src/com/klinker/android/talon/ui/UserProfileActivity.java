@@ -394,12 +394,12 @@ public class UserProfileActivity extends Activity {
     class GetFollowers extends AsyncTask<String, Void, ArrayList<twitter4j.User>> {
 
         private User user;
-        private AsyncListView listView1;
+        private AsyncListView listView;
         private boolean shouldIncrement;
 
         public GetFollowers(User user, AsyncListView listView, boolean inc) {
             this.user = user;
-            this.listView1 = listView;
+            this.listView = listView;
             this.shouldIncrement = inc;
         }
 
@@ -428,18 +428,39 @@ public class UserProfileActivity extends Activity {
         protected void onPostExecute(ArrayList<twitter4j.User> users) {
             if (users != null) {
                 final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
+                final int firstVisible = listView.getFirstVisiblePosition();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        listView1.setItemManager(null);
-                        listView1.setAdapter(people);
+                        listView.setItemManager(null);
 
                         if (shouldIncrement) {
+                            listView.setAdapter(people);
                             refreshes++;
+                        } else {
+                            listView.setAdapter(people);
                         }
-                        
-                        listView1.smoothScrollToPosition(refreshes * 20);
 
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                listView.setSelection(firstVisible);
+                            }
+                        }, 100);
+
+                        listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                            @Override
+                            public boolean onPreDraw() {
+                                if(listView.getFirstVisiblePosition() == firstVisible) {
+                                    listView.getViewTreeObserver().removeOnPreDrawListener(this);
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -472,7 +493,7 @@ public class UserProfileActivity extends Activity {
                     Log.v("friends_list", friendsPaging.get(i).getName());
                 }
 
-                currentFollowers = friendsPaging.getNextCursor();
+                currentFollowing = friendsPaging.getNextCursor();
 
                 Log.v("friends_list", friends.size() + "");
 
@@ -486,18 +507,39 @@ public class UserProfileActivity extends Activity {
         protected void onPostExecute(ArrayList<twitter4j.User> users) {
             if (users != null) {
                 final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
+                final int firstVisible = listView.getFirstVisiblePosition();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         listView.setItemManager(null);
-                        listView.setAdapter(people);
 
                         if (shouldIncrement) {
+                            listView.setAdapter(people);
                             refreshes++;
+                        } else {
+                            listView.setAdapter(people);
                         }
 
-                        listView.smoothScrollToPosition(refreshes * 20);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                listView.setSelection(firstVisible);
+                            }
+                        }, 100);
 
+                        listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                            @Override
+                            public boolean onPreDraw() {
+                                if(listView.getFirstVisiblePosition() == firstVisible) {
+                                    listView.getViewTreeObserver().removeOnPreDrawListener(this);
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }
+                            }
+                        });
                     }
                 });
             }

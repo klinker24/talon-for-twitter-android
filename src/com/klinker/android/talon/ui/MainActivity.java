@@ -41,6 +41,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends Activity {
 
@@ -429,7 +430,11 @@ public class MainActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        unregisterReceiver(killReceiver);
+        try {
+            unregisterReceiver(killReceiver);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
