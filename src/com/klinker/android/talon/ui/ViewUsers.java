@@ -19,6 +19,7 @@ import android.widget.AbsListView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.PeopleArrayAdapter;
+import com.klinker.android.talon.adapters.UserListPeopleArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.utils.Utils;
 
@@ -47,6 +48,10 @@ public class ViewUsers extends Activity {
 
     private int listId;
     private String listName;
+
+    private long currCursor = -1;
+
+    private boolean bigEnough = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +86,7 @@ public class ViewUsers extends Activity {
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     // Last item is fully visible.
-                    if (canRefresh) {
+                    if (canRefresh && bigEnough) {
                         new GetUsers().execute();
                     }
 
@@ -160,13 +165,17 @@ public class ViewUsers extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
 
-                PagableResponseList<User> users = twitter.getUserListMembers(listId, -1);
+                PagableResponseList<User> users = twitter.getUserListMembers(listId, currCursor);
+
+                currCursor = users.getNextCursor();
 
                 ArrayList<User> array = new ArrayList<User>();
 
                 for (User user : users) {
                     array.add(user);
                 }
+
+                bigEnough = array.size() > 19;
 
                 return array;
             } catch (Exception e) {
@@ -176,7 +185,7 @@ public class ViewUsers extends Activity {
         }
 
         protected void onPostExecute(ArrayList<User> users) {
-            final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
+            final UserListPeopleArrayAdapter people = new UserListPeopleArrayAdapter(context, users, listId);
             final int firstVisible = listView.getFirstVisiblePosition();
             runOnUiThread(new Runnable() {
                 @Override
@@ -205,7 +214,7 @@ public class ViewUsers extends Activity {
                     });
                 }
             });
-            
+
             listView.setVisibility(View.VISIBLE);
         }
     }

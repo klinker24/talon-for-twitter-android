@@ -113,6 +113,10 @@
     <!-- User Lists -->
     <string name="view_users">View Users</string>
     <string name="delete_list">Delete List</string>
+    <string name="remove_user">Remove User</string>
+    <string name="remove">Remove</string>
+    <string name="from_list">from list</string>
+    <string name="removed_user">Removed User</string>
 
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>

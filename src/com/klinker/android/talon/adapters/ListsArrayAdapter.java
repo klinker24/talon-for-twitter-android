@@ -115,6 +115,7 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
                             case VIEW_USERS:
                                 Intent viewUsers = new Intent(context, ViewUsers.class);
                                 viewUsers.putExtra("list_id", Integer.parseInt(id));
+                                viewUsers.putExtra("list_name", name);
                                 context.startActivity(viewUsers);
                                 break;
                         }

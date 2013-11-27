@@ -29,12 +29,12 @@ import twitter4j.User;
  */
 public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
-    private Context context;
+    public Context context;
 
-    private ArrayList<User> users;
+    public ArrayList<User> users;
 
-    private LayoutInflater inflater;
-    private AppSettings settings;
+    public LayoutInflater inflater;
+    public AppSettings settings;
 
     public static class ViewHolder {
         public TextView name;
