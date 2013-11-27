@@ -1,7 +1,9 @@
 package com.klinker.android.talon.adapters;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,6 +85,34 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
                 list.putExtra("list_name", name);
                 list.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 context.startActivity(list);
+            }
+        });
+
+        holder.text.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(R.array.lists_options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final int DELETE_LIST = 0;
+                        final int VIEW_USERS = 1;
+                        switch (i) {
+                            case DELETE_LIST:
+                                break;
+                            
+                            case VIEW_USERS:
+                                break;
+                        }
+
+                    }
+                });
+
+                builder.create();
+                builder.show();
+
+                return false;
             }
         });
 

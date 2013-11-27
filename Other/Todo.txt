@@ -27,6 +27,7 @@
     - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current)
     - Vine and instagram support
     - Some kind of notifications for fav users
+    - Drawer shadows
 
 - Bugs:
     - Convert everything away from picasso

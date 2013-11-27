@@ -93,4 +93,9 @@
         <item>500</item>
     </string-array>
 
+    <string-array name="lists_options">
+        <item>@string/delete_list</item>
+        <item>@string/view_users</item>
+    </string-array>
+
 </resources>
