@@ -19,6 +19,8 @@
     <string name="menu_change_bio">Change Bio.</string>
     <string name="menu_direct_message">New Direct Message</string>
     <string name="menu_save_image">Save Image</string>
+    <string name="menu_favorite">Favorite User</string>
+    <string name="menu_unfavorite">Un-favorite User</string>
 
     <!-- Main Activity -->
     <string name="timeline">Timeline</string>

@@ -28,6 +28,7 @@ public class AppSettings {
     public String myName;
     public String myBackgroundUrl;
     public String myProfilePicUrl;
+    public String favoriteUserNames;
 
     public boolean isTwitterLoggedIn;
     public boolean reverseClickActions;
@@ -57,6 +58,7 @@ public class AppSettings {
         myName = sharedPrefs.getString("twitter_users_name", "");
         myBackgroundUrl = sharedPrefs.getString("twitter_background_url", "");
         myProfilePicUrl = sharedPrefs.getString("profile_pic_url", "");
+        favoriteUserNames = sharedPrefs.getString("favorite_user_names", "");
 
         // Booleans
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);

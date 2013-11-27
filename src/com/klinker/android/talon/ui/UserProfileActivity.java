@@ -4,11 +4,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.*;
 import android.widget.AbsListView;
@@ -24,6 +26,7 @@ import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -36,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileActivity extends Activity {
+
+    private SharedPreferences sharedPrefs;
 
     private static final int BTN_TWEET = 0;
     private static final int BTN_FOLLOWERS = 1;
@@ -62,6 +67,7 @@ public class UserProfileActivity extends Activity {
 
     private boolean isBlocking;
     private boolean isFollowing;
+    private boolean isFavorite;
     private boolean isFollowingSet = false;
 
     private ItemManager.Builder builder;
@@ -81,6 +87,7 @@ public class UserProfileActivity extends Activity {
 
         context = this;
         settings = new AppSettings(context);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (settings.advanceWindowed) {
             setUpWindow();
@@ -377,6 +384,7 @@ public class UserProfileActivity extends Activity {
 
                 isFollowing = friendship.isSourceFollowingTarget();
                 isBlocking = friendship.isSourceBlockingTarget();
+                isFavorite = settings.favoriteUserNames.contains(otherUserName);
                 isFollowingSet = true;
 
                 return null;
@@ -689,6 +697,55 @@ public class UserProfileActivity extends Activity {
         }
     }
 
+    class FavoriteUser extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                if (thisUser != null) {
+                    if (isFavorite) {
+                        // destroy favorite
+                        FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
+                        data.open();
+                        data.deleteUser(thisUser.getId());
+                        data.close();
+
+                        String favs = sharedPrefs.getString("favorite_user_names", "");
+                        favs.replaceAll(thisUser.getScreenName() + " ", "");
+
+                    } else {
+                        FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
+                        data.open();
+                        data.createUser(thisUser);
+                        data.close();
+
+                        sharedPrefs.edit().putString("favorite_user_names", sharedPrefs.getString("favorite_user_names", "") + thisUser.getScreenName() + " ").commit();
+                    }
+                }
+
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Boolean isBlocked) {
+            // true = followed
+            // false = unfollowed
+            if (isBlocked != null) {
+                if (isBlocked) {
+                    Toast.makeText(context, getResources().getString(R.string.blocked_user), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.unblocked_user), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+
+            new GetActionBarInfo(thisUser).execute();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -704,12 +761,14 @@ public class UserProfileActivity extends Activity {
         final int MENU_TWEET = 0;
         final int MENU_FOLLOW = 1;
         final int MENU_UNFOLLOW = 2;
-        final int MENU_BLOCK = 3;
-        final int MENU_UNBLOCK = 4;
-        final int MENU_ADD_LIST = 5;
-        final int MENU_DM = 6;
-        final int MENU_CHANGE_PICTURE = 7;
-        final int MENU_CHANGE_BIO = 8;
+        final int MENU_FAVORITE = 3;
+        final int MENU_UNFAVORITE = 4;
+        final int MENU_BLOCK = 5;
+        final int MENU_UNBLOCK = 6;
+        final int MENU_ADD_LIST = 7;
+        final int MENU_DM = 8;
+        final int MENU_CHANGE_PICTURE = 9;
+        final int MENU_CHANGE_BIO = 10;
 
         if (isMyProfile) {
             menu.getItem(MENU_TWEET).setVisible(false);
@@ -719,6 +778,8 @@ public class UserProfileActivity extends Activity {
             menu.getItem(MENU_UNBLOCK).setVisible(false);
             menu.getItem(MENU_ADD_LIST).setVisible(false);
             menu.getItem(MENU_DM).setVisible(false);
+            menu.getItem(MENU_FAVORITE).setVisible(false);
+            menu.getItem(MENU_UNFAVORITE).setVisible(false);
         } else {
             if (isFollowingSet) {
                 if (isFollowing) {
@@ -732,9 +793,17 @@ public class UserProfileActivity extends Activity {
                 } else {
                     menu.getItem(MENU_UNBLOCK).setVisible(false);
                 }
+
+                if (isFavorite) {
+                    menu.getItem(MENU_FAVORITE).setVisible(false);
+                } else {
+                    menu.getItem(MENU_UNFAVORITE).setVisible(false);
+                }
             } else {
                 menu.getItem(MENU_FOLLOW).setVisible(false);
                 menu.getItem(MENU_UNFOLLOW).setVisible(false);
+                menu.getItem(MENU_FAVORITE).setVisible(false);
+                menu.getItem(MENU_UNFAVORITE).setVisible(false);
                 menu.getItem(MENU_BLOCK).setVisible(false);
                 menu.getItem(MENU_UNBLOCK).setVisible(false);
             }
@@ -764,6 +833,14 @@ public class UserProfileActivity extends Activity {
 
             case R.id.menu_unfollow:
                 new FollowUser().execute();
+                return true;
+
+            case R.id.menu_favorite:
+                new FavoriteUser().execute();
+                return true;
+
+            case R.id.menu_unfavorite:
+                new FavoriteUser().execute();
                 return true;
 
             case R.id.menu_block:
