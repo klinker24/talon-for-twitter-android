@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,12 +17,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.*;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.*;
+import com.klinker.android.talon.adapters.ArrayListLoader;
+import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.talon.adapters.PeopleCursorAdapter;
+import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -39,18 +52,24 @@ import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
+
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
-import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FavoritesActivity extends Activity {
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import twitter4j.Paging;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import uk.co.senab.bitmapcache.BitmapLruCache;
+
+/**
+ * Created by luke on 11/27/13.
+ */
+public class FavoriteUsersActivity extends Activity {
 
     public AppSettings settings;
     private Context context;
@@ -69,6 +88,8 @@ public class FavoritesActivity extends Activity {
 
     private boolean logoutVisible = false;
 
+    private FavoriteUsersDataSource dataSource;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +101,7 @@ public class FavoritesActivity extends Activity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.favorite_tweets));
+        actionBar.setTitle(getResources().getString(R.string.favorite_users));
 
         setContentView(R.layout.retweets_activity);
 
@@ -92,24 +113,15 @@ public class FavoritesActivity extends Activity {
 
         listView = (AsyncListView) findViewById(R.id.listView);
 
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
-
-        listView.setItemManager(builder.build());
-
         setUpDrawer();
 
-        new GetRetweets().execute();
+        new GetFavUsers().execute();
 
     }
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 4;
+        MainDrawerArrayAdapter.current = 5;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -148,7 +160,7 @@ public class FavoritesActivity extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(getResources().getString(R.string.favorite_tweets));
+                actionBar.setTitle(getResources().getString(R.string.favorite_users));
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -324,6 +336,26 @@ public class FavoritesActivity extends Activity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+            // not opened?
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            dataSource.open();
+        } catch (Exception e) {
+            // not initialized
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity, menu);
@@ -374,30 +406,25 @@ public class FavoritesActivity extends Activity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    class GetRetweets extends AsyncTask<String, Void, ResponseList<twitter4j.Status>> {
+    class GetFavUsers extends AsyncTask<String, Void, Cursor> {
 
-        protected ResponseList<twitter4j.Status> doInBackground(String... urls) {
+        protected Cursor doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                dataSource = new FavoriteUsersDataSource(context);
+                dataSource.open();
 
-                Paging paging = new Paging(1, 100);
-
-                ResponseList<twitter4j.Status> statuses = twitter.getFavorites(paging);
-
-                return statuses;
+                return dataSource.getCursor();
             } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
         }
 
-        protected void onPostExecute(ResponseList<twitter4j.Status> statuses) {
+        protected void onPostExecute(Cursor cursor) {
 
-            ArrayList<twitter4j.Status> arrayList = new ArrayList<twitter4j.Status>();
-            for (twitter4j.Status s : statuses) {
-                arrayList.add(s);
-            }
+            Log.v("fav_users", cursor.getCount() + "");
 
-            listView.setAdapter(new TimelineArrayAdapter(context, arrayList, TimelineArrayAdapter.FAVORITE));
+            listView.setAdapter(new PeopleCursorAdapter(context, cursor));
             listView.setVisibility(View.VISIBLE);
 
             /*LinearLayout viewHeader = new LinearLayout(context);
@@ -409,7 +436,7 @@ public class FavoritesActivity extends Activity {
                 listView.addHeaderView(viewHeader, null, false);
             } catch (Exception e) {
 
-            }   */
+            }*/
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);

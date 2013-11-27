@@ -204,6 +204,26 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         }.execute();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            dataSource.open();
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
+    }
+
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected String doInBackground(Void... args) {

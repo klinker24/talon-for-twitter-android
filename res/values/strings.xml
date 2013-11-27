@@ -28,6 +28,7 @@
     <string name="direct_messages">Direct Messages</string>
     <string name="retweets">Retweets</string>
     <string name="favorite_tweets">Favorite Tweets</string>
+    <string name="favorite_users">Favorite Users</string>
     <string name="new_tweet">new tweet</string>
     <string name="new_tweets">new tweets</string>
     <string name="no_new_tweets">No new tweets</string>

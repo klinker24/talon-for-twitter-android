@@ -267,6 +267,26 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            dataSource.open();
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
+    }
+
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }

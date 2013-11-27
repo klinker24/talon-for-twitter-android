@@ -381,8 +381,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onPause() {
         sharedPrefs.edit().putInt("timeline_unread", listView.getFirstVisiblePosition()).commit();
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
 
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            dataSource.open();
+        } catch (Exception e) {
+
+        }
     }
 
     @SuppressWarnings("deprecation")

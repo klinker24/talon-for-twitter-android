@@ -29,6 +29,7 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
+import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
@@ -304,6 +305,13 @@ public class RetweetActivity extends Activity {
         dmSource.open();
         dmSource.deleteAllTweets();
         dmSource.close();
+
+        FavoriteUsersDataSource favSource = new FavoriteUsersDataSource(context);
+        favSource.open();
+        favSource.deleteAllUsers();
+        favSource.close();
+
+        sharedPrefs.edit().putString("favorite_user_names", "").commit();
 
         Intent login = new Intent(context, LoginActivity.class);
         startActivity(login);
