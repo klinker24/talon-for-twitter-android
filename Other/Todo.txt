@@ -30,5 +30,4 @@
     - Convert everything away from picasso
     - stupid popup not working correctly
     - double insert on creating new lists
-    - Trim both accounts, not just active
     - Notification for the second account's mentions

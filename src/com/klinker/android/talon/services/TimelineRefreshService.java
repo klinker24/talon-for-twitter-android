@@ -150,6 +150,7 @@ public class TimelineRefreshService extends IntentService {
                         );
 
                 mBuilder.setContentIntent(resultPendingIntent);
+                //mBuilder.setVibrate()
                 NotificationManager mNotificationManager =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.notify(mId, mBuilder.build());

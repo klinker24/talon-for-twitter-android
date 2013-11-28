@@ -21,6 +21,7 @@ public class TrimDataService extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
         Log.v("trimming_database", "trimming database from service");
-        IOUtils.trimDatabase(getApplicationContext());
+        IOUtils.trimDatabase(getApplicationContext(), 1); // trims first account
+        IOUtils.trimDatabase(getApplicationContext(), 2); // trims second account
     }
 }

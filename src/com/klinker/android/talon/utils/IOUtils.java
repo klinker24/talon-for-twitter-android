@@ -207,7 +207,7 @@ public class IOUtils {
         return dir.delete();
     }
 
-    public static boolean trimDatabase(Context context) {
+    public static boolean trimDatabase(Context context, int account) {
         try {
             AppSettings settings = new AppSettings(context);
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -215,8 +215,8 @@ public class IOUtils {
             HomeDataSource home = new HomeDataSource(context);
             home.open();
 
-            if (home.getCursor(sharedPrefs.getInt("current_account", 1)).getCount() > settings.timelineSize) {
-                Cursor timeline = home.getCursor(sharedPrefs.getInt("current_account", 1));
+            if (home.getCursor(account).getCount() > settings.timelineSize) {
+                Cursor timeline = home.getCursor(account);
 
                 if(timeline.move(timeline.getCount() - settings.timelineSize)) {
                     do {
@@ -230,8 +230,8 @@ public class IOUtils {
             MentionsDataSource mentions = new MentionsDataSource(context);
             mentions.open();
 
-            if (mentions.getCursor(sharedPrefs.getInt("current_account", 1)).getCount() > settings.mentionsSize) {
-                Cursor timeline = mentions.getCursor(sharedPrefs.getInt("current_account", 1));
+            if (mentions.getCursor(account).getCount() > settings.mentionsSize) {
+                Cursor timeline = mentions.getCursor(account);
 
                 if(timeline.move(timeline.getCount() - settings.mentionsSize)) {
                     do {
@@ -245,8 +245,8 @@ public class IOUtils {
             DMDataSource dm = new DMDataSource(context);
             dm.open();
 
-            if (dm.getCursor(sharedPrefs.getInt("current_account", 1)).getCount() > settings.dmSize) {
-                Cursor timeline = dm.getCursor(sharedPrefs.getInt("current_account", 1));
+            if (dm.getCursor(account).getCount() > settings.dmSize) {
+                Cursor timeline = dm.getCursor(account);
 
                 if(timeline.move(timeline.getCount() - settings.dmSize)) {
                     do {
