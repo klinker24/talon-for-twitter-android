@@ -323,13 +323,6 @@ public class RetweetActivity extends Activity {
         dmSource.deleteAllTweets();
         dmSource.close();
 
-        FavoriteUsersDataSource favSource = new FavoriteUsersDataSource(context);
-        favSource.open();
-        favSource.deleteAllUsers();
-        favSource.close();
-
-        sharedPrefs.edit().putString("favorite_user_names", "").commit();
-
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
         suggestions.clearHistory();

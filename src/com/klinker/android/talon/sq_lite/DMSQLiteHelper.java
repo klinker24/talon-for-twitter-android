@@ -10,6 +10,7 @@ public class DMSQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_DM = "direct_message";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TWEET_ID = "tweet_id";
+    public static final String COLUMN_ACCOUNT = "account";
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_TEXT = "text";
     public static final String COLUMN_NAME = "name";
@@ -19,14 +20,14 @@ public class DMSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PIC_URL = "pic_url";
     public static final String COLUMN_RETWEETER = "retweeter";
 
-
     private static final String DATABASE_NAME = "direct_messages.db";
     private static final int DATABASE_VERSION = 1;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_DM + "(" + COLUMN_ID
-            + " integer primary key, " + COLUMN_TWEET_ID
+            + " integer primary key, " + COLUMN_ACCOUNT
+            + " integer account num, " + COLUMN_TWEET_ID
             + " integer tweet id, " + COLUMN_TYPE
             + " integer type of tweet, " + COLUMN_TEXT
             + " text not null, " + COLUMN_NAME

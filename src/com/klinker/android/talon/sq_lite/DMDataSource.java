@@ -19,7 +19,7 @@ public class DMDataSource {
     // Database fields
     private SQLiteDatabase database;
     private DMSQLiteHelper dbHelper;
-    public String[] allColumns = {DMSQLiteHelper.COLUMN_ID, DMSQLiteHelper.COLUMN_TYPE,
+    public String[] allColumns = {DMSQLiteHelper.COLUMN_ID, DMSQLiteHelper.COLUMN_ACCOUNT, DMSQLiteHelper.COLUMN_TYPE,
             DMSQLiteHelper.COLUMN_TEXT, DMSQLiteHelper.COLUMN_NAME, DMSQLiteHelper.COLUMN_PRO_PIC,
             DMSQLiteHelper.COLUMN_SCREEN_NAME, DMSQLiteHelper.COLUMN_TIME, DMSQLiteHelper.COLUMN_PIC_URL, DMSQLiteHelper.COLUMN_RETWEETER };
 
@@ -35,10 +35,11 @@ public class DMDataSource {
         dbHelper.close();
     }
 
-    public void createDirectMessage(DirectMessage status) {
+    public void createDirectMessage(DirectMessage status, int account) {
         ContentValues values = new ContentValues();
         long time = status.getCreatedAt().getTime();
 
+        values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(DMSQLiteHelper.COLUMN_TEXT, status.getText());
         values.put(DMSQLiteHelper.COLUMN_ID, status.getId());
         values.put(DMSQLiteHelper.COLUMN_NAME, status.getSender().getName());
@@ -61,10 +62,10 @@ public class DMDataSource {
                 + " = " + id, null);
     }
 
-    public List<Tweet> getAllTweets() {
+    public List<Tweet> getAllTweets(int account) {
         List<Tweet> tweets = new ArrayList<Tweet>();
 
-        Cursor cursor = getCursor();
+        Cursor cursor = getCursor(account);
 
         cursor.moveToLast();
         while (!cursor.isBeforeFirst()) {
@@ -81,9 +82,9 @@ public class DMDataSource {
         database.delete(DMSQLiteHelper.TABLE_DM, null, null);
     }
 
-    public Cursor getCursor() {
+    public Cursor getCursor(int account) {
         Cursor cursor = database.query(DMSQLiteHelper.TABLE_DM,
-                allColumns, null, null, null, null, null);
+                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
 
         return cursor;
     }

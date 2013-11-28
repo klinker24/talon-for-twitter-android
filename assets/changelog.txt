@@ -1,4 +1,8 @@
-Version 0.40: This is now a real, completely functional twitter app. EVERYTHING seems to be working<br/><br/>
+Version 0.60:<br/><br/>
+    &#8226; fixes for list refreshing after clicking notification
+    &#8226; changes to search to allow searching by username
+
+Version 0.50: This is now a real, completely functional twitter app. EVERYTHING seems to be working<br/><br/>
     &#8226; All settings working in the settings menu.<br/>
     &#8226; World trends working <br/>
     &#8226; Searching twitter working <br/>

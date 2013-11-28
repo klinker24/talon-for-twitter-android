@@ -320,7 +320,7 @@ public class LoginActivity extends Activity {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status);
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                     } catch (Exception e) {
                         break;
                     }
@@ -332,7 +332,7 @@ public class LoginActivity extends Activity {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status);
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                     } catch (Exception e) {
                         break;
                     }
@@ -360,7 +360,7 @@ public class LoginActivity extends Activity {
                 for (twitter4j.Status status : statuses) {
                     Log.v("mention_found", "found mention");
                     try {
-                        mentionsSource.createTweet(status);
+                        mentionsSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
@@ -388,7 +388,7 @@ public class LoginActivity extends Activity {
 
                     for (DirectMessage directMessage : dm) {
                         try {
-                            dmSource.createDirectMessage(directMessage);
+                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
                             break;
                         }
@@ -398,7 +398,7 @@ public class LoginActivity extends Activity {
 
                     for (DirectMessage directMessage : sent) {
                         try {
-                            dmSource.createDirectMessage(directMessage);
+                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
                             break;
                         }

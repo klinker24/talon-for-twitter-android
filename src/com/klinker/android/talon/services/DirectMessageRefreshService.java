@@ -70,7 +70,7 @@ public class DirectMessageRefreshService extends IntentService {
 
             for (DirectMessage directMessage : dm) {
                 try {
-                    dataSource.createDirectMessage(directMessage);
+                    dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                 } catch (Exception e) {
                     break;
                 }
@@ -78,7 +78,7 @@ public class DirectMessageRefreshService extends IntentService {
 
             for (DirectMessage directMessage : sent) {
                 try {
-                    dataSource.createDirectMessage(directMessage);
+                    dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                 } catch (Exception e) {
                     break;
                 }

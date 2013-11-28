@@ -208,7 +208,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            dataSource.createTweet(status);
+                            dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
                             e.printStackTrace();
                             break;
@@ -241,13 +241,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 super.onPostExecute(result);
 
                 if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                     listView.setSelectionFromTop(numberNew + 1, toDP(5));
                 } else {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_tweets);
@@ -318,7 +318,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status);
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                     } catch (Exception e) {
                         break;
                     }
@@ -353,7 +353,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         protected String doInBackground(Void... args) {
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
 
             return null;
         }
@@ -366,7 +366,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     }
 
     public void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getCursor());
+        cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
     }
 

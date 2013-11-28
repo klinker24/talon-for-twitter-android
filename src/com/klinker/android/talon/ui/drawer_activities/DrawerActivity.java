@@ -1,4 +1,4 @@
-package com.klinker.android.talon.ui.drawer_activities.trends;
+package com.klinker.android.talon.ui.drawer_activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
@@ -32,7 +30,6 @@ import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -41,14 +38,12 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -57,63 +52,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import twitter4j.Trend;
-import twitter4j.Twitter;
 
 /**
- * Created by luke on 11/27/13.
+ * Created by luke on 11/28/13.
  */
-public class Trends extends Activity {
-    public AppSettings settings;
-    private Context context;
-    private SharedPreferences sharedPrefs;
+public abstract class DrawerActivity extends Activity {
 
-    private ActionBar actionBar;
+    public AppSettings settings;
+    public Context context;
+    public SharedPreferences sharedPrefs;
+
+    public ActionBar actionBar;
 
     public static ViewPager mViewPager;
 
-    private DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawer;
-    private ListView drawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    public DrawerLayout mDrawerLayout;
+    public LinearLayout mDrawer;
+    public ListView drawerList;
+    public ActionBarDrawerToggle mDrawerToggle;
 
-    private AsyncListView listView;
+    public AsyncListView listView;
 
-    private boolean logoutVisible = false;
+    public boolean logoutVisible = false;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setUpDrawer(int number, final String actName) {
 
-        context = this;
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
-
-        setUpTheme();
-
-        actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.trends));
-
-        setContentView(R.layout.retweets_activity);
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
-        listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
-
-        setUpDrawer();
-
-        new GetTrends().execute();
-
-    }
-
-    public void setUpDrawer() {
-
-        MainDrawerArrayAdapter.current = 7;
+        MainDrawerArrayAdapter.current = number;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -154,7 +118,7 @@ public class Trends extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(getResources().getString(R.string.trends));
+                actionBar.setTitle(actName);
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -289,12 +253,6 @@ public class Trends extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setUpDrawer();
-    }
-
     private void logoutFromTwitter() {
         // Clear the shared preferences
         SharedPreferences.Editor e = sharedPrefs.edit();
@@ -369,60 +327,17 @@ public class Trends extends Activity {
         }
     }
 
+    /*@Override
+    public void onBackPressed() {
+        finish();
+    }*/
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
         recreate();
     }
 
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
-
-    class GetTrends extends AsyncTask<String, Void, ArrayList<String>> {
-
-        protected ArrayList<String> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context);
-
-                twitter4j.Trends trends = twitter.getPlaceTrends(1);
-                ArrayList<String> currentTrends = new ArrayList<String>();
-
-                for(Trend t: trends.getTrends()){
-                    String name = t.getName();
-                    currentTrends.add(name);
-                }
-
-                return currentTrends;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(ArrayList<String> trends) {
-
-            listView.setAdapter(new TrendsArrayAdapter(context, trends));
-            listView.setVisibility(View.VISIBLE);
-
-            /*LinearLayout viewHeader = new LinearLayout(context);
-            viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-            viewHeader.setLayoutParams(lp);
-
-            try {
-                listView.addHeaderView(viewHeader, null, false);
-            } catch (Exception e) {
-
-            }   */
-
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-            spinner.setVisibility(View.GONE);
-        }
-    }
-
 }

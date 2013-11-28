@@ -210,12 +210,13 @@ public class IOUtils {
     public static boolean trimDatabase(Context context) {
         try {
             AppSettings settings = new AppSettings(context);
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
             HomeDataSource home = new HomeDataSource(context);
             home.open();
 
-            if (home.getCursor().getCount() > settings.timelineSize) {
-                Cursor timeline = home.getCursor();
+            if (home.getCursor(sharedPrefs.getInt("current_account", 1)).getCount() > settings.timelineSize) {
+                Cursor timeline = home.getCursor(sharedPrefs.getInt("current_account", 1));
 
                 if(timeline.move(timeline.getCount() - settings.timelineSize)) {
                     do {
@@ -229,8 +230,8 @@ public class IOUtils {
             MentionsDataSource mentions = new MentionsDataSource(context);
             mentions.open();
 
-            if (mentions.getCursor().getCount() > settings.mentionsSize) {
-                Cursor timeline = mentions.getCursor();
+            if (mentions.getCursor(sharedPrefs.getInt("current_account", 1)).getCount() > settings.mentionsSize) {
+                Cursor timeline = mentions.getCursor(sharedPrefs.getInt("current_account", 1));
 
                 if(timeline.move(timeline.getCount() - settings.mentionsSize)) {
                     do {
@@ -244,8 +245,8 @@ public class IOUtils {
             DMDataSource dm = new DMDataSource(context);
             dm.open();
 
-            if (dm.getCursor().getCount() > settings.dmSize) {
-                Cursor timeline = dm.getCursor();
+            if (dm.getCursor(sharedPrefs.getInt("current_account", 1)).getCount() > settings.dmSize) {
+                Cursor timeline = dm.getCursor(sharedPrefs.getInt("current_account", 1));
 
                 if(timeline.move(timeline.getCount() - settings.dmSize)) {
                     do {

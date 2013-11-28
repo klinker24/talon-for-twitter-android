@@ -180,7 +180,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
                     for (twitter4j.Status status : statuses) {
                         try {
-                            dataSource.createTweet(status);
+                            dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
                             break;
                         }
@@ -211,13 +211,13 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
                 if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                     Crouton.makeText(context, text, Style.INFO).show();
                     listView.setSelectionFromTop(numberNew + 1, toDP(5));
                 } else {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_mentions);
@@ -233,7 +233,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         protected String doInBackground(Void... args) {
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), false);
+            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
 
             return null;
         }
@@ -246,7 +246,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     }
 
     public void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getCursor());
+        cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
     }
 

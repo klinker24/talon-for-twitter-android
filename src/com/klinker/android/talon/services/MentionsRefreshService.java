@@ -90,7 +90,7 @@ public class MentionsRefreshService extends IntentService {
 
             for (twitter4j.Status status : statuses) {
                 try {
-                    dataSource.createTweet(status);
+                    dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                 } catch (Exception e) {
                     break;
                 }

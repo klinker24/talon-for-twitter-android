@@ -98,7 +98,7 @@ public class TimelineRefreshService extends IntentService {
 
             for (twitter4j.Status status : statuses) {
                 try {
-                    dataSource.createTweet(status);
+                    dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
                 } catch (Exception e) {
                     e.printStackTrace();
                     break;

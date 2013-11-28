@@ -21,7 +21,7 @@ public class MentionsDataSource {
     // Database fields
     private SQLiteDatabase database;
     private MentionsSQLiteHelper dbHelper;
-    public String[] allColumns = {MentionsSQLiteHelper.COLUMN_ID, MentionsSQLiteHelper.COLUMN_TYPE,
+    public String[] allColumns = {MentionsSQLiteHelper.COLUMN_ID, MentionsSQLiteHelper.COLUMN_ACCOUNT, MentionsSQLiteHelper.COLUMN_TYPE,
             MentionsSQLiteHelper.COLUMN_TEXT, MentionsSQLiteHelper.COLUMN_NAME, MentionsSQLiteHelper.COLUMN_PRO_PIC,
             MentionsSQLiteHelper.COLUMN_SCREEN_NAME, MentionsSQLiteHelper.COLUMN_TIME, MentionsSQLiteHelper.COLUMN_PIC_URL,
             MentionsSQLiteHelper.COLUMN_RETWEETER };
@@ -38,14 +38,13 @@ public class MentionsDataSource {
         dbHelper.close();
     }
 
-    public void createTweet(Status status) {
+    public void createTweet(Status status, int account) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long id = status.getId();
         long time = status.getCreatedAt().getTime();
 
-        Log.v("mention_found", "" + id);
-
+        values.put(MentionsSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(MentionsSQLiteHelper.COLUMN_TEXT, status.getText());
         values.put(MentionsSQLiteHelper.COLUMN_ID, id);
         values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
@@ -63,36 +62,16 @@ public class MentionsDataSource {
         database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
     }
 
-    public void createDirectMessage(DirectMessage status, int type) {
-        ContentValues values = new ContentValues();
-        long time = status.getCreatedAt().getTime();
-
-        values.put(MentionsSQLiteHelper.COLUMN_TYPE, type);
-        values.put(MentionsSQLiteHelper.COLUMN_TEXT, status.getText());
-        values.put(MentionsSQLiteHelper.COLUMN_ID, status.getId());
-        values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getSender().getName());
-        values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getBiggerProfileImageURL());
-        values.put(MentionsSQLiteHelper.COLUMN_SCREEN_NAME, status.getSender().getScreenName());
-        values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
-
-        MediaEntity[] entities = status.getMediaEntities();
-
-        if (entities.length > 0) {
-            values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
-        }
-        database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
-    }
-
     public void deleteTweet(long tweetId) {
         long id = tweetId;
         database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
-    public List<Tweet> getAllTweets() {
+    public List<Tweet> getAllTweets(int account) {
         List<Tweet> tweets = new ArrayList<Tweet>();
 
-        Cursor cursor = getCursor();
+        Cursor cursor = getCursor(account);
 
         cursor.moveToLast();
         while (!cursor.isBeforeFirst()) {
@@ -109,9 +88,9 @@ public class MentionsDataSource {
         database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, null, null);
     }
 
-    public Cursor getCursor() {
+    public Cursor getCursor(int account) {
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
-                allColumns, null, null, null, null, null);
+                allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
 
         return cursor;
     }

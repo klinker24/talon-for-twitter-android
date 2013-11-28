@@ -158,7 +158,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
                     for (DirectMessage directMessage : dm) {
                         try {
-                            dataSource.createDirectMessage(directMessage);
+                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
                             break;
                         }
@@ -166,7 +166,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
                     for (DirectMessage directMessage : sent) {
                         try {
-                            dataSource.createDirectMessage(directMessage);
+                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
                             break;
                         }
@@ -197,13 +197,13 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
                 if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                     listView.setSelectionFromTop(numberNew + 1, toDP(5));
                 } else {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_direct_messages);
@@ -239,7 +239,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         protected String doInBackground(Void... args) {
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(), true);
+            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
 
             return null;
         }
@@ -252,7 +252,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     }
 
     public void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getCursor());
+        cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
     }
 
