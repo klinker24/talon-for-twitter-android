@@ -250,7 +250,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
 
-                    CharSequence text = getResources().getString(R.string.no_new_tweets);
+                    CharSequence text = context.getResources().getString(R.string.no_new_tweets);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 

@@ -618,7 +618,7 @@ public class TweetActivity extends Activity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                if (message.getText().length() < 140) {
+                if (message.getText().length() <= 140) {
                     Twitter twitter =  Utils.getTwitter(context);
 
                     twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message.getText().toString());

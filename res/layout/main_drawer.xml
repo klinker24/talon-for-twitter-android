@@ -17,15 +17,70 @@
             android:orientation="vertical"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:animateLayoutChanges="true" >
+            android:animateLayoutChanges="true"
+            android:visibility="gone" >
+
+        <!-- second profile stuff -->
+        <RelativeLayout
+            android:id="@+id/second_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" >
+
+            <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/profile_pic_2"
+                android:src="?circleBorder"
+                android:background="?circleBorder"
+                android:minHeight="48dp" android:minWidth="48dp"
+                android:scaleType="fitCenter" android:adjustViewBounds="true"
+                android:maxWidth="48dp" android:maxHeight="48dp"
+                android:contentDescription="@string/placeholder"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"/>
+
+            <LinearLayout
+                android:layout_toRightOf="@id/profile_pic_2"
+                android:layout_alignTop="@id/profile_pic_2"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp">
+
+                <com.klinker.android.talon.ui.widgets.HoloTextView
+                    android:id="@+id/name_2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/profile_pic_2"
+                    android:layout_alignTop="@id/profile_pic_2"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="?textColor"/>
+
+                <com.klinker.android.talon.ui.widgets.HoloTextView
+                    android:id="@+id/screen_name_2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@id/name_2"
+                    android:layout_alignLeft="@id/name_2"
+                    android:maxLines="1"
+                    android:paddingBottom="3dp"
+                    android:textColor="?textColor"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <Button android:id="@+id/logoutButton"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:text="@string/menu_logout"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/pressed_button"
-                android:visibility="gone"/>
+            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:text="@string/menu_logout"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/pressed_button"/>
 
     </LinearLayout>
 

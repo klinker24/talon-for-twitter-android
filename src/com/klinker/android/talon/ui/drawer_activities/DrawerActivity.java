@@ -25,8 +25,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
@@ -46,6 +48,7 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -114,7 +117,7 @@ public abstract class DrawerActivity extends Activity {
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    logoutDrawer.setVisibility(View.GONE);
+                    logoutLayout.setVisibility(View.GONE);
                     drawerList.setVisibility(View.VISIBLE);
 
                     logoutVisible = false;
@@ -153,13 +156,13 @@ public abstract class DrawerActivity extends Activity {
         showMoreDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(logoutDrawer.getVisibility() == View.GONE) {
+                if(logoutLayout.getVisibility() == View.GONE) {
                     Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    logoutDrawer.setVisibility(View.VISIBLE);
                     drawerList.setVisibility(View.GONE);
+                    logoutLayout.setVisibility(View.VISIBLE);
 
                     logoutVisible = true;
                 } else {
@@ -167,7 +170,7 @@ public abstract class DrawerActivity extends Activity {
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    logoutDrawer.setVisibility(View.GONE);
+                    logoutLayout.setVisibility(View.GONE);
                     drawerList.setVisibility(View.VISIBLE);
 
                     logoutVisible = false;
@@ -209,13 +212,21 @@ public abstract class DrawerActivity extends Activity {
             }
         });
 
-        Log.v("twitter_drawer", profilePicUrl);
-
         name.setText(sName);
         screenName.setText("@" + sScreenName);
 
         // Keeping picasso right now because of the transforms...
         // Don't know how to do them yet with the manual caching
+        try {
+            Picasso.with(context)
+                    .load(R.drawable.default_header_background)
+                    .transform(new BlurTransform(context))
+                    .into(backgroundPic);
+            //backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
+        } catch (Exception e) {
+            // empty path for some reason
+        }
+
         try {
             Picasso.with(context)
                     .load(backgroundUrl)
@@ -241,6 +252,82 @@ public abstract class DrawerActivity extends Activity {
 
         drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager));
 
+        // set up for the second account
+        int count = 0; // number of accounts logged in
+
+        if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
+            count++;
+        }
+
+        if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
+            count++;
+        }
+
+        RelativeLayout secondAccount = (RelativeLayout) findViewById(R.id.second_profile);
+        HoloTextView name2 = (HoloTextView) findViewById(R.id.name_2);
+        HoloTextView screenname2 = (HoloTextView) findViewById(R.id.screen_name_2);
+        ImageView proPic2 = (ImageView) findViewById(R.id.profile_pic_2);
+
+        final int current = sharedPrefs.getInt("current_account", 1);
+
+        if(count == 1){
+            name2.setText("New Account");
+            screenname2.setText("Tap to set up");
+            secondAccount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (current == 1) {
+                        sharedPrefs.edit().putInt("current_account", 2).commit();
+                    } else {
+                        sharedPrefs.edit().putInt("current_account", 1).commit();
+                    }
+                    Intent login = new Intent(context, LoginActivity.class);
+                    startActivity(login);
+                    Crouton.cancelAllCroutons();
+                }
+            });
+        } else { // count is 2
+            if (current == 1) {
+                name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
+                screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
+                try {
+                    Picasso.with(context)
+                            .load(sharedPrefs.getString("profile_pic_url_2", ""))
+                            .transform(new CircleTransform())
+                            .into(proPic2);
+                } catch (Exception e) {
+
+                }
+
+                secondAccount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sharedPrefs.edit().putInt("current_account", 2).commit();
+                        Crouton.cancelAllCroutons();
+                        ((Activity)context).recreate();
+                    }
+                });
+            } else {
+                name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
+                screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
+                try {
+                    Picasso.with(context)
+                            .load(sharedPrefs.getString("profile_pic_url_1", ""))
+                            .transform(new CircleTransform())
+                            .into(proPic2);
+                } catch (Exception e) {
+
+                }
+                secondAccount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sharedPrefs.edit().putInt("current_account", 1).commit();
+                        Crouton.cancelAllCroutons();
+                        ((Activity)context).recreate();
+                    }
+                });
+            }
+        }
     }
 
     public void setUpTheme() {

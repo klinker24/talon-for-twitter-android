@@ -201,7 +201,7 @@ public class LoginActivity extends Activity {
 
     private boolean isTwitterLoggedInAlready() {
         // return twitter login_activity status from Shared Preferences
-        return settings.isTwitterLoggedIn;
+        return false;//settings.isTwitterLoggedIn;
     }
 
     class RetreiveFeedTask extends AsyncTask<String, Void, Void> {

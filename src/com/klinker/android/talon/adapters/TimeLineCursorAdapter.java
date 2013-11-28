@@ -350,7 +350,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void removeExpansionNoAnimation(ViewHolder holder) {
-
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 10);
         holder.expandArea.startAnimation(expandAni);
     }
