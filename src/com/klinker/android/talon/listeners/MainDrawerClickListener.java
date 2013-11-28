@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoritesActivity;
@@ -32,7 +33,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (i < 3) {
-            if (viewPager != null) {
+            if (MainDrawerArrayAdapter.current < 3) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -62,7 +63,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                             context.startActivity(intent);
                             ((Activity)context).finish();
                         } catch (Exception e) {
-
+                            e.printStackTrace();
                         }
 
                     }

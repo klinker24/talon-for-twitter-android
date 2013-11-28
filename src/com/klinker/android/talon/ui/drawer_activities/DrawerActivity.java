@@ -2,6 +2,7 @@ package com.klinker.android.talon.ui.drawer_activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -118,7 +119,23 @@ public abstract class DrawerActivity extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(actName);
+                if (MainDrawerArrayAdapter.current > 2) {
+                    actionBar.setTitle(actName);
+                } else {
+                    int position = mViewPager.getCurrentItem();
+
+                    switch (position) {
+                        case 0:
+                            actionBar.setTitle(getResources().getString(R.string.timeline));
+                            break;
+                        case 1:
+                            actionBar.setTitle(getResources().getString(R.string.mentions));
+                            break;
+                        case 2:
+                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                            break;
+                    }
+                }
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -291,13 +308,60 @@ public abstract class DrawerActivity extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // cancels the notifications when the app is opened
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
+
+        // for testing
+        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+        Intent popup = new Intent(context, MainActivityPopup.class);
+        popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        popup.putExtra("from_notification", true);
+        PendingIntent popupPending =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        popup,
+                        0
+                );
+        remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
+        remoteView.setTextViewText(R.id.content, "test");
+
+        remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_action_accept_dark)
+                        .setContent(remoteView);
+        //.setContentTitle(getResources().getString(R.string.app_name))
+        //.setContentText(numberNew + " new tweets");
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        resultIntent.putExtra("from_notification", true);
+
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        0
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        mNotificationManager.notify(4, mBuilder.build());*/
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    private static final int SETTINGS_RESULT = 101;
+    public static final int SETTINGS_RESULT = 101;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
