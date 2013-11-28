@@ -376,12 +376,12 @@ public class Search extends Activity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            query = query.replace("@", "from:");
-            new DoSearch(query).execute();
+            String newQuery = query.replace("@", "from:");
+            new DoSearch(newQuery).execute();
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            suggestions.saveRecentQuery(query.replace("from:", "@"), null);
+            suggestions.saveRecentQuery(query, null);
         }
     }
 
