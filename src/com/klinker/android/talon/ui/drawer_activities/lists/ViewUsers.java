@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.UserListPeopleArrayAdapter;
@@ -72,6 +73,9 @@ public class ViewUsers extends Activity {
         actionBar.setTitle(listName);
 
         setContentView(R.layout.list_view_activity);
+
+        LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+        spinner.setVisibility(View.GONE);
 
         listView = (AsyncListView) findViewById(R.id.listView);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
