@@ -66,7 +66,7 @@
             android:excludeFromRecents="true">
         </activity>
 
-        <activity android:name=".ui.ViewUsers"
+        <activity android:name=".ui.drawer_activities.lists.ViewUsers"
             android:label="@string/favorite_users"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
@@ -74,7 +74,7 @@
             android:excludeFromRecents="true">
         </activity>
 
-        <activity android:name=".ui.drawer_activities.Trends"
+        <activity android:name=".ui.drawer_activities.trends.Trends"
             android:label="@string/trends"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
@@ -82,7 +82,7 @@
             android:excludeFromRecents="true">
         </activity>
 
-        <activity android:name=".ui.drawer_activities.ListsActivity"
+        <activity android:name=".ui.drawer_activities.lists.ListsActivity"
             android:label="@string/lists"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
@@ -90,7 +90,7 @@
             android:excludeFromRecents="true">
         </activity>
 
-        <activity android:name=".ui.ChoosenListActivity"
+        <activity android:name=".ui.drawer_activities.lists.ChoosenListActivity"
             android:label="@string/lists"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
@@ -105,6 +105,22 @@
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight"
+            android:excludeFromRecents="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+
+        <activity android:name=".ui.drawer_activities.trends.SearchedTrendsActivity"
+            android:label="@string/trends"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.TalonLight.Popup"
             android:excludeFromRecents="true">
 
             <intent-filter>

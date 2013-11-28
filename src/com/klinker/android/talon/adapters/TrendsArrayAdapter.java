@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.drawer_activities.Search;
+import com.klinker.android.talon.ui.drawer_activities.trends.SearchedTrendsActivity;
 
 import java.util.ArrayList;
 
@@ -74,7 +75,7 @@ public class TrendsArrayAdapter extends ArrayAdapter<User> {
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent search = new Intent(context, Search.class);
+                Intent search = new Intent(context, SearchedTrendsActivity.class);
                 search.setAction(Intent.ACTION_SEARCH);
                 search.putExtra(SearchManager.QUERY, trend);
                 context.startActivity(search);

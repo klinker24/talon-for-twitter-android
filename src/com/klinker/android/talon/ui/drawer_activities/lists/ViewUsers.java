@@ -1,4 +1,4 @@
-package com.klinker.android.talon.ui;
+package com.klinker.android.talon.ui.drawer_activities.lists;
 
 import android.app.ActionBar;
 import android.app.Activity;

@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.ui.ChoosenListActivity;
-import com.klinker.android.talon.ui.ViewUsers;
+import com.klinker.android.talon.ui.drawer_activities.lists.ChoosenListActivity;
+import com.klinker.android.talon.ui.drawer_activities.lists.ViewUsers;
 import com.klinker.android.talon.utils.Utils;
 
 import twitter4j.ResponseList;

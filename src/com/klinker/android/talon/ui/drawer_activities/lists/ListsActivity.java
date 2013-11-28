@@ -1,7 +1,8 @@
-package com.klinker.android.talon.ui.drawer_activities;
+package com.klinker.android.talon.ui.drawer_activities.lists;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,10 +30,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.adapters.ListsArrayAdapter;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
 import com.klinker.android.talon.manipulations.BlurTransform;
 import com.klinker.android.talon.manipulations.CircleTransform;
@@ -44,10 +46,9 @@ import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
-import com.klinker.android.talon.ui.ComposeActivity;
-import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -57,15 +58,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import twitter4j.Trend;
+import twitter4j.ResponseList;
 import twitter4j.Twitter;
+import twitter4j.UserList;
 
 /**
  * Created by luke on 11/27/13.
  */
-public class Trends extends Activity {
+public class ListsActivity extends Activity {
     public AppSettings settings;
-    private Context context;
+    private static Context context;
     private SharedPreferences sharedPrefs;
 
     private ActionBar actionBar;
@@ -92,7 +94,7 @@ public class Trends extends Activity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.trends));
+        actionBar.setTitle(getResources().getString(R.string.lists));
 
         setContentView(R.layout.retweets_activity);
 
@@ -103,17 +105,18 @@ public class Trends extends Activity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
+        listView.setDividerHeight(toDP(8));
+        //listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
 
         setUpDrawer();
 
-        new GetTrends().execute();
+        new GetLists().execute();
 
     }
 
     public void setUpDrawer() {
 
-        MainDrawerArrayAdapter.current = 7;
+        MainDrawerArrayAdapter.current = 6;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -154,7 +157,7 @@ public class Trends extends Activity {
                     logoutVisible = false;
                 }
 
-                actionBar.setTitle(getResources().getString(R.string.trends));
+                actionBar.setTitle(getResources().getString(R.string.lists));
             }
 
             public void onDrawerOpened(View drawerView) {
@@ -289,12 +292,6 @@ public class Trends extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setUpDrawer();
-    }
-
     private void logoutFromTwitter() {
         // Clear the shared preferences
         SharedPreferences.Editor e = sharedPrefs.edit();
@@ -342,7 +339,7 @@ public class Trends extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity, menu);
+        inflater.inflate(R.menu.list_activity, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -356,14 +353,41 @@ public class Trends extends Activity {
         }
 
         switch (item.getItemId()) {
-            case R.id.menu_compose:
-                Intent compose = new Intent(context, ComposeActivity.class);
-                startActivity(compose);
-                return true;
+            case R.id.menu_add_list:
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.create_list_dialog);
+                dialog.setTitle(getResources().getString(R.string.create_new_list) + ":");
 
-            case R.id.menu_direct_message:
-                Intent dm = new Intent(context, ComposeDMActivity.class);
-                startActivity(dm);
+                final HoloEditText name = (HoloEditText) dialog.findViewById(R.id.name);
+                final HoloEditText description = (HoloEditText) dialog.findViewById(R.id.description);
+
+                Button cancel = (Button) dialog.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button privateBtn = (Button) dialog.findViewById(R.id.private_btn);
+                privateBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new CreateList(name.getText().toString(), false, description.getText().toString()).execute();
+                        dialog.dismiss();
+                    }
+                });
+
+                Button publicBtn = (Button) dialog.findViewById(R.id.public_btn);
+                publicBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new CreateList(name.getText().toString(), true, description.getText().toString()).execute();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
                 return true;
 
             case R.id.menu_settings:
@@ -391,45 +415,61 @@ public class Trends extends Activity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    class GetTrends extends AsyncTask<String, Void, ArrayList<String>> {
+    class GetLists extends AsyncTask<String, Void, ResponseList<UserList>> {
 
-        protected ArrayList<String> doInBackground(String... urls) {
+        protected ResponseList<UserList> doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
 
-                twitter4j.Trends trends = twitter.getPlaceTrends(1);
-                ArrayList<String> currentTrends = new ArrayList<String>();
+                ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
 
-                for(Trend t: trends.getTrends()){
-                    String name = t.getName();
-                    currentTrends.add(name);
-                }
-
-                return currentTrends;
+                return lists;
             } catch (Exception e) {
                 return null;
             }
         }
 
-        protected void onPostExecute(ArrayList<String> trends) {
+        protected void onPostExecute(ResponseList<UserList> lists) {
 
-            listView.setAdapter(new TrendsArrayAdapter(context, trends));
+            listView.setAdapter(new ListsArrayAdapter(context, lists));
             listView.setVisibility(View.VISIBLE);
-
-            /*LinearLayout viewHeader = new LinearLayout(context);
-            viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-            viewHeader.setLayoutParams(lp);
-
-            try {
-                listView.addHeaderView(viewHeader, null, false);
-            } catch (Exception e) {
-
-            }   */
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
     }
 
+    class CreateList extends AsyncTask<String, Void, Boolean> {
+
+        String name;
+        String description;
+        boolean publicList;
+
+        public CreateList(String name, boolean publicList, String description) {
+            this.name = name;
+            this.publicList = publicList;
+            this.description = description;
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                twitter.createUserList(name, publicList, description);
+
+
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean created) {
+            if (created) {
+                recreate();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+            }
+        }
+    }
 }

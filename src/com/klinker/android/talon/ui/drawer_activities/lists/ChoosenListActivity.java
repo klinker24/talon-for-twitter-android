@@ -1,4 +1,4 @@
-package com.klinker.android.talon.ui;
+package com.klinker.android.talon.ui.drawer_activities.lists;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,6 +25,7 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 
@@ -50,16 +51,8 @@ public class ChoosenListActivity extends Activity {
 
     private ActionBar actionBar;
 
-    public static ViewPager mViewPager;
-
-    private DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawer;
-    private ListView drawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
-
     private AsyncListView listView;
 
-    private boolean logoutVisible = false;
 
     private int listId;
     private String listName;
@@ -80,7 +73,7 @@ public class ChoosenListActivity extends Activity {
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        setContentView(R.layout.retweets_activity);
+        setContentView(R.layout.list_view_activity);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
