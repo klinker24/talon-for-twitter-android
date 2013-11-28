@@ -153,6 +153,7 @@ public class LoginActivity extends Activity {
                 } else {
                     Intent timeline = new Intent(context, MainActivity.class);
                     startActivity(timeline);
+                    finish();
                 }
 
             }
