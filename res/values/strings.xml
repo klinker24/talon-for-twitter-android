@@ -143,7 +143,11 @@
         <string name="theme_black">Black Theme</string>
 
     <string name="sync_settings">Sync Settings</string>
-        <string name="notifications">Notifications</string>
+        <string name="auto_sync_notifications">Auto-Refresh Notifications</string>
+            <string name="notifications">Notifications</string>
+            <string name="vibrate">Vibrate</string>
+            <string name="led">Flash LED</string>
+            <string name="sound">Notification Sound</string>
         <string name="max_number_on_refresh">Max Tweets to Refresh</string>
         <string name="max_number_summary">Higher max means a slower refresh</string>
         <string name="auto_refresh_category">Auto-Refresh</string>

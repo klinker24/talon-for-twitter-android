@@ -34,6 +34,9 @@ public class AppSettings {
     public boolean reverseClickActions;
     public boolean advanceWindowed;
     public boolean notifications;
+    public boolean led;
+    public boolean vibrate;
+    public boolean sound;
     public boolean refreshOnStart;
     public boolean autoTrim;
 
@@ -75,6 +78,9 @@ public class AppSettings {
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
+        led = sharedPrefs.getBoolean("led", true);
+        sound = sharedPrefs.getBoolean("sound", true);
+        vibrate = sharedPrefs.getBoolean("vibrate", true);
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
 

@@ -2,13 +2,6 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:key="notifications"
-        android:title="@string/notifications"
-        android:defaultValue="true"
-        />
-
-
     <ListPreference
         android:key="max_tweets"
         android:title="@string/max_number_on_refresh"
@@ -56,5 +49,37 @@
             />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/auto_sync_notifications" >
+
+        <CheckBoxPreference
+            android:key="notifications"
+            android:title="@string/notifications"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="vibrate"
+            android:title="@string/vibrate"
+            android:defaultValue="true"
+            android:dependency="notifications"
+            />
+
+        <CheckBoxPreference
+            android:key="led"
+            android:title="@string/led"
+            android:defaultValue="true"
+            android:dependency="notifications"
+            />
+
+        <CheckBoxPreference
+            android:key="sound"
+            android:title="@string/sound"
+            android:defaultValue="true"
+            android:dependency="notifications"
+            />
+
+        </PreferenceCategory>
 
 </PreferenceScreen>

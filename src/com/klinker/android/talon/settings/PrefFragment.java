@@ -274,7 +274,7 @@ public class PrefFragment extends PreferenceFragment {
         }
 
         protected Boolean doInBackground(String... urls) {
-            return IOUtils.trimDatabase(context);
+            return IOUtils.trimDatabase(context, 1) && IOUtils.trimDatabase(context, 2);
         }
 
         protected void onPostExecute(Boolean deleted) {

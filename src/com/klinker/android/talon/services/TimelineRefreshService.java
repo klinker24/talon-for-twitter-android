@@ -1,6 +1,7 @@
 package com.klinker.android.talon.services;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -149,8 +150,44 @@ public class TimelineRefreshService extends IntentService {
                                 0
                         );
 
+                int count = 0;
+
+                if (settings.vibrate)
+                    count++;
+                if (settings.led)
+                    count++;
+                if (settings.sound)
+                    count++;
+
+                if (settings.notifications) {
+                    switch (count) {
+                        case 3:
+                            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
+                            break;
+                        case 2:
+                            if (settings.vibrate && settings.led)
+                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+                            else if (settings.vibrate && settings.sound)
+                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
+                            else if (settings.sound && settings.led)
+                                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
+                            break;
+                        case 1:
+                            if (settings.vibrate)
+                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                            else if (settings.led)
+                                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
+                            else if (settings.sound)
+                                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                }
+
                 mBuilder.setContentIntent(resultPendingIntent);
-                //mBuilder.setVibrate()
                 NotificationManager mNotificationManager =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.notify(mId, mBuilder.build());
