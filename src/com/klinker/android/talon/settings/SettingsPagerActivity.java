@@ -12,6 +12,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -67,6 +68,8 @@ public class SettingsPagerActivity extends FragmentActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+
         mDrawerList = (ListView) findViewById(R.id.links_list);
         mDrawer = (LinearLayout) findViewById(R.id.drawer);
 

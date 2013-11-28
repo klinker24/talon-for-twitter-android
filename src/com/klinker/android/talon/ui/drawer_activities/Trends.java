@@ -132,6 +132,8 @@ public class Trends extends Activity {
         drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+        
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */

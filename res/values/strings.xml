@@ -161,7 +161,7 @@
         <string name="memory_management">Memory Management</string>
             <string name="delete_cache">Delete Cache Now</string>
             <string name="cache_dialog">Delete Cache?</string>
-            <string name="not_cache">This does not apply to the app cache.</string>
+            <string name="not_cache">This does not apply to the app cache</string>
             <string name="current_cache_size">Current cache size</string>
                 <string name="cache_dialog_summary">This action cannot be un-done.</string>
             <string name="timeline_size">Timeline Size</string>

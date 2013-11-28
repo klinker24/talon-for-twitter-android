@@ -151,6 +151,8 @@ public class MainActivity extends Activity {
         a.recycle();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
 
         TextView name = (TextView) mDrawer.findViewById(R.id.name);

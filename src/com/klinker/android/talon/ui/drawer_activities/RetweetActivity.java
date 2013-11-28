@@ -420,16 +420,6 @@ public class RetweetActivity extends Activity {
             listView.setAdapter(new TimelineArrayAdapter(context, arrayList, TimelineArrayAdapter.RETWEET));
             listView.setVisibility(View.VISIBLE);
 
-            /*LinearLayout viewHeader = new LinearLayout(context);
-            viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-            viewHeader.setLayoutParams(lp);
-
-            try {
-                listView.addHeaderView(viewHeader, null, false);
-            } catch (Exception e) {
-
-            }   */
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
