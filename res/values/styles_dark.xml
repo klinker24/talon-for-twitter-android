@@ -65,7 +65,8 @@ limitations under the License.
         <item name="syncSettings">@drawable/drawer_sync_dark</item>
         <item name="advancedSettings">@drawable/drawer_advanced</item>
         <item name="whatsNew">@drawable/ic_action_new_dark</item>
-        <item name="getHelp">@drawable/drawer_get_help_dark</item>
+        <item name="getHelp">@drawable/drawer_help_dark</item>
+        <item name="worldTrends">@drawable/drawer_trends_dark</item>
         <item name="otherApps">@drawable/drawer_other_apps_dark</item>
         <item name="rateIt">@drawable/drawer_rate_it_dark</item>
         <item name="favUser">@drawable/drawer_user_dark</item>
