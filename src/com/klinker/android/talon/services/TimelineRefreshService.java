@@ -46,16 +46,17 @@ public class TimelineRefreshService extends IntentService {
         try {
             Twitter twitter = Utils.getTwitter(context);
 
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
+
             User user = twitter.verifyCredentials();
-            long lastId = sharedPrefs.getLong("last_tweet_id", 0);
-            long secondToLastId = sharedPrefs.getLong("second_last_tweet_id", 0);
+            long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
+            long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
             boolean foundStatus = false;
             int lastJ = 0;
 
             for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                Log.v("timeline_refreshing", "iteration: " + i);
                 if (foundStatus) {
                     break;
                 } else {
@@ -78,15 +79,13 @@ public class TimelineRefreshService extends IntentService {
                 lastJ = statuses.size();
             }
 
-            Log.v("timeline_refreshing", "" + statuses.size());
-
             if (statuses.size() != 0) {
                 try {
-                    sharedPrefs.edit().putLong("second_last_tweet_id", statuses.get(1).getId()).commit();
+                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
                 } catch (Exception e) {
-                    sharedPrefs.edit().putLong("second_last_tweet_id", sharedPrefs.getLong("last_tweet_id", 0)).commit();
+                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
                 }
-                sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
 
                 numberNew = statuses.size();
             } else {
@@ -98,7 +97,7 @@ public class TimelineRefreshService extends IntentService {
 
             for (twitter4j.Status status : statuses) {
                 try {
-                    dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                    dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
                     e.printStackTrace();
                     break;
@@ -111,11 +110,8 @@ public class TimelineRefreshService extends IntentService {
 
             if (numberNew > 0) {
 
-                Intent kill = new Intent("com.klinker.android.talon.KILL_FOR_NOTIF");
-                context.sendBroadcast(kill);
-
-                int currentUnread = sharedPrefs.getInt("timeline_new", 0);
-                sharedPrefs.edit().putInt("timeline_new", numberNew + currentUnread).commit();
+                int currentUnread = sharedPrefs.getInt("timeline_new_" + currentAccount, 0);
+                sharedPrefs.edit().putInt("timeline_new_" + currentAccount, numberNew + currentUnread).commit();
                 numberNew += currentUnread;
 
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);

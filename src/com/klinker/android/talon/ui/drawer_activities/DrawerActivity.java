@@ -273,8 +273,8 @@ public abstract class DrawerActivity extends Activity {
         final int current = sharedPrefs.getInt("current_account", 1);
 
         if(count == 1){
-            name2.setText("New Account");
-            screenname2.setText("Tap to set up");
+            name2.setText(getResources().getString(R.string.new_account));
+            screenname2.setText(getResources().getString(R.string.tap_to_setup));
             secondAccount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

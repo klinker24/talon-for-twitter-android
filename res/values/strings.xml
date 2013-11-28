@@ -43,6 +43,8 @@
     <string name="new_direct_message">new direct message</string>
     <string name="new_direct_messages">new direct messages</string>
     <string name="no_new_direct_messages">No new direct messages</string>
+    <string name="tap_to_setup">Tap to setup</string>
+    <string name="new_account">New Account</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>

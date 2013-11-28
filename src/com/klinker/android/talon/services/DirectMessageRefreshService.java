@@ -44,8 +44,10 @@ public class DirectMessageRefreshService extends IntentService {
         try {
             Twitter twitter = Utils.getTwitter(context);
 
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
+
             User user = twitter.verifyCredentials();
-            long lastId = sharedPrefs.getLong("last_direct_message_id", 0);
+            long lastId = sharedPrefs.getLong("last_direct_message_id_" + currentAccount, 0);
             Paging paging;
             if (lastId != 0) {
                 paging = new Paging(1).sinceId(lastId);
@@ -57,7 +59,7 @@ public class DirectMessageRefreshService extends IntentService {
             List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
 
             if (dm.size() != 0) {
-                sharedPrefs.edit().putLong("last_direct_message_id", dm.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).commit();
                 update = true;
                 numberNew = dm.size();
             } else {
@@ -70,7 +72,7 @@ public class DirectMessageRefreshService extends IntentService {
 
             for (DirectMessage directMessage : dm) {
                 try {
-                    dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                    dataSource.createDirectMessage(directMessage, currentAccount);
                 } catch (Exception e) {
                     break;
                 }
@@ -78,7 +80,7 @@ public class DirectMessageRefreshService extends IntentService {
 
             for (DirectMessage directMessage : sent) {
                 try {
-                    dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                    dataSource.createDirectMessage(directMessage, currentAccount);
                 } catch (Exception e) {
                     break;
                 }
@@ -90,8 +92,8 @@ public class DirectMessageRefreshService extends IntentService {
 
             if (numberNew > 0) {
 
-                int currentUnread = sharedPrefs.getInt("dm_unread", 0);
-                sharedPrefs.edit().putInt("dm_unread", numberNew + currentUnread).commit();
+                int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
+                sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).commit();
                 numberNew += currentUnread;
 
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);

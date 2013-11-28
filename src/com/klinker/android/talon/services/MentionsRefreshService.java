@@ -43,8 +43,10 @@ public class MentionsRefreshService extends IntentService {
         try {
             Twitter twitter = Utils.getTwitter(context);
 
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
+
             User user = twitter.verifyCredentials();
-            long lastId = sharedPrefs.getLong("last_mention_id", 0);
+            long lastId = sharedPrefs.getLong("last_mention_id_" + currentAccount, 0);
             Paging paging;
             paging = new Paging(1, 50);
 
@@ -77,7 +79,7 @@ public class MentionsRefreshService extends IntentService {
             }
 
             if (statuses.size() != 0) {
-                sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("last_mention_id_" + currentAccount, statuses.get(0).getId()).commit();
                 update = true;
                 numberNew = statuses.size();
             } else {
@@ -90,7 +92,7 @@ public class MentionsRefreshService extends IntentService {
 
             for (twitter4j.Status status : statuses) {
                 try {
-                    dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                    dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
                     break;
                 }
@@ -102,8 +104,8 @@ public class MentionsRefreshService extends IntentService {
 
             if (numberNew > 0) {
 
-                int currentUnread = sharedPrefs.getInt("mentions_unread", 0);
-                sharedPrefs.edit().putInt("mentions_unread", numberNew + currentUnread).commit();
+                int currentUnread = sharedPrefs.getInt("mentions_unread_" + currentAccount, 0);
+                sharedPrefs.edit().putInt("mentions_unread_" + currentAccount, numberNew + currentUnread).commit();
                 numberNew += currentUnread;
 
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);

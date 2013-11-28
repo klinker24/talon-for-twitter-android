@@ -88,7 +88,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             Crouton.makeText(context, "No internet connection", Style.ALERT);
         }
 
-        sharedPrefs.edit().putInt("mentions_unread", 0).commit();
+        sharedPrefs.edit().putInt("mentions_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();
 
         dataSource = new MentionsDataSource(context);
         dataSource.open();
@@ -200,8 +200,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     long now = new Date().getTime();
                     long alarm = now + settings.mentionsRefresh;
-
-                    Log.v("alarm_date", "mentions " + new Date(alarm).toString());
 
                     PendingIntent pendingIntent = PendingIntent.getService(context, MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
 

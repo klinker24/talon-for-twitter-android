@@ -162,9 +162,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 try {
                     twitter = Utils.getTwitter(context);
 
+                    int currentAccount = sharedPrefs.getInt("current_account", 1);
+
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), 0);
-                    long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + sharedPrefs.getInt("current_account", 1), 0);
+                    long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
+                    long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
 
                     List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -172,7 +174,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     int lastJ = 0;
 
                     for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                        Log.v("timeline_refreshing", "iteration: " + i);
                         if (foundStatus) {
                             break;
                         } else {
@@ -195,15 +196,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         lastJ = statuses.size();
                     }
 
-                    Log.v("timeline_refreshing", "" + statuses.size());
-
                     if (statuses.size() != 0) {
                         try {
-                            sharedPrefs.edit().putLong("second_last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(1).getId()).commit();
+                            sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
                         } catch (Exception e) {
-                            sharedPrefs.edit().putLong("second_last_tweet_id_" + sharedPrefs.getInt("current_account", 1), sharedPrefs.getLong("last_tweet_id", 0)).commit();
+                            sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
                         }
-                        sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
 
                         update = true;
                         numberNew = statuses.size();
@@ -214,7 +213,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                            dataSource.createTweet(status, currentAccount);
                         } catch (Exception e) {
                             e.printStackTrace();
                             break;
@@ -231,8 +230,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
                     long now = new Date().getTime();
                     long alarm = now + settings.timelineRefresh;
-
-                    Log.v("alarm_date", "timeline " + new Date(alarm).toString());
 
                     PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
 
@@ -282,8 +279,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             try {
                 twitter = Utils.getTwitter(context);
 
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
+
                 User user = twitter.verifyCredentials();
-                long lastId = sharedPrefs.getLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), 0);
+                long lastId = sharedPrefs.getLong("last_mention_id_" + currentAccount, 0);
                 Paging paging;
                 paging = new Paging(1, 50);
 
@@ -317,7 +316,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 }
 
                 if (statuses.size() != 0) {
-                    sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                    sharedPrefs.edit().putLong("last_mention_id_" + currentAccount, statuses.get(0).getId()).commit();
                     update = true;
                     numberNew = statuses.size();
                 } else {
@@ -330,7 +329,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                        dataSource.createTweet(status, currentAccount);
                     } catch (Exception e) {
                         break;
                     }
@@ -436,11 +435,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         }
 
-        int newTweets = sharedPrefs.getInt("timeline_new", 0);
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+        int newTweets = sharedPrefs.getInt("timeline_new_" + currentAccount, 0);
 
         if (newTweets > 0) {
             listView.setSelectionFromTop(newTweets + 1, toDP(5));
-            sharedPrefs.edit().putInt("timeline_new", 0).commit();
+            sharedPrefs.edit().putInt("timeline_new_" + currentAccount, 0).commit();
         } else {
             int unread = sharedPrefs.getInt("timeline_unread", 0);
 
