@@ -18,6 +18,7 @@ Version 0.40: This is now a real, completely functional twitter app. EVERYTHING 
     &#8226; Changelog added<br/>
     &#8226; number of tweets, followers, and following on profile<br/>
     &#8226; length counter on tweets (can't go over 140)<br/>
+    &#8226; Shadows on the drawers
     &#8226; tons of other bug fixes<br/><br/>
 <br/>
 
