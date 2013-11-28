@@ -26,6 +26,7 @@ import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.ConnectionDetector;
 import com.klinker.android.talon.utils.Utils;
@@ -152,6 +153,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             }
 
             @Override
+            protected void onPreExecute() {
+                DrawerActivity.canSwitch = false;
+            }
+
+            @Override
             protected Void doInBackground(Void... params) {
                 try {
                     twitter = Utils.getTwitter(context);
@@ -254,6 +260,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
                 }
 
+                DrawerActivity.canSwitch = true;
+
                 new RefreshMentions().execute();
             }
         }.execute();
@@ -263,6 +271,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         private boolean update = false;
         private int numberNew = 0;
+
+        @Override
+        protected void onPreExecute() {
+            DrawerActivity.canSwitch = false;
+        }
 
         protected Boolean doInBackground(Void... args) {
 
@@ -344,6 +357,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             }
 
             mPullToRefreshLayout.setRefreshComplete();
+
+            DrawerActivity.canSwitch = true;
         }
 
     }

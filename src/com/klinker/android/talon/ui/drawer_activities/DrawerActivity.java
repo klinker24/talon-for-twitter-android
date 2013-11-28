@@ -80,6 +80,8 @@ public abstract class DrawerActivity extends Activity {
 
     public boolean logoutVisible = false;
 
+    public static boolean canSwitch = true;
+
     public void setUpDrawer(int number, final String actName) {
 
         MainDrawerArrayAdapter.current = number;
@@ -276,14 +278,17 @@ public abstract class DrawerActivity extends Activity {
             secondAccount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (current == 1) {
-                        sharedPrefs.edit().putInt("current_account", 2).commit();
-                    } else {
-                        sharedPrefs.edit().putInt("current_account", 1).commit();
+                    if (canSwitch) {
+                        if (current == 1) {
+                            sharedPrefs.edit().putInt("current_account", 2).commit();
+                        } else {
+                            sharedPrefs.edit().putInt("current_account", 1).commit();
+                        }
+                        Intent login = new Intent(context, LoginActivity.class);
+
+                        startActivity(login);
+                        Crouton.cancelAllCroutons();
                     }
-                    Intent login = new Intent(context, LoginActivity.class);
-                    startActivity(login);
-                    Crouton.cancelAllCroutons();
                 }
             });
         } else { // count is 2
@@ -302,9 +307,11 @@ public abstract class DrawerActivity extends Activity {
                 secondAccount.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        sharedPrefs.edit().putInt("current_account", 2).commit();
-                        Crouton.cancelAllCroutons();
-                        ((Activity)context).recreate();
+                        if (canSwitch) {
+                            sharedPrefs.edit().putInt("current_account", 2).commit();
+                            Crouton.cancelAllCroutons();
+                            ((Activity)context).recreate();
+                        }
                     }
                 });
             } else {
@@ -321,9 +328,11 @@ public abstract class DrawerActivity extends Activity {
                 secondAccount.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        sharedPrefs.edit().putInt("current_account", 1).commit();
-                        Crouton.cancelAllCroutons();
-                        ((Activity)context).recreate();
+                        if (canSwitch) {
+                            sharedPrefs.edit().putInt("current_account", 1).commit();
+                            Crouton.cancelAllCroutons();
+                            ((Activity)context).recreate();
+                        }
                     }
                 });
             }

@@ -22,7 +22,6 @@
     - Emoji Support
     - Search for users when composing
     - Switch tweet background to right side when it is my tweet
-    - 2 profiles support (add column to database, add shared prefs for the info and one that tracks the current)
     - Vine and instagram support
     - Some kind of notifications for fav users
     - Night mode
@@ -31,3 +30,5 @@
     - Convert everything away from picasso
     - stupid popup not working correctly
     - double insert on creating new lists
+    - Trim both accounts, not just active
+    - Notification for the second account's mentions

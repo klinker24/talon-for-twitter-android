@@ -25,6 +25,7 @@ import com.klinker.android.talon.services.MentionsRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.ConnectionDetector;
 import com.klinker.android.talon.utils.Utils;
@@ -130,6 +131,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             private int numberNew;
 
             @Override
+            protected void onPreExecute() {
+                DrawerActivity.canSwitch = false;
+            }
+
+            @Override
             protected Void doInBackground(Void... params) {
                 try {
                     twitter = Utils.getTwitter(context);
@@ -223,6 +229,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
+
+                DrawerActivity.canSwitch = true;
             }
         }.execute();
     }

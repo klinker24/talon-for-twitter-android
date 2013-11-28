@@ -1,4 +1,6 @@
 Version 0.60:<br/><br/>
+    &#8226; Support for a second account
+    &#8226; Added a default user header if they have no banner
     &#8226; fixes for list refreshing after clicking notification
     &#8226; changes to search to allow searching by username
 
