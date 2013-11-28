@@ -142,6 +142,7 @@ public class TimelineRefreshService extends IntentService {
                                 .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
+                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 resultIntent.putExtra("from_notification", true);
 
                 PendingIntent resultPendingIntent =
