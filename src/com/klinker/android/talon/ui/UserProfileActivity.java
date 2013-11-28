@@ -738,7 +738,7 @@ public class UserProfileActivity extends Activity {
                     } else {
                         FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
                         data.open();
-                        data.createUser(thisUser);
+                        data.createUser(thisUser, sharedPrefs.getInt("current_account", 1));
                         data.close();
 
                         sharedPrefs.edit().putString("favorite_user_names", sharedPrefs.getString("favorite_user_names", "") + thisUser.getScreenName() + " ").commit();

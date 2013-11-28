@@ -135,7 +135,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     twitter = Utils.getTwitter(context);
 
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_mention_id", 0);
+                    long lastId = sharedPrefs.getLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), 0);
                     Paging paging;
                     paging = new Paging(1, 50);
 
@@ -154,7 +154,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     // if that doesn't work, then go for the top 150
                     if (!broken) {
-                        Log.v("updating_timeline", "not broken");
                         Paging paging2 = new Paging(1, 150);
                         List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
 
@@ -169,7 +168,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     }
 
                     if (statuses.size() != 0) {
-                        sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
                         update = true;
                         numberNew = statuses.size();
                     } else {
@@ -177,7 +176,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         numberNew = 0;
                     }
 
-                    Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
                     for (twitter4j.Status status : statuses) {
                         try {
                             dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
@@ -273,26 +271,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         }
     }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        try {
-            dataSource.open();
-        } catch (Exception e) {
-
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            dataSource.close();
-        } catch (Exception e) {
-
-        }
-    }*/
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());

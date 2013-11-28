@@ -272,39 +272,55 @@ public abstract class DrawerActivity extends Activity {
     }
 
     private void logoutFromTwitter() {
-        // Clear the shared preferences
+
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        boolean login1 = sharedPrefs.getBoolean("is_logged_in_1", false);
+        boolean login2 = sharedPrefs.getBoolean("is_logged_in_2", false);
+
+        // Delete the data for the logged out account
         SharedPreferences.Editor e = sharedPrefs.edit();
-        e.remove("authentication_token");
-        e.remove("authentication_token_secret");
-        e.remove("is_logged_in");
+        e.remove("authentication_token_" + currentAccount);
+        e.remove("authentication_token_secret_" + currentAccount);
+        e.remove("is_logged_in_" + currentAccount);
         e.commit();
 
         HomeDataSource homeSources = new HomeDataSource(context);
         homeSources.open();
-        homeSources.deleteAllTweets(sharedPrefs.getInt("current_account", 1));
+        homeSources.deleteAllTweets(currentAccount);
         homeSources.close();
 
         MentionsDataSource mentionsSources = new MentionsDataSource(context);
         mentionsSources.open();
-        mentionsSources.deleteAllTweets(sharedPrefs.getInt("current_account", 1));
+        mentionsSources.deleteAllTweets(currentAccount);
         mentionsSources.close();
 
         DMDataSource dmSource = new DMDataSource(context);
         dmSource.open();
-        dmSource.deleteAllTweets(sharedPrefs.getInt("current_account", 1));
+        dmSource.deleteAllTweets(currentAccount);
         dmSource.close();
 
         FavoriteUsersDataSource favs = new FavoriteUsersDataSource(context);
         favs.open();
-        favs.deleteAllUsers(sharedPrefs.getInt("current_account", 1));
+        favs.deleteAllUsers(currentAccount);
         favs.close();
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
         suggestions.clearHistory();
 
-        Intent login = new Intent(context, LoginActivity.class);
-        startActivity(login);
+        if (currentAccount == 1 && login2) {
+            e.putInt("current_account", 2).commit();
+            ((Activity)context).recreate();
+        } else if (currentAccount == 2 && login1) {
+            e.putInt("current_account", 1).commit();
+            ((Activity)context).recreate();
+        } else { // only the one account
+            e.putInt("current_account", 1).commit();
+            Intent login = new Intent(context, LoginActivity.class);
+            startActivity(login);
+            finish();
+        }
+
     }
 
     @Override
@@ -316,6 +332,7 @@ public abstract class DrawerActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
         // cancels the notifications when the app is opened
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -396,11 +413,6 @@ public abstract class DrawerActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /*@Override
-    public void onBackPressed() {
-        finish();
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {

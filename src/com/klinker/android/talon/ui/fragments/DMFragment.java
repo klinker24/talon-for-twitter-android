@@ -136,7 +136,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     twitter = Utils.getTwitter(context);
 
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_direct_message_id", 0);
+                    long lastId = sharedPrefs.getLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), 0);
                     Paging paging;
                     if (lastId != 0) {
                         paging = new Paging(1).sinceId(lastId);
@@ -148,7 +148,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
 
                     if (dm.size() != 0) {
-                        sharedPrefs.edit().putLong("last_direct_message_id", dm.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).commit();
                         update = true;
                         numberNew = dm.size();
                     } else {
@@ -214,26 +214,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             }
         }.execute();
     }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        try {
-            dataSource.open();
-        } catch (Exception e) {
-
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            dataSource.close();
-        } catch (Exception e) {
-
-        }
-    }*/
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 

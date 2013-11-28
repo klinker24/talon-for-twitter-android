@@ -157,8 +157,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     twitter = Utils.getTwitter(context);
 
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_tweet_id", 0);
-                    long secondToLastId = sharedPrefs.getLong("second_last_tweet_id", 0);
+                    long lastId = sharedPrefs.getLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), 0);
+                    long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + sharedPrefs.getInt("current_account", 1), 0);
 
                     List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -193,11 +193,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
                     if (statuses.size() != 0) {
                         try {
-                            sharedPrefs.edit().putLong("second_last_tweet_id", statuses.get(1).getId()).commit();
+                            sharedPrefs.edit().putLong("second_last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(1).getId()).commit();
                         } catch (Exception e) {
-                            sharedPrefs.edit().putLong("second_last_tweet_id", sharedPrefs.getLong("last_tweet_id", 0)).commit();
+                            sharedPrefs.edit().putLong("second_last_tweet_id_" + sharedPrefs.getInt("current_account", 1), sharedPrefs.getLong("last_tweet_id", 0)).commit();
                         }
-                        sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
 
                         update = true;
                         numberNew = statuses.size();
@@ -270,7 +270,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 twitter = Utils.getTwitter(context);
 
                 User user = twitter.verifyCredentials();
-                long lastId = sharedPrefs.getLong("last_mention_id", 0);
+                long lastId = sharedPrefs.getLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), 0);
                 Paging paging;
                 paging = new Paging(1, 50);
 
@@ -304,7 +304,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 }
 
                 if (statuses.size() != 0) {
-                    sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
+                    sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
                     update = true;
                     numberNew = statuses.size();
                 } else {
@@ -315,7 +315,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 MentionsDataSource dataSource = new MentionsDataSource(context);
                 dataSource.open();
 
-                Log.v("timeline_update", "Showing @" + user.getScreenName() + "'s home timeline.");
                 for (twitter4j.Status status : statuses) {
                     try {
                         dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));

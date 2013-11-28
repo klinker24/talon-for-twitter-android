@@ -201,7 +201,7 @@ public class LoginActivity extends Activity {
 
     private boolean isTwitterLoggedInAlready() {
         // return twitter login_activity status from Shared Preferences
-        return sharedPrefs.getBoolean("is_logged_in", false);
+        return settings.isTwitterLoggedIn;
     }
 
     class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
@@ -262,13 +262,16 @@ public class LoginActivity extends Activity {
                 // Shared Preferences
                 SharedPreferences.Editor e = sharedPrefs.edit();
 
-                // After getting access token, access token secret
-                // store them in application preferences
-                e.putString("authentication_token", accessToken.getToken());
-                e.putString("authentication_token_secret", accessToken.getTokenSecret());
+                if (sharedPrefs.getInt("current_account", 1) == 1) {
+                    e.putString("authentication_token_1", accessToken.getToken());
+                    e.putString("authentication_token_secret_1", accessToken.getTokenSecret());
+                    e.putBoolean("is_logged_in_1", true);
+                } else {
+                    e.putString("authentication_token_2", accessToken.getToken());
+                    e.putString("authentication_token_secret_2", accessToken.getTokenSecret());
+                    e.putBoolean("is_logged_in_2", true);
+                }
 
-                // Store login_activity status - true
-                e.putBoolean("is_logged_in", true);
                 e.commit(); // save changes
 
                 // Hide login_activity button
@@ -305,10 +308,17 @@ public class LoginActivity extends Activity {
                 twitter = Utils.getTwitter(context);
 
                 User user = twitter.verifyCredentials();
-                sharedPrefs.edit().putString("twitter_users_name", user.getName()).commit();
-                sharedPrefs.edit().putString("twitter_screen_name", user.getScreenName()).commit();
-                sharedPrefs.edit().putString("twitter_background_url", user.getProfileBannerURL()).commit();
-                sharedPrefs.edit().putString("profile_pic_url", user.getBiggerProfileImageURL()).commit();
+                if (sharedPrefs.getInt("current_account", 1) == 1) {
+                    sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).commit();
+                    sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).commit();
+                    sharedPrefs.edit().putString("twitter_background_url_1", user.getProfileBannerURL()).commit();
+                    sharedPrefs.edit().putString("profile_pic_url_1", user.getBiggerProfileImageURL()).commit();
+                } else {
+                    sharedPrefs.edit().putString("twitter_users_name_2", user.getName()).commit();
+                    sharedPrefs.edit().putString("twitter_screen_name_2", user.getScreenName()).commit();
+                    sharedPrefs.edit().putString("twitter_background_url_2", user.getProfileBannerURL()).commit();
+                    sharedPrefs.edit().putString("profile_pic_url_2", user.getBiggerProfileImageURL()).commit();
+                }
 
                 // syncs 200 timeline tweets with 2 pages
                 Paging paging;
@@ -328,7 +338,7 @@ public class LoginActivity extends Activity {
                 paging = new Paging(1, 100);
                 statuses = twitter.getHomeTimeline(paging);
 
-                sharedPrefs.edit().putLong("last_tweet_id", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
 
                 for (twitter4j.Status status : statuses) {
                     try {
@@ -354,7 +364,7 @@ public class LoginActivity extends Activity {
                 paging = new Paging(1, 100);
                 statuses = twitter.getMentionsTimeline(paging);
 
-                sharedPrefs.edit().putLong("last_mention_id", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
 
 
                 for (twitter4j.Status status : statuses) {
@@ -384,7 +394,7 @@ public class LoginActivity extends Activity {
 
                     List<DirectMessage> dm = twitter.getDirectMessages(paging);
 
-                    sharedPrefs.edit().putLong("last_direct_message_id", dm.get(0).getId()).commit();
+                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).commit();
 
                     for (DirectMessage directMessage : dm) {
                         try {

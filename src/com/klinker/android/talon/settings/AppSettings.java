@@ -52,17 +52,27 @@ public class AppSettings {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Strings
-        authenticationToken = sharedPrefs.getString("authentication_token", "none");
-        authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret", "none");
-        myScreenName = sharedPrefs.getString("twitter_screen_name", "");
-        myName = sharedPrefs.getString("twitter_users_name", "");
-        myBackgroundUrl = sharedPrefs.getString("twitter_background_url", "");
-        myProfilePicUrl = sharedPrefs.getString("profile_pic_url", "");
-        favoriteUserNames = sharedPrefs.getString("favorite_user_names", "");
+        if (sharedPrefs.getInt("current_account", 1) == 1) {
+            authenticationToken = sharedPrefs.getString("authentication_token_1", "none");
+            authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret_1", "none");
+            myScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
+            myName = sharedPrefs.getString("twitter_users_name_1", "");
+            myBackgroundUrl = sharedPrefs.getString("twitter_background_url_1", "");
+            myProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
+            favoriteUserNames = sharedPrefs.getString("favorite_user_names_1", "");
+        } else {
+            authenticationToken = sharedPrefs.getString("authentication_token_2", "none");
+            authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret_2", "none");
+            myScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
+            myName = sharedPrefs.getString("twitter_users_name_2", "");
+            myBackgroundUrl = sharedPrefs.getString("twitter_background_url_2", "");
+            myProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
+            favoriteUserNames = sharedPrefs.getString("favorite_user_names_2", "");
+        }
 
         // Booleans
-        isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in", false);
-        reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
+        isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
+        reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);

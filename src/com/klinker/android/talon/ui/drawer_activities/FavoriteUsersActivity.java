@@ -72,7 +72,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
                 dataSource = new FavoriteUsersDataSource(context);
                 dataSource.open();
 
-                return dataSource.getCursor();
+                return dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
