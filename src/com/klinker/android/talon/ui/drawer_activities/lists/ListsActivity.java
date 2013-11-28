@@ -116,11 +116,6 @@ public class ListsActivity extends DrawerActivity {
                 dialog.show();
                 return true;
 
-            case R.id.menu_settings:
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
-                startActivityForResult(settings, SETTINGS_RESULT);
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -179,7 +174,7 @@ public class ListsActivity extends DrawerActivity {
             if (created) {
                 recreate();
             } else {
-                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         }
     }

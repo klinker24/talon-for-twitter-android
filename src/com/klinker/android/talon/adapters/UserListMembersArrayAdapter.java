@@ -22,11 +22,11 @@ import twitter4j.User;
 /**
  * Created by luke on 11/27/13.
  */
-public class UserListPeopleArrayAdapter extends PeopleArrayAdapter {
+public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
 
     private int listId;
 
-    public UserListPeopleArrayAdapter(Context context, ArrayList<User> users, int listId) {
+    public UserListMembersArrayAdapter(Context context, ArrayList<User> users, int listId) {
         super(context, users);
         this.listId = listId;
     }

@@ -19,7 +19,7 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.UserListPeopleArrayAdapter;
+import com.klinker.android.talon.adapters.UserListMembersArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.utils.Utils;
 
@@ -188,7 +188,7 @@ public class ViewUsers extends Activity {
         }
 
         protected void onPostExecute(ArrayList<User> users) {
-            final UserListPeopleArrayAdapter people = new UserListPeopleArrayAdapter(context, users, listId);
+            final UserListMembersArrayAdapter people = new UserListMembersArrayAdapter(context, users, listId);
             final int firstVisible = listView.getFirstVisiblePosition();
             runOnUiThread(new Runnable() {
                 @Override
