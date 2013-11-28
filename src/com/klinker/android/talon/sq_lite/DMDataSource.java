@@ -62,24 +62,8 @@ public class DMDataSource {
                 + " = " + id, null);
     }
 
-    public List<Tweet> getAllTweets(int account) {
-        List<Tweet> tweets = new ArrayList<Tweet>();
-
-        Cursor cursor = getCursor(account);
-
-        cursor.moveToLast();
-        while (!cursor.isBeforeFirst()) {
-            Tweet tweet = cursorToTweet(cursor);
-            tweets.add(tweet);
-            cursor.moveToPrevious();
-        }
-        // make sure to close the cursor
-        cursor.close();
-        return tweets;
-    }
-
-    public void deleteAllTweets() {
-        database.delete(DMSQLiteHelper.TABLE_DM, null, null);
+    public void deleteAllTweets(int account) {
+        database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public Cursor getCursor(int account) {
@@ -87,13 +71,5 @@ public class DMDataSource {
                 allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
 
         return cursor;
-    }
-
-    private Tweet cursorToTweet(Cursor cursor) {
-        Tweet tweet = new Tweet();
-        tweet.setId(cursor.getLong(0));
-        tweet.setTweet(cursor.getString(1));
-        tweet.setName(cursor.getString(2));
-        return tweet;
     }
 }

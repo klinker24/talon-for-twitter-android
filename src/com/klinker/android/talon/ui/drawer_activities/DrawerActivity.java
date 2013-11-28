@@ -39,6 +39,7 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.sq_lite.DMDataSource;
+import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
@@ -280,18 +281,23 @@ public abstract class DrawerActivity extends Activity {
 
         HomeDataSource homeSources = new HomeDataSource(context);
         homeSources.open();
-        homeSources.deleteAllTweets();
+        homeSources.deleteAllTweets(sharedPrefs.getInt("current_account", 1));
         homeSources.close();
 
         MentionsDataSource mentionsSources = new MentionsDataSource(context);
         mentionsSources.open();
-        mentionsSources.deleteAllTweets();
+        mentionsSources.deleteAllTweets(sharedPrefs.getInt("current_account", 1));
         mentionsSources.close();
 
         DMDataSource dmSource = new DMDataSource(context);
         dmSource.open();
-        dmSource.deleteAllTweets();
+        dmSource.deleteAllTweets(sharedPrefs.getInt("current_account", 1));
         dmSource.close();
+
+        FavoriteUsersDataSource favs = new FavoriteUsersDataSource(context);
+        favs.open();
+        favs.deleteAllUsers(sharedPrefs.getInt("current_account", 1));
+        favs.close();
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);

@@ -9,6 +9,7 @@ public class FavoriteUsersSQLiteHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_HOME = "favUsers";
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_ACCOUNT = "account";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_PRO_PIC = "profile_pic";
     public static final String COLUMN_SCREEN_NAME = "screen_name";
@@ -19,7 +20,8 @@ public class FavoriteUsersSQLiteHelper extends SQLiteOpenHelper {
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_HOME + "(" + COLUMN_ID
-            + " integer primary key, " + COLUMN_NAME
+            + " integer primary key, " + COLUMN_ACCOUNT
+            + " integer account num, " + COLUMN_NAME
             + " text users name, " + COLUMN_PRO_PIC
             + " text url of pic, " + COLUMN_SCREEN_NAME
             + " text user screen); ";

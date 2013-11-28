@@ -74,24 +74,9 @@ public class HomeDataSource {
                 + " = " + id, null);
     }
 
-    public List<Tweet> getAllTweets(int account) {
-        List<Tweet> tweets = new ArrayList<Tweet>();
-
-        Cursor cursor = getCursor(account);
-
-        cursor.moveToLast();
-        while (!cursor.isBeforeFirst()) {
-            Tweet tweet = cursorToTweet(cursor);
-            tweets.add(tweet);
-            cursor.moveToPrevious();
-        }
-        // make sure to close the cursor
-        cursor.close();
-        return tweets;
-    }
-
-    public void deleteAllTweets() {
-        database.delete(HomeSQLiteHelper.TABLE_HOME, null, null);
+    public void deleteAllTweets(int account) {
+        database.delete(HomeSQLiteHelper.TABLE_HOME,
+                HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public Cursor getCursor(int account) {
@@ -100,13 +85,5 @@ public class HomeDataSource {
                 allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
 
         return cursor;
-    }
-
-    private Tweet cursorToTweet(Cursor cursor) {
-        Tweet tweet = new Tweet();
-        tweet.setId(cursor.getLong(0));
-        tweet.setTweet(cursor.getString(1));
-        tweet.setName(cursor.getString(2));
-        return tweet;
     }
 }

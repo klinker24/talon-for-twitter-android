@@ -12,7 +12,8 @@ public class FavoriteUsersDataSource {
 
     private SQLiteDatabase database;
     private FavoriteUsersSQLiteHelper dbHelper;
-    public String[] allColumns = {FavoriteUsersSQLiteHelper.COLUMN_ID, FavoriteUsersSQLiteHelper.COLUMN_NAME, FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC,
+    public String[] allColumns = { FavoriteUsersSQLiteHelper.COLUMN_ID, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT,
+            FavoriteUsersSQLiteHelper.COLUMN_NAME, FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC,
             FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME };
 
     public FavoriteUsersDataSource(Context context) {
@@ -27,7 +28,7 @@ public class FavoriteUsersDataSource {
         dbHelper.close();
     }
 
-    public void createUser(User user) {
+    public void createUser(User user, int account) {
         ContentValues values = new ContentValues();
 
         long id = user.getId();
@@ -35,6 +36,7 @@ public class FavoriteUsersDataSource {
         String name = user.getName();
         String proPicUrl = user.getBiggerProfileImageURL();
 
+        values.put(FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(FavoriteUsersSQLiteHelper.COLUMN_ID, id);
         values.put(FavoriteUsersSQLiteHelper.COLUMN_NAME, name);
         values.put(FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC, proPicUrl);
@@ -50,14 +52,14 @@ public class FavoriteUsersDataSource {
                 + " = " + id, null);
     }
 
-
-    public void deleteAllUsers() {
-        database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, null, null);
+    public void deleteAllUsers(int account) {
+        database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
+                FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
-    public Cursor getCursor() {
+    public Cursor getCursor(int account) {
         Cursor cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
-                allColumns, null, null, null, null, null);
+                allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
 
         return cursor;
     }
