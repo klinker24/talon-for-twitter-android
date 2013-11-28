@@ -376,11 +376,12 @@ public class Search extends Activity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            query = query.replace("@", "from:");
             new DoSearch(query).execute();
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
+            suggestions.saveRecentQuery(query.replace("from:", "@"), null);
         }
     }
 
@@ -475,17 +476,6 @@ public class Search extends Activity {
 
             listView.setAdapter(new TimelineArrayAdapter(context, searches));
             listView.setVisibility(View.VISIBLE);
-
-            /*LinearLayout viewHeader = new LinearLayout(context);
-            viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-            viewHeader.setLayoutParams(lp);
-
-            try {
-                listView.addHeaderView(viewHeader, null, false);
-            } catch (Exception e) {
-
-            }   */
 
             spinner.setVisibility(View.GONE);
         }
