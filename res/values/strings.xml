@@ -102,6 +102,7 @@
     <string name="favorite_user">Favorited User</string>
     <string name="unfavorite_user">Un-Favorited User</string>
     <string name="updating_pro_pic">Updating Profile Picture</string>
+    <string name="updating_banner_pic">Updating Banner Picture</string>
     <string name="uploaded">File Uploaded</string>
 
     <!-- Retweets Activity -->

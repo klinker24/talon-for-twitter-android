@@ -944,7 +944,7 @@ public class UserProfileActivity extends Activity {
                     if (file.exists()) file.delete();
                     try {
                         FileOutputStream out = new FileOutputStream(file);
-                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 25, out);
                         out.flush();
                         out.close();
 
@@ -971,7 +971,7 @@ public class UserProfileActivity extends Activity {
                     if (file.exists()) file.delete();
                     try {
                         FileOutputStream out = new FileOutputStream(file);
-                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 25, out);
                         out.flush();
                         out.close();
 
@@ -997,7 +997,7 @@ public class UserProfileActivity extends Activity {
         protected void onPreExecute() {
 
             pDialog = new ProgressDialog(context);
-            pDialog.setMessage(getResources().getString(R.string.updating_pro_pic) + "...");
+            pDialog.setMessage(getResources().getString(R.string.updating_banner_pic) + "...");
             pDialog.setIndeterminate(true);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -1010,8 +1010,8 @@ public class UserProfileActivity extends Activity {
 
                 twitter.updateProfileBanner(out);
 
-                String profileURL = thisUser.getBiggerProfileImageURL();
-                sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_profile", 1), profileURL).commit();
+                String profileURL = thisUser.getProfileBannerURL();
+                sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
 
                 return true;
             } catch (Exception e) {
@@ -1055,9 +1055,8 @@ public class UserProfileActivity extends Activity {
                 Twitter twitter =  Utils.getTwitter(context);
 
                 User user = twitter.updateProfileImage(out);
-
                 String profileURL = user.getBiggerProfileImageURL();
-                sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_profile", 1), profileURL).commit();
+                sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
 
                 return true;
             } catch (Exception e) {
