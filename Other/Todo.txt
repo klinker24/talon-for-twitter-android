@@ -1,9 +1,6 @@
 - Main Drawer Items/Activities:
     - Trending (Local)
 
-- Settings:
-    - notification vibrate and led options
-
 - User Profiles Activity:
     - "My profile" stuff:
         - Change bio

@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -767,20 +768,36 @@ public class TweetActivity extends Activity {
         }
     }
 
+    private ShareActionProvider mShareActionProvider;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
         inflater.inflate(R.menu.tweet_activity, menu);
 
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        mShareActionProvider.setShareIntent(getShareIntent());
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private Intent getShareIntent() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, tweet);
+        return intent;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        final int MENU_DELETE_TWEET = 0;
-        final int MENU_SHARE = 1;
+        final int MENU_DELETE_TWEET = 1;
+        final int MENU_SHARE = 0;
         final int MENU_COPY_TEXT = 2;
         final int MENU_OPEN_WEB = 3;
         final int MENU_SAVE_IMAGE = 4;
