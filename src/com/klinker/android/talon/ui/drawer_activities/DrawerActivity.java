@@ -132,21 +132,33 @@ public abstract class DrawerActivity extends Activity {
 
                 if (MainDrawerArrayAdapter.current > 2) {
                     actionBar.setTitle(actName);
-                } else {
+                } else if (MainDrawerArrayAdapter.current == 7) {
                     int position = mViewPager.getCurrentItem();
 
                     switch (position) {
                         case 0:
-                            actionBar.setTitle(getResources().getString(R.string.timeline));
+                            actionBar.setTitle(getResources().getString(R.string.local_trends));
                             break;
                         case 1:
-                            actionBar.setTitle(getResources().getString(R.string.mentions));
-                            break;
-                        case 2:
-                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                            actionBar.setTitle(getResources().getString(R.string.world_trends));
                             break;
                     }
-                }
+                } else {
+                        int position = mViewPager.getCurrentItem();
+
+                        switch (position) {
+                            case 0:
+                                actionBar.setTitle(getResources().getString(R.string.timeline));
+                                break;
+                            case 1:
+                                actionBar.setTitle(getResources().getString(R.string.mentions));
+                                break;
+                            case 2:
+                                actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                                break;
+                        }
+                    }
+
             }
 
             public void onDrawerOpened(View drawerView) {

@@ -1,17 +1,22 @@
 package com.klinker.android.talon.ui.drawer_activities.trends;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ShareActionProvider;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.ui.LoginActivity;
-import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -22,44 +27,38 @@ import twitter4j.Trend;
 import twitter4j.Twitter;
 
 /**
- * Created by luke on 11/27/13.
+ * Created by luke on 11/29/13.
  */
-public class Trends extends DrawerActivity {
+public class WorldTrends extends Fragment {
+
+    private Context context;
+    private SharedPreferences sharedPrefs;
+    private AppSettings settings;
+
+    private AsyncListView listView;
+    private View layout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        context = this;
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
-
-        setUpTheme();
-
-        actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.trends));
-
-        setContentView(R.layout.retweets_activity);
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
-        listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
-
-        setUpDrawer(7, getResources().getString(R.string.trends));
-
-        new GetTrends().execute();
-
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        setUpDrawer(7, getResources().getString(R.string.trends));
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        settings = new AppSettings(context);
+
+        layout = inflater.inflate(R.layout.retweets_activity, null);
+
+        listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView.setDividerHeight(toDP(5));
+
+        new GetTrends().execute();
+
+        return layout;
     }
 
     class GetTrends extends AsyncTask<String, Void, ArrayList<String>> {
@@ -87,9 +86,12 @@ public class Trends extends DrawerActivity {
             listView.setAdapter(new TrendsArrayAdapter(context, trends));
             listView.setVisibility(View.VISIBLE);
 
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
     }
 
+    public int toDP(int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+    }
 }

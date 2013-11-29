@@ -55,7 +55,6 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class MainActivity extends DrawerActivity {
 
-
     private TimelinePagerAdapter mSectionsPagerAdapter;
 
     public static boolean refreshMe;
