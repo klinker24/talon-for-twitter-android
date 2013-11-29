@@ -43,6 +43,7 @@ public class ComposeActivity extends Activity {
     private Context context;
 
     private EditText contactEntry;
+    private EditText reply;
     private ImageView attachImage;
 
     private String attachedFilePath = "";
@@ -123,6 +124,40 @@ public class ComposeActivity extends Activity {
             editText.setSelection(editText.getText().toString().length());
         }
 
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent
+            } else if (type.startsWith("image/")) {
+                handleSendImage(intent); // Handle single image being sent
+            }
+        }
+
+    }
+
+    void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            reply.setText(sharedText);
+            reply.setSelection(reply.getText().toString().length());
+        }
+    }
+
+    void handleSendImage(Intent intent) {
+        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (imageUri != null) {
+            String filePath = IOUtils.getPath(imageUri, context);
+
+            Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+
+            attachImage.setImageBitmap(yourSelectedImage);
+
+            attachedFilePath = filePath;
+        }
     }
 
     private static final int SELECT_PHOTO = 100;
@@ -155,7 +190,7 @@ public class ComposeActivity extends Activity {
         });
 
         final TextView charRemaining = (TextView) findViewById(R.id.char_remaining);
-        final EditText reply = (EditText) findViewById(R.id.tweet_content);
+        reply = (EditText) findViewById(R.id.tweet_content);
 
         charRemaining.setText(140 - reply.getText().length() + "");
         reply.addTextChangedListener(new TextWatcher() {
