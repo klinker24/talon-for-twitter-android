@@ -424,7 +424,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         LinearLayout viewHeader = new LinearLayout(context);
         viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
+        LinearLayout.LayoutParams lp;
+        try {
+            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
+        } catch (Exception e) {
+            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 0);
+        }
         viewHeader.setLayoutParams(lp);
 
         try {

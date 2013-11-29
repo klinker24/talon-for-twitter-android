@@ -51,4 +51,10 @@ public class MainActivityPopup extends MainActivity {
         super.onStart();
         refreshMe = false;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity.popupOpened = true;
+    }
 }

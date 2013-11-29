@@ -61,6 +61,7 @@ public class MainActivity extends DrawerActivity {
     public static boolean refreshMe;
     public boolean isPopup = false;
     public static boolean fromSettings = false;
+    public static boolean popupOpened = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -155,5 +156,20 @@ public class MainActivity extends DrawerActivity {
         }
 
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
+
+        if (popupOpened) {
+            recreate();
+        }
+
+        popupOpened = false;
     }
 }
