@@ -55,16 +55,16 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     private static Twitter twitter;
     private ConnectionDetector cd;
 
-    private AsyncListView listView;
-    private CursorAdapter cursorAdapter;
+    private static AsyncListView listView;
+    private static CursorAdapter cursorAdapter;
 
     public AppSettings settings;
-    private SharedPreferences sharedPrefs;
+    private static SharedPreferences sharedPrefs;
 
     private PullToRefreshAttacher mPullToRefreshAttacher;
     private PullToRefreshLayout mPullToRefreshLayout;
 
-    private MentionsDataSource dataSource;
+    private static MentionsDataSource dataSource;
 
     static Activity context;
 
@@ -249,12 +249,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     }
 
-    public void swapCursors() {
+    public static void swapCursors() {
         cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
     }
 
-    public void refreshCursor() {
+    public static void refreshCursor() {
         listView.setAdapter(cursorAdapter);
 
         swapCursors();

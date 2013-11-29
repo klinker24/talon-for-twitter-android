@@ -350,7 +350,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             if (updated) {
                 CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                 Crouton.makeText(context, text, Style.INFO).show();
-                listView.setSelectionFromTop(numberNew + 1, toDP(5));
+                MentionsFragment.refreshCursor();
             } else {
 
             }
