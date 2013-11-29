@@ -397,6 +397,8 @@ public class UserProfileActivity extends Activity {
 
         protected Void doInBackground(String... urls) {
             try {
+
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
                 Twitter twitter =  Utils.getTwitter(context);
 
                 String otherUserName = thisUser.getScreenName();
@@ -404,7 +406,7 @@ public class UserProfileActivity extends Activity {
 
                 isFollowing = friendship.isSourceFollowingTarget();
                 isBlocking = friendship.isSourceBlockingTarget();
-                isFavorite = sharedPrefs.getString("favorite_user_names", "").contains(otherUserName);
+                isFavorite = sharedPrefs.getString("favorite_user_names_" + currentAccount, "").contains(otherUserName);
                 isFollowingSet = true;
 
                 return null;
@@ -721,6 +723,7 @@ public class UserProfileActivity extends Activity {
 
         protected Boolean doInBackground(String... urls) {
             try {
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
                 if (thisUser != null) {
                     if (isFavorite) {
                         // destroy favorite
@@ -729,19 +732,19 @@ public class UserProfileActivity extends Activity {
                         data.deleteUser(thisUser.getId());
                         data.close();
 
-                        String favs = sharedPrefs.getString("favorite_user_names", "");
+                        String favs = sharedPrefs.getString("favorite_user_names_" + currentAccount, "");
                         favs = favs.replaceAll(thisUser.getScreenName() + " ", "");
-                        sharedPrefs.edit().putString("favorite_user_names", favs).commit();
+                        sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, favs).commit();
 
                         return false;
 
                     } else {
                         FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
                         data.open();
-                        data.createUser(thisUser, sharedPrefs.getInt("current_account", 1));
+                        data.createUser(thisUser, currentAccount);
                         data.close();
 
-                        sharedPrefs.edit().putString("favorite_user_names", sharedPrefs.getString("favorite_user_names", "") + thisUser.getScreenName() + " ").commit();
+                        sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, sharedPrefs.getString("favorite_user_names_" + currentAccount, "") + thisUser.getScreenName() + " ").commit();
 
                         return true;
                     }
