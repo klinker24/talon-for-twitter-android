@@ -117,7 +117,7 @@ public class TimelineRefreshService extends IntentService {
 
                 RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
                 Intent popup = new Intent(context, MainActivityPopup.class);
-                popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 popup.putExtra("from_notification", true);
                 PendingIntent popupPending =
                         PendingIntent.getActivity(
@@ -134,9 +134,9 @@ public class TimelineRefreshService extends IntentService {
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.timeline_dark)
-                                //.setContent(remoteView);
-                                .setContentTitle(getResources().getString(R.string.app_name))
-                                .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
+                                .setContent(remoteView);
+                                //.setContentTitle(getResources().getString(R.string.app_name))
+                                //.setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
                 resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
