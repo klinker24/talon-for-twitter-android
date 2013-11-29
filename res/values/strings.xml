@@ -16,7 +16,7 @@
     <string name="menu_unblock">Unblock User</string>
     <string name="menu_add_to_list">Add to List</string>
     <string name="menu_change_picture">Change Profile Picture</string>
-    <string name="menu_change_bio">Change Bio.</string>
+    <string name="menu_change_bio">Change Profile Info</string>
     <string name="menu_change_banner">Change Profile Banner</string>
     <string name="menu_direct_message">New Direct Message</string>
     <string name="menu_save_image">Save Image</string>
@@ -104,6 +104,17 @@
     <string name="updating_pro_pic">Updating Profile Picture</string>
     <string name="updating_banner_pic">Updating Banner Picture</string>
     <string name="uploaded">File Uploaded</string>
+    <string name="change_profile_info">Change Profile Info</string>
+    <string name="update">Update</string>
+    <string name="optional_name">Name (Optional)</string>
+    <string name="optional_url">URL (Optional)</string>
+    <string name="optional_location">Location (Optional)</string>
+    <string name="optional_description">Description (Optional)</string>
+    <string name="updated_profile">Updated Profile</string>
+    <string name="name_char_length">Name: 20 character limit</string>
+    <string name="url_char_length">URL: 100 character limit</string>
+    <string name="location_char_length">Location: 30 character limit</string>
+    <string name="description_char_length">Description: 160 character limit</string>
 
     <!-- Retweets Activity -->
     <string name="retweets_lower">retweets</string>

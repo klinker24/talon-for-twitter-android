@@ -3,6 +3,7 @@ package com.klinker.android.talon.ui;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,6 +43,7 @@ import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
@@ -916,11 +918,121 @@ public class UserProfileActivity extends Activity {
                 return true;
 
             case  R.id.menu_change_bio:
-                // TODO - open dialog to change the bio text
+                updateProfile();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void updateProfile() {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.change_profile_info_dialog);
+        dialog.setTitle(getResources().getString(R.string.change_profile_info) + ":");
+
+        final HoloEditText name = (HoloEditText) dialog.findViewById(R.id.name);
+        final HoloEditText url = (HoloEditText) dialog.findViewById(R.id.url);
+        final HoloEditText location = (HoloEditText) dialog.findViewById(R.id.location);
+        final HoloEditText description = (HoloEditText) dialog.findViewById(R.id.description);
+
+        Button cancel = (Button) dialog.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button change = (Button) dialog.findViewById(R.id.change);
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean ok = true;
+                String nameS = null;
+                String urlS = null;
+                String locationS = null;
+                String descriptionS = null;
+
+                if(name.getText().length() <= 20 && ok) {
+                    if (name.getText().length() > 0){
+                        nameS = name.getText().toString();
+                        sharedPrefs.edit().putString("twitter_users_name_" + sharedPrefs.getInt("current_account", 1), nameS).commit();
+                    }
+                } else {
+                    ok = false;
+                    Toast.makeText(context, getResources().getString(R.string.name_char_length), Toast.LENGTH_SHORT).show();
+                }
+
+                if(url.getText().length() <= 100 && ok) {
+                    if (url.getText().length() > 0){
+                        urlS = url.getText().toString();
+                    }
+                } else {
+                    ok = false;
+                    Toast.makeText(context, getResources().getString(R.string.url_char_length), Toast.LENGTH_SHORT).show();
+                }
+
+                if(location.getText().length() <= 30 && ok) {
+                    if (location.getText().length() > 0){
+                        locationS = name.getText().toString();
+                    }
+                } else {
+                    ok = false;
+                    Toast.makeText(context, getResources().getString(R.string.location_char_length), Toast.LENGTH_SHORT).show();
+                }
+
+                if(description.getText().length() <= 160 && ok) {
+                    if (description.getText().length() > 0){
+                        descriptionS = name.getText().toString();
+                    }
+                } else {
+                    ok = false;
+                    Toast.makeText(context, getResources().getString(R.string.description_char_length), Toast.LENGTH_SHORT).show();
+                }
+
+                if (ok) {
+                    new UpdateInfo(nameS, urlS, locationS, descriptionS).execute();
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
+    }
+
+    class UpdateInfo extends AsyncTask<String, Void, Boolean> {
+
+        String name;
+        String url;
+        String location;
+        String description;
+
+        public UpdateInfo(String name, String url, String location, String description) {
+            this.name = name;
+            this.url = url;
+            this.location = location;
+            this.description = description;
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                twitter.updateProfile(name, url, location, description);
+
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean added) {
+            if (added) {
+                Toast.makeText(context, getResources().getString(R.string.updated_profile), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
