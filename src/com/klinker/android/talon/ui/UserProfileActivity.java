@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -39,12 +43,15 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -842,12 +849,11 @@ public class UserProfileActivity extends Activity {
             menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
         }
 
-        // todo - take this out when they get added
-        //menu.getItem(MENU_CHANGE_BIO).setVisible(false);
-        //menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
-
         return true;
     }
+
+    private final int SELECT_PRO_PIC = 57;
+    private final int SELECT_BANNER = 58;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -898,11 +904,15 @@ public class UserProfileActivity extends Activity {
                 return true;
 
             case R.id.menu_change_picture:
-                // todo - be able to select and upload a picture
+                Intent proPickerIntent = new Intent(Intent.ACTION_PICK);
+                proPickerIntent.setType("image/*");
+                startActivityForResult(proPickerIntent, SELECT_PRO_PIC);
                 return true;
 
             case R.id.menu_change_banner:
-
+                Intent bannerPickerIntent = new Intent(Intent.ACTION_PICK);
+                bannerPickerIntent.setType("image/*");
+                startActivityForResult(bannerPickerIntent, SELECT_BANNER);
                 return true;
 
             case  R.id.menu_change_bio:
@@ -913,6 +923,160 @@ public class UserProfileActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PRO_PIC:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    String filePath = IOUtils.getPath(selectedImage, context);
+
+                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+
+                    String root = Environment.getExternalStorageDirectory().toString();
+                    File myDir = new File(root + "/Talon");
+                    myDir.mkdirs();
+
+                    File file = new File(myDir, "profile.jpg");
+                    if (file.exists()) file.delete();
+                    try {
+                        FileOutputStream out = new FileOutputStream(file);
+                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+
+                        new UpdateProPic(file).execute();
+
+                    } catch (Exception e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case SELECT_BANNER:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    String filePath = IOUtils.getPath(selectedImage, context);
+
+                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+
+                    String root = Environment.getExternalStorageDirectory().toString();
+                    File myDir = new File(root + "/Talon");
+                    myDir.mkdirs();
+
+                    File file = new File(myDir, "banner.jpg");
+                    if (file.exists()) file.delete();
+                    try {
+                        FileOutputStream out = new FileOutputStream(file);
+                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+
+                        new UpdateBanner(file).execute();
+
+                    } catch (Exception e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                }
+        }
+    }
+
+    class UpdateBanner extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog pDialog;
+        private File out;
+
+        public UpdateBanner(File out) {
+            this.out = out;
+        }
+
+        protected void onPreExecute() {
+
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.updating_pro_pic) + "...");
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                twitter.updateProfileBanner(out);
+
+                String profileURL = thisUser.getBiggerProfileImageURL();
+                sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_profile", 1), profileURL).commit();
+
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean uploaded) {
+
+            pDialog.dismiss();
+
+            if (uploaded) {
+                Toast.makeText(context, getResources().getString(R.string.uploaded), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class UpdateProPic extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog pDialog;
+        private File out;
+
+        public UpdateProPic(File out) {
+            this.out = out;
+        }
+
+        protected void onPreExecute() {
+
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.updating_pro_pic) + "...");
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context);
+
+                User user = twitter.updateProfileImage(out);
+
+                String profileURL = user.getBiggerProfileImageURL();
+                sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_profile", 1), profileURL).commit();
+
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean uploaded) {
+
+            pDialog.dismiss();
+
+            if (uploaded) {
+                Toast.makeText(context, getResources().getString(R.string.uploaded), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     class GetLists extends AsyncTask<String, Void, ResponseList<UserList>> {
 
         ProgressDialog pDialog;

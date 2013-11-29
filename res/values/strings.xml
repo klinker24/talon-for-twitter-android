@@ -101,6 +101,8 @@
     <string name="no_description">No user description available.</string>
     <string name="favorite_user">Favorited User</string>
     <string name="unfavorite_user">Un-Favorited User</string>
+    <string name="updating_pro_pic">Updating Profile Picture</string>
+    <string name="uploaded">File Uploaded</string>
 
     <!-- Retweets Activity -->
     <string name="retweets_lower">retweets</string>
