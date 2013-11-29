@@ -52,6 +52,11 @@
           android:title="@string/menu_change_picture"
           android:showAsAction="never" />
 
+    <item android:id="@+id/menu_change_banner"
+          android:orderInCategory="11"
+          android:title="@string/menu_change_banner"
+          android:showAsAction="never" />
+
     <item android:id="@+id/menu_change_bio"
           android:orderInCategory="11"
           android:title="@string/menu_change_bio"

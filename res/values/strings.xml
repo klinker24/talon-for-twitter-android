@@ -17,6 +17,7 @@
     <string name="menu_add_to_list">Add to List</string>
     <string name="menu_change_picture">Change Profile Picture</string>
     <string name="menu_change_bio">Change Bio.</string>
+    <string name="menu_change_banner">Change Profile Banner</string>
     <string name="menu_direct_message">New Direct Message</string>
     <string name="menu_save_image">Save Image</string>
     <string name="menu_favorite">Favorite User</string>

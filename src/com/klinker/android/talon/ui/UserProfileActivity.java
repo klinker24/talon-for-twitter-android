@@ -796,7 +796,8 @@ public class UserProfileActivity extends Activity {
         final int MENU_ADD_LIST = 7;
         final int MENU_DM = 8;
         final int MENU_CHANGE_PICTURE = 9;
-        final int MENU_CHANGE_BIO = 10;
+        final int MENU_CHANGE_BANNER = 10;
+        final int MENU_CHANGE_BIO = 11;
 
         if (isMyProfile) {
             menu.getItem(MENU_TWEET).setVisible(false);
@@ -837,12 +838,13 @@ public class UserProfileActivity extends Activity {
             }
 
             menu.getItem(MENU_CHANGE_BIO).setVisible(false);
+            menu.getItem(MENU_CHANGE_BANNER).setVisible(false);
             menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
         }
 
         // todo - take this out when they get added
-        menu.getItem(MENU_CHANGE_BIO).setVisible(false);
-        menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
+        //menu.getItem(MENU_CHANGE_BIO).setVisible(false);
+        //menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
 
         return true;
     }
@@ -897,6 +899,10 @@ public class UserProfileActivity extends Activity {
 
             case R.id.menu_change_picture:
                 // todo - be able to select and upload a picture
+                return true;
+
+            case R.id.menu_change_banner:
+
                 return true;
 
             case  R.id.menu_change_bio:
