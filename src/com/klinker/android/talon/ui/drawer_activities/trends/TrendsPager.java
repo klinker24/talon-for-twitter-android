@@ -31,7 +31,7 @@ public class TrendsPager extends DrawerActivity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.timeline));
+        actionBar.setTitle(getResources().getString(R.string.local_trends));
 
         setContentView(R.layout.main_activity);
 
@@ -73,7 +73,6 @@ public class TrendsPager extends DrawerActivity {
     @Override
     public void onResume() {
         super.onResume();
-        setUpDrawer(7, mViewPager.getCurrentItem() == 0 ? getResources().getString(R.string.local_trends) : getResources().getString(R.string.world_trends));
     }
 
 }

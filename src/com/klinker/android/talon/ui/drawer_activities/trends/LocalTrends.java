@@ -76,21 +76,17 @@ public class LocalTrends extends Fragment implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        Toast.makeText(context, "connected", Toast.LENGTH_SHORT).show();
-
         connected = true;
     }
 
     @Override
     public void onDisconnected() {
-        Toast.makeText(context, "disconnected", Toast.LENGTH_SHORT).show();
         connected = false;
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
-        Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
     }
 
     @Override

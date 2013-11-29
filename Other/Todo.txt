@@ -1,6 +1,3 @@
-- Main Drawer Items/Activities:
-    - Trending (Local)
-
 - User Profiles Activity:
     - Spinning progress bar while loading (over the profile pic)
     - change button text color
