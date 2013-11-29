@@ -168,7 +168,7 @@ public class MainActivity extends DrawerActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        if (popupOpened || refreshHappened) {
+        if (popupOpened || (refreshHappened && !getIntent().getBooleanExtra("from_notification", false))) {
             recreate();
         }
 
