@@ -2,10 +2,6 @@
     - Trending (Local)
 
 - User Profiles Activity:
-    - "My profile" stuff:
-        - Change bio
-        - Change profile pic
-        - change banner pic
     - Spinning progress bar while loading (over the profile pic)
     - change button text color
 
@@ -27,3 +23,4 @@
     - Convert everything away from picasso
     - double insert on creating new lists
     - Notification for the second account's mentions
+    - Doesn't actually refresh mentions from the timeline
