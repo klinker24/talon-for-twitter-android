@@ -15,6 +15,7 @@
     - Vine and instagram support
     - Some kind of notifications for fav users
     - Night mode
+    - Make a new xml with dividers for the trending and list pages
 
 - Bugs:
     - Convert everything away from picasso
