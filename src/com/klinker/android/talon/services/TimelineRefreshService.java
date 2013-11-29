@@ -183,6 +183,8 @@ public class TimelineRefreshService extends IntentService {
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(mId, mBuilder.build());
 
+                    MainActivity.refreshHappened = true;
+
                 }
 
 

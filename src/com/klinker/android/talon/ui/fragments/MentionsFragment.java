@@ -285,7 +285,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     }
 
     public int toDP(int px) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+        try {
+            return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 }
