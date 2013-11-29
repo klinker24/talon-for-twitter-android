@@ -1,6 +1,7 @@
 package com.klinker.android.talon.services;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
@@ -37,6 +39,7 @@ public class MentionsRefreshService extends IntentService {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Context context = getApplicationContext();
+        AppSettings settings = new AppSettings(context);
         boolean update = false;
         int numberNew = 0;
 
@@ -131,6 +134,7 @@ public class MentionsRefreshService extends IntentService {
                                 .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_mention) : numberNew + " " + getResources().getString(R.string.new_mentions));
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
+                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 resultIntent.putExtra("open_to_page", 1);
                 resultIntent.putExtra("from_notification", true);
 
@@ -142,10 +146,40 @@ public class MentionsRefreshService extends IntentService {
                                 0
                         );
 
-                mBuilder.setContentIntent(resultPendingIntent);
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(mId, mBuilder.build());
+                int count = 0;
+
+                if (settings.vibrate)
+                    count++;
+                if (settings.sound)
+                    count++;
+
+                if (settings.notifications) {
+                    switch (count) {
+
+                        case 2:
+                            if (settings.vibrate && settings.sound)
+                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
+                            break;
+                        case 1:
+                            if (settings.vibrate)
+                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                            else if (settings.sound)
+                                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    if (settings.led)
+                        mBuilder.setLights(0xFFFFFF, 1000, 1000);
+
+                    mBuilder.setContentIntent(resultPendingIntent);
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(mId, mBuilder.build());
+
+                }
             }
 
         } catch (TwitterException e) {

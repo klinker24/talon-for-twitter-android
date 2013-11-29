@@ -154,29 +154,19 @@ public class TimelineRefreshService extends IntentService {
 
                 if (settings.vibrate)
                     count++;
-                if (settings.led)
-                    count++;
                 if (settings.sound)
                     count++;
 
                 if (settings.notifications) {
                     switch (count) {
-                        case 3:
-                            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
-                            break;
+
                         case 2:
-                            if (settings.vibrate && settings.led)
-                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
-                            else if (settings.vibrate && settings.sound)
+                            if (settings.vibrate && settings.sound)
                                 mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                            else if (settings.sound && settings.led)
-                                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
                             break;
                         case 1:
                             if (settings.vibrate)
                                 mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                            else if (settings.led)
-                                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
                             else if (settings.sound)
                                 mBuilder.setDefaults(Notification.DEFAULT_SOUND);
                             break;
@@ -185,12 +175,17 @@ public class TimelineRefreshService extends IntentService {
                             break;
                     }
 
+                    if (settings.led)
+                        mBuilder.setLights(0xFFFFFF, 1000, 1000);
+
+                    mBuilder.setContentIntent(resultPendingIntent);
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(mId, mBuilder.build());
+
                 }
 
-                mBuilder.setContentIntent(resultPendingIntent);
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(mId, mBuilder.build());
+
             }
 
         } catch (TwitterException e) {
