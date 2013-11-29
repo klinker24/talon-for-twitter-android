@@ -975,7 +975,7 @@ public class UserProfileActivity extends Activity {
 
                 if(location.getText().length() <= 30 && ok) {
                     if (location.getText().length() > 0){
-                        locationS = name.getText().toString();
+                        locationS = location.getText().toString();
                     }
                 } else {
                     ok = false;
@@ -984,7 +984,7 @@ public class UserProfileActivity extends Activity {
 
                 if(description.getText().length() <= 160 && ok) {
                     if (description.getText().length() > 0){
-                        descriptionS = name.getText().toString();
+                        descriptionS = description.getText().toString();
                     }
                 } else {
                     ok = false;
