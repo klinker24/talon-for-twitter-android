@@ -16,6 +16,7 @@
     - Some kind of notifications for fav users
     - Night mode
     - Make a new xml with dividers for the trending and list pages
+    - Parse hashtags and links to open profiles and search for the specific string
 
 - Bugs:
     - Convert everything away from picasso

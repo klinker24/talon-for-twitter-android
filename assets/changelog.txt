@@ -3,6 +3,8 @@ Version 0.60:<br/><br/>
     &#8226; Working popup from the notification<br/>
     &#8226; Change your own profile info, picture, and banner<br/>
     &#8226; Pager for world and local trends. Requires new permissions<br/>
+    &#8226; Vines now show in WebView<br/>
+    &#8226; Parse hashtags and users to a different text color in timeline<br/>
     &#8226; Added a default user header if they have no banner<br/>
     &#8226; fixes for list refreshing after clicking notification<br/>
     &#8226; fixes for the notifications and added expanded options for them<br/>
