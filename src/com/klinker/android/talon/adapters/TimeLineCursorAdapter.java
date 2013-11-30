@@ -194,6 +194,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         }
 
+        if (tweetTexts.contains("http:")) {
+            int start = tweetTexts.indexOf("http:", index);
+            int end = tweetTexts.indexOf(" ", start);
+            String replacement;
+            try {
+                replacement = tweetTexts.substring(start, end);
+            } catch (Exception e) {
+                replacement = tweetTexts.substring(start, tweetTexts.length());
+            }
+            tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+        }
+
         final String tweetText = tweetTexts;
 
         if(!settings.reverseClickActions) {
