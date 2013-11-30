@@ -1056,7 +1056,7 @@ public class UserProfileActivity extends Activity {
                     if (file.exists()) file.delete();
                     try {
                         FileOutputStream out = new FileOutputStream(file);
-                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 25, out);
+                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 35, out);
                         out.flush();
                         out.close();
 
@@ -1083,7 +1083,7 @@ public class UserProfileActivity extends Activity {
                     if (file.exists()) file.delete();
                     try {
                         FileOutputStream out = new FileOutputStream(file);
-                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 25, out);
+                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 40, out);
                         out.flush();
                         out.close();
 
