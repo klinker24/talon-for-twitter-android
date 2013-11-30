@@ -136,8 +136,12 @@ public class LocalTrends extends Fragment implements
 
         protected void onPostExecute(ArrayList<String> trends) {
 
-            listView.setAdapter(new TrendsArrayAdapter(context, trends));
-            listView.setVisibility(View.VISIBLE);
+            if (trends != null) {
+                listView.setAdapter(new TrendsArrayAdapter(context, trends));
+                listView.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
+            }
 
             LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);

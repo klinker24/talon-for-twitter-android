@@ -91,6 +91,7 @@
     <string name="no">No</string>
     <string name="changelog">What\'s New</string>
     <string name="created_by">Created by Luke Klinker</string>
+    <string name="no_location">Couldn't find location</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
