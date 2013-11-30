@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
@@ -262,15 +263,18 @@ public class TweetActivity extends Activity {
             }
         });
 
-        if (tweet.contains("http://")) {
+        if (tweet.contains("http")) {
             String[] split = tweet.split(" ");
 
             for (String s : split) {
-                if (s.contains("http://")) {
+                if (s.contains("http")) {
                     s.replaceAll("!", "");
                     s.replaceAll("\"", "");
 
                     if(webpage == null) {
+                        s = s.replaceAll("</font>", "");
+                        s = s.substring(s.indexOf("h"));
+                        Log.v("webpage_string", s);
                         webpage = s;
                     }
 
@@ -357,7 +361,7 @@ public class TweetActivity extends Activity {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        tweettv.setText(tweet);
+        tweettv.setText(Html.fromHtml(tweet));
         //Date tweetDate = new Date(time);
         String timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
         timetv.setText(timeDisplay);
@@ -400,7 +404,7 @@ public class TweetActivity extends Activity {
                 }
 
                 if (s.contains("@") && !s.contains(settings.myScreenName) && !s.contains(screenName) && s.length() > 1) {
-                    extraNames += s.substring(s.indexOf("@")) + " ";
+                    extraNames += (s.substring(s.indexOf("@")) + " ").replaceAll("</font>", "");
                 }
             }
         }

@@ -188,24 +188,20 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     replacement = tweetTexts.substring(start, tweetTexts.length());
                 }
                 tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-                index = index + end + 28;
+                index = start + 28;
             }
         } catch (Exception e) {
 
         }
 
-        if (tweetTexts.contains("http:")) {
-            int start = tweetTexts.indexOf("http:", index);
+        if (tweetTexts.contains("http")) {
+            int start = tweetTexts.indexOf("http");
             int end = tweetTexts.indexOf(" ", start);
             String replacement;
             try {
                 replacement = tweetTexts.substring(start, end);
             } catch (Exception e) {
-                try {
-                    replacement = tweetTexts.substring(start, tweetTexts.length());
-                } catch (Exception x) {
-                    replacement = tweetTexts.substring(0, tweetTexts.length());
-                }
+                replacement = tweetTexts.substring(start, tweetTexts.length());
             }
             tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
         }
