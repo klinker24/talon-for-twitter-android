@@ -201,7 +201,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             try {
                 replacement = tweetTexts.substring(start, end);
             } catch (Exception e) {
-                replacement = tweetTexts.substring(start, tweetTexts.length());
+                try {
+                    replacement = tweetTexts.substring(start, tweetTexts.length());
+                } catch (Exception x) {
+                    replacement = tweetTexts.substring(0, tweetTexts.length());
+                }
             }
             tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
         }
