@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -144,7 +145,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
         final String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
-        final String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+        String tweetTexts = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
         final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         final String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
@@ -156,6 +157,44 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } catch (Exception e) {
             retweeter = "";
         }
+
+        int index = 0;
+        try {
+            while (tweetTexts.substring(index).contains("#")) {
+                int start = tweetTexts.indexOf("#", index);
+                int end = tweetTexts.indexOf(" ", start);
+                String replacement;
+                try {
+                    replacement = tweetTexts.substring(start, end);
+                } catch (Exception e) {
+                    replacement = tweetTexts.substring(start, tweetTexts.length());
+                }
+                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+                index += start + 28;
+            }
+        } catch (Exception e) {
+
+        }
+
+        index = 0;
+        try {
+            while (tweetTexts.substring(index).contains("@")) {
+                int start = tweetTexts.indexOf("@", index);
+                int end = tweetTexts.indexOf(" ", start);
+                String replacement;
+                try {
+                    replacement = tweetTexts.substring(start, end);
+                } catch (Exception e) {
+                    replacement = tweetTexts.substring(start, tweetTexts.length());
+                }
+                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+                index = index + end + 28;
+            }
+        } catch (Exception e) {
+
+        }
+
+        final String tweetText = tweetTexts;
 
         if(!settings.reverseClickActions) {
             final String fRetweeter = retweeter;
@@ -279,7 +318,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         holder.name.setText(name);
         holder.time.setText(Utils.getTimeAgo(longTime));
-        holder.tweet.setText(tweetText);
+        holder.tweet.setText(Html.fromHtml(tweetText));
 
         Matcher matcher = pattern.matcher(tweetText);
 
