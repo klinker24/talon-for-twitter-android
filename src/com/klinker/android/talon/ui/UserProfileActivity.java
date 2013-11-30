@@ -32,13 +32,14 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.PeopleArrayAdapter;
-import com.klinker.android.talon.adapters.TimelineArrayAdapter;
+import com.klinker.android.talon.adapters.ProfilesArrayAdapter;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
@@ -142,7 +143,7 @@ public class UserProfileActivity extends Activity {
         final View header = inflater.inflate(R.layout.user_profile_header, null);
 
         listView.addHeaderView(header);
-        listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
+        listView.setAdapter(new ProfilesArrayAdapter(context, new ArrayList<Status>(0)));
 
         friends = new ArrayList<User>();
         following = new ArrayList<User>();
@@ -247,11 +248,11 @@ public class UserProfileActivity extends Activity {
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
         final AsyncListView listView = (AsyncListView) findViewById(R.id.listView);
+        final RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
 
         statement.setTextSize(settings.textSize);
         screenname.setTextSize(settings.textSize);
 
-        //new GetData(tweetId, numTweets, numFollowers, numFollowing, statement, listView, background).execute();
         new GetData(tweetId, null, null, null, statement, listView).execute();
 
         screenname.setText("@" + screenName);
@@ -265,7 +266,7 @@ public class UserProfileActivity extends Activity {
                     currentFollowers = -1;
                     refreshes = 0;
 
-                    listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
+                    listView.setAdapter(new ProfilesArrayAdapter(context, new ArrayList<Status>(0)));
 
                     new GetTimeline(thisUser, listView).execute();
                 }
@@ -331,8 +332,12 @@ public class UserProfileActivity extends Activity {
                             canRefresh = true;
                         }
                     }, 4000);
-
                 }
+
+                if(visibleItemCount == 0) return;
+                if(firstVisibleItem != 0) return;
+
+                header.setTranslationY(-listView.getChildAt(0).getTop() / 2);
             }
         });
     }
@@ -620,7 +625,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses, screenName);
+                final ProfilesArrayAdapter adapter = new ProfilesArrayAdapter(context, statuses, screenName);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

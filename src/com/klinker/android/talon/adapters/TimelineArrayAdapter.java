@@ -42,19 +42,19 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public static final int RETWEET = 1;
     public static final int FAVORITE = 2;
 
-    private Context context;
-    private ArrayList<Status> statuses;
-    private LayoutInflater inflater;
-    private AppSettings settings;
+    public Context context;
+    public ArrayList<Status> statuses;
+    public LayoutInflater inflater;
+    public AppSettings settings;
 
-    private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
-    private static Pattern pattern = Pattern.compile(REGEX);
+    public static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
+    public static Pattern pattern = Pattern.compile(REGEX);
 
     public boolean hasKeyboard = false;
     public boolean isProfile = false;
 
-    private int type;
-    private String username;
+    public int type;
+    public String username;
 
     public static class ViewHolder {
         public TextView name;
