@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- The main content view -->
+<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptr_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <org.lucasr.smoothie.AsyncListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:divider="?windowBackground"
+        android:dividerHeight="5dp"
+        android:scrollbars="vertical"
+        android:background="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        />
+
+</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

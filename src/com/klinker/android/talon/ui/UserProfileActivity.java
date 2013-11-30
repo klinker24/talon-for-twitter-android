@@ -128,7 +128,7 @@ public class UserProfileActivity extends Activity {
 
         inflater = LayoutInflater.from(context);
 
-        setContentView(R.layout.main_fragments);
+        setContentView(R.layout.profiles_list);
 
         AsyncListView listView = (AsyncListView) findViewById(R.id.listView);
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
