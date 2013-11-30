@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -344,7 +345,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         holder.name.setText(name);
         holder.time.setText(Utils.getTimeAgo(time));
-        holder.tweet.setText(tweetText);
+        holder.tweet.setText(Html.fromHtml(tweetText));
 
         Matcher matcher = pattern.matcher(tweetText);
 
