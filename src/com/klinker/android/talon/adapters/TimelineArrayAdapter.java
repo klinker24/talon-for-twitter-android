@@ -193,7 +193,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         holder.tweetId = thisStatus.getId();
         final String profilePic = user.getBiggerProfileImageURL();
-        final String tweetText = thisStatus.getText();
+        String tweetTexts = thisStatus.getText();
         final String name = user.getName();
         final String screenname = user.getScreenName();
         String picUr;
@@ -204,6 +204,56 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         final String picUrl = picUr;
+
+        int index = 0;
+        try {
+            while (tweetTexts.substring(index).contains("#")) {
+                int start = tweetTexts.indexOf("#", index);
+                int end = tweetTexts.indexOf(" ", start);
+                String replacement;
+                try {
+                    replacement = tweetTexts.substring(start, end);
+                } catch (Exception e) {
+                    replacement = tweetTexts.substring(start, tweetTexts.length());
+                }
+                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+                index += start + 28;
+            }
+        } catch (Exception e) {
+
+        }
+
+        index = 0;
+        try {
+            while (tweetTexts.substring(index).contains("@")) {
+                int start = tweetTexts.indexOf("@", index);
+                int end = tweetTexts.indexOf(" ", start);
+                String replacement;
+                try {
+                    replacement = tweetTexts.substring(start, end);
+                } catch (Exception e) {
+                    replacement = tweetTexts.substring(start, tweetTexts.length());
+                }
+                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+                index = start + 28;
+            }
+        } catch (Exception e) {
+
+        }
+
+        if (tweetTexts.contains("http")) {
+            int start = tweetTexts.indexOf("http");
+            int end = tweetTexts.indexOf(" ", start);
+            String replacement;
+            try {
+                replacement = tweetTexts.substring(start, end);
+            } catch (Exception e) {
+                replacement = tweetTexts.substring(start, tweetTexts.length());
+            }
+            tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+        }
+
+        final String tweetText = tweetTexts;
 
         if(!settings.reverseClickActions) {
             final String fRetweeter = retweeter;
