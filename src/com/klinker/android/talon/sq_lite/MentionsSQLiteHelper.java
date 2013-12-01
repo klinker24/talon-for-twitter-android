@@ -10,6 +10,7 @@ public class MentionsSQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_MENTIONS = "mentions";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_TWEET_ID = "tweet_id";
+    public static final String COLUMN_UNREAD = "unread";
     public static final String COLUMN_ACCOUNT = "account";
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_TEXT = "text";
@@ -27,7 +28,8 @@ public class MentionsSQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table "
             + TABLE_MENTIONS + "(" + COLUMN_ID
             + " integer primary key, " + COLUMN_TWEET_ID
-            + " integer tweet id, " + COLUMN_ACCOUNT
+            + " integer tweet id, " + COLUMN_UNREAD
+            + " integer unread, " + COLUMN_ACCOUNT
             + " integer account num, " + COLUMN_TYPE
             + " integer type of tweet, " + COLUMN_TEXT
             + " text not null, " + COLUMN_NAME

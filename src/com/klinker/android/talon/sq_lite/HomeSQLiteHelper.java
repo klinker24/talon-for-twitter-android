@@ -11,6 +11,7 @@ public class HomeSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_ACCOUNT = "account";
     public static final String COLUMN_TWEET_ID = "tweet_id";
+    public static final String COLUMN_UNREAD = "unread";
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_TEXT = "text";
     public static final String COLUMN_NAME = "name";
@@ -28,7 +29,8 @@ public class HomeSQLiteHelper extends SQLiteOpenHelper {
             + TABLE_HOME + "(" + COLUMN_ID
             + " integer primary key, " + COLUMN_ACCOUNT
             + " integer account num, " + COLUMN_TWEET_ID
-            + " integer tweet id, " + COLUMN_TYPE
+            + " integer tweet id, " + COLUMN_UNREAD
+            + " integer unread, " + COLUMN_TYPE
             + " integer type of tweet, " + COLUMN_TEXT
             + " text not null, " + COLUMN_NAME
             + " text users name, " + COLUMN_PRO_PIC
