@@ -51,7 +51,7 @@ public class HomeDataSource {
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
-        values.put(HomeSQLiteHelper.COLUMN_ID, id);
+        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
         values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
@@ -70,7 +70,7 @@ public class HomeDataSource {
     public void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_ID
+        database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
     }
 
@@ -82,7 +82,7 @@ public class HomeDataSource {
     public Cursor getCursor(int account) {
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
+                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }
