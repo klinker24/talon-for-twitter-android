@@ -469,7 +469,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         }
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
-
         int newTweets = dataSource.getUnreadCount(currentAccount);
 
         if (newTweets > 0) {
