@@ -136,9 +136,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         @Override
                         public void run() {
                             dataSource.markRead(currentAccount, firstVisibleItem);
+
+                            unread = dataSource.getUnreadCount(currentAccount);
                         }
                     }).start();
-                    unread--;
                 }
             }
         });
