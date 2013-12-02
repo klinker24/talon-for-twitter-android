@@ -1,55 +1,18 @@
 package com.klinker.android.talon.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.adapters.TimelinePagerAdapter;
-import com.klinker.android.talon.listeners.MainDrawerClickListener;
-import com.klinker.android.talon.manipulations.BlurTransform;
-import com.klinker.android.talon.manipulations.CircleTransform;
-import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.settings.SettingsPagerActivity;
-import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.ui.fragments.HomeFragment;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 

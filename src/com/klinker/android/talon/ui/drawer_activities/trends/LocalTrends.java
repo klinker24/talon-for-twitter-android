@@ -21,8 +21,6 @@ import com.google.android.gms.location.LocationClient;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.ui.LoginActivity;
-import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

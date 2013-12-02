@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ListsArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;

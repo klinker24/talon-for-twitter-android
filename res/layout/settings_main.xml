@@ -54,9 +54,11 @@
             android:gravity="center_horizontal"
             android:textSize="17dp"
             android:textColor="?textColor"
-            android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="@string/created_by"
-            android:id="@+id/created_by" />
+            android:id="@+id/created_by"
+            android:background="@drawable/pressed_button" />
 
     </LinearLayout>
 

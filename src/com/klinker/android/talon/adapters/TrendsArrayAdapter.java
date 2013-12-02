@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.ui.drawer_activities.Search;
 import com.klinker.android.talon.ui.drawer_activities.trends.SearchedTrendsActivity;
 
 import java.util.ArrayList;
