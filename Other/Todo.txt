@@ -22,4 +22,5 @@
     - double insert on creating new lists
     - Notification for the second account's mentions
     - test refreshing mentions from timeline refresh
-    - Different system for unreads, using database column
+    - Different system for unreads, using database column (merge to mentions)
+    - Login activity shown again
