@@ -29,9 +29,9 @@ public class TrendsPager extends DrawerActivity {
         setUpTheme();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.local_trends));
+        actionBar.setTitle(getResources().getString(R.string.trends));
 
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.trends_activity);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -39,14 +39,14 @@ public class TrendsPager extends DrawerActivity {
             finish();
         }
 
-        mSectionsPagerAdapter = new TrendsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new TrendsPagerAdapter(getFragmentManager(), context);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        setUpDrawer(7, getResources().getString(R.string.local_trends));
+        setUpDrawer(7, getResources().getString(R.string.trends));
 
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        /*mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
             }
 
@@ -63,14 +63,9 @@ public class TrendsPager extends DrawerActivity {
                         break;
                 }
             }
-        });
+        });*/
 
         mViewPager.setOffscreenPageLimit(3);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
 }

@@ -2,15 +2,20 @@ package com.klinker.android.talon.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.ui.drawer_activities.trends.LocalTrends;
 import com.klinker.android.talon.ui.drawer_activities.trends.WorldTrends;
 
 public class TrendsPagerAdapter extends FragmentPagerAdapter {
 
-    public TrendsPagerAdapter(FragmentManager fm) {
+    private Context context;
+
+    public TrendsPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.context = context;
     }
     @Override
     public Fragment getItem(int i) {
@@ -28,5 +33,16 @@ public class TrendsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 2;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
+            case 0:
+                return context.getResources().getString(R.string.local_trends);
+            case 1:
+                return context.getResources().getString(R.string.world_trends);
+        }
+        return null;
     }
 }

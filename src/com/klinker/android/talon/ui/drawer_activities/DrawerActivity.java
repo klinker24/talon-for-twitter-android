@@ -126,17 +126,6 @@ public abstract class DrawerActivity extends Activity {
 
                 if (MainDrawerArrayAdapter.current > 2) {
                     actionBar.setTitle(actName);
-                } else if (MainDrawerArrayAdapter.current == 7) {
-                    int position = mViewPager.getCurrentItem();
-
-                    switch (position) {
-                        case 0:
-                            actionBar.setTitle(getResources().getString(R.string.local_trends));
-                            break;
-                        case 1:
-                            actionBar.setTitle(getResources().getString(R.string.world_trends));
-                            break;
-                    }
                 } else {
                         int position = mViewPager.getCurrentItem();
 
