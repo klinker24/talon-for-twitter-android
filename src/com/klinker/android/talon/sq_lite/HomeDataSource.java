@@ -61,6 +61,36 @@ public class HomeDataSource {
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
     }
 
+    public void createTweet(Status status, int account, boolean initial) {
+        ContentValues values = new ContentValues();
+        String originalName = "";
+        long id = status.getId();
+        long time = status.getCreatedAt().getTime();
+
+        if(status.isRetweet()) {
+            originalName = status.getUser().getScreenName();
+            status = status.getRetweetedStatus();
+        }
+
+        values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
+        values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
+        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
+        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+
+        MediaEntity[] entities = status.getMediaEntities();
+
+        if (entities.length > 0) {
+            values.put(HomeSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
+        }
+
+        database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+    }
+
     public void deleteTweet(long tweetId) {
         long id = tweetId;
 

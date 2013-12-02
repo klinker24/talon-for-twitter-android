@@ -205,10 +205,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
 
                         update = true;
-                        numberNew = statuses.size();
+                        //numberNew = statuses.size();
                     } else {
                         update = false;
-                        numberNew = 0;
+                        //numberNew = 0;
                     }
 
                     for (twitter4j.Status status : statuses) {
@@ -219,6 +219,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                             break;
                         }
                     }
+
+                    numberNew = dataSource.getUnreadCount(currentAccount);
 
                 } catch (TwitterException e) {
                     // Error in updating status

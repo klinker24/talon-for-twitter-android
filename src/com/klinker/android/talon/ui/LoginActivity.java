@@ -152,6 +152,7 @@ public class LoginActivity extends Activity {
                     new getTimeLine().execute();
                 } else {
                     Intent timeline = new Intent(context, MainActivity.class);
+                    timeline.putExtra("from_notification", true);
                     startActivity(timeline);
                     finish();
                 }
@@ -330,7 +331,7 @@ public class LoginActivity extends Activity {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     } catch (Exception e) {
                         break;
                     }
@@ -342,7 +343,7 @@ public class LoginActivity extends Activity {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     } catch (Exception e) {
                         break;
                     }
