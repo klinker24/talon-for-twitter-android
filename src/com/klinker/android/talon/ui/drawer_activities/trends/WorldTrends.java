@@ -50,10 +50,9 @@ public class WorldTrends extends Fragment {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
 
-        layout = inflater.inflate(R.layout.retweets_activity, null);
+        layout = inflater.inflate(R.layout.text_list_view, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
 
         new GetTrends().execute();
 

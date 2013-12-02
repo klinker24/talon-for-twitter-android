@@ -4,6 +4,9 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:id="@+id/text"
     android:maxLines="1"
-    android:layout_marginRight="15dp" android:layout_marginLeft="15dp" >
+    android:textSize="24dp"
+    android:paddingRight="15dp" android:paddingLeft="15dp"
+    android:paddingBottom="10dp" android:paddingTop="10dp"
+    android:background="@drawable/pressed_button">
 
 </com.klinker.android.talon.ui.widgets.HoloTextView>

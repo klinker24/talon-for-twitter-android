@@ -60,10 +60,9 @@ public class LocalTrends extends Fragment implements
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
 
-        layout = inflater.inflate(R.layout.retweets_activity, null);
+        layout = inflater.inflate(R.layout.text_list_view, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
 
         mLocationClient = new LocationClient(context, this, this);
 

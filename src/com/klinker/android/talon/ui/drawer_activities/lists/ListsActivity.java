@@ -45,7 +45,7 @@ public class ListsActivity extends DrawerActivity {
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        setContentView(R.layout.retweets_activity);
+        setContentView(R.layout.text_list_view);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -54,8 +54,6 @@ public class ListsActivity extends DrawerActivity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(8));
-        //listView.setDivider(getResources().getDrawable(R.drawable.list_divider));
 
         setUpDrawer(6, getResources().getString(R.string.lists));
 
