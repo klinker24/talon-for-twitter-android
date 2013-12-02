@@ -96,7 +96,7 @@ public class MainActivity extends DrawerActivity {
 
         int unread = sharedPrefs.getInt("timeline_unread", 0);
 
-        if (unread == 0
+        if (HomeFragment.listView.getFirstVisiblePosition() == 0
                 && settings.refreshOnStart
                 && !fromSettings
                 && !getIntent().getBooleanExtra("from_notification", false)
