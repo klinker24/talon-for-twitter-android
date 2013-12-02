@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
 import com.klinker.android.talon.R;
@@ -117,6 +118,28 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         listView.setItemManager(builder.build());
 
         new GetCursorAdapter().execute();
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                final int currentAccount = sharedPrefs.getInt("current_account", 1);
+                int unread = dataSource.getUnreadCount(currentAccount);
+                //if (firstVisibleItem < unread) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dataSource.markRead(currentAccount, firstVisibleItem);
+                        }
+                    }).start();
+                //}
+            }
+        });
 
         if(settings.refreshOnStart && MainActivity.refreshMe) {
             

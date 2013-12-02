@@ -14,7 +14,7 @@ public class HomeDataSource {
     // Database fields
     private SQLiteDatabase database;
     private HomeSQLiteHelper dbHelper;
-    public String[] allColumns = { HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_ACCOUNT, HomeSQLiteHelper.COLUMN_TYPE,
+    public String[] allColumns = { HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_TWEET_ID, HomeSQLiteHelper.COLUMN_ACCOUNT, HomeSQLiteHelper.COLUMN_TYPE,
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
             HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
             HomeSQLiteHelper.COLUMN_RETWEETER };
@@ -111,22 +111,31 @@ public class HomeDataSource {
         return cursor;
     }
 
-    public int getUnreadCount(int account) {
+    public Cursor getUnreadCursor(int account) {
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor;
+    }
+
+    public int getUnreadCount(int account) {
+
+        Cursor cursor = getUnreadCursor(account);
 
         return cursor.getCount();
     }
 
     public void markRead(int account, int position) {
-        Cursor cursor = getCursor(account);
+        Cursor cursor = getUnreadCursor(account);
+
         if (cursor.moveToPosition(position)) {
             long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
 
             ContentValues cv = new ContentValues();
             cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {tweetId + ""});
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
     }
 }
