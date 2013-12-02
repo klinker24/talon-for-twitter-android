@@ -69,6 +69,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
     private HomeDataSource dataSource;
 
+    private static int unread;
+
     static Activity context;
 
     @Override
@@ -129,15 +131,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                 final int currentAccount = sharedPrefs.getInt("current_account", 1);
-                int unread = dataSource.getUnreadCount(currentAccount);
-                //if (firstVisibleItem < unread) {
+                if (firstVisibleItem < unread) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             dataSource.markRead(currentAccount, firstVisibleItem);
                         }
                     }).start();
-                //}
+                    unread--;
+                }
             }
         });
 
@@ -244,6 +246,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     }
 
                     numberNew = dataSource.getUnreadCount(currentAccount);
+                    unread = numberNew;
 
                 } catch (TwitterException e) {
                     // Error in updating status
@@ -470,6 +473,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         int newTweets = dataSource.getUnreadCount(currentAccount);
 
         if (newTweets > 0) {
+            unread = newTweets;
             listView.setSelectionFromTop(newTweets + 1, toDP(5));
             //sharedPrefs.edit().putInt("timeline_new_" + currentAccount, 0).commit();
         /*} else {
