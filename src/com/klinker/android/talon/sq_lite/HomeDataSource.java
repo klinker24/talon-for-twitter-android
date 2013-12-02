@@ -50,6 +50,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
         values.put(HomeSQLiteHelper.COLUMN_TIME, time);
         values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
+        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
 
         MediaEntity[] entities = status.getMediaEntities();
 
@@ -78,5 +79,24 @@ public class HomeDataSource {
                 allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
+    }
+
+    public int getUnreadCount(int account) {
+        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor.getCount();
+    }
+
+    public void markRead(int account, int position) {
+        Cursor cursor = getCursor(account);
+        if (cursor.moveToPosition(position)) {
+            long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+
+            ContentValues cv = new ContentValues();
+            cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {tweetId + ""});
+        }
     }
 }
