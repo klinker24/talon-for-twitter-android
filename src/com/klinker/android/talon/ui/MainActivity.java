@@ -89,6 +89,7 @@ public class MainActivity extends DrawerActivity {
 
     public void setUpWindow() {
         // nothing here, will be overrode
+        isPopup = false;
     }
 
     @Override
@@ -109,7 +110,7 @@ public class MainActivity extends DrawerActivity {
 
         fromSettings = false;*/
 
-        if (needRecreate)
+        if (needRecreate || (getIntent().getBooleanExtra("from_notification", false) && !isPopup))
             recreate();
 
         needRecreate = false;
