@@ -27,6 +27,8 @@ public class MainActivity extends DrawerActivity {
 
     public static boolean refreshHappened = false;
 
+    public static boolean needRecreate = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,6 @@ public class MainActivity extends DrawerActivity {
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
-            finish();
         }
 
         mSectionsPagerAdapter = new TimelinePagerAdapter(
@@ -94,9 +95,9 @@ public class MainActivity extends DrawerActivity {
     protected void onStart() {
         super.onStart();
 
-        int unread = sharedPrefs.getInt("timeline_unread", 0);
+        /*int unread = sharedPrefs.getInt("timeline_unread", 0);
 
-        if (unread == 0
+        if (HomeFragment.listView.getFirstVisiblePosition() == 0
                 && settings.refreshOnStart
                 && !fromSettings
                 && !getIntent().getBooleanExtra("from_notification", false)
@@ -106,7 +107,12 @@ public class MainActivity extends DrawerActivity {
             refreshMe = false;
         }
 
-        fromSettings = false;
+        fromSettings = false;*/
+
+        if (needRecreate)
+            recreate();
+
+        needRecreate = false;
     }
 
     @Override
@@ -130,11 +136,11 @@ public class MainActivity extends DrawerActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        if ((popupOpened || (refreshHappened && !getIntent().getBooleanExtra("from_notification", false))) && !getIntent().getBooleanExtra("from_notification", false)) {
+        /*if ((popupOpened || (refreshHappened && !getIntent().getBooleanExtra("from_notification", false))) && !getIntent().getBooleanExtra("from_notification", false)) {
             recreate();
         }
 
         popupOpened = false;
-        refreshHappened = false;
+        refreshHappened = false;*/
     }
 }

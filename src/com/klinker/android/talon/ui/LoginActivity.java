@@ -1,6 +1,8 @@
 package com.klinker.android.talon.ui;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,12 +23,19 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.services.DirectMessageRefreshService;
+import com.klinker.android.talon.services.MentionsRefreshService;
+import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.ui.fragments.DMFragment;
+import com.klinker.android.talon.ui.fragments.HomeFragment;
+import com.klinker.android.talon.ui.fragments.MentionsFragment;
 import com.klinker.android.talon.utils.Utils;
 
+import java.util.Date;
 import java.util.List;
 
 import twitter4j.DirectMessage;
@@ -151,9 +160,40 @@ public class LoginActivity extends Activity {
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
                 } else {
-                    Intent timeline = new Intent(context, MainActivity.class);
-                    startActivity(timeline);
+
+                    if (settings.timelineRefresh != 0) { // user only wants manual
+                        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+                        long now = new Date().getTime();
+                        long alarm = now + settings.timelineRefresh;
+
+                        PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+                        am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
+
+                        now = new Date().getTime();
+                        alarm = now + settings.mentionsRefresh;
+
+                        PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
+
+                        am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.mentionsRefresh, pendingIntent2);
+
+                        alarm = now + settings.dmRefresh;
+
+                        Log.v("alarm_date", "dircet message " + new Date(alarm).toString());
+
+                        PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
+
+                        am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent3);
+                    }
+
+                    MainActivity.needRecreate = true;
                     finish();
+
+                    Intent timeline = new Intent(context, MainActivity.class);
+                    timeline.putExtra("from_notification", true);
+                    timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(timeline);
                 }
 
             }
@@ -330,7 +370,7 @@ public class LoginActivity extends Activity {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     } catch (Exception e) {
                         break;
                     }
@@ -342,7 +382,7 @@ public class LoginActivity extends Activity {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     } catch (Exception e) {
                         break;
                     }

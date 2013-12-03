@@ -37,161 +37,161 @@ public class TimelineRefreshService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (MainActivity.canSwitch) {
+            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        Context context = getApplicationContext();
-        int numberNew = 0;
+            Context context = getApplicationContext();
+            int numberNew = 0;
 
-        AppSettings settings = new AppSettings(context);
+            AppSettings settings = new AppSettings(context);
 
-        try {
-            Twitter twitter = Utils.getTwitter(context);
+            try {
+                Twitter twitter = Utils.getTwitter(context);
 
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-            User user = twitter.verifyCredentials();
-            long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
-            long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
-            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+                User user = twitter.verifyCredentials();
+                long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
+                long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
+                List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
-            boolean foundStatus = false;
-            int lastJ = 0;
+                boolean foundStatus = false;
+                int lastJ = 0;
 
-            for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                if (foundStatus) {
-                    break;
-                } else {
-                    statuses.addAll(getList(i + 1, twitter));
-                }
+                for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+                    if (foundStatus) {
+                        break;
+                    } else {
+                        statuses.addAll(getList(i + 1, twitter));
+                    }
 
-                try {
-                    for (int j = lastJ; j < statuses.size(); j++) {
-                        long id = statuses.get(j).getId();
-                        if (id == lastId || id == secondToLastId) {
-                            statuses = statuses.subList(0, j);
-                            foundStatus = true;
-                            break;
+                    try {
+                        for (int j = lastJ; j < statuses.size(); j++) {
+                            long id = statuses.get(j).getId();
+                            if (id == lastId || id == secondToLastId) {
+                                statuses = statuses.subList(0, j);
+                                foundStatus = true;
+                                break;
+                            }
                         }
-                    }
-                } catch (Exception e) {
-                    foundStatus = true;
-                }
-
-                lastJ = statuses.size();
-            }
-
-            if (statuses.size() != 0) {
-                try {
-                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
-                } catch (Exception e) {
-                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
-                }
-                sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
-
-                numberNew = statuses.size();
-            } else {
-                numberNew = 0;
-            }
-
-            HomeDataSource dataSource = new HomeDataSource(context);
-            dataSource.open();
-
-            for (twitter4j.Status status : statuses) {
-                try {
-                    dataSource.createTweet(status, currentAccount);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-
-            dataSource.close();
-
-            int mId = 1;
-
-            if (numberNew > 0) {
-
-                int currentUnread = sharedPrefs.getInt("timeline_new_" + currentAccount, 0);
-                sharedPrefs.edit().putInt("timeline_new_" + currentAccount, numberNew + currentUnread).commit();
-                numberNew += currentUnread;
-
-                RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-                Intent popup = new Intent(context, MainActivityPopup.class);
-                popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                popup.putExtra("from_notification", true);
-                PendingIntent popupPending =
-                        PendingIntent.getActivity(
-                                this,
-                                0,
-                                popup,
-                                0
-                        );
-                remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
-                remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
-
-                remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
-
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(this)
-                                .setSmallIcon(R.drawable.timeline_dark)
-                                .setContent(remoteView);
-                                //.setContentTitle(getResources().getString(R.string.app_name))
-                                //.setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
-
-                Intent resultIntent = new Intent(this, MainActivity.class);
-                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                resultIntent.putExtra("from_notification", true);
-
-                PendingIntent resultPendingIntent =
-                        PendingIntent.getActivity(
-                                this,
-                                0,
-                                resultIntent,
-                                0
-                        );
-
-                int count = 0;
-
-                if (settings.vibrate)
-                    count++;
-                if (settings.sound)
-                    count++;
-
-                if (settings.notifications) {
-                    switch (count) {
-
-                        case 2:
-                            if (settings.vibrate && settings.sound)
-                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                            break;
-                        case 1:
-                            if (settings.vibrate)
-                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                            else if (settings.sound)
-                                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                            break;
-
-                        default:
-                            break;
+                    } catch (Exception e) {
+                        foundStatus = true;
                     }
 
-                    if (settings.led)
-                        mBuilder.setLights(0xFFFFFF, 1000, 1000);
+                    lastJ = statuses.size();
+                }
 
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.notify(mId, mBuilder.build());
+                if (statuses.size() != 0) {
+                    try {
+                        sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
+                    } catch (Exception e) {
+                        sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
+                    }
+                    sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
 
-                    MainActivity.refreshHappened = true;
+                    numberNew = statuses.size();
+                } else {
+                    numberNew = 0;
+                }
+
+                HomeDataSource dataSource = new HomeDataSource(context);
+                dataSource.open();
+
+                for (twitter4j.Status status : statuses) {
+                    try {
+                        dataSource.createTweet(status, currentAccount);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                }
+
+                numberNew = dataSource.getUnreadCount(currentAccount);
+
+                dataSource.close();
+
+                int mId = 1;
+
+                if (numberNew > 0) {
+
+                    RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+                    Intent popup = new Intent(context, MainActivityPopup.class);
+                    popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    popup.putExtra("from_notification", true);
+                    PendingIntent popupPending =
+                            PendingIntent.getActivity(
+                                    this,
+                                    0,
+                                    popup,
+                                    0
+                            );
+                    remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
+                    remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
+
+                    remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
+
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(this)
+                                    .setSmallIcon(R.drawable.timeline_dark)
+                                    .setContent(remoteView);
+                                    //.setContentTitle(getResources().getString(R.string.app_name))
+                                    //.setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
+
+                    Intent resultIntent = new Intent(this, MainActivity.class);
+                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    resultIntent.putExtra("from_notification", true);
+
+                    PendingIntent resultPendingIntent =
+                            PendingIntent.getActivity(
+                                    this,
+                                    0,
+                                    resultIntent,
+                                    0
+                            );
+
+                    int count = 0;
+
+                    if (settings.vibrate)
+                        count++;
+                    if (settings.sound)
+                        count++;
+
+                    if (settings.notifications) {
+                        switch (count) {
+
+                            case 2:
+                                if (settings.vibrate && settings.sound)
+                                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
+                                break;
+                            case 1:
+                                if (settings.vibrate)
+                                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                                else if (settings.sound)
+                                    mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        if (settings.led)
+                            mBuilder.setLights(0xFFFFFF, 1000, 1000);
+
+                        mBuilder.setContentIntent(resultPendingIntent);
+                        NotificationManager mNotificationManager =
+                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        mNotificationManager.notify(mId, mBuilder.build());
+
+                        MainActivity.refreshHappened = true;
+
+                    }
+
 
                 }
 
-
+            } catch (TwitterException e) {
+                Log.d("Twitter Update Error", e.getMessage());
             }
-
-        } catch (TwitterException e) {
-            Log.d("Twitter Update Error", e.getMessage());
         }
     }
 

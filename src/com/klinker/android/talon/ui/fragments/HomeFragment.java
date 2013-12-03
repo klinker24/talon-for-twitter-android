@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
 import com.klinker.android.talon.R;
@@ -68,6 +69,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
     private HomeDataSource dataSource;
 
+    private static int unread;
+
     static Activity context;
 
     @Override
@@ -117,6 +120,29 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         listView.setItemManager(builder.build());
 
         new GetCursorAdapter().execute();
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                final int currentAccount = sharedPrefs.getInt("current_account", 1);
+                if (firstVisibleItem < unread) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dataSource.markRead(currentAccount, firstVisibleItem);
+
+                            unread = dataSource.getUnreadCount(currentAccount);
+                        }
+                    }).start();
+                }
+            }
+        });
 
         if(settings.refreshOnStart && MainActivity.refreshMe) {
             
@@ -205,10 +231,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
 
                         update = true;
-                        numberNew = statuses.size();
+                        //numberNew = statuses.size();
                     } else {
                         update = false;
-                        numberNew = 0;
+                        //numberNew = 0;
                     }
 
                     for (twitter4j.Status status : statuses) {
@@ -219,6 +245,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                             break;
                         }
                     }
+
+                    numberNew = dataSource.getUnreadCount(currentAccount);
+                    unread = numberNew;
 
                 } catch (TwitterException e) {
                     // Error in updating status
@@ -441,19 +470,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         }
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
-
-        int newTweets = sharedPrefs.getInt("timeline_new_" + currentAccount, 0);
+        int newTweets = dataSource.getUnreadCount(currentAccount);
 
         if (newTweets > 0) {
+            unread = newTweets;
             listView.setSelectionFromTop(newTweets + 1, toDP(5));
-            sharedPrefs.edit().putInt("timeline_new_" + currentAccount, 0).commit();
-        } else {
+            //sharedPrefs.edit().putInt("timeline_new_" + currentAccount, 0).commit();
+        /*} else {
             int unread = sharedPrefs.getInt("timeline_unread", 0);
 
             if (unread > 0) {
                 listView.setSelectionFromTop(unread + 1, toDP(5));
                 sharedPrefs.edit().putInt("timeline_unread", 0).commit();
-            }
+            }*/
         }
     }
 
