@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             }
         });
 
-        if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0) {
+        if(settings.refreshOnStart && MainActivity.refreshMe && listView.getFirstVisiblePosition() == 0) {
             
             final View view = layout;
 
@@ -269,25 +269,35 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
             @Override
             protected void onPostExecute(Void result) {
-                super.onPostExecute(result);
+                try {
+                    super.onPostExecute(result);
 
-                if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                    refreshCursor();
-                    CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                    Crouton.makeText((Activity) context, text, Style.INFO).show();
-                    listView.setSelectionFromTop(numberNew + 1, toDP(5));
-                } else {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                    refreshCursor();
+                    if (update) {
+                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        refreshCursor();
+                        CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                        Crouton.makeText((Activity) context, text, Style.INFO).show();
+                        listView.setSelectionFromTop(numberNew + 1, toDP(5));
+                    } else {
+                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        refreshCursor();
 
-                    CharSequence text = context.getResources().getString(R.string.no_new_tweets);
-                    Crouton.makeText((Activity) context, text, Style.INFO).show();
+                        CharSequence text = context.getResources().getString(R.string.no_new_tweets);
+                        Crouton.makeText((Activity) context, text, Style.INFO).show();
+                    }
+
+                    DrawerActivity.canSwitch = true;
+
+                    new RefreshMentions().execute();
+                } catch (Exception e) {
+                    DrawerActivity.canSwitch = true;
+
+                    try {
+                        mPullToRefreshLayout.setRefreshComplete();
+                    } catch (Exception x) {
+                        // not attached to the activity i guess, don't know how or why that would be though
+                    }
                 }
-
-                DrawerActivity.canSwitch = true;
-
-                new RefreshMentions().execute();
             }
         }.execute();
     }

@@ -96,6 +96,12 @@ public class MainActivity extends DrawerActivity {
     protected void onStart() {
         super.onStart();
 
+        if (getIntent().getBooleanExtra("from_notification", false) || getIntent().getBooleanExtra("from_drawer", false)) {
+            refreshMe = false;
+        } else {
+            refreshMe = true;
+        }
+
         /*int unread = sharedPrefs.getInt("timeline_unread", 0);
 
         if (HomeFragment.listView.getFirstVisiblePosition() == 0
@@ -109,24 +115,23 @@ public class MainActivity extends DrawerActivity {
         }
 
         fromSettings = false;*/
-
-        if (needRecreate || (getIntent().getBooleanExtra("from_notification", false) && !isPopup))
-            recreate();
-
-        needRecreate = false;
     }
 
     @Override
     protected void onDestroy() {
         Crouton.cancelAllCroutons();
 
-        try {
+        /*try {
             sharedPrefs.edit().putInt("timeline_unread", HomeFragment.listView.getFirstVisiblePosition()).commit();
         } catch (Exception e) {
             // they haven't logged in yet so there is no listview
-        }
+        }*/
 
-        super.onDestroy();
+        try {
+            super.onDestroy();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -136,6 +141,12 @@ public class MainActivity extends DrawerActivity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+
+        if (!isPopup && (needRecreate || getIntent().getBooleanExtra("from_notification", false))) {
+            recreate();
+        }
+
+        needRecreate = false;
 
         /*if ((popupOpened || (refreshHappened && !getIntent().getBooleanExtra("from_notification", false))) && !getIntent().getBooleanExtra("from_notification", false)) {
             recreate();
