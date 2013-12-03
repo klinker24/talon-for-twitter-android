@@ -90,6 +90,7 @@ public class HomeDataSource {
 
     public void markRead(int account, int position) {
         Cursor cursor = getCursor(account);
+
         if (cursor.moveToPosition(position)) {
             long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
 
