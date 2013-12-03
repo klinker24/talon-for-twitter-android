@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             }
         });
 
-        if(settings.refreshOnStart && MainActivity.refreshMe) {
+        if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0) {
             
             final View view = layout;
 
@@ -156,7 +156,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 }
             }, 400);
 
-            MainActivity.refreshMe = false;
         }
 
         return layout;
