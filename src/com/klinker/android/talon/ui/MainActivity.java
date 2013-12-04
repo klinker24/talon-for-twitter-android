@@ -63,6 +63,9 @@ public class MainActivity extends DrawerActivity {
             }
 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (!actionBar.isShowing()) {
+                    actionBar.show();
+                }
             }
 
             public void onPageSelected(int position) {
