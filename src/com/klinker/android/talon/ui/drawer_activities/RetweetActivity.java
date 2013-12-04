@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
 import com.klinker.android.talon.R;
@@ -12,6 +14,7 @@ import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.LoginActivity;
+import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 
@@ -34,6 +37,8 @@ public class RetweetActivity extends DrawerActivity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
+
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
 
@@ -58,6 +63,39 @@ public class RetweetActivity extends DrawerActivity {
         builder.setThreadPoolSize(4);
 
         listView.setItemManager(builder.build());
+
+        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            int mLastFirstVisibleItem = 0;
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                // show and hide the action bar
+                if (firstVisibleItem != 0) {
+                    if (MainActivity.canSwitch) {
+                        // used to show and hide the action bar
+                        if (firstVisibleItem > mLastFirstVisibleItem) {
+                            actionBar.hide();
+                        } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                            actionBar.show();
+                        }
+
+                        mLastFirstVisibleItem = firstVisibleItem;
+                    }
+                } else {
+                    actionBar.show();
+                }
+            }
+        });
 
         setUpDrawer(3, getResources().getString(R.string.retweets));
 
@@ -90,7 +128,6 @@ public class RetweetActivity extends DrawerActivity {
 
             listView.setAdapter(new TimelineArrayAdapter(context, arrayList, TimelineArrayAdapter.RETWEET));
             listView.setVisibility(View.VISIBLE);
-
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);

@@ -321,7 +321,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         swapCursors();
 
-
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
 

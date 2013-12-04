@@ -502,7 +502,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         try {
             return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
         } catch (Exception e) {
-            return 0;
+            return px;
         }
     }
 
