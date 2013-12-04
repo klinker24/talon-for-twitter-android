@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -75,6 +76,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     static Activity context;
 
     private ActionBar actionBar;
+    private int mActionBarSize;
 
     @Override
     public void onAttach(Activity activity) {
@@ -90,6 +92,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
         cd = new ConnectionDetector(context);
+
+        try{
+            final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
+                    new int[] { android.R.attr.actionBarSize });
+            mActionBarSize = (int) styledAttributes.getDimension(0, 0);
+            styledAttributes.recycle();
+        } catch (Exception e) {
+            // a default just in case i guess...
+            mActionBarSize = toDP(48);
+        }
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
         // Check if Internet present
@@ -300,7 +312,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                         Crouton.makeText((Activity) context, text, Style.INFO).show();
-                        listView.setSelectionFromTop(numberNew + 1, toDP(5));
+                        listView.setSelectionFromTop(numberNew + 1, toDP(5 + mActionBarSize));
                     } else {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         refreshCursor();
@@ -494,7 +506,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         if (newTweets > 0) {
             unread = newTweets;
-            listView.setSelectionFromTop(newTweets + 1, toDP(5 + 48));
+            listView.setSelectionFromTop(newTweets + 1, toDP(5 + mActionBarSize));
         }
     }
 

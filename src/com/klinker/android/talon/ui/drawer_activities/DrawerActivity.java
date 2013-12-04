@@ -146,6 +146,10 @@ public abstract class DrawerActivity extends Activity {
 
             public void onDrawerOpened(View drawerView) {
                 actionBar.setTitle(getResources().getString(R.string.app_name));
+
+                if (!actionBar.isShowing()) {
+                    actionBar.show();
+                }
             }
         };
 
