@@ -19,9 +19,12 @@
     - quote tweets
 
 - Bugs:
-    - Convert everything away from picasso
+    - Convert everything away from picasso (maybe not, we will see how the memory is managed
     - double insert on creating new lists
     - Notification for the second account's mentions
     - test refreshing mentions from timeline refresh
-    - Different system for unreads, using database column (merge to mentions)
     - change refresh rate on preference changed
+
+- Cool Style ideas:
+    - Hide action bar as scrolling up main list
+    - bottom bar with compose and jump to top button (shows when scroll down, just like action bar)
