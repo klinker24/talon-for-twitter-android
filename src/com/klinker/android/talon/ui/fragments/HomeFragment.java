@@ -1,5 +1,6 @@
 package com.klinker.android.talon.ui.fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
@@ -73,10 +74,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
     static Activity context;
 
+    private ActionBar actionBar;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
+        actionBar = context.getActionBar();
     }
 
     @Override
@@ -122,6 +126,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         new GetCursorAdapter().execute();
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            int mLastFirstVisibleItem = 0;
+
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
 
@@ -130,6 +137,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+                // used to mark read
                 final int currentAccount = sharedPrefs.getInt("current_account", 1);
                 if (firstVisibleItem < unread) {
                     new Thread(new Runnable() {
@@ -141,6 +149,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         }
                     }).start();
                 }
+
+                // used to show and hide the action bar
+                if (firstVisibleItem > mLastFirstVisibleItem) {
+                    actionBar.hide();
+                } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                    actionBar.show();
+                }
+
+                mLastFirstVisibleItem = firstVisibleItem;
             }
         });
 
