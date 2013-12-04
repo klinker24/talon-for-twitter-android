@@ -119,6 +119,12 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     protected void onDestroy() {
+        try {
+            super.onDestroy();
+        } catch (Exception e) {
+
+        }
+
         Crouton.cancelAllCroutons();
 
         /*try {
@@ -126,12 +132,6 @@ public class MainActivity extends DrawerActivity {
         } catch (Exception e) {
             // they haven't logged in yet so there is no listview
         }*/
-
-        try {
-            super.onDestroy();
-        } catch (Exception e) {
-            finish();
-        }
     }
 
     @Override

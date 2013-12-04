@@ -1,6 +1,7 @@
 - User Profiles Activity:
     - Spinning progress bar while loading (over the profile pic)
     - change button text color
+    - add 'k' to the followers, tweets, and following count
 
 - Tweet Viewer Activity:
     - View full conversations and be able to switch to and from web articles and pictures back to the list
@@ -14,8 +15,8 @@
     - Switch tweet background to right side when it is my tweet
     - Some kind of notifications for fav users
     - Night mode
-    - Make a new xml with dividers for the trending and list pages
     - Parse hashtags and links to open profiles and search for the specific string
+    - quote tweets
 
 - Bugs:
     - Convert everything away from picasso
@@ -23,4 +24,4 @@
     - Notification for the second account's mentions
     - test refreshing mentions from timeline refresh
     - Different system for unreads, using database column (merge to mentions)
-    - Login activity shown again
+    - change refresh rate on preference changed

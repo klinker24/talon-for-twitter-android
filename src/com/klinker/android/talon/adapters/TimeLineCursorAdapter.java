@@ -160,11 +160,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         int index = 0;
         try {
-            while (tweetTexts.substring(index).contains("#")) {
-                int start = tweetTexts.indexOf("#", index);
+            String check = tweetTexts.substring(index);
+            while (check.contains("#")) {
+                int start = check.indexOf("#");
                 int end;
-                if (tweetTexts.substring(index).contains(" ")) {
-                    end = tweetTexts.indexOf(" ", start) + 1;
+                if (check.substring(start + 1).contains(" ")) {
+                    end = tweetTexts.indexOf(" ", start + 1);
                 } else {
                     end = tweetTexts.length();
                 }
