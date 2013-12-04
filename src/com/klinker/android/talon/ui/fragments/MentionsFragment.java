@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 
@@ -65,6 +66,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     private PullToRefreshLayout mPullToRefreshLayout;
 
     private static MentionsDataSource dataSource;
+
+    private static int unread = 0;
 
     static Activity context;
 
@@ -118,6 +121,29 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         new GetCursorAdapter().execute();
 
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                final int currentAccount = sharedPrefs.getInt("current_account", 1);
+                if (firstVisibleItem < unread) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dataSource.markRead(currentAccount, firstVisibleItem);
+
+                            unread = dataSource.getUnreadCount(currentAccount);
+                        }
+                    }).start();
+                }
+            }
+        });
+
         MainActivity.refreshMe = false;
 
         return layout;
@@ -140,8 +166,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 try {
                     twitter = Utils.getTwitter(context);
 
+                    int currentAccount = sharedPrefs.getInt("current_account", 1);
+
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), 0);
+                    long lastId = sharedPrefs.getLong("last_mention_id_" + currentAccount, 0);
                     Paging paging;
                     paging = new Paging(1, 50);
 
@@ -174,7 +202,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     }
 
                     if (statuses.size() != 0) {
-                        sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_mention_id_" + currentAccount, statuses.get(0).getId()).commit();
                         update = true;
                         numberNew = statuses.size();
                     } else {
@@ -184,11 +212,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                            dataSource.createTweet(status, currentAccount);
                         } catch (Exception e) {
                             break;
                         }
                     }
+
+                    numberNew = dataSource.getUnreadCount(currentAccount);
+                    unread = numberNew;
 
                 } catch (TwitterException e) {
                     // Error in updating status
@@ -281,6 +312,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             listView.addHeaderView(viewHeader, null, false);
         } catch (Exception e) {
 
+        }
+
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        int newTweets = dataSource.getUnreadCount(currentAccount);
+
+        if (newTweets > 0) {
+            unread = newTweets;
+            listView.setSelectionFromTop(newTweets + 1, toDP(5));
         }
     }
 

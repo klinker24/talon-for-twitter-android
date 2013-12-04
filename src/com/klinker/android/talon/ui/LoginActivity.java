@@ -414,7 +414,7 @@ public class LoginActivity extends Activity {
                 for (twitter4j.Status status : statuses) {
                     Log.v("mention_found", "found mention");
                     try {
-                        mentionsSource.createTweet(status, sharedPrefs.getInt("current_account", 1));
+                        mentionsSource.createTweet(status, sharedPrefs.getInt("current_account", 1), false);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;

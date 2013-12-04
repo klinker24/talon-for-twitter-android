@@ -14,7 +14,7 @@ public class MentionsDataSource {
     // Database fields
     private SQLiteDatabase database;
     private MentionsSQLiteHelper dbHelper;
-    public String[] allColumns = {MentionsSQLiteHelper.COLUMN_ID, MentionsSQLiteHelper.COLUMN_TWEET_ID, MentionsSQLiteHelper.COLUMN_ACCOUNT, MentionsSQLiteHelper.COLUMN_TYPE,
+    public String[] allColumns = {MentionsSQLiteHelper.COLUMN_ID, MentionsSQLiteHelper.COLUMN_UNREAD, MentionsSQLiteHelper.COLUMN_TWEET_ID, MentionsSQLiteHelper.COLUMN_ACCOUNT, MentionsSQLiteHelper.COLUMN_TYPE,
             MentionsSQLiteHelper.COLUMN_TEXT, MentionsSQLiteHelper.COLUMN_NAME, MentionsSQLiteHelper.COLUMN_PRO_PIC,
             MentionsSQLiteHelper.COLUMN_SCREEN_NAME, MentionsSQLiteHelper.COLUMN_TIME, MentionsSQLiteHelper.COLUMN_PIC_URL,
             MentionsSQLiteHelper.COLUMN_RETWEETER };
@@ -31,6 +31,31 @@ public class MentionsDataSource {
         dbHelper.close();
     }
 
+    public void createTweet(Status status, int account, boolean initial) {
+        ContentValues values = new ContentValues();
+        String originalName = "";
+        long id = status.getId();
+        long time = status.getCreatedAt().getTime();
+
+        values.put(MentionsSQLiteHelper.COLUMN_ACCOUNT, account);
+        values.put(MentionsSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
+        values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+        values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(MentionsSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+        values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
+        values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
+        values.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
+
+        MediaEntity[] entities = status.getMediaEntities();
+
+        if (entities.length > 0) {
+            values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
+        }
+
+        database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
+    }
+
     public void createTweet(Status status, int account) {
         ContentValues values = new ContentValues();
         String originalName = "";
@@ -45,6 +70,7 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
         values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
         values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
+        values.put(MentionsSQLiteHelper.COLUMN_UNREAD, 1);
 
         MediaEntity[] entities = status.getMediaEntities();
 
@@ -71,5 +97,33 @@ public class MentionsDataSource {
                 allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
+    }
+
+    public Cursor getUnreadCursor(int account) {
+
+        Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
+                allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor;
+    }
+
+    public int getUnreadCount(int account) {
+
+        Cursor cursor = getUnreadCursor(account);
+
+        return cursor.getCount();
+    }
+
+    public void markRead(int account, int position) {
+        Cursor cursor = getUnreadCursor(account);
+
+        if (cursor.moveToPosition(position)) {
+            long tweetId = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
+
+            ContentValues cv = new ContentValues();
+            cv.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
+
+            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        }
     }
 }
