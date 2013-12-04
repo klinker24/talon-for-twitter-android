@@ -194,6 +194,7 @@ public class LoginActivity extends Activity {
                     Intent timeline = new Intent(context, MainActivity.class);
                     timeline.putExtra("from_notification", true);
                     timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    timeline.putExtra("from_drawer", true);
                     startActivity(timeline);
                 }
 
