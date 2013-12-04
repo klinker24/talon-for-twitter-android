@@ -156,6 +156,7 @@ public class LoginActivity extends Activity {
             public void onClick(View arg0) {
                 // Call login_activity twitter function
                 if (btnLoginTwitter.getText().equals(getResources().getString(R.string.login_to_twitter))) {
+                    btnLoginTwitter.setEnabled(false);
                     new RetreiveFeedTask().execute();
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
@@ -259,23 +260,25 @@ public class LoginActivity extends Activity {
             }
         }
 
+        protected void onPostExecute(Void none) {
+            btnLoginTwitter.setEnabled(true);
+        }
+
         /**
-         * Function to login_activity twitter
+         * Function to login to twitter
          */
         private void loginToTwitter() {
             // Check if already logged in
-            if (!isTwitterLoggedInAlready()) {
-                try {
-                    requestToken = twitter.getOAuthRequestToken("oauth://roartotweet");
-                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(requestToken.getAuthenticationURL())));
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
 
-            } else {
-
+            try {
+                requestToken = twitter.getOAuthRequestToken("oauth://roartotweet");
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(requestToken.getAuthenticationURL())));
+            } catch (TwitterException e) {
+                e.printStackTrace();
             }
+
         }
+
     }
 
     class RetreiveoAuth extends AsyncTask<String, Void, AccessToken> {
