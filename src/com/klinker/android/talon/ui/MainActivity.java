@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
@@ -36,6 +38,8 @@ public class MainActivity extends DrawerActivity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
+
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
         setUpWindow();

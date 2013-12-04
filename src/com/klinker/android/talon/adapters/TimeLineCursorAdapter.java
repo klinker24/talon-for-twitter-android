@@ -59,6 +59,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
     private static Pattern pattern = Pattern.compile(REGEX);
 
+    private static final String HASHSPACE = "\\s#";
+    private static final String HASHEND = "(\\s#.+?)$";
+    private static Pattern hashspace = Pattern.compile(HASHSPACE);
+    private static Pattern hashend = Pattern.compile(HASHEND);
+
     public boolean hasKeyboard = false;
 
     public static class ViewHolder {
@@ -158,32 +163,53 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             retweeter = "";
         }
 
-        int index = 0;
+        /*Matcher hashMatch = hashspace.matcher(tweetTexts);
+
+        if (hashMatch.find()) {
+            tweetTexts = tweetTexts.replaceAll(hashMatch.group(1), "<font color='#FF8800'>" + hashMatch.group(1) + "</font>");
+        }
+
+        hashMatch = hashend.matcher(tweetTexts);
+
+        if (hashMatch.find()) {
+            tweetTexts = tweetTexts.replaceAll(hashMatch.group(1), "<font color='#FF8800'>" + hashMatch.group(1) + "</font>");
+        }*/
+
         try {
-            String check = tweetTexts.substring(index);
-            while (check.contains("#")) {
-                int start = check.indexOf("#");
+            if (tweetTexts.substring(0, 1).equals("#")) {
+                int start = tweetTexts.indexOf("#");
                 int end;
-                if (check.substring(start + 1).contains(" ")) {
-                    end = tweetTexts.indexOf(" ", start + 1);
+                if (tweetTexts.substring(start).contains(" ")) {
+                    end = tweetTexts.indexOf(" ", start);
                 } else {
                     end = tweetTexts.length();
                 }
                 String replacement;
-                try {
-                    replacement = tweetTexts.substring(start, end);
-                } catch (Exception e) {
-                    replacement = tweetTexts.substring(start, tweetTexts.length());
+
+                replacement = tweetTexts.substring(start, end);
+
+                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+            }
+            while (tweetTexts.contains(" #")) {
+                int start = tweetTexts.indexOf(" #") + 1;
+                int end;
+                if (tweetTexts.substring(start).contains(" ")) {
+                    end = tweetTexts.indexOf(" ", start);
+                } else {
+                    end = tweetTexts.length();
                 }
-                if (end - start > 1)
-                    tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-                index += end + 22;
+                String replacement;
+
+                replacement = tweetTexts.substring(start, end);
+
+                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+
             }
         } catch (Exception e) {
 
         }
 
-        index = 0;
+        /*index = 0;
         try {
             while (tweetTexts.substring(index).contains("@")) {
                 int start = tweetTexts.indexOf("@", index);
@@ -217,7 +243,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 replacement = tweetTexts.substring(start, tweetTexts.length());
             }
             tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-        }
+        }*/
 
         final String tweetText = tweetTexts;
 

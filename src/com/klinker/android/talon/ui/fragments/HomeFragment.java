@@ -150,14 +150,20 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     }).start();
                 }
 
-                // used to show and hide the action bar
-                if (firstVisibleItem > mLastFirstVisibleItem) {
-                    actionBar.hide();
-                } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                if (firstVisibleItem != 0) {
+                    if (MainActivity.canSwitch) {
+                        // used to show and hide the action bar
+                        if (firstVisibleItem < mLastFirstVisibleItem) {
+                            actionBar.hide();
+                        } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                            actionBar.show();
+                        }
+
+                        mLastFirstVisibleItem = firstVisibleItem;
+                    }
+                } else {
                     actionBar.show();
                 }
-
-                mLastFirstVisibleItem = firstVisibleItem;
             }
         });
 
@@ -477,22 +483,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         swapCursors();
 
-        LinearLayout viewHeader = new LinearLayout(context);
-        viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams lp;
-        try {
-            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-        } catch (Exception e) {
-            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 0);
-        }
-        viewHeader.setLayoutParams(lp);
+        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
 
-        try {
-            if (header) {
-                listView.addHeaderView(viewHeader, null, false);
-            }
-        } catch (Exception e) {
-
+        if (header) {
+            listView.addHeaderView(viewHeader, null, false);
         }
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
@@ -500,15 +494,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         if (newTweets > 0) {
             unread = newTweets;
-            listView.setSelectionFromTop(newTweets + 1, toDP(5));
-            //sharedPrefs.edit().putInt("timeline_new_" + currentAccount, 0).commit();
-        /*} else {
-            int unread = sharedPrefs.getInt("timeline_unread", 0);
-
-            if (unread > 0) {
-                listView.setSelectionFromTop(unread + 1, toDP(5));
-                sharedPrefs.edit().putInt("timeline_unread", 0).commit();
-            }*/
+            listView.setSelectionFromTop(newTweets + 1, toDP(5 + 48));
         }
     }
 

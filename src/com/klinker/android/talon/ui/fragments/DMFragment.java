@@ -1,5 +1,6 @@
 package com.klinker.android.talon.ui.fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
@@ -15,6 +16,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 
@@ -69,10 +71,13 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
     static Activity context;
 
+    private ActionBar actionBar;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
+        actionBar = context.getActionBar();
     }
 
     @Override
@@ -118,6 +123,36 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         listView.setItemManager(builder.build());
 
         new GetCursorAdapter().execute();
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            int mLastFirstVisibleItem = 0;
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                // show and hide the action bar
+                if (firstVisibleItem != 0) {
+                    if (MainActivity.canSwitch) {
+                        // used to show and hide the action bar
+                        if (firstVisibleItem < mLastFirstVisibleItem) {
+                            actionBar.hide();
+                        } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                            actionBar.show();
+                        }
+
+                        mLastFirstVisibleItem = firstVisibleItem;
+                    }
+                } else {
+                    actionBar.show();
+                }
+            }
+        });
 
         MainActivity.refreshMe = false;
 
@@ -256,21 +291,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         swapCursors();
 
-        LinearLayout viewHeader = new LinearLayout(context);
-        viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams lp;
-        try {
-            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-        } catch (Exception e) {
-            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 0);
-        }
-        viewHeader.setLayoutParams(lp);
-
-        try {
-            listView.addHeaderView(viewHeader, null, false);
-        } catch (Exception e) {
-
-        }
+        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
     }
 
     public int toDP(int px) {

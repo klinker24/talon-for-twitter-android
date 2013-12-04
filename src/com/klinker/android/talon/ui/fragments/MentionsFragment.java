@@ -150,14 +150,21 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     }).start();
                 }
 
-                // used to show and hide the action bar
-                if (firstVisibleItem > mLastFirstVisibleItem) {
-                    actionBar.hide();
-                } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                // show and hide the action bar
+                if (firstVisibleItem != 0) {
+                    if (MainActivity.canSwitch) {
+                        // used to show and hide the action bar
+                        if (firstVisibleItem < mLastFirstVisibleItem) {
+                            actionBar.hide();
+                        } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                            actionBar.show();
+                        }
+
+                        mLastFirstVisibleItem = firstVisibleItem;
+                    }
+                } else {
                     actionBar.show();
                 }
-
-                mLastFirstVisibleItem = firstVisibleItem;
             }
         });
 
@@ -315,28 +322,15 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         swapCursors();
 
 
-        LinearLayout viewHeader = new LinearLayout(context);
-        viewHeader.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams lp;
-        try {
-            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, toDP(0));
-        } catch (Exception e) {
-            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 0);
-        }
-        viewHeader.setLayoutParams(lp);
-
-        try {
-            listView.addHeaderView(viewHeader, null, false);
-        } catch (Exception e) {
-
-        }
+        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets = dataSource.getUnreadCount(currentAccount);
 
         if (newTweets > 0) {
             unread = newTweets;
-            listView.setSelectionFromTop(newTweets + 1, toDP(5));
+            listView.setSelectionFromTop(newTweets + 1, toDP(5 + 48));
         }
     }
 
