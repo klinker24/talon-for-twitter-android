@@ -130,7 +130,7 @@ public class MainActivity extends DrawerActivity {
         try {
             super.onDestroy();
         } catch (Exception e) {
-
+            finish();
         }
     }
 

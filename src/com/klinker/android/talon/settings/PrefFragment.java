@@ -141,9 +141,62 @@ public class PrefFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference arg0) {
                 File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
+
+                String authenticationToken1 = sharedPrefs.getString("authentication_token_1", "none");
+                String authenticationTokenSecret1 = sharedPrefs.getString("authentication_token_secret_1", "none");
+                String myScreenName1 = sharedPrefs.getString("twitter_screen_name_1", "");
+                String myName1 = sharedPrefs.getString("twitter_users_name_1", "");
+                String myBackgroundUrl1 = sharedPrefs.getString("twitter_background_url_1", "");
+                String myProfilePicUrl1 = sharedPrefs.getString("profile_pic_url_1", "");
+                String favoriteUserNames1 = sharedPrefs.getString("favorite_user_names_1", "");
+                long lastTweetId1 = sharedPrefs.getLong("last_tweet_id_1", 0);
+                long secondLastTweetId1 = sharedPrefs.getLong("second_last_tweet_id_1", 0);
+                long lastMentionId1 = sharedPrefs.getLong("last_mention_id_1", 0);
+                long lastDMId1 = sharedPrefs.getLong("last_dm_id_1", 0);
+
+                String authenticationToken2 = sharedPrefs.getString("authentication_token_2", "none");
+                String authenticationTokenSecret2 = sharedPrefs.getString("authentication_token_secret_2", "none");
+                String myScreenName2 = sharedPrefs.getString("twitter_screen_name_2", "");
+                String myName2 = sharedPrefs.getString("twitter_users_name_2", "");
+                String myBackgroundUrl2 = sharedPrefs.getString("twitter_background_url_2", "");
+                String myProfilePicUrl2 = sharedPrefs.getString("profile_pic_url_2", "");
+                String favoriteUserNames2 = sharedPrefs.getString("favorite_user_names_2", "");
+                long lastTweetId2 = sharedPrefs.getLong("last_tweet_id_2", 0);
+                long secondLastTweetId2 = sharedPrefs.getLong("second_last_tweet_id_2", 0);
+                long lastMentionId2 = sharedPrefs.getLong("last_mention_id_2", 0);
+                long lastDMId2 = sharedPrefs.getLong("last_dm_id_2", 0);
+
                 IOUtils.loadSharedPreferencesFromFile(des, context);
 
                 Toast.makeText(context, context.getResources().getString(R.string.restore_success), Toast.LENGTH_LONG).show();
+
+                SharedPreferences.Editor e = sharedPrefs.edit();
+
+                e.putString("authentication_token_1", authenticationToken1);
+                e.putString("authentication_token_secret_1", authenticationTokenSecret1);
+                e.putString("twitter_screen_name_1", myScreenName1);
+                e.putString("twitter_users_name_1", myName1);
+                e.putString("twitter_background_url_1", myBackgroundUrl1);
+                e.putString("profile_pic_url_1", myProfilePicUrl1);
+                e.putString("favorite_user_names_1", "");
+                e.putLong("last_tweet_id_1", lastTweetId1);
+                e.putLong("second_last_tweet_id_1", secondLastTweetId1);
+                e.putLong("last_mention_id_1", lastMentionId1);
+                e.putLong("last_dm_id_1", lastDMId1);
+
+                e.putString("authentication_token_2", authenticationToken2);
+                e.putString("authentication_token_secret_2", authenticationTokenSecret2);
+                e.putString("twitter_screen_name_2", myScreenName2);
+                e.putString("twitter_users_name_2", myName2);
+                e.putString("twitter_background_url_2", myBackgroundUrl2);
+                e.putString("profile_pic_url_2", myProfilePicUrl2);
+                e.putString("favorite_user_names_2", "");
+                e.putLong("last_tweet_id_2", lastTweetId2);
+                e.putLong("second_last_tweet_id_2", secondLastTweetId2);
+                e.putLong("last_mention_id_2", lastMentionId2);
+                e.putLong("last_dm_id_2", lastDMId2);
+
+                e.commit();
 
                 return false;
             }
