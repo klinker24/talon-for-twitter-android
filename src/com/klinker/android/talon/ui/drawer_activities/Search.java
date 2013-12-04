@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -52,6 +53,8 @@ public class Search extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
 
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+
         setUpTheme();
 
         actionBar = getActionBar();
@@ -76,6 +79,9 @@ public class Search extends DrawerActivity {
         builder.setThreadPoolSize(4);
 
         listView.setItemManager(builder.build());
+
+        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
 
         setUpDrawer(8, getResources().getString(R.string.search));
 

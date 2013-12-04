@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -40,6 +41,8 @@ public class ListsActivity extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
 
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+
         setUpTheme();
 
         actionBar = getActionBar();
@@ -54,6 +57,9 @@ public class ListsActivity extends DrawerActivity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
+        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
+        listView.setHeaderDividersEnabled(false);
 
         setUpDrawer(6, getResources().getString(R.string.lists));
 

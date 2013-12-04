@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.klinker.android.talon.R;
@@ -32,6 +33,8 @@ public class FavoriteUsersActivity extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
 
+        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+
         setUpTheme();
 
         actionBar = getActionBar();
@@ -46,6 +49,9 @@ public class FavoriteUsersActivity extends DrawerActivity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
+
+        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
 
         setUpDrawer(5, getResources().getString(R.string.favorite_users));
 
