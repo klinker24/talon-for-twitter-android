@@ -89,6 +89,7 @@ public abstract class DrawerActivity extends Activity {
 
     public static View statusBar;
     public static int statusBarHeight;
+    public static int navBarHeight;
 
     public void setUpDrawer(int number, final String actName) {
 
@@ -362,12 +363,21 @@ public abstract class DrawerActivity extends Activity {
         statusBar = findViewById(R.id.activity_status_bar);
 
         statusBarHeight = Utils.getStatusBarHeight(context);
+        navBarHeight = Utils.getNavBarHeight(context);
 
         RelativeLayout.LayoutParams statusParams = (RelativeLayout.LayoutParams) statusBar.getLayoutParams();
         statusParams.height = statusBarHeight;
         statusBar.setLayoutParams(statusParams);
 
         if (translucent) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            drawerList.addFooterView(footer);
+            drawerList.setFooterDividersEnabled(false);
+
             View drawerStatusBar = findViewById(R.id.drawer_status_bar);
             LinearLayout.LayoutParams status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
             status2Params.height = statusBarHeight;

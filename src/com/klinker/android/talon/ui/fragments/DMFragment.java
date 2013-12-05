@@ -261,7 +261,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
                     Crouton.makeText((Activity) context, text, Style.INFO).show();
-                    listView.setSelectionFromTop(numberNew + 1, toDP(5 + mActionBarSize));
+                    int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                    listView.setSelectionFromTop(numberNew + 1, size);
                 } else {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();

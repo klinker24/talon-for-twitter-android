@@ -13,11 +13,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,6 +47,7 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -136,6 +139,27 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         listView.setItemManager(builder.build());
         listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+
+        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
+
+        if (DrawerActivity.translucent) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+
+            View view = new View(context);
+            view.setOnClickListener(null);
+            view.setOnLongClickListener(null);
+            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+            view.setLayoutParams(params2);
+            listView.addHeaderView(view);
+            listView.setFooterDividersEnabled(false);
+        }
 
         new GetCursorAdapter().execute();
 
@@ -315,12 +339,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 try {
                     super.onPostExecute(result);
 
-                    if (update) {
+                    if (unread > 0) {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                         //Crouton.makeText((Activity) context, text, Style.INFO).show();
-                        listView.setSelectionFromTop(numberNew + 1, toDP(5 + mActionBarSize));
+                        int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                        listView.setSelectionFromTop(numberNew + 1, size);
                     } else {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         refreshCursor();
@@ -503,18 +528,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
         swapCursors();
 
-        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
-
-        if (header) {
-            listView.addHeaderView(viewHeader, null, false);
-        }
-
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets = dataSource.getUnreadCount(currentAccount);
 
         if (newTweets > 0) {
             unread = newTweets;
-            listView.setSelectionFromTop(newTweets + 1, toDP(5 + mActionBarSize));
+            int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            listView.setSelectionFromTop(newTweets + 1, size);
         }
     }
 
