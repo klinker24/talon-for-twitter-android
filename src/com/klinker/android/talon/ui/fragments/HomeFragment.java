@@ -243,7 +243,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         });
 
-        if(settings.refreshOnStart && MainActivity.refreshMe && listView.getFirstVisiblePosition() == 0) {
+        if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0) {
             
             final View view = layout;
 
@@ -504,7 +504,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         super.onResume();
 
         Log.v("on_resumed", "resuming home fragment");
-        getLoaderManager().restartLoader(0, null, HomeFragment.this);
+
+        if (sharedPrefs.getBoolean("refresh_me", false)) {
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+        }
+
+        sharedPrefs.edit().putBoolean("refresh_me", false).commit();
     }
 
     public int toDP(int px) {

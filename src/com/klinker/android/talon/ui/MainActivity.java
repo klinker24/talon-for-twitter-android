@@ -25,14 +25,7 @@ public class MainActivity extends DrawerActivity {
 
     private TimelinePagerAdapter mSectionsPagerAdapter;
 
-    public static boolean refreshMe;
     public static boolean isPopup = false;
-    public static boolean fromSettings = false;
-    public static boolean popupOpened = false;
-
-    public static boolean refreshHappened = false;
-
-    public static boolean needRecreate = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +34,8 @@ public class MainActivity extends DrawerActivity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
+
+        sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
@@ -110,12 +105,6 @@ public class MainActivity extends DrawerActivity {
     protected void onStart() {
         super.onStart();
 
-        if (getIntent().getBooleanExtra("from_notification", false) || getIntent().getBooleanExtra("from_drawer", false)) {
-            refreshMe = false;
-        } else {
-            refreshMe = true;
-        }
-
         /*int unread = sharedPrefs.getInt("timeline_unread", 0);
 
         if (HomeFragment.listView.getFirstVisiblePosition() == 0
@@ -153,12 +142,6 @@ public class MainActivity extends DrawerActivity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
-
-        if (!isPopup && (needRecreate || getIntent().getBooleanExtra("from_notification", false))) {
-            recreate();
-        }
-
-        needRecreate = false;
 
         /*if ((popupOpened || (refreshHappened && !getIntent().getBooleanExtra("from_notification", false))) && !getIntent().getBooleanExtra("from_notification", false)) {
             recreate();

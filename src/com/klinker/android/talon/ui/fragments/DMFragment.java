@@ -199,8 +199,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             }
         });
 
-        MainActivity.refreshMe = false;
-
         return layout;
     }
 

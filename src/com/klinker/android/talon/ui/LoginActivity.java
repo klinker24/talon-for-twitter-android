@@ -188,7 +188,6 @@ public class LoginActivity extends Activity {
                         am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent3);
                     }
 
-                    MainActivity.needRecreate = true;
                     finish();
 
                     Intent timeline = new Intent(context, MainActivity.class);

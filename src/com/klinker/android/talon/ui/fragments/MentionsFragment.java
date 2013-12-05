@@ -213,8 +213,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             }
         });
 
-        MainActivity.refreshMe = false;
-
         return layout;
     }
 
