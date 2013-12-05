@@ -563,7 +563,7 @@ public abstract class DrawerActivity extends Activity {
 
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
-                startActivityForResult(settings, SETTINGS_RESULT);
+                startActivity(settings);
                 return true;
 
             default:

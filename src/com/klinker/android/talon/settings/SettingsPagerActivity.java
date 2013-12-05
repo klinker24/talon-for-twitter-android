@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -192,7 +193,8 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        Intent main = new Intent(this, MainActivity.class);
+        startActivity(main);
         finish();
-        setResult(Activity.RESULT_OK);
     }
 }
