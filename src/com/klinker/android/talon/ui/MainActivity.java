@@ -3,9 +3,12 @@ package com.klinker.android.talon.ui;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -23,7 +26,7 @@ public class MainActivity extends DrawerActivity {
     private TimelinePagerAdapter mSectionsPagerAdapter;
 
     public static boolean refreshMe;
-    public boolean isPopup = false;
+    public static boolean isPopup = false;
     public static boolean fromSettings = false;
     public static boolean popupOpened = false;
 
@@ -69,6 +72,10 @@ public class MainActivity extends DrawerActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (!actionBar.isShowing()) {
                     actionBar.show();
+
+                    if (translucent) {
+                        statusBar.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 

@@ -8,18 +8,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -46,8 +49,10 @@ import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
+import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
+import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -78,8 +83,12 @@ public abstract class DrawerActivity extends Activity {
     public AsyncListView listView;
 
     public boolean logoutVisible = false;
+    public static boolean translucent;
 
     public static boolean canSwitch = true;
+
+    public static View statusBar;
+    public static int statusBarHeight;
 
     public void setUpDrawer(int number, final String actName) {
 
@@ -146,9 +155,17 @@ public abstract class DrawerActivity extends Activity {
 
             public void onDrawerOpened(View drawerView) {
                 actionBar.setTitle(getResources().getString(R.string.app_name));
+            }
+
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
 
                 if (!actionBar.isShowing()) {
                     actionBar.show();
+                }
+
+                if (translucent) {
+                    statusBar.setVisibility(View.VISIBLE);
                 }
             }
         };
@@ -341,9 +358,33 @@ public abstract class DrawerActivity extends Activity {
                 });
             }
         }
+
+        statusBar = findViewById(R.id.activity_status_bar);
+
+        statusBarHeight = Utils.getStatusBarHeight(context);
+
+        RelativeLayout.LayoutParams statusParams = (RelativeLayout.LayoutParams) statusBar.getLayoutParams();
+        statusParams.height = statusBarHeight;
+        statusBar.setLayoutParams(statusParams);
+
+        if (translucent) {
+            View drawerStatusBar = findViewById(R.id.drawer_status_bar);
+            LinearLayout.LayoutParams status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
+            status2Params.height = statusBarHeight;
+            drawerStatusBar.setLayoutParams(status2Params);
+            drawerStatusBar.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setUpTheme() {
+
+        if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup) {
+            Log.v("translucent", "setting translucent");
+            translucent = true;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else {
+            translucent = false;
+        }
 
         switch (settings.theme) {
             case AppSettings.THEME_LIGHT:
@@ -421,12 +462,6 @@ public abstract class DrawerActivity extends Activity {
             finish();
         }
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        Crouton.cancelAllCroutons();
-        super.onDestroy();
     }
 
     @Override

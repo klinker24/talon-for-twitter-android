@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -163,6 +164,12 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 } else {
                     actionBar.show();
                 }
+
+                if (MainActivity.translucent && actionBar.isShowing()) {
+                    showStatusBar();
+                } else if (MainActivity.translucent) {
+                    hideStatusBar();
+                }
             }
         });
 
@@ -313,6 +320,24 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         } catch (Exception e) {
             return px;
         }
+    }
+
+    public void showStatusBar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+            }
+        }, 000);
+    }
+
+    public void hideStatusBar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.GONE);
+            }
+        }, 000);
     }
 
 }

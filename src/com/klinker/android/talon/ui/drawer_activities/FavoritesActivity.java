@@ -87,6 +87,9 @@ public class FavoritesActivity extends DrawerActivity {
                             actionBar.hide();
                         } else if (firstVisibleItem < mLastFirstVisibleItem) {
                             actionBar.show();
+                            if (translucent) {
+                                statusBar.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         mLastFirstVisibleItem = firstVisibleItem;

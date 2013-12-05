@@ -7,6 +7,12 @@
               android:animateLayoutChanges="true"
               android:background="?drawerBackground" >
 
+    <View android:id="@+id/drawer_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@android:color/black"
+        android:visibility="gone"/>
+
     <include layout="@layout/ab_header"
              android:layout_width="match_parent"
              android:layout_height="wrap_content" />

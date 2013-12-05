@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.CursorListLoader;
@@ -106,7 +107,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         View layout = inflater.inflate(R.layout.main_fragments, null);
         // Check if Internet present
         if (!cd.isConnectingToInternet()) {
-            Crouton.makeText(context, "No internet connection", Style.ALERT);
+            //Crouton.makeText(context, "No internet connection", Style.ALERT);
         }
 
         dataSource = new HomeDataSource(context);
@@ -134,6 +135,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         builder.setThreadPoolSize(4);
 
         listView.setItemManager(builder.build());
+        listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 
         new GetCursorAdapter().execute();
 
@@ -175,6 +177,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                     }
                 } else {
                     actionBar.show();
+                }
+
+                if (MainActivity.translucent && actionBar.isShowing()) {
+                    showStatusBar();
+                } else if (MainActivity.translucent) {
+                    hideStatusBar();
                 }
             }
         });
@@ -311,14 +319,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                        Crouton.makeText((Activity) context, text, Style.INFO).show();
+                        //Crouton.makeText((Activity) context, text, Style.INFO).show();
                         listView.setSelectionFromTop(numberNew + 1, toDP(5 + mActionBarSize));
                     } else {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         refreshCursor();
 
                         CharSequence text = context.getResources().getString(R.string.no_new_tweets);
-                        Crouton.makeText((Activity) context, text, Style.INFO).show();
+                        //Crouton.makeText((Activity) context, text, Style.INFO).show();
                     }
 
                     DrawerActivity.canSwitch = true;
@@ -422,7 +430,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
             if (updated) {
                 CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
-                Crouton.makeText(context, text, Style.INFO).show();
+                //Crouton.makeText(context, text, Style.INFO).show();
                 MentionsFragment.refreshCursor();
             } else {
 
@@ -516,6 +524,24 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         } catch (Exception e) {
             return px;
         }
+    }
+
+    public void showStatusBar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+            }
+        }, 000);
+    }
+
+    public void hideStatusBar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.GONE);
+            }
+        }, 000); // 200 would be better
     }
 
 }
