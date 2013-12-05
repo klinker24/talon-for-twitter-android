@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -193,7 +195,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 if (firstVisibleItem != 0) {
                     if (MainActivity.canSwitch) {
                         // used to show and hide the action bar
-                        if (firstVisibleItem < mLastFirstVisibleItem) {
+                        if (firstVisibleItem < 3) {
+
+                        } else if (firstVisibleItem < mLastFirstVisibleItem) {
                             actionBar.hide();
                         } else if (firstVisibleItem > mLastFirstVisibleItem) {
                             actionBar.show();
@@ -553,6 +557,24 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             @Override
             public void run() {
                 DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+
+                /*AlphaAnimation fade_in = new AlphaAnimation(0.0f, 1.0f);
+                fade_in.setDuration(50);
+                fade_in.setAnimationListener(new Animation.AnimationListener()
+                {
+                    public void onAnimationStart(Animation arg0)
+                    {
+                    }
+                    public void onAnimationRepeat(Animation arg0)
+                    {
+                    }
+
+                    public void onAnimationEnd(Animation arg0)
+                    {
+                        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+                    }
+                });
+                DrawerActivity.statusBar.startAnimation(fade_in);*/
             }
         }, 000);
     }
@@ -562,6 +584,24 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             @Override
             public void run() {
                 DrawerActivity.statusBar.setVisibility(View.GONE);
+
+                /*AlphaAnimation fade_out = new AlphaAnimation(1.0f, 0.0f);
+                fade_out.setDuration(50);
+                fade_out.setAnimationListener(new Animation.AnimationListener()
+                {
+                    public void onAnimationStart(Animation arg0)
+                    {
+                    }
+                    public void onAnimationRepeat(Animation arg0)
+                    {
+                    }
+
+                    public void onAnimationEnd(Animation arg0)
+                    {
+                        DrawerActivity.statusBar.setVisibility(View.GONE);
+                    }
+                });
+                DrawerActivity.statusBar.startAnimation(fade_out);*/
             }
         }, 000); // 200 would be better
     }

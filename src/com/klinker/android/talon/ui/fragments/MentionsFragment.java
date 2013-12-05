@@ -191,7 +191,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 if (firstVisibleItem != 0) {
                     if (MainActivity.canSwitch) {
                         // used to show and hide the action bar
-                        if (firstVisibleItem < mLastFirstVisibleItem) {
+                        if (firstVisibleItem < 3) {
+
+                        } else if (firstVisibleItem < mLastFirstVisibleItem) {
                             actionBar.hide();
                         } else if (firstVisibleItem > mLastFirstVisibleItem) {
                             actionBar.show();
