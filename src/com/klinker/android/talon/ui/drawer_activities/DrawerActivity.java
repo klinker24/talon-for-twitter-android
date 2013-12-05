@@ -313,7 +313,6 @@ public abstract class DrawerActivity extends Activity {
                         Intent login = new Intent(context, LoginActivity.class);
 
                         startActivity(login);
-                        Crouton.cancelAllCroutons();
                     }
                 }
             });
@@ -335,8 +334,9 @@ public abstract class DrawerActivity extends Activity {
                     public void onClick(View view) {
                         if (canSwitch) {
                             sharedPrefs.edit().putInt("current_account", 2).commit();
-                            Crouton.cancelAllCroutons();
-                            ((Activity)context).recreate();
+                            finish();
+                            Intent next = new Intent(context, MainActivity.class);
+                            startActivity(next);
                         }
                     }
                 });
@@ -356,8 +356,9 @@ public abstract class DrawerActivity extends Activity {
                     public void onClick(View view) {
                         if (canSwitch) {
                             sharedPrefs.edit().putInt("current_account", 1).commit();
-                            Crouton.cancelAllCroutons();
-                            ((Activity)context).recreate();
+                            finish();
+                            Intent next = new Intent(context, MainActivity.class);
+                            startActivity(next);
                         }
                     }
                 });
@@ -477,19 +478,19 @@ public abstract class DrawerActivity extends Activity {
 
         if (currentAccount == 1 && login2) {
             e.putInt("current_account", 2).commit();
+            finish();
             Intent next = new Intent(context, MainActivity.class);
             startActivity(next);
-            finish();
         } else if (currentAccount == 2 && login1) {
             e.putInt("current_account", 1).commit();
+            finish();
             Intent next = new Intent(context, MainActivity.class);
             startActivity(next);
-            finish();
         } else { // only the one account
             e.putInt("current_account", 1).commit();
+            finish();
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
-            finish();
         }
 
     }
