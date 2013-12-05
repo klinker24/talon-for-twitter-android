@@ -383,6 +383,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                     DrawerActivity.canSwitch = true;
 
+                    mPullToRefreshLayout.setRefreshComplete();
+
                     new RefreshMentions().execute();
                 } catch (Exception e) {
                     DrawerActivity.canSwitch = true;
@@ -487,8 +489,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             } else {
 
             }
-
-            mPullToRefreshLayout.setRefreshComplete();
 
             DrawerActivity.canSwitch = true;
         }
