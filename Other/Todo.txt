@@ -24,7 +24,9 @@
     - Notification for the second account's mentions
     - test refreshing mentions from timeline refresh
     - change refresh rate on preference changed
+    - Optimize the mark as read option for home timeline
 
 - Cool Style ideas:
     - Hide action bar as scrolling up main list
     - bottom bar with compose and jump to top button (shows when scroll down, just like action bar)
+    - Add actionable toast bar

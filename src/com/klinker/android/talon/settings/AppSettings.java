@@ -85,7 +85,7 @@ public class AppSettings {
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
 
         // Integers
-        theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
+        theme = Integer.parseInt(sharedPrefs.getString("theme", "0"));
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "1000"));
