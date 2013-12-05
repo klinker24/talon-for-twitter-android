@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -53,6 +55,16 @@ public class WorldTrends extends Fragment {
         layout = inflater.inflate(R.layout.text_list_view, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+
+        if (DrawerActivity.translucent) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        }
 
         new GetTrends().execute();
 

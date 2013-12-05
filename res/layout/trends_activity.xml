@@ -6,25 +6,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/pager"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        android:paddingTop="?android:actionBarSize">
+        android:orientation="vertical" >
 
-        <android.support.v4.view.PagerTitleStrip
-            android:id="@+id/pager_title_strip"
+        <View android:id="@+id/activity_status_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@color/app_color"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:textColor="#fff" />
+            android:layout_height="20dp"
+            android:background="@android:color/black"
+            android:visibility="gone"/>
+
+        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity"
+            android:paddingTop="?android:actionBarSize">
+
+            <android.support.v4.view.PagerTitleStrip
+                android:id="@+id/pager_title_strip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="@color/app_color"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:textColor="#fff" />
 
         </android.support.v4.view.ViewPager>
+        </LinearLayout>
+
 
     <!-- The navigation drawer -->
     <include layout="@layout/main_drawer"

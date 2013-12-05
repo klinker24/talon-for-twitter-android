@@ -29,7 +29,7 @@ public class TrendsPager extends DrawerActivity {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
-        setUpTheme(true);
+        setUpTheme();
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.trends));
@@ -46,6 +46,7 @@ public class TrendsPager extends DrawerActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
 
         setUpDrawer(7, getResources().getString(R.string.trends));
 

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -21,6 +22,7 @@ import com.google.android.gms.location.LocationClient;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.TrendsArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -63,6 +65,16 @@ public class LocalTrends extends Fragment implements
         layout = inflater.inflate(R.layout.text_list_view, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+
+        if (DrawerActivity.translucent) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        }
 
         mLocationClient = new LocationClient(context, this, this);
 
