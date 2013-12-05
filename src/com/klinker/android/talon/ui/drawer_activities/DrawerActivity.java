@@ -477,10 +477,14 @@ public abstract class DrawerActivity extends Activity {
 
         if (currentAccount == 1 && login2) {
             e.putInt("current_account", 2).commit();
-            ((Activity)context).recreate();
+            Intent next = new Intent(context, MainActivity.class);
+            startActivity(next);
+            finish();
         } else if (currentAccount == 2 && login1) {
             e.putInt("current_account", 1).commit();
-            ((Activity)context).recreate();
+            Intent next = new Intent(context, MainActivity.class);
+            startActivity(next);
+            finish();
         } else { // only the one account
             e.putInt("current_account", 1).commit();
             Intent login = new Intent(context, LoginActivity.class);
