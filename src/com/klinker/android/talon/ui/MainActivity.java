@@ -35,9 +35,13 @@ public class MainActivity extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
 
-        sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
+        try {
+            requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        } catch (Exception e) {
+            // don't know why right now...
+        }
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
 
         setUpTheme();
         setUpWindow();
@@ -143,11 +147,5 @@ public class MainActivity extends DrawerActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        /*if ((popupOpened || (refreshHappened && !getIntent().getBooleanExtra("from_notification", false))) && !getIntent().getBooleanExtra("from_notification", false)) {
-            recreate();
-        }
-
-        popupOpened = false;
-        refreshHappened = false;*/
     }
 }

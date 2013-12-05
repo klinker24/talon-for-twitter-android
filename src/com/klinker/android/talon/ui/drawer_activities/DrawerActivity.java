@@ -580,11 +580,6 @@ public abstract class DrawerActivity extends Activity {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
-        recreate();
-    }
-
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
