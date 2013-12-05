@@ -191,6 +191,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                 // used to mark read
+                // TODO: CHANGE THIS, it is completely unnessisary and doesn't work well for large amounts
+                // to onDestroy or pause and check the current item,
+                // making sure everything below it is marked as read.
                 final int currentAccount = sharedPrefs.getInt("current_account", 1);
                 if (firstVisibleItem < unread) {
                     new Thread(new Runnable() {
