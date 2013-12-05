@@ -152,13 +152,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
 
-            View view = new View(context);
-            view.setOnClickListener(null);
-            view.setOnLongClickListener(null);
-            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
-            view.setLayoutParams(params2);
-            listView.addHeaderView(view);
-            listView.setFooterDividersEnabled(false);
+            if (!MainActivity.isPopup) {
+                View view = new View(context);
+                view.setOnClickListener(null);
+                view.setOnLongClickListener(null);
+                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+                view.setLayoutParams(params2);
+                listView.addHeaderView(view);
+                listView.setHeaderDividersEnabled(false);
+            }
         }
 
         new GetCursorAdapter().execute();
@@ -345,7 +347,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                         //Crouton.makeText((Activity) context, text, Style.INFO).show();
                         int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                        listView.setSelectionFromTop(numberNew, size);
+                        listView.setSelectionFromTop(numberNew + 2, size);
                     } else {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         refreshCursor();
@@ -534,7 +536,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         if (newTweets > 0) {
             unread = newTweets;
             int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(newTweets, size);
+            listView.setSelectionFromTop(newTweets + 2, size);
         }
     }
 

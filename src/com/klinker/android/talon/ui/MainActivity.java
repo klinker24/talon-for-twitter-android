@@ -139,8 +139,6 @@ public class MainActivity extends DrawerActivity {
 
         }
 
-        Crouton.cancelAllCroutons();
-
         /*try {
             sharedPrefs.edit().putInt("timeline_unread", HomeFragment.listView.getFirstVisiblePosition()).commit();
         } catch (Exception e) {
