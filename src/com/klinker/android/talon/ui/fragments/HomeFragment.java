@@ -4,11 +4,15 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +35,7 @@ import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.sq_lite.HomeContentProvider;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
@@ -59,7 +64,7 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class HomeFragment extends Fragment implements OnRefreshListener {
+public class HomeFragment extends Fragment implements OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int HOME_REFRESH_ID = 121;
 
@@ -83,6 +88,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
     private ActionBar actionBar;
     private int mActionBarSize;
+
+    private boolean shown = true;
 
     @Override
     public void onAttach(Activity activity) {
@@ -119,6 +126,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+
+        getLoaderManager().initLoader(0, null, this);
 
         // Now find the PullToRefreshLayout to setup
         mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
@@ -165,11 +174,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
             }
         }
 
-        new GetCursorAdapter().execute();
-
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             int mLastFirstVisibleItem = 0;
+            int last = 0;
+            boolean register = true;
 
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -214,6 +223,21 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 } else if (MainActivity.translucent) {
                     hideStatusBar();
                 }
+
+            }
+
+            private void hideActionBar() {
+                if (shown) {
+                    actionBar.hide();
+                    shown = false;
+                }
+            }
+
+            private void showActionBar() {
+                if (!shown) {
+                    actionBar.show();
+                    shown = true;
+                }
             }
         });
 
@@ -238,14 +262,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     public void onRefreshStarted(final View view) {
         new AsyncTask<Void, Void, Void>() {
 
-            private boolean update;
             private int numberNew;
 
             public List<twitter4j.Status> getList(int page, Twitter twitter) {
                 try {
                     return twitter.getHomeTimeline(new Paging(page, 200));
                 } catch (Exception e) {
-                    Log.v("timeline_refreshing", "caught: " + e.getMessage());
                     return new ArrayList<twitter4j.Status>();
                 }
             }
@@ -302,11 +324,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         }
                         sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
 
-                        update = true;
-                        //numberNew = statuses.size();
-                    } else {
-                        update = false;
-                        //numberNew = 0;
                     }
 
                     for (twitter4j.Status status : statuses) {
@@ -347,14 +364,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
 
                     if (unread > 0) {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                        refreshCursor();
+                        //refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                         //Crouton.makeText((Activity) context, text, Style.INFO).show();
                         int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         listView.setSelectionFromTop(numberNew + 2, size);
                     } else {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                        refreshCursor();
+                        //refreshCursor();
 
                         CharSequence text = context.getResources().getString(R.string.no_new_tweets);
                         //Crouton.makeText((Activity) context, text, Style.INFO).show();
@@ -374,6 +391,32 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                 }
             }
         }.execute();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = HomeDataSource.allColumns;
+        CursorLoader cursorLoader = new CursorLoader(
+                context,
+                HomeContentProvider.CONTENT_URI,
+                projection,
+                null,
+                new String[] {sharedPrefs.getInt("current_account", 1) + ""},
+                null );
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+        //cursorAdapter.swapCursor(cursor);
+        listView.setAdapter(cursorAdapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        // data is not available anymore, delete reference
+        cursorAdapter.swapCursor(null);
     }
 
     class RefreshMentions extends AsyncTask<Void, Void, Boolean> {
@@ -477,8 +520,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected String doInBackground(Void... args) {
-
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
 
             return null;
         }

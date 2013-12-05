@@ -14,9 +14,9 @@ import android.provider.Settings.System;
 public class HomeContentProvider extends ContentProvider {
     static final String TAG = "HomeTimeline";
 
-    static final String AUTHORITY = "content://com.klinker.android.talon.provider";
-    public static final Uri CONTENT_URI = Uri.parse(AUTHORITY);
-    static final String SINGLE_RECORD_MIME_TYPE = "vnd.android.cursor.item/vnd.klinker.android.talon.status";
+    static final String AUTHORITY = "com.klinker.android.talon.provider";
+    static final String BASE_PATH = "tweet_id";
+    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
 
     private Context context;
     private HomeSQLiteHelper helper;
@@ -54,7 +54,7 @@ public class HomeContentProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(result, null);
         }
 
-        return null;
+        return Uri.parse(BASE_PATH + "/" + rowID);
     }
 
     // arg[0] is the account
@@ -114,7 +114,10 @@ public class HomeContentProvider extends ContentProvider {
         qb.appendWhere(helper.COLUMN_ID + "=" + uri.getLastPathSegment());
         String orderBy = HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC";
 
-        Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
+        HomeDataSource data = new HomeDataSource(context);
+        data.open();
+        Cursor c = data.getCursor(Integer.parseInt(selectionArgs[0]));//qb.query(db,
+                //projection, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + selectionArgs[0], null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         c.setNotificationUri(context.getContentResolver(), uri);
 
         return c;

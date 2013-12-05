@@ -32,6 +32,7 @@
 
         <provider
             android:name=".sq_lite.HomeContentProvider"
+            android:multiprocess="true"
             android:authorities="com.klinker.android.talon.provider" />
 
         <activity android:name=".ui.MainActivity"
