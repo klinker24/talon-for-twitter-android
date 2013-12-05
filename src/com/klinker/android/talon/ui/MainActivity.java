@@ -106,46 +106,12 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        /*int unread = sharedPrefs.getInt("timeline_unread", 0);
-
-        if (HomeFragment.listView.getFirstVisiblePosition() == 0
-                && settings.refreshOnStart
-                && !fromSettings
-                && !getIntent().getBooleanExtra("from_notification", false)
-                && !getIntent().getBooleanExtra("from_drawer", false)) {
-            refreshMe = true;
-        } else {
-            refreshMe = false;
-        }
-
-        fromSettings = false;*/
-    }
-
-    @Override
-    protected void onDestroy() {
-        try {
-            super.onDestroy();
-        } catch (Exception e) {
-
-        }
-
-        /*try {
-            sharedPrefs.edit().putInt("timeline_unread", HomeFragment.listView.getFirstVisiblePosition()).commit();
-        } catch (Exception e) {
-            // they haven't logged in yet so there is no listview
-        }*/
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+        //mNotificationManager.cancelAll();
 
     }
 }

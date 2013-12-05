@@ -54,7 +54,9 @@ import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
+import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -502,12 +504,12 @@ public abstract class DrawerActivity extends Activity {
         // cancels the notifications when the app is opened
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+        //mNotificationManager.cancelAll();
 
         // for testing
-        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+        RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
         Intent popup = new Intent(context, MainActivityPopup.class);
-        popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        popup.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         popup.putExtra("from_notification", true);
         PendingIntent popupPending =
                 PendingIntent.getActivity(
@@ -540,7 +542,7 @@ public abstract class DrawerActivity extends Activity {
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
-        mNotificationManager.notify(4, mBuilder.build());*/
+        mNotificationManager.notify(4, mBuilder.build());
     }
 
     @Override

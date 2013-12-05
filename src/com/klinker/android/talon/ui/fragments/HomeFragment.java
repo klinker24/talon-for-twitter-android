@@ -110,6 +110,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         settings = new AppSettings(context);
         cd = new ConnectionDetector(context);
 
+        sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
                     new int[] { android.R.attr.actionBarSize });

@@ -48,12 +48,8 @@ public class MainActivityPopup extends MainActivity {
 
     @Override
     public void onPause() {
+        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
         super.onPause();
     }
 
-    @Override
-    public void onDestroy() {
-        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-        super.onDestroy();
-    }
 }

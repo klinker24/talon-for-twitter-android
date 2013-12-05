@@ -168,9 +168,9 @@
             android:theme="@style/Theme.TalonLight.Popup"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:launchMode="singleInstance"
-            android:clearTaskOnLaunch="true"
-            android:excludeFromRecents="true" >
+            android:exported="true"
+            tools:ignore="ExportedActivity"
+            android:clearTaskOnLaunch="true" >
         </activity>
 
         <activity android:name=".ui.ComposeActivity"

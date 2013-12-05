@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +15,9 @@ import android.widget.RemoteViews;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.sq_lite.HomeContentProvider;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
+import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
 import com.klinker.android.talon.utils.Utils;
@@ -22,7 +25,9 @@ import com.klinker.android.talon.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import twitter4j.MediaEntity;
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -99,7 +104,7 @@ public class TimelineRefreshService extends IntentService {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, currentAccount);
+                        insertTweet(status, currentAccount);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
@@ -199,5 +204,35 @@ public class TimelineRefreshService extends IntentService {
             Log.v("timeline_refreshing", "caught: " + e.getMessage());
             return new ArrayList<twitter4j.Status>();
         }
+    }
+
+    public void insertTweet(Status status, int currentAccount) {
+        ContentValues values = new ContentValues();
+        String originalName = "";
+        long id = status.getId();
+        long time = status.getCreatedAt().getTime();
+
+        if(status.isRetweet()) {
+            originalName = status.getUser().getScreenName();
+            status = status.getRetweetedStatus();
+        }
+
+        values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
+        values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
+        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
+        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
+
+        MediaEntity[] entities = status.getMediaEntities();
+
+        if (entities.length > 0) {
+            values.put(HomeSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
+        }
+
+        getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
 }
