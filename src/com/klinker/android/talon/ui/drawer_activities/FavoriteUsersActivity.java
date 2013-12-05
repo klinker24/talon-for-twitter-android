@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -16,6 +18,7 @@ import com.klinker.android.talon.adapters.PeopleCursorAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.ui.LoginActivity;
+import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -72,6 +75,45 @@ public class FavoriteUsersActivity extends DrawerActivity {
             listView.addHeaderView(view);
             listView.setFooterDividersEnabled(false);
         }
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            int mLastFirstVisibleItem = 0;
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                // show and hide the action bar
+                if (firstVisibleItem != 0) {
+                    if (MainActivity.canSwitch) {
+                        // used to show and hide the action bar
+                        if (firstVisibleItem > mLastFirstVisibleItem) {
+                            actionBar.hide();
+                        } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                            actionBar.show();
+                            if (translucent) {
+                                statusBar.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        mLastFirstVisibleItem = firstVisibleItem;
+                    }
+                } else {
+                    actionBar.show();
+                }
+
+                if (MainActivity.translucent && actionBar.isShowing()) {
+                    showStatusBar();
+                } else if (MainActivity.translucent) {
+                    hideStatusBar();
+                }
+            }
+        });
 
         setUpDrawer(5, getResources().getString(R.string.favorite_users));
 

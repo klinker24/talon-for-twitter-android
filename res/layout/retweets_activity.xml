@@ -6,9 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout android:layout_height="match_parent"
-                  android:layout_width="match_parent"
-                  android:orientation="vertical" >
+    <RelativeLayout android:layout_height="match_parent"
+                  android:layout_width="match_parent"  >
 
         <LinearLayout android:id="@+id/list_progress"
                       android:orientation="vertical"
@@ -39,7 +38,13 @@
                 android:visibility="gone"
                 />
 
-    </LinearLayout>
+        <View android:id="@+id/activity_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@android:color/black"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
     <!-- The navigation drawer -->
     <include layout="@layout/main_drawer"

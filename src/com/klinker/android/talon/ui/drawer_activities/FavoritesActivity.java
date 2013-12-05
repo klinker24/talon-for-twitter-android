@@ -3,6 +3,7 @@ package com.klinker.android.talon.ui.drawer_activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
@@ -115,6 +116,12 @@ public class FavoritesActivity extends DrawerActivity {
                     }
                 } else {
                     actionBar.show();
+                }
+
+                if (MainActivity.translucent && actionBar.isShowing()) {
+                    showStatusBar();
+                } else if (MainActivity.translucent) {
+                    hideStatusBar();
                 }
             }
         });

@@ -113,6 +113,12 @@ public class RetweetActivity extends DrawerActivity {
                 } else {
                     actionBar.show();
                 }
+
+                if (MainActivity.translucent && actionBar.isShowing()) {
+                    showStatusBar();
+                } else if (MainActivity.translucent) {
+                    hideStatusBar();
+                }
             }
         });
 

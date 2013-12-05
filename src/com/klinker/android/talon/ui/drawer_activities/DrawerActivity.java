@@ -370,7 +370,13 @@ public abstract class DrawerActivity extends Activity {
             statusParams.height = statusBarHeight;
             statusBar.setLayoutParams(statusParams);
         } catch (Exception e) {
-            // in the trends
+            try {
+                LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
+                statusParams.height = statusBarHeight;
+                statusBar.setLayoutParams(statusParams);
+            } catch (Exception x) {
+                // in the trends
+            }
         }
 
         if (translucent) {
@@ -587,5 +593,23 @@ public abstract class DrawerActivity extends Activity {
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+    }
+
+    public void showStatusBar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+            }
+        }, 000);
+    }
+
+    public void hideStatusBar() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.GONE);
+            }
+        }, 000); // 200 would be better
     }
 }
