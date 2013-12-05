@@ -30,6 +30,7 @@ import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.CursorListLoader;
@@ -554,6 +555,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets = dataSource.getUnreadCount(currentAccount);
+
+        Toast.makeText(context, newTweets + "", Toast.LENGTH_SHORT).show();
 
         if (newTweets > 0) {
             unread = newTweets;
