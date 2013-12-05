@@ -6,6 +6,7 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.HomeContentProvider;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
+import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
@@ -53,6 +55,7 @@ import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import twitter4j.MediaEntity;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -177,8 +180,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             int mLastFirstVisibleItem = 0;
-            int last = 0;
-            boolean register = true;
 
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -328,7 +329,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            dataSource.createTweet(status, currentAccount);
+                            insertTweet(status, currentAccount);
+                            //dataSource.createTweet(status, currentAccount);
                         } catch (Exception e) {
                             e.printStackTrace();
                             break;
@@ -362,16 +364,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 try {
                     super.onPostExecute(result);
 
+                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
+
                     if (unread > 0) {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                        //refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                         //Crouton.makeText((Activity) context, text, Style.INFO).show();
-                        int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                        listView.setSelectionFromTop(numberNew + 2, size);
                     } else {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                        //refreshCursor();
 
                         CharSequence text = context.getResources().getString(R.string.no_new_tweets);
                         //Crouton.makeText((Activity) context, text, Style.INFO).show();
@@ -391,32 +391,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }
         }.execute();
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = HomeDataSource.allColumns;
-        CursorLoader cursorLoader = new CursorLoader(
-                context,
-                HomeContentProvider.CONTENT_URI,
-                projection,
-                null,
-                new String[] {sharedPrefs.getInt("current_account", 1) + ""},
-                null );
-        return cursorLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-        //cursorAdapter.swapCursor(cursor);
-        listView.setAdapter(cursorAdapter);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        // data is not available anymore, delete reference
-        cursorAdapter.swapCursor(null);
     }
 
     class RefreshMentions extends AsyncTask<Void, Void, Boolean> {
@@ -504,7 +478,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             if (updated) {
                 CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
-                //Crouton.makeText(context, text, Style.INFO).show();
+
                 MentionsFragment.refreshCursor();
             } else {
 
@@ -517,44 +491,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     }
 
-    class GetCursorAdapter extends AsyncTask<Void, Void, String> {
-
-        protected String doInBackground(Void... args) {
-
-            return null;
-        }
-
-        protected void onPostExecute(String file_url) {
-
-            attachCursor(true, cursorAdapter);
-        }
-
-    }
-
-    public void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
-        cursorAdapter.notifyDataSetChanged();
-    }
-
-    public void refreshCursor() {
-        try {
-            listView.setAdapter(cursorAdapter);
-        } catch (Exception e) {
-
-        }
-
-        swapCursors();
-    }
-
     @Override
     public void onPause() {
         sharedPrefs.edit().putInt("timeline_unread", listView.getFirstVisiblePosition()).commit();
-        /*try {
-            dataSource.close();
-        } catch (Exception e) {
-
-        }
-        */
 
         super.onPause();
     }
@@ -562,27 +501,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public void onResume() {
         super.onResume();
-        /*try {
-            dataSource.open();
-        } catch (Exception e) {
 
-        }*/
-    }
-
-    @SuppressWarnings("deprecation")
-    public void attachCursor(boolean header, TimeLineCursorAdapter cursorAdapter) {
-        listView.setAdapter(cursorAdapter);
-
-        swapCursors();
-
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
-        int newTweets = dataSource.getUnreadCount(currentAccount);
-
-        if (newTweets > 0) {
-            unread = newTweets;
-            int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(newTweets + 2, size);
-        }
+        Log.v("on_resumed", "resuming home fragment");
+        getLoaderManager().restartLoader(0, null, HomeFragment.this);
     }
 
     public int toDP(int px) {
@@ -598,24 +519,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void run() {
                 DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-
-                /*AlphaAnimation fade_in = new AlphaAnimation(0.0f, 1.0f);
-                fade_in.setDuration(50);
-                fade_in.setAnimationListener(new Animation.AnimationListener()
-                {
-                    public void onAnimationStart(Animation arg0)
-                    {
-                    }
-                    public void onAnimationRepeat(Animation arg0)
-                    {
-                    }
-
-                    public void onAnimationEnd(Animation arg0)
-                    {
-                        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-                    }
-                });
-                DrawerActivity.statusBar.startAnimation(fade_in);*/
             }
         }, 000);
     }
@@ -625,26 +528,74 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void run() {
                 DrawerActivity.statusBar.setVisibility(View.GONE);
-
-                /*AlphaAnimation fade_out = new AlphaAnimation(1.0f, 0.0f);
-                fade_out.setDuration(50);
-                fade_out.setAnimationListener(new Animation.AnimationListener()
-                {
-                    public void onAnimationStart(Animation arg0)
-                    {
-                    }
-                    public void onAnimationRepeat(Animation arg0)
-                    {
-                    }
-
-                    public void onAnimationEnd(Animation arg0)
-                    {
-                        DrawerActivity.statusBar.setVisibility(View.GONE);
-                    }
-                });
-                DrawerActivity.statusBar.startAnimation(fade_out);*/
             }
         }, 000); // 200 would be better
+    }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = HomeDataSource.allColumns;
+        CursorLoader cursorLoader = new CursorLoader(
+                context,
+                HomeContentProvider.CONTENT_URI,
+                projection,
+                null,
+                new String[] {sharedPrefs.getInt("current_account", 1) + ""},
+                null );
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+        //cursorAdapter.swapCursor(cursor);
+        listView.setAdapter(cursorAdapter);
+
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        int newTweets = dataSource.getUnreadCount(currentAccount);
+
+        if (newTweets > 0) {
+            unread = newTweets;
+            int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            listView.setSelectionFromTop(newTweets + 2, size);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        // data is not available anymore, delete reference
+        cursorAdapter.swapCursor(null);
+    }
+
+    public void insertTweet(Status status, int currentAccount) {
+        ContentValues values = new ContentValues();
+        String originalName = "";
+        long id = status.getId();
+        long time = status.getCreatedAt().getTime();
+
+        if(status.isRetweet()) {
+            originalName = status.getUser().getScreenName();
+            status = status.getRetweetedStatus();
+        }
+
+        values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
+        values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
+        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
+        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
+
+        MediaEntity[] entities = status.getMediaEntities();
+
+        if (entities.length > 0) {
+            values.put(HomeSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
+        }
+
+        context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
 
 }
