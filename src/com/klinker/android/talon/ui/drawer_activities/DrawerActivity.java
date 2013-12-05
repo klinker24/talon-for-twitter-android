@@ -393,6 +393,8 @@ public abstract class DrawerActivity extends Activity {
             status2Params.height = statusBarHeight;
             drawerStatusBar.setLayoutParams(status2Params);
             drawerStatusBar.setVisibility(View.VISIBLE);
+
+            statusBar.setVisibility(View.VISIBLE);
         }
     }
 
