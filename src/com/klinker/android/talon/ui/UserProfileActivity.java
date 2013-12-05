@@ -381,7 +381,10 @@ public class UserProfileActivity extends Activity {
 
                 thisUser = user;
 
-                background.loadImage(user.getProfileBannerURL(), false, null);
+                String url = user.getProfileBannerURL();
+                if (url != null) {
+                    background.loadImage(user.getProfileBannerURL(), false, null);
+                }
 
                 new GetTimeline(user, listView).execute();
                 new GetActionBarInfo(user).execute();
