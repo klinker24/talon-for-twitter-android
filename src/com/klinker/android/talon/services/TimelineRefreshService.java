@@ -113,8 +113,6 @@ public class TimelineRefreshService extends IntentService {
 
                 numberNew = dataSource.getUnreadCount(currentAccount);
 
-                dataSource.close();
-
                 int mId = 1;
 
                 if (numberNew > 0) {

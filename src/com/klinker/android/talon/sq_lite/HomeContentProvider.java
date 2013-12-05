@@ -54,6 +54,8 @@ public class HomeContentProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(result, null);
         }
 
+        db.close();
+
         return Uri.parse(BASE_PATH + "/" + rowID);
     }
 
@@ -77,6 +79,8 @@ public class HomeContentProvider extends ContentProvider {
             db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
 
+        db.close();
+
         context.getContentResolver().notifyChange(uri, null);
 
         return 1;
@@ -97,6 +101,8 @@ public class HomeContentProvider extends ContentProvider {
             // Notify the Context's ContentResolver of the change
             getContext().getContentResolver().notifyChange(uri, null);
         }
+
+        db.close();
         return count;
     }
 
@@ -120,6 +126,7 @@ public class HomeContentProvider extends ContentProvider {
                 //projection, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + selectionArgs[0], null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         c.setNotificationUri(context.getContentResolver(), uri);
 
+        db.close();
         return c;
     }
 

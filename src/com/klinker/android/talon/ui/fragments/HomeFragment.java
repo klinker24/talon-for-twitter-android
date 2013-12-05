@@ -93,6 +93,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private ActionBar actionBar;
     private int mActionBarSize;
 
+    private boolean initial = true;
     private boolean shown = true;
 
     @Override
@@ -511,7 +512,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         Log.v("on_resumed", "resuming home fragment");
 
         if (sharedPrefs.getBoolean("refresh_me", false)) {
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
         }
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
@@ -559,9 +560,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-        //cursorAdapter.swapCursor(cursor);
-        listView.setAdapter(cursorAdapter);
+        //if (initial) {
+            cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+            //cursorAdapter.swapCursor(cursor);
+            listView.setAdapter(cursorAdapter);
+            initial = false;
+        //} else {
+            //cursorAdapter.swapCursor(cursor);
+        //}
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets = dataSource.getUnreadCount(currentAccount);
