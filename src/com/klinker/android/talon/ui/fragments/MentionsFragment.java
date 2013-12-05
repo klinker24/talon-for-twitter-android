@@ -314,7 +314,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                     Crouton.makeText(context, text, Style.INFO).show();
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(numberNew + 1, size);
+                    listView.setSelectionFromTop(numberNew, size);
                 } else {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
@@ -368,7 +368,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         if (newTweets > 0) {
             unread = newTweets;
-            listView.setSelectionFromTop(newTweets + 1, toDP(5 + mActionBarSize));
+            int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            listView.setSelectionFromTop(newTweets, size);
         }
     }
 

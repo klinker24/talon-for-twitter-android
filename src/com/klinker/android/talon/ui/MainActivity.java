@@ -42,7 +42,11 @@ public class MainActivity extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        try {
+            requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        } catch (Exception e) {
+
+        }
 
         setUpTheme();
         setUpWindow();

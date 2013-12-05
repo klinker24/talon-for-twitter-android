@@ -345,7 +345,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                         //Crouton.makeText((Activity) context, text, Style.INFO).show();
                         int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                        listView.setSelectionFromTop(numberNew + 1, size);
+                        listView.setSelectionFromTop(numberNew, size);
                     } else {
                         cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         refreshCursor();
@@ -534,7 +534,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener {
         if (newTweets > 0) {
             unread = newTweets;
             int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(newTweets + 1, size);
+            listView.setSelectionFromTop(newTweets, size);
         }
     }
 
