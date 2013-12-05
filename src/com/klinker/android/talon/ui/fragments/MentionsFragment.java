@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.CursorListLoader;
@@ -135,6 +136,27 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         builder.setThreadPoolSize(4);
 
         listView.setItemManager(builder.build());
+
+        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
+
+        if (DrawerActivity.translucent) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+
+            View view = new View(context);
+            view.setOnClickListener(null);
+            view.setOnLongClickListener(null);
+            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+            view.setLayoutParams(params2);
+            listView.addHeaderView(view);
+            listView.setFooterDividersEnabled(false);
+        }
 
         new GetCursorAdapter().execute();
 
@@ -340,9 +362,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         listView.setAdapter(cursorAdapter);
 
         swapCursors();
-
-        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets = dataSource.getUnreadCount(currentAccount);

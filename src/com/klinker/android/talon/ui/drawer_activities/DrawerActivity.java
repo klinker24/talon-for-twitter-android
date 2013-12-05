@@ -365,9 +365,13 @@ public abstract class DrawerActivity extends Activity {
         statusBarHeight = Utils.getStatusBarHeight(context);
         navBarHeight = Utils.getNavBarHeight(context);
 
-        RelativeLayout.LayoutParams statusParams = (RelativeLayout.LayoutParams) statusBar.getLayoutParams();
-        statusParams.height = statusBarHeight;
-        statusBar.setLayoutParams(statusParams);
+        try {
+            RelativeLayout.LayoutParams statusParams = (RelativeLayout.LayoutParams) statusBar.getLayoutParams();
+            statusParams.height = statusBarHeight;
+            statusBar.setLayoutParams(statusParams);
+        } catch (Exception e) {
+            // in the trends
+        }
 
         if (translucent) {
             View footer = new View(context);
@@ -395,6 +399,23 @@ public abstract class DrawerActivity extends Activity {
         } else {
             translucent = false;
         }
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_TalonLight);
+                break;
+            case AppSettings.THEME_DARK:
+                setTheme(R.style.Theme_TalonDark);
+                break;
+            case AppSettings.THEME_BLACK:
+                setTheme(R.style.Theme_TalonBlack);
+                break;
+        }
+    }
+
+    public void setUpTheme(boolean trends) {
+
+        translucent = false;
 
         switch (settings.theme) {
             case AppSettings.THEME_LIGHT:

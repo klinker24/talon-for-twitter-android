@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.klinker.android.talon.R;
@@ -82,6 +83,24 @@ public class Search extends DrawerActivity {
 
         View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
+
+        if (DrawerActivity.translucent) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+
+            View view = new View(context);
+            view.setOnClickListener(null);
+            view.setOnLongClickListener(null);
+            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+            view.setLayoutParams(params2);
+            listView.addHeaderView(view);
+            listView.setFooterDividersEnabled(false);
+        }
 
         setUpDrawer(8, getResources().getString(R.string.search));
 
