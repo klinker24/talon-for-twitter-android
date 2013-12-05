@@ -507,7 +507,7 @@ public abstract class DrawerActivity extends Activity {
         //mNotificationManager.cancelAll();
 
         // for testing
-        RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
         Intent popup = new Intent(context, MainActivityPopup.class);
         popup.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         popup.putExtra("from_notification", true);
@@ -542,7 +542,7 @@ public abstract class DrawerActivity extends Activity {
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
-        mNotificationManager.notify(4, mBuilder.build());
+        mNotificationManager.notify(4, mBuilder.build());*/
     }
 
     @Override
