@@ -218,38 +218,40 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }).start();
                 }
 
-                if (firstVisibleItem != 0) {
-                    if (MainActivity.canSwitch) {
-                        // used to show and hide the action bar
-                        if (firstVisibleItem < 3) {
+                if (settings.uiExtras) {
+                    if (firstVisibleItem != 0) {
+                        if (MainActivity.canSwitch) {
+                            // used to show and hide the action bar
+                            if (firstVisibleItem < 3) {
 
-                        } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                            actionBar.hide();
-                            if (!isToastShowing) {
-                                showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400);
+                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                                actionBar.hide();
+                                if (!isToastShowing) {
+                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400);
+                                }
+                            } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                                actionBar.show();
+                                if (isToastShowing) {
+                                    hideToastBar(400);
+                                }
                             }
-                        } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                            actionBar.show();
-                            if (isToastShowing) {
-                                hideToastBar(400);
-                            }
+
+                            mLastFirstVisibleItem = firstVisibleItem;
                         }
-
-                        mLastFirstVisibleItem = firstVisibleItem;
+                    } else {
+                        actionBar.show();
+                        hideToastBar(400);
                     }
-                } else {
-                    actionBar.show();
-                    hideToastBar(400);
-                }
 
-                if (isToastShowing) {
-                    updateToastText(firstVisibleItem + " " + fromTop);
-                }
+                    if (isToastShowing) {
+                        updateToastText(firstVisibleItem + " " + fromTop);
+                    }
 
-                if (MainActivity.translucent && actionBar.isShowing()) {
-                    showStatusBar();
-                } else if (MainActivity.translucent) {
-                    hideStatusBar();
+                    if (MainActivity.translucent && actionBar.isShowing()) {
+                        showStatusBar();
+                    } else if (MainActivity.translucent) {
+                        hideStatusBar();
+                    }
                 }
 
             }

@@ -39,6 +39,7 @@ public class AppSettings {
     public boolean sound;
     public boolean refreshOnStart;
     public boolean autoTrim;
+    public boolean uiExtras;
 
     public int theme;
     public int textSize;
@@ -83,6 +84,7 @@ public class AppSettings {
         vibrate = sharedPrefs.getBoolean("vibrate", true);
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
+        uiExtras = sharedPrefs.getBoolean("ui_extras", true);
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "0"));

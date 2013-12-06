@@ -171,54 +171,56 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         new GetCursorAdapter().execute();
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        if (settings.uiExtras) {
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-            int mLastFirstVisibleItem = 0;
+                int mLastFirstVisibleItem = 0;
 
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int i) {
 
-            }
+                }
 
-            @Override
-            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                @Override
+                public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                // show and hide the action bar
-                if (firstVisibleItem != 0) {
-                    if (MainActivity.canSwitch) {
-                        // used to show and hide the action bar
-                        if (firstVisibleItem < 3) {
+                    // show and hide the action bar
+                    if (firstVisibleItem != 0) {
+                        if (MainActivity.canSwitch) {
+                            // used to show and hide the action bar
+                            if (firstVisibleItem < 3) {
 
-                        } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                            actionBar.hide();
-                            if (!isToastShowing) {
-                                showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400);
+                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                                actionBar.hide();
+                                if (!isToastShowing) {
+                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400);
+                                }
+                            } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                                actionBar.show();
+                                if (isToastShowing) {
+                                    hideToastBar(400);
+                                }
                             }
-                        } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                            actionBar.show();
-                            if (isToastShowing) {
-                                hideToastBar(400);
-                            }
+
+                            mLastFirstVisibleItem = firstVisibleItem;
                         }
-
-                        mLastFirstVisibleItem = firstVisibleItem;
+                    } else {
+                        actionBar.show();
+                        hideToastBar(400);
                     }
-                } else {
-                    actionBar.show();
-                    hideToastBar(400);
-                }
 
-                if (isToastShowing) {
-                    updateToastText(firstVisibleItem + " " + fromTop);
-                }
+                    if (isToastShowing) {
+                        updateToastText(firstVisibleItem + " " + fromTop);
+                    }
 
-                if (MainActivity.translucent && actionBar.isShowing()) {
-                    showStatusBar();
-                } else if (MainActivity.translucent) {
-                    hideStatusBar();
+                    if (MainActivity.translucent && actionBar.isShowing()) {
+                        showStatusBar();
+                    } else if (MainActivity.translucent) {
+                        hideStatusBar();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         setUpToastBar(layout);
 

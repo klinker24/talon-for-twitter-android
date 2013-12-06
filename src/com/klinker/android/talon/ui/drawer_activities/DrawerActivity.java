@@ -433,8 +433,7 @@ public abstract class DrawerActivity extends Activity {
 
     public void setUpTheme() {
 
-        if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup) {
-            Log.v("translucent", "setting translucent");
+        if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup && settings.uiExtras) {
             translucent = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         } else {
