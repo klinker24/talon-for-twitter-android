@@ -48,6 +48,8 @@
     <string name="no_new_direct_messages">No new direct messages</string>
     <string name="tap_to_setup">Tap to setup</string>
     <string name="new_account">New Account</string>
+    <string name="from_top">from top</string>
+    <string name="jump_to_top">To First</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>

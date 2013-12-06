@@ -27,9 +27,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
@@ -96,6 +98,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private boolean initial = true;
     private boolean shown = true;
 
+    private String jumpToTop;
+    private String fromTop;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -112,6 +117,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         cd = new ConnectionDetector(context);
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+
+        jumpToTop = getResources().getString(R.string.jump_to_top);
+        fromTop = getResources().getString(R.string.from_top);
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
@@ -217,14 +225,25 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                         } else if (firstVisibleItem < mLastFirstVisibleItem) {
                             actionBar.hide();
+                            if (!isToastShowing) {
+                                showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400);
+                            }
                         } else if (firstVisibleItem > mLastFirstVisibleItem) {
                             actionBar.show();
+                            if (isToastShowing) {
+                                hideToastBar(400);
+                            }
                         }
 
                         mLastFirstVisibleItem = firstVisibleItem;
                     }
                 } else {
                     actionBar.show();
+                    hideToastBar(400);
+                }
+
+                if (isToastShowing) {
+                    updateToastText(firstVisibleItem + " " + fromTop);
                 }
 
                 if (MainActivity.translucent && actionBar.isShowing()) {
@@ -263,6 +282,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }, 400);
 
         }
+
+        setUpToastBar(layout);
 
         return layout;
     }
@@ -510,8 +531,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onResume() {
         super.onResume();
 
-        Log.v("on_resumed", "resuming home fragment");
-
         if (sharedPrefs.getBoolean("refresh_me", false)) {
             getLoaderManager().restartLoader(0, null, HomeFragment.this);
         }
@@ -616,6 +635,86 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
+    }
+
+    private boolean isToastShowing = false;
+
+    private View toastBar;
+    private TextView toastDescription;
+    private TextView toastButton;
+
+    private void setUpToastBar(View view) {
+        toastBar = view.findViewById(R.id.toastBar);
+        toastDescription = (TextView) view.findViewById(R.id.toastDescription);
+        toastButton = (TextView) view.findViewById(R.id.toastButton);
+    }
+
+    private void showToastBar(String description, String buttonText, final long length) {
+        toastDescription.setText(description);
+        toastButton.setText(buttonText);
+        toastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listView.smoothScrollToPosition(0);
+            }
+        });
+
+        toastBar.setVisibility(View.VISIBLE);
+
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                isToastShowing = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                /*new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideToastBar(length);
+                    }
+                }, 5000);*/
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        anim.setDuration(length);
+        toastBar.startAnimation(anim);
+    }
+
+    private void hideToastBar(long length) {
+        if (!isToastShowing) {
+            return;
+        }
+
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                isToastShowing = false;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                toastBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        anim.setDuration(length);
+        toastBar.startAnimation(anim);
+    }
+
+    public void updateToastText(String text) {
+        toastDescription.setText(text);
     }
 
 }

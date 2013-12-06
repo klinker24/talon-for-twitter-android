@@ -8,7 +8,11 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom">
 
-    <org.lucasr.smoothie.AsyncListView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <org.lucasr.smoothie.AsyncListView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/listView"
             android:layout_height="match_parent"
@@ -21,5 +25,60 @@
             android:background="@android:color/transparent"
             android:listSelector="@android:color/transparent"
             />
+
+        <LinearLayout android:id="@+id/toastBar"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/app_color"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+                <com.klinker.android.talon.ui.widgets.HoloTextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:id="@+id/toastDescription"
+                    android:singleLine="true"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textAllCaps="true"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@android:color/white"
+                    android:alpha="20"/>
+
+                <com.klinker.android.talon.ui.widgets.HoloTextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/toastButton"
+                    android:background="@drawable/pressed_toast"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="true"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
 
 </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

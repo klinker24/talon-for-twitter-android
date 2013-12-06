@@ -21,6 +21,7 @@ limitations under the License.
     <color name="pressed_app_color">#77FF8800</color>
     <color name="holo_blue">#33B5E5</color>
     <color name="holo_blue_alpha">#4433B5E5</color>
+    <color name="pressed_white">#55ffffff</color>
 
     <color name="image_darken">#25222222</color>
 
