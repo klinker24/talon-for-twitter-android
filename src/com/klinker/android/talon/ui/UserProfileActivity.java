@@ -119,7 +119,8 @@ public class UserProfileActivity extends Activity {
         settings = new AppSettings(context);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (settings.advanceWindowed) {
+        if ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
+                !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false)) {
             setUpWindow();
         }
 

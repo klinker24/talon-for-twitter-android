@@ -234,11 +234,37 @@ public abstract class DrawerActivity extends Activity {
                         viewProfile.putExtra("proPic", profilePicUrl);
                         viewProfile.putExtra("tweetid", 0);
                         viewProfile.putExtra("retweet", false);
+                        viewProfile.putExtra("long_click", false);
 
                         context.startActivity(viewProfile);
                     }
                 }, 400);
 
+            }
+        });
+
+        backgroundPic.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                mDrawerLayout.closeDrawer(Gravity.START);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                        viewProfile.putExtra("name", sName);
+                        viewProfile.putExtra("screenname", sScreenName);
+                        viewProfile.putExtra("proPic", profilePicUrl);
+                        viewProfile.putExtra("tweetid", 0);
+                        viewProfile.putExtra("retweet", false);
+                        viewProfile.putExtra("long_click", true);
+
+                        context.startActivity(viewProfile);
+                    }
+                }, 400);
+
+                return false;
             }
         });
 

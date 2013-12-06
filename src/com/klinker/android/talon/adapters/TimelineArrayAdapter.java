@@ -369,8 +369,28 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewProfile.putExtra("proPic", profilePic);
                     viewProfile.putExtra("tweetid", holder.tweetId);
                     viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
+                    viewProfile.putExtra("long_click", false);
 
                     context.startActivity(viewProfile);
+                }
+            });
+
+            holder.profilePic.setOnLongClickListener(new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View view) {
+
+                    Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                    viewProfile.putExtra("name", name);
+                    viewProfile.putExtra("screenname", screenname);
+                    viewProfile.putExtra("proPic", profilePic);
+                    viewProfile.putExtra("tweetid", holder.tweetId);
+                    viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
+                    viewProfile.putExtra("long_click", true);
+
+                    context.startActivity(viewProfile);
+
+                    return false;
                 }
             });
         }
