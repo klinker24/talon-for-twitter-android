@@ -80,6 +80,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     private ActionBar actionBar;
     private int mActionBarSize;
 
+    private String jumpToTop;
+    private String fromTop;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -94,6 +97,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
         cd = new ConnectionDetector(context);
+
+        fromTop = getResources().getString(R.string.from_top);
+        jumpToTop = getResources().getString(R.string.jump_to_top);
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
