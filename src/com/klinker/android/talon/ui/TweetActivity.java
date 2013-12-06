@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -355,6 +356,13 @@ public class TweetActivity extends Activity {
                     background.startAnimation(expandAni);
                 }
             });
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    expand.performClick();
+                }
+            }, 500);
         } else {
             expand.setVisibility(View.GONE);
         }

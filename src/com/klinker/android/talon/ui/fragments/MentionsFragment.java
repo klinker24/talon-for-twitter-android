@@ -139,6 +139,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
+        listView.setHeaderDividersEnabled(false);
 
         if (DrawerActivity.translucent) {
             View footer = new View(context);

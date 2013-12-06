@@ -112,6 +112,5 @@ public class MainActivity extends DrawerActivity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
-
     }
 }

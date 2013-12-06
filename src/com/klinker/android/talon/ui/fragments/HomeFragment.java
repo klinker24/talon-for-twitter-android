@@ -160,6 +160,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
+        listView.setHeaderDividersEnabled(false);
 
         if (DrawerActivity.translucent) {
             View footer = new View(context);
@@ -512,7 +513,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         Log.v("on_resumed", "resuming home fragment");
 
         if (sharedPrefs.getBoolean("refresh_me", false)) {
-            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
         }
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
