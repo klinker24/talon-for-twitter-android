@@ -5,12 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ptr_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="bottom">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
         <org.lucasr.smoothie.AsyncListView
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,15 +23,17 @@
 
         <LinearLayout android:id="@+id/toastBar"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="match_parent"
             android:visibility="gone"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="60dp" >
+            android:layout_marginBottom="60dp"
+            android:gravity="bottom">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:background="@color/app_color"
+                android:baselineAligned="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
@@ -76,9 +73,6 @@
                     android:paddingRight="20dp"/>
             </LinearLayout>
         </LinearLayout>
-
-
-    </RelativeLayout>
 
 
 </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
