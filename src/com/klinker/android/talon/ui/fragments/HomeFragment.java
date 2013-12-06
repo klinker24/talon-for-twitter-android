@@ -419,15 +419,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     getLoaderManager().restartLoader(0, null, HomeFragment.this);
 
                     if (unread > 0) {
-                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+
                         if(!settings.uiExtras) {
                             showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                         }
                     } else {
-                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-
                         CharSequence text = context.getResources().getString(R.string.no_new_tweets);
+
                         if(!settings.uiExtras) {
                             showToastBar(text + "", allRead, 400, true, toTopListener);
                         }
@@ -620,9 +619,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets = dataSource.getUnreadCount(currentAccount);
 
-        Toast.makeText(context, newTweets + "", Toast.LENGTH_SHORT).show();
-
-        if (newTweets > 0) {
+        if (newTweets != 0) {
             unread = newTweets;
             int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(newTweets + 2, size);
