@@ -82,6 +82,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
     private String jumpToTop;
     private String fromTop;
+    private String allRead;
+
+    private View.OnClickListener toTopListener;
 
     @Override
     public void onAttach(Activity activity) {
@@ -100,6 +103,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
+        allRead = getResources().getString(R.string.all_read);
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
@@ -193,7 +197,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
                                 actionBar.hide();
                                 if (!isToastShowing) {
-                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400);
+                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
                                 actionBar.show();
@@ -223,6 +227,13 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         }
 
         setUpToastBar(layout);
+
+        toTopListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listView.smoothScrollToPosition(0);
+            }
+        };
 
         return layout;
     }
@@ -309,15 +320,18 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
-                    Crouton.makeText((Activity) context, text, Style.INFO).show();
-                    int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                    if(!settings.uiExtras) {
+                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                    }                    int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                     listView.setSelectionFromTop(numberNew + 2, size);
                 } else {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_direct_messages);
-                    Crouton.makeText((Activity) context, text, Style.INFO).show();
+                    if(!settings.uiExtras) {
+                        showToastBar(text + "", allRead, 400, true, toTopListener);
+                    }
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
@@ -399,15 +413,10 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         toastButton = (TextView) view.findViewById(R.id.toastButton);
     }
 
-    private void showToastBar(String description, String buttonText, final long length) {
+    private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
         toastDescription.setText(description);
         toastButton.setText(buttonText);
-        toastButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listView.smoothScrollToPosition(0);
-            }
-        });
+        toastButton.setOnClickListener(listener);
 
         toastBar.setVisibility(View.VISIBLE);
 
@@ -420,12 +429,14 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                /*new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideToastBar(length);
-                    }
-                }, 5000);*/
+                if (quit) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideToastBar(length);
+                        }
+                    }, 5000);
+                }
             }
 
             @Override

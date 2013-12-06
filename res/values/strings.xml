@@ -50,6 +50,7 @@
     <string name="new_account">New Account</string>
     <string name="from_top">from top</string>
     <string name="jump_to_top">To First</string>
+    <string name="all_read">All Read!</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>

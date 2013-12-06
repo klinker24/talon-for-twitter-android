@@ -83,6 +83,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     private String fromTop;
     private String jumpToTop;
+    private String allRead;
+
+    private View.OnClickListener toTopListener;
 
     @Override
     public void onAttach(Activity activity) {
@@ -101,6 +104,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
+        allRead = getResources().getString(R.string.all_read);
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
@@ -115,7 +119,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         View layout = inflater.inflate(R.layout.main_fragments, null);
         // Check if Internet present
         if (!cd.isConnectingToInternet()) {
-            Crouton.makeText(context, "No internet connection", Style.ALERT);
+            //Crouton.makeText(context, "No internet connection", Style.ALERT);
         }
 
         sharedPrefs.edit().putInt("mentions_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();
@@ -207,7 +211,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
                                 actionBar.hide();
                                 if (!isToastShowing) {
-                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400);
+                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
                                 actionBar.show();
@@ -237,6 +241,13 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         });
 
         setUpToastBar(layout);
+
+        toTopListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listView.smoothScrollToPosition(0);
+            }
+        };
 
         return layout;
     }
@@ -339,7 +350,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
-                    Crouton.makeText(context, text, Style.INFO).show();
+                    if(!settings.uiExtras) {
+                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                    }
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                     listView.setSelectionFromTop(numberNew + 2, size);
                 } else {
@@ -347,7 +360,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_mentions);
-                    Crouton.makeText((Activity) context, text, Style.INFO).show();
+                    if(!settings.uiExtras) {
+                        showToastBar(text + "", allRead, 400, true, toTopListener);
+                    }
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
@@ -438,15 +453,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         toastButton = (TextView) view.findViewById(R.id.toastButton);
     }
 
-    private void showToastBar(String description, String buttonText, final long length) {
+    private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
         toastDescription.setText(description);
         toastButton.setText(buttonText);
-        toastButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listView.smoothScrollToPosition(0);
-            }
-        });
+        toastButton.setOnClickListener(listener);
 
         toastBar.setVisibility(View.VISIBLE);
 
@@ -459,12 +469,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                /*new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideToastBar(length);
-                    }
-                }, 5000);*/
+                if (quit) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideToastBar(length);
+                        }
+                    }, 5000);
+                }
             }
 
             @Override
