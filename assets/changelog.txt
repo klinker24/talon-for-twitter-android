@@ -1,3 +1,8 @@
+Version 0.8:<br/><br/>
+    &#8226; Open profiles and hashtags that are highlighted in tweets<br/>
+    &#8226; Style changes<br/><br/>
+<br/>
+
 Version 0.75:<br/><br/>
     &#8226; Support for a second account<br/>
     &#8226; Awesome kitkat styling stuff<br/>
