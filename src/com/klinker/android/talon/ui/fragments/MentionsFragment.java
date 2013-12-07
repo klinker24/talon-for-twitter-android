@@ -201,7 +201,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     }).start();
                 }
 
-                if (settings.uiExtras) {
+                if (settings.uiExtras && !infoBar) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
@@ -350,9 +350,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
-                    if(!settings.uiExtras) {
+                    //if(!settings.uiExtras) {
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                    }
+                    //}
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                     listView.setSelectionFromTop(numberNew + 2, size);
                 } else {
@@ -360,9 +360,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_mentions);
-                    if(!settings.uiExtras) {
+                    //if(!settings.uiExtras) {
                         showToastBar(text + "", allRead, 400, true, toTopListener);
-                    }
+                    //}
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
@@ -442,6 +442,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     }
 
     private boolean isToastShowing = false;
+    private boolean infoBar = false;
 
     private View toastBar;
     private TextView toastDescription;
@@ -465,6 +466,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onAnimationStart(Animation animation) {
                 isToastShowing = true;
+
+                if (quit) {
+                    infoBar = true;
+                }
             }
 
             @Override
@@ -474,8 +479,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         @Override
                         public void run() {
                             hideToastBar(length);
+                            infoBar = false;
                         }
-                    }, 5000);
+                    }, 3000);
                 }
             }
 

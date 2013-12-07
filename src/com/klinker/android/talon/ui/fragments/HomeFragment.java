@@ -225,7 +225,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }).start();
                 }
 
-                if (settings.uiExtras) {
+                if (settings.uiExtras && !infoBar) {
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
                             // used to show and hide the action bar
@@ -421,15 +421,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     if (unread > 0) {
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
 
-                        if(!settings.uiExtras) {
+                        //if(!settings.uiExtras) {
                             showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                        }
+                        //}
                     } else {
                         CharSequence text = context.getResources().getString(R.string.no_new_tweets);
 
-                        if(!settings.uiExtras) {
+                        //if(!settings.uiExtras) {
                             showToastBar(text + "", allRead, 400, true, toTopListener);
-                        }
+                        //}
                     }
 
                     DrawerActivity.canSwitch = true;
@@ -663,6 +663,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     private boolean isToastShowing = false;
+    private boolean infoBar = false;
 
     private View toastBar;
     private TextView toastDescription;
@@ -686,6 +687,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onAnimationStart(Animation animation) {
                 isToastShowing = true;
+                if (quit) {
+                    infoBar = true;
+                }
             }
 
             @Override
@@ -695,8 +699,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         @Override
                         public void run() {
                             hideToastBar(length);
+                            infoBar = false;
                         }
-                    }, 5000);
+                    }, 3000);
                 }
             }
 

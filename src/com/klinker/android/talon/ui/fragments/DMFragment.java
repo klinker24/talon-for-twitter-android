@@ -188,39 +188,41 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    // show and hide the action bar
-                    if (firstVisibleItem != 0) {
-                        if (MainActivity.canSwitch) {
-                            // used to show and hide the action bar
-                            if (firstVisibleItem < 3) {
+                    if (!infoBar) {
+                        // show and hide the action bar
+                        if (firstVisibleItem != 0) {
+                            if (MainActivity.canSwitch) {
+                                // used to show and hide the action bar
+                                if (firstVisibleItem < 3) {
 
-                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                actionBar.hide();
-                                if (!isToastShowing) {
-                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
+                                } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                                    actionBar.hide();
+                                    if (!isToastShowing) {
+                                        showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
+                                    }
+                                } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                                    actionBar.show();
+                                    if (isToastShowing) {
+                                        hideToastBar(400);
+                                    }
                                 }
-                            } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                actionBar.show();
-                                if (isToastShowing) {
-                                    hideToastBar(400);
-                                }
+
+                                mLastFirstVisibleItem = firstVisibleItem;
                             }
-
-                            mLastFirstVisibleItem = firstVisibleItem;
+                        } else {
+                            actionBar.show();
+                            hideToastBar(400);
                         }
-                    } else {
-                        actionBar.show();
-                        hideToastBar(400);
-                    }
 
-                    if (isToastShowing) {
-                        updateToastText(firstVisibleItem + " " + fromTop);
-                    }
+                        if (isToastShowing) {
+                            updateToastText(firstVisibleItem + " " + fromTop);
+                        }
 
-                    if (MainActivity.translucent && actionBar.isShowing()) {
-                        showStatusBar();
-                    } else if (MainActivity.translucent) {
-                        hideStatusBar();
+                        if (MainActivity.translucent && actionBar.isShowing()) {
+                            showStatusBar();
+                        } else if (MainActivity.translucent) {
+                            hideStatusBar();
+                        }
                     }
                 }
             });
@@ -320,18 +322,19 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
-                    if(!settings.uiExtras) {
+                    //if(!settings.uiExtras) {
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                    }                    int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                    //}
+                    int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                     listView.setSelectionFromTop(numberNew + 2, size);
                 } else {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_direct_messages);
-                    if(!settings.uiExtras) {
+                    //if(!settings.uiExtras) {
                         showToastBar(text + "", allRead, 400, true, toTopListener);
-                    }
+                    //}
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
@@ -402,6 +405,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     }
 
     private boolean isToastShowing = false;
+    private boolean infoBar = false;
 
     private View toastBar;
     private TextView toastDescription;
@@ -425,6 +429,10 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onAnimationStart(Animation animation) {
                 isToastShowing = true;
+
+                if (quit) {
+                    infoBar = true;
+                }
             }
 
             @Override
@@ -434,6 +442,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                         @Override
                         public void run() {
                             hideToastBar(length);
+                            infoBar = false;
                         }
                     }, 5000);
                 }
