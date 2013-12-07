@@ -27,6 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -618,6 +619,12 @@ public class TweetActivity extends Activity {
         }
     }
 
+    public void removeKeyboard(EditText reply) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
+    }
+
     class ReplyToStatus extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
@@ -627,6 +634,11 @@ public class TweetActivity extends Activity {
         public ReplyToStatus(EditText message, long tweetId) {
             this.message = message;
             this.tweetId = tweetId;
+        }
+
+        protected void onPreExecute() {
+            removeKeyboard(message);
+            Toast.makeText(context, getResources().getString(R.string.sending) + "...", Toast.LENGTH_SHORT);
         }
 
         protected Boolean doInBackground(String... urls) {
