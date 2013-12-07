@@ -221,7 +221,7 @@ public class IOUtils {
             Log.v("trimming", "timeline settings size: " + settings.timelineSize);
             if (timeline.getCount() > settings.timelineSize) {
 
-                if(timeline.move(settings.timelineSize)) {
+                if(timeline.move(timeline.getCount() - settings.timelineSize)) {
                     do {
                         home.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
                     } while (timeline.moveToPrevious());
@@ -238,7 +238,7 @@ public class IOUtils {
             Log.v("trimming", "mentions settings size: " + settings.mentionsSize);
             if (timeline.getCount() > settings.mentionsSize) {
 
-                if(timeline.move(settings.mentionsSize)) {
+                if(timeline.move(timeline.getCount() - settings.mentionsSize)) {
                     do {
                         mentions.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                     } while (timeline.moveToPrevious());
@@ -256,7 +256,7 @@ public class IOUtils {
 
             if (timeline.getCount() > settings.dmSize) {
 
-                if(timeline.move(settings.dmSize)) {
+                if(timeline.move(timeline.getCount() - settings.dmSize)) {
                     do {
                         dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
                     } while (timeline.moveToPrevious());

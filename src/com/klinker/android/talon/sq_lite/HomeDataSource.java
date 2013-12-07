@@ -145,20 +145,24 @@ public class HomeDataSource {
 
         Cursor cursor = getUnreadCursor(account);
 
-        if (cursor.moveToFirst()) {
-            int i = 0;
-            do {
-                if (!unread[i]) {
-                    long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+        try {
+            if (cursor.moveToFirst()) {
+                int i = 0;
+                do {
+                    if (!unread[i]) {
+                        long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
 
-                    ContentValues cv = new ContentValues();
-                    cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+                        ContentValues cv = new ContentValues();
+                        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-                    database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-                }
+                        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+                    }
 
-                i++;
-            } while (cursor.moveToNext());
+                    i++;
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            // there is nothing in the unread array
         }
     }
 }
