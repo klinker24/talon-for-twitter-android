@@ -132,6 +132,7 @@
     <string name="menu_copy_text">Copy Tweet Text</string>
     <string name="menu_share">Share Tweet</string>
     <string name="menu_delete_tweet">Delete Tweet</string>
+    <string name="menu_quote">Quote Tweet</string>
     <string name="deleted_tweet">Tweet deleted</string>
     <string name="error_deleting">Error deleting tweet</string>
     <string name="sending">Sending</string>

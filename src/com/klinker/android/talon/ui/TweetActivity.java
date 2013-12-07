@@ -820,14 +820,17 @@ public class TweetActivity extends Activity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        final int MENU_DELETE_TWEET = 1;
         final int MENU_SHARE = 0;
-        final int MENU_COPY_TEXT = 2;
-        final int MENU_OPEN_WEB = 3;
-        final int MENU_SAVE_IMAGE = 4;
+        final int MENU_DELETE_TWEET = 1;
+        final int MENU_QUOTE = 2;
+        final int MENU_COPY_TEXT = 3;
+        final int MENU_OPEN_WEB = 4;
+        final int MENU_SAVE_IMAGE = 5;
 
         if (!isMyTweet) {
             menu.getItem(MENU_DELETE_TWEET).setVisible(false);
+        } else {
+            menu.getItem(MENU_QUOTE).setVisible(false);
         }
 
         if (website.getVisibility() != View.VISIBLE) {
@@ -885,6 +888,19 @@ public class TweetActivity extends Activity {
                 String fname = "Image-" + n;
 
                 IOUtils.saveImage(bitmap, fname, context);
+
+                return true;
+
+            case R.id.menu_quote:
+
+                String text = "\"@" + screenName + ": " + tweet + "\" ";
+
+                text = text.replaceAll("</font>", "");
+                text = text.replaceAll("<font color='#FF8800'>", "");
+
+                Intent quote = new Intent(context, ComposeActivity.class);
+                quote.putExtra("user", text);
+                startActivity(quote);
 
                 return true;
 
