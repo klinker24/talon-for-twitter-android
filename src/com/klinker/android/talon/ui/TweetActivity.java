@@ -1,9 +1,11 @@
 package com.klinker.android.talon.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -16,7 +18,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.ClickableSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -48,6 +53,7 @@ import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
+import com.klinker.android.talon.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
@@ -371,6 +377,42 @@ public class TweetActivity extends Activity {
         nametv.setText(name);
         screennametv.setText("@" + screenName);
         tweettv.setText(Html.fromHtml(tweet));
+
+        // sets the click listener to display the dialog for the highlighted text
+        if (tweet.contains("<font")) {
+            tweettv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] split = tweet.split(" ");
+                    ArrayList<String> strings = new ArrayList<String>();
+
+                    for (String s : split) {
+                        s.replaceAll("\"", "");
+                        if (s.contains("color='#")) {
+                            strings.add(s.replaceAll("color='#FF8800'>", "").replaceAll("</font>", ""));
+                        }
+                    }
+
+                    CharSequence[] items = new CharSequence[strings.size()];
+
+                    for (int i = 0; i < items.length; i++) {
+                        items[i] = strings.get(i);
+                    }
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(getResources().getString(R.string.open_what) + "?");
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            // could be a web link, profile link, or a hashtag
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            });
+        }
+
         //Date tweetDate = new Date(time);
         String timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
         timetv.setText(timeDisplay);

@@ -136,6 +136,7 @@
     <string name="deleted_tweet">Tweet deleted</string>
     <string name="error_deleting">Error deleting tweet</string>
     <string name="sending">Sending</string>
+    <string name="open_what">Open what</string>
 
     <!-- User Lists -->
     <string name="view_users">View Users</string>
