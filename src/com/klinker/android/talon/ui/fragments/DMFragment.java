@@ -188,43 +188,45 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    if (!infoBar) {
-                        // show and hide the action bar
-                        if (firstVisibleItem != 0) {
-                            if (MainActivity.canSwitch) {
-                                // used to show and hide the action bar
-                                if (firstVisibleItem < 3) {
 
-                                } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                    actionBar.hide();
-                                    if (!isToastShowing) {
-                                        showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
-                                    }
-                                } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                    actionBar.show();
-                                    if (isToastShowing) {
-                                        hideToastBar(400);
-                                    }
+                    // show and hide the action bar
+                    if (firstVisibleItem != 0) {
+                        if (MainActivity.canSwitch) {
+                            // used to show and hide the action bar
+                            if (firstVisibleItem < 3) {
+
+                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                                actionBar.hide();
+                                if (!isToastShowing) {
+                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
-
-                                mLastFirstVisibleItem = firstVisibleItem;
+                            } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                                actionBar.show();
+                                if (isToastShowing && !infoBar) {
+                                    hideToastBar(400);
+                                }
                             }
-                        } else {
-                            actionBar.show();
+
+                            mLastFirstVisibleItem = firstVisibleItem;
+                        }
+                    } else {
+                        actionBar.show();
+                        if (!infoBar) {
                             hideToastBar(400);
                         }
+                    }
 
-                        if (isToastShowing) {
-                            updateToastText(firstVisibleItem + " " + fromTop);
-                        }
+                    if (isToastShowing && !infoBar) {
+                        updateToastText(firstVisibleItem + " " + fromTop);
+                    }
 
-                        if (MainActivity.translucent && actionBar.isShowing()) {
-                            showStatusBar();
-                        } else if (MainActivity.translucent) {
-                            hideStatusBar();
-                        }
+                    if (MainActivity.translucent && actionBar.isShowing()) {
+                        showStatusBar();
+                    } else if (MainActivity.translucent) {
+                        hideStatusBar();
                     }
                 }
+
             });
         }
 

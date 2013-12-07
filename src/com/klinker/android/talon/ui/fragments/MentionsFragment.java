@@ -201,7 +201,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     }).start();
                 }
 
-                if (settings.uiExtras && !infoBar) {
+                if (settings.uiExtras) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
@@ -215,7 +215,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
                                 actionBar.show();
-                                if (isToastShowing) {
+                                if (isToastShowing && !infoBar) {
                                     hideToastBar(400);
                                 }
                             }
@@ -224,10 +224,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         }
                     } else {
                         actionBar.show();
-                        hideToastBar(400);
+                        if (!infoBar) {
+                            hideToastBar(400);
+                        }
                     }
 
-                    if (isToastShowing) {
+                    if (isToastShowing && !infoBar) {
                         updateToastText(firstVisibleItem + " " + fromTop);
                     }
 

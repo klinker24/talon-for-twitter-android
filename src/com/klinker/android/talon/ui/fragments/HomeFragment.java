@@ -225,7 +225,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }).start();
                 }
 
-                if (settings.uiExtras && !infoBar) {
+                if (settings.uiExtras) {
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
                             // used to show and hide the action bar
@@ -238,7 +238,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
                                 actionBar.show();
-                                if (isToastShowing) {
+                                if (isToastShowing && !infoBar) {
                                     hideToastBar(400);
                                 }
                             }
@@ -247,10 +247,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         }
                     } else {
                         actionBar.show();
-                        hideToastBar(400);
+                        if (!infoBar) {
+                            hideToastBar(400);
+                        }
                     }
 
-                    if (isToastShowing) {
+                    if (isToastShowing && !infoBar) {
                         updateToastText(firstVisibleItem + " " + fromTop);
                     }
 
