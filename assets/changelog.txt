@@ -1,4 +1,4 @@
-Version 0.60:<br/><br/>
+Version 0.75:<br/><br/>
     &#8226; Support for a second account<br/>
     &#8226; Awesome kitkat styling stuff<br/>
     &#8226; Cool actionable toast bar when scrolling the list<br/>
