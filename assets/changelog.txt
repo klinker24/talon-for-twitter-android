@@ -1,7 +1,8 @@
 Version 0.60:<br/><br/>
     &#8226; Support for a second account<br/>
     &#8226; Awesome kitkat styling stuff<br/>
-    &#8226; Hiding action bar as you scroll up the list,br/>
+    &#8226; Cool actionable toast bar when scrolling the list<br/>
+    &#8226; Hiding action bar as you scroll up the list<br/>
     &#8226; Working popup from the notification<br/>
     &#8226; Change your own profile info, picture, and banner<br/>
     &#8226; Pager for world and local trends. Requires new permissions<br/>

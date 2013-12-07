@@ -335,7 +335,7 @@ public abstract class DrawerActivity extends Activity {
                             sharedPrefs.edit().putInt("current_account", 1).commit();
                         }
                         Intent login = new Intent(context, LoginActivity.class);
-
+                        finish();
                         startActivity(login);
                     }
                 }
@@ -595,6 +595,7 @@ public abstract class DrawerActivity extends Activity {
 
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
+                finish();
                 startActivity(settings);
                 return true;
 
