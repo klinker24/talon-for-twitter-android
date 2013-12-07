@@ -325,7 +325,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     showToastBar(text + "", jumpToTop, 400, true, toTopListener);
 
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(numberNew + 1, size);
+                    listView.setSelectionFromTop(numberNew + 2, size);
                 } else {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
