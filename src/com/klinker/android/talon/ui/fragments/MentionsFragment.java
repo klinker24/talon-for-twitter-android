@@ -119,7 +119,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         View layout = inflater.inflate(R.layout.main_fragments, null);
         // Check if Internet present
         if (!cd.isConnectingToInternet()) {
-            //Crouton.makeText(context, "No internet connection", Style.ALERT);
+
         }
 
         sharedPrefs.edit().putInt("mentions_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();
@@ -350,9 +350,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
-                    //if(!settings.uiExtras) {
-                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                    //}
+                    showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                     listView.setSelectionFromTop(numberNew + 2, size);
                 } else {
@@ -360,9 +358,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_mentions);
-                    //if(!settings.uiExtras) {
-                        showToastBar(text + "", allRead, 400, true, toTopListener);
-                    //}
+                    showToastBar(text + "", allRead, 400, true, toTopListener);
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();

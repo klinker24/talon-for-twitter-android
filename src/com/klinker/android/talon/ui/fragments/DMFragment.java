@@ -321,10 +321,10 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 if (update) {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
+
                     CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
-                    //if(!settings.uiExtras) {
-                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                    //}
+                    showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                     listView.setSelectionFromTop(numberNew + 2, size);
                 } else {
@@ -332,9 +332,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     refreshCursor();
 
                     CharSequence text = getResources().getString(R.string.no_new_direct_messages);
-                    //if(!settings.uiExtras) {
-                        showToastBar(text + "", allRead, 400, true, toTopListener);
-                    //}
+                    showToastBar(text + "", allRead, 400, true, toTopListener);
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
@@ -444,7 +442,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                             hideToastBar(length);
                             infoBar = false;
                         }
-                    }, 5000);
+                    }, 3000);
                 }
             }
 

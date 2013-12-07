@@ -421,15 +421,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     if (unread > 0) {
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
 
-                        //if(!settings.uiExtras) {
-                            showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                        //}
+                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                     } else {
                         CharSequence text = context.getResources().getString(R.string.no_new_tweets);
 
-                        //if(!settings.uiExtras) {
-                            showToastBar(text + "", allRead, 400, true, toTopListener);
-                        //}
+                        showToastBar(text + "", allRead, 400, true, toTopListener);
                     }
 
                     DrawerActivity.canSwitch = true;
@@ -607,14 +603,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        //if (initial) {
-            cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-            //cursorAdapter.swapCursor(cursor);
-            listView.setAdapter(cursorAdapter);
-            initial = false;
-        //} else {
-            //cursorAdapter.swapCursor(cursor);
-        //}
+        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+        listView.setAdapter(cursorAdapter);
+        initial = false;
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets = dataSource.getUnreadCount(currentAccount);
