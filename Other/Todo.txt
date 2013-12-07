@@ -29,3 +29,4 @@
     - search hashtags and user from tweet activity (hyperlink)
     - Check the trim functions
     - Attach from camera on compose activity
+    - Wake screen on notification

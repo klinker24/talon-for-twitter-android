@@ -13,6 +13,7 @@ Version 0.60:<br/><br/>
     &#8226; fixes for list refreshing after clicking notification<br/>
     &#8226; fixes for the notifications and added expanded options for them<br/>
     &#8226; fixes for the unread counts and how they work<br/>
+    &#8226; fix for mentions sometimes getting messed up with timeline<br/>
     &#8226; changes to search to allow searching by username<br/><br/>
 <br/>
 

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
@@ -214,11 +215,13 @@ public class IOUtils {
 
             HomeDataSource home = new HomeDataSource(context);
             home.open();
+            Cursor timeline = home.getCursor(account);
 
-            if (home.getCursor(account).getCount() > settings.timelineSize) {
-                Cursor timeline = home.getCursor(account);
+            Log.v("trimming", "timeline size: " + timeline.getCount());
+            Log.v("trimming", "timeline settings size: " + settings.timelineSize);
+            if (timeline.getCount() > settings.timelineSize) {
 
-                if(timeline.move(timeline.getCount() - settings.timelineSize)) {
+                if(timeline.move(settings.timelineSize)) {
                     do {
                         home.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
                     } while (timeline.moveToPrevious());
@@ -229,13 +232,15 @@ public class IOUtils {
 
             MentionsDataSource mentions = new MentionsDataSource(context);
             mentions.open();
+            timeline = mentions.getCursor(account);
 
-            if (mentions.getCursor(account).getCount() > settings.mentionsSize) {
-                Cursor timeline = mentions.getCursor(account);
+            Log.v("trimming", "mentions size: " + timeline.getCount());
+            Log.v("trimming", "mentions settings size: " + settings.mentionsSize);
+            if (timeline.getCount() > settings.mentionsSize) {
 
-                if(timeline.move(timeline.getCount() - settings.mentionsSize)) {
+                if(timeline.move(settings.mentionsSize)) {
                     do {
-                        mentions.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
+                        mentions.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                     } while (timeline.moveToPrevious());
                 }
             }
@@ -244,11 +249,14 @@ public class IOUtils {
 
             DMDataSource dm = new DMDataSource(context);
             dm.open();
+            timeline = dm.getCursor(account);
 
-            if (dm.getCursor(account).getCount() > settings.dmSize) {
-                Cursor timeline = dm.getCursor(account);
+            Log.v("trimming", "dm size: " + timeline.getCount());
+            Log.v("trimming", "dm settings size: " + settings.dmSize);
 
-                if(timeline.move(timeline.getCount() - settings.dmSize)) {
+            if (timeline.getCount() > settings.dmSize) {
+
+                if(timeline.move(settings.dmSize)) {
                     do {
                         dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
                     } while (timeline.moveToPrevious());
