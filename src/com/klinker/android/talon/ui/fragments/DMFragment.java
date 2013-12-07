@@ -188,7 +188,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {

@@ -10,13 +10,8 @@
 - Features:
     - Cool icon
     - icon for status bar notification
-    - Emoji Support
-    - Search for users when composing
     - Switch tweet background to right side when it is my tweet
     - Some kind of notifications for fav users
-    - Night mode
-    - Parse hashtags and links to open profiles and search for the specific string
-    - quote tweets
 
 - Bugs:
     - Convert everything away from picasso (maybe not, we will see how the memory is managed now)
@@ -24,9 +19,13 @@
     - Notification for the second account's mentions
     - test refreshing mentions from timeline refresh
     - change refresh rate on preference changed
-    - Optimize the mark as read option for home timeline
 
-- Cool Style ideas:
-    - Hide action bar as scrolling up main list
-    - bottom bar with compose and jump to top button (shows when scroll down, just like action bar)
-    - Add actionable toast bar
+
+- Main TODO:
+    - Re-work mark as read stuff
+    - Select following as composing a tweet
+    - quote tweets
+    - emoji support
+    - night mode
+    - fix the back button functionality of the settings menu, it is all messed up
+    - search hashtags and user from tweet activity (hyperlink)

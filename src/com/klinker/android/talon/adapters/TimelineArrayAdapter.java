@@ -241,8 +241,25 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         try {
-            if (tweetTexts.substring(0, 1).equals("@")) {
+            if (tweetTexts.substring(0, 1).equals("@") || tweetTexts.substring(0,2).contains("@")) {
                 int start = tweetTexts.indexOf("@");
+                int end;
+                if (tweetTexts.substring(start).contains(" ")) {
+                    end = tweetTexts.indexOf(" ", start);
+                } else {
+                    end = tweetTexts.length();
+                }
+                if (tweetTexts.substring(end-1, end).equals(":")) {
+                    end = end-1;
+                }
+                String replacement;
+
+                replacement = tweetTexts.substring(start, end);
+
+                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+            }
+            while (tweetTexts.contains("\"@")) {
+                int start = tweetTexts.indexOf("\"@") + 2;
                 int end;
                 if (tweetTexts.substring(start).contains(" ")) {
                     end = tweetTexts.indexOf(" ", start);
@@ -254,6 +271,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 replacement = tweetTexts.substring(start, end);
 
                 tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
+
             }
             while (tweetTexts.contains(" @")) {
                 int start = tweetTexts.indexOf(" @") + 1;
