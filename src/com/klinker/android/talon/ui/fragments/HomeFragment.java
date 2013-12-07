@@ -220,6 +220,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     unreadArray[firstVisibleItem] = false; // it isn't unread anymore
                 }
 
+                if (firstVisibleItem == 0) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dataSource.markMultipleRead(unreadArray, currentAccount);
+                            unreadArray = new boolean[0];
+                        }
+                    }).start();
+                }
+
                 if (settings.uiExtras) {
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
@@ -245,13 +255,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         if (!infoBar) {
                             hideToastBar(400);
                         }
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dataSource.markMultipleRead(unreadArray, currentAccount);
-                                unreadArray = new boolean[0];
-                            }
-                        }).start();
                     }
 
                     if (isToastShowing && !infoBar) {
