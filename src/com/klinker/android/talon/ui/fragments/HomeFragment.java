@@ -192,7 +192,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 View view = new View(context);
                 view.setOnClickListener(null);
                 view.setOnLongClickListener(null);
-                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context) - toDP(5));
                 view.setLayoutParams(params2);
                 listView.addHeaderView(view);
                 listView.setHeaderDividersEnabled(false);
