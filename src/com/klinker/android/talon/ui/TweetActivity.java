@@ -2,6 +2,7 @@ package com.klinker.android.talon.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -399,11 +400,26 @@ public class TweetActivity extends Activity {
                         items[i] = strings.get(i);
                     }
 
+                    final CharSequence[] fItems = items;
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(getResources().getString(R.string.open_what) + "?");
                     builder.setItems(items, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
-                            // could be a web link, profile link, or a hashtag
+                            String touched = fItems[item] + "";
+
+                            if (touched.contains("http")) { //weblink
+                                Uri weburi = Uri.parse(touched);
+                                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                                startActivity(launchBrowser);
+                            } else if (touched.contains("@")) { //username
+                                
+                            } else { // hashtag
+                                Intent search = new Intent(context, SearchedTrendsActivity.class);
+                                search.setAction(Intent.ACTION_SEARCH);
+                                search.putExtra(SearchManager.QUERY, touched);
+                                context.startActivity(search);
+                            }
                             dialog.dismiss();
                         }
                     });
