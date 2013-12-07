@@ -292,7 +292,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     // if that doesn't work, then go for the top 150
                     if (!broken) {
                         Paging paging2 = new Paging(1, 150);
-                        List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
+                        List<twitter4j.Status> statuses2 = twitter.getMentionsTimeline(paging2);
 
                         for (int i = 0; i < statuses2.size(); i++) {
                             if (statuses2.get(i).getId() == lastId) {

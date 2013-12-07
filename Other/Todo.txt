@@ -23,7 +23,6 @@
 
 
 - Main TODO:
-    - Re-work mark as read stuff
     - Select from following as composing a tweet
     - emoji support
     - night mode
