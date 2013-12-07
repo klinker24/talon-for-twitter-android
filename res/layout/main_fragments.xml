@@ -32,7 +32,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="@color/app_color"
+                android:background="@color/toast_color"
                 android:baselineAligned="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
