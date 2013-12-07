@@ -25,6 +25,7 @@ import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.ui.LoginActivity;
+import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.Utils;
 
@@ -93,13 +94,15 @@ public class Search extends DrawerActivity {
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
 
-            View view = new View(context);
-            view.setOnClickListener(null);
-            view.setOnLongClickListener(null);
-            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context) - toDP(5));
-            view.setLayoutParams(params2);
-            listView.addHeaderView(view);
-            listView.setFooterDividersEnabled(false);
+            if (!MainActivity.isPopup) {
+                View view = new View(context);
+                view.setOnClickListener(null);
+                view.setOnLongClickListener(null);
+                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context) - toDP(5));
+                view.setLayoutParams(params2);
+                listView.addHeaderView(view);
+                listView.setFooterDividersEnabled(false);
+            }
         }
 
         setUpDrawer(8, getResources().getString(R.string.search));

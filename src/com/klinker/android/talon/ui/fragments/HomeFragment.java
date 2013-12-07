@@ -623,7 +623,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         if (newTweets != 0) {
             unread = newTweets;
             int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(newTweets + 2, size);
+            listView.setSelectionFromTop(newTweets + 1, size);
         }
     }
 

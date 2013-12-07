@@ -352,7 +352,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                     showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(numberNew + 2, size);
+                    listView.setSelectionFromTop(numberNew + 1, size);
                 } else {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                     refreshCursor();

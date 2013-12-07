@@ -19,6 +19,7 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ListsArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.LoginActivity;
+import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.utils.Utils;
@@ -71,13 +72,15 @@ public class ListsActivity extends DrawerActivity {
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
 
-            View view = new View(context);
-            view.setOnClickListener(null);
-            view.setOnLongClickListener(null);
-            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
-            view.setLayoutParams(params2);
-            listView.addHeaderView(view);
-            listView.setFooterDividersEnabled(false);
+            if (!MainActivity.isPopup) {
+                View view = new View(context);
+                view.setOnClickListener(null);
+                view.setOnLongClickListener(null);
+                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+                view.setLayoutParams(params2);
+                listView.addHeaderView(view);
+                listView.setFooterDividersEnabled(false);
+            }
         }
 
         setUpDrawer(6, getResources().getString(R.string.lists));
