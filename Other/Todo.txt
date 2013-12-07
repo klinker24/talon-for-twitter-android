@@ -12,6 +12,7 @@
     - icon for status bar notification
     - Switch tweet background to right side when it is my tweet
     - Some kind of notifications for fav users
+    - Tablet/Landscape mode (Just pin the drawer open i think)
 
 - Bugs:
     - Convert everything away from picasso (maybe not, we will see how the memory is managed now)

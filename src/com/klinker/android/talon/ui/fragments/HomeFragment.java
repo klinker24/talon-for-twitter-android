@@ -53,6 +53,7 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -87,6 +88,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private HomeDataSource dataSource;
 
     private static int unread;
+    private boolean[] unreadArray;
 
     static Activity context;
 
@@ -120,6 +122,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         cd = new ConnectionDetector(context);
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+
+        unreadArray = new boolean[0];
 
         jumpToTop = getResources().getString(R.string.jump_to_top);
         fromTop = getResources().getString(R.string.from_top);
@@ -212,15 +216,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 // to onDestroy or pause and check the current item,
                 // making sure everything below it is marked as read.
                 final int currentAccount = sharedPrefs.getInt("current_account", 1);
-                if (firstVisibleItem < unread) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dataSource.markRead(currentAccount, firstVisibleItem);
-
-                            unread = dataSource.getUnreadCount(currentAccount);
-                        }
-                    }).start();
+                if (firstVisibleItem < unreadArray.length) {
+                    unreadArray[firstVisibleItem] = false; // it isn't unread anymore
                 }
 
                 if (settings.uiExtras) {
@@ -248,6 +245,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         if (!infoBar) {
                             hideToastBar(400);
                         }
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dataSource.markMultipleRead(unreadArray, currentAccount);
+                                unreadArray = new boolean[0];
+                            }
+                        }).start();
                     }
 
                     if (isToastShowing && !infoBar) {
@@ -391,6 +395,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                     numberNew = dataSource.getUnreadCount(currentAccount);
                     unread = numberNew;
+
+                    unreadArray = new boolean[unread];
+                    Arrays.fill(unreadArray, true);
 
                 } catch (TwitterException e) {
                     // Error in updating status
@@ -546,6 +553,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public void onPause() {
         sharedPrefs.edit().putInt("timeline_unread", listView.getFirstVisiblePosition()).commit();
+
+        dataSource.markMultipleRead(unreadArray, sharedPrefs.getInt("current_account", 1));
+        unreadArray = new boolean[0];
 
         super.onPause();
     }
