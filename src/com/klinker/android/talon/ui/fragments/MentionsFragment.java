@@ -44,8 +44,6 @@ import org.lucasr.smoothie.ItemManager;
 import java.util.Date;
 import java.util.List;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

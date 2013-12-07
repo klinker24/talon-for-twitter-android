@@ -56,8 +56,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import twitter4j.MediaEntity;
 import twitter4j.Paging;
 import twitter4j.Status;

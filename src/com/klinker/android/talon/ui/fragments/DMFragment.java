@@ -44,8 +44,6 @@ import org.lucasr.smoothie.ItemManager;
 import java.util.Date;
 import java.util.List;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.Twitter;
@@ -118,7 +116,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         View layout = inflater.inflate(R.layout.main_fragments, null);
         // Check if Internet present
         if (!cd.isConnectingToInternet()) {
-            Crouton.makeText(context, "No internet connection", Style.ALERT);
+
         }
 
         sharedPrefs.edit().putInt("dm_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();

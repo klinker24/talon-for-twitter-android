@@ -53,10 +53,7 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.MainActivity;
-import com.klinker.android.talon.ui.MainActivityPopup;
-import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.klinker.android.talon.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -66,7 +63,6 @@ import org.lucasr.smoothie.AsyncListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 /**
  * Created by luke on 11/28/13.
