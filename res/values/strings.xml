@@ -187,6 +187,8 @@
         <string name="theme_black">Black Theme</string>
 
     <string name="sync_settings">Sync Settings</string>
+        <string name="sync_mobile_data">Use mobile data</string>
+        <string name="sync_mobile_data_summary">Auto-refresh timelines over both mobile data and WiFi</string>
         <string name="auto_sync_notifications">Auto-Refresh Notification Options</string>
             <string name="notifications">Notifications</string>
             <string name="vibrate">Vibrate</string>

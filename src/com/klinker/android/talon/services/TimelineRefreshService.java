@@ -51,6 +51,11 @@ public class TimelineRefreshService extends IntentService {
 
             AppSettings settings = new AppSettings(context);
 
+            // if they have mobile data on and don't want to sync over mobile data
+            if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
+                return;
+            }
+
             try {
                 Twitter twitter = Utils.getTwitter(context);
 

@@ -11,14 +11,21 @@
         android:entryValues="@array/max_number_inserted"
         />
 
+    <CheckBoxPreference
+        android:key="refresh_on_start"
+        android:title="@string/refresh_on_startup"
+        android:defaultValue="true"
+        />
+
     <PreferenceCategory
         android:key="auto_refresh_category"
         android:title="@string/auto_refresh_category" >
 
         <CheckBoxPreference
-            android:key="refresh_on_start"
-            android:title="@string/refresh_on_startup"
-            android:defaultValue="true"
+            android:key="sync_mobile_data"
+            android:title="@string/sync_mobile_data"
+            android:summary="@string/sync_mobile_data_summary"
+            android:defaultValue="false"
             />
 
         <!-- Default of 30 mins -->

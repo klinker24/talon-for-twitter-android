@@ -17,6 +17,7 @@ import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.adapters.TimelinePagerAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.talon.utils.Utils;
 
 public class MainActivity extends DrawerActivity {
 

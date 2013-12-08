@@ -39,6 +39,7 @@ public class AppSettings {
     public boolean wakeScreen;
     public boolean nightMode;
     public boolean militaryTime;
+    public boolean syncMobile;
 
     public int theme;
     public int textSize;
@@ -86,6 +87,7 @@ public class AppSettings {
         uiExtras = sharedPrefs.getBoolean("ui_extras", true);
         wakeScreen = sharedPrefs.getBoolean("wake", true);
         militaryTime = sharedPrefs.getBoolean("military_time", false);
+        syncMobile = sharedPrefs.getBoolean("sync_mobile_data", false);
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "0"));

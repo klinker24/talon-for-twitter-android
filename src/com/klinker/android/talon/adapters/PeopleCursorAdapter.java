@@ -21,9 +21,6 @@ import com.klinker.android.talon.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by luke on 11/27/13.
- */
 public class PeopleCursorAdapter extends CursorAdapter {
 
     public Context context;

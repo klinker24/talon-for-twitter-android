@@ -1,6 +1,9 @@
 package com.klinker.android.talon.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.klinker.android.talon.settings.AppSettings;
 
@@ -90,5 +93,22 @@ public class Utils {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    // true if on mobile data
+    // false otherwise
+    public static boolean getConnectionStatus(Context context) {
+        final ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (null != activeNetwork) {
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
+                return false;
+
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+                return true;
+        }
+
+        return false;
     }
 }
