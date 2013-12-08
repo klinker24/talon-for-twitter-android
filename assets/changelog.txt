@@ -1,5 +1,8 @@
 Version 0.8:<br/><br/>
-    &#8226; Open profiles and hashtags that are highlighted in tweets<br/>
+    &#8226; Open profiles, hashtags, and websites that are highlighted in tweets<br/>
+    &#8226; Overhaul of unread tweets and marking them as read<br/>
+    &#8226; Attach images from the camera to send<br/>
+    &#8226; Notifications can now wake the screen<br/>
     &#8226; Style changes<br/><br/>
 <br/>
 
