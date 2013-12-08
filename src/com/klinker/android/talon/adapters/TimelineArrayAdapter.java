@@ -258,7 +258,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                 tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
             }
-            while (tweetTexts.contains("\"@")) {
+            /*while (tweetTexts.contains("\"@")) {
                 int start = tweetTexts.indexOf("\"@") + 2;
                 int end;
                 if (tweetTexts.substring(start).contains(" ")) {
@@ -272,7 +272,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                 tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
 
-            }
+            }*/
             while (tweetTexts.contains(" @")) {
                 int start = tweetTexts.indexOf(" @") + 1;
                 int end;

@@ -285,19 +285,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         });
 
-        if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0) {
-            
-            final View view = layout;
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+            
+        final View view = layout;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0) {
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
                 }
-            }, 400);
-
-        }
+            }
+        }, 1500);
 
         setUpToastBar(layout);
 
