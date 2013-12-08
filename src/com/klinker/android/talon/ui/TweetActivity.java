@@ -16,7 +16,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -64,6 +66,7 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -515,18 +518,46 @@ public class TweetActivity extends Activity {
         attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (attachedFilePath.equals("")) {
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                } else {
-                    attachedFilePath = "";
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                //builder.setTitle(getResources().getString(R.string.open_what) + "?");
+                builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if(item == 0) { // take picture
+                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
 
-                    attachImage.setVisibility(View.GONE);
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                }
+                            if (!f.exists()) {
+                                try {
+                                    f.getParentFile().mkdirs();
+                                    f.createNewFile();
+                                } catch (IOException e) {
+
+                                }
+                            }
+
+                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                            startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                        } else { // attach picture
+                            if (attachedFilePath.equals("")) {
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                            } else {
+                                attachedFilePath = "";
+
+                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
+                                int resource = a.getResourceId(0, 0);
+                                a.recycle();
+                                attachImage.setImageDrawable(context.getResources().getDrawable(resource));
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                            }
+                        }
+                    }
+                });
+
+                builder.create().show();
             }
         });
 
@@ -991,6 +1022,7 @@ public class TweetActivity extends Activity {
     }
 
     private static final int SELECT_PHOTO = 100;
+    private static final int CAPTURE_IMAGE = 101;
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
@@ -1009,6 +1041,26 @@ public class TweetActivity extends Activity {
 
                     attachedFilePath = filePath;
                 }
+                break;
+            case CAPTURE_IMAGE:
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
+                        String filePath = selectedImage.getPath();
+                        //String filePath = IOUtils.getPath(selectedImage, context);
+                        Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+
+                        attachImage.setImageBitmap(yourSelectedImage);
+                        attachImage.setVisibility(View.VISIBLE);
+
+                        attachedFilePath = filePath;
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        attachImage.setVisibility(View.GONE);
+                    }
+                }
+                break;
         }
     }
 }

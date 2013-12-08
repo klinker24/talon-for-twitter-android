@@ -159,7 +159,7 @@
                     android:id="@+id/attach"
                     android:layout_height="96dp"
                     android:layout_width="match_parent"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:layout_margin="15dp"
                     android:padding="4dp"
                     android:visibility="gone"/>
