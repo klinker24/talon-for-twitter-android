@@ -165,4 +165,12 @@ public class HomeDataSource {
             // there is nothing in the unread array
         }
     }
+
+    public void markAllRead(int account) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+
+        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+    }
 }

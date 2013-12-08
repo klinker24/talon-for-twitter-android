@@ -340,7 +340,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 try {
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-                    dataSource.markMultipleRead(unreadArray, currentAccount);
+                    dataSource.markAllRead(currentAccount);
 
                     twitter = Utils.getTwitter(context);
 
