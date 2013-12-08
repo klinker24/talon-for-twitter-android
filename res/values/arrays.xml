@@ -98,4 +98,9 @@
         <item>@string/view_users</item>
     </string-array>
 
+    <string-array name="attach_options">
+        <item>@string/take_picture</item>
+        <item>@string/from_file</item>
+    </string-array>
+
 </resources>

@@ -95,6 +95,8 @@
     <string name="changelog">What\'s New</string>
     <string name="created_by">Created by Luke Klinker</string>
     <string name="no_location">Couldn\'t find location</string>
+    <string name="take_picture">Capture Image</string>
+    <string name="from_file">Attach Image</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>

@@ -2,7 +2,9 @@ package com.klinker.android.talon.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -11,6 +13,8 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,6 +35,7 @@ import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -161,6 +166,7 @@ public class ComposeActivity extends Activity {
     }
 
     private static final int SELECT_PHOTO = 100;
+    private static final int CAPTURE_IMAGE = 101;
 
     public void setUpLayout() {
         setContentView(R.layout.compose_activity);
@@ -171,21 +177,46 @@ public class ComposeActivity extends Activity {
         attachImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (attachedFilePath.equals("")) {
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                } else {
-                    attachedFilePath = "";
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                //builder.setTitle(getResources().getString(R.string.open_what) + "?");
+                builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if(item == 0) { // take picture
+                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
 
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
-                    int resource = a.getResourceId(0, 0);
-                    a.recycle();
-                    attachImage.setImageDrawable(context.getResources().getDrawable(resource));
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                }
+                            if (!f.exists()) {
+                                try {
+                                    f.getParentFile().mkdirs();
+                                    f.createNewFile();
+                                } catch (IOException e) {
+
+                                }
+                            }
+
+                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                            startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                        } else { // attach picture
+                            if (attachedFilePath.equals("")) {
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                            } else {
+                                attachedFilePath = "";
+
+                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
+                                int resource = a.getResourceId(0, 0);
+                                a.recycle();
+                                attachImage.setImageDrawable(context.getResources().getDrawable(resource));
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                            }
+                        }
+                    }
+                });
+
+                builder.create().show();
             }
         });
 
@@ -314,6 +345,24 @@ public class ComposeActivity extends Activity {
 
                     attachedFilePath = filePath;
                 }
+                break;
+            case CAPTURE_IMAGE:
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
+                        String filePath = selectedImage.getPath();
+                        //String filePath = IOUtils.getPath(selectedImage, context);
+                        Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+
+                        attachImage.setImageBitmap(yourSelectedImage);
+
+                        attachedFilePath = filePath;
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
         }
     }
 }
