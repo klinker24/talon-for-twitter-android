@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.talon.ui.UserProfileActivity;
@@ -19,6 +24,26 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
     public SearchedPeopleCursorAdapter(Context context, Cursor cursor, HoloEditText text) {
         super(context, cursor);
         this.text = text;
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+        View v;
+        v = inflater.inflate(R.layout.person_no_background, viewGroup, false);
+        final ViewHolder holder;
+
+        holder = new ViewHolder();
+
+        holder.name = (TextView) v.findViewById(R.id.name);
+        holder.screenName = (TextView) v.findViewById(R.id.screen_name);
+        holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+
+        // sets up the font sizes
+        holder.name.setTextSize(settings.textSize + 4);
+        holder.screenName.setTextSize(settings.textSize);
+        v.setTag(holder);
+        return v;
     }
 
     @Override

@@ -26,10 +26,10 @@ import com.squareup.picasso.Picasso;
  */
 public class PeopleCursorAdapter extends CursorAdapter {
 
-    private Context context;
-    private Cursor cursor;
-    private LayoutInflater inflater;
-    private AppSettings settings;
+    public Context context;
+    public Cursor cursor;
+    public LayoutInflater inflater;
+    public AppSettings settings;
 
     private SharedPreferences sharedPrefs;
 

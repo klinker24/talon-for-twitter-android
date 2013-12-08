@@ -691,7 +691,7 @@ public class UserProfileActivity extends Activity {
                         data.open();
                         data.createUser(thisUser, sharedPrefs.getInt("current_account", 1));
                         data.close();
-                        
+
                         return true;
                     }
                 }

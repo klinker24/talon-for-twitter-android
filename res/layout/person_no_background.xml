@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <!-- The tweeters picture -->
+        <uk.co.senab.bitmapcache.CacheableImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/profile_pic"
+            android:src="?circleBorder"
+            android:background="?circleBorder"
+            android:minHeight="48dp" android:minWidth="48dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:maxWidth="48dp" android:maxHeight="48dp"
+            android:contentDescription="@string/placeholder"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"/>
+
+    </LinearLayout>
+
+    <!-- Tweet's Content -->
+    <LinearLayout
+        android:id="@+id/background"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="?tweetBackground" >
+
+        <!-- Holds the name, screen name, and time-->
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <com.klinker.android.talon.ui.widgets.HoloTextView
+                android:id="@+id/name"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:text="Name"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="8dp"/>
+
+            <com.klinker.android.talon.ui.widgets.HoloTextView
+                android:id="@+id/screen_name"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:textSize="14dp"
+                android:layout_below="@id/name"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:paddingBottom="15dp"
+                android:text="@string/placeholder"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

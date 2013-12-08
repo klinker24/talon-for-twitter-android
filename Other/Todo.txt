@@ -21,6 +21,6 @@
 
 
 - Main TODO:
-    - Select from following as composing a tweet
+    - Manual sync of friends
     - emoji support
-    - Sync only over wifi option
+    - Background sync only over wifi option
