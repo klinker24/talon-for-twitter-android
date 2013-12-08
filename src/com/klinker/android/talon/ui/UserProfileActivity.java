@@ -44,6 +44,7 @@ import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.talon.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.IOUtils;
@@ -685,6 +686,12 @@ public class UserProfileActivity extends Activity {
                         return false;
                     } else {
                         twitter.createFriendship(otherUserName);
+
+                        FollowersDataSource data = new FollowersDataSource(context);
+                        data.open();
+                        data.createUser(thisUser, sharedPrefs.getInt("current_account", 1));
+                        data.close();
+                        
                         return true;
                     }
                 }

@@ -42,7 +42,10 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 text.setText("@" + screenName);
+                text.setSelection(text.getText().length());
+
             }
         });
     }
