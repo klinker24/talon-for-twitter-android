@@ -340,9 +340,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    twitter = Utils.getTwitter(context);
-
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+                    dataSource.markMultipleRead(unreadArray, currentAccount);
+
+                    twitter = Utils.getTwitter(context);
 
                     User user = twitter.verifyCredentials();
                     long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
