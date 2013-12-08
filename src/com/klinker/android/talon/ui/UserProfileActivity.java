@@ -387,6 +387,30 @@ public class UserProfileActivity extends Activity {
                     background.loadImage(user.getProfileBannerURL(), false, null);
                 }
 
+                // this will be fired if they come from a tweet activity link
+                if(proPic.equals("")) {
+                    actionBar.setTitle(thisUser.getName());
+
+                    final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+
+                    Picasso.with(context)
+                            .load(thisUser.getBiggerProfileImageURL())
+                            .transform(new CircleTransform())
+                            .into(profilePic);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    actionBar.setIcon(profilePic.getDrawable());
+                                }
+                            });
+                        }
+                    }, 1000);
+                }
+
                 new GetTimeline(user, listView).execute();
                 new GetActionBarInfo(user).execute();
 

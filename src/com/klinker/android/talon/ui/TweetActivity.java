@@ -413,7 +413,10 @@ public class TweetActivity extends Activity {
                                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                                 startActivity(launchBrowser);
                             } else if (touched.contains("@")) { //username
-
+                                Intent user = new Intent(context, UserProfileActivity.class);
+                                user.putExtra("screenname", touched.replace("@", ""));
+                                user.putExtra("proPic", "");
+                                context.startActivity(user);
                             } else { // hashtag
                                 Intent search = new Intent(context, SearchedTrendsActivity.class);
                                 search.setAction(Intent.ACTION_SEARCH);
