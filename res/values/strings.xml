@@ -160,6 +160,9 @@
 
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>
+        <string name="theme_options">Theme Options</string>
+        <string name="font_options">Font Options</string>
+        <string name="other_options">Other Options</string>
         <string name="theme">Theme</string>
         <string name="text_size">Text Size</string>
         <string name="night_mode">Night Mode</string>
@@ -179,7 +182,7 @@
         <string name="theme_black">Black Theme</string>
 
     <string name="sync_settings">Sync Settings</string>
-        <string name="auto_sync_notifications">Auto-Refresh Notifications</string>
+        <string name="auto_sync_notifications">Auto-Refresh Notification Options</string>
             <string name="notifications">Notifications</string>
             <string name="vibrate">Vibrate</string>
             <string name="led">Flash LED</string>
@@ -187,7 +190,7 @@
             <string name="sound">Notification Sound</string>
         <string name="max_number_on_refresh">Max Tweets to Refresh</string>
         <string name="max_number_summary">Higher max means a slower refresh</string>
-        <string name="auto_refresh_category">Auto-Refresh</string>
+        <string name="auto_refresh_category">Auto-Refresh Options</string>
             <string name="refresh_on_startup">Refresh on Startup</string>
             <string name="timeline_sync_interval">Timeline Refresh Rate</string>
             <string name="mentions_sync_interval">Mentions Refresh Rate</string>
@@ -196,12 +199,12 @@
     <string name="notification_settings">Notification Settings</string>
 
     <string name="advanced_settings">Advanced Settings</string>
-        <string name="app_feel_category">App Feel</string>
+        <string name="app_feel_category">App Feel Options</string>
             <string name="advance_windowed">Advance Windowed</string>
                 <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines</string>
             <string name="reverse_click_actions">Reverse Click Actions</string>
             <string name="reverse_click_actions_summary">Reverse the click actions on tweets\n\nDefault:\nLong click to open tweet\nShort click to expand tweet</string>
-        <string name="memory_management">Memory Management</string>
+        <string name="memory_management">Memory Management Options</string>
             <string name="delete_cache">Delete Cache Now</string>
             <string name="cache_dialog">Delete Cache?</string>
             <string name="not_cache">This does not apply to the app cache</string>
@@ -219,7 +222,7 @@
                 <string name="trimming">Trimming...</string>
                 <string name="trim_success">Trim successful</string>
                 <string name="trim_fail">Trim failed</string>
-        <string name="backup_category">Backup and Restore</string>
+        <string name="backup_category">Backup and Restore Options</string>
             <string name="backup_settings">Backup Settings</string>
                 <string name="backup_settings_dialog">Create new backup?</string>
                 <string name="backup_settings_dialog_summary">This will override all previous backups.</string>

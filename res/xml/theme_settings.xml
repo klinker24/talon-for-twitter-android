@@ -2,39 +2,55 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListPreference
-        android:key="theme"
-        android:title="@string/theme"
-        android:defaultValue="0"
-        android:entries="@array/choose_theme"
-        android:entryValues="@array/choose_theme_inserted"
-        />
+    <PreferenceCategory
+        android:title="@string/theme_options" >
 
-    <ListPreference
-        android:key="text_size"
-        android:title="@string/text_size"
-        android:defaultValue="14"
-        android:entries="@array/text_size"
-        android:entryValues="@array/text_size"
-        />
+        <ListPreference
+            android:key="theme"
+            android:title="@string/theme"
+            android:defaultValue="0"
+            android:entries="@array/choose_theme"
+            android:entryValues="@array/choose_theme_inserted"
+            />
 
-    <CheckBoxPreference
-        android:key="night_mode"
-        android:title="@string/night_mode"
-        android:defaultValue="false"
-        />
+        <CheckBoxPreference
+            android:key="night_mode"
+            android:title="@string/night_mode"
+            android:defaultValue="false"
+            />
 
-    <CheckBoxPreference
-        android:key="device_font"
-        android:title="@string/device_font"
-        android:defaultValue="false"
-        />
+    </PreferenceCategory>
 
-    <CheckBoxPreference
-        android:key="ui_extras"
-        android:title="@string/ui_extras"
-        android:summary="@string/ui_extras_summary"
-        android:defaultValue="true"
-        />
+    <PreferenceCategory
+        android:title="@string/font_options" >
+
+        <ListPreference
+            android:key="text_size"
+            android:title="@string/text_size"
+            android:defaultValue="14"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size"
+            />
+
+        <CheckBoxPreference
+            android:key="device_font"
+            android:title="@string/device_font"
+            android:defaultValue="false"
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/other_options" >
+
+        <CheckBoxPreference
+            android:key="ui_extras"
+            android:title="@string/ui_extras"
+            android:summary="@string/ui_extras_summary"
+            android:defaultValue="true"
+            />
+
+        </PreferenceCategory>
+
 
 </PreferenceScreen>
