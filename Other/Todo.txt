@@ -16,9 +16,7 @@
 
 - Bugs:
     - Convert everything away from picasso (maybe not, we will see how the memory is managed now)
-    - double insert on creating new lists
     - Notification for the second account's mentions
-    - test refreshing mentions from timeline refresh
     - change refresh rate on preference changed
     - redo the checkboxes and stuff to use an orange color instead of blue
 

@@ -71,16 +71,6 @@ public class ListsActivity extends DrawerActivity {
             footer.setLayoutParams(params);
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
-
-            /*if (!MainActivity.isPopup) {
-                View view = new View(context);
-                view.setOnClickListener(null);
-                view.setOnLongClickListener(null);
-                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
-                view.setLayoutParams(params2);
-                listView.addHeaderView(view);
-                listView.setFooterDividersEnabled(false);
-            }*/
         }
 
         setUpDrawer(6, getResources().getString(R.string.lists));
@@ -95,6 +85,8 @@ public class ListsActivity extends DrawerActivity {
         inflater.inflate(R.menu.list_activity, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+    private boolean clicked = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -116,7 +108,10 @@ public class ListsActivity extends DrawerActivity {
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        if (!clicked) {
+                            dialog.dismiss();
+                        }
+                        clicked = true;
                     }
                 });
 
@@ -124,8 +119,11 @@ public class ListsActivity extends DrawerActivity {
                 privateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        new CreateList(name.getText().toString(), false, description.getText().toString()).execute();
-                        dialog.dismiss();
+                        if (!clicked) {
+                            new CreateList(name.getText().toString(), false, description.getText().toString()).execute();
+                            dialog.dismiss();
+                        }
+                        clicked = true;
                     }
                 });
 
@@ -133,8 +131,11 @@ public class ListsActivity extends DrawerActivity {
                 publicBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        new CreateList(name.getText().toString(), true, description.getText().toString()).execute();
-                        dialog.dismiss();
+                        if (!clicked) {
+                            new CreateList(name.getText().toString(), true, description.getText().toString()).execute();
+                            dialog.dismiss();
+                        }
+                        clicked = true;
                     }
                 });
 
@@ -187,7 +188,6 @@ public class ListsActivity extends DrawerActivity {
                 Twitter twitter =  Utils.getTwitter(context);
 
                 twitter.createUserList(name, publicList, description);
-
 
                 return true;
             } catch (Exception e) {
