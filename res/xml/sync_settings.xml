@@ -73,6 +73,13 @@
             android:dependency="notifications"
             />
 
+        <CheckBoxPreference
+            android:key="wake"
+            android:title="@string/wake_screen"
+            android:defaultValue="true"
+            android:dependency="notifications"
+            />
+
         <!--<CheckBoxPreference
             android:key="sound"
             android:title="@string/sound"

@@ -26,6 +26,4 @@
     - Select from following as composing a tweet
     - emoji support
     - night mode
-    - search hashtags and user from tweet activity (hyperlink)
     - Attach from camera on compose activity
-    - Wake screen on notification

@@ -40,6 +40,7 @@ public class AppSettings {
     public boolean refreshOnStart;
     public boolean autoTrim;
     public boolean uiExtras;
+    public boolean wakeScreen;
 
     public int theme;
     public int textSize;
@@ -85,6 +86,7 @@ public class AppSettings {
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
         uiExtras = sharedPrefs.getBoolean("ui_extras", true);
+        wakeScreen = sharedPrefs.getBoolean("wake", true);
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "0"));

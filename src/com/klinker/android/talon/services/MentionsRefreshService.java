@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -178,6 +179,13 @@ public class MentionsRefreshService extends IntentService {
                     NotificationManager mNotificationManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(mId, mBuilder.build());
+
+                    // if we want to wake the screen on a new message
+                    if (settings.wakeScreen) {
+                        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                        final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+                        wakeLock.acquire(5000);
+                    }
 
                 }
             }
