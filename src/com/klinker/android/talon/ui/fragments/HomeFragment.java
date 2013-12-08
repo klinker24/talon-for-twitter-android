@@ -557,8 +557,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onPause() {
         sharedPrefs.edit().putInt("timeline_unread", listView.getFirstVisiblePosition()).commit();
 
-        dataSource.markMultipleRead(unreadArray, sharedPrefs.getInt("current_account", 1));
-        unreadArray = new boolean[0];
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        dataSource.markMultipleRead(unreadArray, currentAccount);
+        unread = dataSource.getUnreadCount(currentAccount);
+        unreadArray = new boolean[unread];
+        Arrays.fill(unreadArray, true);
 
         super.onPause();
     }
