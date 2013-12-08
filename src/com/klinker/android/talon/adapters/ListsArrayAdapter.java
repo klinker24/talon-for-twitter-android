@@ -114,7 +114,6 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
 
                     }
                 });
-                builder.setTitle(name);
 
                 builder.create();
                 builder.show();
