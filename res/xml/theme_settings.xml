@@ -50,6 +50,12 @@
             android:defaultValue="true"
             />
 
+        <CheckBoxPreference
+            android:key="military_time"
+            android:title="@string/timestamp"
+            android:defaultValue="false"
+            />
+
         </PreferenceCategory>
 
 
