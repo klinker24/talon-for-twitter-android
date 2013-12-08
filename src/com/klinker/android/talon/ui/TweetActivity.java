@@ -456,7 +456,14 @@ public class TweetActivity extends Activity {
         }
 
         //Date tweetDate = new Date(time);
-        String timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
+        String timeDisplay;
+
+        if (!settings.militaryTime) {
+             timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
+        } else {
+            timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(time);
+        }
+
         timetv.setText(timeDisplay);
 
         tweettv.setLinksClickable(true);
@@ -668,7 +675,7 @@ public class TweetActivity extends Activity {
             }
 
             try {
-                timetv.append(" via " + via);
+                timetv.append(" " + getResources().getString(R.string.via) + " " + via);
             } catch (Exception e) {
 
             }

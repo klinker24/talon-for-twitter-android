@@ -97,6 +97,7 @@
     <string name="no_location">Couldn\'t find location</string>
     <string name="take_picture">Capture Image</string>
     <string name="from_file">Attach Image</string>
+    <string name="via">via</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>

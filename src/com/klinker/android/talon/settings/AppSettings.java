@@ -6,13 +6,6 @@ import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
-/**
- * Created with IntelliJ IDEA.
- * User: luke
- * Date: 11/9/13
- * Time: 1:34 PM
- * To change this template use File | Settings | File Templates.
- */
 public class AppSettings {
 
     public SharedPreferences sharedPrefs;
@@ -44,6 +37,7 @@ public class AppSettings {
     public boolean uiExtras;
     public boolean wakeScreen;
     public boolean nightMode;
+    public boolean militaryTime;
 
     public int theme;
     public int textSize;
@@ -90,6 +84,7 @@ public class AppSettings {
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
         uiExtras = sharedPrefs.getBoolean("ui_extras", true);
         wakeScreen = sharedPrefs.getBoolean("wake", true);
+        militaryTime = sharedPrefs.getBoolean("military_time", false);
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "0"));
