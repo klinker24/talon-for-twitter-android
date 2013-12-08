@@ -117,8 +117,6 @@ public class AppSettings {
             if (!(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) {
                 nightMode = true;
                 theme = sharedPrefs.getInt("night_theme", 1);
-            } else {
-                theme = Integer.parseInt(sharedPrefs.getString("theme", "0"));
             }
         }
     }
