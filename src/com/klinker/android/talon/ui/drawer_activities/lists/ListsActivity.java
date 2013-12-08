@@ -72,7 +72,7 @@ public class ListsActivity extends DrawerActivity {
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
 
-            if (!MainActivity.isPopup) {
+            /*if (!MainActivity.isPopup) {
                 View view = new View(context);
                 view.setOnClickListener(null);
                 view.setOnLongClickListener(null);
@@ -80,7 +80,7 @@ public class ListsActivity extends DrawerActivity {
                 view.setLayoutParams(params2);
                 listView.addHeaderView(view);
                 listView.setFooterDividersEnabled(false);
-            }
+            }*/
         }
 
         setUpDrawer(6, getResources().getString(R.string.lists));

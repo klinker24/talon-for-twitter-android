@@ -20,9 +20,9 @@
     - Notification for the second account's mentions
     - test refreshing mentions from timeline refresh
     - change refresh rate on preference changed
+    - redo the checkboxes and stuff to use an orange color instead of blue
 
 
 - Main TODO:
     - Select from following as composing a tweet
     - emoji support
-    - redo the checkboxes and stuff to use an orange color instead of blue
