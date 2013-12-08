@@ -4,28 +4,35 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.adapters.PeopleCursorAdapter;
+import com.klinker.android.talon.adapters.SearchedPeopleCursorAdapter;
+import com.klinker.android.talon.sq_lite.FollowersDataSource;
 
 public class QustomDialogBuilder extends AlertDialog.Builder{
 
-        /** The custom_body layout */
-        private View mDialogView;
+    public Context context;
+    private FollowersDataSource data;
+    private View mDialogView;
+    private TextView mTitle;
+    public HoloEditText text;
+    public ListView list;
+    private View mDivider;
+    private int currentAccount;
         
-        /** optional dialog title layout */
-        private TextView mTitle;
-
-        public HoloEditText text;
-
-        /** The colored holo divider. You can set its color with the setDividerColor method */
-        private View mDivider;
-        
-    public QustomDialogBuilder(Context context) {
+    public QustomDialogBuilder(Context context, int currentAccount) {
         super(context);
+
+        this.context = context;
+        this.currentAccount = currentAccount;
 
         mDialogView = View.inflate(context, R.layout.qustom_dialog_layout, null);
         setView(mDialogView);
@@ -33,6 +40,12 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
         mTitle = (TextView) mDialogView.findViewById(R.id.alertTitle);
         mDivider = mDialogView.findViewById(R.id.titleDivider);
         text = (HoloEditText) mDialogView.findViewById(R.id.content);
+
+        data = new FollowersDataSource(context);
+        data.open();
+
+        list = (ListView) mDialogView.findViewById(R.id.contact_list);
+        list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, text.getText().toString()), text));
     }
 
     /** 
@@ -58,7 +71,23 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
     @Override
     public AlertDialog show() {
         if (mTitle.getText().equals("")) mDialogView.findViewById(R.id.topPanel).setVisibility(View.GONE);
+
+        text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, text.getText().toString()), text));
+            }
+        });
         return super.show();
     }
-
 }

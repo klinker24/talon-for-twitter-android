@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,6 +50,7 @@ public class ComposeActivity extends Activity {
 
     public AppSettings settings;
     private Context context;
+    private SharedPreferences sharedPrefs;
 
     private EditText contactEntry;
     private EditText reply;
@@ -61,6 +64,7 @@ public class ComposeActivity extends Activity {
 
         settings = new AppSettings(this);
         context = this;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         setUpTheme();
 
@@ -248,7 +252,7 @@ public class ComposeActivity extends Activity {
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context).
+                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context, sharedPrefs.getInt("current_account", 1)).
                         setTitle(getResources().getString(R.string.type_user)).
                         setTitleColor(getResources().getColor(R.color.app_color)).
                         setDividerColor(getResources().getColor(R.color.app_color));
@@ -263,7 +267,7 @@ public class ComposeActivity extends Activity {
                 qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        reply.append(" " + qustomDialogBuilder.text.getText().toString());
+                        reply.append(qustomDialogBuilder.text.getText().toString());
                     }
                 });
 

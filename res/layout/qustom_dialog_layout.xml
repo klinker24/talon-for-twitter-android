@@ -39,7 +39,9 @@
     <ListView
         android:id="@+id/contact_list"
         android:layout_width="match_parent"
-        android:layout_height="125dp"></ListView>
+        android:layout_height="150dp"
+        android:divider="@null"
+        android:dividerHeight="3dp"/>
 
     <com.klinker.android.talon.ui.widgets.HoloEditText
         android:id="@+id/content"

@@ -66,6 +66,7 @@
     <string name="syncing_timeline">Syncing timeline...</string>
     <string name="syncing_mentions">Syncing mentions...</string>
     <string name="syncing_direct_messages">Syncing direct messages...</string>
+    <string name="syncing_user">Syncing friends...</string>
     <string name="done_syncing">Done with sync.</string>
 
     <!-- ComposeActivity New Activity -->

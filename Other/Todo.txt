@@ -23,3 +23,4 @@
 - Main TODO:
     - Select from following as composing a tweet
     - emoji support
+    - Sync only over wifi option

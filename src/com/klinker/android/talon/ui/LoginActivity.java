@@ -28,6 +28,7 @@ import com.klinker.android.talon.services.MentionsRefreshService;
 import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;
+import com.klinker.android.talon.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.fragments.DMFragment;
@@ -39,6 +40,8 @@ import java.util.Date;
 import java.util.List;
 
 import twitter4j.DirectMessage;
+import twitter4j.IDs;
+import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -461,7 +464,41 @@ public class LoginActivity extends Activity {
                     // they have no direct messages
                 }
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progDescription.setText(getResources().getString(R.string.syncing_user));
+                    }
+                });
 
+                FollowersDataSource followers = new FollowersDataSource(context);
+                followers.open();
+
+                try {
+                    int currentAccount = sharedPrefs.getInt("current_account", 1);
+                    PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), -1);
+
+                    for (User friend : friendsPaging) {
+                        followers.createUser(friend, currentAccount);
+                    }
+
+                    long nextCursor = friendsPaging.getNextCursor();
+
+                    while (nextCursor != -1) {
+                        friendsPaging = twitter.getFriendsList(user.getId(), nextCursor);
+
+                        for (User friend : friendsPaging) {
+                            followers.createUser(friend, currentAccount);
+                        }
+
+                        nextCursor = friendsPaging.getNextCursor();
+                    }
+
+                } catch (Exception e) {
+                    // something wrong haha
+                }
+
+                followers.close();
 
                 dataSource.close();
 
