@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Calendar;
+
 /**
  * Created with IntelliJ IDEA.
  * User: luke
@@ -41,6 +43,7 @@ public class AppSettings {
     public boolean autoTrim;
     public boolean uiExtras;
     public boolean wakeScreen;
+    public boolean nightMode;
 
     public int theme;
     public int textSize;
@@ -100,5 +103,25 @@ public class AppSettings {
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));
         mentionsRefresh = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "1800000"));
         dmRefresh = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "1800000"));
+
+        if (sharedPrefs.getBoolean("night_mode", false)) {
+            int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);
+            int nightStartMin = sharedPrefs.getInt("night_start_min", 0);
+            int dayStartHour = sharedPrefs.getInt("day_start_hour", 6);
+            int dayStartMin = sharedPrefs.getInt("day_start_min", 0);
+
+            Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minutes = c.get(Calendar.MINUTE);
+
+            int dayStartMinutes = dayStartHour * 60 + dayStartMin;
+            int nightStartMinutes = nightStartHour * 60 + nightStartMin;
+            int currentMinutes = hour * 60 + minutes;
+
+            if (!(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) {
+                nightMode = true;
+                theme = sharedPrefs.getInt("night_theme", 1);
+            }
+        }
     }
 }

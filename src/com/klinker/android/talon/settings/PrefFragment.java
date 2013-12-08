@@ -10,12 +10,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
@@ -84,6 +86,8 @@ public class PrefFragment extends PreferenceFragment {
 
     public void setUpThemeSettings() {
 
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         Preference deviceFont = findPreference("device_font");
         deviceFont.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -92,6 +96,44 @@ public class PrefFragment extends PreferenceFragment {
                 HoloEditText.typeface = null;
                 return false;
             }
+        });
+
+        final Preference nightMode = findPreference("night_mode");
+        nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (!((CheckBoxPreference) nightMode).isChecked()) {
+                    com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                            sharedPrefs.edit().putInt("night_start_hour", hourOfDay).putInt("night_start_min", minute).commit();
+
+                            com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                                    sharedPrefs.edit().putInt("day_start", hourOfDay).putInt("day_start_min", minute).commit();
+
+                                    new AlertDialog.Builder(getActivity())
+                                            .setTitle(R.string.night_mode_theme)
+                                            .setItems(getResources().getStringArray(R.array.choose_theme), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    sharedPrefs.edit().putInt("night_theme", i).commit();
+                                                }
+                                            })
+                                            .show();
+                                }
+                            }, 6, 0, sharedPrefs.getBoolean("military_time", false), getString(R.string.night_mode_day));
+                            dialog.show(getFragmentManager(), "night_mode_day");
+                        }
+                    }, 22, 0, sharedPrefs.getBoolean("military_time", false), getString(R.string.night_mode_night));
+                    dialog.setThemeDark(true);
+                    dialog.show(getFragmentManager(), "night_mode_night");
+                }
+
+                return true;
+            }
+
         });
     }
 

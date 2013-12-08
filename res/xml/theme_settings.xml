@@ -19,6 +19,12 @@
         />
 
     <CheckBoxPreference
+        android:key="night_mode"
+        android:title="@string/night_mode"
+        android:defaultValue="false"
+        />
+
+    <CheckBoxPreference
         android:key="device_font"
         android:title="@string/device_font"
         android:defaultValue="false"
