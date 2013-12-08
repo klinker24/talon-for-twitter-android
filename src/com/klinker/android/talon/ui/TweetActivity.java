@@ -402,32 +402,52 @@ public class TweetActivity extends Activity {
 
                     final CharSequence[] fItems = items;
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(getResources().getString(R.string.open_what) + "?");
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            String touched = fItems[item] + "";
+                    if (fItems.length > 1) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        //builder.setTitle(getResources().getString(R.string.open_what) + "?");
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                String touched = fItems[item] + "";
 
-                            if (touched.contains("http")) { //weblink
-                                Uri weburi = Uri.parse(touched);
-                                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                                startActivity(launchBrowser);
-                            } else if (touched.contains("@")) { //username
-                                Intent user = new Intent(context, UserProfileActivity.class);
-                                user.putExtra("screenname", touched.replace("@", ""));
-                                user.putExtra("proPic", "");
-                                context.startActivity(user);
-                            } else { // hashtag
-                                Intent search = new Intent(context, SearchedTrendsActivity.class);
-                                search.setAction(Intent.ACTION_SEARCH);
-                                search.putExtra(SearchManager.QUERY, touched);
-                                context.startActivity(search);
+                                if (touched.contains("http")) { //weblink
+                                    Uri weburi = Uri.parse(touched);
+                                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                                    startActivity(launchBrowser);
+                                } else if (touched.contains("@")) { //username
+                                    Intent user = new Intent(context, UserProfileActivity.class);
+                                    user.putExtra("screenname", touched.replace("@", ""));
+                                    user.putExtra("proPic", "");
+                                    context.startActivity(user);
+                                } else { // hashtag
+                                    Intent search = new Intent(context, SearchedTrendsActivity.class);
+                                    search.setAction(Intent.ACTION_SEARCH);
+                                    search.putExtra(SearchManager.QUERY, touched);
+                                    context.startActivity(search);
+                                }
+                                dialog.dismiss();
                             }
-                            dialog.dismiss();
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    } else {
+                        String touched = fItems[0] + "";
+
+                        if (touched.contains("http")) { //weblink
+                            Uri weburi = Uri.parse(touched);
+                            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                            startActivity(launchBrowser);
+                        } else if (touched.contains("@")) { //username
+                            Intent user = new Intent(context, UserProfileActivity.class);
+                            user.putExtra("screenname", touched.replace("@", ""));
+                            user.putExtra("proPic", "");
+                            context.startActivity(user);
+                        } else { // hashtag
+                            Intent search = new Intent(context, SearchedTrendsActivity.class);
+                            search.setAction(Intent.ACTION_SEARCH);
+                            search.putExtra(SearchManager.QUERY, touched);
+                            context.startActivity(search);
                         }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                    }
                 }
             });
         }
