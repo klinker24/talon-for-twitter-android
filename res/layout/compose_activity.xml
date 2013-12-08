@@ -37,7 +37,6 @@
                     android:layout_margin="5dp"
                     android:layout_marginBottom="10dp">
 
-
                     <ImageButton
                             android:id="@+id/emoji"
                             android:layout_height="48dp"
@@ -60,11 +59,28 @@
 
         </LinearLayout>
 
-    <com.klinker.android.talon.ui.widgets.HoloEditText
-              android:id="@+id/tweet_content"
-              android:layout_height="wrap_content"
-              android:layout_width="fill_parent"
-              android:hint="@string/compose_tweet_hint"
-              android:inputType="textCapSentences|textMultiLine"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/at_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/pressed_button"
+            android:text="\@"
+            android:gravity="center"
+            android:textColor="?textColor"
+            android:visibility="gone"/>
+
+        <com.klinker.android.talon.ui.widgets.HoloEditText
+            android:id="@+id/tweet_content"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:hint="@string/compose_tweet_hint"
+            android:inputType="textCapSentences|textMultiLine"/>
+
+        </LinearLayout>
+
 
 </LinearLayout>

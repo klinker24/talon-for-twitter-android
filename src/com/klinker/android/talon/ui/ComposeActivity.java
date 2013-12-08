@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -238,6 +240,34 @@ public class ComposeActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        Button at = (Button) findViewById(R.id.at_button);
+        at.setVisibility(View.VISIBLE);
+        at.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context).
+                        setTitle(getResources().getString(R.string.type_user)).
+                        setTitleColor(getResources().getColor(R.color.app_color)).
+                        setDividerColor(getResources().getColor(R.color.app_color));
+
+                qustomDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        reply.append(" " + qustomDialogBuilder.text.getText().toString());
+                    }
+                });
+
+                qustomDialogBuilder.show();
             }
         });
     }

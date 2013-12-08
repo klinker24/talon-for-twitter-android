@@ -73,6 +73,8 @@
     <string name="compose_tweet_hint">Type tweet here...</string>
     <string name="send_to">Enter user\'s screen name</string>
     <string name="direct_message_sent">Direct Message Sent</string>
+    <string name="type_user">Type User</string>
+    <string name="add_user">Add User</string>
 
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>
