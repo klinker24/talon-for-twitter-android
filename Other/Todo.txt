@@ -25,5 +25,4 @@
 - Main TODO:
     - Select from following as composing a tweet
     - emoji support
-    - night mode
     - redo the checkboxes and stuff to use an orange color instead of blue
