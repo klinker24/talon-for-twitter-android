@@ -111,7 +111,7 @@ public class PrefFragment extends PreferenceFragment {
                             com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
                                 @Override
                                 public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                                    sharedPrefs.edit().putInt("day_start", hourOfDay).putInt("day_start_min", minute).commit();
+                                    sharedPrefs.edit().putInt("day_start_hour", hourOfDay).putInt("day_start_min", minute).commit();
 
                                     new AlertDialog.Builder(getActivity())
                                             .setTitle(R.string.night_mode_theme)
