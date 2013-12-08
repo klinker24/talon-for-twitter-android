@@ -285,8 +285,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         });
 
-
-            
         final View view = layout;
 
         new Handler().postDelayed(new Runnable() {

@@ -58,6 +58,7 @@ public class MainActivity extends DrawerActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
