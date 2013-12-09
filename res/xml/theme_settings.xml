@@ -8,7 +8,7 @@
         <ListPreference
             android:key="theme"
             android:title="@string/theme"
-            android:defaultValue="0"
+            android:defaultValue="1"
             android:entries="@array/choose_theme"
             android:entryValues="@array/choose_theme_inserted"
             />
