@@ -1,4 +1,4 @@
-Version 0.8:<br/><br/>
+Version 0.80:<br/><br/>
     &#8226; Open profiles, hashtags, and websites that are highlighted in tweets<br/>
     &#8226; Can now search for users when composing a new tweet. It will sync your friends when you login and add them if you follow someone<br/>
     &#8226; Manually sync friends option<br/>
