@@ -63,7 +63,8 @@ XDA Developers Thread: coming soon
 
 
 Credit:
-- Jacob Klinker: DateandTimePicker dialog as well as tons of ideas and support
+- Jacob Klinker: DateAndTimePicker dialog as well as tons of ideas and support
+- Yusuke Yamamoto: Twitter4j library
 - Chris Banes: ActionBar-PullToRefresh, Android-BitmapCache, and PhotoView widget
 - Lucas Rocha: Smoothie ListView library
 - Square, Inc.: Picasso library
