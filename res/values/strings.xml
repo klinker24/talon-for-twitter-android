@@ -76,6 +76,9 @@
     <string name="direct_message_sent">Direct Message Sent</string>
     <string name="type_user">Type User</string>
     <string name="add_user">Add User</string>
+    <string name="location_connected">Location attached</string>
+    <string name="location_disconnected">Location lost</string>
+    <string name="finding_location">Looking for locations</string>
 
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>

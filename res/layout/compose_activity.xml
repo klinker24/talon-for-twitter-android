@@ -38,6 +38,17 @@
                     android:layout_marginBottom="10dp">
 
                     <ImageButton
+                        android:id="@+id/location"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:src="?location_button"
+                        android:background="@drawable/pressed_button"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp"
+                        android:visibility="gone"/>
+
+                    <ImageButton
                             android:id="@+id/emoji"
                             android:layout_height="48dp"
                             android:layout_width="48dp"

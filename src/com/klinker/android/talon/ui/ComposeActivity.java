@@ -11,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,10 +29,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.location.LocationClient;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
@@ -41,13 +46,17 @@ import com.klinker.android.talon.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 
+import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 
-public class ComposeActivity extends Activity {
+public class ComposeActivity extends Activity implements
+        GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener {
 
+    private LocationClient mLocationClient;
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -65,6 +74,8 @@ public class ComposeActivity extends Activity {
         settings = new AppSettings(this);
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        mLocationClient = new LocationClient(context, this, this);
 
         setUpTheme();
 
@@ -274,6 +285,38 @@ public class ComposeActivity extends Activity {
                 qustomDialogBuilder.show();
             }
         });
+
+        final ImageButton location = (ImageButton) findViewById(R.id.location);
+        location.setVisibility(View.VISIBLE);
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!addLocation) {
+                    // starts the location
+                    mLocationClient.connect();
+
+                    Toast.makeText(context, getResources().getString(R.string.finding_location), Toast.LENGTH_SHORT);
+
+                    addLocation = true;
+
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.done});
+                    int check = a.getResourceId(0, 0);
+                    a.recycle();
+
+                    location.setImageResource(check);
+                } else {
+                    mLocationClient.disconnect();
+
+                    addLocation = false;
+
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.location_button});
+                    int check = a.getResourceId(0, 0);
+                    a.recycle();
+
+                    location.setImageResource(check);
+                }
+            }
+        });
     }
 
     public void setUpTheme() {
@@ -315,6 +358,8 @@ public class ComposeActivity extends Activity {
         new updateTwitterStatus().execute(status);
     }
 
+    private boolean addLocation = false;
+
     private class updateTwitterStatus extends AsyncTask<String, String, String> {
 
         @Override
@@ -337,6 +382,12 @@ public class ComposeActivity extends Activity {
                     Log.v("updating_with_pic", attachedFilePath);
                     StatusUpdate media = new StatusUpdate(status);
                     media.setMedia(new File(attachedFilePath));
+
+                    if(addLocation) {
+                        Location location = mLocationClient.getLastLocation();
+                        GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+                        media.setLocation(geolocation);
+                    }
                     twitter.updateStatus(media);
                 }
 
@@ -361,6 +412,27 @@ public class ComposeActivity extends Activity {
             });
         }
 
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Toast.makeText(context, getResources().getString(R.string.location_connected), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDisconnected() {
+        Toast.makeText(context, getResources().getString(R.string.location_disconnected), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStop() {
+        mLocationClient.disconnect();
+        super.onStop();
     }
 
     protected void onActivityResult(int requestCode, int resultCode,

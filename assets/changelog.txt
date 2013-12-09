@@ -1,4 +1,9 @@
-Version 0.80:<br/><br/>
+Version 0.60:<br/><br/>
+    &#8226; Style changes to profiles<br/>
+    &#8226; Attach locations to new tweets<br/><br/>
+<br/>
+
+Version 0.50:<br/><br/>
     &#8226; Open profiles, hashtags, and websites that are highlighted in tweets<br/>
     &#8226; Can now search for users when composing a new tweet. It will sync your friends when you login and add them if you follow someone<br/>
     &#8226; Manually sync friends option<br/>
@@ -12,7 +17,7 @@ Version 0.80:<br/><br/>
     &#8226; Style changes<br/><br/>
 <br/>
 
-Version 0.75:<br/><br/>
+Version 0.40:<br/><br/>
     &#8226; Support for a second account<br/>
     &#8226; Awesome kitkat styling stuff<br/>
     &#8226; Cool actionable toast bar when scrolling the list<br/>
@@ -31,7 +36,7 @@ Version 0.75:<br/><br/>
     &#8226; changes to search to allow searching by username<br/><br/>
 <br/>
 
-Version 0.50: This is now a real, completely functional twitter app. EVERYTHING seems to be working<br/><br/>
+Version 0.30: This is now a real, completely functional twitter app. EVERYTHING seems to be working<br/><br/>
     &#8226; All settings working in the settings menu.<br/>
     &#8226; World trends working <br/>
     &#8226; Searching twitter working <br/>
@@ -55,7 +60,7 @@ Version 0.50: This is now a real, completely functional twitter app. EVERYTHING 
     &#8226; tons of other bug fixes<br/><br/>
 <br/>
 
-Version 0.30:<br/><br/>
+Version 0.20:<br/><br/>
     &#8226; Reduced memory footprint<br/>
     &#8226; Better Handling of images everywhere<br/>
     &#8226; Favorite Tweets page<br/>
@@ -67,7 +72,7 @@ Version 0.30:<br/><br/>
     &#8226; Fix for not going back and finding all the tweets<br/><br/>
 <br/>
 
-Version 0.20:<br/><br/>
+Version 0.10:<br/><br/>
     &#8226; Style changes for main timeline activity (long press opens tweet, click expands, this will be an option later)<br/>
     &#8226; Fixed the animations stuttering<br/>
     &#8226; Direct message fixes<br/>
