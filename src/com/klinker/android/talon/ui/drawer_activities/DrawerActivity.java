@@ -589,8 +589,12 @@ public abstract class DrawerActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        try {
+            if (mDrawerToggle.onOptionsItemSelected(item)) {
+                return true;
+            }
+        } catch (Exception e) {
+            // landscape
         }
 
         switch (item.getItemId()) {
