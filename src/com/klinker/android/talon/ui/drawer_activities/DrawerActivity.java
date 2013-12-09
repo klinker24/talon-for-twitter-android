@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -113,68 +114,72 @@ public abstract class DrawerActivity extends Activity {
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
         drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+        try {
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                resource,  /* nav drawer icon to replace 'Up' caret */
-                R.string.app_name,  /* "open drawer" description */
-                R.string.app_name  /* "close drawer" description */
-        ) {
+            mDrawerToggle = new ActionBarDrawerToggle(
+                    this,                  /* host Activity */
+                    mDrawerLayout,         /* DrawerLayout object */
+                    resource,  /* nav drawer icon to replace 'Up' caret */
+                    R.string.app_name,  /* "open drawer" description */
+                    R.string.app_name  /* "close drawer" description */
+            ) {
 
-            public void onDrawerClosed(View view) {
-                if (logoutVisible) {
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
-                    ranim.setFillAfter(true);
-                    showMoreDrawer.startAnimation(ranim);
+                public void onDrawerClosed(View view) {
+                    if (logoutVisible) {
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                        ranim.setFillAfter(true);
+                        showMoreDrawer.startAnimation(ranim);
 
-                    logoutLayout.setVisibility(View.GONE);
-                    drawerList.setVisibility(View.VISIBLE);
+                        logoutLayout.setVisibility(View.GONE);
+                        drawerList.setVisibility(View.VISIBLE);
 
-                    logoutVisible = false;
-                }
-
-                if (MainDrawerArrayAdapter.current > 2) {
-                    actionBar.setTitle(actName);
-                } else {
-                        int position = mViewPager.getCurrentItem();
-
-                        switch (position) {
-                            case 0:
-                                actionBar.setTitle(getResources().getString(R.string.timeline));
-                                break;
-                            case 1:
-                                actionBar.setTitle(getResources().getString(R.string.mentions));
-                                break;
-                            case 2:
-                                actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                                break;
-                        }
+                        logoutVisible = false;
                     }
 
-            }
+                    if (MainDrawerArrayAdapter.current > 2) {
+                        actionBar.setTitle(actName);
+                    } else {
+                            int position = mViewPager.getCurrentItem();
 
-            public void onDrawerOpened(View drawerView) {
-                actionBar.setTitle(getResources().getString(R.string.app_name));
-            }
+                            switch (position) {
+                                case 0:
+                                    actionBar.setTitle(getResources().getString(R.string.timeline));
+                                    break;
+                                case 1:
+                                    actionBar.setTitle(getResources().getString(R.string.mentions));
+                                    break;
+                                case 2:
+                                    actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                                    break;
+                            }
+                        }
 
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-
-                if (!actionBar.isShowing()) {
-                    actionBar.show();
                 }
 
-                if (translucent) {
-                    statusBar.setVisibility(View.VISIBLE);
+                public void onDrawerOpened(View drawerView) {
+                    actionBar.setTitle(getResources().getString(R.string.app_name));
                 }
-            }
-        };
 
-        // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+                    super.onDrawerSlide(drawerView, slideOffset);
+
+                    if (!actionBar.isShowing()) {
+                        actionBar.show();
+                    }
+
+                    if (translucent) {
+                        statusBar.setVisibility(View.VISIBLE);
+                    }
+                }
+            };
+
+            // Set the drawer toggle as the DrawerListener
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+        } catch (Exception e) {
+            // landscape mode
+        }
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -219,7 +224,11 @@ public abstract class DrawerActivity extends Activity {
         backgroundPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDrawerLayout.closeDrawer(Gravity.START);
+                try {
+                    mDrawerLayout.closeDrawer(Gravity.START);
+                } catch (Exception e) {
+
+                }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -243,7 +252,11 @@ public abstract class DrawerActivity extends Activity {
             @Override
             public boolean onLongClick(View view) {
 
-                mDrawerLayout.closeDrawer(Gravity.START);
+                try {
+                    mDrawerLayout.closeDrawer(Gravity.START);
+                } catch (Exception e) {
+
+                }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -429,7 +442,7 @@ public abstract class DrawerActivity extends Activity {
 
     public void setUpTheme() {
 
-        if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup && settings.uiExtras) {
+        if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup && settings.uiExtras && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
             translucent = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         } else {
@@ -453,13 +466,11 @@ public abstract class DrawerActivity extends Activity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        try {
+            mDrawerToggle.syncState();
+        } catch (Exception e) {
+            // landscape mode
+        }
     }
 
     private void logoutFromTwitter() {

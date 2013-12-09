@@ -1,6 +1,7 @@
 package com.klinker.android.talon.ui.drawer_activities.trends;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
@@ -51,6 +52,21 @@ public class TrendsPager extends DrawerActivity {
         setUpDrawer(7, getResources().getString(R.string.trends));
 
         mViewPager.setOffscreenPageLimit(3);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        try {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        } catch (Exception e) { }
+
+        overridePendingTransition(0,0);
+        finish();
+        Intent restart = new Intent(context, TrendsPager.class);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        overridePendingTransition(0, 0);
+        startActivity(restart);
     }
 
 }

@@ -12,6 +12,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -97,6 +98,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     private boolean initial = true;
     private boolean shown = true;
+    private boolean landscape;
 
     private String jumpToTop;
     private String fromTop;
@@ -116,6 +118,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        Log.v("recreating", "in home frag");
+
+        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
@@ -237,12 +243,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             if (firstVisibleItem < 3) {
 
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                actionBar.hide();
+                                if (!landscape) {
+                                    actionBar.hide();
+                                }
                                 if (!isToastShowing) {
                                     showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                actionBar.show();
+                                if (!landscape) {
+                                    actionBar.show();
+                                }
                                 if (isToastShowing && !infoBar) {
                                     hideToastBar(400);
                                 }
@@ -251,7 +261,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             mLastFirstVisibleItem = firstVisibleItem;
                         }
                     } else {
-                        actionBar.show();
+                        if (!landscape) {
+                            actionBar.show();
+                        }
                         if (!infoBar) {
                             hideToastBar(400);
                         }

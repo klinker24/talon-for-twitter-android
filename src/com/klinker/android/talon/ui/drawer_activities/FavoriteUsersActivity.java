@@ -1,6 +1,7 @@
 package com.klinker.android.talon.ui.drawer_activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,10 +30,13 @@ import org.lucasr.smoothie.AsyncListView;
 public class FavoriteUsersActivity extends DrawerActivity {
 
     FavoriteUsersDataSource dataSource;
+    private boolean landscape;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -95,9 +99,13 @@ public class FavoriteUsersActivity extends DrawerActivity {
                     if (MainActivity.canSwitch) {
                         // used to show and hide the action bar
                         if (firstVisibleItem > mLastFirstVisibleItem) {
-                            actionBar.hide();
+                            if (!landscape) {
+                                actionBar.hide();
+                            }
                         } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                            actionBar.show();
+                            if(!landscape) {
+                                actionBar.show();
+                            }
                             if (translucent) {
                                 statusBar.setVisibility(View.VISIBLE);
                             }
@@ -106,7 +114,9 @@ public class FavoriteUsersActivity extends DrawerActivity {
                         mLastFirstVisibleItem = firstVisibleItem;
                     }
                 } else {
-                    actionBar.show();
+                    if(!landscape) {
+                        actionBar.show();
+                    }
                 }
 
                 if (MainActivity.translucent && actionBar.isShowing()) {
@@ -159,6 +169,21 @@ public class FavoriteUsersActivity extends DrawerActivity {
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        try {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        } catch (Exception e) { }
+
+        overridePendingTransition(0,0);
+        finish();
+        Intent restart = new Intent(context, FavoriteUsersActivity.class);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        overridePendingTransition(0, 0);
+        startActivity(restart);
     }
 
 }

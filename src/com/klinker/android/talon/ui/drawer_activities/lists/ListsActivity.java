@@ -1,7 +1,9 @@
 package com.klinker.android.talon.ui.drawer_activities.lists;
 
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -50,7 +52,7 @@ public class ListsActivity extends DrawerActivity {
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        setContentView(R.layout.text_list_view);
+        setContentView(R.layout.text_list_view_land);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -202,5 +204,20 @@ public class ListsActivity extends DrawerActivity {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        try {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        } catch (Exception e) { }
+
+        overridePendingTransition(0,0);
+        finish();
+        Intent restart = new Intent(context, ListActivity.class);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        overridePendingTransition(0, 0);
+        startActivity(restart);
     }
 }

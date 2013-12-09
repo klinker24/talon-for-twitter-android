@@ -3,6 +3,7 @@ package com.klinker.android.talon.ui;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -36,7 +37,7 @@ public class MainActivity extends DrawerActivity {
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         } catch (Exception e) {
-            // don't know why right now...
+
         }
 
         sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
@@ -111,5 +112,21 @@ public class MainActivity extends DrawerActivity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        try {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        } catch (Exception e) { }
+
+        overridePendingTransition(0,0);
+        finish();
+        Intent restart = new Intent(context, MainActivity.class);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        restart.putExtra("page_to_open", mViewPager.getCurrentItem());
+        overridePendingTransition(0, 0);
+        startActivity(restart);
     }
 }

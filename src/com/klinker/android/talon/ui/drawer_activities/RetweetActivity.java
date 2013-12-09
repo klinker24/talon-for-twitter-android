@@ -1,6 +1,7 @@
 package com.klinker.android.talon.ui.drawer_activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,9 +32,13 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class RetweetActivity extends DrawerActivity {
 
+    private boolean landscape;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -100,20 +105,22 @@ public class RetweetActivity extends DrawerActivity {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                // show and hide the action bar
-                if (firstVisibleItem != 0) {
-                    if (MainActivity.canSwitch) {
-                        // used to show and hide the action bar
-                        if (firstVisibleItem > mLastFirstVisibleItem) {
-                            actionBar.hide();
-                        } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                            actionBar.show();
-                        }
+                if (!landscape) {
+                    // show and hide the action bar
+                    if (firstVisibleItem != 0) {
+                        if (MainActivity.canSwitch) {
+                            // used to show and hide the action bar
+                            if (firstVisibleItem > mLastFirstVisibleItem) {
+                                actionBar.hide();
+                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                                actionBar.show();
+                            }
 
-                        mLastFirstVisibleItem = firstVisibleItem;
+                            mLastFirstVisibleItem = firstVisibleItem;
+                        }
+                    } else {
+                        actionBar.show();
                     }
-                } else {
-                    actionBar.show();
                 }
 
                 if (MainActivity.translucent && actionBar.isShowing()) {
@@ -161,4 +168,18 @@ public class RetweetActivity extends DrawerActivity {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        try {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        } catch (Exception e) { }
+
+        overridePendingTransition(0,0);
+        finish();
+        Intent restart = new Intent(context, RetweetActivity.class);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        overridePendingTransition(0, 0);
+        startActivity(restart);
+    }
 }

@@ -37,14 +37,22 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        drawer.closeDrawer(Gravity.START);
+                        try {
+                            drawer.closeDrawer(Gravity.START);
+                        } catch (Exception e) {
+                            // landscape mode
+                        }
                     }
                 }, 300);
 
                 viewPager.setCurrentItem(i, true);
             } else {
                 final int pos = i;
-                drawer.closeDrawer(Gravity.START);
+                try {
+                    drawer.closeDrawer(Gravity.START);
+                } catch (Exception e) {
+                    // landscape mode
+                }
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -72,7 +80,11 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
             }
         } else {
             final int pos = i;
-            drawer.closeDrawer(Gravity.START);
+            try {
+                drawer.closeDrawer(Gravity.START);
+            } catch (Exception e) {
+                // landscape mode
+            }
             new Thread(new Runnable() {
                 @Override
                 public void run() {

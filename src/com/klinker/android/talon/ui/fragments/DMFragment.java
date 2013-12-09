@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -75,6 +76,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
     static Activity context;
 
+    private boolean landscape;
+
     private ActionBar actionBar;
     private int mActionBarSize;
 
@@ -94,6 +97,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
@@ -193,12 +198,16 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                             if (firstVisibleItem < 3) {
 
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                actionBar.hide();
+                                if(!landscape) {
+                                    actionBar.hide();
+                                }
                                 if (!isToastShowing) {
                                     showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                actionBar.show();
+                                if(!landscape) {
+                                    actionBar.show();
+                                }
                                 if (isToastShowing && !infoBar) {
                                     hideToastBar(400);
                                 }
@@ -207,7 +216,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                             mLastFirstVisibleItem = firstVisibleItem;
                         }
                     } else {
-                        actionBar.show();
+                        if(!landscape) {
+                            actionBar.show();
+                        }
                         if (!infoBar) {
                             hideToastBar(400);
                         }
