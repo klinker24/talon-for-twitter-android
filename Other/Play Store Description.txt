@@ -47,6 +47,8 @@ App Features:
 - Actionable toast bar so you always know where you are and can jump to the top
 - Hiding action bar to give you all those extra pixels of Twitter goodness
 - Google style - Action Bar pull to refresh - for quick refreshing
+- Save tweet pictures
+- Share content with other apps, to and from Talon
 
 The app also includes tons of animations and extra UI features that put it above the rest, you will never go back to your old Twitter client again!
 
