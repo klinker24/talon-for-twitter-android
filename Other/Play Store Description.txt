@@ -23,6 +23,7 @@ Twitter features:
 - block, follow, and add users to lists
 - search for your friends to tweet at
 - Attach pictures to your tweets
+- Attach locations to your tweets
 - And too many more to list :)
 
 Customization features:
