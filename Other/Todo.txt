@@ -21,6 +21,4 @@
 
 
 - Main TODO:
-    - Manual sync of friends
     - emoji support
-    - Background sync only over wifi option
