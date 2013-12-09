@@ -1,0 +1,66 @@
+Introducing Talon for Twitter!
+
+Get fully immersed yourself in your Twitter news with this beautiful, feature PACKED Twitter client!
+
+Created with the all new Android 4.4 (KitKat) in mind. Includes full screen layouts, beautiful animations and more! Of course that doesn't mean earlier versions of android get left out! The only thing that wasn't able to be recreated in Android 4.3 and below was the transparent navigation and status bars... Sorry! It just isn't possible :(
+
+Beautiful, up-to-date layouts, and neat animations isn't the only thing Talon has going for it though! The list of features is enormous as well, doing everything you could ever want from a Twitter app right off the bat. Even though it is new, I have added every single major and minor Twitter feature that I think is absolutely essential plus a ton that most people wouldn't even think of. Here is a pretty comprehensive list of its features:
+
+Twitter features:
+- Support for 2 accounts
+- View your timelines (main, mentions, and direct messages)
+- View retweets
+- View your favorites
+- Local and world trending
+- Favorite users
+- Search Twitter
+- View user profiles
+- View in-line twitter pictures
+- Twitter lists support
+- Delete, favorite, retweet and reply to statuses
+- view replies to statuses
+- Update your profile picture, banner, location, and user description
+- block, follow, and add users to lists
+- search for your friends to tweet at
+- Attach pictures to your tweets
+- And too many more to list :)
+
+Customization features:
+- Choose from 3 beautiful themes
+- Custom text sizes
+- Night mode
+- Support for either Roboto Light or regular Roboto fonts
+- 24-Hour timestamps
+- Auto Refresh options
+- Custom notification settings
+- Refresh on WiFi and/or mobile data
+- And a few other goodies in there as well!
+
+App Features:
+- In-app browser to view webpages and videos
+- Advance to new pages in an awesome "windowed" viewing mode
+- Never leave your timeline with in-line replies, favorites, and retweets
+- In-line Twitter pictures
+- Notifications for new tweets, mentions, and direct messages
+- Actionable toast bar so you always know where you are and can jump to the top
+- Hiding action bar to give you all those extra pixels of Twitter goodness
+- Google style - Action Bar pull to refresh - for quick refreshing
+
+The app also includes tons of animations and extra UI features that put it above the rest, you will never go back to your old Twitter client again!
+
+Enjoy Talon and don't hesitate to contact me with questions, requests, or bugs!
+Thanks!
+
+Contact me (Luke Klinker):
+Email: lklinker1@gmail.com
+Twitter: @lukeklinker
+Google+ Beta Page: coming soon
+XDA Developers Thread: coming soon
+
+
+Credit:
+- Jacob Klinker: DateandTimePicker dialog as well as tons of ideas and support
+- Chris Banes: ActionBar-PullToRefresh, Android-BitmapCache, and PhotoView widget
+- Lucas Rocha: Smoothie ListView library
+- Square, Inc.: Picasso library
+- Google: Making it all possible
