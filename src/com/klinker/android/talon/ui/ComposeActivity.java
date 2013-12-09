@@ -292,14 +292,13 @@ public class ComposeActivity extends Activity implements
             @Override
             public void onClick(View view) {
                 if (!addLocation) {
-                    // starts the location
-                    mLocationClient.connect();
-
                     Toast.makeText(context, getResources().getString(R.string.finding_location), Toast.LENGTH_SHORT);
+
+                    mLocationClient.connect();
 
                     addLocation = true;
 
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.done});
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.acceptButton});
                     int check = a.getResourceId(0, 0);
                     a.recycle();
 

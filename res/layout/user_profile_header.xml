@@ -23,12 +23,7 @@
         android:layout_marginTop="-5dp"
         />
 
-    <View   android:id="@+id/view1"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_marginTop="140dp"
-        android:background="?tweetBackgroundNoDialog"
-        />
+
 
     <ImageView
             android:layout_width="96dp"
@@ -66,6 +61,14 @@
         android:layout_marginTop="5dp"
         android:maxLines="1"
         android:layout_marginLeft="-4dp" />
+
+    <View   android:id="@+id/view1"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@id/background_image"
+        android:layout_alignParentBottom="true"
+        android:background="?tweetBackgroundNoDialog"
+        />
 
     <LinearLayout
             android:layout_below="@id/user_statement"
