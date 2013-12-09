@@ -554,8 +554,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             if (updated) {
                 CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                 showToastBar(text + "", toMentions, 400, true, toMentionsListener);
-
-                MentionsFragment.refreshCursor();
             } else {
 
             }

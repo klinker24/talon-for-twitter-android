@@ -17,7 +17,7 @@ Twitter features:
 - View user profiles
 - View in-line twitter pictures
 - Twitter lists support
-- Delete, favorite, retweet and reply to statuses
+- Delete, favorite, retweet, quote, and reply to statuses
 - view replies to statuses
 - Update your profile picture, banner, location, and user description
 - block, follow, and add users to lists
@@ -37,7 +37,9 @@ Customization features:
 - And a few other goodies in there as well!
 
 App Features:
+- Full support for Google's Hangouts emojis
 - In-app browser to view webpages and videos
+- Complete landscape mode for tablets and phones
 - Advance to new pages in an awesome "windowed" viewing mode
 - Never leave your timeline with in-line replies, favorites, and retweets
 - In-line Twitter pictures

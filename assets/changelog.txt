@@ -40,7 +40,7 @@ Version 0.50: This is now a real, completely functional twitter app. EVERYTHING 
     &#8226; Notifications for new tweets, direct messages, and mentions<br/>
     &#8226; Favorite Users page. They can be added from the profile activities
     &#8226; Trimming of databases and cache<br/>
-    &#8226; New slim font (Roboto light)<br/>
+    &#8226; New slim font (Roboto Light)<br/>
     &#8226; Updates mentions when you update the timeline as well<br/>
     &#8226; Changes to the profiles<br/>
     &#8226; Feedback on button presses<br/>
