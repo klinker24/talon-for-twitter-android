@@ -19,12 +19,18 @@ import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.IOUtils;
+import com.klinker.android.talon.utils.Utils;
 
 import java.io.File;
+
+import twitter4j.PagableResponseList;
+import twitter4j.Twitter;
+import twitter4j.User;
 
 public class PrefFragment extends PreferenceFragment {
 
@@ -139,6 +145,41 @@ public class PrefFragment extends PreferenceFragment {
 
     public void setUpNotificationSettings() {
         final Context context = getActivity();
+
+        final AppSettings settings = new AppSettings(context);
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        Preference sync = findPreference("sync_friends");
+        sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.sync_friends))
+                        .setMessage(context.getResources().getString(R.string.sync_friends_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    new SyncFriends(settings.myScreenName, sharedPrefs).execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
 
     }
 
@@ -348,6 +389,77 @@ public class PrefFragment extends PreferenceFragment {
                 Toast.makeText(context, context.getResources().getString(R.string.trim_success), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, context.getResources().getString(R.string.trim_fail), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    }
+
+    class SyncFriends extends AsyncTask<String, Void, Boolean> {
+
+        private ProgressDialog pDialog;
+        private String screenName;
+        private SharedPreferences sharedPrefs;
+
+        public SyncFriends(String name, SharedPreferences sharedPreferences) {
+            this.screenName = name;
+            this.sharedPrefs = sharedPreferences;
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.syncing_user));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            FollowersDataSource followers = new FollowersDataSource(context);
+            followers.open();
+
+            followers.deleteAllUsers(sharedPrefs.getInt("current_account", 1));
+
+            try {
+
+                Twitter twitter = Utils.getTwitter(context);
+
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
+                PagableResponseList<User> friendsPaging = twitter.getFriendsList(screenName, -1);
+
+                for (User friend : friendsPaging) {
+                    followers.createUser(friend, currentAccount);
+                }
+
+                long nextCursor = friendsPaging.getNextCursor();
+
+                while (nextCursor != -1) {
+                    friendsPaging = twitter.getFriendsList(screenName, nextCursor);
+
+                    for (User friend : friendsPaging) {
+                        followers.createUser(friend, currentAccount);
+                    }
+
+                    nextCursor = friendsPaging.getNextCursor();
+                }
+
+            } catch (Exception e) {
+                // something wrong haha
+            }
+
+            followers.close();
+            return true;
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+
+            pDialog.dismiss();
+
+            if (deleted) {
+                Toast.makeText(context, context.getResources().getString(R.string.sync_success), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.sync_failed), Toast.LENGTH_SHORT).show();
             }
 
 

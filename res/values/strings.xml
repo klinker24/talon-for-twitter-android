@@ -179,7 +179,7 @@
                 - Hiding Action Bar\n
                 - Actionable Toast Bar\n
                 - Transparent System Bars (Android 4.4 only)\n\n
-                This setting controls all these features, it will be all or nothing.</string>
+                This setting controls all these features, it is all or nothing.</string>
         <string name="timestamp">24-Hour Timestamp</string>
 
         <string name="theme_light">Light Theme</string>
@@ -202,6 +202,12 @@
             <string name="timeline_sync_interval">Timeline Refresh Rate</string>
             <string name="mentions_sync_interval">Mentions Refresh Rate</string>
             <string name="dm_sync_interval">Direct Messages Refresh Rate</string>
+        <string name="sync_friends">Sync Friends Data</string>
+        <string name="sync_friends_summary2">Re-sync friends data to use when composing tweets</string>
+        <string name="sync_friends_summary">Manually sync friends list.\n\nThis was done at login for you, and they are automatically added when you follow someone from Talon, but this option will pull all of your latest "following".\n\n
+                    This data is used when searching for users when composing a tweet.</string>
+        <string name="sync_success">Sync Successful</string>
+        <string name="sync_failed">Sync Failed</string>
 
     <string name="notification_settings">Notification Settings</string>
 

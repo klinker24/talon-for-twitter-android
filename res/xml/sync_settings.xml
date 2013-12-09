@@ -2,21 +2,6 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListPreference
-        android:key="max_tweets"
-        android:title="@string/max_number_on_refresh"
-        android:summary="@string/max_number_summary"
-        android:defaultValue="1"
-        android:entries="@array/max_number"
-        android:entryValues="@array/max_number_inserted"
-        />
-
-    <CheckBoxPreference
-        android:key="refresh_on_start"
-        android:title="@string/refresh_on_startup"
-        android:defaultValue="true"
-        />
-
     <PreferenceCategory
         android:key="auto_refresh_category"
         android:title="@string/auto_refresh_category" >
@@ -95,5 +80,32 @@
             />-->
 
         </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/other_options" >
+
+        <ListPreference
+            android:key="max_tweets"
+            android:title="@string/max_number_on_refresh"
+            android:summary="@string/max_number_summary"
+            android:defaultValue="1"
+            android:entries="@array/max_number"
+            android:entryValues="@array/max_number_inserted"
+            />
+
+        <CheckBoxPreference
+            android:key="refresh_on_start"
+            android:title="@string/refresh_on_startup"
+            android:defaultValue="true"
+            />
+
+        <Preference
+            android:key="sync_friends"
+            android:title="@string/sync_friends"
+            android:summary="@string/sync_friends_summary2"
+            />
+
+        </PreferenceCategory>
+
 
 </PreferenceScreen>
