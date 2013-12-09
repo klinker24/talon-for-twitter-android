@@ -286,7 +286,7 @@ public class ComposeActivity extends Activity implements
             }
         });
 
-        ImageButton location = (ImageButton) findViewById(R.id.location);
+        final ImageButton location = (ImageButton) findViewById(R.id.location);
         location.setVisibility(View.VISIBLE);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,13 +299,21 @@ public class ComposeActivity extends Activity implements
 
                     addLocation = true;
 
-                    // todo set the image button's icon to the checkmark
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.done});
+                    int check = a.getResourceId(0, 0);
+                    a.recycle();
+
+                    location.setImageResource(check);
                 } else {
                     mLocationClient.disconnect();
 
                     addLocation = false;
 
-                    // todo set the image button's icon back to loacation
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.location_button});
+                    int check = a.getResourceId(0, 0);
+                    a.recycle();
+
+                    location.setImageResource(check);
                 }
             }
         });
