@@ -3,6 +3,7 @@ Version 0.8:<br/><br/>
     &#8226; Can now search for users when composing a new tweet. It will sync your friends when you login and add them if you follow someone<br/>
     &#8226; Manually sync friends option<br/>
     &#8226; Only auto-refresh on wifi option<br/>
+    &#8226; Cool landscape mode<br/>
     &#8226; Overhaul of unread tweets and marking them as read<br/>
     &#8226; Attach images from the camera to send<br/>
     &#8226; Notifications can now wake the screen<br/>
