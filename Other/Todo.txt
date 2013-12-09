@@ -1,7 +1,6 @@
 - User Profiles Activity:
     - Spinning progress bar while loading (over the profile pic)
     - change button text color
-    - add 'k' to the followers, tweets, and following count
 
 - Tweet Viewer Activity:
     - View full conversations and be able to switch to and from web articles and pictures back to the list
@@ -12,13 +11,11 @@
     - icon for status bar notification
     - Switch tweet background to right side when it is my tweet
     - Some kind of notifications for fav users
-    - Tablet/Landscape mode (Just pin the drawer open i think)
 
 - Bugs:
     - Convert everything away from picasso (maybe not, we will see how the memory is managed now)
     - Notification for the second account's mentions
     - redo the checkboxes and stuff to use an orange color instead of blue
-
 
 - Main TODO:
     - emoji support
