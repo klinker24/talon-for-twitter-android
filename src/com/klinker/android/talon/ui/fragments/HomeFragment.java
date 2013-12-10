@@ -464,6 +464,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         // not attached to the activity i guess, don't know how or why that would be though
                     }
                 }
+
+                context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
             }
         }.execute();
     }

@@ -265,7 +265,7 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="com.klinker.android.messaging.UPDATE_WIDGET" />
+                <action android:name="com.klinker.android.talon.UPDATE_WIDGET" />
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"

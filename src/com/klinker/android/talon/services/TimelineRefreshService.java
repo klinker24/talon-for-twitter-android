@@ -207,6 +207,8 @@ public class TimelineRefreshService extends IntentService {
             } catch (TwitterException e) {
                 Log.d("Twitter Update Error", e.getMessage());
             }
+
+            context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
         }
     }
 
