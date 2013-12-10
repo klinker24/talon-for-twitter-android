@@ -301,7 +301,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0) {
+                if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup) {
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
                 }
