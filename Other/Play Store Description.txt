@@ -62,6 +62,10 @@ Twitter: @lukeklinker
 Google+ Beta Page: coming soon
 XDA Developers Thread: coming soon
 
+Data footprint note:
+This app currently will not restrict cache size, however, there is an option under settings to view the current size and clear it.
+This app will also store up to around 20 MB of "data" if you look at it from system settings. That will be on top of the ~15-17 MB that the app takes on your phone. This is normal and by design.
+
 
 Credit:
 - Jacob Klinker: DateAndTimePicker dialog as well as tons of ideas and support
