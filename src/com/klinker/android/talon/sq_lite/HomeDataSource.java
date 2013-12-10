@@ -111,6 +111,14 @@ public class HomeDataSource {
         return cursor;
     }
 
+    public Cursor getWidgetCursor(int account) {
+
+        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC");
+
+        return cursor;
+    }
+
     public Cursor getUnreadCursor(int account) {
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,

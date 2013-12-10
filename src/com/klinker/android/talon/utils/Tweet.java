@@ -7,6 +7,14 @@ public class Tweet {
     private String picUrl;
     private String screenName;
 
+    public Tweet(long id, String text, String name, String picUrl, String screenName) {
+        this.id = id;
+        this.text = text;
+        this.name = name;
+        this.screenName = screenName;
+        this.picUrl = picUrl;
+    }
+
     public long getId() {
         return id;
     }

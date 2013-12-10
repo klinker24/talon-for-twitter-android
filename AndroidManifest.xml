@@ -249,5 +249,25 @@
         <provider android:name=".manipulations.MySuggestionsProvider"
             android:authorities="com.klinker.android.MySuggestionsProvider" />
 
+        <!-- Widget -->
+        <receiver android:name=".widget.WidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.klinker.android.messaging.UPDATE_WIDGET" />
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/card_widget" />
+        </receiver>
+
+        <activity android:name=".widget.WidgetProxyActivity"
+            android:theme="@style/Theme.TalonDark"/>
+        <service android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name=".widget.WidgetProvider$CardWidgetService2" />
+
     </application>
 </manifest>
