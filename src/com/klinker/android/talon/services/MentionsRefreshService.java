@@ -136,9 +136,9 @@ public class MentionsRefreshService extends IntentService {
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.mentions_dark)
-                                .setContent(remoteView);
-                                //.setContentTitle(getResources().getString(R.string.app_name))
-                                //.setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_mention) : numberNew + " " + getResources().getString(R.string.new_mentions));
+                                //.setContent(remoteView);
+                                .setContentTitle(getResources().getString(R.string.app_name))
+                                .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_mention) : numberNew + " " + getResources().getString(R.string.new_mentions));
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
                 resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

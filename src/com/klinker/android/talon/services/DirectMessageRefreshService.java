@@ -124,9 +124,9 @@ public class DirectMessageRefreshService extends IntentService {
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(R.drawable.ic_action_reply_dark)
-                                .setContent(remoteView);
-                                //.setContentTitle(getResources().getString(R.string.app_name))
-                                //.setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_direct_message) : numberNew + " " + getResources().getString(R.string.new_direct_messages));
+                                //.setContent(remoteView);
+                                .setContentTitle(getResources().getString(R.string.app_name))
+                                .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_direct_message) : numberNew + " " + getResources().getString(R.string.new_direct_messages));
 
                 Intent resultIntent = new Intent(this, MainActivity.class);
                 resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

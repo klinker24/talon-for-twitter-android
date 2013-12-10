@@ -39,7 +39,6 @@ Customization features:
 
 App Features:
 - Full support for Google's Hangouts emojis
-- Full app, "windowed" popup from notifications to quickly view your newest tweets
 - In-app browser to view webpages and videos
 - Complete landscape mode for tablets and phones
 - Advance to new pages in an awesome "windowed" viewing mode

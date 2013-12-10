@@ -1,6 +1,3 @@
-- User Profiles Activity:
-    - change button text color
-
 - Tweet Viewer Activity:
     - View full conversations and be able to switch to and from web articles and pictures back to the list
     - Delete Retweet
@@ -16,6 +13,7 @@
     - Convert everything away from picasso (maybe not, we will see how the memory is managed now)
     - Notification for the second account's mentions
     - redo the checkboxes and stuff to use an orange color instead of blue
+    - popup :/
 
 - Main TODO:
     - emoji support
