@@ -24,6 +24,11 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -85,13 +90,20 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int arg0) {
-        RemoteViews card = new RemoteViews(mContext.getPackageName(), darkTheme ? R.layout.widget_conversation_dark : R.layout.widget_conversation_light);
+        final RemoteViews card = new RemoteViews(mContext.getPackageName(), darkTheme ? R.layout.widget_conversation_dark : R.layout.widget_conversation_light);
 
         try {
             Log.v("talon_widget", "starting getviewat");
             card.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).getName());
             card.setTextViewText(R.id.contactText, mWidgetItems.get(arg0).getTweet());
-            card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg0).getPicUrl()));
+            final int arg = arg0;
+            //new Thread(new Runnable() {
+                //@Override
+                //public void run() {
+                    card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg).getPicUrl()));
+                //}
+            //}).start();
+
 
             Bundle extras = new Bundle();
             extras.putString("name", mWidgetItems.get(arg0).getName());
@@ -186,7 +198,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 URL mUrl = new URL(url);
 
                 Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                //image = getClip(image);
+                image = getClip(image);
 
                 wrapper = mCache.put(url, image);
             } catch (Exception e) {
@@ -195,6 +207,26 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         }
 
         return wrapper.getBitmap();
+    }
+
+    private Bitmap getClip(Bitmap currentImage) {
+        Bitmap bitmap = currentImage;
+        Bitmap output = Bitmap.createBitmap(currentImage.getWidth(),
+                currentImage.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, currentImage.getWidth(),
+                currentImage.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawCircle(currentImage.getWidth() / 2,
+                currentImage.getHeight() / 2, (currentImage.getWidth() / 2) - (currentImage.getWidth() / 25), paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, null, rect, paint);
+
+        return output;
     }
 
 }

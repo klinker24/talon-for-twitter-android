@@ -1,5 +1,6 @@
 Version 0.60:<br/><br/>
     &#8226; New widget<br/>
+    &#8226; DashClock Extension<br/>
     &#8226; Style changes to profiles<br/>
     &#8226; Can now search for users by their username as well<br/>
     &#8226; Attach locations to new tweets<br/><br/>

@@ -29,8 +29,6 @@ public class TalonDashClockExtension extends DashClockExtension {
     @Override
     protected void onUpdateData(int arg0) {
 
-        Log.v("dashclock_extension", "updating");
-
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
