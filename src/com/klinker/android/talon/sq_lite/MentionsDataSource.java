@@ -126,4 +126,31 @@ public class MentionsDataSource {
             database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
     }
+
+    // true is unread
+    // false have been read
+    public void markMultipleRead(boolean[] unread, int account) {
+
+        Cursor cursor = getUnreadCursor(account);
+
+        try {
+            if (cursor.moveToFirst()) {
+                int i = 0;
+                do {
+                    if (!unread[i]) {
+                        long tweetId = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
+
+                        ContentValues cv = new ContentValues();
+                        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+
+                        database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+                    }
+
+                    i++;
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            // there is nothing in the unread array
+        }
+    }
 }

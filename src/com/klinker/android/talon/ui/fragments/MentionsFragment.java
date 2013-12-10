@@ -42,6 +42,7 @@ import com.klinker.android.talon.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -73,7 +74,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     private static MentionsDataSource dataSource;
 
-    private static int unread = 0;
+    private static int unread;
+    private boolean[] unreadArray;
 
     private boolean landscape;
 
@@ -108,6 +110,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
         allRead = getResources().getString(R.string.all_read);
+
+        unreadArray = new boolean[0];
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
@@ -179,6 +183,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         new GetCursorAdapter().execute();
 
+        final int currentAccount = sharedPrefs.getInt("current_account", 1);
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             int mLastFirstVisibleItem = 0;
@@ -191,15 +197,17 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                // marks as read
-                final int currentAccount = sharedPrefs.getInt("current_account", 1);
-                if (firstVisibleItem < unread) {
+                // used to mark read
+                if (firstVisibleItem < unreadArray.length) {
+                    unreadArray[firstVisibleItem] = false; // it isn't unread anymore
+                }
+
+                if (firstVisibleItem == 0) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            dataSource.markRead(currentAccount, firstVisibleItem);
-
-                            unread = dataSource.getUnreadCount(currentAccount);
+                            dataSource.markMultipleRead(unreadArray, currentAccount);
+                            unreadArray = new boolean[0];
                         }
                     }).start();
                 }
@@ -335,6 +343,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     numberNew = dataSource.getUnreadCount(currentAccount);
                     unread = numberNew;
 
+                    unreadArray = new boolean[unread];
+                    Arrays.fill(unreadArray, true);
+
                 } catch (TwitterException e) {
                     // Error in updating status
                     Log.d("Twitter Update Error", e.getMessage());
@@ -393,6 +404,17 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             attachCursor();
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        dataSource.markMultipleRead(unreadArray, currentAccount);
+        unread = dataSource.getUnreadCount(currentAccount);
+        unreadArray = new boolean[unread];
+        Arrays.fill(unreadArray, true);
+
+        super.onPause();
     }
 
     public static void swapCursors() {
