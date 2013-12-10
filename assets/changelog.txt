@@ -1,4 +1,5 @@
 Version 0.60:<br/><br/>
+    &#8226; Got the popup working again<br/>
     &#8226; New widget<br/>
     &#8226; DashClock Extension<br/>
     &#8226; Style changes to profiles<br/>
