@@ -80,8 +80,8 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TweetActivity extends Activity {
 
-    private AppSettings settings;
-    private Context context;
+    public AppSettings settings;
+    public Context context;
 
     private String name;
     private String screenName;
@@ -116,7 +116,7 @@ public class TweetActivity extends Activity {
 
         setUpTheme();
 
-        if (settings.advanceWindowed) {
+        if (settings.advanceWindowed || getIntent().getBooleanExtra("from_widget", false)) {
             setUpWindow();
         }
 

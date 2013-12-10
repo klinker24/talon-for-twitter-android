@@ -32,6 +32,8 @@ import android.widget.RemoteViews;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.TweetActivity;
+import com.klinker.android.talon.ui.TweetActivityWidget;
 
 public class WidgetProvider extends AppWidgetProvider {
 
@@ -49,7 +51,22 @@ public class WidgetProvider extends AppWidgetProvider {
             Intent updateWidget = new Intent(context, CardWidgetService2.class);
             context.startService(updateWidget);
         } else if (intent.getAction().equals("OPEN_APP")) {
-            // start an inent to open the app
+
+            Intent viewTweet = new Intent(context, TweetActivityWidget.class);
+            viewTweet.putExtra("name", intent.getStringExtra("name"));
+            viewTweet.putExtra("screenname", intent.getStringExtra("screenname"));
+            viewTweet.putExtra("time", intent.getLongExtra("time", 0));
+            viewTweet.putExtra("tweet", intent.getStringExtra("tweet"));
+            viewTweet.putExtra("retweeter", intent.getStringExtra("retweeter"));
+            viewTweet.putExtra("webpage", intent.getStringExtra("webpage"));
+            viewTweet.putExtra("picture", false);
+            viewTweet.putExtra("tweetid", intent.getStringExtra("tweetid"));
+            viewTweet.putExtra("proPic", intent.getStringExtra("propic"));
+            viewTweet.putExtra("from_widget", true);
+
+            viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            context.startActivity(viewTweet);
         } else {
             super.onReceive(context, intent);
         }

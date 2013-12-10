@@ -94,7 +94,15 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg0).getPicUrl()));
 
             Bundle extras = new Bundle();
-            extras.putLong("CONVERSATION_TO_OPEN", mWidgetItems.get(arg0).getId());
+            extras.putString("name", mWidgetItems.get(arg0).getName());
+            extras.putString("screenname", mWidgetItems.get(arg0).getScreenName());
+            extras.putLong("time", mWidgetItems.get(arg0).getTime());
+            extras.putString("tweet", mWidgetItems.get(arg0).getTweet());
+            extras.putString("retweeter", mWidgetItems.get(arg0).getRetweeter());
+            extras.putString("webpage", mWidgetItems.get(arg0).getWebsite());
+            extras.putLong("tweetid", mWidgetItems.get(arg0).getId());
+            extras.putString("propic", mWidgetItems.get(arg0).getPicUrl());
+
             Intent cardFillInIntent = new Intent();
             cardFillInIntent.putExtras(extras);
             card.setOnClickFillInIntent(R.id.widget_card_background, cardFillInIntent);
@@ -147,7 +155,10 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)),
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME)),
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC)),
-                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME))
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME)),
+                            query.getLong(query.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)),
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER)),
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL))
                     ));
                 } while (query.moveToNext());
             }
