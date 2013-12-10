@@ -49,6 +49,7 @@ import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.ConnectionDetector;
 import com.klinker.android.talon.utils.Utils;
+import com.klinker.android.talon.widget.TalonDashClockExtension;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -118,8 +119,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
-        Log.v("recreating", "in home frag");
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 

@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon for Twitter</string>
+    <string name="extension_description">Displays the number of unread tweets, mentions and direct messages as they are updated.</string>
 
     <!-- Action Bar -->
     <string name="menu_refresh">Refresh Timeline</string>
