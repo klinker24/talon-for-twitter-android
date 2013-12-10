@@ -22,3 +22,4 @@
 - Main TODO:
     - emoji support
     - DashClock extension
+
