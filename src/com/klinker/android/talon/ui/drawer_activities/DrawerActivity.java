@@ -54,6 +54,7 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.MainActivityPopup;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.Utils;
@@ -536,7 +537,7 @@ public abstract class DrawerActivity extends Activity {
         // cancels the notifications when the app is opened
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //mNotificationManager.cancelAll();
+        mNotificationManager.cancelAll();
 
         // for testing
         /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
