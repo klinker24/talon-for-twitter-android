@@ -19,11 +19,13 @@
                 android:textSize="30dp"
                 android:textColor="?textColor" />
 
-        <ProgressBar
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:id="@+id/progress_bar"
                 android:minHeight="24dip"
                 android:maxHeight="24dip"
+                app:spb_color="@color/app_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"  />
 
