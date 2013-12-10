@@ -38,6 +38,20 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="-70dp" />
 
+    <ProgressBar
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@id/view2"
+        android:id="@+id/progress_bar"
+        android:minHeight="96dp" android:minWidth="96dp"
+        android:maxWidth="96dp" android:maxHeight="96dp"
+        android:contentDescription="@string/placeholder"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="-70dp"
+        android:indeterminateOnly="true"
+        android:visibility="gone"/>
+
     <com.klinker.android.talon.ui.widgets.HoloTextView
               android:id="@+id/user_statement"
               android:layout_below="@id/profile_pic"

@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -111,6 +112,7 @@ public class UserProfileActivity extends Activity {
     private boolean canRefresh = true;
 
     private NetworkedCacheableImageView background;
+    private ProgressBar spinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -218,6 +220,9 @@ public class UserProfileActivity extends Activity {
     }
 
     public void setUpUI() {
+        spinner = (ProgressBar) findViewById(R.id.progress_bar);
+        spinner.setVisibility(View.VISIBLE);
+
         actionBar.setTitle(name);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
@@ -476,6 +481,10 @@ public class UserProfileActivity extends Activity {
             this.shouldIncrement = inc;
         }
 
+        protected void onPreExecute() {
+            spinner.setVisibility(View.VISIBLE);
+        }
+
         protected ArrayList<twitter4j.User> doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context);
@@ -540,6 +549,8 @@ public class UserProfileActivity extends Activity {
 
             String url = thisUser.getProfileBannerMobileURL();
             background.loadImage(url == null ? "" : url, false, null);
+
+            spinner.setVisibility(View.GONE);
         }
     }
 
@@ -553,6 +564,10 @@ public class UserProfileActivity extends Activity {
             this.user = user;
             this.listView = listViews;
             this.shouldIncrement = inc;
+        }
+
+        protected void onPreExecute() {
+            spinner.setVisibility(View.VISIBLE);
         }
 
         protected ArrayList<twitter4j.User> doInBackground(String... urls) {
@@ -619,6 +634,8 @@ public class UserProfileActivity extends Activity {
 
             String url = thisUser.getProfileBannerMobileURL();
             background.loadImage(url == null ? "" : url, false, null);
+
+            spinner.setVisibility(View.GONE);
         }
     }
 
@@ -631,6 +648,10 @@ public class UserProfileActivity extends Activity {
         public GetTimeline(User user, AsyncListView listView) {
             this.user = user;
             this.listView = listView;
+        }
+
+        protected void onPreExecute() {
+            spinner.setVisibility(View.VISIBLE);
         }
 
         protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
@@ -666,6 +687,8 @@ public class UserProfileActivity extends Activity {
 
             String url = thisUser.getProfileBannerMobileURL();
             background.loadImage(url == null ? "" : url, false, null);
+
+            spinner.setVisibility(View.GONE);
         }
     }
 
