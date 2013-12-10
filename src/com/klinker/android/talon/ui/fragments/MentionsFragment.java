@@ -286,9 +286,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
+                    int currentAccount = sharedPrefs.getInt("current_account", 1);
+                    
+                    dataSource.markAllRead(currentAccount);
+
                     twitter = Utils.getTwitter(context);
 
-                    int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                     User user = twitter.verifyCredentials();
                     long lastId = sharedPrefs.getLong("last_mention_id_" + currentAccount, 0);

@@ -153,4 +153,12 @@ public class MentionsDataSource {
             // there is nothing in the unread array
         }
     }
+
+    public void markAllRead(int account) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
+
+        database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+    }
 }
