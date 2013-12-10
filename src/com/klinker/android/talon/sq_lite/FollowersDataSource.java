@@ -59,7 +59,9 @@ public class FollowersDataSource {
 
     public Cursor getCursor(int account, String name) {
         Cursor cursor = database.query(FollowersSQLiteHelper.TABLE_HOME,
-                allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + FollowersSQLiteHelper.COLUMN_NAME + " LIKE '%" + name + "%'",
+                allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                    FollowersSQLiteHelper.COLUMN_NAME + " LIKE '%" + name + "%'" + " OR " +
+                    FollowersSQLiteHelper.COLUMN_SCREEN_NAME + " LIKE '%" + name + "%'",
                 null,
                 null,
                 null,

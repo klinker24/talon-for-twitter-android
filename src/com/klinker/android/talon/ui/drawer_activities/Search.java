@@ -121,6 +121,7 @@ public class Search extends DrawerActivity {
         setIntent(intent);
         handleIntent(intent);
         removeKeyboard();
+        actionBar.setDisplayShowHomeEnabled(false);
     }
 
     public void removeKeyboard() {
