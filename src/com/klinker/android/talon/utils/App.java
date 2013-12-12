@@ -22,6 +22,13 @@ public class App extends Application {
         builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
 
         mCache = builder.build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EmojiUtils.init(App.this);
+            }
+        }).start();
     }
 
     public BitmapLruCache getBitmapCache() {

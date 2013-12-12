@@ -9,4 +9,5 @@ DEPENDENCIES
 3.) Smoothie <https://github.com/lucasr/smoothie>
 4.) Crouton <https://github.com/keyboardsurfer/Crouton>
 5.) PhotoView <https://github.com/chrisbanes/PhotoView>
+6.) PagerSlidingTitleStrip <https://github.com/astuetz/PagerSlidingTabStrip>
 6.) Picasso found in repo

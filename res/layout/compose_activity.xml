@@ -121,5 +121,7 @@
 
         </LinearLayout>
 
+    <include layout="@layout/emoji_keyboard"/>
+
 
 </RelativeLayout>

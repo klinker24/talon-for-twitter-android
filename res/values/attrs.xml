@@ -25,6 +25,7 @@ limitations under the License.
     <attr name="drawerBackground" format="color"/>
     <attr name="headerTextColor" format="color"/>
     <attr name="windowBackground" format="color"/>
+    <attr name="emojiDivider" format="color"/>
 
     <!-- Drawables -->
     <attr name="myTweetBackground" format="reference"/>
@@ -53,6 +54,8 @@ limitations under the License.
     <attr name="shareButton" format="reference"/>
     <attr name="location_button" format="reference"/>
     <attr name="overflow_button" format="reference"/>
+    <attr name="keyboardButton" format="reference"/>
+    <attr name="emojiBackspace" format="reference"/>
 
     <!-- Drawer Icons -->
     <attr name="drawerIcon" format="reference"/>

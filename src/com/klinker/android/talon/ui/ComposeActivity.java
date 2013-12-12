@@ -37,13 +37,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.ui.widgets.EmojiKeyboard;
+import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
+import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -70,6 +75,8 @@ public class ComposeActivity extends Activity implements
     private EditText reply;
     private ImageView attachImage;
     private ImageButton attachButton;
+    private ImageButton emojiButton;
+    private EmojiKeyboard emojiKeyboard;
 
     private String attachedFilePath = "";
 
@@ -198,7 +205,9 @@ public class ComposeActivity extends Activity implements
 
         contactEntry = (EditText) findViewById(R.id.contact_entry);
         attachImage = (ImageView) findViewById(R.id.picture);
-        attachButton = (ImageButton) findViewById(R.id.attach);
+        attachImage = (ImageView) findViewById(R.id.attach);
+        emojiButton = (ImageButton) findViewById(R.id.emoji);
+        emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
 
         final ImageButton overflow = (ImageButton) findViewById(R.id.overflow_button);
         overflow.setOnClickListener(new View.OnClickListener() {
@@ -339,6 +348,65 @@ public class ComposeActivity extends Activity implements
                 }
             }
         });
+
+        if (!EmojiUtils.checkEmojisEnabled(this)) {
+            emojiButton.setVisibility(View.GONE);
+        } else {
+            emojiKeyboard.setAttached((HoloEditText) reply);
+
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+
+            emojiButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager imm = (InputMethodManager)getSystemService(
+                                        Context.INPUT_METHOD_SERVICE);
+                                imm.showSoftInput(reply, 0);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    } else {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                emojiKeyboard.setVisibility(true);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboardButton});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+        }
     }
 
     public void setUpTheme() {
@@ -492,5 +560,20 @@ public class ComposeActivity extends Activity implements
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (emojiKeyboard.isShowing()) {
+            emojiKeyboard.setVisibility(false);
+
+            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            emojiButton.setImageResource(resource);
+            return;
+        }
+
+        super.onBackPressed();
     }
 }
