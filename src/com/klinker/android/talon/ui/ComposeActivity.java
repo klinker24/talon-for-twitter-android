@@ -205,7 +205,7 @@ public class ComposeActivity extends Activity implements
 
         contactEntry = (EditText) findViewById(R.id.contact_entry);
         attachImage = (ImageView) findViewById(R.id.picture);
-        attachImage = (ImageView) findViewById(R.id.attach);
+        attachButton = (ImageButton) findViewById(R.id.attach);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
 
