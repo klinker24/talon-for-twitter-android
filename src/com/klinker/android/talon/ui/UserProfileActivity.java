@@ -256,8 +256,8 @@ public class UserProfileActivity extends Activity {
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
         final AsyncListView listView = (AsyncListView) findViewById(R.id.listView);
-        final RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
-        //final NetworkedCacheableImageView header = (NetworkedCacheableImageView) findViewById(R.id.background_image);
+        //final RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
+        final NetworkedCacheableImageView header = (NetworkedCacheableImageView) findViewById(R.id.background_image);
 
         statement.setTextSize(settings.textSize);
         screenname.setTextSize(settings.textSize);

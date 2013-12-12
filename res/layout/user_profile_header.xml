@@ -3,45 +3,106 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="?tweetBackgroundNoDialog"
               android:id="@+id/header" >
 
-
-    <View   android:id="@+id/view2"
-            android:layout_height="140dp"
-               android:layout_width="match_parent"
-               android:minHeight="140dp"
-               android:background="@android:color/transparent"
-            />
 
     <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
         android:id="@+id/background_image"
         android:layout_height="140dp"
         android:layout_width="match_parent"
-        android:minHeight="140dp"
+        android:minHeight="210dp"
         android:scaleType="centerCrop"
         android:layout_marginTop="-5dp"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/background_image"
+        android:background="?windowBackground"
+        android:orientation="vertical">
+
+        <com.klinker.android.talon.ui.widgets.HoloTextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            android:layout_marginLeft="150dp" />
+
+        <com.klinker.android.talon.ui.widgets.HoloTextView
+            android:id="@+id/user_statement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <Button android:id="@+id/tweets"
+                android:layout_height="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:background="@drawable/pressed_button"
+                android:text="@string/tweets" />
+
+            <View android:id="@+id/divider"
+                android:background="?textColor"
+                android:layout_width="1dp"
+                android:layout_height="40dp" />
+
+            <Button android:id="@+id/followers"
+                android:layout_height="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:background="@drawable/pressed_button"
+                android:text="@string/followers" />
+
+            <View android:id="@+id/divider"
+                android:background="?textColor"
+                android:layout_width="1dp"
+                android:layout_height="40dp" />
+
+            <Button android:id="@+id/following"
+                android:layout_height="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="14dp"
+                android:background="@drawable/pressed_button"
+                android:text="@string/following" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_below="@id/view2"
-            android:id="@+id/profile_pic"
-            android:src="?circleBorder"
-            android:background="?circleBorder"
-            android:minHeight="96dp" android:minWidth="96dp"
-            android:scaleType="fitCenter" android:adjustViewBounds="true"
-            android:maxWidth="96dp" android:maxHeight="96dp"
-            android:contentDescription="@string/placeholder"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="-70dp" />
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/background_image"
+        android:id="@+id/profile_pic"
+        android:src="?circleBorder"
+        android:background="?circleBorder"
+        android:minHeight="96dp" android:minWidth="96dp"
+        android:scaleType="fitCenter" android:adjustViewBounds="true"
+        android:maxWidth="96dp" android:maxHeight="96dp"
+        android:contentDescription="@string/placeholder"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="-70dp" />
 
     <ProgressBar
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:layout_below="@id/view2"
+        android:layout_below="@+id/background_image"
         android:id="@+id/progress_bar"
         android:minHeight="96dp" android:minWidth="96dp"
         android:maxWidth="96dp" android:maxHeight="96dp"
@@ -51,70 +112,5 @@
         android:layout_marginTop="-70dp"
         android:indeterminateOnly="true"
         android:visibility="gone"/>
-
-    <com.klinker.android.talon.ui.widgets.HoloTextView
-              android:id="@+id/user_statement"
-              android:layout_below="@id/profile_pic"
-              android:layout_alignParentLeft="true"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="12dp"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:gravity="center"/>
-
-
-    <com.klinker.android.talon.ui.widgets.HoloTextView
-        android:id="@+id/username"
-        android:layout_below="@id/view2"
-        android:layout_toRightOf="@id/profile_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLines="1"
-        android:layout_marginLeft="-4dp" />
-
-    <LinearLayout
-            android:layout_below="@id/user_statement"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <Button android:id="@+id/tweets"
-                    android:layout_height="60dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:textSize="14dp"
-                    android:background="@drawable/pressed_button"
-                    android:text="@string/tweets" />
-
-        <View android:id="@+id/divider"
-              android:background="?textColor"
-              android:layout_width="1dp"
-              android:layout_height="40dp" />
-
-        <Button android:id="@+id/followers"
-                android:layout_height="60dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textSize="14dp"
-                android:background="@drawable/pressed_button"
-                android:text="@string/followers" />
-
-        <View android:id="@+id/divider"
-              android:background="?textColor"
-              android:layout_width="1dp"
-              android:layout_height="40dp" />
-
-        <Button android:id="@+id/following"
-                android:layout_height="60dp"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textSize="14dp"
-                android:background="@drawable/pressed_button"
-                android:text="@string/following" />
-
-    </LinearLayout>
 
 </RelativeLayout>
