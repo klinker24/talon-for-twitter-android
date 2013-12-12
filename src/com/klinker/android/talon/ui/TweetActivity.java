@@ -1103,6 +1103,8 @@ public class TweetActivity extends Activity {
 
             case R.id.menu_share:
                 String message = tweet;
+                message = message.replaceAll("</font>", "");
+                message = message.replaceAll("<font color='#FF8800'>", "");
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT, message);
