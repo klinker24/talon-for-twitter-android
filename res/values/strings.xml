@@ -267,5 +267,13 @@
     <string name="talon_settings">Talon Settings</string>
     <string name="feature_requests">Feature Requests</string>
 
+    <!-- Emoji Keyboard -->
+    <string name="recent">Favorites</string>
+    <string name="people">People</string>
+    <string name="things">Objects</string>
+    <string name="nature">Nature</string>
+    <string name="places">Places</string>
+    <string name="symbols">Symbols</string>
+
 
 </resources>

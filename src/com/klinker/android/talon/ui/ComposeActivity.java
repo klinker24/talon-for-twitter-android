@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -27,19 +28,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
+import com.klinker.android.talon.ui.widgets.EmojiKeyboard;
+import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
+import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -64,6 +64,8 @@ public class ComposeActivity extends Activity implements
     private EditText contactEntry;
     private EditText reply;
     private ImageView attachImage;
+    private ImageButton emojiButton;
+    private EmojiKeyboard emojiKeyboard;
 
     private String attachedFilePath = "";
 
@@ -190,6 +192,8 @@ public class ComposeActivity extends Activity implements
 
         contactEntry = (EditText) findViewById(R.id.contact_entry);
         attachImage = (ImageView) findViewById(R.id.attach);
+        emojiButton = (ImageButton) findViewById(R.id.emoji);
+        emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
 
         attachImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,6 +320,65 @@ public class ComposeActivity extends Activity implements
                 }
             }
         });
+
+        if (!EmojiUtils.checkEmojisEnabled(this)) {
+            emojiButton.setVisibility(View.GONE);
+        } else {
+            emojiKeyboard.setAttached((HoloEditText) reply);
+
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emojiButton});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+
+            emojiButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager imm = (InputMethodManager)getSystemService(
+                                        Context.INPUT_METHOD_SERVICE);
+                                imm.showSoftInput(reply, 0);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emojiButton});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    } else {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                emojiKeyboard.setVisibility(true);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboardButton});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+        }
     }
 
     public void setUpTheme() {
@@ -469,5 +532,20 @@ public class ComposeActivity extends Activity implements
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (emojiKeyboard.isShowing()) {
+            emojiKeyboard.setVisibility(false);
+
+            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emojiButton});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            emojiButton.setImageResource(resource);
+            return;
+        }
+
+        super.onBackPressed();
     }
 }

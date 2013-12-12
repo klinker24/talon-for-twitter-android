@@ -38,6 +38,7 @@ limitations under the License.
         <item name="headerTextColor">@android:color/white</item>
         <item name="textShadowColor">@android:color/black</item>
         <item name="windowBackground">@android:color/black</item>
+        <item name="emojiDivider">@color/emoji_divider_dark</item>
 
         <item name="myTweetBackground">@drawable/sent_background_black</item>
         <item name="tweetBackground">@drawable/received_background_black</item>
@@ -61,6 +62,9 @@ limitations under the License.
         <item name="emoji_button">@drawable/ic_emoji_keyboard_light</item>
         <item name="shareButton">@drawable/ic_action_share_dark</item>
         <item name="location_button">@drawable/ic_action_place_dark</item>
+        <item name="emojiButton">@drawable/ic_emoji_dark</item>
+        <item name="keyboardButton">@drawable/ic_keyboard_dark</item>
+        <item name="emojiBackspace">@drawable/ic_backspace_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>
