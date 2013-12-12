@@ -52,6 +52,7 @@ limitations under the License.
     <attr name="emoji_button" format="reference"/>
     <attr name="shareButton" format="reference"/>
     <attr name="location_button" format="reference"/>
+    <attr name="overflow_button" format="reference"/>
 
     <!-- Drawer Icons -->
     <attr name="drawerIcon" format="reference"/>

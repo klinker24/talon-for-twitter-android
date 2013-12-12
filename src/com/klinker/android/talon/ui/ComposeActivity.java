@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -27,10 +28,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +54,7 @@ import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 public class ComposeActivity extends Activity implements
@@ -64,8 +69,11 @@ public class ComposeActivity extends Activity implements
     private EditText contactEntry;
     private EditText reply;
     private ImageView attachImage;
+    private ImageButton attachButton;
 
     private String attachedFilePath = "";
+
+    private PhotoViewAttacher mAttacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -189,9 +197,34 @@ public class ComposeActivity extends Activity implements
         setContentView(R.layout.compose_activity);
 
         contactEntry = (EditText) findViewById(R.id.contact_entry);
-        attachImage = (ImageView) findViewById(R.id.attach);
+        attachImage = (ImageView) findViewById(R.id.picture);
+        attachButton = (ImageButton) findViewById(R.id.attach);
 
-        attachImage.setOnClickListener(new View.OnClickListener() {
+        final ImageButton overflow = (ImageButton) findViewById(R.id.overflow_button);
+        overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
+                if (buttons.getVisibility() == View.VISIBLE) {
+
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+                    anim.setDuration(300);
+                    buttons.startAnimation(anim);
+
+                    buttons.setVisibility(View.GONE);
+                } else {
+                    buttons.setVisibility(View.VISIBLE);
+
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+                    anim.setDuration(300);
+                    buttons.startAnimation(anim);
+                }
+            }
+        });
+
+        mAttacher = new PhotoViewAttacher(attachImage);
+
+        attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -220,16 +253,14 @@ public class ComposeActivity extends Activity implements
                                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
                             } else {
                                 attachedFilePath = "";
-
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
-                                attachImage.setImageDrawable(context.getResources().getDrawable(resource));
+                                attachImage.setImageDrawable(null);
                                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                                 photoPickerIntent.setType("image/*");
                                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
                             }
                         }
+
+                        overflow.performClick();
                     }
                 });
 
@@ -259,7 +290,6 @@ public class ComposeActivity extends Activity implements
         });
 
         Button at = (Button) findViewById(R.id.at_button);
-        at.setVisibility(View.VISIBLE);
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -283,11 +313,12 @@ public class ComposeActivity extends Activity implements
                 });
 
                 qustomDialogBuilder.show();
+
+                overflow.performClick();
             }
         });
 
         final ImageButton location = (ImageButton) findViewById(R.id.location);
-        location.setVisibility(View.VISIBLE);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -298,21 +329,13 @@ public class ComposeActivity extends Activity implements
 
                     addLocation = true;
 
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.acceptButton});
-                    int check = a.getResourceId(0, 0);
-                    a.recycle();
-
-                    location.setImageResource(check);
+                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_accept_light));
                 } else {
                     mLocationClient.disconnect();
 
                     addLocation = false;
 
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.location_button});
-                    int check = a.getResourceId(0, 0);
-                    a.recycle();
-
-                    location.setImageResource(check);
+                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_place_dark));
                 }
             }
         });

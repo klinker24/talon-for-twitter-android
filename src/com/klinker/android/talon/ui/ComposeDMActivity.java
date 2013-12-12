@@ -25,7 +25,10 @@ public class ComposeDMActivity extends ComposeActivity {
         setContentView(R.layout.compose_activity);
 
         LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
-        buttons.setVisibility(View.INVISIBLE);
+        buttons.setVisibility(View.GONE);
+
+        LinearLayout overflow = (LinearLayout) findViewById(R.id.overflow);
+        overflow.setVisibility(View.GONE);
 
         contactEntry = (EditText) findViewById(R.id.contact_entry);
         contactEntry.setVisibility(View.VISIBLE);

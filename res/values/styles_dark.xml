@@ -61,6 +61,7 @@ limitations under the License.
         <item name="emoji_button">@drawable/ic_emoji_keyboard_light</item>
         <item name="shareButton">@drawable/ic_action_share_dark</item>
         <item name="location_button">@drawable/ic_action_place_dark</item>
+        <item name="overflow_button">@drawable/ic_action_overflow_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>
