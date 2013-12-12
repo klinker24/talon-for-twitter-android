@@ -115,7 +115,7 @@ public class ComposeActivity extends Activity implements
 
         // You could also easily used an integer value from the shared preferences to set the percent
         if (height > width) {
-            getWindow().setLayout((int) (width * .9), (int) (height * .7));
+            getWindow().setLayout((int) (width * .9), (int) (height * .8));
         } else {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
