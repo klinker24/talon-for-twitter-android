@@ -20,4 +20,6 @@
     - limit cache option maybe
     - Change the text count when they have an image to 22 less (for url)
     - redo notifications
+    - draft system
+    - failed notification
 
