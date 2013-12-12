@@ -611,6 +611,7 @@ public class TweetActivity extends Activity {
 
         if (isMyTweet) {
             charRemaining.setVisibility(View.GONE);
+            overflow.setVisibility(View.GONE);
         }
 
         reply.addTextChangedListener(new TextWatcher() {

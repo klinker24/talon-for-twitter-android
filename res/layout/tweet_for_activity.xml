@@ -10,8 +10,7 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?tweetBackgroundNoDialog">
+            android:layout_height="wrap_content" >
 
         <!-- Holds the name, screen name, and time-->
         <RelativeLayout

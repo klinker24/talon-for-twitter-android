@@ -16,49 +16,59 @@
                       android:layout_height="match_parent" >
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="?tweetBackgroundNoDialog"
+                android:layout_marginRight="6dp">
+
+                <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center">
 
-                <include layout="@layout/contact_info"
-                         android:id="@+id/contact_info"
-                         android:layout_height="wrap_content"
-                         android:layout_width="wrap_content"
-                         android:layout_margin="10dp" />
+                    <include layout="@layout/contact_info"
+                        android:id="@+id/contact_info"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_margin="10dp" />
 
-                <ImageButton
-                    android:id="@+id/switchViews"
-                    android:layout_height="48dp"
-                    android:layout_width="48dp"
-                    android:src="?showMoreButton"
-                    android:minHeight="48dp" android:minWidth="48dp"
-                    android:scaleType="fitCenter" android:adjustViewBounds="true"
-                    android:maxWidth="48dp" android:maxHeight="48dp"
-                    android:background="@drawable/pressed_button"
-                    android:layout_margin="10dp"
-                    android:rotation="180"/>
+                    <ImageButton
+                        android:id="@+id/switchViews"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:src="?showMoreButton"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="fitCenter" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp"
+                        android:background="@drawable/pressed_button"
+                        android:layout_margin="10dp"
+                        android:rotation="180"/>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <ScrollView
+                <LinearLayout
+                    android:id="@+id/linLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content" >
 
-                    <include android:id="@+id/tweet_background"
-                             layout="@layout/tweet_for_activity"
-                             android:layout_height="wrap_content"
-                             android:layout_width="match_parent"
-                             android:layout_marginRight="6dp"/>
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                </ScrollView>
+                        <include android:id="@+id/tweet_background"
+                            layout="@layout/tweet_for_activity"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent" />
 
-            </LinearLayout>
+                    </ScrollView>
+
+                </LinearLayout>
+
+                </LinearLayout>
+
+
 
             <WebView android:id="@+id/webview"
                      android:layout_height="fill_parent"
