@@ -340,6 +340,7 @@ public class ComposeActivity extends Activity implements
 
                     location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_accept_light));
                 } else {
+                    Toast.makeText(context, getResources().getString(R.string.location_disconnected), Toast.LENGTH_SHORT).show();
 
                     addLocation = false;
 
