@@ -16,5 +16,6 @@
     - popup :/
 
 - Main TODO:
-    - emoji support
+    - add article column to home db, just in case
+    - limit cache option maybe
 
