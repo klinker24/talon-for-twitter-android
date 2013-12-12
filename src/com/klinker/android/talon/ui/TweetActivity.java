@@ -621,7 +621,7 @@ public class TweetActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                charRemaining.setText(140 - reply.getText().length() + "");
+                charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
             }
 
             @Override
@@ -888,7 +888,7 @@ public class TweetActivity extends Activity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                if (message.getText().length() <= 140) {
+                if (message.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
                     Twitter twitter =  Utils.getTwitter(context);
 
                     twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message.getText().toString());

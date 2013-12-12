@@ -290,7 +290,7 @@ public class ComposeActivity extends Activity implements
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                charRemaining.setText(140 - reply.getText().length() + "");
+                charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
             }
 
             @Override
@@ -434,7 +434,7 @@ public class ComposeActivity extends Activity implements
             sendStatus(status);
             return true;
         } else {
-            if (editText.getText().length() < 140) {
+            if (editText.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
                 // EditText is empty
                 Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
             } else {
