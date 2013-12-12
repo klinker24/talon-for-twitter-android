@@ -543,10 +543,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.favCount.setVisibility(View.VISIBLE);
         holder.favorite.setVisibility(View.VISIBLE);
 
-        if (holder.name.getText().toString().contains(settings.myName)) {
-            holder.reply.setVisibility(View.GONE);
-            holder.replyButton.setVisibility(View.GONE);
-        }
+        holder.reply.setVisibility(View.GONE);
+        holder.replyButton.setVisibility(View.GONE);
 
         holder.screenName = screenname;
 
