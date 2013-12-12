@@ -91,6 +91,7 @@ public class ComposeActivity extends Activity implements
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         mLocationClient = new LocationClient(context, this, this);
+        mLocationClient.connect();
 
         setUpTheme();
 
@@ -332,19 +333,17 @@ public class ComposeActivity extends Activity implements
             @Override
             public void onClick(View view) {
                 if (!addLocation) {
-                    Toast.makeText(context, getResources().getString(R.string.finding_location), Toast.LENGTH_SHORT);
-
-                    mLocationClient.connect();
+                    //Toast.makeText(context, getResources().getString(R.string.finding_location), Toast.LENGTH_SHORT);
+                    Toast.makeText(context, getResources().getString(R.string.location_connected), Toast.LENGTH_SHORT).show();
 
                     addLocation = true;
 
                     location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_accept_light));
                 } else {
-                    mLocationClient.disconnect();
 
                     addLocation = false;
 
-                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_place_dark));
+                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_place_light));
                 }
             }
         });
@@ -478,6 +477,7 @@ public class ComposeActivity extends Activity implements
                         GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
                         media.setLocation(geolocation);
                     }
+
                     twitter.updateStatus(media);
                 }
 
@@ -506,17 +506,19 @@ public class ComposeActivity extends Activity implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        Toast.makeText(context, getResources().getString(R.string.location_connected), Toast.LENGTH_SHORT).show();
+        Log.v("location", "connected");
     }
 
     @Override
     public void onDisconnected() {
-        Toast.makeText(context, getResources().getString(R.string.location_disconnected), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, getResources().getString(R.string.location_disconnected), Toast.LENGTH_SHORT).show();
+        Log.v("location", "disconnected");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        Log.v("location", "failed");
     }
 
     @Override
