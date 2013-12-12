@@ -107,14 +107,6 @@
 
             </LinearLayout>
 
-            <com.klinker.android.talon.ui.widgets.HoloTextView
-                android:layout_height="13dp"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="3dp"
-                android:textSize="10dp"
-                android:gravity="right"
-                android:id="@+id/char_remaining" />
-
         </LinearLayout>
 
     </LinearLayout>
