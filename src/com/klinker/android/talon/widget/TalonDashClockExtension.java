@@ -49,15 +49,15 @@ public class TalonDashClockExtension extends DashClockExtension {
             String body = "";
 
             if (homeTweets > 0) {
-                body += homeTweets + " " + (homeTweets == 1 ? this.getResources().getString(R.string.new_tweet) : this.getResources().getString(R.string.new_tweets) + "\n");
+                body += homeTweets + " " + (homeTweets == 1 ? this.getResources().getString(R.string.new_tweet) : this.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "\n" : "");
             }
 
             if (mentionsTweets > 0) {
-                body += mentionsTweets + " " + (mentionsTweets == 1 ? this.getResources().getString(R.string.new_mention) : this.getResources().getString(R.string.new_mentions) + "\n");
+                body += mentionsTweets + " " + (mentionsTweets == 1 ? this.getResources().getString(R.string.new_mention) : this.getResources().getString(R.string.new_mentions)) + (dmTweets > 0 ? "\n" : "");
             }
 
             if (dmTweets > 0) {
-                body += dmTweets + " " + (dmTweets == 1 ? this.getResources().getString(R.string.new_direct_message) : this.getResources().getString(R.string.new_direct_messages) + "\n");
+                body += dmTweets + " " + (dmTweets == 1 ? this.getResources().getString(R.string.new_direct_message) : this.getResources().getString(R.string.new_direct_messages));
             }
 
             Intent intent = new Intent(this, MainActivity.class);
