@@ -18,4 +18,6 @@
 - Main TODO:
     - add article column to home db, just in case
     - limit cache option maybe
+    - Change the text count when they have an image to 22 less (for url)
+    - redo notifications
 
