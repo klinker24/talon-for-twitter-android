@@ -1,6 +1,6 @@
 Version 0.60:<br/><br/>
-    &#8226; Re-write of the compose activity. Looks awesome now.<br/>
-    &#8226; Emojis added. You have to have our sliding emoji keyboard trial app though.<br/>
+    &#8226; Re-made the compose activity and profiles activity. Looks awesome now.<br/>
+    &#8226; Emojis added. You have to have our sliding emoji keyboard trial app. Link in settings.<br/>
     &#8226; New widget<br/>
     &#8226; DashClock Extension<br/>
     &#8226; Style changes to profiles<br/>
