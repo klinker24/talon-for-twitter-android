@@ -93,6 +93,8 @@ public class RetweetActivity extends DrawerActivity {
             }
         }
 
+        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             int mLastFirstVisibleItem = 0;
@@ -105,7 +107,7 @@ public class RetweetActivity extends DrawerActivity {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                if (!landscape) {
+                if (!landscape && !isTablet) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {

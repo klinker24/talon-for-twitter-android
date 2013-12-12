@@ -177,6 +177,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         }
 
         new GetCursorAdapter().execute();
+        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
         if (settings.uiExtras) {
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -198,14 +199,14 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                             if (firstVisibleItem < 3) {
 
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                if(!landscape) {
+                                if(!landscape && !isTablet) {
                                     actionBar.hide();
                                 }
                                 if (!isToastShowing) {
                                     showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                if(!landscape) {
+                                if(!landscape && !isTablet) {
                                     actionBar.show();
                                 }
                                 if (isToastShowing && !infoBar) {
@@ -216,7 +217,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                             mLastFirstVisibleItem = firstVisibleItem;
                         }
                     } else {
-                        if(!landscape) {
+                        if(!landscape && !isTablet) {
                             actionBar.show();
                         }
                         if (!infoBar) {

@@ -205,6 +205,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         final int currentAccount = sharedPrefs.getInt("current_account", 1);
+        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -240,14 +241,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             if (firstVisibleItem < 3) {
 
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                if (!landscape) {
+                                if (!landscape && !isTablet) {
                                     actionBar.hide();
                                 }
                                 if (!isToastShowing) {
                                     showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                if (!landscape) {
+                                if (!landscape && !isTablet) {
                                     actionBar.show();
                                 }
                                 if (isToastShowing && !infoBar) {
@@ -258,7 +259,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             mLastFirstVisibleItem = firstVisibleItem;
                         }
                     } else {
-                        if (!landscape) {
+                        if (!landscape && !isTablet) {
                             actionBar.show();
                         }
                         if (!infoBar) {

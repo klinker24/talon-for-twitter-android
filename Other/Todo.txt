@@ -7,7 +7,6 @@
     - icon for status bar notification
     - Switch tweet background to right side when it is my tweet
     - Some kind of notifications for fav users
-    - redo notification system
 
 - Bugs:
     - Convert everything away from picasso (maybe not, we will see how the memory is managed now)
@@ -21,4 +20,5 @@
     - redo notifications
     - draft system
     - failed notification
+    - unread not working in onpause
 

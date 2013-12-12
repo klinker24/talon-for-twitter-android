@@ -443,7 +443,7 @@ public abstract class DrawerActivity extends Activity {
 
     public void setUpTheme() {
 
-        if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup && settings.uiExtras && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+        if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
             translucent = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         } else {

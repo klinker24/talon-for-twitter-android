@@ -82,6 +82,8 @@ public class FavoriteUsersActivity extends DrawerActivity {
             }
         }
 
+        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             int mLastFirstVisibleItem = 0;
@@ -99,11 +101,11 @@ public class FavoriteUsersActivity extends DrawerActivity {
                     if (MainActivity.canSwitch) {
                         // used to show and hide the action bar
                         if (firstVisibleItem > mLastFirstVisibleItem) {
-                            if (!landscape) {
+                            if (!landscape && !isTablet) {
                                 actionBar.hide();
                             }
                         } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                            if(!landscape) {
+                            if(!landscape && !isTablet) {
                                 actionBar.show();
                             }
                             if (translucent) {
@@ -114,7 +116,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
                         mLastFirstVisibleItem = firstVisibleItem;
                     }
                 } else {
-                    if(!landscape) {
+                    if(!landscape && !isTablet) {
                         actionBar.show();
                     }
                 }
