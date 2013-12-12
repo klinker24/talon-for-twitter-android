@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout android:layout_above="@+id/bottom_bar"
                       android:orientation="vertical"
@@ -199,6 +200,7 @@
             android:scaleType="fitCenter"
             android:layout_marginBottom="15dp"
             android:visibility="gone"/>
+
     </RelativeLayout>
 
     <include layout="@layout/emoji_keyboard"/>
