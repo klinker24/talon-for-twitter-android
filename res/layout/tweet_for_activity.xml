@@ -115,55 +115,6 @@
                 android:gravity="right"
                 android:id="@+id/char_remaining" />
 
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" >
-
-                <ImageButton
-                        android:id="@+id/attach_button"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="?attachButton"
-                        android:minHeight="37dp" android:minWidth="37dp"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true"
-                        android:maxWidth="37dp" android:maxHeight="37dp"
-                        android:layout_marginLeft="4dp"
-                        android:background="@drawable/pressed_button" />
-
-                <com.klinker.android.talon.ui.widgets.HoloEditText
-                        android:id="@+id/reply"
-                        android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:hint="@string/reply"
-                        android:textSize="14dp"
-                        android:layout_marginBottom="8dp"
-                        android:inputType="textNoSuggestions|textMultiLine"/>
-
-                <ImageButton
-                        android:id="@+id/reply_button"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:src="?sendButton"
-                        android:minHeight="37dp" android:minWidth="37dp"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true"
-                        android:maxWidth="37dp" android:maxHeight="37dp"
-                        android:layout_marginLeft="4dp"
-                        android:background="@drawable/pressed_button" />
-
-            </LinearLayout>
-
-            <ImageView
-                    android:id="@+id/attach"
-                    android:layout_height="96dp"
-                    android:layout_width="match_parent"
-                    android:scaleType="fitCenter"
-                    android:layout_margin="15dp"
-                    android:padding="4dp"
-                    android:visibility="gone"/>
-
         </LinearLayout>
 
     </LinearLayout>

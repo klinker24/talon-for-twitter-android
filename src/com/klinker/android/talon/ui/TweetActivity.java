@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
@@ -39,6 +41,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -57,7 +60,11 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.ui.drawer_activities.trends.SearchedTrendsActivity;
+import com.klinker.android.talon.ui.widgets.EmojiKeyboard;
+import com.klinker.android.talon.ui.widgets.HoloEditText;
+import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -82,6 +89,7 @@ public class TweetActivity extends Activity {
 
     public AppSettings settings;
     public Context context;
+    public SharedPreferences sharedPrefs;
 
     private String name;
     private String screenName;
@@ -104,6 +112,8 @@ public class TweetActivity extends Activity {
     private boolean isMyTweet = false;
     private boolean isMyRetweet = true;
 
+    private ImageButton emojiButton;
+    private EmojiKeyboard emojiKeyboard;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +121,7 @@ public class TweetActivity extends Activity {
 
         context = this;
         settings = new AppSettings(context);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
@@ -221,6 +232,9 @@ public class TweetActivity extends Activity {
         final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
         ImageButton attachButton = (ImageButton) findViewById(R.id.attach_button);
 
+        emojiButton = (ImageButton) findViewById(R.id.emoji);
+        emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
+
         nametv.setTextSize(settings.textSize +2);
         screennametv.setTextSize(settings.textSize);
         tweettv.setTextSize(settings.textSize);
@@ -238,6 +252,28 @@ public class TweetActivity extends Activity {
         builder.setThreadPoolSize(4);
 
         replyList.setItemManager(builder.build());
+
+        final ImageButton overflow = (ImageButton) findViewById(R.id.overflow_button);
+        overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
+                if (buttons.getVisibility() == View.VISIBLE) {
+
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
+                    anim.setDuration(300);
+                    buttons.startAnimation(anim);
+
+                    buttons.setVisibility(View.GONE);
+                } else {
+                    buttons.setVisibility(View.VISIBLE);
+
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                    anim.setDuration(300);
+                    buttons.startAnimation(anim);
+                }
+            }
+        });
 
         if (settings.theme == 0) {
             nametv.setTextColor(getResources().getColor(android.R.color.black));
@@ -561,6 +597,8 @@ public class TweetActivity extends Activity {
                                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
                             }
                         }
+
+                        overflow.performClick();
                     }
                 });
 
@@ -589,6 +627,94 @@ public class TweetActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        if (!EmojiUtils.checkEmojisEnabled(this)) {
+            emojiButton.setVisibility(View.GONE);
+        } else {
+            emojiKeyboard.setAttached((HoloEditText) reply);
+
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+
+            emojiButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager imm = (InputMethodManager)getSystemService(
+                                        Context.INPUT_METHOD_SERVICE);
+                                imm.showSoftInput(reply, 0);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    } else {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                emojiKeyboard.setVisibility(true);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboardButton});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+        }
+
+        Button at = (Button) findViewById(R.id.at_button);
+        at.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context, sharedPrefs.getInt("current_account", 1)).
+                        setTitle(getResources().getString(R.string.type_user)).
+                        setTitleColor(getResources().getColor(R.color.app_color)).
+                        setDividerColor(getResources().getColor(R.color.app_color));
+
+                qustomDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        reply.append(qustomDialogBuilder.text.getText().toString());
+                    }
+                });
+
+                qustomDialogBuilder.show();
+
+                overflow.performClick();
             }
         });
 

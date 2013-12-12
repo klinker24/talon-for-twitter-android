@@ -46,7 +46,9 @@
                     android:layout_height="48dp"
                     android:background="@drawable/pressed_button"
                     android:text="\@"
-                    android:textSize="27dp"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:textColor="#807f7f" />
 
             <ImageButton
