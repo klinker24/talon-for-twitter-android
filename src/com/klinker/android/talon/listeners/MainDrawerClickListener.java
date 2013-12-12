@@ -69,6 +69,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
                         try {
                             context.startActivity(intent);
+                            ((Activity)context).overridePendingTransition(0,0);
                             ((Activity)context).finish();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -119,6 +120,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     try {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         context.startActivity(intent);
+                        ((Activity)context).overridePendingTransition(0,0);
                         ((Activity)context).finish();
                     } catch (Exception e) {
 
