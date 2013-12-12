@@ -338,7 +338,7 @@ public class ComposeActivity extends Activity implements
 
                     addLocation = true;
 
-                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_accept_light));
+                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel_light));
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.location_disconnected), Toast.LENGTH_SHORT).show();
 
