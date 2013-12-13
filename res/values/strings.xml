@@ -82,6 +82,8 @@
     <string name="finding_location">Looking for locations</string>
     <string name="draft_found">Draft found</string>
     <string name="apply">Apply?</string>
+    <string name="tweet_failed">Error sending tweet</string>
+    <string name="tap_to_retry">Tap to retry</string>
 
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>

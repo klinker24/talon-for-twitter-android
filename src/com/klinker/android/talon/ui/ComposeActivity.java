@@ -3,6 +3,9 @@ package com.klinker.android.talon.ui;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +22,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -468,12 +472,12 @@ public class ComposeActivity extends Activity implements
     }
 
     private void sendStatus(String status) {
-        new updateTwitterStatus().execute(status);
+        new updateTwitterStatus(reply.getText().toString()).execute(status);
     }
 
     private boolean addLocation = false;
 
-    private class updateTwitterStatus extends AsyncTask<String, String, String> {
+    private class updateTwitterStatus extends AsyncTask<String, String, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -481,7 +485,13 @@ public class ComposeActivity extends Activity implements
 
         }
 
-        protected String doInBackground(String... args) {
+        String text;
+
+        public updateTwitterStatus(String text) {
+            this.text = text;
+        }
+
+        protected Boolean doInBackground(String... args) {
             Log.d("Tweet Text", "> " + args[0]);
             String status = args[0];
             try {
@@ -503,29 +513,56 @@ public class ComposeActivity extends Activity implements
                     }
 
                     twitter.updateStatus(media);
+
+                    return true;
                 }
 
             } catch (TwitterException e) {
                 // Error in updating status
             }
-            return null;
+            return false;
         }
 
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(Boolean success) {
             // dismiss the dialog after getting all products
 
-            // updating ui from Background Thread
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getBaseContext(),
-                            "Status tweeted successfully", Toast.LENGTH_SHORT)
-                            .show();
-                    // Clearing EditText field
-                }
-            });
+            if (success) {
+                Toast.makeText(getBaseContext(),
+                        getResources().getString(R.string.tweet_success),
+                        Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                makeFailedNotification(text);
+            }
         }
 
+    }
+
+    public void makeFailedNotification(String text) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.timeline_dark)
+                        .setContentTitle(getResources().getString(R.string.tweet_failed))
+                        .setContentText(getResources().getString(R.string.tap_to_retry));
+
+        Intent resultIntent = new Intent(this, ComposeActivity.class);
+        resultIntent.setAction(Intent.ACTION_SEND);
+        resultIntent.setType("text/plain");
+        resultIntent.putExtra(Intent.EXTRA_TEXT, text);
+        resultIntent.putExtra("failed_notification", true);
+
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        0
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(5, mBuilder.build());
     }
 
     @Override
