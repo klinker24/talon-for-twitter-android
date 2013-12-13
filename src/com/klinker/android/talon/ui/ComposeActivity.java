@@ -545,7 +545,7 @@ public class ComposeActivity extends Activity implements
                         .setContentTitle(getResources().getString(R.string.tweet_failed))
                         .setContentText(getResources().getString(R.string.tap_to_retry));
 
-        Intent resultIntent = new Intent(this, ComposeActivity.class);
+        Intent resultIntent = new Intent(this, RetryCompose.class);
         resultIntent.setAction(Intent.ACTION_SEND);
         resultIntent.setType("text/plain");
         resultIntent.putExtra(Intent.EXTRA_TEXT, text);
