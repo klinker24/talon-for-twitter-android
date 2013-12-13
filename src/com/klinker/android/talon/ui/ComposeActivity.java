@@ -132,7 +132,6 @@ public class ComposeActivity extends Activity implements
                     public void onClick(View v) {
                         boolean close = doneClick();
                         if (close) {
-                            discardClicked = true;
                             finish();
                         }
                     }
@@ -141,6 +140,7 @@ public class ComposeActivity extends Activity implements
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        discardClicked = true;
                         finish();
                     }
                 });
@@ -293,6 +293,7 @@ public class ComposeActivity extends Activity implements
                         public void onClick(View view) {
                             reply.setText(sharedPrefs.getString("draft", ""));
                             reply.setSelection(reply.getText().length());
+                            hideToastBar(300);
                         }
                     });
                 }
@@ -606,16 +607,15 @@ public class ComposeActivity extends Activity implements
     public boolean discardClicked = false;
 
     @Override
-    public void onDestroy() {
-        if (!sharedPrefs.getString("draft", "").equals("")) {
+    public void onPause() {
 
-        } else if ((reply.getText().toString().length() > 0 && !doneClicked && !discardClicked)) {
-            sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
-        } else {
+        if (doneClicked || discardClicked) {
             sharedPrefs.edit().putString("draft", "").commit();
+        } else {
+            sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
         }
 
-        super.onDestroy();
+        super.onPause();
     }
 
     private boolean isToastShowing = false;
