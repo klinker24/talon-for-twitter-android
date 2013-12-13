@@ -205,6 +205,8 @@ public class ComposeActivity extends Activity implements
     public void setUpLayout() {
         setContentView(R.layout.compose_activity);
 
+        setUpToastBar();
+
         contactEntry = (EditText) findViewById(R.id.contact_entry);
         attachImage = (ImageView) findViewById(R.id.picture);
         attachButton = (ImageButton) findViewById(R.id.attach);
@@ -283,13 +285,18 @@ public class ComposeActivity extends Activity implements
         reply = (EditText) findViewById(R.id.tweet_content);
 
         if (!sharedPrefs.getString("draft", "").equals("") && !getIntent().getBooleanExtra("failed_notification", false)) {
-            showToastBar(getResources().getString(R.string.draft_found), getResources().getString(R.string.apply), 300, true, new View.OnClickListener() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void onClick(View view) {
-                    reply.setText(sharedPrefs.getString("draft", ""));
-                    reply.setSelection(reply.getText().length());
+                public void run() {
+                    showToastBar(getResources().getString(R.string.draft_found), getResources().getString(R.string.apply), 300, true, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            reply.setText(sharedPrefs.getString("draft", ""));
+                            reply.setSelection(reply.getText().length());
+                        }
+                    });
                 }
-            });
+            }, 300);
         } else if (getIntent().getBooleanExtra("failed_notification", false)) {
             reply.setText(sharedPrefs.getString("draft", ""));
             reply.setSelection(reply.getText().length());
@@ -421,8 +428,6 @@ public class ComposeActivity extends Activity implements
                 }
             });
         }
-
-        setUpToastBar();
     }
 
     public void setUpTheme() {
@@ -602,7 +607,9 @@ public class ComposeActivity extends Activity implements
 
     @Override
     public void onDestroy() {
-        if (reply.getText().toString().length() > 0 && !doneClicked && !discardClicked) {
+        if (!sharedPrefs.getString("draft", "").equals("")) {
+
+        } else if ((reply.getText().toString().length() > 0 && !doneClicked && !discardClicked)) {
             sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
         } else {
             sharedPrefs.edit().putString("draft", "").commit();
