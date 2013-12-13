@@ -135,24 +135,21 @@ public class MentionsDataSource {
 
     // true is unread
     // false have been read
-    public void markMultipleRead(boolean[] unread, int account) {
+    public void markMultipleRead(int current, int account) {
 
         Cursor cursor = getUnreadCursor(account);
 
         try {
-            if (cursor.moveToFirst()) {
-                int i = 0;
+            if (cursor.moveToPosition(current)) {
                 do {
-                    if (!unread[i]) {
-                        long tweetId = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
 
-                        ContentValues cv = new ContentValues();
-                        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+                    long tweetId = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
 
-                        database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-                    }
+                    ContentValues cv = new ContentValues();
+                    cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-                    i++;
+                    database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {

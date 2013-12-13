@@ -75,7 +75,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     private static MentionsDataSource dataSource;
 
     private static int unread;
-    private boolean[] unreadArray;
 
     private boolean landscape;
 
@@ -110,8 +109,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
         allRead = getResources().getString(R.string.all_read);
-
-        unreadArray = new boolean[0];
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
@@ -198,17 +195,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                // used to mark read
-                if (firstVisibleItem < unreadArray.length) {
-                    unreadArray[firstVisibleItem] = false; // it isn't unread anymore
-                }
-
-                if (firstVisibleItem == 0) {
+                if (firstVisibleItem == 0 && unread > 0) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            dataSource.markMultipleRead(unreadArray, currentAccount);
-                            unreadArray = new boolean[0];
+                            dataSource.markAllRead(currentAccount);
+                            unread = 0;
                         }
                     }).start();
                 }
@@ -347,9 +339,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     numberNew = dataSource.getUnreadCount(currentAccount);
                     unread = numberNew;
 
-                    unreadArray = new boolean[unread];
-                    Arrays.fill(unreadArray, true);
-
                 } catch (TwitterException e) {
                     // Error in updating status
                     Log.d("Twitter Update Error", e.getMessage());
@@ -412,11 +401,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onPause() {
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
-        dataSource.markMultipleRead(unreadArray, currentAccount);
-        unread = dataSource.getUnreadCount(currentAccount);
-        unreadArray = new boolean[unread];
-        Arrays.fill(unreadArray, true);
+
+        int mUnread = listView.getFirstVisiblePosition();
+
+        if (unread > 0) {
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
+            dataSource.markMultipleRead(mUnread, currentAccount);
+            unread = mUnread;
+        }
 
         super.onPause();
     }

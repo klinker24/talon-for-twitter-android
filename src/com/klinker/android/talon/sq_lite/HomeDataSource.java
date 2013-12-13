@@ -155,24 +155,20 @@ public class HomeDataSource {
 
     // true is unread
     // false have been read
-    public void markMultipleRead(boolean[] unread, int account) {
+    public void markMultipleRead(int current, int account) {
 
         Cursor cursor = getUnreadCursor(account);
 
         try {
-            if (cursor.moveToFirst()) {
-                int i = 0;
+            if (cursor.moveToPosition(current)) {
                 do {
-                    if (!unread[i]) {
-                        long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
 
-                        ContentValues cv = new ContentValues();
-                        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+                    ContentValues cv = new ContentValues();
+                    cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-                        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-                    }
+                    database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
 
-                    i++;
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {

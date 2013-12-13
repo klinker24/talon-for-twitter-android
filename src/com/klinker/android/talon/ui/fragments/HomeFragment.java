@@ -90,7 +90,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private HomeDataSource dataSource;
 
     private static int unread;
-    private boolean[] unreadArray;
 
     static Activity context;
 
@@ -127,8 +126,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         cd = new ConnectionDetector(context);
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-
-        unreadArray = new boolean[0];
 
         jumpToTop = getResources().getString(R.string.jump_to_top);
         fromTop = getResources().getString(R.string.from_top);
@@ -219,19 +216,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                // used to mark read
-                if (firstVisibleItem < unreadArray.length) {
-                    unreadArray[firstVisibleItem] = false; // it isn't unread anymore
-                }
-
-                if (firstVisibleItem == 0) {
+                if (firstVisibleItem == 0 && unread > 0) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            dataSource.markMultipleRead(unreadArray, currentAccount);
-                            unreadArray = new boolean[0];
+                            dataSource.markAllRead(currentAccount);
+                            unread = 0;
                         }
                     }).start();
+
+                    //Log.v("marking_read", "at top of list");
                 }
 
                 if (settings.uiExtras) {
@@ -409,9 +403,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     numberNew = dataSource.getUnreadCount(currentAccount);
                     unread = numberNew;
 
-                    unreadArray = new boolean[unread];
-                    Arrays.fill(unreadArray, true);
-
                 } catch (TwitterException e) {
                     // Error in updating status
                     Log.d("Twitter Update Error", e.getMessage());
@@ -565,13 +556,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onPause() {
-        sharedPrefs.edit().putInt("timeline_unread", listView.getFirstVisiblePosition()).commit();
+        int mUnread = listView.getFirstVisiblePosition();
+        sharedPrefs.edit().putInt("timeline_unread", mUnread).commit();
 
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
-        dataSource.markMultipleRead(unreadArray, currentAccount);
-        unread = dataSource.getUnreadCount(currentAccount);
-        unreadArray = new boolean[unread];
-        Arrays.fill(unreadArray, true);
+        if (unread > 0) {
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
+            dataSource.markMultipleRead(mUnread, currentAccount);
+            unread = mUnread;
+        }
 
         super.onPause();
     }
