@@ -111,7 +111,11 @@ public class MentionsDataSource {
 
         Cursor cursor = getUnreadCursor(account);
 
-        return cursor.getCount();
+        int count = cursor.getCount();
+
+        cursor.close();
+
+        return count;
     }
 
     public void markRead(int account, int position) {
@@ -125,6 +129,8 @@ public class MentionsDataSource {
 
             database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
+
+        cursor.close();
     }
 
     // true is unread
@@ -152,6 +158,8 @@ public class MentionsDataSource {
         } catch (Exception e) {
             // there is nothing in the unread array
         }
+
+        cursor.close();
     }
 
     public void markAllRead(int account) {

@@ -131,7 +131,11 @@ public class HomeDataSource {
 
         Cursor cursor = getUnreadCursor(account);
 
-        return cursor.getCount();
+        int count = cursor.getCount();
+
+        cursor.close();
+
+        return count;
     }
 
     public void markRead(int account, int position) {
@@ -145,6 +149,8 @@ public class HomeDataSource {
 
             database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
+
+        cursor.close();
     }
 
     // true is unread
@@ -172,6 +178,8 @@ public class HomeDataSource {
         } catch (Exception e) {
             // there is nothing in the unread array
         }
+
+        cursor.close();
     }
 
     public void markAllRead(int account) {
