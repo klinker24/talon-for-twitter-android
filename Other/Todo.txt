@@ -15,7 +15,7 @@
     - popup :/
 
 - Main TODO:
-    - add article column to home db, just in case
+    - think of other database columns
     - limit cache option maybe
     - redo notifications
     - draft system
