@@ -1,5 +1,6 @@
 Version 0.60:<br/><br/>
     &#8226; Re-made the compose, profiles, and tweet activities. Look much cleaner now.<br/>
+    &#8226; Draft system for unsent tweets<br/>
     &#8226; Emojis added. You have to have our sliding emoji keyboard trial app. Link in settings.<br/>
     &#8226; New widget<br/>
     &#8226; DashClock Extension<br/>

@@ -18,7 +18,6 @@
     - think of other database columns
     - limit cache option maybe
     - redo notifications
-    - draft system
     - failed notification
     - unread not working in onpause
 

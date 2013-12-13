@@ -132,6 +132,7 @@ public class ComposeActivity extends Activity implements
                     public void onClick(View v) {
                         boolean close = doneClick();
                         if (close) {
+                            discardClicked = true;
                             finish();
                         }
                     }
@@ -281,6 +282,19 @@ public class ComposeActivity extends Activity implements
         final TextView charRemaining = (TextView) findViewById(R.id.char_remaining);
         reply = (EditText) findViewById(R.id.tweet_content);
 
+        if (!sharedPrefs.getString("draft", "").equals("") && !getIntent().getBooleanExtra("failed_notification", false)) {
+            showToastBar(getResources().getString(R.string.draft_found), getResources().getString(R.string.apply), 300, true, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    reply.setText(sharedPrefs.getString("draft", ""));
+                    reply.setSelection(reply.getText().length());
+                }
+            });
+        } else if (getIntent().getBooleanExtra("failed_notification", false)) {
+            reply.setText(sharedPrefs.getString("draft", ""));
+            reply.setSelection(reply.getText().length());
+        }
+
         charRemaining.setText(140 - reply.getText().length() + "");
         reply.addTextChangedListener(new TextWatcher() {
             @Override
@@ -407,6 +421,8 @@ public class ComposeActivity extends Activity implements
                 }
             });
         }
+
+        setUpToastBar();
     }
 
     public void setUpTheme() {
@@ -431,6 +447,7 @@ public class ComposeActivity extends Activity implements
         // Check for blank text
         if ((status.trim().length() > 0 || !attachedFilePath.equals("")) && editText.getText().length() < 140) {
             // update status
+            doneClicked = true;
             sendStatus(status);
             return true;
         } else {
@@ -578,5 +595,97 @@ public class ComposeActivity extends Activity implements
         }
 
         super.onBackPressed();
+    }
+
+    public boolean doneClicked = false;
+    public boolean discardClicked = false;
+
+    @Override
+    public void onDestroy() {
+        if (reply.getText().toString().length() > 0 && !doneClicked && !discardClicked) {
+            sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
+        } else {
+            sharedPrefs.edit().putString("draft", "").commit();
+        }
+
+        super.onDestroy();
+    }
+
+    private boolean isToastShowing = false;
+    private boolean infoBar = false;
+
+    private View toastBar;
+    private TextView toastDescription;
+    private TextView toastButton;
+
+    private void setUpToastBar() {
+        toastBar = findViewById(R.id.toastBar);
+        toastDescription = (TextView) findViewById(R.id.toastDescription);
+        toastButton = (TextView) findViewById(R.id.toastButton);
+    }
+
+    private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        toastDescription.setText(description);
+        toastButton.setText(buttonText);
+        toastButton.setOnClickListener(listener);
+
+        toastBar.setVisibility(View.VISIBLE);
+
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                isToastShowing = true;
+                if (quit) {
+                    infoBar = true;
+                }
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (quit) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideToastBar(length);
+                            infoBar = false;
+                        }
+                    }, 3000);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        anim.setDuration(length);
+        toastBar.startAnimation(anim);
+    }
+
+    private void hideToastBar(long length) {
+        if (!isToastShowing) {
+            return;
+        }
+
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                isToastShowing = false;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                toastBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        anim.setDuration(length);
+        toastBar.startAnimation(anim);
     }
 }

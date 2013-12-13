@@ -49,6 +49,7 @@ App Features:
 - Hiding action bar to give you all those extra pixels of Twitter goodness
 - Main timeline widget
 - DashClock Extension
+- Draft system for unsent tweets
 - Google style - Action Bar pull to refresh - for quick refreshing
 - Save tweet pictures
 - Share content with other apps, to and from Talon

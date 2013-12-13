@@ -80,6 +80,8 @@
     <string name="location_connected">Location attached</string>
     <string name="location_disconnected">Location lost</string>
     <string name="finding_location">Looking for locations</string>
+    <string name="draft_found">Draft found</string>
+    <string name="apply">Apply?</string>
 
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>
