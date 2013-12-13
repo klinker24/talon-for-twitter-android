@@ -642,6 +642,9 @@ public class TweetActivity extends Activity {
                     if (emojiKeyboard.isShowing()) {
                         emojiKeyboard.setVisibility(false);
 
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
                         emojiButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_emoji_keyboard_dark));
                     }
                 }
@@ -662,6 +665,9 @@ public class TweetActivity extends Activity {
                             }
                         }, 250);
 
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
                         emojiButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_emoji_keyboard_dark));
                     } else {
                         InputMethodManager imm = (InputMethodManager)getSystemService(
@@ -675,6 +681,9 @@ public class TweetActivity extends Activity {
                             }
                         }, 250);
 
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboardButton});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
                         emojiButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_light));
                     }
                 }
