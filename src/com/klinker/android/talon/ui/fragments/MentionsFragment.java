@@ -449,21 +449,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     }
 
     public void showStatusBar() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-            }
-        }, 000);
+        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
     }
 
     public void hideStatusBar() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DrawerActivity.statusBar.setVisibility(View.GONE);
-            }
-        }, 000);
+        DrawerActivity.statusBar.setVisibility(View.GONE);
     }
 
     private boolean isToastShowing = false;
