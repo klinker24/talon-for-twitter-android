@@ -66,8 +66,8 @@ import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.IOUtils;
+import com.klinker.android.talon.utils.ImageUtils;
 import com.klinker.android.talon.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -222,7 +222,7 @@ public class TweetActivity extends Activity {
         final LinearLayout background = (LinearLayout) findViewById(R.id.linLayout);
         final ImageButton expand = (ImageButton) findViewById(R.id.switchViews);
 
-        final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
         final ImageButton favoriteButton = (ImageButton) findViewById(R.id.favorite);
         final ImageButton retweetButton = (ImageButton) findViewById(R.id.retweet);
@@ -291,11 +291,6 @@ public class TweetActivity extends Activity {
             retweetButton.setEnabled(false);
 
         }
-
-        Picasso.with(context)
-                .load(proPic)
-                .transform(new CircleTransform())
-                .into(profilePic);
 
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -527,6 +522,13 @@ public class TweetActivity extends Activity {
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
         new GetRetweetCount(retweetCount, tweetId).execute();
         new GetReplies(replyList, screenName, tweetId, progressSpinner, expand, background).execute();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ImageUtils.loadCircleImage(context, proPic, profilePic);
+            }
+        }).start();
 
         String text = tweet;
         String extraNames = "";

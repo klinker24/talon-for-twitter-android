@@ -57,13 +57,17 @@ import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
+import com.klinker.android.talon.utils.ImageUtils;
 import com.klinker.android.talon.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
 /**
@@ -108,8 +112,8 @@ public abstract class DrawerActivity extends Activity {
 
         TextView name = (TextView) mDrawer.findViewById(R.id.name);
         TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
-        NetworkedCacheableImageView backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
-        NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic);
+        final NetworkedCacheableImageView backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
+        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
@@ -283,32 +287,27 @@ public abstract class DrawerActivity extends Activity {
 
         // Keeping picasso right now because of the transforms...
         // Don't know how to do them yet with the manual caching
+
         try {
-            Picasso.with(context)
-                    .load(R.drawable.default_header_background)
-                    .transform(new BlurTransform(context))
-                    .into(backgroundPic);
-            //backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ImageUtils.loadTwitterBackgroundBlurred(context, backgroundUrl, backgroundPic);
+                }
+            }).start();
+
         } catch (Exception e) {
             // empty path for some reason
         }
 
         try {
-            Picasso.with(context)
-                    .load(backgroundUrl)
-                    .transform(new BlurTransform(context))
-                    .into(backgroundPic);
-            //backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
-        } catch (Exception e) {
-            // empty path for some reason
-        }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ImageUtils.loadCircleImage(context, profilePicUrl, profilePic);
+                }
+            }).start();
 
-        try {
-            Picasso.with(context)
-                    .load(profilePicUrl)
-                    .transform(new CircleTransform())
-                    .into(profilePic);
-            //backgroundPic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
         } catch (Exception e) {
             // empty path again
         }
