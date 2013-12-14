@@ -5,11 +5,9 @@
 - Features:
     - Cool icon
     - icon for status bar notification
-    - Switch tweet background to right side when it is my tweet
     - Some kind of notifications for fav users
 
 - Bugs:
-    - Convert everything away from picasso (maybe not, we will see how the memory is managed now)
     - Notification for the second account's mentions
     - redo the checkboxes and stuff to use an orange color instead of blue
     - popup :/
