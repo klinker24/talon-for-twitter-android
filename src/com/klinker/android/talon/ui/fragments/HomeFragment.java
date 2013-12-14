@@ -512,7 +512,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     numberNew = 0;
                 }
 
-                MentionsDataSource dataSource = new MentionsDataSource(context);
+                /*MentionsDataSource dataSource = new MentionsDataSource(context);
                 dataSource.open();
 
                 for (twitter4j.Status status : statuses) {
@@ -523,7 +523,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 }
 
-                dataSource.close();
+                dataSource.close();*/
 
             } catch (TwitterException e) {
                 // Error in updating status

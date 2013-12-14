@@ -112,18 +112,22 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         protected void onPostExecute(CacheableBitmapDrawable result) {
             super.onPostExecute(result);
 
-            ImageView iv = mImageViewRef.get();
-            if (null != iv) {
-                if (transform == 0)
-                    iv.setImageDrawable(result);
-                else if (transform == CIRCLE)
-                    iv.setImageBitmap(ImageUtils.getCircle(result.getBitmap(), context));
-                else if (transform == BLUR)
-                    iv.setImageBitmap(ImageUtils.blur(result.getBitmap()));
-            }
+            try {
+                ImageView iv = mImageViewRef.get();
+                if (null != iv) {
+                    if (transform == 0)
+                        iv.setImageDrawable(result);
+                    else if (transform == CIRCLE)
+                        iv.setImageBitmap(ImageUtils.getCircle(result.getBitmap(), context));
+                    else if (transform == BLUR)
+                        iv.setImageBitmap(ImageUtils.blur(result.getBitmap()));
+                }
 
-            if (null != mListener) {
-                mListener.onImageLoaded(result);
+                if (null != mListener) {
+                    mListener.onImageLoaded(result);
+                }
+            } catch (Exception e) {
+
             }
         }
     }
