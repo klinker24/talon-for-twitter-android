@@ -97,13 +97,8 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             card.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).getName());
             card.setTextViewText(R.id.contactText, mWidgetItems.get(arg0).getTweet());
             final int arg = arg0;
-            //new Thread(new Runnable() {
-                //@Override
-                //public void run() {
-                    card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg).getPicUrl()));
-                //}
-            //}).start();
 
+            card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg).getPicUrl()));
 
             Bundle extras = new Bundle();
             extras.putString("name", mWidgetItems.get(arg0).getName());

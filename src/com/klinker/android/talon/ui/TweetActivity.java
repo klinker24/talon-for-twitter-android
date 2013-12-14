@@ -200,6 +200,8 @@ public class TweetActivity extends Activity {
         picture = from.getBooleanExtra("picture", false);
         proPic = from.getStringExtra("proPic");
 
+        Log.v("tweet_id", tweetId + "");
+
         if (screenName.equals(settings.myScreenName)) {
             isMyTweet = true;
         } else if (screenName.equals(retweeter)) {
@@ -519,16 +521,11 @@ public class TweetActivity extends Activity {
             }
         });
 
+        ImageUtils.loadCircleImage(context, proPic, profilePic);
+
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
         new GetRetweetCount(retweetCount, tweetId).execute();
         new GetReplies(replyList, screenName, tweetId, progressSpinner, expand, background).execute();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ImageUtils.loadCircleImage(context, proPic, profilePic);
-            }
-        }).start();
 
         String text = tweet;
         String extraNames = "";

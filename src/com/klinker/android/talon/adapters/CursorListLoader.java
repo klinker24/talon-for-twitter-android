@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 
@@ -45,7 +46,9 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
 
     @Override
     public CacheableBitmapDrawable loadItem(String url) {
+
         CacheableBitmapDrawable wrapper = mCache.get(url);
+
         if (wrapper == null) {
 
             try {

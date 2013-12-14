@@ -280,8 +280,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             protected Void doInBackground(Void... params) {
                 try {
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
-                    
-                    dataSource.markAllRead(currentAccount);
+
+                    //dataSource.markAllRead(currentAccount);
 
                     twitter = Utils.getTwitter(context);
 

@@ -60,7 +60,7 @@ public class WidgetProvider extends AppWidgetProvider {
             viewTweet.putExtra("retweeter", intent.getStringExtra("retweeter"));
             viewTweet.putExtra("webpage", intent.getStringExtra("webpage"));
             viewTweet.putExtra("picture", false);
-            viewTweet.putExtra("tweetid", intent.getStringExtra("tweetid"));
+            viewTweet.putExtra("tweetid", intent.getLongExtra("tweetid", 0));
             viewTweet.putExtra("proPic", intent.getStringExtra("propic"));
             viewTweet.putExtra("from_widget", true);
 
