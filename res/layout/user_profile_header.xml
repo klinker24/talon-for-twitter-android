@@ -84,7 +84,7 @@
 
     </LinearLayout>
 
-    <ImageView
+    <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_below="@+id/background_image"

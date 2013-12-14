@@ -227,17 +227,14 @@ public class UserProfileActivity extends Activity {
         actionBar.setTitle(name);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
-        final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
         tweetsBtn = (Button) findViewById(R.id.tweets);
         followersBtn = (Button) findViewById(R.id.followers);
         followingBtn = (Button) findViewById(R.id.following);
 
         if(!proPic.equals("")) {
-            Picasso.with(context)
-                    .load(proPic)
-                    .transform(new CircleTransform())
-                    .into(profilePic);
+            profilePic.loadImage(proPic, true, null, NetworkedCacheableImageView.CIRCLE);
         }
 
         new Handler().postDelayed(new Runnable() {
@@ -399,12 +396,9 @@ public class UserProfileActivity extends Activity {
                 if(proPic.equals("")) {
                     actionBar.setTitle(thisUser.getName());
 
-                    final ImageView profilePic = (ImageView) findViewById(R.id.profile_pic);
+                    final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
-                    Picasso.with(context)
-                            .load(thisUser.getBiggerProfileImageURL())
-                            .transform(new CircleTransform())
-                            .into(profilePic);
+                    profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
