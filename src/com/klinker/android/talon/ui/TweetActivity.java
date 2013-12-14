@@ -200,8 +200,6 @@ public class TweetActivity extends Activity {
         picture = from.getBooleanExtra("picture", false);
         proPic = from.getStringExtra("proPic");
 
-        Log.v("tweet_id", tweetId + "");
-
         if (screenName.equals(settings.myScreenName)) {
             isMyTweet = true;
         } else if (screenName.equals(retweeter)) {

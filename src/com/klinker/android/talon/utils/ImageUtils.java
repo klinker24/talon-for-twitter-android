@@ -27,7 +27,7 @@ public class ImageUtils {
     }
 
     public static void loadTwitterBackground(Context context, String url, NetworkedCacheableImageView iv) {
-
+        new GetBackground(context, url, iv).execute();
     }
 
     public static void loadCircleImage(Context context, String url, NetworkedCacheableImageView iv) {
@@ -278,14 +278,8 @@ public class ImageUtils {
         }
 
         protected Bitmap doInBackground(String... urls) {
-            File cacheDir = new File(context.getCacheDir(), "talon");
-            cacheDir.mkdirs();
 
-            BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
-            builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
-            builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
-
-            final BitmapLruCache mCache = builder.build();
+            final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
 
             CacheableBitmapDrawable wrapper = mCache.get(url);
 
@@ -328,14 +322,8 @@ public class ImageUtils {
         }
 
         protected Bitmap doInBackground(String... urls) {
-            File cacheDir = new File(context.getCacheDir(), "talon");
-            cacheDir.mkdirs();
 
-            BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
-            builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
-            builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
-
-            final BitmapLruCache mCache = builder.build();
+            final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
 
             CacheableBitmapDrawable wrapper = mCache.get(url);
 
@@ -346,6 +334,49 @@ public class ImageUtils {
 
                     Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
                     image = blur(image);
+
+                    wrapper = mCache.put(url, image);
+
+                    return image;
+                } catch (Exception e) {
+
+                }
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(Bitmap image) {
+            if (image != null) {
+                iv.setImageBitmap(image);
+            }
+        }
+    }
+
+    static class GetBackground extends AsyncTask<String, Void, Bitmap> {
+
+        private Context context;
+        private String url;
+        private NetworkedCacheableImageView iv;
+
+        public GetBackground(Context context, String url, NetworkedCacheableImageView iv) {
+            this.context = context;
+            this.url = url;
+            this.iv = iv;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+
+            final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
+
+            CacheableBitmapDrawable wrapper = mCache.get(url);
+
+            if (wrapper == null) {
+
+                try {
+                    URL mUrl = new URL(url);
+
+                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
 
                     wrapper = mCache.put(url, image);
 

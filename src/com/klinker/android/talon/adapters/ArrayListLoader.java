@@ -14,6 +14,9 @@ import android.widget.Adapter;
 
 import org.lucasr.smoothie.SimpleItemLoader;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import twitter4j.Status;
@@ -55,22 +58,26 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
 
     @Override
     public CacheableBitmapDrawable loadItem(String url) {
-        CacheableBitmapDrawable wrapper = mCache.get(url);
-        if (wrapper == null) {
+        CacheableBitmapDrawable result = mCache.get(url, null);
 
-            try {
-                URL mUrl = new URL(url);
+        try {
+            if (null == result) {
+                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
 
-                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                image = getClip(image);
+                // The bitmap isn't cached so download from the web
+                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                wrapper = mCache.put(url, image);
-            } catch (Exception e) {
-
+                // Add to cache
+                result = mCache.put(url, is, null);
+            } else {
+                Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
             }
+        } catch (Exception e) {
+
         }
 
-        return wrapper;
+        return result;
     }
 
     @Override
@@ -81,7 +88,7 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
             return;
         }
 
-        holder.profilePic.setImageDrawable(result);
+        holder.profilePic.setImageBitmap(getClip(result.getBitmap()));
     }
 
     private Bitmap getClip(Bitmap currentImage) {

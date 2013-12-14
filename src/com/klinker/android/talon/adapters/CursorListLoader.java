@@ -17,6 +17,9 @@ import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 
 import org.lucasr.smoothie.SimpleItemLoader;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -47,23 +50,26 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
     @Override
     public CacheableBitmapDrawable loadItem(String url) {
 
-        CacheableBitmapDrawable wrapper = mCache.get(url);
+        CacheableBitmapDrawable result = mCache.get(url, null);
 
-        if (wrapper == null) {
+        try {
+            if (null == result) {
+                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
 
-            try {
-                URL mUrl = new URL(url);
+                // The bitmap isn't cached so download from the web
+                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                image = getClip(image);
-
-                wrapper = mCache.put(url, image);
-            } catch (Exception e) {
-
+                // Add to cache
+                result = mCache.put(url, is, null);
+            } else {
+                Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
             }
+        } catch (Exception e) {
+
         }
 
-        return wrapper;
+        return result;
     }
 
     @Override
@@ -74,7 +80,7 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
             return;
         }
 
-        holder.profilePic.setImageDrawable(result);
+        holder.profilePic.setImageBitmap(getClip(result.getBitmap()));
     }
 
     private Bitmap getClip(Bitmap currentImage) {
