@@ -40,7 +40,6 @@ import java.util.Date;
 import java.util.List;
 
 import twitter4j.DirectMessage;
-import twitter4j.IDs;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.Twitter;

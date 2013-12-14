@@ -9,10 +9,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,10 +37,7 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
-        Picasso.with(context)
-                .load(user.getProfileImageURL())
-                .transform(new CircleTransform())
-                .into(holder.picture);
+        holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
 
         holder.picture.setOnClickListener(new View.OnClickListener() {
             @Override

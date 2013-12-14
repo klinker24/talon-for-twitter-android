@@ -1,6 +1,5 @@
 package com.klinker.android.talon.settings;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;

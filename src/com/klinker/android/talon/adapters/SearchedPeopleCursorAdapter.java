@@ -1,21 +1,17 @@
 package com.klinker.android.talon.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.sq_lite.FavoriteUsersSQLiteHelper;
-import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
-import com.squareup.picasso.Picasso;
 
 public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
 
@@ -37,7 +33,7 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.screenName = (TextView) v.findViewById(R.id.screen_name);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+        holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.profile_pic);
 
         // sets up the font sizes
         holder.name.setTextSize(settings.textSize + 4);
@@ -58,11 +54,7 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 
-
-        Picasso.with(context)
-                .load(url)
-                .transform(new CircleTransform())
-                .into(holder.picture);
+        holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

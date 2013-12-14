@@ -25,7 +25,12 @@ import android.text.Spannable;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
-import com.klinker.android.talon.adapters.emoji.*;
+
+import com.klinker.android.talon.adapters.emoji.NatureEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.OtherEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.PeopleEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.ThingsEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.TransEmojiAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 
 import java.util.HashMap;

@@ -32,9 +32,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.emoji.*;
+import com.klinker.android.talon.adapters.emoji.NatureEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.OtherEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.PeopleEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.RecentEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.ThingsEmojiAdapter;
+import com.klinker.android.talon.adapters.emoji.TransEmojiAdapter;
 import com.klinker.android.talon.sq_lite.EmojiDataSource;
 import com.klinker.android.talon.sq_lite.Recent;
 import com.klinker.android.talon.utils.EmojiUtils;

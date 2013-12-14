@@ -32,7 +32,6 @@ import android.widget.RemoteViews;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.MainActivity;
-import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.TweetActivityWidget;
 
 public class WidgetProvider extends AppWidgetProvider {

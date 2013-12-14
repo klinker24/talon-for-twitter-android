@@ -4,21 +4,17 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.adapters.TimelinePagerAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.talon.utils.Utils;
 
 public class MainActivity extends DrawerActivity {
 

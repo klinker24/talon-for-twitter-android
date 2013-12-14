@@ -3,7 +3,6 @@ package com.klinker.android.talon.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
 import com.klinker.android.talon.settings.AppSettings;
 

@@ -12,10 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
     public static class ViewHolder {
         public TextView name;
         public TextView screenName;
-        public ImageView picture;
+        public NetworkedCacheableImageView picture;
         public LinearLayout background;
     }
 
@@ -72,7 +71,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.screenName = (TextView) v.findViewById(R.id.screen_name);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+        holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.profile_pic);
 
         // sets up the font sizes
         holder.name.setTextSize(settings.textSize + 4);
@@ -88,10 +87,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
-        Picasso.with(context)
-                .load(user.getProfileImageURL())
-                .transform(new CircleTransform())
-                .into(holder.picture);
+        holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

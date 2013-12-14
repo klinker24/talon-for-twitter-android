@@ -22,6 +22,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.sq_lite.Recent;
 import com.klinker.android.talon.ui.widgets.EmojiKeyboard;

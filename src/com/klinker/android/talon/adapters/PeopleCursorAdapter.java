@@ -15,11 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.manipulations.CircleTransform;
+import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.talon.ui.UserProfileActivity;
-import com.squareup.picasso.Picasso;
 
 public class PeopleCursorAdapter extends CursorAdapter {
 
@@ -33,7 +32,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public static class ViewHolder {
         public TextView name;
         public TextView screenName;
-        public ImageView picture;
+        public NetworkedCacheableImageView picture;
         public LinearLayout background;
     }
 
@@ -62,7 +61,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.screenName = (TextView) v.findViewById(R.id.screen_name);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+        holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.profile_pic);
 
         // sets up the font sizes
         holder.name.setTextSize(settings.textSize + 4);
@@ -83,11 +82,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 
-
-        Picasso.with(context)
-                .load(url)
-                .transform(new CircleTransform())
-                .into(holder.picture);
+        holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

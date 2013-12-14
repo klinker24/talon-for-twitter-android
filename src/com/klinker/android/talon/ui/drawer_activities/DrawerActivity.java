@@ -3,22 +3,18 @@ package com.klinker.android.talon.ui.drawer_activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -34,14 +30,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.listeners.MainDrawerClickListener;
-import com.klinker.android.talon.manipulations.BlurTransform;
-import com.klinker.android.talon.manipulations.CircleTransform;
 import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
@@ -54,20 +47,14 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.MainActivity;
-import com.klinker.android.talon.ui.MainActivityPopup;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
-import com.klinker.android.talon.utils.ImageUtils;
 import com.klinker.android.talon.utils.Utils;
-import com.squareup.picasso.Picasso;
 
 import org.lucasr.smoothie.AsyncListView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
 /**
@@ -321,7 +308,7 @@ public abstract class DrawerActivity extends Activity {
         RelativeLayout secondAccount = (RelativeLayout) findViewById(R.id.second_profile);
         HoloTextView name2 = (HoloTextView) findViewById(R.id.name_2);
         HoloTextView screenname2 = (HoloTextView) findViewById(R.id.screen_name_2);
-        ImageView proPic2 = (ImageView) findViewById(R.id.profile_pic_2);
+        NetworkedCacheableImageView proPic2 = (NetworkedCacheableImageView) findViewById(R.id.profile_pic_2);
 
         final int current = sharedPrefs.getInt("current_account", 1);
 
@@ -348,10 +335,8 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
                 try {
-                    Picasso.with(context)
-                            .load(sharedPrefs.getString("profile_pic_url_2", ""))
-                            .transform(new CircleTransform())
-                            .into(proPic2);
+                    proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+
                 } catch (Exception e) {
 
                 }
@@ -371,10 +356,7 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
                 try {
-                    Picasso.with(context)
-                            .load(sharedPrefs.getString("profile_pic_url_1", ""))
-                            .transform(new CircleTransform())
-                            .into(proPic2);
+                    proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null, NetworkedCacheableImageView.CIRCLE);
                 } catch (Exception e) {
 
                 }

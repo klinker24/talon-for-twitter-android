@@ -3,7 +3,6 @@ package com.klinker.android.talon.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.Calendar;
 

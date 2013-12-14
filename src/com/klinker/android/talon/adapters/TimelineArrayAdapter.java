@@ -24,8 +24,6 @@ import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.utils.Utils;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -455,7 +453,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         private ViewHolder holder;
         private long tweetId;
-        private RequestCreator rc;
         private String picUrl;
 
         public ShowPic(ViewHolder holder, long tweetId, String picUrl) {
@@ -466,8 +463,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected Boolean doInBackground(String... urls) {
             if(picUrl != null) {
-                rc = Picasso.with(context)
-                        .load(picUrl);
+
             } else {
                 return false;
             }
@@ -487,7 +483,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected void onPostExecute(Boolean display) {
             if (display) {
-                rc.into(holder.image);
+                holder.image.loadImage(picUrl, true, null);
             } else {
                 holder.image.setVisibility(View.GONE);
             }

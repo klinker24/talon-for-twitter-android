@@ -18,6 +18,7 @@ package com.klinker.android.talon.adapters.emoji;
 
 import android.content.Context;
 import android.widget.BaseAdapter;
+
 import com.klinker.android.talon.ui.widgets.EmojiKeyboard;
 
 public abstract class BaseEmojiAdapter extends BaseAdapter {

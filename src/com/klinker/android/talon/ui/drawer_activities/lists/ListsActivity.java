@@ -1,7 +1,6 @@
 package com.klinker.android.talon.ui.drawer_activities.lists;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -21,7 +20,6 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ListsArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.LoginActivity;
-import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.utils.Utils;

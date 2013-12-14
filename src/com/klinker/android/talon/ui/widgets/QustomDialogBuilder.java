@@ -2,18 +2,13 @@ package com.klinker.android.talon.ui.widgets;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.adapters.PeopleCursorAdapter;
 import com.klinker.android.talon.adapters.SearchedPeopleCursorAdapter;
 import com.klinker.android.talon.sq_lite.FollowersDataSource;
 

@@ -1,7 +1,6 @@
 package com.klinker.android.talon.ui;
 
 import android.graphics.Point;
-import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 

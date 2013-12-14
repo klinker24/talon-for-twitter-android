@@ -8,8 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 import android.provider.Settings.System;
+import android.util.Log;
 
 public class HomeContentProvider extends ContentProvider {
     static final String TAG = "HomeTimeline";
