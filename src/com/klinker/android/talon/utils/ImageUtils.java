@@ -1,40 +1,14 @@
 package com.klinker.android.talon.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.os.AsyncTask;
-
-import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
-
-import java.io.File;
-import java.net.URL;
-
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 
 public class ImageUtils {
-
-    public static void loadTwitterBackgroundBlurred(Context context, String url, NetworkedCacheableImageView iv) {
-
-        new GetBlurred(context, url, iv).execute();
-    }
-
-    public static void loadTwitterBackground(Context context, String url, NetworkedCacheableImageView iv) {
-        new GetBackground(context, url, iv).execute();
-    }
-
-    public static void loadCircleImage(Context context, String url, NetworkedCacheableImageView iv) {
-
-        new GetCircle(context, url, iv).execute();
-
-    }
 
     public static Bitmap getCircle(Bitmap currentImage) {
         Bitmap bitmap = currentImage;
@@ -265,134 +239,4 @@ public class ImageUtils {
         return (bitmap);
     }
 
-    static class GetCircle extends AsyncTask<String, Void, Bitmap> {
-
-        private Context context;
-        private String url;
-        private NetworkedCacheableImageView iv;
-
-        public GetCircle(Context context, String url, NetworkedCacheableImageView iv) {
-            this.context = context;
-            this.url = url;
-            this.iv = iv;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-
-            final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
-
-            CacheableBitmapDrawable wrapper = mCache.get(url);
-
-            if (wrapper == null) {
-
-                try {
-                    URL mUrl = new URL(url);
-
-                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                    image = getCircle(image);
-
-                    wrapper = mCache.put(url, image);
-
-                    return image;
-                } catch (Exception e) {
-
-                }
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(Bitmap image) {
-            if (image != null) {
-                iv.setImageBitmap(image);
-            }
-        }
-    }
-
-    static class GetBlurred extends AsyncTask<String, Void, Bitmap> {
-
-        private Context context;
-        private String url;
-        private NetworkedCacheableImageView iv;
-
-        public GetBlurred(Context context, String url, NetworkedCacheableImageView iv) {
-            this.context = context;
-            this.url = url;
-            this.iv = iv;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-
-            final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
-
-            CacheableBitmapDrawable wrapper = mCache.get(url);
-
-            if (wrapper == null) {
-
-                try {
-                    URL mUrl = new URL(url);
-
-                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                    image = blur(image);
-
-                    wrapper = mCache.put(url, image);
-
-                    return image;
-                } catch (Exception e) {
-
-                }
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(Bitmap image) {
-            if (image != null) {
-                iv.setImageBitmap(image);
-            }
-        }
-    }
-
-    static class GetBackground extends AsyncTask<String, Void, Bitmap> {
-
-        private Context context;
-        private String url;
-        private NetworkedCacheableImageView iv;
-
-        public GetBackground(Context context, String url, NetworkedCacheableImageView iv) {
-            this.context = context;
-            this.url = url;
-            this.iv = iv;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-
-            final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
-
-            CacheableBitmapDrawable wrapper = mCache.get(url);
-
-            if (wrapper == null) {
-
-                try {
-                    URL mUrl = new URL(url);
-
-                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-
-                    wrapper = mCache.put(url, image);
-
-                    return image;
-                } catch (Exception e) {
-
-                }
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(Bitmap image) {
-            if (image != null) {
-                iv.setImageBitmap(image);
-            }
-        }
-    }
 }

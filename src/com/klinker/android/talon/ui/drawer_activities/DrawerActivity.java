@@ -289,24 +289,14 @@ public abstract class DrawerActivity extends Activity {
         // Don't know how to do them yet with the manual caching
 
         try {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    ImageUtils.loadTwitterBackgroundBlurred(context, backgroundUrl, backgroundPic);
-                }
-            }).start();
+            backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
 
         } catch (Exception e) {
             // empty path for some reason
         }
 
         try {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    ImageUtils.loadCircleImage(context, profilePicUrl, profilePic);
-                }
-            }).start();
+            profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
 
         } catch (Exception e) {
             // empty path again
