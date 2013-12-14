@@ -42,10 +42,13 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.ImageUtils;
 import com.klinker.android.talon.utils.Tweet;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -186,42 +189,25 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public Bitmap getCachedPic(String url) {
-        CacheableBitmapDrawable wrapper = mCache.get(url);
-        if (wrapper == null) {
+        CacheableBitmapDrawable result = mCache.get(url, null);
 
-            try {
-                URL mUrl = new URL(url);
+        try {
+            if (null == result) {
+                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
 
-                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                image = getClip(image);
+                // The bitmap isn't cached so download from the web
+                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                wrapper = mCache.put(url, image);
-            } catch (Exception e) {
-
+                // Add to cache
+                result = mCache.put(url, is, null);
+            } else {
+                Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
             }
+        } catch (Exception e) {
+
         }
 
-        return wrapper.getBitmap();
+        return ImageUtils.getCircle(result.getBitmap());
     }
-
-    private Bitmap getClip(Bitmap currentImage) {
-        Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(currentImage.getWidth(),
-                currentImage.getHeight(), Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(output);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, currentImage.getWidth(),
-                currentImage.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(currentImage.getWidth() / 2,
-                currentImage.getHeight() / 2, (currentImage.getWidth() / 2) - (currentImage.getWidth() / 25), paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, null, rect, paint);
-
-        return output;
-    }
-
 }
