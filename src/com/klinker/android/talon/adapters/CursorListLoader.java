@@ -3,6 +3,7 @@ package com.klinker.android.talon.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -18,6 +19,8 @@ import com.klinker.android.talon.utils.ImageUtils;
 import org.lucasr.smoothie.SimpleItemLoader;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,26 +53,22 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
     @Override
     public CacheableBitmapDrawable loadItem(String url) {
 
-        CacheableBitmapDrawable result = mCache.get(url, null);
+        CacheableBitmapDrawable wrapper = mCache.get(url);
+        if (wrapper == null) {
 
-        try {
-            if (null == result) {
-                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
+            try {
+                URL mUrl = new URL(url);
 
-                // The bitmap isn't cached so download from the web
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                InputStream is = new BufferedInputStream(conn.getInputStream());
+                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                image = ImageUtils.getCircle(image, context);
 
-                // Add to cache
-                result = mCache.put(url, is, null);
-            } else {
-                Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
+                wrapper = mCache.put(url, image);
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
-
         }
 
-        return result;
+        return wrapper;
     }
 
     @Override
@@ -80,26 +79,6 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
             return;
         }
 
-        holder.profilePic.setImageBitmap(ImageUtils.getCircle(result.getBitmap(), context));
-    }
-
-    private Bitmap getClip(Bitmap currentImage) {
-        Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(currentImage.getWidth(),
-                currentImage.getHeight(), Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(output);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, currentImage.getWidth(),
-                currentImage.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(currentImage.getWidth() / 2,
-                currentImage.getHeight() / 2, (currentImage.getWidth() / 2) - (currentImage.getWidth() / 25), paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, null, rect, paint);
-
-        return output;
+        holder.profilePic.setImageDrawable(result);
     }
 }

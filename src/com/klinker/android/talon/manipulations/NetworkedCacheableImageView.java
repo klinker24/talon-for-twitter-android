@@ -1,6 +1,7 @@
 package com.klinker.android.talon.manipulations;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -93,8 +94,16 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
+                    Bitmap b = BitmapFactory.decodeStream(is);
+
+                    if (transform == CIRCLE) {
+                        b = ImageUtils.getCircle(b, context);
+                    } else if (transform == BLUR) {
+                        b = ImageUtils.blur(b);
+                    }
+
                     // Add to cache
-                    result = mCache.put(url, is, mDecodeOpts);
+                    result = mCache.put(url, b);
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
                 }
@@ -115,12 +124,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             try {
                 ImageView iv = mImageViewRef.get();
                 if (null != iv) {
-                    if (transform == 0)
-                        iv.setImageDrawable(result);
-                    else if (transform == CIRCLE)
-                        iv.setImageBitmap(ImageUtils.getCircle(result.getBitmap(), context));
-                    else if (transform == BLUR)
-                        iv.setImageBitmap(ImageUtils.blur(result.getBitmap()));
+                    iv.setImageDrawable(result);
                 }
 
                 if (null != mListener) {
@@ -204,11 +208,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
         if (null != wrapper) {
             // The cache has it, so just display it
-            if (transform == CIRCLE) {
-                setImageBitmap(ImageUtils.getCircle(wrapper.getBitmap(), getContext()));
-            } else { //transform is blur
-                setImageBitmap(ImageUtils.blur(wrapper.getBitmap()));
-            }
+            setImageDrawable(wrapper);
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...

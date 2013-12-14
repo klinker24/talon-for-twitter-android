@@ -187,7 +187,7 @@
                 - Hiding Action Bar\n
                 - Actionable Toast Bar\n
                 - Transparent System Bars (Android 4.4 only)\n\n
-                This setting controls all these features, it is all or nothing.</string>
+                This setting controls all these features, it is all or nothing.\n\nIt will affect scrolling performance to have this enabled.</string>
         <string name="timestamp">24-Hour Timestamp</string>
 
         <string name="theme_light">Light Theme</string>

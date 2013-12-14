@@ -484,9 +484,9 @@ public class UserProfileActivity extends Activity {
 
             profilePic.loadImage(thisUser.getOriginalProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
 
-            String url = user.getProfileBannerURL();
+            String url = user.getProfileBannerRetinaURL();
             if (url != null) {
-                background.loadImage(user.getProfileBannerURL(), false, null);
+                background.loadImage(url, false, null);
             }
 
             spinner.setVisibility(View.GONE);

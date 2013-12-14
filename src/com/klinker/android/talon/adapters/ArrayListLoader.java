@@ -2,6 +2,7 @@ package com.klinker.android.talon.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -59,26 +60,22 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
 
     @Override
     public CacheableBitmapDrawable loadItem(String url) {
-        CacheableBitmapDrawable result = mCache.get(url, null);
+        CacheableBitmapDrawable wrapper = mCache.get(url);
+        if (wrapper == null) {
 
-        try {
-            if (null == result) {
-                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
+            try {
+                URL mUrl = new URL(url);
 
-                // The bitmap isn't cached so download from the web
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                InputStream is = new BufferedInputStream(conn.getInputStream());
+                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                image = ImageUtils.getCircle(image, context);
 
-                // Add to cache
-                result = mCache.put(url, is, null);
-            } else {
-                Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
+                wrapper = mCache.put(url, image);
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
-
         }
 
-        return result;
+        return wrapper;
     }
 
     @Override
