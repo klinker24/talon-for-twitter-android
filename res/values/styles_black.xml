@@ -39,6 +39,7 @@ limitations under the License.
         <item name="textShadowColor">@android:color/black</item>
         <item name="windowBackground">@android:color/black</item>
         <item name="emojiDivider">@color/emoji_divider_dark</item>
+        <item name="circle_border">@color/circle_outline_dark</item>
 
         <item name="myTweetBackground">@drawable/sent_background_black</item>
         <item name="tweetBackground">@drawable/received_background_black</item>

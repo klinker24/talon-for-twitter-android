@@ -1,31 +1,54 @@
 package com.klinker.android.talon.utils;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.util.TypedValue;
+
+import com.klinker.android.talon.R;
 
 
 public class ImageUtils {
 
-    public static Bitmap getCircle(Bitmap currentImage) {
+    public static Bitmap getCircle(Bitmap currentImage, Context context) {
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
+
         Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(currentImage.getWidth(),
-                currentImage.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(scale,
+                scale, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, currentImage.getWidth(),
-                currentImage.getHeight());
+        Rect rect = new Rect(0, 0, scale,
+                scale);
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(currentImage.getWidth() / 2,
-                currentImage.getHeight() / 2, (currentImage.getWidth() / 2) - (currentImage.getWidth() / 25), paint);
+        canvas.drawCircle(scale / 2,
+                scale / 2, (scale / 2) - (scale / 25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, null, rect, paint);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.contact_picture_border));
+
+        try {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circle_border});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            paint.setColor(context.getResources().getColor(resource));
+        } catch (Exception e) {
+            paint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+        }
+
+        canvas.drawCircle(scale / 2,
+                scale / 2, (scale / 2) - (scale / 25), paint);
+
+
 
         return output;
     }

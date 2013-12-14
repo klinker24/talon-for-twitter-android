@@ -196,6 +196,6 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         }
 
-        return ImageUtils.getCircle(result.getBitmap());
+        return ImageUtils.getCircle(result.getBitmap(), mContext);
     }
 }

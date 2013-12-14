@@ -19,7 +19,6 @@
             android:layout_height="48dp"
             android:id="@+id/profile_pic"
             android:src="?circleBorder"
-            android:background="?circleBorder"
             android:minHeight="48dp" android:minWidth="48dp"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="48dp" android:maxHeight="48dp"

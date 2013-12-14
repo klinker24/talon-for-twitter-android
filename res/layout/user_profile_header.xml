@@ -90,7 +90,6 @@
         android:layout_below="@+id/background_image"
         android:id="@+id/profile_pic"
         android:src="?circleBorder"
-        android:background="?circleBorder"
         android:minHeight="96dp" android:minWidth="96dp"
         android:scaleType="fitCenter" android:adjustViewBounds="true"
         android:maxWidth="96dp" android:maxHeight="96dp"

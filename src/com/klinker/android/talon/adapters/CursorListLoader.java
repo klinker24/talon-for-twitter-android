@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Adapter;
 
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.talon.utils.ImageUtils;
 
 import org.lucasr.smoothie.SimpleItemLoader;
 
@@ -79,7 +80,7 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
             return;
         }
 
-        holder.profilePic.setImageBitmap(getClip(result.getBitmap()));
+        holder.profilePic.setImageBitmap(ImageUtils.getCircle(result.getBitmap(), context));
     }
 
     private Bitmap getClip(Bitmap currentImage) {

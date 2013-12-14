@@ -23,7 +23,6 @@ limitations under the License.
     <color name="holo_blue_alpha">#4433B5E5</color>
     <color name="pressed_white">#55ffffff</color>
     <color name="toast_color">#DDFF8800</color>
-
     <color name="image_darken">#25222222</color>
 
     <!-- Light Theme -->
@@ -34,6 +33,7 @@ limitations under the License.
     <color name="light_date">#555555</color>
     <color name="light_drawer">#ffffff</color>
     <color name="emoji_divider_light">#22333333</color>
+    <color name="circle_outline_light">#AA444444</color>
 
     <!-- Dark Theme -->
     <color name="dark_background">#262626</color>
@@ -42,5 +42,6 @@ limitations under the License.
     <color name="dark_date">#989898</color>
     <color name="dark_drawer">#292929</color>
     <color name="emoji_divider_dark">#22000000</color>
+    <color name="circle_outline_dark">#AAAAAAAA</color>
 
 </resources>

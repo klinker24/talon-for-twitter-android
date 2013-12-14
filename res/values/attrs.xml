@@ -26,6 +26,7 @@ limitations under the License.
     <attr name="headerTextColor" format="color"/>
     <attr name="windowBackground" format="color"/>
     <attr name="emojiDivider" format="color"/>
+    <attr name="circle_border" format="color"/>
 
     <!-- Drawables -->
     <attr name="myTweetBackground" format="reference"/>

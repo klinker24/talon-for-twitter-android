@@ -482,7 +482,7 @@ public class UserProfileActivity extends Activity {
 
             final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
-            profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            profilePic.loadImage(thisUser.getOriginalProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
 
             String url = user.getProfileBannerURL();
             if (url != null) {

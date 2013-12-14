@@ -51,9 +51,11 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         private final BitmapFactory.Options mDecodeOpts;
 
         private int transform;
+        private Context context;
 
-        ImageUrlAsyncTask(ImageView imageView, BitmapLruCache cache,
+        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache,
                           BitmapFactory.Options decodeOpts, OnImageLoadedListener listener) {
+            this.context = context;
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             mListener = listener;
@@ -61,8 +63,9 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             transform = 0;
         }
 
-        ImageUrlAsyncTask(ImageView imageView, BitmapLruCache cache,
+        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache,
                           BitmapFactory.Options decodeOpts, OnImageLoadedListener listener, int transform) {
+            this.context = context;
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             mListener = listener;
@@ -114,7 +117,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 if (transform == 0)
                     iv.setImageDrawable(result);
                 else if (transform == CIRCLE)
-                    iv.setImageBitmap(ImageUtils.getCircle(result.getBitmap()));
+                    iv.setImageBitmap(ImageUtils.getCircle(result.getBitmap(), context));
                 else if (transform == BLUR)
                     iv.setImageBitmap(ImageUtils.blur(result.getBitmap()));
             }
@@ -167,7 +170,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 //decodeOpts.inSampleSize = 2;
             }
 
-            mCurrentTask = new ImageUrlAsyncTask(this, mCache, decodeOpts, listener, 0);
+            mCurrentTask = new ImageUrlAsyncTask(getContext(), this, mCache, decodeOpts, listener, 0);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -198,7 +201,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         if (null != wrapper) {
             // The cache has it, so just display it
             if (transform == CIRCLE) {
-                setImageBitmap(ImageUtils.getCircle(wrapper.getBitmap()));
+                setImageBitmap(ImageUtils.getCircle(wrapper.getBitmap(), getContext()));
             } else { //transform is blur
                 setImageBitmap(ImageUtils.blur(wrapper.getBitmap()));
             }
@@ -214,7 +217,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 //decodeOpts.inSampleSize = 2;
             }
 
-            mCurrentTask = new ImageUrlAsyncTask(this, mCache, decodeOpts, listener, transform);
+            mCurrentTask = new ImageUrlAsyncTask(getContext(), this, mCache, decodeOpts, listener, transform);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
