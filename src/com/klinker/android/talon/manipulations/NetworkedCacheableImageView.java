@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.utils.ImageUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -32,17 +33,13 @@ import uk.co.senab.bitmapcache.CacheableImageView;
  */
 public class NetworkedCacheableImageView extends CacheableImageView {
 
-    public static final int BLUR = 0;
-    public static final int CIRCLE = 1;
+    public static final int BLUR = 1;
+    public static final int CIRCLE = 2;
 
     public interface OnImageLoadedListener {
         void onImageLoaded(CacheableBitmapDrawable result);
     }
 
-    /**
-     * This task simply fetches an Bitmap from the specified URL and wraps it in a wrapper. This
-     * implementation is NOT 'best practice' or production ready code.
-     */
     private static class ImageUrlAsyncTask
             extends AsyncTask<String, Void, CacheableBitmapDrawable> {
 
@@ -53,12 +50,24 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
         private final BitmapFactory.Options mDecodeOpts;
 
+        private int transform;
+
         ImageUrlAsyncTask(ImageView imageView, BitmapLruCache cache,
                           BitmapFactory.Options decodeOpts, OnImageLoadedListener listener) {
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             mListener = listener;
             mDecodeOpts = decodeOpts;
+            transform = 0;
+        }
+
+        ImageUrlAsyncTask(ImageView imageView, BitmapLruCache cache,
+                          BitmapFactory.Options decodeOpts, OnImageLoadedListener listener, int transform) {
+            mCache = cache;
+            mImageViewRef = new WeakReference<ImageView>(imageView);
+            mListener = listener;
+            mDecodeOpts = decodeOpts;
+            this.transform = transform;
         }
 
         @Override
@@ -102,7 +111,12 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
             ImageView iv = mImageViewRef.get();
             if (null != iv) {
-                iv.setImageDrawable(result);
+                if (transform == 0)
+                    iv.setImageDrawable(result);
+                else if (transform == CIRCLE)
+                    iv.setImageBitmap(ImageUtils.getCircle(result.getBitmap()));
+                else if (transform == BLUR)
+                    iv.setImageBitmap(ImageUtils.blur(result.getBitmap()));
             }
 
             if (null != mListener) {
@@ -153,7 +167,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 //decodeOpts.inSampleSize = 2;
             }
 
-            mCurrentTask = new ImageUrlAsyncTask(this, mCache, decodeOpts, listener);
+            mCurrentTask = new ImageUrlAsyncTask(this, mCache, decodeOpts, listener, 0);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -183,7 +197,11 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
         if (null != wrapper) {
             // The cache has it, so just display it
-            setImageDrawable(wrapper);
+            if (transform == CIRCLE) {
+                setImageBitmap(ImageUtils.getCircle(wrapper.getBitmap()));
+            } else { //transform is blur
+                setImageBitmap(ImageUtils.blur(wrapper.getBitmap()));
+            }
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
@@ -196,7 +214,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 //decodeOpts.inSampleSize = 2;
             }
 
-            mCurrentTask = new ImageUrlAsyncTask(this, mCache, decodeOpts, listener);
+            mCurrentTask = new ImageUrlAsyncTask(this, mCache, decodeOpts, listener, transform);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

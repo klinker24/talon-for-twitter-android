@@ -519,7 +519,7 @@ public class TweetActivity extends Activity {
             }
         });
 
-        ImageUtils.loadCircleImage(context, proPic, profilePic);
+        profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
         new GetRetweetCount(retweetCount, tweetId).execute();

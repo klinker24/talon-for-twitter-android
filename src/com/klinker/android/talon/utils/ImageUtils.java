@@ -36,7 +36,7 @@ public class ImageUtils {
 
     }
 
-    private static Bitmap getCircle(Bitmap currentImage) {
+    public static Bitmap getCircle(Bitmap currentImage) {
         Bitmap bitmap = currentImage;
         Bitmap output = Bitmap.createBitmap(currentImage.getWidth(),
                 currentImage.getHeight(), Bitmap.Config.ARGB_8888);
