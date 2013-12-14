@@ -227,27 +227,9 @@ public class UserProfileActivity extends Activity {
         actionBar.setTitle(name);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
-        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
-
         tweetsBtn = (Button) findViewById(R.id.tweets);
         followersBtn = (Button) findViewById(R.id.followers);
         followingBtn = (Button) findViewById(R.id.following);
-
-        if(!proPic.equals("")) {
-            profilePic.loadImage(proPic, true, null, NetworkedCacheableImageView.CIRCLE);
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        actionBar.setIcon(profilePic.getDrawable());
-                    }
-                });
-            }
-        }, 1000);
 
         background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
@@ -349,19 +331,11 @@ public class UserProfileActivity extends Activity {
     }
 
     class GetData extends AsyncTask<String, Void, User> {
-
-        private long tweetId;
-        private TextView numTweets;
-        private TextView numFollowers;
-        private TextView numFollowing;
         private AsyncListView listView;
         private TextView statement;
 
         public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, AsyncListView listView) {
-            this.tweetId = tweetId;
-            this.numFollowers = numFollowers;
-            this.numFollowing = numFollowing;
-            this.numTweets = numTweets;
+
             this.listView = listView;
             this.statement = statement;
         }
@@ -386,32 +360,6 @@ public class UserProfileActivity extends Activity {
             if (user != null) {
 
                 thisUser = user;
-
-                String url = user.getProfileBannerURL();
-                if (url != null) {
-                    background.loadImage(user.getProfileBannerURL(), false, null);
-                }
-
-                // this will be fired if they come from a tweet activity link
-                if(proPic.equals("")) {
-                    actionBar.setTitle(thisUser.getName());
-
-                    final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
-
-                    profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    actionBar.setIcon(profilePic.getDrawable());
-                                }
-                            });
-                        }
-                    }, 1000);
-                }
 
                 new GetTimeline(user, listView).execute();
                 new GetActionBarInfo(user).execute();
@@ -506,44 +454,45 @@ public class UserProfileActivity extends Activity {
             if (users != null) {
                 final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
                 final int firstVisible = listView.getFirstVisiblePosition();
-                runOnUiThread(new Runnable() {
+                listView.setItemManager(null);
+
+                if (shouldIncrement) {
+                    listView.setAdapter(people);
+                    refreshes++;
+                } else {
+                    listView.setAdapter(people);
+                }
+
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        listView.setItemManager(null);
+                        listView.setSelection(firstVisible);
+                    }
+                }, 100);
 
-                        if (shouldIncrement) {
-                            listView.setAdapter(people);
-                            refreshes++;
-                        } else {
-                            listView.setAdapter(people);
+                listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                    @Override
+                    public boolean onPreDraw() {
+                        if(listView.getFirstVisiblePosition() == firstVisible) {
+                            listView.getViewTreeObserver().removeOnPreDrawListener(this);
+                            return true;
                         }
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                listView.setSelection(firstVisible);
-                            }
-                        }, 100);
-
-                        listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-                            @Override
-                            public boolean onPreDraw() {
-                                if(listView.getFirstVisiblePosition() == firstVisible) {
-                                    listView.getViewTreeObserver().removeOnPreDrawListener(this);
-                                    return true;
-                                }
-                                else {
-                                    return false;
-                                }
-                            }
-                        });
+                        else {
+                            return false;
+                        }
                     }
                 });
             }
 
-            String url = thisUser.getProfileBannerMobileURL();
-            background.loadImage(url == null ? "" : url, false, null);
+            final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+
+            profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+
+            String url = user.getProfileBannerURL();
+            if (url != null) {
+                background.loadImage(user.getProfileBannerURL(), false, null);
+            }
 
             spinner.setVisibility(View.GONE);
         }
@@ -591,44 +540,46 @@ public class UserProfileActivity extends Activity {
             if (users != null) {
                 final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
                 final int firstVisible = listView.getFirstVisiblePosition();
-                runOnUiThread(new Runnable() {
+                listView.setItemManager(null);
+
+                if (shouldIncrement) {
+                    listView.setAdapter(people);
+                    refreshes++;
+                } else {
+                    listView.setAdapter(people);
+                }
+
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        listView.setItemManager(null);
+                        listView.setSelection(firstVisible);
+                    }
+                }, 100);
 
-                        if (shouldIncrement) {
-                            listView.setAdapter(people);
-                            refreshes++;
-                        } else {
-                            listView.setAdapter(people);
+                listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                    @Override
+                    public boolean onPreDraw() {
+                        if(listView.getFirstVisiblePosition() == firstVisible) {
+                            listView.getViewTreeObserver().removeOnPreDrawListener(this);
+                            return true;
                         }
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                listView.setSelection(firstVisible);
-                            }
-                        }, 100);
-
-                        listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-                            @Override
-                            public boolean onPreDraw() {
-                                if(listView.getFirstVisiblePosition() == firstVisible) {
-                                    listView.getViewTreeObserver().removeOnPreDrawListener(this);
-                                    return true;
-                                }
-                                else {
-                                    return false;
-                                }
-                            }
-                        });
+                        else {
+                            return false;
+                        }
                     }
                 });
+
             }
 
-            String url = thisUser.getProfileBannerMobileURL();
-            background.loadImage(url == null ? "" : url, false, null);
+            final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+
+            profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+
+            String url = user.getProfileBannerURL();
+            if (url != null) {
+                background.loadImage(user.getProfileBannerURL(), false, null);
+            }
 
             spinner.setVisibility(View.GONE);
         }
@@ -671,17 +622,32 @@ public class UserProfileActivity extends Activity {
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
                 final ProfilesArrayAdapter adapter = new ProfilesArrayAdapter(context, statuses, screenName);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setItemManager(builder.build());
-                        listView.setAdapter(adapter);
-                    }
-                });
+                listView.setItemManager(builder.build());
+                listView.setAdapter(adapter);
             }
 
-            String url = thisUser.getProfileBannerMobileURL();
-            background.loadImage(url == null ? "" : url, false, null);
+            final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+
+            profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+
+            String url = user.getProfileBannerURL();
+            if (url != null) {
+                background.loadImage(user.getProfileBannerURL(), false, null);
+            }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            actionBar.setIcon(profilePic.getDrawable());
+                        }
+                    });
+                }
+            }, 1000);
+
+            actionBar.setTitle(thisUser.getName());
 
             spinner.setVisibility(View.GONE);
         }
