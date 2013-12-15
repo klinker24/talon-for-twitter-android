@@ -209,7 +209,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                if (firstVisibleItem == 0 && unread > 0) {
+                /*if (firstVisibleItem == 0 && unread > 0) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -219,7 +219,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }).start();
 
                     //Log.v("marking_read", "at top of list");
-                }
+                }*/
 
                 if (settings.uiExtras) {
                     if (firstVisibleItem != 0) {

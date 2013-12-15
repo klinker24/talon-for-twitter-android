@@ -193,7 +193,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                if (firstVisibleItem == 0 && unread > 0) {
+                /*if (firstVisibleItem == 0 && unread > 0) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -201,7 +201,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                             unread = 0;
                         }
                     }).start();
-                }
+                }*/
 
                 if (settings.uiExtras) {
                     // show and hide the action bar
