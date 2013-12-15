@@ -503,12 +503,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             try {
                 long tweetId = Long.parseLong(urls[0]);
-                twitter.destroyDirectMessage(tweetId);
 
                 DMDataSource source = new DMDataSource(context);
                 source.open();
                 source.deleteTweet(tweetId);
                 source.close();
+
+                twitter.destroyDirectMessage(tweetId);
 
                 return true;
             } catch (TwitterException e) {
