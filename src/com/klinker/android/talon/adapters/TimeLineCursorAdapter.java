@@ -180,7 +180,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", otherUrl);
+                        viewTweet.putExtra("webpage", holder.image.getVisibility() == View.VISIBLE ? picUrl : otherUrl);
                         viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
@@ -218,7 +218,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", otherUrl);
+                        viewTweet.putExtra("webpage", holder.image.getVisibility() == View.VISIBLE ? picUrl : otherUrl);
                         viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);

@@ -1,3 +1,7 @@
+Version 0.70:<br/><br/>
+    &#8226; Instagram pictures will now be viewable like twitter ones<br/><br/>
+<br/>
+
 Version 0.60:<br/><br/>
     &#8226; Optimized caching for less data usage and more speed<br/>
     &#8226; Tons of cleanup on the images<br/>
