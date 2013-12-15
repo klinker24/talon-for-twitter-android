@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.klinker.android.talon.utils.HtmlUtils;
+
 import twitter4j.DirectMessage;
+import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
+import twitter4j.UserMentionEntity;
 
 public class DMDataSource {
 
@@ -35,7 +39,7 @@ public class DMDataSource {
         long time = status.getCreatedAt().getTime();
 
         values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(DMSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(DMSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
         values.put(DMSQLiteHelper.COLUMN_ID, status.getId());
         values.put(DMSQLiteHelper.COLUMN_NAME, status.getSender().getName());
         values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getBiggerProfileImageURL());

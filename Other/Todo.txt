@@ -13,7 +13,8 @@
     - popup :/
 
 - Main TODO:
-    - think of other database columns
+    - think of other database columns (user entities, hashtags)
     - limit cache option maybe
     - redo notifications
+    - fix startup stuff (not showing profile or name or anything in drawer)
 

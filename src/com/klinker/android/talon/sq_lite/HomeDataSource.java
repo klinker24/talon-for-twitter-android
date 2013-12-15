@@ -5,9 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.klinker.android.talon.utils.HtmlUtils;
+
+import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
+import twitter4j.UserMentionEntity;
 
 public class HomeDataSource {
 
@@ -43,7 +48,7 @@ public class HomeDataSource {
         }
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
@@ -73,7 +78,7 @@ public class HomeDataSource {
         }
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());

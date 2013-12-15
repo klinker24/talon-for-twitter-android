@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.klinker.android.talon.utils.HtmlUtils;
+
+import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
+import twitter4j.UserMentionEntity;
 
 public class MentionsDataSource {
 
@@ -38,7 +42,7 @@ public class MentionsDataSource {
         long time = status.getCreatedAt().getTime();
 
         values.put(MentionsSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(MentionsSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(MentionsSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
         values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
@@ -63,7 +67,7 @@ public class MentionsDataSource {
         long time = status.getCreatedAt().getTime();
 
         values.put(MentionsSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(MentionsSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(MentionsSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
         values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());

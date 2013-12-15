@@ -19,6 +19,8 @@ public class DMSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TIME = "time";
     public static final String COLUMN_PIC_URL = "pic_url";
     public static final String COLUMN_RETWEETER = "retweeter";
+    public static final String COLUMN_HASHTAGS = "hashtags";
+    public static final String COLUMN_USERS = "users";
 
     private static final String DATABASE_NAME = "direct_messages.db";
     private static final int DATABASE_VERSION = 1;
@@ -35,7 +37,9 @@ public class DMSQLiteHelper extends SQLiteOpenHelper {
             + " text url of pic, " + COLUMN_SCREEN_NAME
             + " text user screen, " + COLUMN_TIME
             + " integer time, " + COLUMN_PIC_URL
-            + " text pic url, " + COLUMN_RETWEETER
+            + " text pic url, " + COLUMN_HASHTAGS
+            + " text hashtags, " + COLUMN_USERS
+            + " text users, " + COLUMN_RETWEETER
             + " text original name);";
 
     public DMSQLiteHelper(Context context) {

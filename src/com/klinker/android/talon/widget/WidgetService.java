@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -86,7 +87,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         try {
             Log.v("talon_widget", "starting getviewat");
             card.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).getName());
-            card.setTextViewText(R.id.contactText, mWidgetItems.get(arg0).getTweet());
+            card.setTextViewText(R.id.contactText, Html.fromHtml(mWidgetItems.get(arg0).getTweet()));
             final int arg = arg0;
 
             card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg).getPicUrl()));
