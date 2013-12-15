@@ -134,6 +134,8 @@ public class HtmlUtils {
     }
 
     public static String removeColorHtml(String text) {
-        return "";
+        text = text.replaceAll("<font color='#FF8800'>", "");
+        text = text.replaceAll("</font>", "");
+        return text;
     }
 }

@@ -61,6 +61,7 @@ import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.EmojiUtils;
+import com.klinker.android.talon.utils.HtmlUtils;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -1049,9 +1050,11 @@ public class TweetActivity extends Activity {
     }
 
     private Intent getShareIntent() {
+        String text1 = "\"@" + screenName + ": " + tweet + "\" ";
+        text1 = HtmlUtils.removeColorHtml(text1);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, tweet);
+        intent.putExtra(Intent.EXTRA_TEXT, text1);
         return intent;
     }
 
@@ -1095,14 +1098,14 @@ public class TweetActivity extends Activity {
                 return true;
 
             case R.id.menu_share:
-                String message = tweet;
-                message = message.replaceAll("</font>", "");
-                message = message.replaceAll("<font color='#FF8800'>", "");
+                String text1 = "\"@" + screenName + ": " + tweet + "\" ";
+                text1 = HtmlUtils.removeColorHtml(text1);
+                Log.v("my_text_on_share", text1);
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, message);
+                share.putExtra(Intent.EXTRA_TEXT, text1);
 
-                startActivity(Intent.createChooser(share, getResources().getString(R.string.menu_share)));
+                startActivity(share);
                 return true;
 
             case R.id.menu_copy_text:
@@ -1135,8 +1138,7 @@ public class TweetActivity extends Activity {
 
                 String text = "\"@" + screenName + ": " + tweet + "\" ";
 
-                text = text.replaceAll("</font>", "");
-                text = text.replaceAll("<font color='#FF8800'>", "");
+                text = HtmlUtils.removeColorHtml(text);
 
                 Intent quote = new Intent(context, ComposeActivity.class);
                 quote.putExtra("user", text);
