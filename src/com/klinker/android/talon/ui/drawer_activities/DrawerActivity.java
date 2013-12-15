@@ -56,10 +56,6 @@ import org.lucasr.smoothie.AsyncListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
-/**
- * Created by luke on 11/28/13.
- */
 public abstract class DrawerActivity extends Activity {
 
     public AppSettings settings;
@@ -409,6 +405,10 @@ public abstract class DrawerActivity extends Activity {
             drawerStatusBar.setVisibility(View.VISIBLE);
 
             statusBar.setVisibility(View.VISIBLE);
+        }
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 

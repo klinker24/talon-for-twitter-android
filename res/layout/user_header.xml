@@ -24,7 +24,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="55dp"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
         <View android:id="@+id/divider"
               android:background="@android:color/white"
