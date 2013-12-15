@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -178,25 +179,21 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public Bitmap getCachedPic(String url) {
-        CacheableBitmapDrawable result = mCache.get(url, null);
+        CacheableBitmapDrawable wrapper = mCache.get(url);
+        if (wrapper == null) {
 
-        try {
-            if (null == result) {
-                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
+            try {
+                URL mUrl = new URL(url);
 
-                // The bitmap isn't cached so download from the web
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                InputStream is = new BufferedInputStream(conn.getInputStream());
+                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                image = ImageUtils.getCircle(image, mContext);
 
-                // Add to cache
-                result = mCache.put(url, is, null);
-            } else {
-                Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
+                wrapper = mCache.put(url, image);
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
-
         }
 
-        return ImageUtils.getCircle(result.getBitmap(), mContext);
+        return wrapper.getBitmap();
     }
 }
