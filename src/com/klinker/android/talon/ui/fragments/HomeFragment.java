@@ -401,16 +401,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     Log.d("Twitter Update Error", e.getMessage());
                 }
 
-                if (settings.timelineRefresh != 0) { // user only wants manual
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-                    long now = new Date().getTime();
-                    long alarm = now + settings.timelineRefresh;
+                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-                    PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+                long now = new Date().getTime();
+                long alarm = now + settings.timelineRefresh;
 
+                PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+                if (settings.timelineRefresh != 0)
                     am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
-                }
+                else
+                    am.cancel(pendingIntent);
+
 
                 return null;
             }

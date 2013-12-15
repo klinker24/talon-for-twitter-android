@@ -309,18 +309,21 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     Log.d("Twitter Update Error", e.getMessage());
                 }
 
-                if (settings.dmRefresh != 0) { // user only wants manual
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-                    long now = new Date().getTime();
-                    long alarm = now + settings.dmRefresh;
+                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-                    Log.v("alarm_date", "dircet message " + new Date(alarm).toString());
+                long now = new Date().getTime();
+                long alarm = now + settings.dmRefresh;
 
-                    PendingIntent pendingIntent = PendingIntent.getService(context, DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
+                Log.v("alarm_date", "direct message " + new Date(alarm).toString());
 
+                PendingIntent pendingIntent = PendingIntent.getService(context, DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
+
+                if (settings.dmRefresh != 0)
                     am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent);
-                }
+                else
+                    am.cancel(pendingIntent);
+
 
                 return null;
             }

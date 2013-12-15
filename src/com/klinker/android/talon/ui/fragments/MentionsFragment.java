@@ -342,16 +342,18 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     Log.d("Twitter Update Error", e.getMessage());
                 }
 
-                if (settings.mentionsRefresh != 0) {
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-                    long now = new Date().getTime();
-                    long alarm = now + settings.mentionsRefresh;
+                long now = new Date().getTime();
+                long alarm = now + settings.mentionsRefresh;
 
-                    PendingIntent pendingIntent = PendingIntent.getService(context, MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
+                PendingIntent pendingIntent = PendingIntent.getService(context, MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
 
+                if (settings.mentionsRefresh != 0)
                     am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.mentionsRefresh, pendingIntent);
-                }
+                else
+                    am.cancel(pendingIntent);
+
 
                 return null;
             }
