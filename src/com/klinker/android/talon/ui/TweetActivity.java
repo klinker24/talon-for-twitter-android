@@ -310,7 +310,7 @@ public class TweetActivity extends Activity {
                     s.replaceAll("!", "");
                     s.replaceAll("\"", "");
 
-                    if(webpage == null) {
+                    if(webpage.equals("")) {
                         s = s.replaceAll("</font>", "");
                         s = s.substring(s.indexOf("h"));
                         Log.v("webpage_string", s);
@@ -323,7 +323,7 @@ public class TweetActivity extends Activity {
         }
 
         // If there is a web page that isn't a picture already loaded
-        if (webpage != null && !picture) {
+        if (!webpage.equals("") && !picture) {
             /*switchViews.setVisibility(View.VISIBLE);
             switchViews.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -994,7 +994,7 @@ public class TweetActivity extends Activity {
                 // none and it got the null object
             }
 
-            if(!picture && webpage == null) {
+            if(!picture && webpage.equals("")) {
                 listView.setVisibility(View.VISIBLE);
             }
         }
