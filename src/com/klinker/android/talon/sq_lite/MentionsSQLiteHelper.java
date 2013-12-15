@@ -18,6 +18,7 @@ public class MentionsSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRO_PIC = "profile_pic";
     public static final String COLUMN_SCREEN_NAME = "screen_name";
     public static final String COLUMN_TIME = "time";
+    public static final String COLUMN_URL = "other_url";
     public static final String COLUMN_PIC_URL = "pic_url";
     public static final String COLUMN_RETWEETER = "retweeter";
     public static final String COLUMN_HASHTAGS = "hashtags";
@@ -38,7 +39,8 @@ public class MentionsSQLiteHelper extends SQLiteOpenHelper {
             + " text users name, " + COLUMN_PRO_PIC
             + " text url of pic, " + COLUMN_SCREEN_NAME
             + " text user screen, " + COLUMN_TIME
-            + " integer time, " + COLUMN_PIC_URL
+            + " integer time, " + COLUMN_URL
+            + " text other url, " + COLUMN_PIC_URL
             + " text pic url, " + COLUMN_HASHTAGS
             + " text hashtags, " + COLUMN_USERS
             + " text users, " + COLUMN_RETWEETER

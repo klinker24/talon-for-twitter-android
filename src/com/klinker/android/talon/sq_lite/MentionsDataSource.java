@@ -21,7 +21,7 @@ public class MentionsDataSource {
     public String[] allColumns = {MentionsSQLiteHelper.COLUMN_ID, MentionsSQLiteHelper.COLUMN_UNREAD, MentionsSQLiteHelper.COLUMN_TWEET_ID, MentionsSQLiteHelper.COLUMN_ACCOUNT, MentionsSQLiteHelper.COLUMN_TYPE,
             MentionsSQLiteHelper.COLUMN_TEXT, MentionsSQLiteHelper.COLUMN_NAME, MentionsSQLiteHelper.COLUMN_PRO_PIC,
             MentionsSQLiteHelper.COLUMN_SCREEN_NAME, MentionsSQLiteHelper.COLUMN_TIME, MentionsSQLiteHelper.COLUMN_PIC_URL,
-            MentionsSQLiteHelper.COLUMN_RETWEETER };
+            MentionsSQLiteHelper.COLUMN_RETWEETER, MentionsSQLiteHelper.COLUMN_URL };
 
     public MentionsDataSource(Context context) {
         dbHelper = new MentionsSQLiteHelper(context);
@@ -41,8 +41,13 @@ public class MentionsDataSource {
         long id = status.getId();
         long time = status.getCreatedAt().getTime();
 
+        String[] html = HtmlUtils.getHtmlStatus(status);
+        String media = html[1];
+        String text = html[0];
+        String otherUrl = html[2];
+
         values.put(MentionsSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(MentionsSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
+        values.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
@@ -50,12 +55,9 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
         values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
         values.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
-
-        MediaEntity[] entities = status.getMediaEntities();
-
-        if (entities.length > 0) {
-            values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
-        }
+        values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, media);
+        values.put(MentionsSQLiteHelper.COLUMN_URL, otherUrl);
+        values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, media);
 
         database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
     }
@@ -66,8 +68,13 @@ public class MentionsDataSource {
         long id = status.getId();
         long time = status.getCreatedAt().getTime();
 
+        String[] html = HtmlUtils.getHtmlStatus(status);
+        String media = html[1];
+        String text = html[0];
+        String otherUrl = html[2];
+
         values.put(MentionsSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(MentionsSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
+        values.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
@@ -75,12 +82,8 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
         values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
         values.put(MentionsSQLiteHelper.COLUMN_UNREAD, 1);
-
-        MediaEntity[] entities = status.getMediaEntities();
-
-        if (entities.length > 0) {
-            values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
-        }
+        values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, media);
+        values.put(MentionsSQLiteHelper.COLUMN_URL, otherUrl);
 
         database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
     }

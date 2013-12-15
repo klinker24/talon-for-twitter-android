@@ -156,6 +156,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         final String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
         final long longTime = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
+        final String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
 
         String retweeter;
         try {
@@ -179,7 +180,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", picUrl);
+                        viewTweet.putExtra("webpage", otherUrl);
                         viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
@@ -217,7 +218,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", picUrl);
+                        viewTweet.putExtra("webpage", otherUrl);
                         viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
@@ -314,9 +315,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (matcher.find()) {
 
-            holder.image.loadImage(picUrl == null ? "" : picUrl, false, null);
+            Log.v("pic_url", picUrl);
+            if (!picUrl.equals(""))
+                holder.image.loadImage(picUrl, false, null);
 
-            if (picUrl == null) {
+            if (picUrl.equals("")) {
                 holder.image.setVisibility(View.GONE);
             } else {
                 holder.image.setVisibility(View.VISIBLE);

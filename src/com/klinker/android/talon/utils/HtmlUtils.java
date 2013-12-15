@@ -1,13 +1,17 @@
 package com.klinker.android.talon.utils;
 
+import android.util.Log;
+
 import twitter4j.DirectMessage;
 import twitter4j.HashtagEntity;
+import twitter4j.MediaEntity;
 import twitter4j.Status;
+import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
 public class HtmlUtils {
 
-    public static String getHtmlStatus(Status status) {
+    public static String[] getHtmlStatus(Status status) {
         UserMentionEntity[] users = status.getUserMentionEntities();
         String mUsers = "";
 
@@ -22,8 +26,30 @@ public class HtmlUtils {
             mHashtags += hashtagEntity.getText() + "  ";
         }
 
+        URLEntity[] urls = status.getURLEntities();
+        String expandedUrls = "";
+        String compressedUrls = "";
+
+        for (URLEntity entity : urls) {
+            expandedUrls += entity.getExpandedURL() + "  ";
+            compressedUrls += entity.getURL() + "  ";
+        }
+
+        MediaEntity[] medias = status.getMediaEntities();
+        String mediaExp = "";
+        String mediaComp = "";
+
+        for (MediaEntity e : medias) {
+            mediaComp += e.getURL() + "  ";
+            mediaExp += e.getExpandedURL() + "  ";
+        }
+
         String[] sUsers;
         String[] sHashtags;
+        String[] sExpandedUrls;
+        String[] sCompressedUrls;
+        String[] sMediaExp;
+        String[] sMediaComp;
 
         try {
             sUsers = mUsers.split("  ");
@@ -35,6 +61,30 @@ public class HtmlUtils {
             sHashtags = mHashtags.split("  ");
         } catch (Exception e) {
             sHashtags = new String[0];
+        }
+
+        try {
+            sCompressedUrls = compressedUrls.split("  ");
+        } catch (Exception e) {
+            sCompressedUrls = new String[0];
+        }
+
+        try {
+            sExpandedUrls = expandedUrls.split("  ");
+        } catch (Exception e) {
+            sExpandedUrls = new String[0];
+        }
+
+        try {
+            sMediaComp = mediaComp.split("  ");
+        } catch (Exception e) {
+            sMediaComp = new String[0];
+        }
+
+        try {
+            sMediaExp = mediaExp.split("  ");
+        } catch (Exception e) {
+            sMediaExp = new String[0];
         }
 
         String tweetTexts = status.getText();
@@ -55,22 +105,37 @@ public class HtmlUtils {
             }
         }
 
-        if (tweetTexts.contains("http")) {
-            int start = tweetTexts.indexOf("http");
-            int end = tweetTexts.indexOf(" ", start) + 1;
-            String replacement;
-            try {
-                replacement = tweetTexts.substring(start, end);
-            } catch (Exception e) {
-                replacement = tweetTexts.substring(start, tweetTexts.length());
+        String imageUrl = "";
+        String otherUrl = "";
+
+        for (int i = 0; i < sCompressedUrls.length; i++) {
+            String comp = sCompressedUrls[i];
+            String exp = sExpandedUrls[i];
+
+            if (comp.length() > 1 && exp.length() > 1) {
+                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                if(exp.contains("instagr.am")) {
+                    imageUrl = exp + "media/?size=t";
+                } else {
+                    otherUrl = exp;
+                }
             }
-            tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
         }
 
-        return tweetTexts;
+        for (int i = 0; i < sMediaComp.length; i++) {
+            String comp = sMediaComp[i];
+            String exp = sMediaExp[i];
+
+            if (comp.length() > 1 && exp.length() > 1) {
+                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                imageUrl = status.getMediaEntities()[0].getMediaURL();
+            }
+        }
+
+        return new String[] { tweetTexts, imageUrl, otherUrl };
     }
 
-    public static String getHtmlStatus(DirectMessage status) {
+    public static String[] getHtmlStatus(DirectMessage status) {
         UserMentionEntity[] users = status.getUserMentionEntities();
         String mUsers = "";
 
@@ -85,8 +150,30 @@ public class HtmlUtils {
             mHashtags += hashtagEntity.getText() + "  ";
         }
 
+        URLEntity[] urls = status.getURLEntities();
+        String expandedUrls = "";
+        String compressedUrls = "";
+
+        for (URLEntity entity : urls) {
+            expandedUrls += entity.getExpandedURL() + "  ";
+            compressedUrls += entity.getURL() + "  ";
+        }
+
+        MediaEntity[] medias = status.getMediaEntities();
+        String mediaExp = "";
+        String mediaComp = "";
+
+        for (MediaEntity e : medias) {
+            mediaComp += e.getURL() + "  ";
+            mediaExp += e.getExpandedURL() + "  ";
+        }
+
         String[] sUsers;
         String[] sHashtags;
+        String[] sExpandedUrls;
+        String[] sCompressedUrls;
+        String[] sMediaExp;
+        String[] sMediaComp;
 
         try {
             sUsers = mUsers.split("  ");
@@ -98,6 +185,30 @@ public class HtmlUtils {
             sHashtags = mHashtags.split("  ");
         } catch (Exception e) {
             sHashtags = new String[0];
+        }
+
+        try {
+            sCompressedUrls = compressedUrls.split("  ");
+        } catch (Exception e) {
+            sCompressedUrls = new String[0];
+        }
+
+        try {
+            sExpandedUrls = expandedUrls.split("  ");
+        } catch (Exception e) {
+            sExpandedUrls = new String[0];
+        }
+
+        try {
+            sMediaComp = mediaComp.split("  ");
+        } catch (Exception e) {
+            sMediaComp = new String[0];
+        }
+
+        try {
+            sMediaExp = mediaExp.split("  ");
+        } catch (Exception e) {
+            sMediaExp = new String[0];
         }
 
         String tweetTexts = status.getText();
@@ -118,19 +229,34 @@ public class HtmlUtils {
             }
         }
 
-        if (tweetTexts.contains("http")) {
-            int start = tweetTexts.indexOf("http");
-            int end = tweetTexts.indexOf(" ", start) + 1;
-            String replacement;
-            try {
-                replacement = tweetTexts.substring(start, end);
-            } catch (Exception e) {
-                replacement = tweetTexts.substring(start, tweetTexts.length());
+        String imageUrl = "";
+        String otherUrl = "";
+
+        for (int i = 0; i < sCompressedUrls.length; i++) {
+            String comp = sCompressedUrls[i];
+            String exp = sExpandedUrls[i];
+
+            if (comp.length() > 1 && exp.length() > 1) {
+                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                if(exp.contains("instagr.am")) {
+                    imageUrl = exp + "media/?size=t";
+                } else {
+                    otherUrl = exp;
+                }
             }
-            tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
         }
 
-        return tweetTexts;
+        for (int i = 0; i < sMediaComp.length; i++) {
+            String comp = sMediaComp[i];
+            String exp = sMediaExp[i];
+
+            if (comp.length() > 1 && exp.length() > 1) {
+                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                imageUrl = status.getMediaEntities()[0].getMediaURL();
+            }
+        }
+
+        return new String[] { tweetTexts, imageUrl, otherUrl };
     }
 
     public static String removeColorHtml(String text) {

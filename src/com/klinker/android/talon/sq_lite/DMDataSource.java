@@ -20,7 +20,8 @@ public class DMDataSource {
     private DMSQLiteHelper dbHelper;
     public String[] allColumns = {DMSQLiteHelper.COLUMN_ID, DMSQLiteHelper.COLUMN_TWEET_ID, DMSQLiteHelper.COLUMN_ACCOUNT, DMSQLiteHelper.COLUMN_TYPE,
             DMSQLiteHelper.COLUMN_TEXT, DMSQLiteHelper.COLUMN_NAME, DMSQLiteHelper.COLUMN_PRO_PIC,
-            DMSQLiteHelper.COLUMN_SCREEN_NAME, DMSQLiteHelper.COLUMN_TIME, DMSQLiteHelper.COLUMN_PIC_URL, DMSQLiteHelper.COLUMN_RETWEETER };
+            DMSQLiteHelper.COLUMN_SCREEN_NAME, DMSQLiteHelper.COLUMN_TIME, DMSQLiteHelper.COLUMN_PIC_URL, DMSQLiteHelper.COLUMN_RETWEETER,
+            DMSQLiteHelper.COLUMN_URL };
 
     public DMDataSource(Context context) {
         dbHelper = new DMSQLiteHelper(context);
@@ -39,7 +40,7 @@ public class DMDataSource {
         long time = status.getCreatedAt().getTime();
 
         values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(DMSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
+        values.put(DMSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status)[0]);
         values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
         values.put(DMSQLiteHelper.COLUMN_NAME, status.getSender().getName());
         values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getBiggerProfileImageURL());

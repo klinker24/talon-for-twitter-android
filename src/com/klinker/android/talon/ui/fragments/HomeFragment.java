@@ -650,8 +650,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             status = status.getRetweetedStatus();
         }
 
+        String[] html = HtmlUtils.getHtmlStatus(status);
+        String media = html[1];
+        String text = html[0];
+        String url = html[2];
+
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
@@ -659,12 +664,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         values.put(HomeSQLiteHelper.COLUMN_TIME, time);
         values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
         values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
-
-        MediaEntity[] entities = status.getMediaEntities();
-
-        if (entities.length > 0) {
-            values.put(HomeSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
-        }
+        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
+        values.put(HomeSQLiteHelper.COLUMN_URL, url);
 
         context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
