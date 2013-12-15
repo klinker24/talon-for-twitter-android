@@ -33,7 +33,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
+import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.emoji.NatureEmojiAdapter;
 import com.klinker.android.talon.adapters.emoji.OtherEmojiAdapter;
