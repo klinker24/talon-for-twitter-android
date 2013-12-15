@@ -28,7 +28,7 @@ limitations under the License.
             android:layout_height="48dp"
             android:layout_width="match_parent">
 
-        <com.astuetz.viewpager.extensions.PagerSlidingTabStrip
+        <com.astuetz.PagerSlidingTabStrip
                 android:id="@+id/emojiTabs"
                 android:layout_width="0dp"
                 android:layout_weight="1"
