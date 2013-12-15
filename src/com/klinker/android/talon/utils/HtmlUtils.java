@@ -114,7 +114,7 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
-                if(exp.contains("instagr.am")) {
+                if(exp.contains("insta")) {
                     imageUrl = exp + "media/?size=t";
                 } else {
                     otherUrl = exp;
@@ -238,7 +238,7 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
-                if(exp.contains("instagr.am")) {
+                if(exp.contains("insta")) {
                     imageUrl = exp + "media/?size=t";
                 } else {
                     otherUrl = exp;
