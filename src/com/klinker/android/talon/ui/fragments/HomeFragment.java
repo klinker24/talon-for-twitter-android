@@ -43,6 +43,7 @@ import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.ConnectionDetector;
+import com.klinker.android.talon.utils.HtmlUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -649,7 +650,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
+        values.put(HomeSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
         values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
