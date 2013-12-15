@@ -1,6 +1,8 @@
 package com.klinker.android.talon.settings;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,25 +16,33 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.services.DirectMessageRefreshService;
+import com.klinker.android.talon.services.MentionsRefreshService;
+import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
+import com.klinker.android.talon.ui.fragments.DMFragment;
+import com.klinker.android.talon.ui.fragments.HomeFragment;
+import com.klinker.android.talon.ui.fragments.MentionsFragment;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import java.io.File;
+import java.util.Date;
 
 import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-public class PrefFragment extends PreferenceFragment {
+public class PrefFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Context context;
 
@@ -352,6 +362,81 @@ public class PrefFragment extends PreferenceFragment {
 
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set up a listener whenever a key changes
+        getPreferenceScreen().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Unregister the listener whenever a key changes
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
+
+        Log.v("alarm_date", "key: " + key);
+
+        if (key.equals("timeline_sync_interval")) {
+
+            long refreshRate = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));
+
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+            long now = new Date().getTime();
+            long alarm = now + refreshRate;
+
+            Log.v("alarm_date", "timeline " + new Date(alarm).toString());
+
+            PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+            if (refreshRate != 0)
+                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, refreshRate, pendingIntent);
+            else
+                am.cancel(pendingIntent);
+        } else if (key.equals("mentions_sync_interval")) {
+
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+            long refreshRate = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "1800000"));
+
+            long now = new Date().getTime();
+            long alarm = now + refreshRate;
+
+            Log.v("alarm_date", "mentions " + new Date(alarm).toString());
+
+            PendingIntent pendingIntent = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
+
+            if (refreshRate != 0)
+                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, refreshRate, pendingIntent);
+            else
+                am.cancel(pendingIntent);
+        } else if (key.equals("dm_sync_interval")) {
+
+            long refreshRate = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "1800000"));
+
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+            long now = new Date().getTime();
+            long alarm = now + refreshRate;
+
+            Log.v("alarm_date", "direct message " + new Date(alarm).toString());
+
+            PendingIntent pendingIntent = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
+
+            if (refreshRate != 0)
+                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, refreshRate, pendingIntent);
+            else
+                am.cancel(pendingIntent);
+        }
     }
 
     class TrimCache extends AsyncTask<String, Void, Boolean> {
