@@ -16,7 +16,7 @@ import com.klinker.android.talon.R;
 public class ImageUtils {
 
     public static Bitmap getCircle(Bitmap currentImage, Context context) {
-        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
         Bitmap output = Bitmap.createBitmap(scale,
