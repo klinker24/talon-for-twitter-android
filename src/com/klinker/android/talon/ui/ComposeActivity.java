@@ -644,10 +644,14 @@ public class ComposeActivity extends Activity implements
     @Override
     public void onPause() {
 
-        if (doneClicked || discardClicked) {
-            sharedPrefs.edit().putString("draft", "").commit();
-        } else {
-            sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
+        try {
+            if (doneClicked || discardClicked) {
+                sharedPrefs.edit().putString("draft", "").commit();
+            } else {
+                sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
+            }
+        } catch (Exception e) {
+            // it is a direct message
         }
 
         super.onPause();

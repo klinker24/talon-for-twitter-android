@@ -193,7 +193,7 @@ public class LoginActivity extends Activity {
                     finish();
 
                     Intent timeline = new Intent(context, MainActivity.class);
-                    timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(timeline);
                 }
 

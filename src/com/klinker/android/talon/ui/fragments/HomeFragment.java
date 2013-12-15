@@ -611,7 +611,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 HomeContentProvider.CONTENT_URI,
                 projection,
                 null,
-                new String[] {sharedPrefs.getInt("current_account", 1) + ""},
+                new String[] { sharedPrefs.getInt("current_account", 1) + "" },
                 null );
         return cursorLoader;
     }
@@ -620,6 +620,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
         listView.setAdapter(cursorAdapter);
+
         initial = false;
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);

@@ -148,6 +148,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
+        final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
         holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
         final String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
         String tweetTexts = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
@@ -310,8 +311,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.tweet.setText(Html.fromHtml(tweetText));
 
         Matcher matcher = pattern.matcher(tweetText);
-
-        final long mTweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
 
         if (matcher.find()) {
 

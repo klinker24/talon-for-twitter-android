@@ -18,7 +18,7 @@ public class DMDataSource {
     // Database fields
     private SQLiteDatabase database;
     private DMSQLiteHelper dbHelper;
-    public String[] allColumns = {DMSQLiteHelper.COLUMN_ID, DMSQLiteHelper.COLUMN_ACCOUNT, DMSQLiteHelper.COLUMN_TYPE,
+    public String[] allColumns = {DMSQLiteHelper.COLUMN_ID, DMSQLiteHelper.COLUMN_TWEET_ID, DMSQLiteHelper.COLUMN_ACCOUNT, DMSQLiteHelper.COLUMN_TYPE,
             DMSQLiteHelper.COLUMN_TEXT, DMSQLiteHelper.COLUMN_NAME, DMSQLiteHelper.COLUMN_PRO_PIC,
             DMSQLiteHelper.COLUMN_SCREEN_NAME, DMSQLiteHelper.COLUMN_TIME, DMSQLiteHelper.COLUMN_PIC_URL, DMSQLiteHelper.COLUMN_RETWEETER };
 
@@ -40,7 +40,7 @@ public class DMDataSource {
 
         values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(DMSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status));
-        values.put(DMSQLiteHelper.COLUMN_ID, status.getId());
+        values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
         values.put(DMSQLiteHelper.COLUMN_NAME, status.getSender().getName());
         values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getBiggerProfileImageURL());
         values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, status.getSender().getScreenName());
@@ -57,7 +57,7 @@ public class DMDataSource {
 
     public void deleteTweet(long tweetId) {
         long id = tweetId;
-        database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ID
+        database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
     }
 
