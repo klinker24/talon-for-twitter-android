@@ -36,6 +36,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
     public static final int BLUR = 1;
     public static final int CIRCLE = 2;
+    public static final int THUMBNAIL = 3;
 
     public interface OnImageLoadedListener {
         void onImageLoaded(CacheableBitmapDrawable result);
@@ -100,6 +101,8 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                         b = ImageUtils.getCircle(b, context);
                     } else if (transform == BLUR) {
                         b = ImageUtils.blur(b);
+                    } else if (transform == THUMBNAIL) {
+                        b = ImageUtils.overlayPlay(b, context);
                     }
 
                     // Add to cache
@@ -236,4 +239,5 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             return false;
         }
     }
+
 }

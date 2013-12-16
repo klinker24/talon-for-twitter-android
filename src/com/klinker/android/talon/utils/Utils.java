@@ -3,6 +3,7 @@ package com.klinker.android.talon.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.TypedValue;
 
 import com.klinker.android.talon.settings.AppSettings;
 
@@ -109,5 +110,13 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static int toDP(int px, Context context) {
+        try {
+            return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, context.getResources().getDisplayMetrics());
+        } catch (Exception e) {
+            return px;
+        }
     }
 }

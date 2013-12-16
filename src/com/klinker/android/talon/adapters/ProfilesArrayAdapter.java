@@ -55,7 +55,7 @@ public class ProfilesArrayAdapter extends TimelineArrayAdapter {
         View v;
         final ViewHolder holder;
 
-        v = inflater.inflate(R.layout.tweet_with_background, viewGroup, false);
+        v = inflater.inflate(R.layout.tweet, viewGroup, false);
 
         holder = new ViewHolder();
 
@@ -73,6 +73,7 @@ public class ProfilesArrayAdapter extends TimelineArrayAdapter {
         holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);

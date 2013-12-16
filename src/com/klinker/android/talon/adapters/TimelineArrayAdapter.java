@@ -70,6 +70,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public ImageButton replyButton;
         public NetworkedCacheableImageView image;
         public LinearLayout background;
+        public NetworkedCacheableImageView playButton;
         //public Bitmap tweetPic;
 
         public long tweetId;
@@ -153,6 +154,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -338,12 +340,26 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final long mTweetId = status.getId();
 
         if (matcher.find()) {
-            holder.image.loadImage(picUrl == null ? "" : picUrl, false, null);
-
-            if (picUrl == null) {
-                holder.image.setVisibility(View.GONE);
+            if (picUrl.equals("")) {
+                if (holder.image.getVisibility() == View.VISIBLE) {
+                    holder.image.setVisibility(View.GONE);
+                }
             } else {
-                holder.image.setVisibility(View.VISIBLE);
+                if (holder.image.getVisibility() == View.GONE) {
+                    holder.image.setVisibility(View.VISIBLE);
+                }
+
+                if (picUrl.contains("youtube")) {
+                    holder.image.loadImage(picUrl, false, null);
+                    if (holder.playButton.getVisibility() == View.GONE) {
+                        holder.playButton.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    holder.image.loadImage(picUrl, false, null);
+                    if (holder.playButton.getVisibility() == View.VISIBLE) {
+                        holder.playButton.setVisibility(View.GONE);
+                    }
+                }
             }
         }
 
@@ -413,12 +429,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         View v;
         if (convertView == null) {
-            Log.v("listview_scrolling", "not recycled");
 
             v = newView(parent);
 
         } else {
-            Log.v("listview_scrolling", "recycled");
             v = convertView;
 
             final ViewHolder holder = (ViewHolder) v.getTag();

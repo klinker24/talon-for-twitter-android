@@ -82,6 +82,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public NetworkedCacheableImageView image;
         public LinearLayout background;
         public TextView charRemaining;
+        public NetworkedCacheableImageView playButton;
         //public Bitmap tweetPic;
 
         public long tweetId;
@@ -130,6 +131,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
+        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -332,15 +334,26 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         Matcher matcher = pattern.matcher(tweetText);
 
         if (matcher.find()) {
-
-            Log.v("pic_url", picUrl);
-            if (!picUrl.equals(""))
-                holder.image.loadImage(picUrl, false, null);
-
             if (picUrl.equals("")) {
-                holder.image.setVisibility(View.GONE);
+                if (holder.image.getVisibility() == View.VISIBLE) {
+                    holder.image.setVisibility(View.GONE);
+                }
             } else {
-                holder.image.setVisibility(View.VISIBLE);
+                if (picUrl.contains("youtube")) {
+                    holder.image.loadImage(picUrl, false, null);
+                    if (holder.playButton.getVisibility() == View.GONE) {
+                        holder.playButton.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    holder.image.loadImage(picUrl, false, null);
+                    if (holder.playButton.getVisibility() == View.VISIBLE) {
+                        holder.playButton.setVisibility(View.GONE);
+                    }
+                }
+
+                if (holder.image.getVisibility() == View.GONE) {
+                    holder.image.setVisibility(View.VISIBLE);
+                }
             }
         }
 
