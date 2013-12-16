@@ -104,7 +104,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             } else {
                 link = otherUrl;
             }
-            
+
             Bundle extras = new Bundle();
             extras.putString("name", mWidgetItems.get(arg0).getName());
             extras.putString("screenname", mWidgetItems.get(arg0).getScreenName());

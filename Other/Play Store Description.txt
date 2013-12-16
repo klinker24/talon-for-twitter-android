@@ -72,5 +72,3 @@ Credit:
 - Yusuke Yamamoto: Twitter4j library
 - Chris Banes: ActionBar-PullToRefresh, Android-BitmapCache, and PhotoView widget
 - Lucas Rocha: Smoothie ListView library
-- Square, Inc.: Picasso library
-- Google: Making it all possible

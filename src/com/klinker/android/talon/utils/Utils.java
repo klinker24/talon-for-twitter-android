@@ -1,6 +1,8 @@
 package com.klinker.android.talon.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.TypedValue;
@@ -118,5 +120,15 @@ public class Utils {
         } catch (Exception e) {
             return px;
         }
+    }
+
+    public static boolean isPackageInstalled(Context context, String targetPackage){
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo info = pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 }

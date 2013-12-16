@@ -373,7 +373,7 @@ public class ComposeActivity extends Activity implements
             }
         });
 
-        if (!EmojiUtils.checkEmojisEnabled(this)) {
+        if (!settings.useEmoji) {
             emojiButton.setVisibility(View.GONE);
         } else {
             emojiKeyboard.setAttached((HoloEditText) reply);

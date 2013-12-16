@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.klinker.android.talon.utils.EmojiUtils;
+import com.klinker.android.talon.utils.Utils;
+
 import java.util.Calendar;
 
 public class AppSettings {
@@ -41,6 +44,7 @@ public class AppSettings {
     public boolean nightMode;
     public boolean militaryTime;
     public boolean syncMobile;
+    public boolean useEmoji;
 
     public int theme;
     public int textSize;
@@ -89,6 +93,13 @@ public class AppSettings {
         wakeScreen = sharedPrefs.getBoolean("wake", true);
         militaryTime = sharedPrefs.getBoolean("military_time", false);
         syncMobile = sharedPrefs.getBoolean("sync_mobile_data", true);
+
+        // if they have the keyboard trial installed, then go from their preference
+        if (EmojiUtils.checkEmojisEnabled(context)) {
+            useEmoji = sharedPrefs.getBoolean("use_emojis", false);
+        } else { // otherwise it is false
+            useEmoji = false;
+        }
 
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));

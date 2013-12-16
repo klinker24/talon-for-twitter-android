@@ -32,6 +32,7 @@ import com.klinker.android.talon.ui.fragments.HomeFragment;
 import com.klinker.android.talon.ui.fragments.MentionsFragment;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
+import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -83,7 +84,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 break;
             case 1:
                 addPreferencesFromResource(R.xml.sync_settings);
-                setUpNotificationSettings();
+                setUpSyncSettings();
                 break;
             case 2:
                 addPreferencesFromResource(R.xml.advanced_settings);
@@ -151,9 +152,39 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
         });
+
+        final Preference emojis = findPreference("use_emojis");
+        emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (!((CheckBoxPreference) emojis).isChecked() && !EmojiUtils.checkEmojisEnabled(context)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.enable_emojis) + ":")
+                            .setMessage(context.getResources().getString(R.string.emoji_dialog_summary))
+                            .setPositiveButton(R.string.to_market, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial")));
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    sharedPrefs.edit().putBoolean("use_emoji", false).commit();
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+
+                return true;
+            }
+
+        });
     }
 
-    public void setUpNotificationSettings() {
+    public void setUpSyncSettings() {
         final Context context = getActivity();
 
         final AppSettings settings = new AppSettings(context);
@@ -191,6 +222,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         });
 
+        // remove the mobile data one if they have a tablet
+        /*if (context.getResources().getBoolean(R.bool.isTablet)) {
+            getPreferenceScreen().removePreference(getPreferenceManager().findPreference("sync_mobile_data"));
+        }*/
     }
 
     public void setUpAdvancedSettings() {
