@@ -131,7 +131,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
         setUpTheme();
 
-        if (settings.advanceWindowed || getIntent().getBooleanExtra("from_widget", false)) {
+        if ((settings.advanceWindowed || getIntent().getBooleanExtra("from_widget", false)) && !webpage.contains("youtu")) {
             setUpWindow();
         }
 
@@ -693,7 +693,25 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean b) {
-        String video = webpage.substring(webpage.indexOf("watch?v=") + 8);
+        String video;
+        if (webpage.contains("youtube")) { // normal youtube link
+            // first get the youtube video code
+            int start = webpage.indexOf("v=") + 2;
+            int end = webpage.length();
+            if (webpage.substring(start).contains("&")) {
+                end = webpage.indexOf("&");
+            }
+            video = webpage.substring(start, end);
+        } else { // shortened youtube link
+            // first get the youtube video code
+            int start = webpage.indexOf(".be/") + 4;
+            int end = webpage.length();
+            if (webpage.substring(start).contains("&")) {
+                end = webpage.indexOf("&");
+            }
+            video = webpage.substring(start, end);
+        }
+
         player.loadVideo(video);
         player.setShowFullscreenButton(false);
     }

@@ -118,10 +118,22 @@ public class HtmlUtils {
                     imageUrl = exp + "media/?size=t";
                 } else if (exp.contains("youtu")) {
                     // first get the youtube video code
-                    int start = exp.indexOf("watch?v=") + 8;
-                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start) + "/2.jpg";
+                    int start = exp.indexOf("v=") + 2;
+                    int end = exp.length();
+                    if (exp.substring(start).contains("&")) {
+                        end = exp.indexOf("&");
+                    }
+                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
                     otherUrl = exp;
-                } else {
+                } else if (exp.contains("youtu.be")) {
+                    // first get the youtube video code
+                    int start = exp.indexOf(".be/") + 4;
+                    int end = exp.length();
+                    if (exp.substring(start).contains("&")) {
+                        end = exp.indexOf("&");
+                    }
+                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                }else {
                     otherUrl = exp;
                 }
             }
@@ -245,10 +257,22 @@ public class HtmlUtils {
                 tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
                 if(exp.contains("instag")) {
                     imageUrl = exp + "media/?size=t";
-                } else if (exp.contains("youtu")) {
+                } else if (exp.contains("youtube")) { // normal youtube link
                     // first get the youtube video code
-                    int start = exp.indexOf("watch?v=") + 8;
-                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start) + "/2.jpg";
+                    int start = exp.indexOf("v=") + 2;
+                    int end = exp.length();
+                    if (exp.substring(start).contains("&")) {
+                        end = exp.indexOf("&");
+                    }
+                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                } else if (exp.contains("youtu.be")) { // shortened youtube link
+                    // first get the youtube video code
+                    int start = exp.indexOf(".be/") + 4;
+                    int end = exp.length();
+                    if (exp.substring(start).contains("&")) {
+                        end = exp.indexOf("&");
+                    }
+                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
                 } else {
                     otherUrl = exp;
                 }
