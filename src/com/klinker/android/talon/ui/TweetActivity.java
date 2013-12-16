@@ -302,26 +302,6 @@ public class TweetActivity extends Activity {
             }
         });
 
-        if (tweet.contains("http")) {
-            String[] split = tweet.split(" ");
-
-            for (String s : split) {
-                if (s.contains("http")) {
-                    s.replaceAll("!", "");
-                    s.replaceAll("\"", "");
-
-                    if(webpage.equals("")) {
-                        s = s.replaceAll("</font>", "");
-                        s = s.substring(s.indexOf("h"));
-                        Log.v("webpage_string", s);
-                        webpage = s;
-                    }
-
-                    break;
-                }
-            }
-        }
-
         // If there is a web page that isn't a picture already loaded
         if (!webpage.equals("") && !picture) {
             /*switchViews.setVisibility(View.VISIBLE);
