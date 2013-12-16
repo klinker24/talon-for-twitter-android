@@ -126,13 +126,13 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
+        getFromIntent();
+
         setUpTheme();
 
         if (settings.advanceWindowed || getIntent().getBooleanExtra("from_widget", false)) {
             setUpWindow();
         }
-
-        getFromIntent();
 
         setContentView(R.layout.tweet_activity);
 
@@ -694,6 +694,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean b) {
         String video = webpage.substring(webpage.indexOf("watch?v=") + 8);
         player.loadVideo(video);
+        player.setShowFullscreenButton(false);
     }
 
     @Override
