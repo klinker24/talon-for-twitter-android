@@ -1,4 +1,5 @@
 Version 0.70:<br/><br/>
+    &#8226; Native YouTube player<br/>
     &#8226; YouTube thumbnails<br/>
     &#8226; LOTS of speed optimizations for main timeline<br/>
     &#8226; Better support for hashtags, links, and user entities in tweets<br/>
