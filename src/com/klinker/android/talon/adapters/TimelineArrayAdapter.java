@@ -23,6 +23,7 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.utils.HtmlUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import java.util.ArrayList;
@@ -195,120 +196,27 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         String tweetTexts = thisStatus.getText();
         final String name = user.getName();
         final String screenname = user.getScreenName();
-        String picUr;
-        try{
-            picUr = thisStatus.getMediaEntities()[0].getMediaURL();
-        }catch (Exception e) {
-            picUr = null;
-        }
 
-        final String picUrl = picUr;
-
-        try {
-            if (tweetTexts.substring(0, 1).equals("#")) {
-                int start = tweetTexts.indexOf("#");
-                int end;
-                if (tweetTexts.substring(start).contains(" ")) {
-                    end = tweetTexts.indexOf(" ", start);
-                } else {
-                    end = tweetTexts.length();
-                }
-                String replacement;
-
-                replacement = tweetTexts.substring(start, end);
-
-                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-            }
-            while (tweetTexts.contains(" #")) {
-                int start = tweetTexts.indexOf(" #") + 1;
-                int end;
-                if (tweetTexts.substring(start).contains(" ")) {
-                    end = tweetTexts.indexOf(" ", start);
-                } else {
-                    end = tweetTexts.length();
-                }
-                String replacement;
-
-                replacement = tweetTexts.substring(start, end);
-
-                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-
-            }
-        } catch (Exception e) {
-
-        }
-
-        try {
-            if (tweetTexts.substring(0, 1).equals("@") || tweetTexts.substring(0,2).contains("@")) {
-                int start = tweetTexts.indexOf("@");
-                int end;
-                if (tweetTexts.substring(start).contains(" ")) {
-                    end = tweetTexts.indexOf(" ", start);
-                } else {
-                    end = tweetTexts.length();
-                }
-                if (tweetTexts.substring(end-1, end).equals(":")) {
-                    end = end-1;
-                }
-                String replacement;
-
-                replacement = tweetTexts.substring(start, end);
-
-                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-            }
-            /*while (tweetTexts.contains("\"@")) {
-                int start = tweetTexts.indexOf("\"@") + 2;
-                int end;
-                if (tweetTexts.substring(start).contains(" ")) {
-                    end = tweetTexts.indexOf(" ", start);
-                } else {
-                    end = tweetTexts.length();
-                }
-                String replacement;
-
-                replacement = tweetTexts.substring(start, end);
-
-                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-
-            }*/
-            while (tweetTexts.contains(" @")) {
-                int start = tweetTexts.indexOf(" @") + 1;
-                int end;
-                if (tweetTexts.substring(start).contains(" ")) {
-                    end = tweetTexts.indexOf(" ", start);
-                } else {
-                    end = tweetTexts.length();
-                }
-                String replacement;
-
-                replacement = tweetTexts.substring(start, end);
-
-                tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-
-            }
-        } catch (Exception e) {
-
-        }
-
-        if (tweetTexts.contains("http")) {
-            int start = tweetTexts.indexOf("http");
-            int end = tweetTexts.indexOf(" ", start) + 1;
-            String replacement;
-            try {
-                replacement = tweetTexts.substring(start, end);
-            } catch (Exception e) {
-                replacement = tweetTexts.substring(start, tweetTexts.length());
-            }
-            tweetTexts = tweetTexts.replace(replacement, "<font color='#FF8800'>" + replacement + "</font>");
-        }
-
-        final String tweetText = tweetTexts;
+        String[] html = HtmlUtils.getHtmlStatus(status);
+        final String picUrl = html[1];
+        final String tweetText = html[0];
+        final String otherUrl = html[2];
 
         if(!settings.reverseClickActions) {
             final String fRetweeter = retweeter;
             holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+
+                    String link;
+
+                    boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                    if (displayPic) {
+                        link = picUrl;
+                    } else {
+                        link = otherUrl;
+                    }
+
                     Log.v("tweet_page", "clicked");
                     Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
@@ -316,8 +224,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("time", time);
                     viewTweet.putExtra("tweet", tweetText);
                     viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", picUrl);
-                    viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
+                    viewTweet.putExtra("webpage", link);
+                    viewTweet.putExtra("picture", displayPic);
                     viewTweet.putExtra("tweetid", holder.tweetId);
                     viewTweet.putExtra("proPic", profilePic);
 
@@ -344,6 +252,16 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    String link;
+
+                    boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                    if (displayPic) {
+                        link = picUrl;
+                    } else {
+                        link = otherUrl;
+                    }
+
                     Log.v("tweet_page", "clicked");
                     Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
@@ -351,8 +269,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("time", time);
                     viewTweet.putExtra("tweet", tweetText);
                     viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", picUrl);
-                    viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
+                    viewTweet.putExtra("webpage", link);
+                    viewTweet.putExtra("picture", displayPic);
                     viewTweet.putExtra("tweetid", holder.tweetId);
                     viewTweet.putExtra("proPic", profilePic);
 
