@@ -68,7 +68,14 @@
 
                 </LinearLayout>
 
-
+            <com.google.android.youtube.player.YouTubePlayerView
+                android:id="@+id/youtube_view"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="10dp"
+                android:layout_margin="6dp"
+                android:visibility="gone"
+                />
 
             <WebView android:id="@+id/webview"
                      android:layout_height="fill_parent"

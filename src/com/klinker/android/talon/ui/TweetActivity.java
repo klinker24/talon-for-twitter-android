@@ -48,6 +48,10 @@ import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
@@ -81,7 +85,8 @@ import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class TweetActivity extends Activity {
+public class TweetActivity extends YouTubeBaseActivity implements
+        YouTubePlayer.OnInitializedListener {
 
     public AppSettings settings;
     public Context context;
@@ -228,6 +233,8 @@ public class TweetActivity extends Activity {
         final ImageButton replyButton = (ImageButton) findViewById(R.id.reply_button);
         ImageButton attachButton = (ImageButton) findViewById(R.id.attach_button);
 
+        YouTubePlayerView youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
+
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
 
@@ -302,16 +309,10 @@ public class TweetActivity extends Activity {
             }
         });
 
-        // If there is a web page that isn't a picture already loaded
-        if (!webpage.equals("") && !picture) {
-            /*switchViews.setVisibility(View.VISIBLE);
-            switchViews.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    website.setVisibility(View.GONE);
-                    replyList.setVisibility(View.VISIBLE);
-                }
-            });*/
+        if (webpage.contains("youtube")) { // there is a youtube video
+            youTubeView.setVisibility(View.VISIBLE);
+            youTubeView.initialize(settings.YOUTUBE_API_KEY, this);
+        } else if (!webpage.equals("") && !picture) { // If there is a web page that isn't a picture already loaded
 
             progressSpinner.setVisibility(View.GONE);
             website.setVisibility(View.VISIBLE);
@@ -336,14 +337,6 @@ public class TweetActivity extends Activity {
             website.loadUrl(webpage);
 
         } else if(picture) { // if there is a picture already loaded
-            /*switchViews.setVisibility(View.VISIBLE);
-            switchViews.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    pictureIv.setVisibility(View.GONE);
-                    replyList.setVisibility(View.VISIBLE);
-                }
-            });*/
 
             progressSpinner.setVisibility(View.GONE);
             pictureIv.setVisibility(View.VISIBLE);
@@ -356,7 +349,7 @@ public class TweetActivity extends Activity {
             progressSpinner.setVisibility(View.VISIBLE);
         }
 
-        if (website.getVisibility() == View.VISIBLE || pictureIv.getVisibility() == View.VISIBLE) {
+        if (website.getVisibility() == View.VISIBLE || pictureIv.getVisibility() == View.VISIBLE || youTubeView.getVisibility() == View.VISIBLE) {
             expand.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -696,6 +689,40 @@ public class TweetActivity extends Activity {
 
     private boolean isFavorited = false;
     private boolean isRetweet = false;
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean b) {
+        String video = webpage.substring(webpage.indexOf("watch?v=") + 8);
+        player.loadVideo(video);
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        Toast.makeText(context, getResources().getString(R.string.youtube_error), Toast.LENGTH_SHORT).show();
+        YouTubePlayerView youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
+        youTubeView.setVisibility(View.GONE);
+
+        website.setVisibility(View.VISIBLE);
+        website.getSettings().setJavaScriptEnabled(true);
+        website.getSettings().setBuiltInZoomControls(true);
+
+        final Activity activity = this;
+        website.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress) {
+                // Activities and WebViews measure progress with different scales.
+                // The progress meter will automatically disappear when we reach 100%
+                activity.setProgress(progress * 100);
+            }
+        });
+
+        website.setWebViewClient(new WebViewClient() {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Toast.makeText(activity, getResources().getString(R.string.error_loading_page), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        website.loadUrl(webpage);
+    }
 
     class GetFavoriteCount extends AsyncTask<String, Void, Status> {
 

@@ -13,6 +13,8 @@ public class AppSettings {
     public static String TWITTER_CONSUMER_KEY = "l1RXEJCfdU7q1CRYkTmeaw";
     public static String TWITTER_CONSUMER_SECRET = "uVsk5H5umoLcYdcVSa6rWFQMN0kFOoTBxAnBid4OAkM";
 
+    public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
+
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
     public static final int THEME_BLACK = 2;
