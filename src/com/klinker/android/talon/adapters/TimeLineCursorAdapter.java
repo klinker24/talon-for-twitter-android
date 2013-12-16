@@ -173,6 +173,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
+                        String link;
+
+                        boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                        if (displayPic) {
+                            link = picUrl;
+                        } else {
+                            link = otherUrl;
+                        }
+
                         Log.v("tweet_page", "clicked");
                         Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
@@ -180,8 +189,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", holder.image.getVisibility() == View.VISIBLE ? picUrl : otherUrl);
-                        viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
+                        viewTweet.putExtra("webpage", link);
+                        viewTweet.putExtra("picture", displayPic);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
 
@@ -211,6 +220,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String link = "";
+
+                        boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                        if (displayPic) {
+                            link = picUrl;
+                        } else {
+                            link = otherUrl;
+                        }
+
                         Log.v("tweet_page", "clicked");
                         Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
@@ -218,8 +236,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", holder.image.getVisibility() == View.VISIBLE ? picUrl : otherUrl);
-                        viewTweet.putExtra("picture", holder.image.getVisibility() == View.VISIBLE);
+                        viewTweet.putExtra("webpage", link);
+                        viewTweet.putExtra("picture", displayPic);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
 
