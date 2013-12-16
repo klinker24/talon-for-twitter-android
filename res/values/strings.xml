@@ -191,7 +191,7 @@
                 Enabling this setting will affect scrolling performance as well.</string>
         <string name="timestamp">24-Hour Timestamp</string>
         <string name="enable_emojis">Enable Emojis</string>
-        <string name="enable_emojis_summary">Enabling this will add an emoji button to bring up the keyboard when you are composing a tweet.</string>
+        <string name="enable_emojis_summary">This will add an emoji button to bring up the keyboard when you are composing or replying to a tweet.</string>
         <string name="to_market">To Play Store</string>
         <string name="emoji_dialog_summary">To enable emojis in this app, you must have the \"Sliding Emoji Keyboard\" package installed from the play store.\n\n
                 PLEASE NOTE: Emojis will continue to work in this app even if the trial has expired! That package is used as a plugin as well as a stand alone keyboard.</string>
