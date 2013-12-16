@@ -10,7 +10,7 @@
             android:key="sync_mobile_data"
             android:title="@string/sync_mobile_data"
             android:summary="@string/sync_mobile_data_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <!-- Default of 30 mins -->
