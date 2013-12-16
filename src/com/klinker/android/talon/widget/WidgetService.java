@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -93,13 +94,25 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
             card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg).getPicUrl()));
 
+            String picUrl = mWidgetItems.get(arg0).getWebsite();
+            String otherUrl = mWidgetItems.get(arg0).getOtherWeb();
+            String link;
+
+            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+            if (displayPic) {
+                link = picUrl;
+            } else {
+                link = otherUrl;
+            }
+            
             Bundle extras = new Bundle();
             extras.putString("name", mWidgetItems.get(arg0).getName());
             extras.putString("screenname", mWidgetItems.get(arg0).getScreenName());
             extras.putLong("time", mWidgetItems.get(arg0).getTime());
             extras.putString("tweet", mWidgetItems.get(arg0).getTweet());
             extras.putString("retweeter", mWidgetItems.get(arg0).getRetweeter());
-            extras.putString("webpage", mWidgetItems.get(arg0).getWebsite());
+            extras.putString("webpage", link);
+            extras.putBoolean("picture", displayPic);
             extras.putLong("tweetid", mWidgetItems.get(arg0).getId());
             extras.putString("propic", mWidgetItems.get(arg0).getPicUrl());
 
@@ -158,7 +171,8 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME)),
                             query.getLong(query.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)),
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER)),
-                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL))
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL)),
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_URL))
                     ));
                 } while (query.moveToNext());
             }

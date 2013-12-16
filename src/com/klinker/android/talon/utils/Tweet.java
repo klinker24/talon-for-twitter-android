@@ -9,8 +9,9 @@ public class Tweet {
     private long time;
     private String retweeter;
     private String website;
+    private String otherWeb;
 
-    public Tweet(long id, String text, String name, String picUrl, String screenName, long time, String retweeter, String webpage) {
+    public Tweet(long id, String text, String name, String picUrl, String screenName, long time, String retweeter, String webpage, String otherWeb) {
         this.id = id;
         this.text = text;
         this.name = name;
@@ -19,6 +20,7 @@ public class Tweet {
         this.time = time;
         this.retweeter = retweeter;
         this.website = webpage;
+        this.otherWeb = otherWeb;
     }
 
     public long getId() {
@@ -71,6 +73,10 @@ public class Tweet {
 
     public String getWebsite() {
         return website;
+    }
+
+    public String getOtherWeb() {
+        return otherWeb;
     }
 
     // Will be used by the ArrayAdapter in the ListView
