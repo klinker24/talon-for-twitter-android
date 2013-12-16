@@ -110,7 +110,7 @@ public class TimelineRefreshService extends IntentService {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        insertTweet(status, currentAccount);
+                        HomeContentProvider.insertTweet(status, currentAccount, context);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
@@ -219,35 +219,5 @@ public class TimelineRefreshService extends IntentService {
             Log.v("timeline_refreshing", "caught: " + e.getMessage());
             return new ArrayList<twitter4j.Status>();
         }
-    }
-
-    public void insertTweet(Status status, int currentAccount) {
-        ContentValues values = new ContentValues();
-        String originalName = "";
-        long id = status.getId();
-        long time = status.getCreatedAt().getTime();
-
-        if(status.isRetweet()) {
-            originalName = status.getUser().getScreenName();
-            status = status.getRetweetedStatus();
-        }
-
-        values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, status.getText());
-        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
-        values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
-        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
-        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
-        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
-
-        MediaEntity[] entities = status.getMediaEntities();
-
-        if (entities.length > 0) {
-            values.put(HomeSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
-        }
-
-        getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
 }

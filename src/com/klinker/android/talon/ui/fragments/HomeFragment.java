@@ -386,7 +386,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            insertTweet(status, currentAccount);
+                            HomeContentProvider.insertTweet(status, currentAccount, context);
                             //dataSource.createTweet(status, currentAccount);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -637,37 +637,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         // data is not available anymore, delete reference
         cursorAdapter.swapCursor(null);
-    }
-
-    public void insertTweet(Status status, int currentAccount) {
-        ContentValues values = new ContentValues();
-        String originalName = "";
-        long id = status.getId();
-        long time = status.getCreatedAt().getTime();
-
-        if(status.isRetweet()) {
-            originalName = status.getUser().getScreenName();
-            status = status.getRetweetedStatus();
-        }
-
-        String[] html = HtmlUtils.getHtmlStatus(status);
-        String media = html[1];
-        String text = html[0];
-        String url = html[2];
-
-        values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
-        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
-        values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
-        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
-        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
-        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
-        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
-        values.put(HomeSQLiteHelper.COLUMN_URL, url);
-
-        context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
 
     private boolean isToastShowing = false;
