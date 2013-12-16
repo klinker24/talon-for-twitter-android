@@ -331,29 +331,29 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.time.setText(Utils.getTimeAgo(longTime));
         holder.tweet.setText(Html.fromHtml(tweetText));
 
-        Matcher matcher = pattern.matcher(tweetText);
+        if (picUrl.equals("")) {
+            if (holder.image.getVisibility() == View.VISIBLE) {
+                holder.image.setVisibility(View.GONE);
+            }
 
-        if (matcher.find()) {
-            if (picUrl.equals("")) {
-                if (holder.image.getVisibility() == View.VISIBLE) {
-                    holder.image.setVisibility(View.GONE);
+            if (holder.playButton.getVisibility() == View.VISIBLE) {
+                holder.playButton.setVisibility(View.GONE);
+            }
+        } else {
+            if (picUrl.contains("youtube")) {
+                holder.image.loadImage(picUrl, false, null);
+                if (holder.playButton.getVisibility() == View.GONE) {
+                    holder.playButton.setVisibility(View.VISIBLE);
                 }
             } else {
-                if (picUrl.contains("youtube")) {
-                    holder.image.loadImage(picUrl, false, null);
-                    if (holder.playButton.getVisibility() == View.GONE) {
-                        holder.playButton.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    holder.image.loadImage(picUrl, false, null);
-                    if (holder.playButton.getVisibility() == View.VISIBLE) {
-                        holder.playButton.setVisibility(View.GONE);
-                    }
+                holder.image.loadImage(picUrl, false, null);
+                if (holder.playButton.getVisibility() == View.VISIBLE) {
+                    holder.playButton.setVisibility(View.GONE);
                 }
+            }
 
-                if (holder.image.getVisibility() == View.GONE) {
-                    holder.image.setVisibility(View.VISIBLE);
-                }
+            if (holder.image.getVisibility() == View.GONE) {
+                holder.image.setVisibility(View.VISIBLE);
             }
         }
 
