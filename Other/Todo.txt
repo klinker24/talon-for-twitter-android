@@ -15,5 +15,4 @@
 - Main TODO:
     - limit cache option maybe
     - redo notifications
-    - fix startup stuff (not showing profile or name or anything in drawer)
 
