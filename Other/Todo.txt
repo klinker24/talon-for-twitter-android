@@ -15,4 +15,6 @@
 - Main TODO:
     - limit cache option maybe
     - redo notifications
-
+        - Make notifUtils and then put failed there and apply it to the tweet activity and the cursor adapter replies
+        - Make a static method to post the notification with ALL the info, not seperate ones
+        - Make a getText and title funtion to use for dashclock as well
