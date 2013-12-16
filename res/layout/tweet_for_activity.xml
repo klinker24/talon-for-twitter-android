@@ -15,7 +15,7 @@
         <!-- Holds the name, screen name, and time-->
         <RelativeLayout
                 android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             <com.klinker.android.talon.ui.widgets.HoloTextView
