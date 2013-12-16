@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -309,7 +310,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
             }
         });
 
-        if (webpage.contains("youtube")) { // there is a youtube video
+        if (webpage.contains("youtu")) { // there is a youtube video
             youTubeView.setVisibility(View.VISIBLE);
             youTubeView.initialize(settings.YOUTUBE_API_KEY, this);
         } else if (!webpage.equals("") && !picture) { // If there is a web page that isn't a picture already loaded

@@ -245,7 +245,7 @@ public class HtmlUtils {
                 tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
                 if(exp.contains("insta")) {
                     imageUrl = exp + "media/?size=t";
-                } else if (exp.contains("youtube")) {
+                } else if (exp.contains("youtu")) {
                     // first get the youtube video code
                     int start = exp.indexOf("watch?v=") + 8;
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start) + "/2.jpg";
