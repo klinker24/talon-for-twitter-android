@@ -113,7 +113,11 @@ public class HtmlUtils {
             String exp = sExpandedUrls[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                try {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                } catch (Exception e) {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                }
                 if(exp.contains("instag")) {
                     imageUrl = exp + "media/?size=t";
                 } else if (exp.contains("youtu")) {
@@ -144,7 +148,11 @@ public class HtmlUtils {
             String exp = sMediaExp[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                try {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                } catch (Exception e) {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
             }
         }
@@ -254,7 +262,11 @@ public class HtmlUtils {
             String exp = sExpandedUrls[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                try {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                } catch (Exception e) {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                }
                 if(exp.contains("instag")) {
                     imageUrl = exp + "media/?size=t";
                 } else if (exp.contains("youtube")) { // normal youtube link
@@ -284,7 +296,11 @@ public class HtmlUtils {
             String exp = sMediaExp[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                try {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                } catch (Exception e) {
+                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
             }
         }
