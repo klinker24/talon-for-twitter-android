@@ -66,6 +66,7 @@ limitations under the License.
         <item name="overflow_button">@drawable/ic_action_overflow_dark</item>
         <item name="keyboardButton">@drawable/ic_keyboard_light</item>
         <item name="emojiBackspace">@drawable/ic_backspace_dark</item>
+        <item name="picturePlaceholder">@drawable/ic_action_picture_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>

@@ -57,6 +57,7 @@ limitations under the License.
     <attr name="overflow_button" format="reference"/>
     <attr name="keyboardButton" format="reference"/>
     <attr name="emojiBackspace" format="reference"/>
+    <attr name="picturePlaceholder" format="reference"/>
 
     <!-- Drawer Icons -->
     <attr name="drawerIcon" format="reference"/>

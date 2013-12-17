@@ -96,6 +96,20 @@
                 android:layout_height="96dp"
                 android:layout_width="fill_parent"
                 android:scaleType="centerCrop"
+                android:src="?picturePlaceholder"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="15dp"
+                android:visibility="gone"
+                />
+
+            <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+                android:id="@+id/play_button"
+                android:layout_below="@id/retweeter"
+                android:src="@drawable/ic_action_play"
+                android:layout_height="96dp"
+                android:layout_width="match_parent"
+                android:scaleType="centerInside"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="15dp"
