@@ -3,6 +3,7 @@ package com.klinker.android.talon.listeners;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.FavoriteUsersActivity;
@@ -24,11 +26,14 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     private Context context;
     private DrawerLayout drawer;
     private ViewPager viewPager;
+    private boolean noWait;
 
     public MainDrawerClickListener(Context context, DrawerLayout drawer, ViewPager viewPager) {
         this.context = context;
         this.drawer = drawer;
         this.viewPager = viewPager;
+        this.noWait = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
+                context.getResources().getBoolean(R.bool.isTablet);
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -43,7 +48,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                             // landscape mode
                         }
                     }
-                }, 300);
+                }, noWait ? 0 : 300);
 
                 viewPager.setCurrentItem(i, true);
             } else {
@@ -61,10 +66,12 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                         intent.putExtra("page_to_open", pos);
                         intent.putExtra("from_drawer", true);
 
-                        try {
-                            Thread.sleep(400);
-                        } catch (Exception e) {
+                        if (!noWait) {
+                            try {
+                                Thread.sleep(400);
+                            } catch (Exception e) {
 
+                            }
                         }
 
                         try {
@@ -112,11 +119,14 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                             break;
                     }
 
-                    try {
-                        Thread.sleep(400);
-                    } catch (Exception e) {
+                    if(!noWait) {
+                        try {
+                            Thread.sleep(400);
+                        } catch (Exception e) {
 
+                        }
                     }
+                    
                     try {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         context.startActivity(intent);
