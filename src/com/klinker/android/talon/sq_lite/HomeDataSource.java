@@ -22,7 +22,7 @@ public class HomeDataSource {
     public static String[] allColumns = { HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_TWEET_ID, HomeSQLiteHelper.COLUMN_ACCOUNT, HomeSQLiteHelper.COLUMN_TYPE,
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
             HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
-            HomeSQLiteHelper.COLUMN_RETWEETER, HomeSQLiteHelper.COLUMN_URL };
+            HomeSQLiteHelper.COLUMN_RETWEETER, HomeSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS };
 
     public HomeDataSource(Context context) {
         dbHelper = new HomeSQLiteHelper(context);
@@ -48,9 +48,11 @@ public class HomeDataSource {
         }
 
         String[] html = HtmlUtils.getHtmlStatus(status);
-        String media = html[1];
         String text = html[0];
+        String media = html[1];
         String url = html[2];
+        String hashtags = html[3];
+        String users = html[4];
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
@@ -63,6 +65,8 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
         values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
+        values.put(HomeSQLiteHelper.COLUMN_USERS, users);
+        values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
     }
@@ -79,9 +83,11 @@ public class HomeDataSource {
         }
 
         String[] html = HtmlUtils.getHtmlStatus(status);
-        String media = html[1];
         String text = html[0];
+        String media = html[1];
         String url = html[2];
+        String hashtags = html[3];
+        String users = html[4];
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
@@ -94,6 +100,8 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
         values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
+        values.put(HomeSQLiteHelper.COLUMN_USERS, users);
+        values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
     }

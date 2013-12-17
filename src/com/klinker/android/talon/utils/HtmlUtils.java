@@ -16,14 +16,20 @@ public class HtmlUtils {
         String mUsers = "";
 
         for(UserMentionEntity name : users) {
-            mUsers += name.getScreenName() + "  ";
+            String n = name.getScreenName();
+            if (n.length() > 1) {
+                mUsers += n + "  ";
+            }
         }
 
         HashtagEntity[] hashtags = status.getHashtagEntities();
         String mHashtags = "";
 
         for (HashtagEntity hashtagEntity : hashtags) {
-            mHashtags += hashtagEntity.getText() + "  ";
+            String text = hashtagEntity.getText();
+            if (text.length() > 1) {
+                mHashtags += text + "  ";
+            }
         }
 
         URLEntity[] urls = status.getURLEntities();
@@ -31,8 +37,11 @@ public class HtmlUtils {
         String compressedUrls = "";
 
         for (URLEntity entity : urls) {
-            expandedUrls += entity.getExpandedURL() + "  ";
-            compressedUrls += entity.getURL() + "  ";
+            String url = entity.getExpandedURL();
+            if (url.length() > 1) {
+                expandedUrls += url + "  ";
+                compressedUrls += entity.getURL() + "  ";
+            }
         }
 
         MediaEntity[] medias = status.getMediaEntities();
@@ -40,8 +49,11 @@ public class HtmlUtils {
         String mediaComp = "";
 
         for (MediaEntity e : medias) {
-            mediaComp += e.getURL() + "  ";
-            mediaExp += e.getExpandedURL() + "  ";
+            String url = e.getURL();
+            if (url.length() > 1) {
+                mediaComp += url + "  ";
+                mediaExp += e.getExpandedURL() + "  ";
+            }
         }
 
         String[] sUsers;
@@ -157,7 +169,7 @@ public class HtmlUtils {
             }
         }
 
-        return new String[] { tweetTexts, imageUrl, otherUrl };
+        return new String[] { tweetTexts, imageUrl, otherUrl, mHashtags, mUsers };
     }
 
     public static String[] getHtmlStatus(DirectMessage status) {
@@ -165,14 +177,20 @@ public class HtmlUtils {
         String mUsers = "";
 
         for(UserMentionEntity name : users) {
-            mUsers += name.getScreenName() + "  ";
+            String n = name.getScreenName();
+            if (n.length() > 1) {
+                mUsers += n + "  ";
+            }
         }
 
         HashtagEntity[] hashtags = status.getHashtagEntities();
         String mHashtags = "";
 
         for (HashtagEntity hashtagEntity : hashtags) {
-            mHashtags += hashtagEntity.getText() + "  ";
+            String text = hashtagEntity.getText();
+            if (text.length() > 1) {
+                mHashtags += text + "  ";
+            }
         }
 
         URLEntity[] urls = status.getURLEntities();
@@ -180,8 +198,11 @@ public class HtmlUtils {
         String compressedUrls = "";
 
         for (URLEntity entity : urls) {
-            expandedUrls += entity.getExpandedURL() + "  ";
-            compressedUrls += entity.getURL() + "  ";
+            String url = entity.getExpandedURL();
+            if (url.length() > 1) {
+                expandedUrls += url + "  ";
+                compressedUrls += entity.getURL() + "  ";
+            }
         }
 
         MediaEntity[] medias = status.getMediaEntities();
@@ -189,8 +210,11 @@ public class HtmlUtils {
         String mediaComp = "";
 
         for (MediaEntity e : medias) {
-            mediaComp += e.getURL() + "  ";
-            mediaExp += e.getExpandedURL() + "  ";
+            String url = e.getURL();
+            if (url.length() > 1) {
+                mediaComp += url + "  ";
+                mediaExp += e.getExpandedURL() + "  ";
+            }
         }
 
         String[] sUsers;
@@ -305,7 +329,7 @@ public class HtmlUtils {
             }
         }
 
-        return new String[] { tweetTexts, imageUrl, otherUrl };
+        return new String[] { tweetTexts, imageUrl, otherUrl, mHashtags, mUsers };
     }
 
     public static String removeColorHtml(String text) {

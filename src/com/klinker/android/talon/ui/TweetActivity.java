@@ -102,6 +102,8 @@ public class TweetActivity extends YouTubeBaseActivity implements
     private String proPic;
     private boolean picture;
     private long tweetId;
+    private String[] users;
+    private String[] hashtags;
 
     private TextView timetv;
 
@@ -201,6 +203,18 @@ public class TweetActivity extends YouTubeBaseActivity implements
         tweetId = from.getLongExtra("tweetid", 0);
         picture = from.getBooleanExtra("picture", false);
         proPic = from.getStringExtra("proPic");
+
+        try {
+            users = from.getStringExtra("users").split("  ");
+        } catch (Exception e) {
+            users = null;
+        }
+
+        try {
+            hashtags = from.getStringExtra("hashtags").split("  ");
+        } catch (Exception e) {
+            hashtags = null;
+        }
 
         if (screenName.equals(settings.myScreenName)) {
             isMyTweet = true;
@@ -388,40 +402,36 @@ public class TweetActivity extends YouTubeBaseActivity implements
             tweettv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String[] split = tweet.split(" ");
+
                     ArrayList<String> strings = new ArrayList<String>();
 
-                    for (String s : split) {
-                        s.replaceAll("\"", "");
-                        if (s.contains("color='#") && !s.contains("http")) {
-                            strings.add(s.replaceAll("color='#FF8800'>", "").replaceAll("</font>", ""));
+                    for (String s : users) {
+                        if (!s.equals("")) {
+                            strings.add("@" + s);
                         }
                     }
-
-                    CharSequence[] items;
-                    if (webpage.equals("")) {
-                        items = new CharSequence[strings.size()];
-                    } else {
-                        items = new CharSequence[strings.size() + 1];
+                    for (String s : hashtags) {
+                        if (!s.equals("")) {
+                            strings.add(s);
+                        }
                     }
+                    if (!webpage.equals("")) {
+                        strings.add(webpage);
+                    }
+
+                    CharSequence[] items = new CharSequence[strings.size()];
 
                     for (int i = 0; i < items.length; i++) {
-                        try {
-                            items[i] = strings.get(i);
-                        } catch (IndexOutOfBoundsException e) {
-                            // it is the last one and it wants the webpage because strings is out
+                        String s = strings.get(i);
+                        if (s != null) {
+                            items[i] = s;
                         }
-                    }
-
-                    if (!webpage.equals("")) {
-                        items[items.length - 1] = webpage;
                     }
 
                     final CharSequence[] fItems = items;
 
                     if (fItems.length > 1) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        //builder.setTitle(getResources().getString(R.string.open_what) + "?");
                         builder.setItems(items, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                 String touched = fItems[item] + "";
@@ -432,13 +442,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
                                     startActivity(launchBrowser);
                                 } else if (touched.contains("@")) { //username
                                     Intent user = new Intent(context, UserProfileActivity.class);
-                                    user.putExtra("screenname", touched.replace("@", "")
-                                            .replace(",", "")
-                                            .replace(".", "")
-                                            .replace("\'s", "")
-                                            .replace("\"", "")
-                                            .replace("!", "")
-                                            .replace(":", ""));
+                                    user.putExtra("screenname", touched.replace("@", ""));
                                     user.putExtra("proPic", "");
                                     context.startActivity(user);
                                 } else { // hashtag

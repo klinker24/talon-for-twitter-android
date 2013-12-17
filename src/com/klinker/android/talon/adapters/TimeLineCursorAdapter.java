@@ -159,6 +159,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
         final long longTime = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
         final String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
+        final String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
+        final String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
 
         String retweeter;
         try {
@@ -184,7 +186,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             link = otherUrl;
                         }
 
-                        Log.v("tweet_page", "clicked");
                         Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
@@ -195,6 +196,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("picture", displayPic);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
+                        viewTweet.putExtra("users", users);
+                        viewTweet.putExtra("hashtags", hashtags);
 
                         context.startActivity(viewTweet);
 
@@ -231,7 +234,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             link = otherUrl;
                         }
 
-                        Log.v("tweet_page", "clicked");
                         Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
@@ -242,6 +244,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("picture", displayPic);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
+                        viewTweet.putExtra("users", users);
+                        viewTweet.putExtra("hashtags", hashtags);
 
                         context.startActivity(viewTweet);
                     }
