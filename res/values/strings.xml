@@ -189,6 +189,7 @@
                 - Actionable Toast Bar\n
                 - Transparent System Bars (Android 4.4 only)\n\n
                 Enabling this setting will affect scrolling performance as well.</string>
+        <string name="inline_pics">Display In-Line Pictures</string>
         <string name="timestamp">24-Hour Timestamp</string>
         <string name="enable_emojis">Enable Emojis</string>
         <string name="enable_emojis_summary">This will add an emoji button to bring up the keyboard when you are composing or replying to a tweet.</string>

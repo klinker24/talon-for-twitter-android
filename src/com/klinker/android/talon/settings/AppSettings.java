@@ -45,6 +45,7 @@ public class AppSettings {
     public boolean militaryTime;
     public boolean syncMobile;
     public boolean useEmoji;
+    public boolean inlinePics;
 
     public int theme;
     public int textSize;
@@ -93,6 +94,7 @@ public class AppSettings {
         wakeScreen = sharedPrefs.getBoolean("wake", true);
         militaryTime = sharedPrefs.getBoolean("military_time", false);
         syncMobile = sharedPrefs.getBoolean("sync_mobile_data", true);
+        inlinePics = sharedPrefs.getBoolean("inline_pics", true);
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {
