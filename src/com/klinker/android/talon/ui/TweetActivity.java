@@ -405,14 +405,18 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
                     ArrayList<String> strings = new ArrayList<String>();
 
-                    for (String s : users) {
-                        if (!s.equals("")) {
-                            strings.add("@" + s);
+                    if (users != null) {
+                        for (String s : users) {
+                            if (!s.equals("")) {
+                                strings.add("@" + s);
+                            }
                         }
                     }
-                    for (String s : hashtags) {
-                        if (!s.equals("")) {
-                            strings.add(s);
+                    if (hashtags != null) {
+                        for (String s : hashtags) {
+                            if (!s.equals("")) {
+                                strings.add(s);
+                            }
                         }
                     }
                     if (!webpage.equals("")) {
