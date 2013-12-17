@@ -281,7 +281,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     onRefreshStarted(view);
                 }
             }
-        }, 1500);
+        }, 750);
 
         setUpToastBar(layout);
 
