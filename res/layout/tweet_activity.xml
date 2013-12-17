@@ -20,7 +20,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="?tweetBackgroundNoDialog"
-                android:layout_marginRight="6dp">
+                android:layout_marginRight="@dimen/tweet_activ_margin"
+                android:layout_marginLeft="@dimen/tweet_activ_margin">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -73,7 +74,7 @@
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
                 android:layout_marginTop="10dp"
-                android:layout_margin="6dp"
+                android:layout_margin="@dimen/tweet_activ_margin"
                 android:visibility="gone"
                 />
 
@@ -82,7 +83,7 @@
                      android:layout_width="fill_parent"
                      android:background="@android:color/transparent"
                      android:layout_marginTop="10dp"
-                     android:layout_margin="6dp"
+                     android:layout_margin="@dimen/tweet_activ_margin"
                      android:visibility="gone" />
 
             <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
@@ -91,10 +92,7 @@
                      android:layout_width="fill_parent"
                      android:background="@android:color/transparent"
                      android:scaleType="fitCenter"
-                     android:layout_marginTop="5dp"
-                     android:layout_marginBottom="3dp"
-                     android:layout_marginRight="6dp"
-                     android:layout_marginLeft="6dp"
+                     android:layout_margin="@dimen/tweet_activ_margin"
                      android:visibility="gone" />
 
             <LinearLayout android:id="@+id/list_progress"
@@ -118,9 +116,7 @@
                       android:divider="@null"
                       android:dividerHeight="5dp"
                       android:paddingTop="5dp"
-                      android:layout_margin="3dp"
-                      android:paddingRight="6dp"
-                      android:paddingLeft="6dp"
+                      android:layout_margin="@dimen/tweet_activ_margin"
                       android:background="?windowBackground"
                       android:scrollbars="vertical"
                       android:listSelector="@android:color/transparent"
@@ -137,7 +133,7 @@
             android:layout_width="wrap_content"
             android:orientation="horizontal"
             android:gravity="bottom"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/tweet_activ_margin"
             android:layout_marginBottom="10dp"
             android:visibility="gone">
 

@@ -93,8 +93,8 @@ public abstract class DrawerActivity extends Activity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
 
-        TextView name = (TextView) mDrawer.findViewById(R.id.name);
-        TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
+        HoloTextView name = (HoloTextView) mDrawer.findViewById(R.id.name);
+        HoloTextView screenName = (HoloTextView) mDrawer.findViewById(R.id.screen_name);
         final NetworkedCacheableImageView backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
         final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);

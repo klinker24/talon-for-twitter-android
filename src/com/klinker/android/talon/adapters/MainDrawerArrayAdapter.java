@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.ui.widgets.HoloTextView;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
     public static int current = 0;
 
     static class ViewHolder {
-        public TextView name;
+        public HoloTextView name;
         public ImageView icon;
     }
 
@@ -65,7 +66,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
 
             ViewHolder viewHolder = new ViewHolder();
 
-            viewHolder.name = (TextView) rowView.findViewById(R.id.title);
+            viewHolder.name = (HoloTextView) rowView.findViewById(R.id.title);
             viewHolder.icon = (ImageView) rowView.findViewById(R.id.icon);
 
             rowView.setTag(viewHolder);

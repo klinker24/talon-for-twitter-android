@@ -22,5 +22,6 @@ limitations under the License.
     <dimen name="contact_picture_border">1dp</dimen>
 
     <dimen name="pro_pic_size">48dp</dimen>
+    <dimen name="tweet_activ_margin">6dp</dimen>
 
 </resources>
