@@ -200,9 +200,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String screenname = user.getScreenName();
 
         String[] html = HtmlUtils.getHtmlStatus(status);
-        final String picUrl = html[1];
         final String tweetText = html[0];
+        final String picUrl = html[1];
         final String otherUrl = html[2];
+        final String hashtags = html[3];
+        final String users = html[4];
 
         if(!settings.reverseClickActions) {
             final String fRetweeter = retweeter;
@@ -230,6 +232,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("picture", displayPic);
                     viewTweet.putExtra("tweetid", holder.tweetId);
                     viewTweet.putExtra("proPic", profilePic);
+                    viewTweet.putExtra("users", users);
+                    viewTweet.putExtra("hashtags", hashtags);
 
                     context.startActivity(viewTweet);
 
@@ -275,6 +279,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("picture", displayPic);
                     viewTweet.putExtra("tweetid", holder.tweetId);
                     viewTweet.putExtra("proPic", profilePic);
+                    viewTweet.putExtra("users", users);
+                    viewTweet.putExtra("hashtags", hashtags);
 
                     context.startActivity(viewTweet);
                 }
