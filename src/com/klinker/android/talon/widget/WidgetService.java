@@ -115,6 +115,8 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             extras.putBoolean("picture", displayPic);
             extras.putLong("tweetid", mWidgetItems.get(arg0).getId());
             extras.putString("propic", mWidgetItems.get(arg0).getPicUrl());
+            extras.putString("users", mWidgetItems.get(arg0).getUsers());
+            extras.putString("hashtags", mWidgetItems.get(arg0).getHashtags());
 
             Intent cardFillInIntent = new Intent();
             cardFillInIntent.putExtras(extras);
@@ -172,7 +174,9 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                             query.getLong(query.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)),
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER)),
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL)),
-                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_URL))
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_URL)),
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS)),
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS))
                     ));
                 } while (query.moveToNext());
             }

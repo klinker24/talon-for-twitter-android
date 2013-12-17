@@ -10,8 +10,10 @@ public class Tweet {
     private String retweeter;
     private String website;
     private String otherWeb;
+    private String users;
+    private String hashtags;
 
-    public Tweet(long id, String text, String name, String picUrl, String screenName, long time, String retweeter, String webpage, String otherWeb) {
+    public Tweet(long id, String text, String name, String picUrl, String screenName, long time, String retweeter, String webpage, String otherWeb, String users, String hashtags) {
         this.id = id;
         this.text = text;
         this.name = name;
@@ -21,6 +23,8 @@ public class Tweet {
         this.retweeter = retweeter;
         this.website = webpage;
         this.otherWeb = otherWeb;
+        this.users = users;
+        this.hashtags = hashtags;
     }
 
     public long getId() {
@@ -77,6 +81,14 @@ public class Tweet {
 
     public String getOtherWeb() {
         return otherWeb;
+    }
+
+    public String getUsers() {
+        return users;
+    }
+
+    public String getHashtags() {
+        return hashtags;
     }
 
     // Will be used by the ArrayAdapter in the ListView
