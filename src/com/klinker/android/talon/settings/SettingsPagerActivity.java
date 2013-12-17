@@ -11,6 +11,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.widgets.HoloTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,12 +128,24 @@ public class SettingsPagerActivity extends FragmentActivity {
             mDrawerLayout.openDrawer(mDrawer);
         }
 
-        findViewById(R.id.created_by).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
-                    }
-            });
+        HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
+        try {
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            String text = "<b>" + getResources().getString(R.string.version) + " " + versionName + "</b>" + "<br/>" +
+                    "" + getResources().getString(R.string.created_by) + " Luke Klinker" + "";
+            createdBy.setText(Html.fromHtml(text));
+        } catch (Exception e) {
+            String text = "<b>" + getResources().getString(R.string.created_by) + " Luke Klinker" + "</b>";
+            createdBy.setText(Html.fromHtml(text));
+        }
+
+
+        createdBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
+            }
+        });
     }
 
     public void setUpTheme() {

@@ -104,11 +104,12 @@
     <string name="ok">OK</string>
     <string name="no">No</string>
     <string name="changelog">What\'s New</string>
-    <string name="created_by">Created by Luke Klinker</string>
+    <string name="created_by">Created by</string>
     <string name="no_location">Couldn\'t find location</string>
     <string name="take_picture">Capture Image</string>
     <string name="from_file">Attach Image</string>
     <string name="via">via</string>
+    <string name="version">Version</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
