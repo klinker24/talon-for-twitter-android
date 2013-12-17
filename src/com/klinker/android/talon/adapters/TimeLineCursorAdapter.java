@@ -179,7 +179,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public boolean onLongClick(View view) {
                         String link;
 
-                        boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                        boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
                         if (displayPic) {
                             link = picUrl;
                         } else {
@@ -227,7 +227,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public void onClick(View view) {
                         String link = "";
 
-                        boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                        boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
                         if (displayPic) {
                             link = picUrl;
                         } else {

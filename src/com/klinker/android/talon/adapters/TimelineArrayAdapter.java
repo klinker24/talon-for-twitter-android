@@ -214,7 +214,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     String link;
 
-                    boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                    boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
                     if (displayPic) {
                         link = picUrl;
                     } else {
@@ -261,7 +261,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     String link;
 
-                    boolean displayPic = holder.image.getVisibility() == View.VISIBLE && !picUrl.contains("youtube");
+                    boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
                     if (displayPic) {
                         link = picUrl;
                     } else {
