@@ -24,4 +24,7 @@ limitations under the License.
     <dimen name="pro_pic_size">48dp</dimen>
     <dimen name="tweet_activ_margin">6dp</dimen>
 
+    <dimen name="drawer_size_port">250dp</dimen>
+    <dimen name="drawer_size_land">210dp</dimen>
+
 </resources>

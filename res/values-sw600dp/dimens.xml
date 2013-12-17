@@ -2,5 +2,7 @@
 <resources>
 
     <dimen name="pro_pic_size">56dp</dimen>
+    <dimen name="drawer_size_port">225dp</dimen>
+    <dimen name="drawer_size_land">280dp</dimen>
 
 </resources>

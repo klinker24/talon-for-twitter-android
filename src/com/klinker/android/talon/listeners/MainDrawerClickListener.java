@@ -126,7 +126,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
                         }
                     }
-                    
+
                     try {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         context.startActivity(intent);

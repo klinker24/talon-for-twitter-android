@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="drawer_size_port">255dp</dimen>
+    <dimen name="drawer_size_land">305dp</dimen>
+
+</resources>
