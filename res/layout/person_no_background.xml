@@ -15,13 +15,13 @@
 
         <!-- The tweeters picture -->
         <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/pro_pic_size"
+            android:layout_height="@dimen/pro_pic_size"
             android:id="@+id/profile_pic"
             android:src="?circleBorder"
-            android:minHeight="48dp" android:minWidth="48dp"
+            android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
-            android:maxWidth="48dp" android:maxHeight="48dp"
+            android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
             android:contentDescription="@string/placeholder"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"/>
