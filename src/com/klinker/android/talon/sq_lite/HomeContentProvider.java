@@ -146,9 +146,11 @@ public class HomeContentProvider extends ContentProvider {
         }
 
         String[] html = HtmlUtils.getHtmlStatus(status);
-        String media = html[1];
         String text = html[0];
+        String media = html[1];
         String url = html[2];
+        String hashtags = html[3];
+        String users = html[4];
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
         values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
@@ -161,6 +163,8 @@ public class HomeContentProvider extends ContentProvider {
         values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
         values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
+        values.put(HomeSQLiteHelper.COLUMN_USERS, users);
+        values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
         context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
