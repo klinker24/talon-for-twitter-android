@@ -22,6 +22,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
     private final ArrayList<String> text;
     public SharedPreferences sharedPrefs;
     public static int current = 0;
+    public int textSize;
 
     static class ViewHolder {
         public HoloTextView name;
@@ -47,6 +48,8 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         this.context = (Activity) context;
         this.text = text;
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
     }
 
     @Override
@@ -75,6 +78,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         holder.name.setText(settingName);
+        holder.name.setTextSize(textSize);
 
         if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.timelineItem});

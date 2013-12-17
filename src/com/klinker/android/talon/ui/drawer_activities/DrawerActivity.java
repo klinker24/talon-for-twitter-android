@@ -267,6 +267,8 @@ public abstract class DrawerActivity extends Activity {
 
         name.setText(sName);
         screenName.setText("@" + sScreenName);
+        name.setTextSize(settings.textSize);
+        screenName.setTextSize(settings.textSize);
 
         // Keeping picasso right now because of the transforms...
         // Don't know how to do them yet with the manual caching
@@ -305,6 +307,9 @@ public abstract class DrawerActivity extends Activity {
         HoloTextView name2 = (HoloTextView) findViewById(R.id.name_2);
         HoloTextView screenname2 = (HoloTextView) findViewById(R.id.screen_name_2);
         NetworkedCacheableImageView proPic2 = (NetworkedCacheableImageView) findViewById(R.id.profile_pic_2);
+
+        name2.setTextSize(settings.textSize);
+        screenname2.setTextScaleX(settings.textSize);
 
         final int current = sharedPrefs.getInt("current_account", 1);
 
