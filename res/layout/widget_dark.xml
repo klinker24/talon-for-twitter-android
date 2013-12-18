@@ -56,6 +56,20 @@ limitations under the License.
                     android:layout_alignParentTop="true"/>
 
                 <ImageButton
+                    android:id="@+id/syncButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/replyButton"
+                    android:layout_marginRight="7dp"
+                    android:alpha=".6"
+                    android:background="@drawable/pressed_button"
+                    android:paddingBottom="3dp"
+                    android:src="@drawable/drawer_sync_dark"
+                    android:scaleX=".85"
+                    android:scaleY=".85"
+                    android:layout_alignParentTop="true"/>
+
+                <ImageButton
                     android:id="@+id/replyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
