@@ -131,11 +131,11 @@ public class SettingsPagerActivity extends FragmentActivity {
         HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
         try {
             String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            String text = "<b>" + getResources().getString(R.string.version) + " " + versionName + "</b>" + "<br/>" +
-                    "" + getResources().getString(R.string.created_by) + " Luke Klinker" + "";
+            String text = getResources().getString(R.string.version) + " " + versionName + "<br/>" +
+                    getResources().getString(R.string.created_by) + " Luke Klinker";
             createdBy.setText(Html.fromHtml(text));
         } catch (Exception e) {
-            String text = "<b>" + getResources().getString(R.string.created_by) + " Luke Klinker" + "</b>";
+            String text = getResources().getString(R.string.created_by) + " Luke Klinker";
             createdBy.setText(Html.fromHtml(text));
         }
 
