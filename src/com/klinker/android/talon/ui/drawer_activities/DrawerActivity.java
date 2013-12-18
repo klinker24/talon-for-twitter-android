@@ -309,7 +309,7 @@ public abstract class DrawerActivity extends Activity {
         NetworkedCacheableImageView proPic2 = (NetworkedCacheableImageView) findViewById(R.id.profile_pic_2);
 
         name2.setTextSize(settings.textSize);
-        screenname2.setTextScaleX(settings.textSize);
+        screenname2.setTextSize(settings.textSize);
 
         final int current = sharedPrefs.getInt("current_account", 1);
 
