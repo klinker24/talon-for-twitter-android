@@ -5,6 +5,7 @@ Version 0.70:<br/><br/>
     &#8226; Option to not show the inline pictures<br/>
     &#8226; Much better support for hashtags, links, and user entities in tweets<br/>
     &#8226; Option to turn off and on emoji keyboard from settings. Check if it is installed too<br/>
+    &#8226; Major widget changes<br/>
     &#8226; Widget and image caching fixes<br/>
     &#8226; Inline Instagram pictures<br/><br/>
 <br/>

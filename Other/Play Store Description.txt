@@ -68,6 +68,16 @@ Twitter: @lukeklinker
 Google+ Beta Page: coming soon
 XDA Developers Thread: coming soon
 
+Permissions Explained:
+- Write to Storage: Saves pictures to your SD card and writes them into the cache.
+- Read from Storage: Used when backing up settings.
+- Location: Used for trends and attaching locations to tweets.
+- Network Communication: Obviously have to be able to interact with Twitter ;)
+- Network State: Used so the user can toggle background sync to only over WiFi.
+- Run at Startup: Re-schedules the background refreshes.
+- Keep Awake: Used for background refreshes and waking the screen.
+- Vibrate: Used for the notifications.
+
 Credit:
 - Jacob Klinker: DateAndTimePicker dialog as well as tons of ideas and support
 - Yusuke Yamamoto: Twitter4j library

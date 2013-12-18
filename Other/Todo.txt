@@ -18,5 +18,4 @@
         - Make notifUtils and then put failed there and apply it to the tweet activity and the cursor adapter replies
         - Make a static method to post the notification with ALL the info, not seperate ones
         - Make a getText and title funtion to use for dashclock as well
-    - refresh button on widget
     - redo the DM compose activity
