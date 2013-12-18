@@ -62,6 +62,8 @@ public class WidgetProvider extends AppWidgetProvider {
             viewTweet.putExtra("tweetid", intent.getLongExtra("tweetid", 0));
             viewTweet.putExtra("proPic", intent.getStringExtra("propic"));
             viewTweet.putExtra("from_widget", true);
+            viewTweet.putExtra("users", intent.getStringExtra("users"));
+            viewTweet.putExtra("hashtags", intent.getStringExtra("hashtags"));
 
             viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
