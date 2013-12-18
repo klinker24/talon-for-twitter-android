@@ -53,20 +53,18 @@
             <LinearLayout
                 android:layout_toRightOf="@id/profile_pic_2"
                 android:layout_alignTop="@id/profile_pic_2"
+                android:minHeight="@dimen/pro_pic_size"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp" >
 
                 <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:id="@+id/name_2"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:layout_toRightOf="@id/profile_pic_2"
-                    android:layout_alignTop="@id/profile_pic_2"
                     android:maxLines="1"
-                    android:textSize="16dp"
                     android:textStyle="bold"
                     android:textColor="?textColor"/>
 
@@ -74,8 +72,6 @@
                     android:id="@+id/screen_name_2"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:layout_below="@id/name_2"
-                    android:layout_alignLeft="@id/name_2"
                     android:maxLines="1"
                     android:paddingBottom="3dp"
                     android:textColor="?textColor"/>
