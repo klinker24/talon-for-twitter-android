@@ -46,41 +46,6 @@
             android:padding="4dp"/>
 
         <LinearLayout
-            android:id="@+id/buttons"
-            android:background="@drawable/background_card"
-            android:layout_alignParentRight="true"
-            android:layout_above="@+id/bottom_bar"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom"
-            android:layout_margin="5dp"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone">
-
-            <ImageButton
-                android:id="@+id/attach"
-                android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="@drawable/ic_attach_light"
-                android:background="@drawable/pressed_button"
-                android:minHeight="48dp" android:minWidth="48dp"
-                android:scaleType="center" android:adjustViewBounds="true"
-                android:maxWidth="48dp" android:maxHeight="48dp" />
-
-            <ImageButton
-                android:id="@+id/emoji"
-                android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="@drawable/ic_emoji_keyboard_dark"
-                android:background="@drawable/pressed_button"
-                android:minHeight="48dp" android:minWidth="48dp"
-                android:scaleType="center" android:adjustViewBounds="true"
-                android:maxWidth="48dp" android:maxHeight="48dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,13 +76,14 @@
                     android:gravity="center"/>
 
                 <ImageButton
-                    android:id="@+id/overflow_button"
-                    android:layout_width="48dp"
+                    android:id="@+id/emoji"
                     android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/ic_emoji_keyboard_dark"
                     android:background="@drawable/pressed_button"
-                    android:src="?overflow_button"
-                    android:gravity="center"
-                    android:textColor="?textColor" />
+                    android:minHeight="48dp" android:minWidth="48dp"
+                    android:scaleType="center" android:adjustViewBounds="true"
+                    android:maxWidth="48dp" android:maxHeight="48dp" />
 
             </LinearLayout>
 

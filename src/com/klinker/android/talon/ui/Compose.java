@@ -207,74 +207,6 @@ public abstract class Compose extends Activity implements
         reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
-        overflow = (ImageButton) findViewById(R.id.overflow_button);
-        overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
-                if (buttons.getVisibility() == View.VISIBLE) {
-
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
-
-                    buttons.setVisibility(View.GONE);
-                } else {
-                    buttons.setVisibility(View.VISIBLE);
-
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
-                }
-            }
-        });
-
-        mAttacher = new PhotoViewAttacher(attachImage);
-
-        attachButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                //builder.setTitle(getResources().getString(R.string.open_what) + "?");
-                builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if(item == 0) { // take picture
-                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
-
-                            if (!f.exists()) {
-                                try {
-                                    f.getParentFile().mkdirs();
-                                    f.createNewFile();
-                                } catch (IOException e) {
-
-                                }
-                            }
-
-                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                            startActivityForResult(captureIntent, CAPTURE_IMAGE);
-                        } else { // attach picture
-                            if (attachedFilePath.equals("")) {
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                            } else {
-                                attachedFilePath = "";
-                                attachImage.setImageDrawable(null);
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                            }
-                        }
-
-                        overflow.performClick();
-                    }
-                });
-
-                builder.create().show();
-            }
-        });
-
         if (!settings.useEmoji) {
             emojiButton.setVisibility(View.GONE);
         } else {
@@ -514,26 +446,15 @@ public abstract class Compose extends Activity implements
             // dismiss the dialog after getting all products
 
             if (sent) {
-                // updating ui from Background Thread
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getBaseContext(),
-                                getApplicationContext().getResources().getString(R.string.direct_message_sent), Toast.LENGTH_SHORT)
-                                .show();
-                        // Clearing EditText field
-                    }
-                });
+                Toast.makeText(getBaseContext(),
+                        getApplicationContext().getResources().getString(R.string.direct_message_sent),
+                        Toast.LENGTH_SHORT)
+                        .show();
             } else {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getBaseContext(),
-                                getResources().getString(R.string.error), Toast.LENGTH_SHORT)
-                                .show();
-                        // Clearing EditText field
-                    }
-                });
+                Toast.makeText(getBaseContext(),
+                        getResources().getString(R.string.error),
+                        Toast.LENGTH_SHORT)
+                        .show();
             }
         }
 

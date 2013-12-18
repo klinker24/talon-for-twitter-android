@@ -91,6 +91,74 @@ public class ComposeActivity extends Compose {
             reply.setSelection(reply.getText().length());
         }
 
+        mAttacher = new PhotoViewAttacher(attachImage);
+
+        overflow = (ImageButton) findViewById(R.id.overflow_button);
+        overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
+                if (buttons.getVisibility() == View.VISIBLE) {
+
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+                    anim.setDuration(300);
+                    buttons.startAnimation(anim);
+
+                    buttons.setVisibility(View.GONE);
+                } else {
+                    buttons.setVisibility(View.VISIBLE);
+
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+                    anim.setDuration(300);
+                    buttons.startAnimation(anim);
+                }
+            }
+        });
+
+        attachButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                //builder.setTitle(getResources().getString(R.string.open_what) + "?");
+                builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if(item == 0) { // take picture
+                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+
+                            if (!f.exists()) {
+                                try {
+                                    f.getParentFile().mkdirs();
+                                    f.createNewFile();
+                                } catch (IOException e) {
+
+                                }
+                            }
+
+                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                            startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                        } else { // attach picture
+                            if (attachedFilePath.equals("")) {
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                            } else {
+                                attachedFilePath = "";
+                                attachImage.setImageDrawable(null);
+                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                photoPickerIntent.setType("image/*");
+                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                            }
+                        }
+
+                        overflow.performClick();
+                    }
+                });
+
+                builder.create().show();
+            }
+        });
+
         Button at = (Button) findViewById(R.id.at_button);
         at.setOnClickListener(new View.OnClickListener() {
             @Override
