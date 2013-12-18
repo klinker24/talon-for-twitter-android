@@ -333,6 +333,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
             website.setVisibility(View.VISIBLE);
             website.getSettings().setJavaScriptEnabled(true);
             website.getSettings().setBuiltInZoomControls(true);
+            website.clearCache(true);
 
             final Activity activity = this;
             website.setWebChromeClient(new WebChromeClient() {
