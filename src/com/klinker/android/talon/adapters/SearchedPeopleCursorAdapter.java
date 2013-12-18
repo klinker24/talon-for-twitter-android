@@ -60,7 +60,22 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
             @Override
             public void onClick(View view) {
 
-                text.setText("@" + screenName);
+                String currentText = text.getText().toString();
+
+                try {
+                    String[] curr = currentText.split(" ");
+                    currentText = "";
+
+                    for (String s : curr) {
+                        if (s.contains("@")) {
+                            currentText += s + " ";
+                        }
+                    }
+                } catch (Exception e) {
+                    currentText = text.getText().toString();
+                }
+
+                text.setText(currentText + "@" + screenName);
                 text.setSelection(text.getText().length());
 
             }
