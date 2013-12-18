@@ -46,8 +46,7 @@ limitations under the License.
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="15dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_launcher"/>
+                android:scaleType="fitCenter" />
 
             </LinearLayout>
 
