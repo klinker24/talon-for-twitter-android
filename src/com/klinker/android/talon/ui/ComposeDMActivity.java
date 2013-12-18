@@ -71,18 +71,23 @@ public class ComposeDMActivity extends Compose {
         EditText editText = (EditText) findViewById(R.id.tweet_content);
         String status = editText.getText().toString();
 
-        // Check for blank text
-        if (status.trim().length() > 0 && status.length() < 140) {
-            // update status
-            sendStatus(status);
-            return true;
-        } else {
-            if (editText.getText().length() < 140) {
-                // EditText is empty
-                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
+        if(!contactEntry.getText().toString().contains(" ")) {
+            // Check for blank text
+            if (status.trim().length() > 0 && status.length() < 140) {
+                // update status
+                sendStatus(status);
+                return true;
             } else {
-                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                if (editText.getText().length() < 140) {
+                    // EditText is empty
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
+        } else {
+            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.one_recepient), Toast.LENGTH_SHORT).show();
             return false;
         }
     }

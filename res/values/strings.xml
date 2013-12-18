@@ -84,6 +84,7 @@
     <string name="apply">Apply?</string>
     <string name="tweet_failed">Error sending tweet</string>
     <string name="tap_to_retry">Tap to retry</string>
+    <string name="one_recepient">You can only send Direct Messages to one user!</string>
 
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>

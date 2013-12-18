@@ -80,13 +80,19 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String searchText = text.getText().toString();
-                if (searchText.contains(" ")) {
-                    String[] split = searchText.split(" ");
-                    searchText = split[split.length - 1];
-                }
 
-                list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, searchText), text));
+                String searchText = text.getText().toString();
+
+                if(searchText.substring(searchText.length() - 2, searchText.length() - 1).equals(" ")) {
+                    list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, ""), text));
+                } else {
+                    if (searchText.contains(" ")) {
+                        String[] split = searchText.split(" ");
+                        searchText = split[split.length - 1];
+                    }
+
+                    list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, searchText), text));
+                }
             }
         });
         return super.show();
