@@ -83,7 +83,7 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
 
                 String searchText = text.getText().toString();
 
-                if(searchText.substring(searchText.length() - 2, searchText.length() - 1).equals(" ")) {
+                if(searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
                     list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, ""), text));
                 } else {
                     if (searchText.contains(" ")) {

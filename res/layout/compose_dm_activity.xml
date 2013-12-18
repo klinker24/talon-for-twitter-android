@@ -26,7 +26,7 @@
                 android:layout_gravity="center"
                 android:textColor="#807f7f" />
 
-            <EditText android:id="@+id/contact_entry"
+            <com.klinker.android.talon.ui.widgets.HoloEditText android:id="@+id/contact_entry"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
