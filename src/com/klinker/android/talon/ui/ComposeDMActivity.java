@@ -60,10 +60,10 @@ public class ComposeDMActivity extends Compose {
                 });
 
                 qustomDialogBuilder.show();
-
-                overflow.performClick();
             }
         });
+
+        reply.setHint(getResources().getString(R.string.compose_tweet_hint));
 
     }
 
