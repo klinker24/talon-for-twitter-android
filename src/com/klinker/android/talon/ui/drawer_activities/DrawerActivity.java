@@ -422,6 +422,15 @@ public abstract class DrawerActivity extends Activity {
         if (Build.VERSION.SDK_INT > 18 && !MainActivity.isPopup && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
             translucent = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+            try {
+                int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
+
+                if (immersive == 1) {
+                    translucent = false;
+                }
+            } catch (Exception e) {
+            }
         } else {
             translucent = false;
         }

@@ -9,6 +9,7 @@ Version 0.70:<br/><br/>
     &#8226; Major updates to the Direct Message compose window<br/>
     &#8226; Add more than one screen name from the user selection dialog<br/>
     &#8226; Widget and image caching fixes<br/>
+    &#8226; Lowered the data footprint again<br/>
     &#8226; Inline Instagram pictures<br/><br/>
 <br/>
 
