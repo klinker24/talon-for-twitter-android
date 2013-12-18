@@ -32,7 +32,13 @@ limitations under the License.
                   android:id="@+id/widget_card_background"
                   android:background="@drawable/pressed_button">
 
-        <ImageView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="top" >
+
+            <ImageView
                 android:id="@+id/contactPicture"
                 android:layout_height="48dp"
                 android:layout_width="48dp"
@@ -43,9 +49,12 @@ limitations under the License.
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_launcher"/>
 
+            </LinearLayout>
+
+
         <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_vertical">
 
@@ -56,16 +65,17 @@ limitations under the License.
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@color/dark_text"
-                    android:paddingRight="12dp"/>
+                    android:paddingRight="12dp"
+                    android:paddingTop="10dp"/>
 
             <TextView
                     android:id="@+id/contactText"
                     android:layout_width="wrap_content"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textColor="@color/dark_text"
                     android:paddingRight="12dp"
+                    android:paddingBottom="10dp"
                     android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>

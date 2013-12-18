@@ -118,6 +118,8 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             extras.putString("users", mWidgetItems.get(arg0).getUsers());
             extras.putString("hashtags", mWidgetItems.get(arg0).getHashtags());
 
+            // also have to add the strings in the widget provider
+
             Intent cardFillInIntent = new Intent();
             cardFillInIntent.putExtras(extras);
             card.setOnClickFillInIntent(R.id.widget_card_background, cardFillInIntent);
