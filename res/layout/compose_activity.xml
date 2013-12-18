@@ -10,13 +10,6 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-        <EditText android:id="@+id/contact_entry"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/send_to"
-                  android:visibility="gone"/>
-
-
         <ImageView
                 android:id="@+id/picture"
                 android:layout_height="0dp"
