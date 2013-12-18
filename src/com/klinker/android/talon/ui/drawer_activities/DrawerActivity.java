@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -395,13 +397,15 @@ public abstract class DrawerActivity extends Activity {
         }
 
         if (translucent) {
-            View footer = new View(context);
-            footer.setOnClickListener(null);
-            footer.setOnLongClickListener(null);
-            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-            footer.setLayoutParams(params);
-            drawerList.addFooterView(footer);
-            drawerList.setFooterDividersEnabled(false);
+            if (Utils.hasNavBar(context)) {
+                View footer = new View(context);
+                footer.setOnClickListener(null);
+                footer.setOnLongClickListener(null);
+                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                footer.setLayoutParams(params);
+                drawerList.addFooterView(footer);
+                drawerList.setFooterDividersEnabled(false);
+            }
 
             View drawerStatusBar = findViewById(R.id.drawer_status_bar);
             LinearLayout.LayoutParams status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();

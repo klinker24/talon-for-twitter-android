@@ -1,5 +1,6 @@
 package com.klinker.android.talon.ui.fragments;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -15,12 +16,15 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -176,13 +180,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         listView.setHeaderDividersEnabled(false);
 
         if (DrawerActivity.translucent) {
-            View footer = new View(context);
-            footer.setOnClickListener(null);
-            footer.setOnLongClickListener(null);
-            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-            footer.setLayoutParams(params);
-            listView.addFooterView(footer);
-            listView.setFooterDividersEnabled(false);
+            if (Utils.hasNavBar(context)) {
+                View footer = new View(context);
+                footer.setOnClickListener(null);
+                footer.setOnLongClickListener(null);
+                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                footer.setLayoutParams(params);
+                listView.addFooterView(footer);
+                listView.setFooterDividersEnabled(false);
+            }
 
             if (!MainActivity.isPopup) {
                 View view = new View(context);

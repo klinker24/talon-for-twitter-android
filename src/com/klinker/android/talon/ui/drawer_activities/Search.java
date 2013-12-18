@@ -4,11 +4,13 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -87,13 +89,16 @@ public class Search extends DrawerActivity {
         listView.addHeaderView(viewHeader, null, false);
 
         if (DrawerActivity.translucent) {
-            View footer = new View(context);
-            footer.setOnClickListener(null);
-            footer.setOnLongClickListener(null);
-            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-            footer.setLayoutParams(params);
-            listView.addFooterView(footer);
-            listView.setFooterDividersEnabled(false);
+
+            if (Utils.hasNavBar(context)) {
+                View footer = new View(context);
+                footer.setOnClickListener(null);
+                footer.setOnLongClickListener(null);
+                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                footer.setLayoutParams(params);
+                listView.addFooterView(footer);
+                listView.setFooterDividersEnabled(false);
+            }
 
             if (!MainActivity.isPopup) {
                 View view = new View(context);

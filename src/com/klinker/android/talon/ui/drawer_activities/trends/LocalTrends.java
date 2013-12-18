@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,13 +69,15 @@ public class LocalTrends extends Fragment implements
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
         if (DrawerActivity.translucent) {
-            View footer = new View(context);
-            footer.setOnClickListener(null);
-            footer.setOnLongClickListener(null);
-            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-            footer.setLayoutParams(params);
-            listView.addFooterView(footer);
-            listView.setFooterDividersEnabled(false);
+            if (Utils.hasNavBar(context)) {
+                View footer = new View(context);
+                footer.setOnClickListener(null);
+                footer.setOnLongClickListener(null);
+                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                footer.setLayoutParams(params);
+                listView.addFooterView(footer);
+                listView.setFooterDividersEnabled(false);
+            }
         }
 
         mLocationClient = new LocationClient(context, this, this);

@@ -3,10 +3,12 @@ package com.klinker.android.talon.ui.drawer_activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
@@ -23,9 +25,6 @@ import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
 
-/**
- * Created by luke on 11/27/13.
- */
 public class FavoriteUsersActivity extends DrawerActivity {
 
     FavoriteUsersDataSource dataSource;
@@ -62,13 +61,15 @@ public class FavoriteUsersActivity extends DrawerActivity {
         listView.addHeaderView(viewHeader, null, false);
 
         if (DrawerActivity.translucent) {
-            View footer = new View(context);
-            footer.setOnClickListener(null);
-            footer.setOnLongClickListener(null);
-            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-            footer.setLayoutParams(params);
-            listView.addFooterView(footer);
-            listView.setFooterDividersEnabled(false);
+            if (Utils.hasNavBar(context)) {
+                View footer = new View(context);
+                footer.setOnClickListener(null);
+                footer.setOnLongClickListener(null);
+                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                footer.setLayoutParams(params);
+                listView.addFooterView(footer);
+                listView.setFooterDividersEnabled(false);
+            }
 
             if (!MainActivity.isPopup) {
                 View view = new View(context);

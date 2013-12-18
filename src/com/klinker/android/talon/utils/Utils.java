@@ -1,11 +1,14 @@
 package com.klinker.android.talon.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.TypedValue;
+import android.view.Display;
 
 import com.klinker.android.talon.settings.AppSettings;
 
@@ -95,6 +98,16 @@ public class Utils {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public static boolean hasNavBar(Context context) {
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        Point realSize = new Point();
+        display.getSize(size);
+        display.getRealSize(realSize);
+
+        return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y);
     }
 
     // true if on mobile data
