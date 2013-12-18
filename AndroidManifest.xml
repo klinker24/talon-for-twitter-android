@@ -251,6 +251,9 @@
         <service android:name="com.klinker.android.talon.services.TimelineRefreshService">
         </service>
 
+        <service android:name="com.klinker.android.talon.services.WidgetRefreshService">
+        </service>
+
         <service android:name="com.klinker.android.talon.services.MentionsRefreshService">
         </service>
 

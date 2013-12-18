@@ -30,6 +30,8 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.services.TimelineRefreshService;
+import com.klinker.android.talon.services.WidgetRefreshService;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.TweetActivityWidget;
@@ -111,11 +113,15 @@ public class WidgetProvider extends AppWidgetProvider {
                 Intent openApp = new Intent(this, MainActivity.class);
                 PendingIntent openAppPending = PendingIntent.getActivity(this, 0, openApp, 0);
 
+                Intent refreshList = new Intent(this, WidgetRefreshService.class);
+                PendingIntent refreshPending = PendingIntent.getService(this, 0, refreshList, 0);
+
                 views.setRemoteAdapter(R.id.widgetList, intent2);
                 views.setEmptyView(R.id.widgetList, R.color.light_background);
 
                 views.setOnClickPendingIntent(R.id.textView1, openAppPending);
                 views.setOnClickPendingIntent(R.id.replyButton, quickPending);
+                views.setOnClickPendingIntent(R.id.syncButton, refreshPending);
 
                 Intent openIntent = new Intent(this, WidgetProvider.class);
                 openIntent.setAction("OPEN_APP");
