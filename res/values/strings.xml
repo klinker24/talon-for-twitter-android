@@ -193,7 +193,7 @@
         <string name="inline_pics">Display In-Line Pictures</string>
         <string name="timestamp">24-Hour Timestamp</string>
         <string name="enable_emojis">Enable Emojis</string>
-        <string name="enable_emojis_summary">This will add an emoji button to bring up the keyboard when you are composing or replying to a tweet.\n
+        <string name="enable_emojis_summary">This will add an emoji button to bring up the keyboard when you are composing or replying to a tweet.\n\n
                 NOTE: You will still see your system style emojis on the timelines. It causes to much lag to change them.</string>
         <string name="to_market">To Play Store</string>
         <string name="emoji_dialog_summary">To enable emojis in this app, you must have the \"Sliding Emoji Keyboard\" package installed from the play store.\n\n

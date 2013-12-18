@@ -51,13 +51,16 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"  >
 
             <com.klinker.android.talon.ui.widgets.HoloEditText
                 android:id="@+id/tweet_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:maxLines="5"
+                android:minLines="2"
+                android:maxLength="140"
                 android:hint="@string/compose_tweet_hint"
                 android:inputType="textCapSentences|textMultiLine"/>
 
@@ -66,13 +69,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:layout_gravity="center_vertical">
 
                 <com.klinker.android.talon.ui.widgets.HoloTextView
                     android:id="@+id/char_remaining"
                     android:layout_width="48dp"
-                    android:maxLength="140"
-                    android:maxLines="5"
                     android:layout_height="wrap_content"
                     android:textSize="10dp"
                     android:gravity="center"/>
