@@ -211,7 +211,10 @@
         <string name="enable_emojis_summary">This will add an emoji button to bring up the keyboard when you are composing or replying to a tweet.\n\n
                 NOTE: You will still see your system style emojis on the timelines. It causes to much lag to change them.</string>
         <string name="to_market">To Play Store</string>
-        <string name="emoji_dialog_summary">To enable emojis in this app, you must have the \"Sliding Emoji Keyboard\" package installed from the play store.\n\n
+        <string name="get_android">Get Android Emojis</string>
+        <string name="get_ios">Get iOS Emojis</string>
+        <string name="emoji_dialog_summary">To enable emojis in this app, you must have the \"Sliding Emoji Keyboard\" or the \"Sliding Emoji Keyboard - iOS\" package installed from the play store.\n\n
+                You can switch between the two types of emojis by uninstalling one and installing the other. If both packages are installed, Talon will default to the Android emojis.\n\n
                 NOTE: Emojis will continue to work in this app even if the trial has expired! That package is used as a plugin as well as a stand alone keyboard.</string>
 
         <string name="theme_light">Light Theme</string>
