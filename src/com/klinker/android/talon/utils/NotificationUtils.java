@@ -49,16 +49,15 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreadCounts = new int[] {1, 3, 3};//getUnreads(context);
+        int[] unreadCounts = getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
         // [0] is the full title and [1] is the screenname
         String[] title = getTitle(unreadCounts, context, currentAccount);
-        boolean useExpanded = useExp(unreadCounts, context);
+        boolean useExpanded = useExp(context);
         boolean addButton = addBtn(unreadCounts);
 
-        Intent resultIntent = new Intent(context, MainActivityPopup.class);
-        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent resultIntent = new Intent(context, MainActivity.class);
         resultIntent.putExtra("from_notification", true);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
@@ -74,8 +73,7 @@ public class NotificationUtils {
                     .setAutoCancel(true)
                     .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(longText)));
 
-            if (addButton) {
-
+            if (addButton) { // the reply and read button should be shown
                 Intent reply;
                 if (unreadCounts[1] == 1) {
                     reply = new Intent(context, ComposeActivity.class);
@@ -95,6 +93,14 @@ public class NotificationUtils {
                 PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
 
                 mBuilder.addAction(R.drawable.ic_action_read, context.getResources().getString(R.string.mark_read), readPending);
+            } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
+                Intent popup = new Intent(context, MainActivityPopup.class);
+                resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                resultIntent.putExtra("from_notification", true);
+
+                PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
+
+                mBuilder.addAction(R.drawable.ic_popup, context.getResources().getString(R.string.popup), popupPending);
             }
         } else {
             mBuilder = new Notification.Builder(context)
@@ -165,30 +171,15 @@ public class NotificationUtils {
     }
 
     public static boolean addBtn(int[] unreadCount) {
-        int mentionsTweets = unreadCount[1];
-        int dmTweets = unreadCount[2];
-
-        return mentionsTweets == 1 || dmTweets == 1;
-    }
-
-    public static boolean useExp(int[] unreadCount, Context context) {
         int homeTweets = unreadCount[0];
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
-        int count = 0;
+        return ((mentionsTweets == 1 && dmTweets == 0) || (dmTweets == 1 && mentionsTweets == 0)) && homeTweets == 0;
+    }
 
-        if (homeTweets > 0) {
-            count++;
-        }
-        if (mentionsTweets > 0) {
-            count++;
-        }
-        if (dmTweets > 0) {
-            count++;
-        }
-
-        if ((count > 1 || mentionsTweets > 0 || dmTweets > 0) && context.getResources().getBoolean(R.bool.expNotifications)) {
+    public static boolean useExp(Context context) {
+        if (context.getResources().getBoolean(R.bool.expNotifications)) {
             return true;
         } else {
             return false;

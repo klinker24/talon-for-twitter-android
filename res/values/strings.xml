@@ -65,6 +65,7 @@
     <string name="message_from">Message from</string>
     <string name="mark_read">Read</string>
     <string name="noti_reply">Reply</string>
+    <string name="popup">Popup</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>
