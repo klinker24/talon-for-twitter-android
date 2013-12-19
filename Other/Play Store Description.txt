@@ -37,6 +37,8 @@ Customization features:
 - And a few other goodies in there as well!
 
 App Features:
+- Expandable, actionable, and dynamic notification system
+- Full app popup so you never have to leave the current app to view your new tweets
 - Full support for Google's Hangouts emojis
 - View in-line Twitter and Instagram pictures
 - View in-line YouTube thumbnails

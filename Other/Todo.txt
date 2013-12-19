@@ -10,7 +10,6 @@
 - Bugs:
     - Notification for the second account's mentions
     - redo the checkboxes and stuff to use an orange color instead of blue
-    - popup :/
 
 - Main TODO:
     - limit cache option maybe
