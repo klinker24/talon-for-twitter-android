@@ -527,9 +527,9 @@ public abstract class DrawerActivity extends Activity {
         // cancels the notifications when the app is opened
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+        //mNotificationManager.cancelAll();
 
-        //NotificationUtils.refreshNotification(context);
+        NotificationUtils.refreshNotification(context);
 
         // for testing
         /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);

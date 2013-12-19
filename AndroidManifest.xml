@@ -170,10 +170,7 @@
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:launchMode="singleInstance"
-            android:exported="true"
-            tools:ignore="ExportedActivity"
-            android:clearTaskOnLaunch="true" >
+            android:excludeFromRecents="true" >
         </activity>
 
         <activity android:name=".ui.ComposeActivity"

@@ -20,7 +20,7 @@ public class MainActivity extends DrawerActivity {
 
     private TimelinePagerAdapter mSectionsPagerAdapter;
 
-    public static boolean isPopup = false;
+    public static boolean isPopup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

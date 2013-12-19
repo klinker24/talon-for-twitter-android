@@ -21,6 +21,7 @@ import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.MainActivityPopup;
 
 public class NotificationUtils {
 
@@ -48,7 +49,7 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreadCounts = getUnreads(context);
+        int[] unreadCounts = new int[] {1, 3, 3};//getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
         // [0] is the full title and [1] is the screenname
@@ -56,17 +57,11 @@ public class NotificationUtils {
         boolean useExpanded = useExp(unreadCounts, context);
         boolean addButton = addBtn(unreadCounts);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent resultIntent = new Intent(context, MainActivityPopup.class);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         resultIntent.putExtra("from_notification", true);
 
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        context,
-                        0,
-                        resultIntent,
-                        0
-                );
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
         Notification.Builder mBuilder;
 

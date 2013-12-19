@@ -33,6 +33,8 @@ public class MainActivityPopup extends MainActivity {
     @Override
     public void setUpTheme() {
 
+        translucent = false;
+
         switch (settings.theme) {
             case AppSettings.THEME_LIGHT:
                 setTheme(R.style.Theme_TalonLight_Popup);
