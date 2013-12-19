@@ -64,7 +64,7 @@ public class SettingsDrawerClickListener implements ListView.OnItemClickListener
             changeView.setText(Html.fromHtml(changes));
             int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, context.getResources().getDisplayMetrics());
             changeView.setPadding(padding, padding, padding, padding);
-            changeView.setTextSize(12);
+            changeView.setTextSize(14);
             scrollView.addView(changeView);
 
             new AlertDialog.Builder(context)

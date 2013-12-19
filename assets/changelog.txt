@@ -1,4 +1,4 @@
-Version 0.70: Who cares about finals anyways, it's app time! Finesse and final alpha. Fully functional, fully featured, fully awesome.<br/><br/>
+<b>Version 0.70:</b> Who cares about finals anyways, it's app time! Finesse and final alpha. Fully functional, fully featured, fully awesome.<br/><br/>
     &#8226; Got the popup working for real this time<br/>
     &#8226; Rewrote all the notification stuff. Expandable, actionable, and dynamic<br/>
     &#8226; DashClock changes<br/>
@@ -16,7 +16,7 @@ Version 0.70: Who cares about finals anyways, it's app time! Finesse and final a
     &#8226; Inline Instagram pictures<br/><br/>
 <br/>
 
-Version 0.60: Wah hoo, looking good on the homescreen<br/><br/>
+<b>Version 0.60:</b> Wah hoo, looking good on the homescreen<br/><br/>
     &#8226; Optimized caching for less data usage and more speed<br/>
     &#8226; Tons of cleanup on the images<br/>
     &#8226; Re-made the compose, profiles, and tweet activities. Look much cleaner now.<br/>
@@ -30,7 +30,7 @@ Version 0.60: Wah hoo, looking good on the homescreen<br/><br/>
     &#8226; Attach locations to new tweets<br/><br/>
 <br/>
 
-Version 0.50: Background is important too!<br/><br/>
+<b>Version 0.50:</b> Background is important too!<br/><br/>
     &#8226; Open profiles, hashtags, and websites that are highlighted in tweets<br/>
     &#8226; Can now search for users when composing a new tweet. It will sync your friends when you login and add them if you follow someone<br/>
     &#8226; Manually sync friends option<br/>
@@ -44,7 +44,7 @@ Version 0.50: Background is important too!<br/><br/>
     &#8226; Style changes<br/><br/>
 <br/>
 
-Version 0.40: Style style style. Mmm KitKat<br/><br/>
+<b>Version 0.40:</b> Style style style. Mmm KitKat<br/><br/>
     &#8226; Support for a second account<br/>
     &#8226; Awesome kitkat styling stuff<br/>
     &#8226; Cool actionable toast bar when scrolling the list<br/>
@@ -63,7 +63,7 @@ Version 0.40: Style style style. Mmm KitKat<br/><br/>
     &#8226; changes to search to allow searching by username<br/><br/>
 <br/>
 
-Version 0.30: YAY SETTINGS and TONS OF FEATURES<br/><br/>
+<b>Version 0.30:</b> YAY SETTINGS and TONS OF FEATURES<br/><br/>
     &#8226; All settings working in the settings menu.<br/>
     &#8226; World trends working <br/>
     &#8226; Searching twitter working <br/>
@@ -87,7 +87,7 @@ Version 0.30: YAY SETTINGS and TONS OF FEATURES<br/><br/>
     &#8226; tons of other bug fixes<br/><br/>
 <br/>
 
-Version 0.20: Ahh features are coming<br/><br/>
+<b>Version 0.20:</b> Ahh features are coming<br/><br/>
     &#8226; Reduced memory footprint<br/>
     &#8226; Better Handling of images everywhere<br/>
     &#8226; Favorite Tweets page<br/>
@@ -99,7 +99,7 @@ Version 0.20: Ahh features are coming<br/><br/>
     &#8226; Fix for not going back and finding all the tweets<br/><br/>
 <br/>
 
-Version 0.10: Well, it does some stuff :)<br/><br/>
+<b>Version 0.10:</b> Well, it does some stuff, looks pretty neat :)<br/><br/>
     &#8226; Style changes for main timeline activity (long press opens tweet, click expands, this will be an option later)<br/>
     &#8226; Fixed the animations stuttering<br/>
     &#8226; Direct message fixes<br/>
