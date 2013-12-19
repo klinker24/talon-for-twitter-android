@@ -1,6 +1,4 @@
-Introducing Talon for Twitter! The all-new client for all your Twitter needs!
-
-Get fully immersed yourself in your Twitter news with this beautiful, feature PACKED Twitter client!
+Get fully immersed yourself in your Twitter news with this beautiful, feature PACKED Twitter client with a design that actually makes sense!
 
 Created with Android 4.4 (KitKat) in mind. Includes full screen layouts, beautiful animations and more! Of course that doesn't mean earlier versions of android get left out! The only thing that wasn't able to be recreated in Android 4.3 and below was the transparent navigation and status bars... Sorry! It just isn't possible :(
 
@@ -59,7 +57,7 @@ App Features:
 - Save tweet pictures
 - Share content with other apps, to and from Talon
 
-The app also includes tons of animations and extra UI features that put it above the rest, you will never go back to your old Twitter client again!
+You will never go back to your old Twitter client again!
 
 Enjoy Talon and don't hesitate to contact me with questions, requests, or bugs!
 Thanks!
@@ -85,3 +83,5 @@ Credit:
 - Yusuke Yamamoto: Twitter4j library
 - Chris Banes: ActionBar-PullToRefresh, Android-BitmapCache, and PhotoView widget
 - Lucas Rocha: Smoothie ListView library
+- Andreas Stütz: PagerSlidingTabStrip library
+- Antoine Merle: SmoothProgressBar library
