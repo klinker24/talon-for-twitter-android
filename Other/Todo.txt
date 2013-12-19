@@ -6,10 +6,11 @@
     - Cool icon
     - icon for status bar notification
     - Some kind of notifications for fav users
-
-- Bugs:
     - Notification for the second account's mentions
     - redo the checkboxes and stuff to use an orange color instead of blue
+    - limit cache option maybe
+
+- Bugs:
 
 - Main TODO:
-    - limit cache option maybe
+    - get ios emojis working
