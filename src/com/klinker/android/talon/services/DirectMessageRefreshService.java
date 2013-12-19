@@ -18,6 +18,7 @@ import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
+import com.klinker.android.talon.utils.NotificationUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import java.util.List;
@@ -98,90 +99,8 @@ public class DirectMessageRefreshService extends IntentService {
 
             dataSource.close();
 
-            int mId = 3;
-
             if (numberNew > 0) {
-
-                int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
-                sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).commit();
-                numberNew += currentUnread;
-
-                RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-                Intent popup = new Intent(context, MainActivityPopup.class);
-                popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                PendingIntent popupPending =
-                        PendingIntent.getActivity(
-                                this,
-                                0,
-                                popup,
-                                0
-                        );
-                remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
-                remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_direct_message) : numberNew + " " + getResources().getString(R.string.new_direct_messages));
-
-                remoteView.setImageViewResource(R.id.icon, R.drawable.ic_action_reply_dark);
-
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(this)
-                                .setSmallIcon(R.drawable.ic_action_reply_dark)
-                                //.setContent(remoteView);
-                                .setContentTitle(getResources().getString(R.string.app_name))
-                                .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_direct_message) : numberNew + " " + getResources().getString(R.string.new_direct_messages));
-
-                Intent resultIntent = new Intent(this, MainActivity.class);
-                resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                resultIntent.putExtra("open_to_page", 2);
-                resultIntent.putExtra("from_notification", true);
-
-                PendingIntent resultPendingIntent =
-                        PendingIntent.getActivity(
-                                this,
-                                0,
-                                resultIntent,
-                                0
-                        );
-
-                int count = 0;
-
-                if (settings.vibrate)
-                    count++;
-                if (settings.sound)
-                    count++;
-
-                if (settings.notifications) {
-                    switch (count) {
-
-                        case 2:
-                            if (settings.vibrate && settings.sound)
-                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                            break;
-                        case 1:
-                            if (settings.vibrate)
-                                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                            else if (settings.sound)
-                                mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    if (settings.led)
-                        mBuilder.setLights(0xFFFFFF, 1000, 1000);
-
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.notify(mId, mBuilder.build());
-
-                    // if we want to wake the screen on a new message
-                    if (settings.wakeScreen) {
-                        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                        final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-                        wakeLock.acquire(5000);
-                    }
-
-                }
+                NotificationUtils.refreshNotification(context);
             }
 
         } catch (TwitterException e) {

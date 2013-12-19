@@ -72,4 +72,40 @@ public class DMDataSource {
 
         return cursor;
     }
+
+    public String getNewestName(int account) {
+
+        Cursor cursor = getCursor(account);
+        String name = "";
+
+        try {
+            if (cursor.moveToFirst()) {
+                name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+            }
+        } catch (Exception e) {
+
+        }
+
+        cursor.close();
+
+        return name;
+    }
+
+    public String getNewestMessage(int account) {
+
+        Cursor cursor = getCursor(account);
+        String message = "";
+
+        try {
+            if (cursor.moveToFirst()) {
+                message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+            }
+        } catch (Exception e) {
+
+        }
+
+        cursor.close();
+
+        return message;
+    }
 }

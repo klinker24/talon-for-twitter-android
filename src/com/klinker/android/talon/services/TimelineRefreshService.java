@@ -21,6 +21,7 @@ import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
+import com.klinker.android.talon.utils.NotificationUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import java.util.ArrayList;
@@ -119,89 +120,8 @@ public class TimelineRefreshService extends IntentService {
 
                 numberNew = dataSource.getUnreadCount(currentAccount);
 
-                int mId = 1;
-
                 if (numberNew > 0) {
-
-                    RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-                    Intent popup = new Intent(context, MainActivityPopup.class);
-                    popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    popup.putExtra("from_notification", true);
-                    PendingIntent popupPending =
-                            PendingIntent.getActivity(
-                                    this,
-                                    0,
-                                    popup,
-                                    0
-                            );
-                    remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
-                    remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
-
-                    remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
-
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(this)
-                                    .setSmallIcon(R.drawable.timeline_dark)
-                                    //.setContent(remoteView);
-                                    .setContentTitle(getResources().getString(R.string.app_name))
-                                    .setContentText(numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
-
-                    Intent resultIntent = new Intent(this, MainActivity.class);
-                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    resultIntent.putExtra("from_notification", true);
-
-                    PendingIntent resultPendingIntent =
-                            PendingIntent.getActivity(
-                                    this,
-                                    0,
-                                    resultIntent,
-                                    0
-                            );
-
-                    int count = 0;
-
-                    if (settings.vibrate)
-                        count++;
-                    if (settings.sound)
-                        count++;
-
-                    if (settings.notifications) {
-                        switch (count) {
-
-                            case 2:
-                                if (settings.vibrate && settings.sound)
-                                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                                break;
-                            case 1:
-                                if (settings.vibrate)
-                                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                                else if (settings.sound)
-                                    mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        if (settings.led)
-                            mBuilder.setLights(0xFFFFFF, 1000, 1000);
-
-                        mBuilder.setContentIntent(resultPendingIntent);
-                        NotificationManager mNotificationManager =
-                                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        mNotificationManager.notify(mId, mBuilder.build());
-
-                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-
-                        // if we want to wake the screen on a new message
-                        if (settings.wakeScreen) {
-                            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                            final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-                            wakeLock.acquire(5000);
-                        }
-                    }
-
-
+                    NotificationUtils.refreshNotification(context);
                 }
 
             } catch (TwitterException e) {
