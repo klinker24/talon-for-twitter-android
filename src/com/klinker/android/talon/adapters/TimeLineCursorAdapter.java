@@ -385,12 +385,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         View v;
         if (convertView == null) {
-            Log.v("listview_scrolling", "not recycled");
 
             v = newView(context, cursor, parent);
 
         } else {
-            Log.v("listview_scrolling", "recycled");
             v = convertView;
 
             final ViewHolder holder = (ViewHolder) v.getTag();

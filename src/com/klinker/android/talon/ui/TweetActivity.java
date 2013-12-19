@@ -850,7 +850,9 @@ public class TweetActivity extends YouTubeBaseActivity implements
             }
 
             try {
-                timetv.append(" " + getResources().getString(R.string.via) + " " + via);
+                if (!timetv.getText().toString().contains(getResources().getString(R.string.via))) {
+                    timetv.append(" " + getResources().getString(R.string.via) + " " + via);
+                }
             } catch (Exception e) {
 
             }
