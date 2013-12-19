@@ -94,7 +94,7 @@ public class NotificationUtils {
                 reply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
 
-                mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.reply), replyPending);
+                mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);
 
                 Intent markRead = new Intent(context, MarkReadService.class);
                 PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
