@@ -335,7 +335,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.time.setText(Utils.getTimeAgo(longTime));
         holder.tweet.setText(Html.fromHtml(tweetText));
 
-        if(settings.inlinePics) {
+        if(settings.inlinePics && picUrl != null) {
             if (picUrl.equals("")) {
                 if (holder.image.getVisibility() == View.VISIBLE) {
                     holder.image.setVisibility(View.GONE);

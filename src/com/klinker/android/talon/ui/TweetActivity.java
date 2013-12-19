@@ -1191,7 +1191,20 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
             case R.id.menu_quote:
 
-                String text = "\"@" + screenName + ": " + tweet + "\" ";
+                String[] split = tweet.split(" ");
+                String placeholder = "";
+
+                for(String s : split) {
+                    if (s.contains("http:")) {
+                        placeholder += webpage + " ";
+                    } else if (s.equals("<font")) {
+
+                    } else {
+                        placeholder += s + " ";
+                    }
+                }
+
+                String text = "\"@" + screenName + ": " + placeholder + "\" ";
 
                 text = HtmlUtils.removeColorHtml(text);
 

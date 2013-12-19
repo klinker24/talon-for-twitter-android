@@ -82,7 +82,7 @@
                     android:id="@+id/emoji"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
-                    android:src="@drawable/ic_emoji_keyboard_dark"
+                    android:src="?emoji_button"
                     android:background="@drawable/pressed_button"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
