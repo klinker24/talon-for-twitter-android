@@ -65,7 +65,6 @@
         <CheckBoxPreference
             android:key="use_emojis"
             android:title="@string/enable_emojis"
-            android:summary="@string/enable_emojis_summary"
             android:defaultValue="false"
             />
 
