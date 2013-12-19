@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.TypedValue;
 import android.view.Display;
 
+import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
 
 import java.util.Date;
@@ -107,7 +109,7 @@ public class Utils {
         display.getSize(size);
         display.getRealSize(realSize);
 
-        return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y);
+        return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
     }
 
     // true if on mobile data
