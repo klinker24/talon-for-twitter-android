@@ -129,18 +129,24 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
+        HoloTextView versionNumber = (HoloTextView) findViewById(R.id.version_number);
+
         try {
             String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            String text = getResources().getString(R.string.version) + " " + versionName + "<br/>" +
-                    getResources().getString(R.string.created_by) + " Luke Klinker";
-            createdBy.setText(Html.fromHtml(text));
+
+            String text = getResources().getString(R.string.created_by) + " Luke Klinker";
+            String text2 = getResources().getString(R.string.version) + " " + versionName;
+            createdBy.setText(text);
+            versionNumber.setText(text2);
         } catch (Exception e) {
             String text = getResources().getString(R.string.created_by) + " Luke Klinker";
-            createdBy.setText(Html.fromHtml(text));
+            String text2 = getResources().getString(R.string.version) + " 0.00";
+            createdBy.setText(text);
+            versionNumber.setText(text2);
         }
 
-
-        createdBy.setOnClickListener(new View.OnClickListener() {
+        LinearLayout description = (LinearLayout) findViewById(R.id.created_by_layout);
+        description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
