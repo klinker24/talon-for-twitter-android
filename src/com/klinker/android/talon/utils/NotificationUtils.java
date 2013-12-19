@@ -9,12 +9,17 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.util.Log;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.services.MarkReadService;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
 import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.ui.ComposeActivity;
+import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.MainActivity;
 
 public class NotificationUtils {
@@ -45,9 +50,11 @@ public class NotificationUtils {
 
         int[] unreadCounts = getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
-        String longText = getLongText(unreadCounts, context);
-        String title = getTitle(unreadCounts, context, currentAccount);
+        String longText = getLongText(unreadCounts, context, currentAccount);
+        // [0] is the full title and [1] is the screenname
+        String[] title = getTitle(unreadCounts, context, currentAccount);
         boolean useExpanded = useExp(unreadCounts, context);
+        boolean addButton = addBtn(unreadCounts);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -65,15 +72,38 @@ public class NotificationUtils {
 
         if (useExpanded) {
             mBuilder = new Notification.Builder(context)
-                    .setContentTitle(title)
+                    .setContentTitle(title[0])
                     .setContentText(shortText)
                     .setSmallIcon(R.drawable.timeline_dark)
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
-                    .setStyle(new Notification.BigTextStyle().bigText(longText));
+                    .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(longText)));
+
+            if (addButton) {
+
+                Intent reply;
+                if (unreadCounts[1] == 1) {
+                    reply = new Intent(context, ComposeActivity.class);
+                } else {
+                    reply = new Intent(context, ComposeDMActivity.class);
+                }
+
+                reply.setAction(Intent.ACTION_SEND);
+                reply.setType("text/plain");
+                reply.putExtra(Intent.EXTRA_TEXT, "@" + title[1] + " ");
+                reply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+
+                mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.reply), replyPending);
+
+                Intent markRead = new Intent(context, MarkReadService.class);
+                PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+
+                mBuilder.addAction(R.drawable.ic_action_read, context.getResources().getString(R.string.mark_read), readPending);
+            }
         } else {
             mBuilder = new Notification.Builder(context)
-                    .setContentTitle(title)
+                    .setContentTitle(title[0])
                     .setContentText(shortText)
                     .setSmallIcon(R.drawable.timeline_dark)
                     .setContentIntent(resultPendingIntent)
@@ -139,6 +169,13 @@ public class NotificationUtils {
         }
     }
 
+    public static boolean addBtn(int[] unreadCount) {
+        int mentionsTweets = unreadCount[1];
+        int dmTweets = unreadCount[2];
+
+        return mentionsTweets == 1 || dmTweets == 1;
+    }
+
     public static boolean useExp(int[] unreadCount, Context context) {
         int homeTweets = unreadCount[0];
         int mentionsTweets = unreadCount[1];
@@ -156,7 +193,7 @@ public class NotificationUtils {
             count++;
         }
 
-        if (count > 1 && context.getResources().getBoolean(R.bool.expNotifications)) {
+        if ((count > 1 || mentionsTweets > 0 || dmTweets > 0) && context.getResources().getBoolean(R.bool.expNotifications)) {
             return true;
         } else {
             return false;
@@ -182,8 +219,9 @@ public class NotificationUtils {
         return new int[] {homeTweets, mentionsTweets, dmTweets};
     }
 
-    public static String getTitle(int[] unreadCount, Context context, int currentAccount) {
+    public static String[] getTitle(int[] unreadCount, Context context, int currentAccount) {
         String text = "";
+        String name = null;
         int homeTweets = unreadCount[0];
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
@@ -192,18 +230,20 @@ public class NotificationUtils {
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) {
             MentionsDataSource mentions = new MentionsDataSource(context);
             mentions.open();
-            text = context.getResources().getString(R.string.mentioned_by) + " @" + mentions.getNewestName(currentAccount);
+            name = mentions.getNewestName(currentAccount);
+            text = context.getResources().getString(R.string.mentioned_by) + " @" + name;
             mentions.close();
         } else if (homeTweets == 0 && mentionsTweets == 0 && dmTweets == 1) { // they have 1 new direct message
             DMDataSource dm = new DMDataSource(context);
             dm.open();
-            text = context.getResources().getString(R.string.message_from) + " @" + dm.getNewestName(currentAccount);
+            name = dm.getNewestName(currentAccount);
+            text = context.getResources().getString(R.string.message_from) + " @" + name;
             dm.close();
         } else { // other cases we will just put talon
             text = context.getResources().getString(R.string.app_name);
         }
 
-        return text;
+        return new String[] {text, name};
     }
 
     public static String getShortText(int[] unreadCount, Context context, int currentAccount) {
@@ -222,6 +262,8 @@ public class NotificationUtils {
             dm.open();
             text = dm.getNewestMessage(currentAccount);
             dm.close();
+        } else if (homeTweets > 0 && mentionsTweets == 0 && dmTweets == 0) { // it is just tweets being displayed, so put new out front
+            text = homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets));
         } else {
             // home tweets
             if(homeTweets > 0) {
@@ -244,23 +286,35 @@ public class NotificationUtils {
         return text;
     }
 
-    public static String getLongText(int[] unreadCount, Context context) {
+    public static String getLongText(int[] unreadCount, Context context, int currentAccount) {
 
         String body = "";
         int homeTweets = unreadCount[0];
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
-        if (homeTweets > 0) {
-            body += homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "\n" : "");
-        }
+        if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
+            MentionsDataSource mentions = new MentionsDataSource(context);
+            mentions.open();
+            body = mentions.getNewestMessage(currentAccount);
+            mentions.close();
+        } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
+            DMDataSource dm = new DMDataSource(context);
+            dm.open();
+            body = dm.getNewestMessage(currentAccount);
+            dm.close();
+        } else {
+            if (homeTweets > 0) {
+                body += "<b>" + context.getResources().getString(R.string.timeline) + ": </b>" + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "<br>" : "");
+            }
 
-        if (mentionsTweets > 0) {
-            body += mentionsTweets + " " + (mentionsTweets == 1 ? context.getResources().getString(R.string.new_mention) : context.getResources().getString(R.string.new_mentions)) + (dmTweets > 0 ? "\n" : "");
-        }
+            if (mentionsTweets > 0) {
+                body += "<b>" + context.getResources().getString(R.string.mentions) + ": </b>" + mentionsTweets + " " + (mentionsTweets == 1 ? context.getResources().getString(R.string.new_mention) : context.getResources().getString(R.string.new_mentions)) + (dmTweets > 0 ? "<br>" : "");
+            }
 
-        if (dmTweets > 0) {
-            body += dmTweets + " " + (dmTweets == 1 ? context.getResources().getString(R.string.new_direct_message) : context.getResources().getString(R.string.new_direct_messages));
+            if (dmTweets > 0) {
+                body += "<b>" + context.getResources().getString(R.string.direct_messages) + ": </b>" + dmTweets + " " + (dmTweets == 1 ? context.getResources().getString(R.string.new_message) : context.getResources().getString(R.string.new_messages));
+            }
         }
         return body;
     }

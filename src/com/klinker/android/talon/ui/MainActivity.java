@@ -102,15 +102,6 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         try {

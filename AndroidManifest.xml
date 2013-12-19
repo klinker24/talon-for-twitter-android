@@ -248,6 +248,9 @@
             android:theme="@style/Theme.TalonDark">
         </activity>
 
+        <service android:name="com.klinker.android.talon.services.MarkReadService">
+        </service>
+
         <service android:name="com.klinker.android.talon.services.TimelineRefreshService">
         </service>
 

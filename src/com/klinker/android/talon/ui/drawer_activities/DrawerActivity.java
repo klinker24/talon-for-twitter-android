@@ -51,6 +51,7 @@ import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
+import com.klinker.android.talon.utils.NotificationUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -527,6 +528,8 @@ public abstract class DrawerActivity extends Activity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+
+        //NotificationUtils.refreshNotification(context);
 
         // for testing
         /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);

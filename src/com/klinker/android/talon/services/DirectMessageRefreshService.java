@@ -100,6 +100,9 @@ public class DirectMessageRefreshService extends IntentService {
             dataSource.close();
 
             if (numberNew > 0) {
+                int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
+                sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).commit();
+
                 NotificationUtils.refreshNotification(context);
             }
 

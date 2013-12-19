@@ -101,9 +101,13 @@ public abstract class Compose extends Activity implements
         String to = getIntent().getStringExtra("user") + " ";
 
         if (!to.equals("null ")) {
-            EditText editText = (EditText) findViewById(R.id.tweet_content);
-            editText.setText(to);
-            editText.setSelection(editText.getText().toString().length());
+            if(contactEntry == null) {
+                reply.setText(to);
+                reply.setSelection(reply.getText().toString().length());
+            } else {
+                contactEntry.setText(to);
+                reply.requestFocus();
+            }
         }
 
         // Get intent, action and MIME type
@@ -288,8 +292,13 @@ public abstract class Compose extends Activity implements
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
-            reply.setText(sharedText);
-            reply.setSelection(reply.getText().toString().length());
+            if (contactEntry == null) {
+                reply.setText(sharedText);
+                reply.setSelection(reply.getText().toString().length());
+            } else {
+                contactEntry.setText(sharedText);
+                reply.requestFocus();
+            }
         }
     }
 
