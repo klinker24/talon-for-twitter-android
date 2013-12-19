@@ -501,6 +501,8 @@ public abstract class Compose extends Activity implements
 
                     twitter.updateStatus(media);
 
+                    return true;
+
                 } else {
                     media.setMedia(new File(attachedFilePath));
 
