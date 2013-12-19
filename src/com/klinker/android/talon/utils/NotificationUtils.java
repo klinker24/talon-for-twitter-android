@@ -49,7 +49,7 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreadCounts = getUnreads(context);
+        int[] unreadCounts = new int[] {0, 1, 0};//getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
         // [0] is the full title and [1] is the screenname
@@ -300,6 +300,39 @@ public class NotificationUtils {
 
             if (dmTweets > 0) {
                 body += "<b>" + context.getResources().getString(R.string.direct_messages) + ": </b>" + dmTweets + " " + (dmTweets == 1 ? context.getResources().getString(R.string.new_message) : context.getResources().getString(R.string.new_messages));
+            }
+        }
+        return body;
+    }
+
+    public static String getLongTextNoHtml(int[] unreadCount, Context context, int currentAccount) {
+
+        String body = "";
+        int homeTweets = unreadCount[0];
+        int mentionsTweets = unreadCount[1];
+        int dmTweets = unreadCount[2];
+
+        if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
+            MentionsDataSource mentions = new MentionsDataSource(context);
+            mentions.open();
+            body = mentions.getNewestMessage(currentAccount);
+            mentions.close();
+        } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
+            DMDataSource dm = new DMDataSource(context);
+            dm.open();
+            body = dm.getNewestMessage(currentAccount);
+            dm.close();
+        } else {
+            if (homeTweets > 0) {
+                body += context.getResources().getString(R.string.timeline) + ": " + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "\n" : "");
+            }
+
+            if (mentionsTweets > 0) {
+                body += context.getResources().getString(R.string.mentions) + ": " + mentionsTweets + " " + (mentionsTweets == 1 ? context.getResources().getString(R.string.new_mention) : context.getResources().getString(R.string.new_mentions)) + (dmTweets > 0 ? "\n" : "");
+            }
+
+            if (dmTweets > 0) {
+                body += context.getResources().getString(R.string.direct_messages) + ": " + dmTweets + " " + (dmTweets == 1 ? context.getResources().getString(R.string.new_message) : context.getResources().getString(R.string.new_messages));
             }
         }
         return body;
