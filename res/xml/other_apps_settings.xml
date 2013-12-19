@@ -19,6 +19,10 @@
         android:title="@string/emoji_keyboard" />
 
     <Preference
+        android:key="emoji_keyboard_ios"
+        android:title="@string/emoji_keyboard_ios" />
+
+    <Preference
         android:key="emoji_keyboard_unlock"
         android:title="@string/emoji_keyboard_unlock" />
 

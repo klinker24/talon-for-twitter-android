@@ -700,6 +700,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference keyboardios = findPreference("emoji_keyboard_ios");
+        keyboardios.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios")));
+                return false;
+            }
+        });
+
         Preference keyboardUnlock = findPreference("emoji_keyboard_unlock");
         keyboardUnlock.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

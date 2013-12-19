@@ -290,6 +290,7 @@
         <string name="sliding_theme_engine">Sliding Messaging Theme Engine</string>
         <string name="evolvesms">EvolveSMS</string>
         <string name="emoji_keyboard">Sliding Emoji Keyboard</string>
+        <string name="emoji_keyboard_ios">Sliding Emoji Keyboard - iOS</string>
         <string name="emoji_keyboard_unlock">Sliding Emoji Keyboard Unlocker</string>
         <string name="halopop">HaloPop</string>
 
