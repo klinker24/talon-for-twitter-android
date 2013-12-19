@@ -52,6 +52,7 @@ limitations under the License.
     <attr name="directMessageItem" format="reference"/>
     <attr name="rectangle_border" format="reference"/>
     <attr name="emoji_button" format="reference"/>
+    <attr name="emoji_button_changing" format="reference"/>
     <attr name="shareButton" format="reference"/>
     <attr name="location_button" format="reference"/>
     <attr name="overflow_button" format="reference"/>
