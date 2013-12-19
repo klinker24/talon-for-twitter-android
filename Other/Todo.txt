@@ -13,4 +13,3 @@
 
 - Main TODO:
     - limit cache option maybe
-    - notifications with dashclock
