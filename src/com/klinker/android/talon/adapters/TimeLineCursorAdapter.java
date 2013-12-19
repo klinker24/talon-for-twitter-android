@@ -1,5 +1,6 @@
 package com.klinker.android.talon.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,9 +9,11 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +36,7 @@ import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import java.util.regex.Matcher;
@@ -150,8 +154,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-        final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID));
-        holder.tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+        final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+        holder.tweetId = id;
         final String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
         String tweetTexts = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
         final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
@@ -371,6 +375,32 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
+        }
+
+        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+            String text = holder.tweet.getText().toString();
+            if (EmojiUtils.emojiPattern.matcher(text).find()) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(500);
+                        } catch (Exception e) {
+                        }
+
+                        if (holder.tweetId == id) {
+                            final Spannable span = EmojiUtils.getSmiledText(context, holder.tweet.getText());
+
+                            ((Activity)context).findViewById(android.R.id.content).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.tweet.setText(span);
+                                }
+                            });
+                        }
+                    }
+                }).start();
+            }
         }
 
 
