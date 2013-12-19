@@ -18,6 +18,7 @@ package com.klinker.android.talon.adapters.emoji;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,14 @@ public class RecentEmojiAdapter extends BaseEmojiAdapter {
         this.recents = recents;
 
         try {
-            this.res = context.getPackageManager().getResourcesForApplication("com.klinker.android.emoji_keyboard_trial");
+            res = context.getPackageManager().getResourcesForApplication("com.klinker.android.emoji_keyboard_trial");
         } catch (Exception e) {
-
+            try {
+                res = context.getPackageManager().getResourcesForApplication("com.klinker.android.emoji_keyboard_trial_ios");
+            } catch (Exception f) {
+                Log.v("emoji_utils", "no emoji keyboard found");
+                return;
+            }
         }
     }
 
@@ -60,32 +66,37 @@ public class RecentEmojiAdapter extends BaseEmojiAdapter {
         if (convertView == null) {
             imageView = new ImageView(context);
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
-            imageView.setPadding(scale, (int)(scale*1.2), scale, (int)(scale * 1.2));
+            imageView.setPadding(scale, (int) (scale * 1.2), scale, (int) (scale * 1.2));
             imageView.setAdjustViewBounds(true);
         } else {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageDrawable(res.getDrawable(Integer.parseInt(recents.get(position).icon)));
-        imageView.setBackgroundResource(R.drawable.pressed_button);
+        try {
+            final RecentEmojiAdapter adapter = this;
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                keyboard.insertEmoji(recents.get(position).text, Integer.parseInt(recents.get(position).icon));
-            }
-        });
+            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    keyboard.removeRecent(position);
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
+            });
 
-        final RecentEmojiAdapter adapter = this;
+            imageView.setImageDrawable(res.getDrawable(Integer.parseInt(recents.get(position).icon)));
+            imageView.setBackgroundResource(R.drawable.pressed_button);
 
-        imageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                keyboard.removeRecent(position);
-                adapter.notifyDataSetChanged();
-                return true;
-            }
-        });
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    keyboard.insertEmoji(recents.get(position).text, Integer.parseInt(recents.get(position).icon));
+                }
+            });
+        } catch (Exception e) {
+            // most likely, something is messed up between the android and ios emojis, so remove this character
+            imageView.performLongClick();
+        }
 
         return imageView;
     }

@@ -44,13 +44,13 @@ public class EmojiUtils {
 
     private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
 
-    private static final String pack = "com.klinker.android.emoji_keyboard_trial";
+    private static String pack = "com.klinker.android.emoji_keyboard_trial";
     private static Resources res;
 
     public static final String emojiString = "\u00a9|\u00ae|[\u203c-\u3299]|[\uD83C\uDC04-\uD83C\uDFf0]|[\uD83D\uDC00-\uD83D\uDEc5]";
     public static Pattern emojiPattern = Pattern.compile(emojiString);
 
-    public static int textSize;
+    public static boolean ios;
 
     public static void init(Context context) {
         if (emoticons.size() != 0) {
@@ -58,17 +58,24 @@ public class EmojiUtils {
             return;
         }
 
+        ios = false;
+
         try {
             res = context.getPackageManager().getResourcesForApplication(pack);
         } catch (Exception e) {
-            e.printStackTrace();
-            return;
+            try {
+                pack = "com.klinker.android.emoji_keyboard_trial_ios";
+                res = context.getPackageManager().getResourcesForApplication(pack);
+                ios = true;
+            } catch (Exception f) {
+                Log.v("emoji_utils", "no emoji keyboard found");
+                return;
+            }
         }
 
         addPattern(emoticons, "\u263A", res.getIdentifier("emoji_u263a", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE0A", res.getIdentifier("emoji_u1f60a", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE00", res.getIdentifier("emoji_u1f600", "drawable", pack));
-        addPattern(emoticons, "\uD83D\uDE01", res.getIdentifier("emoji_u1f601", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE02", res.getIdentifier("emoji_u1f602", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE03", res.getIdentifier("emoji_u1f603", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE04", res.getIdentifier("emoji_u1f604", "drawable", pack));
@@ -98,7 +105,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\uD83D\uDE1F", res.getIdentifier("emoji_u1f61f", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE31", res.getIdentifier("emoji_u1f631", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE32", res.getIdentifier("emoji_u1f632", "drawable", pack));
-        addPattern(emoticons, "\uD83D\uDE33", res.getIdentifier("emoji_u1f633", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE35", res.getIdentifier("emoji_u1f635", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE36", res.getIdentifier("emoji_u1f636", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE37", res.getIdentifier("emoji_u1f637", "drawable", pack));
@@ -355,7 +361,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\uD83C\uDFa5", res.getIdentifier("emoji_u1f3a5", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDCf7", res.getIdentifier("emoji_u1f4f7", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDCf9", res.getIdentifier("emoji_u1f4f9", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDFa6", res.getIdentifier("emoji_u1f3a6", "drawable", pack));
         addPattern(emoticons, "\uD83C\uDFad", res.getIdentifier("emoji_u1f3ad", "drawable", pack));
         addPattern(emoticons, "\uD83C\uDFab", res.getIdentifier("emoji_u1f3ab", "drawable", pack));
         addPattern(emoticons, "\uD83C\uDFae", res.getIdentifier("emoji_u1f3ae", "drawable", pack));
@@ -395,7 +400,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\uD83D\uDC13", res.getIdentifier("emoji_u1f413", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDC14", res.getIdentifier("emoji_u1f414", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDC23", res.getIdentifier("emoji_u1f423", "drawable", pack));
-        addPattern(emoticons, "\uD83D\uDC24", res.getIdentifier("emoji_u1f424", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDC25", res.getIdentifier("emoji_u1f425", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDC26", res.getIdentifier("emoji_u1f426", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDC0f", res.getIdentifier("emoji_u1f40f", "drawable", pack));
@@ -608,7 +612,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\uD83C\uDFc9", res.getIdentifier("emoji_u1f3c9", "drawable", pack));
         addPattern(emoticons, "\uD83C\uDFca", res.getIdentifier("emoji_u1f3ca", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE82", res.getIdentifier("emoji_u1f682", "drawable", pack));
-        addPattern(emoticons, "\uD83D\uDE83", res.getIdentifier("emoji_u1f683", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE84", res.getIdentifier("emoji_u1f684", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE85", res.getIdentifier("emoji_u1f685", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE86", res.getIdentifier("emoji_u1f686", "drawable", pack));
@@ -635,7 +638,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\uD83D\uDE9b", res.getIdentifier("emoji_u1f69b", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE9c", res.getIdentifier("emoji_u1f69c", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE9d", res.getIdentifier("emoji_u1f69d", "drawable", pack));
-        addPattern(emoticons, "\uD83D\uDE9e", res.getIdentifier("emoji_u1f69e", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE9f", res.getIdentifier("emoji_u1f69f", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDEa0", res.getIdentifier("emoji_u1f6a0", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDEa1", res.getIdentifier("emoji_u1f6a1", "drawable", pack));
@@ -700,7 +702,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\u2651", res.getIdentifier("emoji_u2651", "drawable", pack));
         addPattern(emoticons, "\u2652", res.getIdentifier("emoji_u2652", "drawable", pack));
         addPattern(emoticons, "\u2653", res.getIdentifier("emoji_u2653", "drawable", pack));
-        addPattern(emoticons, "\u26ce", res.getIdentifier("emoji_u26ce", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDD31", res.getIdentifier("emoji_u1f531", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDD2f", res.getIdentifier("emoji_u1f52f", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDEbb", res.getIdentifier("emoji_u1f6bb", "drawable", pack));
@@ -771,7 +772,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\u2714", res.getIdentifier("emoji_u2714", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDD17", res.getIdentifier("emoji_u1f517", "drawable", pack));
         addPattern(emoticons, "\u2734", res.getIdentifier("emoji_u2734", "drawable", pack));
-        addPattern(emoticons, "\u2733", res.getIdentifier("emoji_u2733", "drawable", pack));
         addPattern(emoticons, "\u2795", res.getIdentifier("emoji_u2795", "drawable", pack));
         addPattern(emoticons, "\u2796", res.getIdentifier("emoji_u2796", "drawable", pack));
         addPattern(emoticons, "\u2716", res.getIdentifier("emoji_u2716", "drawable", pack));
@@ -855,7 +855,6 @@ public class EmojiUtils {
         addPattern(emoticons, "\uD83D\uDD3a", res.getIdentifier("emoji_u1f53a", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDD3b", res.getIdentifier("emoji_u1f53b", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDD1f", res.getIdentifier("emoji_u1f51f", "drawable", pack));
-        addPattern(emoticons, "\u20e3", res.getIdentifier("emoji_u20e3", "drawable", pack));
         addPattern(emoticons, "\u2754", res.getIdentifier("emoji_u2754", "drawable", pack));
         addPattern(emoticons, "\u2753", res.getIdentifier("emoji_u2753", "drawable", pack));
         addPattern(emoticons, "\u2755", res.getIdentifier("emoji_u2755", "drawable", pack));
@@ -893,33 +892,45 @@ public class EmojiUtils {
         addPattern(emoticons, "\uD83D\uDD07", res.getIdentifier("emoji_u1f507", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDD08", res.getIdentifier("emoji_u1f508", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDD09", res.getIdentifier("emoji_u1f509", "drawable", pack));
-        addPattern(emoticons, "\uD83D\uDD0a", res.getIdentifier("emoji_u1f50a", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDe6", res.getIdentifier("emoji_u1f1e6", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDe7", res.getIdentifier("emoji_u1f1e7", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDe8", res.getIdentifier("emoji_u1f1e8", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDe9", res.getIdentifier("emoji_u1f1e9", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDea", res.getIdentifier("emoji_u1f1ea", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDeb", res.getIdentifier("emoji_u1f1eb", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDec", res.getIdentifier("emoji_u1f1ec", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDed", res.getIdentifier("emoji_u1f1ed", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDee", res.getIdentifier("emoji_u1f1ee", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDef", res.getIdentifier("emoji_u1f1ef", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf0", res.getIdentifier("emoji_u1f1f0", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf1", res.getIdentifier("emoji_u1f1f1", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf2", res.getIdentifier("emoji_u1f1f2", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf3", res.getIdentifier("emoji_u1f1f3", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf4", res.getIdentifier("emoji_u1f1f4", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf5", res.getIdentifier("emoji_u1f1f5", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf6", res.getIdentifier("emoji_u1f1f6", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf7", res.getIdentifier("emoji_u1f1f7", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf8", res.getIdentifier("emoji_u1f1f8", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDf9", res.getIdentifier("emoji_u1f1f9", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDfa", res.getIdentifier("emoji_u1f1fa", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDfb", res.getIdentifier("emoji_u1f1fb", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDfc", res.getIdentifier("emoji_u1f1fc", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDfd", res.getIdentifier("emoji_u1f1fd", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDfe", res.getIdentifier("emoji_u1f1fe", "drawable", pack));
-        addPattern(emoticons, "\uD83C\uDDff", res.getIdentifier("emoji_u1f1ff", "drawable", pack));
+
+        if (!ios) {
+            addPattern(emoticons, "\uD83C\uDFa6", res.getIdentifier("emoji_u1f3a6", "drawable", pack));
+            addPattern(emoticons, "\uD83D\uDE9e", res.getIdentifier("emoji_u1f69e", "drawable", pack));
+            addPattern(emoticons, "\uD83D\uDC24", res.getIdentifier("emoji_u1f424", "drawable", pack));
+            addPattern(emoticons, "\uD83D\uDE01", res.getIdentifier("emoji_u1f601", "drawable", pack));
+            addPattern(emoticons, "\uD83D\uDE33", res.getIdentifier("emoji_u1f633", "drawable", pack));
+            addPattern(emoticons, "\uD83D\uDE83", res.getIdentifier("emoji_u1f683", "drawable", pack));
+            addPattern(emoticons, "\u20e3", res.getIdentifier("emoji_u20e3", "drawable", pack));
+            addPattern(emoticons, "\u26ce", res.getIdentifier("emoji_u26ce", "drawable", pack));
+            addPattern(emoticons, "\u2733", res.getIdentifier("emoji_u2733", "drawable", pack));
+            addPattern(emoticons, "\uD83D\uDD0a", res.getIdentifier("emoji_u1f50a", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDe6", res.getIdentifier("emoji_u1f1e6", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDe7", res.getIdentifier("emoji_u1f1e7", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDe8", res.getIdentifier("emoji_u1f1e8", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDe9", res.getIdentifier("emoji_u1f1e9", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDea", res.getIdentifier("emoji_u1f1ea", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDeb", res.getIdentifier("emoji_u1f1eb", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDec", res.getIdentifier("emoji_u1f1ec", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDed", res.getIdentifier("emoji_u1f1ed", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDee", res.getIdentifier("emoji_u1f1ee", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDef", res.getIdentifier("emoji_u1f1ef", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf0", res.getIdentifier("emoji_u1f1f0", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf1", res.getIdentifier("emoji_u1f1f1", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf2", res.getIdentifier("emoji_u1f1f2", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf3", res.getIdentifier("emoji_u1f1f3", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf4", res.getIdentifier("emoji_u1f1f4", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf5", res.getIdentifier("emoji_u1f1f5", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf6", res.getIdentifier("emoji_u1f1f6", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf7", res.getIdentifier("emoji_u1f1f7", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf8", res.getIdentifier("emoji_u1f1f8", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDf9", res.getIdentifier("emoji_u1f1f9", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDfa", res.getIdentifier("emoji_u1f1fa", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDfb", res.getIdentifier("emoji_u1f1fb", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDfc", res.getIdentifier("emoji_u1f1fc", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDfd", res.getIdentifier("emoji_u1f1fd", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDfe", res.getIdentifier("emoji_u1f1fe", "drawable", pack));
+            addPattern(emoticons, "\uD83C\uDDff", res.getIdentifier("emoji_u1f1ff", "drawable", pack));
+        }
 
         NatureEmojiAdapter.init(context);
         OtherEmojiAdapter.init(context);
@@ -929,6 +940,8 @@ public class EmojiUtils {
 
         textSize = (new AppSettings(context)).textSize;
     }
+
+    public static int textSize;
 
     private static void addPattern(Map<Pattern, Integer> map, String smile, int resource) {
         map.put(Pattern.compile(Pattern.quote(smile)), resource);
@@ -973,7 +986,12 @@ public class EmojiUtils {
             context.getPackageManager().getPackageInfo("com.klinker.android.emoji_keyboard_trial", PackageManager.GET_META_DATA);
             return true;
         } catch (Exception e) {
-            return false;
+            try {
+                context.getPackageManager().getPackageInfo("com.klinker.android.emoji_keyboard_trial_ios", PackageManager.GET_META_DATA);
+                return true;
+            } catch (Exception x) {
+                return false;
+            }
         }
     }
 }

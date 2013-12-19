@@ -66,18 +66,22 @@ public class EmojiKeyboard extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         try {
-            getContext().getPackageManager().getPackageInfo("com.klinker.android.emoji_keyboard_trial", PackageManager.GET_META_DATA);
+            try {
+                getContext().getPackageManager().getPackageInfo("com.klinker.android.emoji_keyboard_trial", PackageManager.GET_META_DATA);
+            } catch (Exception e) {
+                getContext().getPackageManager().getPackageInfo("com.klinker.android.emoji_keyboard_trial_ios", PackageManager.GET_META_DATA);
+            }
 
             emojiPager = (ViewPager) findViewById(R.id.emojiKeyboardPager);
             backspace = (ImageButton) findViewById(R.id.delete);
-            Display d = ((WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-            keyboardHeight = (int) (d.getHeight()/3.0);
+            Display d = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            keyboardHeight = (int) (d.getHeight() / 3.0);
 
             dataSource = new EmojiDataSource(getContext());
             dataSource.open();
             recents = (ArrayList<Recent>) dataSource.getAllRecents();
 
-            emojiPager.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, keyboardHeight));
+            emojiPager.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, keyboardHeight));
 
             tabs = (PagerSlidingTabStrip) findViewById(R.id.emojiTabs);
             tabs.setIndicatorColor(getResources().getColor(R.color.app_color));
@@ -88,13 +92,14 @@ public class EmojiKeyboard extends LinearLayout {
             tabs.setViewPager(emojiPager);
             emojiPager.setCurrentItem(1);
 
-            backspace.setOnClickListener(new OnClickListener() {
+            backspace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     removeText();
                 }
             });
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
     }
 
     public void setAttached(HoloEditText et) {
@@ -110,7 +115,8 @@ public class EmojiKeyboard extends LinearLayout {
         Animation animation = AnimationUtils.loadAnimation(getContext(), visible ? R.anim.slide_up : R.anim.slide_down);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) { }
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -118,7 +124,8 @@ public class EmojiKeyboard extends LinearLayout {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) { }
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
         startAnimation(animation);
     }
@@ -133,7 +140,7 @@ public class EmojiKeyboard extends LinearLayout {
         int beforeLength = input.getText().toString().length();
         CharSequence before = input.getText().subSequence(0, beforeSelectionStart);
         CharSequence after = input.getText().subSequence(input.getSelectionEnd(), beforeLength);
-        input.setText(android.text.TextUtils.concat(before, Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? emoji : EmojiUtils.getSmiledText(getContext(), emoji), after));
+        input.setText(android.text.TextUtils.concat(before, Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !EmojiUtils.ios ? emoji : EmojiUtils.getSmiledText(getContext(), emoji), after));
         input.setEnabled(true);
         input.setSelection(beforeSelectionStart + (input.getText().toString().length() - beforeLength));
         for (Recent recent1 : recents) {
@@ -160,14 +167,18 @@ public class EmojiKeyboard extends LinearLayout {
     }
 
     public void removeRecent(int position) {
-        dataSource.deleteRecent(recents.get(position).id);
-        recents.remove(position);
-        emojiPagerAdapter.notifyDataSetChanged();
+        try {
+            dataSource.deleteRecent(recents.get(position).id);
+            recents.remove(position);
+            emojiPagerAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+
+        }
     }
 
     private class EmojiPagerAdapter extends PagerAdapter {
 
-        private final String[] TITLES = { getContext().getString(R.string.recent), getContext().getString(R.string.people), getContext().getString(R.string.things), getContext().getString(R.string.nature), getContext().getString(R.string.places), getContext().getString(R.string.symbols) };
+        private final String[] TITLES = {getContext().getString(R.string.recent), getContext().getString(R.string.people), getContext().getString(R.string.things), getContext().getString(R.string.nature), getContext().getString(R.string.places), getContext().getString(R.string.symbols)};
         private ViewPager pager;
         private ArrayList<View> pages;
 
@@ -192,7 +203,7 @@ public class EmojiKeyboard extends LinearLayout {
         }
 
         @Override
-        public void destroyItem (ViewGroup container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, Object object) {
             pager.removeView(pages.get(position));
         }
 
