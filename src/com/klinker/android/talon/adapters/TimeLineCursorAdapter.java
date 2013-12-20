@@ -36,6 +36,7 @@ import com.klinker.android.talon.sq_lite.DMDataSource;
 import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -359,12 +360,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
                     }
+
+                    holder.image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", picUrl));
+                        }
+                    });
                 }
 
                 if (holder.image.getVisibility() == View.GONE) {
                     holder.image.setVisibility(View.VISIBLE);
                 }
             }
+
+
         }
 
         if (retweeter.length() > 0 && !isDM) {

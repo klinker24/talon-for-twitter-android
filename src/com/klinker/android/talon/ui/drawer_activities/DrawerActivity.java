@@ -527,6 +527,16 @@ public abstract class DrawerActivity extends Activity {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        if (sharedPrefs.getBoolean("remake_me", false) && translucent) {
+            sharedPrefs.edit().putBoolean("remake_me", false).commit();
+            recreate();
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -534,11 +544,6 @@ public abstract class DrawerActivity extends Activity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
-
-        if (sharedPrefs.getBoolean("remake_me", false) && !translucent) {
-            sharedPrefs.edit().putBoolean("remake_me", false).commit();
-            recreate();
-        }
 
         //NotificationUtils.refreshNotification(context);
 

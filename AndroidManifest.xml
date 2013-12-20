@@ -67,6 +67,11 @@
                   android:excludeFromRecents="true">
         </activity>
 
+        <activity android:name=".ui.widgets.PhotoViewerDialog"
+                    android:configChanges="orientation|screenSize"
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                    android:excludeFromRecents="true" />
+
         <activity android:name=".ui.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"
                   android:configChanges="orientation|screenSize"
