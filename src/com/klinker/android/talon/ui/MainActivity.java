@@ -57,6 +57,7 @@ public class MainActivity extends DrawerActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mViewPager.setCurrentItem(2);
 
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
@@ -98,8 +99,7 @@ public class MainActivity extends DrawerActivity {
             }
         });
 
-        mViewPager.setCurrentItem(2);
-        mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 0), false);
+        mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 2), false);
         mViewPager.setOffscreenPageLimit(3);
     }
 
