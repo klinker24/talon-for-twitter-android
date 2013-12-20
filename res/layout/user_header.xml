@@ -16,9 +16,9 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:paddingLeft="8dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="59dp"
             android:background="@drawable/gradient">
 
         <include layout="@layout/contact_info"
@@ -31,8 +31,7 @@
         <View android:id="@+id/divider"
               android:background="@color/white_divider"
               android:layout_width="1dp"
-              android:layout_height="55dp"
-              android:layout_marginTop="4dp" />
+              android:layout_height="55dp" />
 
         <ImageButton
                 android:id="@+id/options"
@@ -43,7 +42,6 @@
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:background="@drawable/pressed_toast"
                 android:paddingRight="12dp"
-                android:layout_marginTop="4dp"
                 android:paddingLeft="14dp"
                 />
 
