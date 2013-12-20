@@ -59,7 +59,7 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(2);
 
-        setUpDrawer(0, getResources().getString(R.string.timeline));
+        setUpDrawer(2, getResources().getString(R.string.timeline));
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
