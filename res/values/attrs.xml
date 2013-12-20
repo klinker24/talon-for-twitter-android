@@ -69,6 +69,7 @@ limitations under the License.
     <attr name="advancedSettings" format="reference"/>
     <attr name="whatsNew" format="reference"/>
     <attr name="worldTrends" format="reference"/>
+    <attr name="links" format="reference"/>
     <attr name="getHelp" format="reference"/>
     <attr name="otherApps" format="reference"/>
     <attr name="rateIt" format="reference"/>

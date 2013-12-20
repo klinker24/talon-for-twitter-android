@@ -535,7 +535,7 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        if (sharedPrefs.getBoolean("remake_me", false)) {
+        if (sharedPrefs.getBoolean("remake_me", false) && !translucent) {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
         }
