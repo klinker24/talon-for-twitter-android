@@ -36,14 +36,16 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import twitter4j.Twitter;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 /**
  * Created by luke on 12/19/13.
  */
-public class PicFragment extends Fragment {
-
-    public static final int MENTIONS_REFRESH_ID = 127;
+public class PicFragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
     private ConnectionDetector cd;
@@ -56,7 +58,8 @@ public class PicFragment extends Fragment {
 
     private static HomeDataSource dataSource;
 
-    private static int unread;
+    private PullToRefreshAttacher mPullToRefreshAttacher;
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     private boolean landscape;
 
@@ -113,6 +116,17 @@ public class PicFragment extends Fragment {
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
+        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(context)
+                // Mark All Children as pullable
+                .allChildrenArePullable()
+                        // Set the OnRefreshListener
+                .listener(this)
+                        // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
+
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         CursorListLoader loader = new CursorListLoader(cache, context);
 
@@ -164,16 +178,6 @@ public class PicFragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                /*if (firstVisibleItem == 0 && unread > 0) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dataSource.markAllRead(currentAccount);
-                            unread = 0;
-                        }
-                    }).start();
-                }*/
 
                 if (settings.uiExtras) {
                     // show and hide the action bar
@@ -234,9 +238,21 @@ public class PicFragment extends Fragment {
         return layout;
     }
 
+    @Override
+    public void onRefreshStarted(View view) {
+        mPullToRefreshLayout.setRefreshing(true);
+        new GetCursorAdapter().execute();
+    }
+
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected String doInBackground(Void... args) {
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+
+            }
 
             cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
 
@@ -246,6 +262,7 @@ public class PicFragment extends Fragment {
         protected void onPostExecute(String file_url) {
 
             attachCursor();
+            mPullToRefreshLayout.setRefreshComplete();
         }
 
     }

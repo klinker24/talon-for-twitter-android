@@ -35,9 +35,13 @@ import com.klinker.android.talon.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class LinksFragment extends Fragment {
+public class LinksFragment extends Fragment implements OnRefreshListener{
 
     private ConnectionDetector cd;
 
@@ -48,6 +52,9 @@ public class LinksFragment extends Fragment {
     private static SharedPreferences sharedPrefs;
 
     private static HomeDataSource dataSource;
+
+    private PullToRefreshAttacher mPullToRefreshAttacher;
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     private static int unread;
 
@@ -105,6 +112,17 @@ public class LinksFragment extends Fragment {
         dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+
+        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(context)
+                // Mark All Children as pullable
+                .allChildrenArePullable()
+                        // Set the OnRefreshListener
+                .listener(this)
+                        // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         CursorListLoader loader = new CursorListLoader(cache, context);
@@ -227,9 +245,21 @@ public class LinksFragment extends Fragment {
         return layout;
     }
 
+    @Override
+    public void onRefreshStarted(View view) {
+        mPullToRefreshLayout.setRefreshing(true);
+        new GetCursorAdapter().execute();
+    }
+
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected String doInBackground(Void... args) {
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+
+            }
 
             cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
 
@@ -239,6 +269,7 @@ public class LinksFragment extends Fragment {
         protected void onPostExecute(String file_url) {
 
             attachCursor();
+            mPullToRefreshLayout.setRefreshComplete();
         }
 
     }
