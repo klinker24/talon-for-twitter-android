@@ -90,7 +90,7 @@ public class AppSettings {
         vibrate = sharedPrefs.getBoolean("vibrate", true);
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
-        uiExtras = sharedPrefs.getBoolean("ui_extras", false);
+        uiExtras = sharedPrefs.getBoolean("ui_extras", true);
         wakeScreen = sharedPrefs.getBoolean("wake", true);
         militaryTime = sharedPrefs.getBoolean("military_time", false);
         syncMobile = sharedPrefs.getBoolean("sync_mobile_data", true);

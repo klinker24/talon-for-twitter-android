@@ -47,7 +47,7 @@
             android:key="ui_extras"
             android:title="@string/ui_extras"
             android:summary="@string/ui_extras_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <CheckBoxPreference
