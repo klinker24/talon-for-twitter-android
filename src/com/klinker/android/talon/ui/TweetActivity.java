@@ -533,18 +533,9 @@ public class TweetActivity extends YouTubeBaseActivity implements
         String text = tweet;
         String extraNames = "";
 
-        // todo
         if (text.contains("@")) {
-            String[] split = text.split(" ");
-
-            for (String s : split) {
-                if (s.endsWith(":")) {
-                    s = s.substring(0, s.length() - 1);
-                }
-
-                if (s.contains("@") && !s.contains(settings.myScreenName) && !s.contains(screenName) && s.length() > 1) {
-                    extraNames += (s.substring(s.indexOf("@")) + " ").replaceAll("</font>", "");
-                }
+            for (String s : users) {
+                extraNames += "@" + s + " ";
             }
         }
 
