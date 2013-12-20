@@ -49,7 +49,7 @@ public class TrendsPager extends DrawerActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
 
-        setUpDrawer(9, getResources().getString(R.string.trends));
+        setUpDrawer(7, getResources().getString(R.string.trends));
 
         mViewPager.setOffscreenPageLimit(3);
     }
