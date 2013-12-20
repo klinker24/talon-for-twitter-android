@@ -25,6 +25,7 @@ limitations under the License.
     <color name="toast_color">#DDFF8800</color>
     <color name="image_darken">#25222222</color>
     <color name="photo_dialog_background">#70000000</color>
+    <color name="white_divider">#40ffffff</color>
 
     <!-- Light Theme -->
     <color name="light_background">#dddddd</color>
