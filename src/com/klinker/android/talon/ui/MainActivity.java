@@ -100,7 +100,7 @@ public class MainActivity extends DrawerActivity {
         });
 
         mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 2), false);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(5);
     }
 
     public void setUpWindow() {
