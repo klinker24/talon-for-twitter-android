@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_width="315dp"
         android:layout_weight="3"
+        android:singleLine="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:paddingLeft="11dp" />
