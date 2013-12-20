@@ -1,6 +1,7 @@
-<b>Version 0.80:</b> Cause Brandal has cool ideas too<br/><br/>
+<b>Version 0.75:</b> Cause Brandal has cool ideas too<br/><br/>
     &#8226; Added a pictures and links tab to the main page<br/>
-    &#8226; Added a windowed photo view with a click on the pictures<br/><br/>
+    &#8226; Added a windowed photo view with a click on the pictures<br/>
+    &#8226; Fixed force closes on the popup<br/><br/>
 <br/>
 
 <b>Version 0.70:</b> Who cares about finals anyways, it's app time! Finesse and final alpha. Fully functional, fully featured, fully awesome.<br/><br/>
