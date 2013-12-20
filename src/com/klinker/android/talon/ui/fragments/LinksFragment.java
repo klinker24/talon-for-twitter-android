@@ -2,23 +2,14 @@ package com.klinker.android.talon.ui.fragments;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Fragment;
-import android.app.LoaderManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +24,8 @@ import android.widget.TextView;
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
-import com.klinker.android.talon.services.MentionsRefreshService;
-import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.HomeContentProvider;
 import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.talon.utils.App;
@@ -48,26 +35,10 @@ import com.klinker.android.talon.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import twitter4j.Paging;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class LinksFragment extends Fragment {
 
-    public static final int MENTIONS_REFRESH_ID = 127;
-
-    private static Twitter twitter;
     private ConnectionDetector cd;
 
     private static AsyncListView listView;
