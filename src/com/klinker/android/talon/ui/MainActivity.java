@@ -77,11 +77,11 @@ public class MainActivity extends DrawerActivity {
 
             public void onPageSelected(int position) {
                 if (position > 1) {
-                    MainDrawerArrayAdapter.current = position;
+                    MainDrawerArrayAdapter.current = position - 2;
                 } else {
                     MainDrawerArrayAdapter.current = 0;
                 }
-                
+
                 drawerList.invalidateViews();
 
                 switch (position) {
