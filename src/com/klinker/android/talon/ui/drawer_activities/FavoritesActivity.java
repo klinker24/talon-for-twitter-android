@@ -144,7 +144,7 @@ public class FavoritesActivity extends DrawerActivity {
             }
         });
 
-        setUpDrawer(4, getResources().getString(R.string.favorite_tweets));
+        setUpDrawer(6, getResources().getString(R.string.favorite_tweets));
 
         new GetRetweets().execute();
 

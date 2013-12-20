@@ -129,7 +129,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
             }
         });
 
-        setUpDrawer(5, getResources().getString(R.string.favorite_users));
+        setUpDrawer(7, getResources().getString(R.string.favorite_users));
 
         new GetFavUsers().execute();
 

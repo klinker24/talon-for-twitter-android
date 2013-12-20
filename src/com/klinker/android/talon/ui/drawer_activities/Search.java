@@ -111,7 +111,7 @@ public class Search extends DrawerActivity {
             }
         }
 
-        setUpDrawer(8, getResources().getString(R.string.search));
+        setUpDrawer(10, getResources().getString(R.string.search));
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
         spinner.setVisibility(View.GONE);
