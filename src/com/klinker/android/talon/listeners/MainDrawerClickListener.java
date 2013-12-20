@@ -50,7 +50,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     }
                 }, noWait ? 0 : 300);
 
-                viewPager.setCurrentItem(i, true);
+                viewPager.setCurrentItem(i + 2, true);
             } else {
                 final int pos = i;
                 try {
