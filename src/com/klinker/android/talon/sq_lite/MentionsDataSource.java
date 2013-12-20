@@ -217,4 +217,26 @@ public class MentionsDataSource {
 
         return message;
     }
+
+    public long[] getLastIds(int account) {
+        long[] ids = new long[] {0, 0};
+
+        Cursor cursor = getCursor(account);
+
+        try {
+            if (cursor.moveToLast()) {
+                ids[0] = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
+            }
+
+            if (cursor.moveToPrevious()) {
+                ids[1] = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
+            }
+        } catch (Exception e) {
+
+        }
+
+        cursor.close();
+
+        return ids;
+    }
 }

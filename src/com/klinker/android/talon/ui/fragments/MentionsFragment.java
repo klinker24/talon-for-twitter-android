@@ -289,7 +289,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
 
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_mention_id_" + currentAccount, 0);
+                    long lastId = dataSource.getLastIds(currentAccount)[0];
                     Paging paging;
                     paging = new Paging(1, 50);
 
@@ -322,7 +322,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     }
 
                     if (statuses.size() != 0) {
-                        sharedPrefs.edit().putLong("last_mention_id_" + currentAccount, statuses.get(0).getId()).commit();
                         update = true;
                         numberNew = statuses.size();
                     } else {

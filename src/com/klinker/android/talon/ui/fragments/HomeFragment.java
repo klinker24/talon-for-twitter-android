@@ -468,7 +468,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                 User user = twitter.verifyCredentials();
-                long lastId = sharedPrefs.getLong("last_mention_id_" + currentAccount, 0);
+                MentionsDataSource dataSource = new MentionsDataSource(context);
+                dataSource.open();
+                long lastId = dataSource.getLastIds(currentAccount)[0];
+                dataSource.close();
                 Paging paging;
                 paging = new Paging(1, 50);
 
