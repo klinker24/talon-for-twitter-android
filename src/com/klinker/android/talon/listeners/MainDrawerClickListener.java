@@ -37,8 +37,8 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (i < 3) {
-            if (MainDrawerArrayAdapter.current < 3) {
+        if (i < 5) {
+            if (MainDrawerArrayAdapter.current < 5) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -99,22 +99,22 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     Intent intent = null;
 
                     switch (pos) {
-                        case 3:
+                        case 5:
                             intent = new Intent(context, RetweetActivity.class);
                             break;
-                        case 4:
+                        case 6:
                             intent = new Intent(context, FavoritesActivity.class);
                             break;
-                        case 5:
+                        case 7:
                             intent = new Intent(context, FavoriteUsersActivity.class);
                             break;
-                        case 6:
+                        case 8:
                             intent = new Intent(context, ListsActivity.class);
                             break;
-                        case 7:
+                        case 9:
                             intent = new Intent(context, TrendsPager.class);
                             break;
-                        case 8:
+                        case 10:
                             intent = new Intent(context, Search.class);
                             break;
                     }

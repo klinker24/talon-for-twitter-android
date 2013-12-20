@@ -151,7 +151,7 @@ public class HomeDataSource {
 
     public Cursor getLinksCursor(int account) {
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL+ " LIKE '%ht%'", null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'", null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }

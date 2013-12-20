@@ -80,18 +80,25 @@ public class MainActivity extends DrawerActivity {
 
                 switch (position) {
                     case 0:
-                        actionBar.setTitle(getResources().getString(R.string.timeline));
+                        actionBar.setTitle(getResources().getString(R.string.links));
                         break;
                     case 1:
-                        actionBar.setTitle(getResources().getString(R.string.mentions));
+                        actionBar.setTitle(getResources().getString(R.string.pictures));
                         break;
                     case 2:
+                        actionBar.setTitle(getResources().getString(R.string.timeline));
+                        break;
+                    case 3:
+                        actionBar.setTitle(getResources().getString(R.string.mentions));
+                        break;
+                    case 4:
                         actionBar.setTitle(getResources().getString(R.string.direct_messages));
                         break;
                 }
             }
         });
 
+        mViewPager.setCurrentItem(2);
         mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 0), false);
         mViewPager.setOffscreenPageLimit(3);
     }

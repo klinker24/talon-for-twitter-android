@@ -30,7 +30,9 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
     }
 
     public static String[] getItems(Context context1) {
-        String[] items = new String[] {context1.getResources().getString(R.string.timeline),
+        String[] items = new String[] {context1.getResources().getString(R.string.links),
+                context1.getResources().getString(R.string.pictures),
+                context1.getResources().getString(R.string.timeline),
                 context1.getResources().getString(R.string.mentions),
                 context1.getResources().getString(R.string.direct_messages),
                 context1.getResources().getString(R.string.retweets),
@@ -80,7 +82,17 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         holder.name.setText(settingName);
         holder.name.setTextSize(textSize);
 
-        if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
+        if (text.get(position).equals(context.getResources().getString(R.string.links))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.worldTrends});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.pictures))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.picturePlaceholder});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.timelineItem});
             int resource = a.getResourceId(0, 0);
             a.recycle();

@@ -26,6 +26,8 @@
     <string name="menu_create_list">Create New List</string>
 
     <!-- Main Activity -->
+    <string name="links">Links</string>
+    <string name="pictures">Pictures</string>
     <string name="timeline">Timeline</string>
     <string name="mentions">Mentions</string>
     <string name="direct_messages">Direct Messages</string>

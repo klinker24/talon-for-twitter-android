@@ -6,15 +6,10 @@ import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.talon.ui.fragments.DMFragment;
 import com.klinker.android.talon.ui.fragments.HomeFragment;
+import com.klinker.android.talon.ui.fragments.LinksFragment;
 import com.klinker.android.talon.ui.fragments.MentionsFragment;
+import com.klinker.android.talon.ui.fragments.PicFragment;
 
-/**
- * Created with IntelliJ IDEA.
- * User: luke
- * Date: 11/15/13
- * Time: 4:54 PM
- * To change this template use File | Settings | File Templates.
- */
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     public TimelinePagerAdapter(FragmentManager fm) {
@@ -24,12 +19,18 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
+                LinksFragment links = new LinksFragment();
+                return links;
+            case 1:
+                PicFragment pics = new PicFragment();
+                return pics;
+            case 2:
                 HomeFragment home = new HomeFragment();
                 return home;
-            case 1:
+            case 3:
                 MentionsFragment mentions = new MentionsFragment();
                 return mentions;
-            case 2:
+            case 4:
                 DMFragment dm = new DMFragment();
                 return dm;
         }
@@ -38,6 +39,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 5;
     }
 }
