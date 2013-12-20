@@ -17,6 +17,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
@@ -398,6 +400,13 @@ public class TweetActivity extends YouTubeBaseActivity implements
         screennametv.setText("@" + screenName);
         tweettv.setText(Html.fromHtml(tweet));
 
+        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+            if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
+                final Spannable span = EmojiUtils.getSmiledText(context, tweet);
+                tweettv.setText(span);
+            }
+        }
+
         // sets the click listener to display the dialog for the highlighted text
         if (tweet.contains("<font")) {
             tweettv.setOnClickListener(new View.OnClickListener() {
@@ -495,8 +504,6 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
         timetv.setText(timeDisplay);
 
-        tweettv.setLinksClickable(true);
-
         if (retweeter.length() > 0 ) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
             retweetertv.setVisibility(View.VISIBLE);
@@ -526,6 +533,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
         String text = tweet;
         String extraNames = "";
 
+        // todo
         if (text.contains("@")) {
             String[] split = text.split(" ");
 

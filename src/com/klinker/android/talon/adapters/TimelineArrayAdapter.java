@@ -420,46 +420,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
     }
-    class ShowPic extends AsyncTask<String, Void, Boolean> {
-
-        private ViewHolder holder;
-        private long tweetId;
-        private String picUrl;
-
-        public ShowPic(ViewHolder holder, long tweetId, String picUrl) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-            this.picUrl = picUrl;
-        }
-
-        protected Boolean doInBackground(String... urls) {
-            if(picUrl != null) {
-
-            } else {
-                return false;
-            }
-
-            try {
-                //Thread.sleep(100);
-            } catch (Exception e) {
-
-            }
-
-            if (holder.tweetId != tweetId) {
-                return false;
-            }
-
-            return true;
-        }
-
-        protected void onPostExecute(Boolean display) {
-            if (display) {
-                holder.image.loadImage(picUrl, true, null);
-            } else {
-                holder.image.setVisibility(View.GONE);
-            }
-        }
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
