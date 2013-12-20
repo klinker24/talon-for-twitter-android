@@ -38,8 +38,8 @@ public class MainActivity extends DrawerActivity {
 
         sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
 
-        setUpTheme();
         setUpWindow();
+        setUpTheme();
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.timeline));

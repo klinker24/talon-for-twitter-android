@@ -27,7 +27,7 @@ public class MainActivityPopup extends MainActivity {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
 
-        isPopup = true;
+        MainActivity.isPopup = true;
     }
 
     @Override
