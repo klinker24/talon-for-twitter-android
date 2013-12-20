@@ -535,7 +535,9 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
         if (text.contains("@")) {
             for (String s : users) {
-                extraNames += "@" + s + " ";
+                if (!s.equals(settings.myScreenName)) {
+                    extraNames += "@" + s + " ";
+                }
             }
         }
 
