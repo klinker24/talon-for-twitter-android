@@ -1,10 +1,13 @@
 package com.klinker.android.talon.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.text.Html;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
+import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.HtmlUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -194,6 +198,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         User user = thisStatus.getUser();
 
         holder.tweetId = thisStatus.getId();
+        final long id = holder.tweetId;
         final String profilePic = user.getBiggerProfileImageURL();
         String tweetTexts = thisStatus.getText();
         final String name = user.getName();
@@ -386,6 +391,32 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             } else if (count == 1) {
                 holder.retweeter.setText(status.getRetweetCount() + " " + context.getResources().getString(R.string.retweet_lower));
                 holder.retweeter.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+            String text = holder.tweet.getText().toString();
+            if (EmojiUtils.emojiPattern.matcher(text).find()) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(500);
+                        } catch (Exception e) {
+                        }
+
+                        if (holder.tweetId == id) {
+                            final Spannable span = EmojiUtils.getSmiledText(context, holder.tweet.getText());
+
+                            ((Activity)context).findViewById(android.R.id.content).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.tweet.setText(span);
+                                }
+                            });
+                        }
+                    }
+                }).start();
             }
         }
     }
