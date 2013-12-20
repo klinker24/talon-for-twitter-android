@@ -13,4 +13,3 @@
 - Bugs:
 
 - Main TODO:
-    - get ios emojis working
