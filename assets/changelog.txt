@@ -13,6 +13,7 @@
     &#8226; Add more than one screen name from the user selection dialog<br/>
     &#8226; Widget and image caching fixes<br/>
     &#8226; Lowered the data footprint again<br/>
+    &#8226; Made the "Sliding Emoji Keyboard - iOS" compatible as a plugin<br/>
     &#8226; Inline Instagram pictures<br/><br/>
 <br/>
 
