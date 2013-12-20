@@ -402,7 +402,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
-                final Spannable span = EmojiUtils.getSmiledText(context, tweet);
+                final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet));
                 tweettv.setText(span);
             }
         }

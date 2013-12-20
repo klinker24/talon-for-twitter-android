@@ -211,65 +211,6 @@ public abstract class Compose extends Activity implements
         reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
-        if (!settings.useEmoji) {
-            emojiButton.setVisibility(View.GONE);
-        } else {
-            emojiKeyboard.setAttached((HoloEditText) reply);
-
-            reply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (emojiKeyboard.isShowing()) {
-                        emojiKeyboard.setVisibility(false);
-
-                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
-                        int resource = a.getResourceId(0, 0);
-                        a.recycle();
-                        emojiButton.setImageResource(resource);
-                    }
-                }
-            });
-
-            emojiButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (emojiKeyboard.isShowing()) {
-                        emojiKeyboard.setVisibility(false);
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                InputMethodManager imm = (InputMethodManager)getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                imm.showSoftInput(reply, 0);
-                            }
-                        }, 250);
-
-                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
-                        int resource = a.getResourceId(0, 0);
-                        a.recycle();
-                        emojiButton.setImageResource(resource);
-                    } else {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                emojiKeyboard.setVisibility(true);
-                            }
-                        }, 250);
-
-                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboardButton});
-                        int resource = a.getResourceId(0, 0);
-                        a.recycle();
-                        emojiButton.setImageResource(resource);
-                    }
-                }
-            });
-        }
-
         charRemaining.setText(140 - reply.getText().length() + "");
         reply.addTextChangedListener(new TextWatcher() {
             @Override

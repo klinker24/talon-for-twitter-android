@@ -1,11 +1,15 @@
 package com.klinker.android.talon.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.talon.utils.Utils;
 
@@ -64,6 +69,65 @@ public class ComposeDMActivity extends Compose {
         });
 
         reply.setHint(getResources().getString(R.string.compose_tweet_hint));
+
+        if (!settings.useEmoji) {
+            emojiButton.setVisibility(View.GONE);
+        } else {
+            emojiKeyboard.setAttached((HoloEditText) reply);
+
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+
+            emojiButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (emojiKeyboard.isShowing()) {
+                        emojiKeyboard.setVisibility(false);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputMethodManager imm = (InputMethodManager)getSystemService(
+                                        Context.INPUT_METHOD_SERVICE);
+                                imm.showSoftInput(reply, 0);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button_changing});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    } else {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                emojiKeyboard.setVisibility(true);
+                            }
+                        }, 250);
+
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboard_button_changing});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        emojiButton.setImageResource(resource);
+                    }
+                }
+            });
+        }
 
     }
 
