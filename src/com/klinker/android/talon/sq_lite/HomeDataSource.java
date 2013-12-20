@@ -142,6 +142,20 @@ public class HomeDataSource {
         return cursor;
     }
 
+    public Cursor getPicsCursor(int account) {
+        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'", null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor;
+    }
+
+    public Cursor getLinksCursor(int account) {
+        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL+ " LIKE '%ht%'", null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor;
+    }
+
     public int getUnreadCount(int account) {
 
         Cursor cursor = getUnreadCursor(account);
