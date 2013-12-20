@@ -305,5 +305,17 @@
     <string name="places">Places</string>
     <string name="symbols">Symbols</string>
 
+    <!-- Array value for translation -->
+    <string name="five_mins">5 minutes</string>
+    <string name="ten_mins">10 minutes</string>
+    <string name="twenty_mins">20 minutes</string>
+    <string name="thirty_mins">30 minutes</string>
+    <string name="fourty_five_mins">45 minutes</string>
+    <string name="one_hour">1 hour</string>
+    <string name="two_hours">2 hours</string>
+    <string name="three_hours">3 hours</string>
+    <string name="four_hours">4 hours</string>
+    <string name="manual">Manual</string>
+
 
 </resources>
