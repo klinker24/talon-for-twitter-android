@@ -6,7 +6,7 @@ Beautiful, up-to-date layouts, designs, and neat animations isn't the only thing
 
 Twitter features:
 - Support for 2 accounts
-- View your timelines (main, mentions, and direct messages)
+- View your timelines (main, mentions, direct messages, links, and pictures)
 - View retweets
 - View your favorites
 - Local and world trending
@@ -21,36 +21,30 @@ Twitter features:
 - search for your friends to tweet at
 - Attach pictures to your tweets
 - Attach locations to your tweets
-- And too many more to list :)
+- And the list goes on :)
 
 Customization features:
 - Choose from 3 beautiful themes
 - Custom text sizes
 - Night mode
-- Support for either Roboto Light or regular Roboto fonts
-- 24-Hour timestamps
 - Auto-Refresh options
 - Custom notification settings
-- Refresh on WiFi and/or mobile data
-- And a few other goodies in there as well!
+- And many other goodies in there as well!
 
 App Features:
 - Expandable, actionable, and dynamic notification system
-- Full app popup so you never have to leave the current app to view your new tweets
-- Full support for Google's Hangouts emojis
+- Full app popup
+- Full emoji support
 - View in-line Twitter and Instagram pictures
 - View in-line YouTube thumbnails
-- Native in-app YouTube player
-- In-app browser to view webpages and videos
-- Complete landscape mode for tablets and phones
-- Tablet specific layouts
+- Native YouTube player
+- In-app browser
+- Complete landscape and tablet modes
 - Advance to new pages in a "windowed" viewing mode
 - Never leave your timeline with in-line replies, favorites, and retweets
-- In-line Twitter pictures
-- Notifications for new tweets, mentions, and direct messages
 - Actionable toast bar so you always know where you are and can jump to the top
-- Hiding action bar to give you all those extra pixels of Twitter goodness
-- Main timeline widget
+- Hiding action bar
+- Widget for main timeline
 - DashClock Extension
 - Draft system for unsent tweets
 - Google style pull to refresh for quick refreshing

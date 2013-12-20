@@ -59,7 +59,7 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(2);
 
-        setUpDrawer(2, getResources().getString(R.string.timeline));
+        setUpDrawer(0, getResources().getString(R.string.timeline));
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
@@ -76,7 +76,12 @@ public class MainActivity extends DrawerActivity {
             }
 
             public void onPageSelected(int position) {
-                MainDrawerArrayAdapter.current = position;
+                if (position > 1) {
+                    MainDrawerArrayAdapter.current = position;
+                } else {
+                    MainDrawerArrayAdapter.current = 0;
+                }
+                
                 drawerList.invalidateViews();
 
                 switch (position) {

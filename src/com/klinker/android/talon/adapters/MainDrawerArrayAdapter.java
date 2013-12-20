@@ -30,8 +30,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
     }
 
     public static String[] getItems(Context context1) {
-        String[] items = new String[] {context1.getResources().getString(R.string.links),
-                context1.getResources().getString(R.string.pictures),
+        String[] items = new String[] {
                 context1.getResources().getString(R.string.timeline),
                 context1.getResources().getString(R.string.mentions),
                 context1.getResources().getString(R.string.direct_messages),

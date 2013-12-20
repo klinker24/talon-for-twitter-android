@@ -530,7 +530,7 @@ public abstract class DrawerActivity extends Activity {
     public void onStart() {
         super.onStart();
 
-        if (sharedPrefs.getBoolean("remake_me", false) && translucent) {
+        if (sharedPrefs.getBoolean("remake_me", false) && !MainActivity.isPopup) {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
         }
