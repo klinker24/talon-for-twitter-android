@@ -304,16 +304,22 @@ public class HtmlUtils {
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
                         end = exp.indexOf("&");
+                    } else if (exp.substring(start).contains("?")) {
+                        end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    otherUrl = exp;
                 } else if (exp.contains("youtu.be")) { // shortened youtube link
                     // first get the youtube video code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
                         end = exp.indexOf("&");
+                    } else if (exp.substring(start).contains("?")) {
+                        end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    otherUrl = exp;
                 } else {
                     otherUrl = exp;
                 }
