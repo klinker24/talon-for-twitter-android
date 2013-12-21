@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,6 +53,7 @@ import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
+import com.klinker.android.talon.utils.ImageUtils;
 import com.klinker.android.talon.utils.NotificationUtils;
 import com.klinker.android.talon.utils.Utils;
 
@@ -279,19 +282,15 @@ public abstract class DrawerActivity extends Activity {
         name.setTextSize(settings.textSize);
         screenName.setTextSize(settings.textSize);
 
-        // Keeping picasso right now because of the transforms...
-        // Don't know how to do them yet with the manual caching
-
-        try {
+        if (!backgroundUrl.equals("")) {
             backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
-
-        } catch (Exception e) {
-            // empty path for some reason
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.default_header_background);
+            backgroundPic.setImageBitmap(ImageUtils.blur(b));
         }
 
         try {
             profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-
         } catch (Exception e) {
             // empty path again
         }

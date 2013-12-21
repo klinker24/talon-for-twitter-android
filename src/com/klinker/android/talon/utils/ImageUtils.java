@@ -59,7 +59,7 @@ public class ImageUtils {
 
     public static Bitmap blur(Bitmap sentBitmap) {
 
-        int radius = 8;
+        int radius = 4;
 
         Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
 
