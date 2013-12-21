@@ -185,16 +185,6 @@
                   android:excludeFromRecents="true"
                   android:theme="@style/Theme.TalonDark.Popup" >
 
-        </activity>
-
-        <activity android:name=".ui.RetryCompose"
-            android:label="@string/app_name"
-            android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:theme="@style/Theme.TalonDark.Popup" >
-
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -205,6 +195,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
+
+        </activity>
+
+        <activity android:name=".ui.RetryCompose"
+            android:label="@string/app_name"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.TalonDark.Popup" >
 
         </activity>
 

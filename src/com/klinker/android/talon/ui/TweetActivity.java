@@ -386,12 +386,14 @@ public class TweetActivity extends YouTubeBaseActivity implements
                 }
             });
 
-            new Handler().postDelayed(new Runnable() {
+            if (website.getVisibility() == View.VISIBLE || youTubeView.getVisibility() == View.VISIBLE) {
+                new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     expand.performClick();
                 }
             }, 500);
+            }
         } else {
             expand.setVisibility(View.GONE);
         }
