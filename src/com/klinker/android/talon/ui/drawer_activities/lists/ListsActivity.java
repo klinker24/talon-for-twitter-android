@@ -1,14 +1,11 @@
 package com.klinker.android.talon.ui.drawer_activities.lists;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,7 +50,7 @@ public class ListsActivity extends DrawerActivity {
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        setContentView(R.layout.text_list_view_land);
+        setContentView(R.layout.twitter_lists_page);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
