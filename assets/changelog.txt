@@ -1,8 +1,8 @@
 <b>Version 0.75:</b> Cause Brandal has cool ideas too<br/><br/>
-    &#8226; Added a pictures and links tab to the main page<br/>
+    &#8226; Added a pictures and links tab to the main page (optional)<br/>
     &#8226; Added a windowed photo view with a click on the pictures<br/>
     &#8226; Much better style on the main drawer<br/>
-    &#8226; Fixed force closes on the popup<br/><br/>
+    &#8226; Fixed force closes on the popup and sharing<br/><br/>
 <br/>
 
 <b>Version 0.70:</b> Who cares about finals anyways, it's app time! Finesse and final alpha. Fully functional, fully featured, fully awesome.<br/><br/>

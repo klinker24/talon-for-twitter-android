@@ -298,7 +298,7 @@ public abstract class DrawerActivity extends Activity {
         MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
         drawerList.setAdapter(adapter);
 
-        drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager));
+        drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager, settings.extraPages));
 
         // set up for the second account
         int count = 0; // number of accounts logged in
