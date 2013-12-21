@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +62,7 @@ public class LocalTrends extends Fragment implements
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
 
-        layout = inflater.inflate(R.layout.text_list_view, null);
+        layout = inflater.inflate(R.layout.trends_list_view, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
