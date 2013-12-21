@@ -294,7 +294,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toTopListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listView.smoothScrollToPosition(0);
+                try {
+                    if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
+                        listView.setSelection(0);
+                    } else {
+                        listView.smoothScrollToPosition(0);
+                    }
+                } catch (Exception e) {
+                    listView.smoothScrollToPosition(0);
+                }
             }
         };
 
