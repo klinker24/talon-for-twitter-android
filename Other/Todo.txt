@@ -13,3 +13,4 @@
 - Bugs:
 
 - Main TODO:
+    - make login use a webview... maybe
