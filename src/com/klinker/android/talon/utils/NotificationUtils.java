@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -22,6 +23,10 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
+
+import java.net.URL;
 
 public class NotificationUtils {
 
@@ -49,7 +54,7 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreadCounts = getUnreads(context);
+        int[] unreadCounts = new int[] {9,0,1};//getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
         // [0] is the full title and [1] is the screenname
@@ -69,6 +74,7 @@ public class NotificationUtils {
                     .setContentTitle(title[0])
                     .setContentText(shortText)
                     .setSmallIcon(R.drawable.timeline_dark)
+                    .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
                     .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(longText)));
@@ -107,6 +113,7 @@ public class NotificationUtils {
                     .setContentTitle(title[0])
                     .setContentText(shortText)
                     .setSmallIcon(R.drawable.timeline_dark)
+                    .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true);
         }
@@ -338,7 +345,41 @@ public class NotificationUtils {
         return body;
     }
 
-    public static Bitmap getIcon() {
-        return null;
+    public static Bitmap getIcon(Context context, int[] unreadCount, String screenname) {
+
+        int homeTweets = unreadCount[0];
+        int mentionsTweets = unreadCount[1];
+        int dmTweets = unreadCount[2];
+
+        boolean customPic = (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) ||
+                (dmTweets == 1 && homeTweets == 0 && mentionsTweets == 0);
+
+        if (screenname != null && customPic) {
+            BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
+            Log.v("notifications_talon", "in screenname");
+            String url;
+            try {
+                url = Utils.getTwitter(context).showUser(screenname).getBiggerProfileImageURL();
+                CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
+
+                Log.v("notifications_talon", "got wrapper");
+
+                if (wrapper == null) {
+
+                    Log.v("notifications_talon", "wrapper null");
+                    URL mUrl = new URL(url);
+                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                    image = ImageUtils.notificationResize(context, image);
+                    mCache.put(url + "_notification", image);
+                    return image;
+                } else {
+                    return wrapper.getBitmap();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // enter aarons icon here...
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.timeline_dark);
     }
 }
