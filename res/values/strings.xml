@@ -252,6 +252,8 @@
                 <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines</string>
             <string name="reverse_click_actions">Reverse Click Actions</string>
             <string name="reverse_click_actions_summary">Reverse the click actions on tweets\n\nDefault:\nLong click to open tweet\nShort click to expand tweet</string>
+            <string name="extra_pages">Use Extra Pages</string>
+            <string name="extra_pages_summary">Add links and pictures pages ot the left of the timeline</string>
         <string name="memory_management">Memory Management Options</string>
             <string name="delete_cache">Delete Cache Now</string>
             <string name="cache_dialog">Delete Cache?</string>

@@ -27,13 +27,15 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     private DrawerLayout drawer;
     private ViewPager viewPager;
     private boolean noWait;
+    private boolean extraPages;
 
-    public MainDrawerClickListener(Context context, DrawerLayout drawer, ViewPager viewPager) {
+    public MainDrawerClickListener(Context context, DrawerLayout drawer, ViewPager viewPager, boolean extraPages) {
         this.context = context;
         this.drawer = drawer;
         this.viewPager = viewPager;
         this.noWait = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
                 context.getResources().getBoolean(R.bool.isTablet);
+        this.extraPages = extraPages;
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -50,7 +52,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     }
                 }, noWait ? 0 : 300);
 
-                viewPager.setCurrentItem(i + 2, true);
+                viewPager.setCurrentItem(i + (extraPages ? 2 : 0), true);
             } else {
                 final int pos = i;
                 try {
@@ -63,7 +65,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     public void run() {
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        intent.putExtra("page_to_open", pos + 2);
+                        intent.putExtra("page_to_open", pos + (extraPages ? 2 : 0));
                         intent.putExtra("from_drawer", true);
 
                         if (!noWait) {

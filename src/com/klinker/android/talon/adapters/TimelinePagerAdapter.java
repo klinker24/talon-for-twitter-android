@@ -12,33 +12,50 @@ import com.klinker.android.talon.ui.fragments.PicFragment;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
-    public TimelinePagerAdapter(FragmentManager fm) {
+    private boolean extraPages;
+
+    public TimelinePagerAdapter(FragmentManager fm, boolean extraPages) {
         super(fm);
+        this.extraPages = extraPages;
     }
     @Override
     public Fragment getItem(int i) {
-        switch (i) {
-            case 0:
-                LinksFragment links = new LinksFragment();
-                return links;
-            case 1:
-                PicFragment pics = new PicFragment();
-                return pics;
-            case 2:
-                HomeFragment home = new HomeFragment();
-                return home;
-            case 3:
-                MentionsFragment mentions = new MentionsFragment();
-                return mentions;
-            case 4:
-                DMFragment dm = new DMFragment();
-                return dm;
+        if(extraPages) {
+            switch (i) {
+                case 0:
+                    LinksFragment links = new LinksFragment();
+                    return links;
+                case 1:
+                    PicFragment pics = new PicFragment();
+                    return pics;
+                case 2:
+                    HomeFragment home = new HomeFragment();
+                    return home;
+                case 3:
+                    MentionsFragment mentions = new MentionsFragment();
+                    return mentions;
+                case 4:
+                    DMFragment dm = new DMFragment();
+                    return dm;
+            }
+        } else {
+            switch (i) {
+                case 0:
+                    HomeFragment home = new HomeFragment();
+                    return home;
+                case 1:
+                    MentionsFragment mentions = new MentionsFragment();
+                    return mentions;
+                case 2:
+                    DMFragment dm = new DMFragment();
+                    return dm;
+            }
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return extraPages ? 5 : 3;
     }
 }

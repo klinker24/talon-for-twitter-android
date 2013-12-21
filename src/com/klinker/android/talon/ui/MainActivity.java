@@ -51,13 +51,12 @@ public class MainActivity extends DrawerActivity {
             startActivity(login);
         }
 
-        mSectionsPagerAdapter = new TimelinePagerAdapter(
-                getFragmentManager());
+        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), settings.extraPages);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(settings.extraPages ? 2 : 0);
 
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
@@ -76,36 +75,55 @@ public class MainActivity extends DrawerActivity {
             }
 
             public void onPageSelected(int position) {
-                if (position > 1) {
-                    MainDrawerArrayAdapter.current = position - 2;
+
+                if(settings.extraPages) {
+                    if (position > 1) {
+                        MainDrawerArrayAdapter.current = position - 2;
+                    } else {
+                        MainDrawerArrayAdapter.current = 0;
+                    }
                 } else {
-                    MainDrawerArrayAdapter.current = 0;
+                    MainDrawerArrayAdapter.current = position;
                 }
 
                 drawerList.invalidateViews();
 
-                switch (position) {
-                    case 0:
-                        actionBar.setTitle(getResources().getString(R.string.links));
-                        break;
-                    case 1:
-                        actionBar.setTitle(getResources().getString(R.string.pictures));
-                        break;
-                    case 2:
-                        actionBar.setTitle(getResources().getString(R.string.timeline));
-                        break;
-                    case 3:
-                        actionBar.setTitle(getResources().getString(R.string.mentions));
-                        break;
-                    case 4:
-                        actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                        break;
+                if(settings.extraPages) {
+                    switch (position) {
+                        case 0:
+                            actionBar.setTitle(getResources().getString(R.string.links));
+                            break;
+                        case 1:
+                            actionBar.setTitle(getResources().getString(R.string.pictures));
+                            break;
+                        case 2:
+                            actionBar.setTitle(getResources().getString(R.string.timeline));
+                            break;
+                        case 3:
+                            actionBar.setTitle(getResources().getString(R.string.mentions));
+                            break;
+                        case 4:
+                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                            break;
+                    }
+                } else {
+                    switch (position) {
+                        case 0:
+                            actionBar.setTitle(getResources().getString(R.string.timeline));
+                            break;
+                        case 1:
+                            actionBar.setTitle(getResources().getString(R.string.mentions));
+                            break;
+                        case 2:
+                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                            break;
+                    }
                 }
             }
         });
 
-        mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 2), false);
-        mViewPager.setOffscreenPageLimit(5);
+        mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", settings.extraPages ? 2 : 0), false);
+        mViewPager.setOffscreenPageLimit(settings.extraPages ? 5 : 3);
     }
 
     public void setUpWindow() {
