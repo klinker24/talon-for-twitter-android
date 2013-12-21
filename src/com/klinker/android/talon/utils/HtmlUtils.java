@@ -138,6 +138,8 @@ public class HtmlUtils {
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
                         end = exp.indexOf("&");
+                    } else if (exp.substring(start).contains("?")) {
+                        end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
                     otherUrl = exp;
@@ -147,8 +149,11 @@ public class HtmlUtils {
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
                         end = exp.indexOf("&");
+                    } else if (exp.substring(start).contains("?")) {
+                        end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    otherUrl = exp;
                 }else {
                     otherUrl = exp;
                 }
