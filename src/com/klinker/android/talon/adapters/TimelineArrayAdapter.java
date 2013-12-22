@@ -362,6 +362,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
+
+                    holder.image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
                 } else {
                     holder.image.loadImage(picUrl, false, null);
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
