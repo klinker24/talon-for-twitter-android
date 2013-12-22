@@ -1,4 +1,5 @@
-<b>Version 0.75:</b> Cause Brandal has cool ideas too<br/><br/>
+<b>Version 0.80:</b> Cause Brandal has cool ideas too<br/><br/>
+    &#8226; Added a real icon! Still need a notifications one<br/>
     &#8226; Added a pictures and links tab to the main page (optional)<br/>
     &#8226; Added a windowed photo view with a click on the pictures<br/>
     &#8226; Much better style on the main drawer<br/>
