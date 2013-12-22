@@ -296,7 +296,13 @@ public class UserProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(spinner.getVisibility() == View.GONE) {
-                    startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()));
+                    if (!thisUser.getScreenName().equals(settings.myScreenName)) {
+                        startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()));
+                    } else {
+                        // no transform and not from cache for my banner
+                        startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()).putExtra("from_cache", false));
+                    }
+
                 } else {
                     // it isn't ready to be opened just yet
                 }
@@ -510,7 +516,11 @@ public class UserProfileActivity extends Activity {
 
             String url = user.getProfileBannerURL();
             if (url != null) {
-                background.loadImage(url, false, null);
+                if (!user.getScreenName().equals(settings.myScreenName)) {
+                    background.loadImage(url, false, null);
+                } else {
+                    background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
+                }
             }
 
             spinner.setVisibility(View.GONE);
@@ -597,7 +607,11 @@ public class UserProfileActivity extends Activity {
 
             String url = user.getProfileBannerURL();
             if (url != null) {
-                background.loadImage(user.getProfileBannerURL(), false, null);
+                if (!user.getScreenName().equals(settings.myScreenName)) {
+                    background.loadImage(url, false, null);
+                } else {
+                    background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
+                }
             }
 
             spinner.setVisibility(View.GONE);
@@ -651,7 +665,11 @@ public class UserProfileActivity extends Activity {
 
             String url = user.getProfileBannerURL();
             if (url != null) {
-                background.loadImage(user.getProfileBannerURL(), false, null);
+                if (!user.getScreenName().equals(settings.myScreenName)) {
+                    background.loadImage(url, false, null);
+                } else {
+                    background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
+                }
             }
 
             new Handler().postDelayed(new Runnable() {
