@@ -130,9 +130,9 @@ public class HtmlUtils {
                 } catch (Exception e) {
                     tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
                 }
-                if(exp.contains("instag")) {
+                if(exp.toLowerCase().contains("instag")) {
                     imageUrl = exp + "media/?size=t";
-                } else if (exp.contains("youtu")) {
+                } else if (exp.toLowerCase().contains("youtu")) {
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
@@ -143,7 +143,7 @@ public class HtmlUtils {
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
                     otherUrl = exp;
-                } else if (exp.contains("youtu.be")) {
+                } else if (exp.toLowerCase().contains("youtu.be")) {
                     // first get the youtube video code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
@@ -296,9 +296,9 @@ public class HtmlUtils {
                 } catch (Exception e) {
                     tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
                 }
-                if(exp.contains("instag")) {
+                if(exp.toLowerCase().contains("instag")) {
                     imageUrl = exp + "media/?size=t";
-                } else if (exp.contains("youtube")) { // normal youtube link
+                } else if (exp.toLowerCase().contains("youtube")) { // normal youtube link
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
@@ -309,7 +309,7 @@ public class HtmlUtils {
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
                     otherUrl = exp;
-                } else if (exp.contains("youtu.be")) { // shortened youtube link
+                } else if (exp.toLowerCase().contains("youtu.be")) { // shortened youtube link
                     // first get the youtube video code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
