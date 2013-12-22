@@ -3,6 +3,7 @@ package com.klinker.android.talon.utils;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,8 @@ import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.MainActivityPopup;
+import com.klinker.android.talon.ui.RedirectToPopup;
+
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
@@ -54,7 +57,7 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreadCounts = getUnreads(context);
+        int[] unreadCounts = new int[] {1,1,3};//getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
         // [0] is the full title and [1] is the screenname
@@ -100,9 +103,9 @@ public class NotificationUtils {
 
                 mBuilder.addAction(R.drawable.ic_action_read, context.getResources().getString(R.string.mark_read), readPending);
             } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
-                Intent popup = new Intent(context, MainActivityPopup.class);
-                resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                resultIntent.putExtra("from_notification", true);
+                Intent popup = new Intent(context, RedirectToPopup.class);
+                popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                popup.putExtra("from_notification", true);
 
                 PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
 

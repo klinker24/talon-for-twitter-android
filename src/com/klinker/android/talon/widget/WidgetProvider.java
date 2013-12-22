@@ -34,6 +34,7 @@ import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.services.WidgetRefreshService;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.RetryCompose;
 import com.klinker.android.talon.ui.TweetActivityWidget;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -103,7 +104,7 @@ public class WidgetProvider extends AppWidgetProvider {
                 int appWidgetId = appWidgetIds[i];
 
                 Intent quickText = new Intent(this, ComposeActivity.class);
-                quickText.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                quickText.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
 
                 Intent intent2 = new Intent(this, WidgetService.class);

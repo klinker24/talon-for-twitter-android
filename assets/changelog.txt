@@ -2,6 +2,7 @@
     &#8226; Added a pictures and links tab to the main page (optional)<br/>
     &#8226; Added a windowed photo view with a click on the pictures<br/>
     &#8226; Much better style on the main drawer<br/>
+    &#8226; User pictures shown on notifications<br/>
     &#8226; Fixed force closes on the popup and sharing<br/><br/>
 <br/>
 
