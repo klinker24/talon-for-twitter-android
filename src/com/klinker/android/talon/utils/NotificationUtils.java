@@ -57,7 +57,7 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreadCounts = new int[] {1,1,3};//getUnreads(context);
+        int[] unreadCounts = getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
         // [0] is the full title and [1] is the screenname
