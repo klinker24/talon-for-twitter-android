@@ -296,12 +296,7 @@ public class UserProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(spinner.getVisibility() == View.GONE) {
-                    if (!thisUser.getScreenName().equals(settings.myScreenName)) {
-                        startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()));
-                    } else {
-                        // no transform and not from cache for my banner
-                        startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()).putExtra("from_cache", false));
-                    }
+                    startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()));
 
                 } else {
                     // it isn't ready to be opened just yet
