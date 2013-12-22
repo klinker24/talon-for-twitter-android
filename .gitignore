@@ -38,6 +38,7 @@ project.properties
 .iml
 .idea
 *.iml
+*.mp4
 classes
 
 obj

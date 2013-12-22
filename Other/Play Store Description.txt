@@ -1,4 +1,4 @@
-Get fully immersed yourself in your Twitter news with this beautiful, feature PACKED Twitter client with a design that actually makes sense!
+Get fully immersed in your Twitter news with this beautiful, feature PACKED Twitter client with a design that actually makes sense!
 
 Created with Android 4.4 (KitKat) in mind. Includes full screen layouts, beautiful animations and more! Of course that doesn't mean earlier versions of android get left out! The only thing that wasn't able to be recreated in Android 4.3 and below was the transparent navigation and status bars... Sorry! It just isn't possible :(
 
