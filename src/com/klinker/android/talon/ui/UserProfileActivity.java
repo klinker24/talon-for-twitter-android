@@ -44,6 +44,7 @@ import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.talon.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
+import com.klinker.android.talon.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.talon.utils.App;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
@@ -227,6 +228,7 @@ public class UserProfileActivity extends Activity {
         followingBtn = (Button) findViewById(R.id.following);
 
         background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
+        NetworkedCacheableImageView profilePicture = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
         final TextView statement = (TextView) findViewById(R.id.user_statement);
         final TextView screenname = (TextView) findViewById(R.id.username);
         final AsyncListView listView = (AsyncListView) findViewById(R.id.listView);
@@ -286,6 +288,28 @@ public class UserProfileActivity extends Activity {
                     listView.setAdapter(new PeopleArrayAdapter(context, following));
 
                     new GetFollowing(thisUser, listView, false).execute();
+                }
+            }
+        });
+
+        background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(spinner.getVisibility() == View.GONE) {
+                    startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()));
+                } else {
+                    // it isn't ready to be opened just yet
+                }
+            }
+        });
+
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(spinner.getVisibility() == View.GONE) {
+                    startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getOriginalProfileImageURL()));
+                } else {
+                    // it isn't ready to be opened just yet
                 }
             }
         });
@@ -484,7 +508,7 @@ public class UserProfileActivity extends Activity {
 
             profilePic.loadImage(thisUser.getOriginalProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
 
-            String url = user.getProfileBannerRetinaURL();
+            String url = user.getProfileBannerURL();
             if (url != null) {
                 background.loadImage(url, false, null);
             }

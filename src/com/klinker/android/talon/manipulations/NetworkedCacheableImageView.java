@@ -54,6 +54,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
         private int transform;
         private Context context;
+        private boolean fromCache;
 
         ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache,
                           BitmapFactory.Options decodeOpts, OnImageLoadedListener listener) {
@@ -63,6 +64,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             mListener = listener;
             mDecodeOpts = decodeOpts;
             transform = 0;
+            fromCache = true;
         }
 
         ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache,
@@ -73,6 +75,18 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             mListener = listener;
             mDecodeOpts = decodeOpts;
             this.transform = transform;
+            fromCache = true;
+        }
+
+        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache,
+                          BitmapFactory.Options decodeOpts, OnImageLoadedListener listener, int transform, boolean fromCache) {
+            this.context = context;
+            mCache = cache;
+            mImageViewRef = new WeakReference<ImageView>(imageView);
+            mListener = listener;
+            mDecodeOpts = decodeOpts;
+            this.transform = transform;
+            this.fromCache = fromCache;
         }
 
         @Override
@@ -86,7 +100,13 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 final String url = params[0];
 
                 // Now we're not on the main thread we can check all caches
-                CacheableBitmapDrawable result = mCache.get(url, mDecodeOpts);
+                CacheableBitmapDrawable result;
+
+                if (fromCache) {
+                    result = mCache.get(url, mDecodeOpts);
+                } else {
+                    result = null;
+                }
 
                 if (null == result) {
                     Log.d("ImageUrlAsyncTask", "Downloading: " + url);
@@ -106,7 +126,12 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     }
 
                     // Add to cache
-                    result = mCache.put(url, b);
+                    if(fromCache) {
+                        result = mCache.put(url, b);
+                    } else {
+                        result = mCache.put("no_cache", b);
+                    }
+
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
                 }
@@ -225,6 +250,53 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             }
 
             mCurrentTask = new ImageUrlAsyncTask(getContext(), this, mCache, decodeOpts, listener, transform);
+
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    SDK11.executeOnThreadPool(mCurrentTask, url);
+                } else {
+                    mCurrentTask.execute(url);
+                }
+            } catch (RejectedExecutionException e) {
+                // This shouldn't happen, but might.
+            }
+
+            return false;
+        }
+    }
+
+
+    public boolean loadImage(String url, final boolean fullSize, OnImageLoadedListener listener, int transform, boolean fromCache) {
+        // First check whether there's already a task running, if so cancel it
+        if (null != mCurrentTask) {
+            mCurrentTask.cancel(true);
+        }
+
+        // Check to see if the memory cache already has the bitmap. We can
+        // safely do
+        // this on the main thread.
+        BitmapDrawable wrapper;
+        if (fromCache) {
+            wrapper = mCache.getFromMemoryCache(url);
+        } else {
+            wrapper = null;
+        }
+        if (null != wrapper) {
+            // The cache has it, so just display it
+            setImageDrawable(wrapper);
+            return true;
+        } else {
+            // Memory Cache doesn't have the URL, do threaded request...
+            setImageDrawable(null);
+
+            BitmapFactory.Options decodeOpts = null;
+
+            if (!fullSize) {
+                //decodeOpts = new BitmapFactory.Options();
+                //decodeOpts.inSampleSize = 2;
+            }
+
+            mCurrentTask = new ImageUrlAsyncTask(getContext(), this, mCache, decodeOpts, listener, transform, fromCache);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

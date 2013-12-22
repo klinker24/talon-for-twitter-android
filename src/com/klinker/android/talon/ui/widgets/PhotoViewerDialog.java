@@ -31,6 +31,7 @@ public class PhotoViewerDialog extends Activity {
         context = this;
 
         String url = getIntent().getStringExtra("url");
+        boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
 
         AppSettings settings = new AppSettings(context);
 
@@ -41,7 +42,7 @@ public class PhotoViewerDialog extends Activity {
         setContentView(R.layout.photo_dialog_layout);
 
         NetworkedCacheableImageView picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
-        picture.loadImage(url, false, null);
+        picture.loadImage(url, false, null, 0, fromCache); // no transform
 
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 

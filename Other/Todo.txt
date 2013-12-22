@@ -8,9 +8,11 @@
     - Some kind of notifications for fav users
     - Notification for the second account's mentions
     - redo the checkboxes and stuff to use an orange color instead of blue
+    - some way to show progress bar on widget
     - limit cache option maybe
 
 - Bugs:
 
 - Main TODO:
     - make login use a webview... maybe
+    - progress bar on pic viewer
