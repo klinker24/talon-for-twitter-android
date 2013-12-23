@@ -1,3 +1,8 @@
+<b>Version 1.00:</b> Ahh finally a release.<br/><br/>
+    &#8226; Added a tutorial after login<br/>
+    &#8226; Small tweeks to style and performance across the board<br/><br/>
+<br/>
+
 <b>Version 0.80:</b> Cause Brandal has cool ideas too<br/><br/>
     &#8226; Added a real icon! Still need a notifications one<br/>
     &#8226; Added a pictures and links tab to the main page (optional)<br/>
