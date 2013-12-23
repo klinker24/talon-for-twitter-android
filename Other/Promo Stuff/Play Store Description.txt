@@ -57,10 +57,10 @@ Enjoy Talon and don't hesitate to contact me with questions, requests, or bugs!
 Thanks!
 
 Contact me (Luke Klinker):
-Email: talon.app@gmail.com
+Email: slidingmessaging@gmail.com
 My Twitter: @lukeklinker
 Talon's Twitter: @TalonAndroid
-Google+ Beta Page: coming soon
+Google+ Beta Page: http://goo.gl/CXsLFF
 XDA Developers Thread: coming soon
 
 Permissions Explained:
@@ -80,3 +80,4 @@ Credit:
 - Lucas Rocha: Smoothie ListView library
 - Andreas Stütz: PagerSlidingTabStrip library
 - Antoine Merle: SmoothProgressBar library
+- Aaron Klinker: Icon
