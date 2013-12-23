@@ -1,7 +1,9 @@
-package com.klinker.android.talon.utils;
+package com.klinker.android.talon.data;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.klinker.android.talon.utils.EmojiUtils;
 
 import java.io.File;
 

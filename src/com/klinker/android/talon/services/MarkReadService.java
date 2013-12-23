@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.data.sq_lite.MentionsDataSource;
 
 public class MarkReadService extends IntentService {
 

@@ -26,20 +26,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.ImageUtils;
-import com.klinker.android.talon.utils.Tweet;
+import com.klinker.android.talon.data.Tweet;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;

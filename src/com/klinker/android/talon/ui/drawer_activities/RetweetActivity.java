@@ -2,11 +2,9 @@ package com.klinker.android.talon.ui.drawer_activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
@@ -19,7 +17,7 @@ import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.LoginActivity;
 import com.klinker.android.talon.ui.MainActivity;
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

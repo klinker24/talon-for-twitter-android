@@ -25,10 +25,10 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.ConnectionDetector;
 import com.klinker.android.talon.utils.Utils;
 

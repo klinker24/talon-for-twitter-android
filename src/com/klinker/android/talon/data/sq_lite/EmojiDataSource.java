@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.talon.sq_lite;
+package com.klinker.android.talon.data.sq_lite;
 
 import android.content.ContentValues;
 import android.content.Context;

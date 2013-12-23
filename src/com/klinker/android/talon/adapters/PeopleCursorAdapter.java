@@ -10,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.FavoriteUsersSQLiteHelper;
+import com.klinker.android.talon.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.talon.ui.UserProfileActivity;
 
 public class PeopleCursorAdapter extends CursorAdapter {

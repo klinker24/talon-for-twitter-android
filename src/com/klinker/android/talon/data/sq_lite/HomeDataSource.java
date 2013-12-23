@@ -1,18 +1,14 @@
-package com.klinker.android.talon.sq_lite;
+package com.klinker.android.talon.data.sq_lite;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.klinker.android.talon.utils.HtmlUtils;
 
-import twitter4j.HashtagEntity;
-import twitter4j.MediaEntity;
 import twitter4j.Status;
-import twitter4j.UserMentionEntity;
 
 public class HomeDataSource {
 

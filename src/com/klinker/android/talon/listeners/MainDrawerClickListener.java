@@ -3,8 +3,10 @@ package com.klinker.android.talon.listeners;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -29,6 +31,8 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     private boolean noWait;
     private boolean extraPages;
 
+    private SharedPreferences sharedPreferences;
+
     public MainDrawerClickListener(Context context, DrawerLayout drawer, ViewPager viewPager, boolean extraPages) {
         this.context = context;
         this.drawer = drawer;
@@ -36,6 +40,8 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
         this.noWait = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
                 context.getResources().getBoolean(R.bool.isTablet);
         this.extraPages = extraPages;
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -67,6 +73,8 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         intent.putExtra("page_to_open", pos + (extraPages ? 2 : 0));
                         intent.putExtra("from_drawer", true);
+
+                        sharedPreferences.edit().putBoolean("should_refresh", false).commit();
 
                         if (!noWait) {
                             try {

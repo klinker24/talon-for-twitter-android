@@ -1,13 +1,11 @@
 package com.klinker.android.talon.ui.fragments;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -16,15 +14,12 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Point;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,15 +34,13 @@ import com.klinker.android.talon.adapters.CursorListLoader;
 import com.klinker.android.talon.adapters.TimeLineCursorAdapter;
 import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.HomeContentProvider;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeContentProvider;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.ConnectionDetector;
-import com.klinker.android.talon.utils.HtmlUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -57,9 +50,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import twitter4j.MediaEntity;
 import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -282,10 +273,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup) {
+                if(settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
                 }
+
+                sharedPrefs.edit().putBoolean("should_refresh", true).commit();
             }
         }, 750);
 

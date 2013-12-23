@@ -1,4 +1,4 @@
-package com.klinker.android.talon.sq_lite;
+package com.klinker.android.talon.data.sq_lite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,9 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.klinker.android.talon.utils.HtmlUtils;
 
 import twitter4j.DirectMessage;
-import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
-import twitter4j.UserMentionEntity;
 
 public class DMDataSource {
 

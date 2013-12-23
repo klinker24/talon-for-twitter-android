@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Html;
 
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.klinker.android.talon.R;
-import com.klinker.android.talon.sq_lite.HomeContentProvider;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeContentProvider;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.utils.NotificationUtils;
 

@@ -25,7 +25,7 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.services.DirectMessageRefreshService;
 import com.klinker.android.talon.services.MentionsRefreshService;
 import com.klinker.android.talon.services.TimelineRefreshService;
-import com.klinker.android.talon.sq_lite.FollowersDataSource;
+import com.klinker.android.talon.data.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.fragments.DMFragment;
 import com.klinker.android.talon.ui.fragments.HomeFragment;

@@ -4,25 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 
-import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.talon.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.utils.ImageUtils;
 
 import org.lucasr.smoothie.SimpleItemLoader;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;

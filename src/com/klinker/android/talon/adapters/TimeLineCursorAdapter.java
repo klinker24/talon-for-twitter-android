@@ -15,7 +15,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,15 +31,14 @@ import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.ExpansionAnimation;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.talon.data.sq_lite.DMDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.TweetActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.talon.utils.EmojiUtils;
 import com.klinker.android.talon.utils.Utils;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import twitter4j.DirectMessage;

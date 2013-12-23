@@ -1,35 +1,24 @@
 package com.klinker.android.talon.services;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.RemoteViews;
 
-import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.HomeContentProvider;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.talon.data.sq_lite.HomeContentProvider;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.talon.ui.MainActivity;
-import com.klinker.android.talon.ui.MainActivityPopup;
 import com.klinker.android.talon.utils.NotificationUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import twitter4j.MediaEntity;
 import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;

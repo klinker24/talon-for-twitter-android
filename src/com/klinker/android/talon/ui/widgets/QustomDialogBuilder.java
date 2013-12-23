@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.SearchedPeopleCursorAdapter;
-import com.klinker.android.talon.sq_lite.FollowersDataSource;
+import com.klinker.android.talon.data.sq_lite.FollowersDataSource;
 
 public class QustomDialogBuilder extends AlertDialog.Builder{
 

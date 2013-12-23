@@ -24,7 +24,7 @@
 
 
     <application
-            android:name=".utils.App"
+            android:name=".data.App"
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
             android:hardwareAccelerated="true" >
@@ -33,9 +33,12 @@
             android:value="@integer/google_play_services_version" />
 
         <provider
-            android:name=".sq_lite.HomeContentProvider"
+            android:name=".data.sq_lite.HomeContentProvider"
             android:multiprocess="true"
             android:authorities="com.klinker.android.talon.provider" />
+
+        <activity android:name=".ui.TutorialActivity"
+            android:theme="@style/Theme.Tutorial"/>
 
         <activity android:name=".ui.MainActivity"
                   android:label="@string/app_name"

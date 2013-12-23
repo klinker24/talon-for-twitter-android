@@ -15,10 +15,10 @@ import android.widget.Toast;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.data.sq_lite.DMDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.talon.data.sq_lite.MentionsDataSource;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.ImageUtils;
 
 import java.io.BufferedInputStream;

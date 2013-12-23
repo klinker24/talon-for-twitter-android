@@ -35,7 +35,7 @@ import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
 import com.klinker.android.talon.ui.LoginActivity;
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

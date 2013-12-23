@@ -3,7 +3,6 @@ package com.klinker.android.talon.utils;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,15 +14,15 @@ import android.text.Html;
 import android.util.Log;
 
 import com.klinker.android.talon.R;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.services.MarkReadService;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.data.sq_lite.DMDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.MainActivity;
-import com.klinker.android.talon.ui.MainActivityPopup;
 import com.klinker.android.talon.ui.RedirectToPopup;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;

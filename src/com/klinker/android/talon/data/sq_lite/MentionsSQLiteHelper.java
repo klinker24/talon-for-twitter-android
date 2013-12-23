@@ -1,4 +1,4 @@
-package com.klinker.android.talon.sq_lite;
+package com.klinker.android.talon.data.sq_lite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

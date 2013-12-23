@@ -27,10 +27,10 @@ import com.klinker.android.talon.services.DirectMessageRefreshService;
 import com.klinker.android.talon.services.MentionsRefreshService;
 import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.FollowersDataSource;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.data.sq_lite.DMDataSource;
+import com.klinker.android.talon.data.sq_lite.FollowersDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.fragments.DMFragment;
 import com.klinker.android.talon.ui.fragments.HomeFragment;
 import com.klinker.android.talon.ui.fragments.MentionsFragment;
@@ -51,13 +51,6 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-/**
- * Created with IntelliJ IDEA.
- * User: luke
- * Date: 11/9/13
- * Time: 1:23 PM
- * To change this template use File | Settings | File Templates.
- */
 public class LoginActivity extends Activity {
 
     private Context context;
@@ -194,6 +187,8 @@ public class LoginActivity extends Activity {
 
                     Intent timeline = new Intent(context, MainActivity.class);
                     timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    timeline.putExtra("tutorial", true);
+                    sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                     startActivity(timeline);
                 }
 

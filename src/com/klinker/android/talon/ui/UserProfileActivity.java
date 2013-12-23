@@ -41,11 +41,11 @@ import com.klinker.android.talon.adapters.PeopleArrayAdapter;
 import com.klinker.android.talon.adapters.ProfilesArrayAdapter;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
-import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.talon.sq_lite.FollowersDataSource;
+import com.klinker.android.talon.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.talon.data.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 import com.klinker.android.talon.ui.widgets.PhotoViewerDialog;
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.IOUtils;
 import com.klinker.android.talon.utils.Utils;
 

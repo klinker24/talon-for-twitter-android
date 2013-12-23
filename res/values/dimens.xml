@@ -27,4 +27,10 @@ limitations under the License.
     <dimen name="drawer_size_port">250dp</dimen>
     <dimen name="drawer_size_land">210dp</dimen>
 
+    <dimen name="tutorial_text_size">14sp</dimen>
+    <dimen name="tutorial_bubble_1_size">100dp</dimen>
+    <dimen name="tutorial_bubble_2_size">120dp</dimen>
+    <dimen name="tutorial_bubble_3_size">80dp</dimen>
+    <dimen name="tutorial_bubble_padding">35dp</dimen>
+
 </resources>

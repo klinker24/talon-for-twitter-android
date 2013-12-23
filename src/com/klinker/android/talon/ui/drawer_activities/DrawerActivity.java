@@ -10,7 +10,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +18,6 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,11 +28,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.adapters.MainDrawerArrayAdapter;
@@ -43,10 +39,10 @@ import com.klinker.android.talon.manipulations.MySuggestionsProvider;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.settings.SettingsPagerActivity;
-import com.klinker.android.talon.sq_lite.DMDataSource;
-import com.klinker.android.talon.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.talon.sq_lite.HomeDataSource;
-import com.klinker.android.talon.sq_lite.MentionsDataSource;
+import com.klinker.android.talon.data.sq_lite.DMDataSource;
+import com.klinker.android.talon.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.talon.data.sq_lite.HomeDataSource;
+import com.klinker.android.talon.data.sq_lite.MentionsDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
 import com.klinker.android.talon.ui.ComposeDMActivity;
 import com.klinker.android.talon.ui.LoginActivity;
@@ -54,7 +50,6 @@ import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.ImageUtils;
-import com.klinker.android.talon.utils.NotificationUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -624,6 +619,7 @@ public abstract class DrawerActivity extends Activity {
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 finish();
+                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                 startActivity(settings);
                 return true;
 

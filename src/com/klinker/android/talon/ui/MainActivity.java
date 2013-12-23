@@ -1,12 +1,16 @@
 package com.klinker.android.talon.ui;
 
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 
@@ -124,6 +128,65 @@ public class MainActivity extends DrawerActivity {
 
         mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", settings.extraPages ? 2 : 0), false);
         mViewPager.setOffscreenPageLimit(settings.extraPages ? 5 : 3);
+
+        if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
+            getIntent().putExtra("tutorial", false);
+            sharedPrefs.edit().putBoolean("done_tutorial", true).commit();
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        Log.v("tutorial_activity", "close drawer");
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+                        unregisterReceiver(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new IntentFilter(TutorialActivity.ACTION_CLOSE_DRAWER));
+
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        Log.v("tutorial_activity", "open drawer");
+                        mDrawerLayout.openDrawer(Gravity.LEFT);
+                        unregisterReceiver(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new IntentFilter(TutorialActivity.ACTION_OPEN_DRAWER));
+
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        Log.v("tutorial_activity", "page left");
+                        mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
+                        unregisterReceiver(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new IntentFilter(TutorialActivity.ACTION_PAGE_LEFT));
+
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        Log.v("tutorial_activity", "page right");
+                        mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, true);
+                        unregisterReceiver(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new IntentFilter(TutorialActivity.ACTION_PAGE_RIGHT));
+
+            startActivity(new Intent(context, TutorialActivity.class));
+            overridePendingTransition(0, 0);
+        }
     }
 
     public void setUpWindow() {

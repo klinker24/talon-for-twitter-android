@@ -22,7 +22,7 @@ import com.klinker.android.talon.adapters.ArrayListLoader;
 import com.klinker.android.talon.adapters.TimelineArrayAdapter;
 import com.klinker.android.talon.settings.AppSettings;
 import com.klinker.android.talon.ui.LoginActivity;
-import com.klinker.android.talon.utils.App;
+import com.klinker.android.talon.data.App;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

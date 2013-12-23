@@ -4,13 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.talon.R;
 import com.klinker.android.talon.manipulations.NetworkedCacheableImageView;
-import com.klinker.android.talon.sq_lite.FavoriteUsersSQLiteHelper;
+import com.klinker.android.talon.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.talon.ui.widgets.HoloEditText;
 
 public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {

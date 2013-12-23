@@ -41,8 +41,8 @@ import com.klinker.android.talon.adapters.emoji.PeopleEmojiAdapter;
 import com.klinker.android.talon.adapters.emoji.RecentEmojiAdapter;
 import com.klinker.android.talon.adapters.emoji.ThingsEmojiAdapter;
 import com.klinker.android.talon.adapters.emoji.TransEmojiAdapter;
-import com.klinker.android.talon.sq_lite.EmojiDataSource;
-import com.klinker.android.talon.sq_lite.Recent;
+import com.klinker.android.talon.data.sq_lite.EmojiDataSource;
+import com.klinker.android.talon.data.sq_lite.Recent;
 import com.klinker.android.talon.utils.EmojiUtils;
 
 import java.util.ArrayList;
