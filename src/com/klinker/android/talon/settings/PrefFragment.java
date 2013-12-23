@@ -27,6 +27,8 @@ import com.klinker.android.talon.services.MentionsRefreshService;
 import com.klinker.android.talon.services.TimelineRefreshService;
 import com.klinker.android.talon.data.sq_lite.FollowersDataSource;
 import com.klinker.android.talon.ui.ComposeActivity;
+import com.klinker.android.talon.ui.MainActivity;
+import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.fragments.DMFragment;
 import com.klinker.android.talon.ui.fragments.HomeFragment;
 import com.klinker.android.talon.ui.fragments.MentionsFragment;
@@ -614,6 +616,22 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     }
 
     public void setUpGetHelpSettings() {
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        Preference tutorial = findPreference("tutorial");
+        tutorial.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent tutorial = new Intent(context, MainActivity.class);
+                tutorial.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                tutorial.putExtra("tutorial", true);
+                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                startActivity(tutorial);
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
+                return false;
+            }
+        });
+
         Preference gPlus = findPreference("google_plus");
         gPlus.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -640,7 +658,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceClick(Preference preference) {
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"lklinker1@gmail.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"talon.app@gmail.com"});
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Android");
                 emailIntent.setType("plain/text");
 
@@ -656,6 +674,18 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 Intent tweet = new Intent(getActivity(), ComposeActivity.class);
                 tweet.putExtra("user", "@lukeklinker");
                 startActivity(tweet);
+                return false;
+            }
+        });
+
+        Preference followTalon = findPreference("follow_talon");
+        followTalon.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent profile = new Intent(getActivity(), UserProfileActivity.class);
+                profile.putExtra("screenname", "TalonAndroid");
+                profile.putExtra("proPic", "");
+                startActivity(profile);
                 return false;
             }
         });

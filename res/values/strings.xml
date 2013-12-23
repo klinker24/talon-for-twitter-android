@@ -282,10 +282,12 @@
 
 
     <string name="get_help_settings">Get Help</string>
+        <string name="rerun_tutorial">Run Startup Tutorial</string>
         <string name="google_plus">Google+ Community</string>
         <string name="xda_thread">XDA Thread</string>
         <string name="email_me">Email Me</string>
         <string name="tweet_me">Tweet at Me</string>
+        <string name="follow_talon">Follow Talon on Twitter</string>
 
     <string name="other_apps">Our Other Apps</string> <!-- Don't translate these app names-->
         <string name="sliding_messaging">Sliding Messaging Pro</string>

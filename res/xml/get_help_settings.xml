@@ -3,6 +3,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
+        android:key="tutorial"
+        android:title="@string/rerun_tutorial" />
+
+    <Preference
         android:key="google_plus"
         android:title="@string/google_plus" />
 
@@ -17,5 +21,9 @@
     <Preference
         android:key="tweet_me"
         android:title="@string/tweet_me" />
+
+    <Preference
+        android:key="follow_talon"
+        android:title="@string/follow_talon" />
 
 </PreferenceScreen>
