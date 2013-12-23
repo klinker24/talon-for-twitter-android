@@ -626,6 +626,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 tutorial.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 tutorial.putExtra("tutorial", true);
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                sharedPrefs.edit().putBoolean("done_tutorial", false).commit();
                 startActivity(tutorial);
                 //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
                 return false;
