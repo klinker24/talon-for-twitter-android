@@ -70,7 +70,7 @@ public class TutorialActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        logo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        logo = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
         setContentView(new DrawingPanel(this));
     }
 
@@ -92,8 +92,8 @@ public class TutorialActivity extends Activity {
         private int state = 0;
         private long startTime = System.currentTimeMillis();
 
-        private static final String TEXT1 = "1)\n \nPull open the\nnavigation drawer\n with a left\nside swipe!";
-        private static final String TEXT2 = "2)\n \nPage between\ntimelines with\na swipe either \nway from the middle\nof the screen!";
+        private static final String TEXT1 = "\nPull open the\nnavigation drawer\n with a left\nside swipe!";
+        private static final String TEXT2 = "\nPage between\ntimelines with\na swipe either \nway from the middle\nof the screen!";
         private static final String TEXT3 = "That's it!\n \nTouch the\nscreen to\nstart!";
 
         public DrawingPanel (Context context) {

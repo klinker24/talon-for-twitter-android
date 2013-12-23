@@ -207,6 +207,7 @@ public class MainActivity extends DrawerActivity {
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         restart.putExtra("page_to_open", mViewPager.getCurrentItem());
         overridePendingTransition(0, 0);
+        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         startActivity(restart);
     }
 }
