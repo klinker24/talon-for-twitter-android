@@ -88,12 +88,6 @@ limitations under the License.
 
     </style>
 
-    <style name="Theme.TalonLight.Conversations" parent="@style/Theme.TalonLight">
-        <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
     <style name="Theme.TalonLight.Settings" parent="@style/Theme.TalonLight">
         <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
     </style>
@@ -113,21 +107,8 @@ limitations under the License.
 
     </style>
 
-    <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight">
-
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">stateUnchanged</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowActionModeOverlay">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-
-        <item name="android:colorBackground">@android:color/transparent</item>
-        <!-- <item name="android:windowAnimationStyle">@style/PopupAnimation</item> -->
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-
-        <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
-
+    <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
+        <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
     </style>
 
     <style name="LightActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">

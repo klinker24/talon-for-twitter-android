@@ -56,6 +56,7 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
+        //int[] unreadCounts = new int[] {0, 1, 2}; // for testing
         int[] unreadCounts = getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
@@ -75,7 +76,7 @@ public class NotificationUtils {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title[0])
                     .setContentText(shortText)
-                    .setSmallIcon(R.drawable.timeline_dark)
+                    .setSmallIcon(R.drawable.ic_stat_icon)
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)

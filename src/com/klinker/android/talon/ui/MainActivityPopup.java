@@ -37,13 +37,13 @@ public class MainActivityPopup extends MainActivity {
 
         switch (settings.theme) {
             case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup);
+                setTheme(R.style.Theme_TalonLight_Popup_Notif);
                 break;
             case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup);
+                setTheme(R.style.Theme_TalonDark_Popup_Notif);
                 break;
             case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup);
+                setTheme(R.style.Theme_TalonBlack_Popup_Notif);
                 break;
         }
     }

@@ -88,12 +88,6 @@ limitations under the License.
 
     </style>
 
-    <style name="Theme.TalonDark.Conversations" parent="@style/Theme.TalonDark">
-        <item name="android:homeAsUpIndicator">@drawable/ic_drawer_dark</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
     <style name="Theme.TalonDark.Settings" parent="@style/Theme.TalonDark">
         <item name="android:homeAsUpIndicator">@drawable/ic_drawer_dark</item>
     </style>
@@ -115,19 +109,8 @@ limitations under the License.
 
     </style>
 
-    <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark">
-
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowSoftInputMode">stateUnchanged</item>
-        <item name="android:windowIsTranslucent">true</item>
-
-        <item name="android:windowFrame">@drawable/rect_border_light</item>
-        <item name="android:colorBackground">@android:color/transparent</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <!-- <item name="android:windowAnimationStyle">@style/PopupAnimation</item> -->
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-
+    <style name="Theme.TalonDark.Popup.Notif" parent="@style/Theme.TalonDark.Popup" >
+        <item name="android:windowAnimationStyle">@style/PopupAnimation</item>
     </style>
 
     <style name="DarkActionBar" parent="@android:style/Widget.Holo.ActionBar">

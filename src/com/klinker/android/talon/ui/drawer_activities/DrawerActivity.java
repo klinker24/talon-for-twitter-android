@@ -50,6 +50,7 @@ import com.klinker.android.talon.ui.MainActivity;
 import com.klinker.android.talon.ui.UserProfileActivity;
 import com.klinker.android.talon.ui.widgets.HoloTextView;
 import com.klinker.android.talon.utils.ImageUtils;
+import com.klinker.android.talon.utils.NotificationUtils;
 import com.klinker.android.talon.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -539,50 +540,13 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
+        // for testing
         /*new Thread(new Runnable() {
             @Override
             public void run() {
                 NotificationUtils.refreshNotification(context);
             }
         }).start();*/
-
-        // for testing
-        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-        Intent popup = new Intent(context, MainActivityPopup.class);
-        popup.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        popup.putExtra("from_notification", true);
-        PendingIntent popupPending =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        popup,
-                        0
-                );
-        remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
-        remoteView.setTextViewText(R.id.content, "test");
-
-        remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_action_accept_dark)
-                        .setContent(remoteView);
-        //.setContentTitle(getResources().getString(R.string.app_name))
-        //.setContentText(numberNew + " new tweets");
-
-        Intent resultIntent = new Intent(this, MainActivity.class);
-        resultIntent.putExtra("from_notification", true);
-
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        resultIntent,
-                        0
-                );
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        mNotificationManager.notify(4, mBuilder.build());*/
     }
 
     @Override
@@ -633,20 +597,10 @@ public abstract class DrawerActivity extends Activity {
     }
 
     public void showStatusBar() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-            }
-        }, 000);
+        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
     }
 
     public void hideStatusBar() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DrawerActivity.statusBar.setVisibility(View.GONE);
-            }
-        }, 000); // 200 would be better
+        DrawerActivity.statusBar.setVisibility(View.GONE);
     }
 }
