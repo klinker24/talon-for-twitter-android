@@ -1,6 +1,7 @@
 <b>Version 1.00:</b> Ahh finally a release.<br/><br/>
     &#8226; Added a tutorial after login<br/>
     &#8226; New notification icon<br/>
+    &#8226; Added to the 'Get Help' section of settings<br/>
     &#8226; Small tweeks to style and performance across the board<br/><br/>
 <br/>
 
