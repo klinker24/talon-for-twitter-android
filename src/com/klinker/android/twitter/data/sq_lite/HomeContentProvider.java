@@ -18,7 +18,7 @@ import twitter4j.Status;
 public class HomeContentProvider extends ContentProvider {
     static final String TAG = "HomeTimeline";
 
-    public static final String AUTHORITY = "com.klinker.android.talon.provider";
+    public static final String AUTHORITY = "com.klinker.android.twitter.provider";
     static final String BASE_PATH = "tweet_id";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
 
