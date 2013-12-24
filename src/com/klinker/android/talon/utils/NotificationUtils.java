@@ -56,8 +56,8 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreadCounts = new int[] {0, 1, 2}; // for testing
-        //int[] unreadCounts = getUnreads(context);
+        //int[] unreadCounts = new int[] {0, 1, 2}; // for testing
+        int[] unreadCounts = getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
         // [0] is the full title and [1] is the screenname
@@ -76,7 +76,7 @@ public class NotificationUtils {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title[0])
                     .setContentText(shortText)
-                    .setSmallIcon(R.drawable.ic_stat)
+                    .setSmallIcon(R.drawable.ic_stat_icon)
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
@@ -115,7 +115,7 @@ public class NotificationUtils {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title[0])
                     .setContentText(shortText)
-                    .setSmallIcon(R.drawable.ic_stat)
+                    .setSmallIcon(R.drawable.ic_stat_icon)
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true);
@@ -383,6 +383,6 @@ public class NotificationUtils {
             }
         }
 
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat);
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
     }
 }
