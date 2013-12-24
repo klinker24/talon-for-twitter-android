@@ -538,15 +538,15 @@ public abstract class DrawerActivity extends Activity {
         // cancels the notifications when the app is opened
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+        //mNotificationManager.cancelAll();
 
         // for testing
-        /*new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 NotificationUtils.refreshNotification(context);
             }
-        }).start();*/
+        }).start();
     }
 
     @Override

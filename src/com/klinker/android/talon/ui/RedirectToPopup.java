@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**
- * Created by luke on 12/21/13.
- */
 public class RedirectToPopup extends Activity {
 
 
