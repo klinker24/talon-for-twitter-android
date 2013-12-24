@@ -14,7 +14,7 @@
                   android:gravity="center_horizontal">
 
         <!-- The tweeters picture -->
-        <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+        <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
                 android:layout_width="@dimen/pro_pic_size"
                 android:layout_height="@dimen/pro_pic_size"
                 android:id="@+id/profile_pic"
@@ -42,7 +42,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-            <com.klinker.android.talon.ui.widgets.HoloTextView
+            <com.klinker.android.twitter.ui.widgets.HoloTextView
                     android:id="@+id/name"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                     android:text="Name"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="8dp"/>
-            <com.klinker.android.talon.ui.widgets.HoloTextView
+            <com.klinker.android.twitter.ui.widgets.HoloTextView
                     android:id="@+id/time"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                     android:layout_toRightOf="@id/name"
                     android:layout_alignBaseline="@id/name" />
 
-            <com.klinker.android.talon.ui.widgets.HoloTextView
+            <com.klinker.android.twitter.ui.widgets.HoloTextView
                     android:id="@+id/tweet"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
@@ -75,7 +75,7 @@
                     android:paddingBottom="15dp"
                     android:text="@string/placeholder"/>
 
-            <com.klinker.android.talon.ui.widgets.HoloTextView
+            <com.klinker.android.twitter.ui.widgets.HoloTextView
                     android:id="@+id/retweeter"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
@@ -89,7 +89,7 @@
                     android:text="@string/placeholder"
                     android:visibility="gone" />
 
-            <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+            <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
                        android:id="@+id/image"
                        android:layout_below="@id/retweeter"
                        android:layout_height="96dp"
@@ -101,7 +101,7 @@
                        android:visibility="gone"
                        />
 
-            <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+            <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
                 android:id="@+id/play_button"
                 android:layout_below="@id/retweeter"
                 android:src="@drawable/ic_action_play"
@@ -143,7 +143,7 @@
                         android:background="@drawable/pressed_button"
                         android:layout_marginLeft="5dp" />
 
-                <com.klinker.android.talon.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.ui.widgets.HoloTextView
                     android:layout_height="37dp"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="3dp"
@@ -161,7 +161,7 @@
                         android:layout_marginLeft="8dp"
                         android:background="@drawable/pressed_button" />
 
-                <com.klinker.android.talon.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.ui.widgets.HoloTextView
                         android:layout_height="37dp"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="3dp"
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom">
 
-                <com.klinker.android.talon.ui.widgets.HoloEditText
+                <com.klinker.android.twitter.ui.widgets.HoloEditText
                         android:id="@+id/reply"
                         android:layout_height="50dp"
                         android:layout_width="0dp"
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical">
 
-                    <com.klinker.android.talon.ui.widgets.HoloTextView
+                    <com.klinker.android.twitter.ui.widgets.HoloTextView
                             android:layout_height="13dp"
                             android:layout_width="match_parent"
                             android:layout_marginLeft="3dp"

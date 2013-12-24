@@ -86,7 +86,7 @@
                      android:layout_margin="@dimen/tweet_activ_margin"
                      android:visibility="gone" />
 
-            <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+            <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
                      android:id="@+id/imageView"
                      android:layout_height="fill_parent"
                      android:layout_width="fill_parent"
@@ -187,7 +187,7 @@
                 android:src="?overflow_button"
                 android:background="@drawable/pressed_button" />
 
-            <com.klinker.android.talon.ui.widgets.HoloEditText
+            <com.klinker.android.twitter.ui.widgets.HoloEditText
                 android:id="@+id/reply"
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
@@ -201,7 +201,7 @@
                 android:layout_width="48dp"
                 android:layout_height="wrap_content">
 
-                <com.klinker.android.talon.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.ui.widgets.HoloTextView
                     android:layout_height="13dp"
                     android:layout_width="match_parent"
                     android:textSize="10dp"

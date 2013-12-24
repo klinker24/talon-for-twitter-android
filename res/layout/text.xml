@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.klinker.android.talon.ui.widgets.HoloTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.klinker.android.twitter.ui.widgets.HoloTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:id="@+id/text"
     android:maxLines="1"
@@ -9,4 +9,4 @@
     android:paddingBottom="10dp" android:paddingTop="10dp"
     android:background="@drawable/pressed_button">
 
-</com.klinker.android.talon.ui.widgets.HoloTextView>
+</com.klinker.android.twitter.ui.widgets.HoloTextView>

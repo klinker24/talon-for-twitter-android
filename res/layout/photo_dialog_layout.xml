@@ -19,7 +19,7 @@
 
         </LinearLayout>
 
-    <com.klinker.android.talon.manipulations.NetworkedCacheableImageView
+    <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<com.klinker.android.talon.ui.widgets.EmojiKeyboard
+<com.klinker.android.twitter.ui.widgets.EmojiKeyboard
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -75,4 +75,4 @@ limitations under the License.
             android:layout_height="200dp">
 
     </android.support.v4.view.ViewPager>
-</com.klinker.android.talon.ui.widgets.EmojiKeyboard>
+</com.klinker.android.twitter.ui.widgets.EmojiKeyboard>
