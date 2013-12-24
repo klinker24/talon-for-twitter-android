@@ -402,7 +402,11 @@ public class LoginActivity extends Activity {
                 paging = new Paging(1, 100);
                 statuses = twitter.getMentionsTimeline(paging);
 
-                sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                try {
+                    sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                } catch (Exception e) {
+
+                }
 
 
                 for (twitter4j.Status status : statuses) {
