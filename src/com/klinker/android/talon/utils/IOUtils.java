@@ -221,9 +221,10 @@ public class IOUtils {
             Log.v("trimming", "timeline settings size: " + settings.timelineSize);
             if (timeline.getCount() > settings.timelineSize) {
 
-                if(timeline.move(timeline.getCount() - settings.timelineSize)) {
+                if(timeline.moveToPosition(timeline.getCount() - settings.timelineSize)) {
+                    Log.v("trimming", "in the trim section");
                     do {
-                        home.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
+                        home.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                     } while (timeline.moveToPrevious());
                 }
             }
@@ -238,7 +239,7 @@ public class IOUtils {
             Log.v("trimming", "mentions settings size: " + settings.mentionsSize);
             if (timeline.getCount() > settings.mentionsSize) {
 
-                if(timeline.move(timeline.getCount() - settings.mentionsSize)) {
+                if(timeline.moveToPosition(timeline.getCount() - settings.mentionsSize)) {
                     do {
                         mentions.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                     } while (timeline.moveToPrevious());
@@ -256,9 +257,9 @@ public class IOUtils {
 
             if (timeline.getCount() > settings.dmSize) {
 
-                if(timeline.move(timeline.getCount() - settings.dmSize)) {
+                if(timeline.moveToPosition(timeline.getCount() - settings.dmSize)) {
                     do {
-                        dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)));
+                        dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                     } while (timeline.moveToPrevious());
                 }
             }

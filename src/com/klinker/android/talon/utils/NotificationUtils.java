@@ -382,7 +382,7 @@ public class NotificationUtils {
                 e.printStackTrace();
             }
         }
-        // enter aarons icon here...
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.timeline_dark);
+
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
     }
 }
