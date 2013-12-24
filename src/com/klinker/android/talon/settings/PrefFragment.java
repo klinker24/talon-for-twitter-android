@@ -632,12 +632,22 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference youtube = findPreference("youtube");
+        youtube.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=-wEgkt7OXTY")));
+                //Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
         Preference gPlus = findPreference("google_plus");
         gPlus.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
-                Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/communities/109123800606513866462")));
+                //Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

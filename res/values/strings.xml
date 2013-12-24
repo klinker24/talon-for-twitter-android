@@ -283,6 +283,7 @@
 
     <string name="get_help_settings">Get Help</string>
         <string name="rerun_tutorial">Run Startup Tutorial</string>
+        <string name="youtube">YouTube Video</string>
         <string name="google_plus">Google+ Community</string>
         <string name="xda_thread">XDA Thread</string>
         <string name="email_me">Email Me</string>
