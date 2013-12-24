@@ -205,7 +205,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String name = user.getName();
         final String screenname = user.getScreenName();
 
-        String[] html = HtmlUtils.getHtmlStatus(status);
+        String[] html = HtmlUtils.getHtmlStatus(thisStatus);
         final String tweetText = html[0];
         final String picUrl = html[1];
         final String otherUrl = html[2];
