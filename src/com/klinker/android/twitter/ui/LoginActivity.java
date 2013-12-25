@@ -257,6 +257,7 @@ public class LoginActivity extends Activity {
 
         protected void onPostExecute(Void none) {
             btnLoginTwitter.setEnabled(true);
+            btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
         }
 
         /**
