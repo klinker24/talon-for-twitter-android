@@ -74,7 +74,7 @@ Email: [email]klinkerapps@gmail.com[/email]
 My Twitter: @lukeklinker
 Talon's Twitter: @TalonAndroid
 
-[URL="http://goo.gl/CXsLFF"]Google+ Beta Page[/URL]
+[URL="http://goo.gl/KCXlZk"]Google+ Beta Page[/URL]
 
 [B]Permissions Explained:[/B]
 - Write to Storage: Saves pictures to your SD card and writes them into the cache.

@@ -646,7 +646,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         gPlus.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/u/0/communities/109123800606513866462")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://goo.gl/KCXlZk")));
                 //Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -763,6 +763,24 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.halopop")));
+                return false;
+            }
+        });
+
+        Preference floatingwindows = findPreference("floating_windows");
+        floatingwindows.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.floating_window")));
+                return false;
+            }
+        });
+
+        Preference slideover = findPreference("slideover_messaging");
+        slideover.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.lklinker.android.slideovermessaging")));
                 return false;
             }
         });
