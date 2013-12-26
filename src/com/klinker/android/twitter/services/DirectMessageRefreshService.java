@@ -62,10 +62,8 @@ public class DirectMessageRefreshService extends IntentService {
 
             if (dm.size() != 0) {
                 sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).commit();
-                update = true;
                 numberNew = dm.size();
             } else {
-                update = false;
                 numberNew = 0;
             }
 

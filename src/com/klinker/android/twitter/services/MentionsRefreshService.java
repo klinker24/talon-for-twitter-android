@@ -84,10 +84,8 @@ public class MentionsRefreshService extends IntentService {
 
             if (statuses.size() != 0) {
                 sharedPrefs.edit().putLong("last_mention_id_" + currentAccount, statuses.get(0).getId()).commit();
-                update = true;
                 numberNew = statuses.size();
             } else {
-                update = false;
                 numberNew = 0;
             }
 

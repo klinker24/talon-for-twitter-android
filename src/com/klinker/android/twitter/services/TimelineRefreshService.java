@@ -106,8 +106,6 @@ public class TimelineRefreshService extends IntentService {
                     }
                 }
 
-                numberNew = dataSource.getUnreadCount(currentAccount);
-
                 if (numberNew > 0) {
                     NotificationUtils.refreshNotification(context);
                 }
