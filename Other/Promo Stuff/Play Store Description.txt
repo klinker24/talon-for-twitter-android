@@ -76,3 +76,4 @@ Permissions Explained:
 Credit:
 - Jacob Klinker: to many things to list! Tons of ideas, support, and inspiration
 - Aaron Klinker: Icon Design
+- Open source libraries and resources used can be found under the 'Get Help' section in settings.
