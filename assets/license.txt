@@ -1,0 +1,19 @@
+© 2014 Klinker Apps<br/><br/>
+
+<b><u>Credits</u></b><br/><br/>
+&#8226; Luke Klinker, Main Developer<br/>
+&#8226; Jake Klinker, Development assistance, ideas and inspiration<br/>
+&#8226; Aaron Klinker, Icon Design<br/><br/>
+
+<b><u>Open Source Libraries Used</u></b><br/><br/>
+&#8226; YouTube APIs<br/><br/>
+<u>Apache License:</u><br/>
+&#8226; <b>Twitter4j</b> by Yusuke Yamamoto<br/>
+&#8226; <b>ActionBar-PullToRefresh</b> by Chris Banes on Github<br/>
+&#8226; <b>Android-BitmapCache</b> by Chris Banes on Github<br/>
+&#8226; <b>PhotoView</b> by Chris Banes on Github<br/>
+&#8226; <b>Smoothie</b> by Lucas Rocha on Github<br/>
+&#8226; <b>DateTimePicker</b> by the Android Open Source Project and portions by Jake Klinker<br/>
+&#8226; <b>PagerSlidingTabStrip</b> by astuetz on Github<br/><br/>
+<u>Beer Ware License:</u><br/>
+&#8226; <b>SmoothProgressBar</b> by castorflex on Github

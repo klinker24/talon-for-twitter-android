@@ -16,8 +16,12 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
@@ -696,6 +700,28 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 profile.putExtra("screenname", "TalonAndroid");
                 profile.putExtra("proPic", "");
                 startActivity(profile);
+                return false;
+            }
+        });
+
+        Preference credits = findPreference("credits");
+        credits.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                String license = IOUtils.readAsset(context, "license.txt");
+                ScrollView scrollView = new ScrollView(context);
+                TextView changeView = new TextView(context);
+                changeView.setText(Html.fromHtml(license));
+                int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, context.getResources().getDisplayMetrics());
+                changeView.setPadding(padding, padding, padding, padding);
+                changeView.setTextSize(12);
+                scrollView.addView(changeView);
+
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.credits)
+                        .setView(scrollView)
+                        .setPositiveButton(R.string.ok, null)
+                        .show();
                 return false;
             }
         });

@@ -295,4 +295,22 @@ public class IOUtils {
 
         return result;
     }
+
+    public static String readAsset(Context context, String assetTitle) {
+        String ret = "";
+        try {
+            AssetManager assetManager = context.getAssets();
+            Scanner in = new Scanner(assetManager.open(assetTitle));
+
+            while (in.hasNextLine()) {
+                ret += in.nextLine() + "\n";
+            }
+        } catch (FileNotFoundException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        return ret;
+    }
 }
