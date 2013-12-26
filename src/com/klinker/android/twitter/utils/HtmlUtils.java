@@ -140,7 +140,7 @@ public class HtmlUtils {
                         end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
-                    otherUrl = exp;
+                    otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtu.be")) {
                     // first get the youtube video code
                     int start = exp.indexOf(".be/") + 4;
@@ -151,9 +151,9 @@ public class HtmlUtils {
                         end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
-                    otherUrl = exp;
+                    otherUrl += exp + "  ";
                 }else {
-                    otherUrl = exp;
+                    otherUrl += exp + "  ";
                 }
             }
         }
@@ -169,6 +169,7 @@ public class HtmlUtils {
                     tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
                 }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
+                //otherUrl += exp;
             }
         }
 
@@ -306,7 +307,7 @@ public class HtmlUtils {
                         end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
-                    otherUrl = exp;
+                    otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtu.be")) { // shortened youtube link
                     // first get the youtube video code
                     int start = exp.indexOf(".be/") + 4;
@@ -317,9 +318,9 @@ public class HtmlUtils {
                         end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
-                    otherUrl = exp;
+                    otherUrl += exp + "  ";
                 } else {
-                    otherUrl = exp;
+                    otherUrl += exp + "  ";
                 }
             }
         }

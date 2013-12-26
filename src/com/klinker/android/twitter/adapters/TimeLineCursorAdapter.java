@@ -186,7 +186,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         if (displayPic) {
                             link = picUrl;
                         } else {
-                            link = otherUrl;
+                            link = otherUrl.split("  ")[0];
                         }
 
                         Intent viewTweet = new Intent(context, TweetActivity.class);
@@ -196,6 +196,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("tweet", tweetText);
                         viewTweet.putExtra("retweeter", fRetweeter);
                         viewTweet.putExtra("webpage", link);
+                        viewTweet.putExtra("other_links", otherUrl);
                         viewTweet.putExtra("picture", displayPic);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
@@ -234,7 +235,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         if (displayPic) {
                             link = picUrl;
                         } else {
-                            link = otherUrl;
+                            link = otherUrl.split("  ")[0];
                         }
 
                         Intent viewTweet = new Intent(context, TweetActivity.class);
@@ -245,6 +246,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("retweeter", fRetweeter);
                         viewTweet.putExtra("webpage", link);
                         viewTweet.putExtra("picture", displayPic);
+                        viewTweet.putExtra("other_links", otherUrl);
                         viewTweet.putExtra("tweetid", holder.tweetId);
                         viewTweet.putExtra("proPic", profilePic);
                         viewTweet.putExtra("users", users);

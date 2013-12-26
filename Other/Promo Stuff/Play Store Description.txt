@@ -1,6 +1,6 @@
 Get fully immersed in your Twitter with this beautiful, feature PACKED Twitter client with a design that actually makes sense!
 
-Created with Android 4.4 (KitKat) in mind. Includes full screen layouts, stunning animations and more! Of course that doesn't mean earlier versions of android get left out! The only thing that wasn't able to be recreated in Android 4.3 and below was the transparent navigation and status bars... Sorry! It just isn't possible :(
+Created with Android 4.4 (KitKat) in mind. Includes full screen (translucent) layouts, stunning animations and more! Of course that doesn't mean earlier versions of android get left out! The only thing that wasn't able to be recreated in Android 4.3 and below was the transparent navigation and status bars... Sorry! It just isn't possible :(
 
 Beautiful, up-to-date layouts, designs, and neat animations isn't the only thing Talon has going for it though! The list of features is enormous as well, doing everything you could ever want from a Twitter app right off the bat. Even though it is new, I have added every single major and minor Twitter feature that I think is absolutely essential plus a ton that most people wouldn't even think of. Here is a pretty comprehensive list of its features:
 
@@ -74,7 +74,7 @@ Permissions Explained:
 - Vibrate: Used for the notifications.
 
 Credit:
-- Jacob Klinker: to many things to list! Tons of ideas and support
+- Jacob Klinker: to many things to list! Tons of ideas, support, and inspiration
 - Yusuke Yamamoto: Twitter4j library
 - Chris Banes: ActionBar-PullToRefresh, Android-BitmapCache, and PhotoView libraries
 - Lucas Rocha: Smoothie ListView library

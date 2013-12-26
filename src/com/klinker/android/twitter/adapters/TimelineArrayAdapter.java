@@ -223,7 +223,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (displayPic) {
                         link = picUrl;
                     } else {
-                        link = otherUrl;
+                        link = otherUrl.split("  ")[0];
                     }
 
                     Log.v("tweet_page", "clicked");
@@ -234,6 +234,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("tweet", tweetText);
                     viewTweet.putExtra("retweeter", fRetweeter);
                     viewTweet.putExtra("webpage", link);
+                    viewTweet.putExtra("other_links", otherUrl);
                     viewTweet.putExtra("picture", displayPic);
                     viewTweet.putExtra("tweetid", holder.tweetId);
                     viewTweet.putExtra("proPic", profilePic);
@@ -270,7 +271,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (displayPic) {
                         link = picUrl;
                     } else {
-                        link = otherUrl;
+                        link = otherUrl.split("  ")[0];
                     }
 
                     Log.v("tweet_page", "clicked");
@@ -281,6 +282,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("tweet", tweetText);
                     viewTweet.putExtra("retweeter", fRetweeter);
                     viewTweet.putExtra("webpage", link);
+                    viewTweet.putExtra("other_links", otherUrl);
                     viewTweet.putExtra("picture", displayPic);
                     viewTweet.putExtra("tweetid", holder.tweetId);
                     viewTweet.putExtra("proPic", profilePic);

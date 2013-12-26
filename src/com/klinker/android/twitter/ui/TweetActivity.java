@@ -105,6 +105,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
     private long tweetId;
     private String[] users;
     private String[] hashtags;
+    private String[] otherLinks;
 
     private TextView timetv;
 
@@ -215,6 +216,12 @@ public class TweetActivity extends YouTubeBaseActivity implements
             hashtags = from.getStringExtra("hashtags").split("  ");
         } catch (Exception e) {
             hashtags = null;
+        }
+
+        try {
+            otherLinks = from.getStringExtra("other_links").split("  ");
+        } catch (Exception e) {
+            otherLinks = null;
         }
 
         if (screenName.equals(settings.myScreenName)) {
@@ -430,7 +437,14 @@ public class TweetActivity extends YouTubeBaseActivity implements
                             }
                         }
                     }
-                    if (!webpage.equals("")) {
+                    if (otherLinks != null) {
+                        for (String s : otherLinks) {
+                            if (!s.equals("")) {
+                                strings.add(s);
+                            }
+                        }
+                    }
+                    if (!webpage.equals("") && !webpage.contains("youtu")) {
                         strings.add(webpage);
                     }
 
