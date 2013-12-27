@@ -533,10 +533,10 @@ public class LoginActivity extends Activity {
 
     private void showWebView() {
         mWebView.setVisibility(View.VISIBLE);
-        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
         in.setDuration(400);
 
-        Animation out = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+        Animation out = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
         out.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -560,10 +560,10 @@ public class LoginActivity extends Activity {
 
     private void hideHideWebView() {
         main.setVisibility(View.VISIBLE);
-        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
         in.setDuration(400);
 
-        Animation out = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
+        Animation out = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
         out.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -594,10 +594,8 @@ public class LoginActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if (mWebView.getVisibility() == View.VISIBLE)
-        {
+    public void onBackPressed() {
+        if (mWebView.getVisibility() == View.VISIBLE) {
             if (mWebView.canGoBack()) {
                 mWebView.goBack();
                 return;
@@ -607,6 +605,7 @@ public class LoginActivity extends Activity {
                 return;
             }
         }
+
         super.onBackPressed();
     }
 }

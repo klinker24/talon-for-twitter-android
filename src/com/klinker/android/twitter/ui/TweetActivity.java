@@ -1307,4 +1307,14 @@ public class TweetActivity extends YouTubeBaseActivity implements
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (website.getVisibility() == View.VISIBLE && website.canGoBack()) {
+            website.goBack();
+            return;
+        }
+        super.onBackPressed();
+    }
 }
