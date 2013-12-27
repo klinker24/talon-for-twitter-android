@@ -46,6 +46,7 @@ public class AppSettings {
     public boolean useEmoji;
     public boolean inlinePics;
     public boolean extraPages;
+    public boolean fullScreenBrowser;
 
     public int theme;
     public int textSize;
@@ -96,6 +97,7 @@ public class AppSettings {
         syncMobile = sharedPrefs.getBoolean("sync_mobile_data", true);
         inlinePics = sharedPrefs.getBoolean("inline_pics", true);
         extraPages = sharedPrefs.getBoolean("extra_pages", true);
+        fullScreenBrowser = sharedPrefs.getBoolean("full_screen_browser", true);
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {

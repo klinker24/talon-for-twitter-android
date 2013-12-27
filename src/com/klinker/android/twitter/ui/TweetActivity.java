@@ -145,8 +145,21 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
         setUpTheme();
 
-        if ((settings.advanceWindowed || getIntent().getBooleanExtra("from_widget", false)) && !webpage.contains("youtu")) {
-            setUpWindow();
+        // methods for advancing windowed
+        boolean settingsVal = settings.advanceWindowed;
+        boolean browserSettings = settings.fullScreenBrowser;
+        boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
+        boolean youtube = webpage.contains("youtu");
+        boolean hasWebview = !webpage.equals("") && !picture;
+
+        // cases: (youtube will ALWAY be full screen...)
+        // from widget
+        // the user set the preference to advance windowed
+        // has a webview and want to advance windowed
+        if ((!youtube && (fromWidget || settingsVal))) {
+            if ((hasWebview && !browserSettings) || !hasWebview) {
+                setUpWindow();
+            }
         }
 
         setContentView(R.layout.tweet_activity);

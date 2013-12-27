@@ -14,6 +14,14 @@
             />
 
         <CheckBoxPreference
+            android:key="full_screen_browser"
+            android:title="@string/full_screen_browsers"
+            android:summary="@string/full_screen_browsers_summary"
+            android:defaultValue="true"
+            android:dependency="advance_windowed"
+            />
+
+        <CheckBoxPreference
             android:key="reverse_click_option"
             android:title="@string/reverse_click_actions"
             android:summary="@string/reverse_click_actions_summary"
