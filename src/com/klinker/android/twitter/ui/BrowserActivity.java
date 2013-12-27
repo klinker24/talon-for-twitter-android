@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -11,17 +14,24 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.settings.AppSettings;
 
 public class BrowserActivity extends Activity {
+
+    private AppSettings settings;
+    private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        settings = new AppSettings(this);
+
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        setUpTheme();
         setContentView(R.layout.browser_activity);
 
-        String url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url");
 
         WebView browser = (WebView) findViewById(R.id.webview);
         browser.getSettings().setJavaScriptEnabled(true);
@@ -51,7 +61,45 @@ public class BrowserActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    /*Uri weburi = Uri.parse(touched);
-    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-    startActivity(launchBrowser);*/
+    public void setUpTheme() {
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_TalonLight);
+                break;
+            case AppSettings.THEME_DARK:
+                setTheme(R.style.Theme_TalonDark);
+                break;
+            case AppSettings.THEME_BLACK:
+                setTheme(R.style.Theme_TalonBlack);
+                break;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.browser_activity, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            case R.id.menu_open_web:
+                Uri weburi = Uri.parse(url);
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                startActivity(launchBrowser);
+                return true;
+
+            default:
+                return true;
+        }
+    }
 }

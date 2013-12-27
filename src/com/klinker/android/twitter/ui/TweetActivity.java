@@ -480,6 +480,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
                             }
                         }
                     }
+
                     if (hashtags != null) {
                         for (String s : hashtags) {
                             if (!s.equals("")) {
@@ -487,6 +488,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
                             }
                         }
                     }
+
                     if (otherLinks != null) {
                         for (String s : otherLinks) {
                             if (!s.equals("")) {
@@ -494,6 +496,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
                             }
                         }
                     }
+
                     if (!webpage.equals("") && !webpage.contains("youtu") && picture) {
                         strings.add(webpage);
                     }
