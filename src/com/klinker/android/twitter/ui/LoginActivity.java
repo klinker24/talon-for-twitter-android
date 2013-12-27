@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -179,7 +180,6 @@ public class LoginActivity extends Activity {
                 if (btnLoginTwitter.getText().equals(getResources().getString(R.string.login_to_twitter))) {
                     btnLoginTwitter.setEnabled(false);
                     new RetreiveFeedTask().execute();
-
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
                 } else {
@@ -243,12 +243,9 @@ public class LoginActivity extends Activity {
 
         try {
             new RetreiveoAuth().execute();
-            Log.v("twitter_login_activity", "retreiving");
-
         } catch (Exception e) {
-            // Check log for login_activity errors
-            e.printStackTrace();
-            Log.e("Twitter Login Error", "> " + e.getMessage());
+            Looper.prepare();
+            restartLogin();
         }
 
     }
@@ -263,7 +260,8 @@ public class LoginActivity extends Activity {
                 loginToTwitter();
                 return null;
             } catch (Exception e) {
-                e.printStackTrace();
+                Looper.prepare();
+                restartLogin();
                 return null;
             }
         }
@@ -273,25 +271,14 @@ public class LoginActivity extends Activity {
 
             mWebView.loadUrl(requestToken.getAuthenticationURL());
             mWebView.requestFocus(View.FOCUS_DOWN);
-
-            btnLoginTwitter.setEnabled(true);
-            btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
         }
 
-        /**
-         * Function to login to twitter
-         */
         private void loginToTwitter() {
-            try
-            {
+            try {
                 requestToken = twitter.getOAuthRequestToken("oauth:///talonforandroid");
-            }
-            catch (TwitterException ex)
-            {
-                Toast.makeText(
-                        context,
-                        "Login failed. Please try again.",
-                        Toast.LENGTH_SHORT).show();
+            } catch (TwitterException ex) {
+                Looper.prepare();
+                restartLogin();
             }
 
         }
@@ -300,18 +287,12 @@ public class LoginActivity extends Activity {
 
     class RetreiveoAuth extends AsyncTask<String, Void, AccessToken> {
 
-        private Exception exception;
-
         protected AccessToken doInBackground(String... urls) {
             try {
-
                 return twitter.getOAuthAccessToken(requestToken, verifier);
-
             } catch (Exception e) {
-
-                this.exception = e;
-                e.printStackTrace();
-
+                Looper.prepare();
+                restartLogin();
                 return null;
             }
         }
@@ -336,13 +317,14 @@ public class LoginActivity extends Activity {
 
                 // Hide login_activity button
                 btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
+                btnLoginTwitter.setEnabled(true);
                 title.setText(getResources().getString(R.string.second_welcome));
                 summary.setText(getResources().getString(R.string.second_info));
 
                 hideHideWebView();
 
             } catch (Exception e) {
-
+                restartLogin();
             }
         }
     }
@@ -517,7 +499,7 @@ public class LoginActivity extends Activity {
                     }
 
                 } catch (Exception e) {
-                    // something wrong haha
+
                 }
 
                 followers.close();
@@ -601,5 +583,30 @@ public class LoginActivity extends Activity {
         out.setDuration(400);
         mWebView.startAnimation(out);
         main.startAnimation(in);
+    }
+
+    public void restartLogin() {
+        Toast.makeText(context, getResources().getString(R.string.login_error), Toast.LENGTH_SHORT).show();
+
+        Intent restart = new Intent(context, LoginActivity.class);
+        finish();
+        startActivity(restart);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (mWebView.getVisibility() == View.VISIBLE)
+        {
+            if (mWebView.canGoBack()) {
+                mWebView.goBack();
+                return;
+            } else {
+                hideHideWebView();
+                btnLoginTwitter.setEnabled(true);
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 }
