@@ -153,7 +153,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
         boolean youtube = webpage.contains("youtu");
         boolean hasWebview = !webpage.equals("") && !picture;
 
-        // cases: (youtube will ALWAY be full screen...)
+        // cases: (youtube will ALWAYS be full screen...)
         // from widget
         // the user set the preference to advance windowed
         // has a webview and want to advance windowed
@@ -494,7 +494,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
                             }
                         }
                     }
-                    if (!webpage.equals("") && !webpage.contains("youtu")) {
+                    if (!webpage.equals("") && !webpage.contains("youtu") && picture) {
                         strings.add(webpage);
                     }
 
@@ -516,8 +516,8 @@ public class TweetActivity extends YouTubeBaseActivity implements
                                 String touched = fItems[item] + "";
 
                                 if (touched.contains("http")) { //weblink
-                                    Uri weburi = Uri.parse(touched);
-                                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                                    Intent launchBrowser = new Intent(context, BrowserActivity.class);
+                                    launchBrowser.putExtra("url", touched);
                                     startActivity(launchBrowser);
                                 } else if (touched.contains("@")) { //username
                                     Intent user = new Intent(context, UserProfileActivity.class);
@@ -539,8 +539,8 @@ public class TweetActivity extends YouTubeBaseActivity implements
                         String touched = fItems[0] + "";
 
                         if (touched.contains("http")) { //weblink
-                            Uri weburi = Uri.parse(touched);
-                            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                            Intent launchBrowser = new Intent(context, BrowserActivity.class);
+                            launchBrowser.putExtra("url", touched);
                             startActivity(launchBrowser);
                         } else if (touched.contains("@")) { //username
                             Intent user = new Intent(context, UserProfileActivity.class);

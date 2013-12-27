@@ -159,6 +159,11 @@
                   android:theme="@style/Theme.TalonDark" >
         </activity>
 
+        <activity android:name="com.klinker.android.twitter.ui.BrowserActivity"
+            android:label="@string/app_name_full"
+            android:theme="@style/Theme.TalonDark" >
+        </activity>
+
         <activity android:name="com.klinker.android.twitter.ui.MainActivityPopup"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
