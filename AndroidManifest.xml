@@ -226,9 +226,8 @@
 
         <activity android:name="com.klinker.android.twitter.ui.TweetActivity"
                   android:label="@string/app_name"
-                  android:configChanges="orientation|screenSize"
+                  android:configChanges="orientation"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:excludeFromRecents="true"
                   android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 

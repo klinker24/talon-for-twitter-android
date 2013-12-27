@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -125,6 +127,14 @@ public class TweetActivity extends YouTubeBaseActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        }
+        else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        }
+
         context = this;
         settings = new AppSettings(context);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -141,7 +151,11 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
         setContentView(R.layout.tweet_activity);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (Exception e) {
+
+        }
         getActionBar().setDisplayShowHomeEnabled(true);
 
         setUIElements();
@@ -150,16 +164,30 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
     public void setUpTheme() {
 
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup);
-                break;
+        if ((settings.advanceWindowed || getIntent().getBooleanExtra("from_widget", false)) && !webpage.contains("youtu")) {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    setTheme(R.style.Theme_TalonLight_Popup);
+                    break;
+                case AppSettings.THEME_DARK:
+                    setTheme(R.style.Theme_TalonDark_Popup);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    setTheme(R.style.Theme_TalonBlack_Popup);
+                    break;
+            }
+        } else {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    setTheme(R.style.Theme_TalonLight);
+                    break;
+                case AppSettings.THEME_DARK:
+                    setTheme(R.style.Theme_TalonDark);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    setTheme(R.style.Theme_TalonBlack);
+                    break;
+            }
         }
 
     }
