@@ -23,12 +23,21 @@ limitations under the License.
         <item name="android:colorBackground">@color/light_background</item>
         <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:actionBarStyle">@style/LightActionBar</item>
-        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
-        <item name="android:progressBarStyleHorizontal">@style/ProgressBarLight</item>
-        <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_dark</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_dark</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
+        <item name="android:actionBarStyle">@style/LightActionBar</item><item name="android:editTextBackground">@drawable/twitter_edit_text_holo_light</item>
+        <item name="android:textColorHighlight">#99ff8800</item>
+        <item name="android:textSelectHandleLeft">@drawable/twitter_text_select_handle_left</item>
+        <item name="android:textSelectHandleRight">@drawable/twitter_text_select_handle_right</item>
+        <item name="android:textSelectHandle">@drawable/twitter_text_select_handle_middle</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewTwitter.Light</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/twitter_btn_check_holo_light</item>
+        <item name="android:buttonStyle">@style/ButtonTwitter.Light</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonTwitter.Light</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerTwitter.Light</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarTwitter.Light</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/twitter_list_selector_holo_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/twitter_activated_background_holo_light</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/twitter_fastscroll_thumb_holo</item>
+        <item name="android:seekBarStyle">@style/SeekBarTwitter.Light</item>
         <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
 
         <item name="textColor">@color/light_text</item>
@@ -115,26 +124,33 @@ limitations under the License.
         <item name="android:background">@drawable/ab_solid_light_holo</item>
     </style>
 
-    <style name="EditTextLight" parent="android:Widget.EditText">
-        <item name="android:background">@drawable/edit_text_holo_light</item>
-        <item name="android:textColor">#000000</item>
+    <style name="AutoCompleteTextViewTwitter.Light" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+        <item name="android:dropDownSelector">@drawable/twitter_list_selector_holo_light</item>
+        <item name="android:background">@drawable/twitter_edit_text_holo_light</item>
     </style>
 
-    <style name="ListViewLight" parent="android:Widget.ListView">
-        <item name="android:listSelector">@drawable/list_selector_holo_dark</item>
+    <style name="ButtonTwitter.Light" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@drawable/twitter_btn_default_holo_light</item>
     </style>
 
-    <style name="ListViewLight.White" parent="android:Widget.ListView.White">
-        <item name="android:listSelector">@drawable/list_selector_holo_dark</item>
+    <style name="ImageButtonTwitter.Light" parent="android:Widget.Holo.Light.ImageButton">
+        <item name="android:background">@drawable/twitter_btn_default_holo_light</item>
     </style>
 
-    <style name="SpinnerItemLight" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
-        <item name="android:textColor">#000000</item>
+    <style name="SpinnerTwitter.Light" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/twitter_spinner_background_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/twitter_list_selector_holo_light</item>
     </style>
 
-    <style name="ProgressBarLight" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
-        <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_holo_light</item>
+    <style name="ProgressBarTwitter.Light" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/twitter_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/twitter_progress_indeterminate_horizontal_holo_light</item>
+    </style>
+
+    <style name="SeekBarTwitter.Light" parent="android:Widget.Holo.Light.SeekBar">
+        <item name="android:progressDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:thumb">@drawable/twitter_scrubber_control_selector_holo_light</item>
     </style>
 
 </resources>
