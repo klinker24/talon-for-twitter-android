@@ -1,66 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_vertical"
-              android:padding="25dp" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout android:id="@+id/mainLayout"
                   android:orientation="vertical"
                   android:layout_width="match_parent"
-                  android:layout_height="360dp"  >
+                  android:layout_height="match_parent"
+                  android:gravity="center_vertical"
+                  android:padding="25dp" >
 
-        <TextSwitcher
-                android:id="@+id/welcome"
-                android:layout_height="40dp"
-                android:layout_width="match_parent"
-                android:textSize="30dp"
-                android:textColor="?textColor" />
+        <LinearLayout
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="360dp"  >
 
-        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:id="@+id/progress_bar"
-                android:minHeight="24dip"
-                android:maxHeight="24dip"
-                app:spb_color="@color/app_color"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"  />
+            <TextSwitcher
+                    android:id="@+id/welcome"
+                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    android:textSize="30dp"
+                    android:textColor="?textColor" />
 
-        <TextSwitcher
-                android:id="@+id/progress_desc"
-                android:layout_height="wrap_content"
+            <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:id="@+id/progress_bar"
+                    android:minHeight="24dip"
+                    android:maxHeight="24dip"
+                    app:spb_color="@color/app_color"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"  />
+
+            <TextSwitcher
+                    android:id="@+id/progress_desc"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="?textColor"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:visibility="invisible"/>
+
+            <TextSwitcher
+                    android:id="@+id/info"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="?textColor"
+                    android:padding="10dp"/>
+            </LinearLayout>
+
+        <!-- Twitter Login Button -->
+        <LinearLayout
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="fill_parent"
+                      android:gravity="center" >
+
+            <Button android:id="@+id/btnLoginTwitter"
                 android:layout_width="wrap_content"
-                android:textSize="20dp"
-                android:textColor="?textColor"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
-                android:visibility="invisible"/>
-
-        <TextSwitcher
-                android:id="@+id/info"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="20dp"
-                android:textColor="?textColor"
-                android:padding="10dp"/>
+                android:text="@string/login_to_twitter"/>
+
         </LinearLayout>
 
-    <!-- Twitter Login Button -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="fill_parent"
-                  android:gravity="center" >
+    </LinearLayout>
 
-        <Button android:id="@+id/btnLoginTwitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_to_twitter"/>
+    <WebView
+        android:id="@+id/loginWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="10dp"/>
 
-        </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

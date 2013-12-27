@@ -10,16 +10,21 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.klinker.android.twitter.R;
@@ -65,6 +70,8 @@ public class LoginActivity extends Activity {
     private TextSwitcher summary;
     private TextSwitcher progDescription;
     private ProgressBar progressBar;
+    private WebView mWebView;
+    private LinearLayout main;
 
     private AppSettings settings;
 
@@ -96,6 +103,7 @@ public class LoginActivity extends Activity {
         summary = (TextSwitcher) findViewById(R.id.info);
         progDescription = (TextSwitcher) findViewById(R.id.progress_desc);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        main = (LinearLayout) findViewById(R.id.mainLayout);
 
 
         Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
@@ -145,6 +153,24 @@ public class LoginActivity extends Activity {
 
         progressBar.setProgress(100);
 
+        mWebView = (WebView)findViewById(R.id.loginWebView);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(false);
+        mWebView.getSettings().setSavePassword(false);
+        mWebView.setWebViewClient(new WebViewClient()
+        {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, String url)
+            {
+                if (url != null && url.startsWith("oauth:///talonforandroid")) {
+                    handleTwitterCallback(url);
+                } else {
+                    webView.loadUrl(url);
+                }
+                return true;
+            }
+        });
+
         btnLoginTwitter.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -153,6 +179,7 @@ public class LoginActivity extends Activity {
                 if (btnLoginTwitter.getText().equals(getResources().getString(R.string.login_to_twitter))) {
                     btnLoginTwitter.setEnabled(false);
                     new RetreiveFeedTask().execute();
+
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
                 } else {
@@ -176,10 +203,7 @@ public class LoginActivity extends Activity {
 
                         alarm = now + settings.dmRefresh;
 
-                        Log.v("alarm_date", "dircet message " + new Date(alarm).toString());
-
                         PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-
                         am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent3);
                     }
 
@@ -194,30 +218,6 @@ public class LoginActivity extends Activity {
 
             }
         });
-
-        if (!isTwitterLoggedInAlready()) {
-            Log.v("twitter_login_activity", "after web");
-            Uri uri = getIntent().getData();
-            if (uri != null && uri.toString().startsWith("oauth://roartotweet")) {
-                Log.v("twitter_login_activity", "oauth");
-
-                // oAuth verifier
-                verifier = uri.getQueryParameter("oauth_verifier");
-
-                try {
-                    // Get the access token
-                    //AccessToken accessToken = twitter.getOAuthAccessToken(
-                    //requestToken, verifier);
-                    new RetreiveoAuth().execute();
-                    Log.v("twitter_login_activity", "retreiving");
-
-                } catch (Exception e) {
-                    // Check log for login_activity errors
-                    e.printStackTrace();
-                    Log.e("Twitter Login Error", "> " + e.getMessage());
-                }
-            }
-        }
     }
 
     public void setUpTheme() {
@@ -235,9 +235,22 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private boolean isTwitterLoggedInAlready() {
-        // return twitter login_activity status from Shared Preferences
-        return false;//settings.isTwitterLoggedIn;
+    public void handleTwitterCallback(String url) {
+        Log.v("twitter_login_activity", "oauth");
+
+        // oAuth verifier
+        verifier = Uri.parse(url).getQueryParameter("oauth_verifier");
+
+        try {
+            new RetreiveoAuth().execute();
+            Log.v("twitter_login_activity", "retreiving");
+
+        } catch (Exception e) {
+            // Check log for login_activity errors
+            e.printStackTrace();
+            Log.e("Twitter Login Error", "> " + e.getMessage());
+        }
+
     }
 
     class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
@@ -256,6 +269,11 @@ public class LoginActivity extends Activity {
         }
 
         protected void onPostExecute(Void none) {
+            showWebView();
+
+            mWebView.loadUrl(requestToken.getAuthenticationURL());
+            mWebView.requestFocus(View.FOCUS_DOWN);
+
             btnLoginTwitter.setEnabled(true);
             btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
         }
@@ -264,13 +282,16 @@ public class LoginActivity extends Activity {
          * Function to login to twitter
          */
         private void loginToTwitter() {
-            // Check if already logged in
-
-            try {
-                requestToken = twitter.getOAuthRequestToken("oauth://roartotweet");
-                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(requestToken.getAuthenticationURL())));
-            } catch (TwitterException e) {
-                e.printStackTrace();
+            try
+            {
+                requestToken = twitter.getOAuthRequestToken("oauth:///talonforandroid");
+            }
+            catch (TwitterException ex)
+            {
+                Toast.makeText(
+                        context,
+                        "Login failed. Please try again.",
+                        Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -317,6 +338,8 @@ public class LoginActivity extends Activity {
                 btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
                 title.setText(getResources().getString(R.string.second_welcome));
                 summary.setText(getResources().getString(R.string.second_info));
+
+                hideHideWebView();
 
             } catch (Exception e) {
 
@@ -524,5 +547,59 @@ public class LoginActivity extends Activity {
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+    }
+
+    private void showWebView() {
+        mWebView.setVisibility(View.VISIBLE);
+        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+        in.setDuration(400);
+
+        Animation out = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+        out.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                main.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        out.setDuration(400);
+        main.startAnimation(out);
+        mWebView.startAnimation(in);
+    }
+
+    private void hideHideWebView() {
+        main.setVisibility(View.VISIBLE);
+        Animation in = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+        in.setDuration(400);
+
+        Animation out = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
+        out.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mWebView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        out.setDuration(400);
+        mWebView.startAnimation(out);
+        main.startAnimation(in);
     }
 }

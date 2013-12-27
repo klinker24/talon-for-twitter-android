@@ -156,19 +156,7 @@
         <activity android:name="com.klinker.android.twitter.ui.LoginActivity"
                   android:label="@string/app_name_full"
                   android:configChanges="orientation|screenSize"
-                  android:excludeFromRecents="true"
                   android:theme="@style/Theme.TalonDark" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                        android:host="roartotweet"
-                        android:scheme="oauth"/>
-            </intent-filter>
         </activity>
 
         <activity android:name="com.klinker.android.twitter.ui.MainActivityPopup"
