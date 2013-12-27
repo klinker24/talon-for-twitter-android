@@ -98,6 +98,10 @@ limitations under the License.
 
     </style>
 
+    <style name="Theme.TalonBlack.Hangouts" parent="@style/Theme.TalonBlack">
+        <item name="tweetBackground">@drawable/received_background_hangouts_black</item>
+    </style>
+
     <style name="Theme.TalonBlack.Settings" parent="@style/Theme.TalonBlack">
         <item name="android:homeAsUpIndicator">@drawable/ic_drawer_dark</item>
     </style>
