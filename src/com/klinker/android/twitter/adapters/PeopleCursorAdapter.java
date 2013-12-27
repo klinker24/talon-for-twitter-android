@@ -26,6 +26,10 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public LayoutInflater inflater;
     public AppSettings settings;
 
+    public boolean talonLayout;
+    public int layout;
+    public int border;
+
     private SharedPreferences sharedPrefs;
 
     public static class ViewHolder {
@@ -47,12 +51,25 @@ public class PeopleCursorAdapter extends CursorAdapter {
 
         settings = new AppSettings(context);
 
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+
+        TypedArray b;
+        if (talonLayout) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
+
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         View v;
-        v = inflater.inflate(R.layout.person, viewGroup, false);
+        v = inflater.inflate(layout, viewGroup, false);
         final ViewHolder holder;
 
         holder = new ViewHolder();
@@ -114,10 +131,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.picture.setImageDrawable(context.getResources().getDrawable(resource));
+            holder.picture.setImageDrawable(context.getResources().getDrawable(border));
         }
 
         bindView(v, context, cursor);

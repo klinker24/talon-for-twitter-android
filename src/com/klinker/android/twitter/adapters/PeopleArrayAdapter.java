@@ -31,6 +31,10 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
     public LayoutInflater inflater;
     public AppSettings settings;
 
+    public boolean talonLayout;
+    public int layout;
+    public int border;
+
     public static class ViewHolder {
         public TextView name;
         public TextView screenName;
@@ -46,6 +50,19 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
         settings = new AppSettings(context);
         inflater = LayoutInflater.from(context);
+
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+
+        TypedArray b;
+        if (talonLayout) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
 
     }
 
@@ -63,7 +80,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         View v;
         final ViewHolder holder;
 
-        v = inflater.inflate(R.layout.person, viewGroup, false);
+        v = inflater.inflate(layout, viewGroup, false);
 
         holder = new ViewHolder();
 
@@ -116,10 +133,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.picture.setImageDrawable(context.getResources().getDrawable(resource));
+            holder.picture.setImageDrawable(context.getResources().getDrawable(border));
         }
 
         bindView(v, context, users.get(position));
