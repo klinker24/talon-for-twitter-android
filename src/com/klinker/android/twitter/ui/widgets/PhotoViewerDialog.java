@@ -17,7 +17,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 public class PhotoViewerDialog extends Activity {
 
     public Context context;
-    private View mDialogView;
     public HoloEditText text;
     public ListView list;
 

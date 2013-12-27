@@ -66,6 +66,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
+import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.utils.EmojiUtils;
@@ -408,8 +409,13 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
             progressSpinner.setVisibility(View.GONE);
             pictureIv.setVisibility(View.VISIBLE);
-
             pictureIv.loadImage(webpage, false, null);
+            pictureIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
+                }
+            });
 
             mAttacher = new PhotoViewAttacher(pictureIv);
 
