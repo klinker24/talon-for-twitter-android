@@ -82,12 +82,10 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         context = this;
-
         settings = new AppSettings(context);
 
-        setUpTheme();
+        Utils.setUpTheme(context, settings);
         setContentView(R.layout.login_activity);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -218,21 +216,6 @@ public class LoginActivity extends Activity {
 
             }
         });
-    }
-
-    public void setUpTheme() {
-
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack);
-                break;
-        }
     }
 
     public void handleTwitterCallback(String url) {

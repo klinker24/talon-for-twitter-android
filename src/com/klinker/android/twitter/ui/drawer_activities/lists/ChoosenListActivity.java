@@ -64,7 +64,8 @@ public class ChoosenListActivity extends Activity {
         if (settings.advanceWindowed) {
             setUpWindow();
         }
-        setUpTheme();
+
+        Utils.setUpPopupTheme(this, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
@@ -124,21 +125,6 @@ public class ChoosenListActivity extends Activity {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
 
-    }
-
-    public void setUpTheme() {
-
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup);
-                break;
-        }
     }
 
     public int toDP(int px) {

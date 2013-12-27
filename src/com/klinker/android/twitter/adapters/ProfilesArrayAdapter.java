@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.adapters;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,20 @@ public class ProfilesArrayAdapter extends TimelineArrayAdapter {
         this.context = context;
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
-        this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+
+        TypedArray b;
+        if (talonLayout) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
 
         this.type = NORMAL;
 
@@ -43,9 +55,20 @@ public class ProfilesArrayAdapter extends TimelineArrayAdapter {
         this.context = context;
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
-        this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+
+        TypedArray b;
+        if (talonLayout) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
 
         this.type = NORMAL;
         this.username = username;
@@ -55,7 +78,7 @@ public class ProfilesArrayAdapter extends TimelineArrayAdapter {
         View v;
         final ViewHolder holder;
 
-        v = inflater.inflate(R.layout.tweet, viewGroup, false);
+        v = inflater.inflate(layout, viewGroup, false);
 
         holder = new ViewHolder();
 

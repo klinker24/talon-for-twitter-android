@@ -164,17 +164,7 @@ public class UserProfileActivity extends Activity {
 
     public void setUpTheme() {
 
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup);
-                break;
-        }
+        Utils.setUpPopupTheme(context, settings);
 
         actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -517,7 +507,11 @@ public class UserProfileActivity extends Activity {
 
             final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
-            profilePic.loadImage(thisUser.getOriginalProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            if(settings.layout == AppSettings.LAYOUT_TALON) {
+                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            } else {
+                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+            }
 
             String url = user.getProfileBannerURL();
             if (url != null) {
@@ -608,7 +602,11 @@ public class UserProfileActivity extends Activity {
 
             final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
-            profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            if(settings.layout == AppSettings.LAYOUT_TALON) {
+                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            } else {
+                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+            }
 
             String url = user.getProfileBannerURL();
             if (url != null) {
@@ -666,7 +664,11 @@ public class UserProfileActivity extends Activity {
 
             final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
-            profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            if(settings.layout == AppSettings.LAYOUT_TALON) {
+                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            } else {
+                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+            }
 
             String url = user.getProfileBannerURL();
             if (url != null) {

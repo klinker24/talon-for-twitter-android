@@ -13,6 +13,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="choose_layout">
+        <item>@string/app_name</item>
+        <item>@string/layout_hangouts</item>
+    </string-array>
+
+    <string-array name="choose_layout_inserted">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <string-array name="text_size">
         <item>8</item>
         <item>9</item>

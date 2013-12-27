@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.settings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -20,6 +21,9 @@ public class AppSettings {
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
     public static final int THEME_BLACK = 2;
+
+    public static final int LAYOUT_TALON = 0;
+    public static final int LAYOUT_HANGOUT = 1;
 
     public String authenticationToken;
     public String authenticationTokenSecret;
@@ -49,6 +53,7 @@ public class AppSettings {
     public boolean fullScreenBrowser;
 
     public int theme;
+    public int layout;
     public int textSize;
     public int maxTweetsRefresh;
     public int timelineSize;
@@ -107,7 +112,8 @@ public class AppSettings {
         }
 
         // Integers
-        theme = Integer.parseInt(sharedPrefs.getString("theme", "1"));
+        theme = Integer.parseInt(sharedPrefs.getString("theme", "1")); // default is dark
+        layout = Integer.parseInt(sharedPrefs.getString("layout", "0")); // default is talon
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "1000"));

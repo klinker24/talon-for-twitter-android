@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.Utils;
 
 public class BrowserActivity extends Activity {
 
@@ -28,7 +29,7 @@ public class BrowserActivity extends Activity {
         settings = new AppSettings(this);
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
-        setUpTheme();
+        Utils.setUpTheme(this, settings);
         setContentView(R.layout.browser_activity);
 
         url = getIntent().getStringExtra("url");
@@ -59,21 +60,6 @@ public class BrowserActivity extends Activity {
         browser.loadUrl(url);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void setUpTheme() {
-
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack);
-                break;
-        }
     }
 
     @Override

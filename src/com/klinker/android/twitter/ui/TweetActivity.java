@@ -141,10 +141,8 @@ public class TweetActivity extends YouTubeBaseActivity implements
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
-
         getFromIntent();
-
-        setUpTheme();
+        Utils.setUpPopupTheme(context, settings);
 
         // methods for advancing windowed
         boolean settingsVal = settings.advanceWindowed;
@@ -173,36 +171,6 @@ public class TweetActivity extends YouTubeBaseActivity implements
         getActionBar().setDisplayShowHomeEnabled(true);
 
         setUIElements();
-
-    }
-
-    public void setUpTheme() {
-
-        if ((settings.advanceWindowed || getIntent().getBooleanExtra("from_widget", false)) && !webpage.contains("youtu")) {
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    setTheme(R.style.Theme_TalonLight_Popup);
-                    break;
-                case AppSettings.THEME_DARK:
-                    setTheme(R.style.Theme_TalonDark_Popup);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    setTheme(R.style.Theme_TalonBlack_Popup);
-                    break;
-            }
-        } else {
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    setTheme(R.style.Theme_TalonLight);
-                    break;
-                case AppSettings.THEME_DARK:
-                    setTheme(R.style.Theme_TalonDark);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    setTheme(R.style.Theme_TalonBlack);
-                    break;
-            }
-        }
 
     }
 
@@ -592,7 +560,11 @@ public class TweetActivity extends YouTubeBaseActivity implements
             }
         });
 
-        profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
+        if(settings.layout == AppSettings.LAYOUT_TALON) {
+            profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
+        } else {
+            profilePic.loadImage(proPic, false, null);
+        }
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
         new GetRetweetCount(retweetCount, tweetId).execute();

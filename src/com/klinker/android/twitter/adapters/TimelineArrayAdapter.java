@@ -56,6 +56,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public boolean hasKeyboard = false;
     public boolean isProfile = false;
 
+    public int layout;
+    public boolean talonLayout;
+    public int border;
+
     public int type;
     public String username;
 
@@ -92,6 +96,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+
+        TypedArray b;
+        if (talonLayout) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
 
         this.type = NORMAL;
 
@@ -107,6 +123,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+
+        TypedArray b;
+        if (talonLayout) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
 
         this.type = type;
         this.username = "";
@@ -121,6 +149,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+
+        TypedArray b;
+        if (talonLayout) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
 
         this.type = NORMAL;
         this.username = username;
@@ -140,7 +180,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         View v;
         final ViewHolder holder;
 
-        v = inflater.inflate(R.layout.tweet, viewGroup, false);
+        v = inflater.inflate(layout, viewGroup, false);
 
         holder = new ViewHolder();
 
@@ -454,10 +494,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 removeExpansionNoAnimation(holder);
             }
 
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.profilePic.setImageDrawable(context.getResources().getDrawable(resource));
+            holder.profilePic.setImageDrawable(context.getResources().getDrawable(border));
             holder.image.setVisibility(View.GONE);
         }
 

@@ -1,13 +1,16 @@
 package com.klinker.android.twitter.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Adapter;
 
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
 
 import org.lucasr.smoothie.SimpleItemLoader;
@@ -20,10 +23,17 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
     final BitmapLruCache mCache;
     private Context context;
+    private boolean circleImages;
 
     public CursorListLoader(BitmapLruCache cache, Context context) {
         mCache = cache;
         this.context = context;
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int layout = Integer.parseInt(sharedPrefs.getString("layout", "" + AppSettings.LAYOUT_TALON));
+
+        // if the layout is talon's, then they should have circle images
+        circleImages = layout == AppSettings.LAYOUT_TALON;
     }
 
     @Override
@@ -49,7 +59,9 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
                 URL mUrl = new URL(url);
 
                 Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                image = ImageUtils.getCircle(image, context);
+                if (circleImages) {
+                    image = ImageUtils.getCircle(image, context);
+                }
 
                 wrapper = mCache.put(url, image);
             } catch (Exception e) {

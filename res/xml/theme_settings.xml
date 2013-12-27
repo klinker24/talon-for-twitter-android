@@ -6,6 +6,15 @@
         android:title="@string/theme_options" >
 
         <ListPreference
+            android:key="layout"
+            android:title="@string/layout"
+            android:summary="@string/layout_summary"
+            android:defaultValue="0"
+            android:entries="@array/choose_layout"
+            android:entryValues="@array/choose_layout_inserted"
+            />
+
+        <ListPreference
             android:key="theme"
             android:title="@string/theme"
             android:defaultValue="1"

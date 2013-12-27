@@ -66,6 +66,7 @@ limitations under the License.
         <item name="favoritedButton">@drawable/ic_action_important_dark</item>
         <item name="notFavoritedButton">@drawable/ic_action_not_important_dark</item>
         <item name="circleBorder">@drawable/circle_border_dark</item>
+        <item name="squareBorder">@drawable/square_border_dark</item>
         <item name="timelineItem">@drawable/timeline_dark</item>
         <item name="mentionItem">@drawable/mentions_dark</item>
         <item name="directMessageItem">@drawable/ic_action_reply_dark</item>
@@ -99,6 +100,14 @@ limitations under the License.
     </style>
 
     <style name="Theme.TalonBlack.Hangouts" parent="@style/Theme.TalonBlack">
+        <item name="tweetBackground">@drawable/received_background_hangouts_black</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Hangouts.Popup" parent="@style/Theme.TalonBlack.Popup">
+        <item name="tweetBackground">@drawable/received_background_hangouts_black</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Hangouts.Popup.Notif" parent="@style/Theme.TalonBlack.Popup.Notif">
         <item name="tweetBackground">@drawable/received_background_hangouts_black</item>
     </style>
 

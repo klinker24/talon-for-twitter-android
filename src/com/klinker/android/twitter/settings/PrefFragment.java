@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.settings;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -476,6 +477,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, refreshRate, pendingIntent);
             else
                 am.cancel(pendingIntent);
+        } else if (key.equals("layout")) {
+            new TrimCache(null).execute();
         }
     }
 
@@ -506,7 +509,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
             long size = IOUtils.dirSize(context.getCacheDir());
 
-            cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
+            boolean fin = false;
+
+            if (cache != null) {
+                cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
+            }
 
             pDialog.dismiss();
 
@@ -515,7 +522,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             } else {
                 Toast.makeText(context, context.getResources().getString(R.string.trim_fail), Toast.LENGTH_SHORT).show();
             }
-
 
         }
     }

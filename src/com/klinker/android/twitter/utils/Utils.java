@@ -146,4 +146,88 @@ public class Utils {
         }
         return true;
     }
+
+    public static void setUpTheme(Context context, AppSettings settings) {
+        if (settings.layout == AppSettings.LAYOUT_TALON) {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonBlack);
+                    break;
+            }
+        } else {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight_Hangouts);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark_Hangouts);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonBlack_Hangouts);
+                    break;
+            }
+        }
+    }
+
+    public static void setUpPopupTheme(Context context, AppSettings settings) {
+        if (settings.layout == AppSettings.LAYOUT_TALON) {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight_Popup);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark_Popup);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonBlack_Popup);
+                    break;
+            }
+        } else {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight_Hangouts_Popup);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark_Hangouts_Popup);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonBlack_Hangouts_Popup);
+                    break;
+            }
+        }
+    }
+
+    public static void setUpNotifTheme(Context context, AppSettings settings) {
+        if (settings.layout == AppSettings.LAYOUT_TALON) {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight_Popup_Notif);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark_Popup_Notif);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonBlack_Popup_Notif);
+                    break;
+            }
+        } else {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight_Hangouts_Popup_Notif);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark_Hangouts_Popup_Notif);
+                    break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonBlack_Hangouts_Popup_Notif);
+                    break;
+            }
+        }
+    }
 }

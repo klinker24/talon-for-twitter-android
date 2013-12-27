@@ -83,7 +83,7 @@ public abstract class Compose extends Activity implements
         mLocationClient = new LocationClient(context, this, this);
         mLocationClient.connect();
 
-        setUpTheme();
+        Utils.setUpPopupTheme(context, settings);
         setUpWindow();
         setUpLayout();
         setUpDoneDiscard();
@@ -139,22 +139,6 @@ public abstract class Compose extends Activity implements
             getWindow().setLayout((int) (width * .9), (int) (height * .8));
         } else {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
-        }
-    }
-
-
-    public void setUpTheme() {
-
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup);
-                break;
         }
     }
 

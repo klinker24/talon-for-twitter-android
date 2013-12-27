@@ -6,6 +6,7 @@ import android.view.Window;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.Utils;
 
 public class MainActivityPopup extends MainActivity {
 
@@ -35,17 +36,7 @@ public class MainActivityPopup extends MainActivity {
 
         translucent = false;
 
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup_Notif);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup_Notif);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup_Notif);
-                break;
-        }
+        Utils.setUpNotifTheme(context, settings);
     }
 
     @Override

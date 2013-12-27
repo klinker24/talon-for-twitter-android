@@ -82,7 +82,7 @@ public class SearchedTrendsActivity extends Activity {
             setUpWindow();
         }
 
-        setUpTheme();
+        Utils.setUpPopupTheme(context, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
@@ -147,21 +147,6 @@ public class SearchedTrendsActivity extends Activity {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
 
-    }
-
-    public void setUpTheme() {
-
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup);
-                break;
-        }
     }
 
     @Override

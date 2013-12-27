@@ -285,7 +285,11 @@ public abstract class DrawerActivity extends Activity {
         }
 
         try {
-            profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+            if(settings.layout == AppSettings.LAYOUT_TALON) {
+                profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+            } else {
+                profilePic.loadImage(profilePicUrl, false, null);
+            }
         } catch (Exception e) {
             // empty path again
         }
@@ -339,8 +343,11 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
                 try {
-                    proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null, NetworkedCacheableImageView.CIRCLE);
-
+                    if(settings.layout == AppSettings.LAYOUT_TALON) {
+                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+                    } else {
+                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null);
+                    }
                 } catch (Exception e) {
 
                 }
@@ -360,7 +367,11 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
                 try {
-                    proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+                    if(settings.layout == AppSettings.LAYOUT_TALON) {
+                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+                    } else {
+                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null);
+                    }
                 } catch (Exception e) {
 
                 }
@@ -440,17 +451,7 @@ public abstract class DrawerActivity extends Activity {
             translucent = false;
         }
 
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack);
-                break;
-        }
+        Utils.setUpTheme(context, settings);
     }
 
     @Override

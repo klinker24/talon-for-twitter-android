@@ -67,7 +67,7 @@ public class ViewUsers extends Activity {
             setUpWindow();
         }
 
-        setUpTheme();
+        Utils.setUpPopupTheme(this, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(listName);
@@ -140,23 +140,6 @@ public class ViewUsers extends Activity {
         }
 
     }
-
-    public void setUpTheme() {
-
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight_Popup);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark_Popup);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack_Popup);
-                break;
-        }
-
-    }
-
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
