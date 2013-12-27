@@ -402,7 +402,6 @@ public class NotificationUtils {
         HomeDataSource data = new HomeDataSource(context);
         data.open();
         Cursor cursor = data.getUnreadCursor(account);
-        data.close();
 
         FavoriteUsersDataSource favs = new FavoriteUsersDataSource(context);
         favs.open();
@@ -422,6 +421,7 @@ public class NotificationUtils {
 
         cursor.close();
         favs.close();
+        data.close();
 
         if (tweets.size() > 0) {
             makeFavsNotification(tweets, context);
