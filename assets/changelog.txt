@@ -1,5 +1,6 @@
 <b>Version 1.00:</b> Ahh finally a release.<br/><br/>
     &#8226; Added a tutorial after login<br/>
+    &#8226; Added a 'Hangouts' layout option<br/>
     &#8226; Open multiple links from the tweet activity<br/>
     &#8226; New notification icon<br/>
     &#8226; Added to the 'Get Help' and 'Other Apps' section of settings<br/>
