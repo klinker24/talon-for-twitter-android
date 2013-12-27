@@ -410,14 +410,14 @@ public class TweetActivity extends YouTubeBaseActivity implements
             progressSpinner.setVisibility(View.GONE);
             pictureIv.setVisibility(View.VISIBLE);
             pictureIv.loadImage(webpage, false, null);
-            pictureIv.setOnClickListener(new View.OnClickListener() {
+
+            mAttacher = new PhotoViewAttacher(pictureIv);
+            mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
                 @Override
-                public void onClick(View view) {
+                public void onViewTap(View view, float x, float y) {
                     context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
                 }
             });
-
-            mAttacher = new PhotoViewAttacher(pictureIv);
 
         } else { // just show the replys
             progressSpinner.setVisibility(View.VISIBLE);
