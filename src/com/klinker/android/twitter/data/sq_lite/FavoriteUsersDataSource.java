@@ -63,4 +63,20 @@ public class FavoriteUsersDataSource {
 
         return cursor;
     }
+
+    public boolean isFavUser(int account, String username) {
+        Cursor check = getCursor(account);
+
+        if (check.moveToFirst()) {
+            do {
+                if(check.getString(check.getColumnIndex(FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME)).equals(username)) {
+                    check.close();
+                    return true;
+                }
+            } while (check.moveToNext());
+        }
+
+        check.close();
+        return false;
+    }
 }

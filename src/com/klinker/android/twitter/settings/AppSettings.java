@@ -51,6 +51,7 @@ public class AppSettings {
     public boolean inlinePics;
     public boolean extraPages;
     public boolean fullScreenBrowser;
+    public boolean favoriteUserNotifications;
 
     public int theme;
     public int layout;
@@ -103,6 +104,7 @@ public class AppSettings {
         inlinePics = sharedPrefs.getBoolean("inline_pics", true);
         extraPages = sharedPrefs.getBoolean("extra_pages", true);
         fullScreenBrowser = sharedPrefs.getBoolean("full_screen_browser", true);
+        favoriteUserNotifications = sharedPrefs.getBoolean("favorite_users_notifications", true);
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {

@@ -1,12 +1,9 @@
 - Tweet Viewer Activity:
-    - View full conversations and be able to switch to and from web articles and pictures back to the list
     - Delete Retweet
 
 - Features:
-    - Some kind of notifications for fav users
     - Notification for the second account's mentions
     - some way to show progress bar on widget
-    - limit cache option maybe
 
 - Bugs:
 

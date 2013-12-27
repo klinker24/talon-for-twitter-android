@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.PowerManager;
@@ -15,6 +16,8 @@ import android.util.Log;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.services.MarkReadService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
@@ -29,6 +32,7 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class NotificationUtils {
 
@@ -56,7 +60,7 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        //int[] unreadCounts = new int[] {0, 1, 2}; // for testing
+        //int[] unreadCounts = new int[] {4, 1, 2}; // for testing
         int[] unreadCounts = getUnreads(context);
         String shortText = getShortText(unreadCounts, context, currentAccount);
         String longText = getLongText(unreadCounts, context, currentAccount);
@@ -176,6 +180,11 @@ public class NotificationUtils {
                 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                 final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
                 wakeLock.acquire(5000);
+            }
+
+            // if there are unread tweets on the timeline, check them for favorite users
+            if (settings.favoriteUserNotifications && unreadCounts[0] > 0) {
+                favUsersNotification(currentAccount, context);
             }
         }
     }
@@ -384,5 +393,113 @@ public class NotificationUtils {
         }
 
         return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
+    }
+
+    public static void favUsersNotification(int account, Context context) {
+
+        ArrayList<String[]> tweets = new ArrayList<String[]>();
+
+        HomeDataSource data = new HomeDataSource(context);
+        data.open();
+        Cursor cursor = data.getUnreadCursor(account);
+        data.close();
+
+        FavoriteUsersDataSource favs = new FavoriteUsersDataSource(context);
+        favs.open();
+
+        if(cursor.moveToFirst()) {
+            do {
+                String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
+
+                if (favs.isFavUser(account, screenname)) {
+                    String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
+                    String text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+
+                    tweets.add(new String[] {name, text, screenname});
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        favs.close();
+
+        if (tweets.size() > 0) {
+            makeFavsNotification(tweets, context);
+        }
+    }
+
+    public static void makeFavsNotification(ArrayList<String[]> tweets, Context context) {
+        String shortText;
+        String longText;
+        String title;
+        int smallIcon = R.drawable.ic_stat_icon;
+        Bitmap largeIcon;
+
+        Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.putExtra("from_notification", true);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+        if (tweets.size() == 1) {
+            title = tweets.get(0)[0];
+            shortText = tweets.get(0)[1];
+            longText = shortText;
+
+            BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
+            String url;
+            try {
+                url = Utils.getTwitter(context).showUser(tweets.get(0)[2]).getBiggerProfileImageURL();
+                CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
+
+                if (wrapper == null) {
+
+                    URL mUrl = new URL(url);
+                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                    image = ImageUtils.notificationResize(context, image);
+                    mCache.put(url + "_notification", image);
+                    largeIcon = image;
+                } else {
+                    largeIcon = wrapper.getBitmap();
+                }
+            } catch (Exception e) {
+                largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+                e.printStackTrace();
+            }
+        } else {
+            title = context.getResources().getString(R.string.favorite_users);
+            shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
+            longText = "";
+
+            for(String[] s : tweets) {
+                longText += "<b>" + s[0] + ":</b> " + s[1] + "<br>";
+            }
+
+            largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+        }
+
+        Notification.Builder mBuilder;
+
+        if (context.getResources().getBoolean(R.bool.expNotifications)) {
+            mBuilder = new Notification.Builder(context)
+                    .setContentTitle(title)
+                    .setContentText(shortText)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(largeIcon)
+                    .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true)
+                    .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(longText)));
+        } else {
+            mBuilder = new Notification.Builder(context)
+                    .setContentTitle(title)
+                    .setContentText(shortText)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(largeIcon)
+                    .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true);
+        }
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(2, mBuilder.build());
     }
 }

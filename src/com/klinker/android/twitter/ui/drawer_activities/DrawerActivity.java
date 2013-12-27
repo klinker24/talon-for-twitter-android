@@ -50,6 +50,7 @@ import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

@@ -2,6 +2,7 @@
     &#8226; Added a tutorial after login<br/>
     &#8226; Added a 'Hangouts' layout option<br/>
     &#8226; Open multiple links from the tweet activity<br/>
+    &#8226; Option to enable favorite user notifications<br/>
     &#8226; New notification icon<br/>
     &#8226; Added to the 'Get Help' and 'Other Apps' section of settings<br/>
     &#8226; Revamped the login to alleviate the problems that people have been having... hopefully<br/>

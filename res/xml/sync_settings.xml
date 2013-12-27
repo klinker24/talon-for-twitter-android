@@ -84,6 +84,12 @@
     <PreferenceCategory
         android:title="@string/other_options" >
 
+        <CheckBoxPreference
+            android:key="favorite_users_notifications"
+            android:title="@string/fav_users_notifications"
+            android:defaultValue="true"
+            />
+
         <ListPreference
             android:key="max_tweets"
             android:title="@string/max_number_on_refresh"

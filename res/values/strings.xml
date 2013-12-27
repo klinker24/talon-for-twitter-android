@@ -68,6 +68,7 @@
     <string name="mark_read">Read</string>
     <string name="noti_reply">Reply</string>
     <string name="popup">Popup</string>
+    <string name="fav_user_tweets">new favorite user tweets</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>
@@ -234,6 +235,7 @@
             <string name="wake_screen">Wake Screen</string>
             <string name="sound">Notification Sound</string>
         <string name="max_number_on_refresh">Max Tweets to Refresh</string>
+        <string name="fav_users_notifications">Favorite User Notifications</string>
         <string name="max_number_summary">Higher max means a slower refresh</string>
         <string name="auto_refresh_category">Auto-Refresh Options</string>
             <string name="refresh_on_startup">Refresh on Startup</string>
