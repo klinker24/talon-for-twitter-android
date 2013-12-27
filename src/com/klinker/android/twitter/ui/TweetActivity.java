@@ -370,6 +370,9 @@ public class TweetActivity extends YouTubeBaseActivity implements
             website.getSettings().setJavaScriptEnabled(true);
             website.getSettings().setBuiltInZoomControls(true);
             website.clearCache(true);
+            website.getSettings().setAppCacheEnabled(false);
+            website.getSettings().setLoadWithOverviewMode(true);
+            website.getSettings().setUseWideViewPort(true);
 
             final Activity activity = this;
             website.setWebChromeClient(new WebChromeClient() {
@@ -1211,7 +1214,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
 
             case R.id.menu_copy_text:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("tweet_text", tweet);
+                ClipData clip = ClipData.newPlainText("tweet_text", HtmlUtils.removeColorHtml(tweet));
                 clipboard.setPrimaryClip(clip);
                 return true;
 
@@ -1236,21 +1239,7 @@ public class TweetActivity extends YouTubeBaseActivity implements
                 return true;
 
             case R.id.menu_quote:
-
-                String[] split = tweet.split(" ");
-                String placeholder = "";
-
-                for(String s : split) {
-                    if (s.contains("http:")) {
-                        placeholder += webpage + " ";
-                    } else if (s.equals("<font")) {
-
-                    } else {
-                        placeholder += s + " ";
-                    }
-                }
-
-                String text = "\"@" + screenName + ": " + placeholder + "\" ";
+                String text = "\"@" + screenName + ": " + tweet + "\" ";
 
                 text = HtmlUtils.removeColorHtml(text);
 
