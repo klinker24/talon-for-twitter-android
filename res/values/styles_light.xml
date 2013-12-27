@@ -119,17 +119,14 @@ limitations under the License.
 
     <style name="Theme.TalonLight.Hangouts" parent="@style/Theme.TalonLight">
         <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
-        <item name="tweetBackgroundNoDialog">@drawable/background_card</item>
     </style>
 
     <style name="Theme.TalonLight.Hangouts.Popup" parent="@style/Theme.TalonLight.Popup">
         <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
-        <item name="tweetBackgroundNoDialog">@drawable/background_card</item>
     </style>
 
     <style name="Theme.TalonLight.Hangouts.Popup.Notif" parent="@style/Theme.TalonLight.Popup.Notif">
         <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
-        <item name="tweetBackgroundNoDialog">@drawable/background_card</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
