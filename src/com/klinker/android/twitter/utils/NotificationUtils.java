@@ -78,7 +78,7 @@ public class NotificationUtils {
         if (useExpanded) {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title[0])
-                    .setContentText(shortText)
+                    .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(R.drawable.ic_stat_icon)
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
@@ -117,7 +117,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title[0])
-                    .setContentText(shortText)
+                    .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(R.drawable.ic_stat_icon)
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
@@ -462,7 +462,7 @@ public class NotificationUtils {
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(shortText)
+                    .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -471,7 +471,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(shortText)
+                    .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -538,7 +538,7 @@ public class NotificationUtils {
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(message)
+                    .setContentText(HtmlUtils.removeColorHtml(message))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -547,7 +547,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new Notification.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(messageLong)
+                    .setContentText(HtmlUtils.removeColorHtml(messageLong))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)

@@ -54,7 +54,8 @@ App Features:
 
 You will never go back to your old Twitter client again!
 
-Enjoy Talon and don't hesitate to contact me with questions, requests, or bugs!
+Enjoy Talon and don't hesitate to contact me with questions, requests, or bugs! The best way would be either through email or get involved on the Google+ page.
+
 Thanks!
 
 Contact me (Luke Klinker):
@@ -73,6 +74,7 @@ Permissions Explained:
 - Run at Startup: Re-schedules the background refreshes.
 - Keep Awake: Used for background refreshes and waking the screen.
 - Vibrate: Used for the notifications.
+
 
 Credit:
 - Jacob Klinker: to many things to list! Tons of ideas, support, and inspiration
