@@ -27,6 +27,8 @@ public class AppSettings {
 
     public String authenticationToken;
     public String authenticationTokenSecret;
+    public String secondAuthToken;
+    public String secondAuthTokenSecret;
     public String myScreenName;
     public String myName;
     public String myBackgroundUrl;
@@ -52,6 +54,7 @@ public class AppSettings {
     public boolean extraPages;
     public boolean fullScreenBrowser;
     public boolean favoriteUserNotifications;
+    public boolean syncSecondMentions;
 
     public int theme;
     public int layout;
@@ -72,6 +75,8 @@ public class AppSettings {
         if (sharedPrefs.getInt("current_account", 1) == 1) {
             authenticationToken = sharedPrefs.getString("authentication_token_1", "none");
             authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret_1", "none");
+            secondAuthToken = sharedPrefs.getString("authentication_token_2", "none");
+            secondAuthTokenSecret = sharedPrefs.getString("authentication_token_secret_2", "none");
             myScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
             myName = sharedPrefs.getString("twitter_users_name_1", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_1", "");
@@ -80,6 +85,8 @@ public class AppSettings {
         } else {
             authenticationToken = sharedPrefs.getString("authentication_token_2", "none");
             authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret_2", "none");
+            secondAuthToken = sharedPrefs.getString("authentication_token_1", "none");
+            secondAuthTokenSecret = sharedPrefs.getString("authentication_token_secret_1", "none");
             myScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
             myName = sharedPrefs.getString("twitter_users_name_2", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_2", "");
@@ -105,6 +112,7 @@ public class AppSettings {
         extraPages = sharedPrefs.getBoolean("extra_pages", true);
         fullScreenBrowser = sharedPrefs.getBoolean("full_screen_browser", true);
         favoriteUserNotifications = sharedPrefs.getBoolean("favorite_users_notifications", true);
+        syncSecondMentions = sharedPrefs.getBoolean("sync_second_mentions", true);
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {

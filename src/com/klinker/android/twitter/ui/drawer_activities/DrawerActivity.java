@@ -546,6 +546,7 @@ public abstract class DrawerActivity extends Activity {
             @Override
             public void run() {
                 NotificationUtils.refreshNotification(context);
+                //NotificationUtils.notifySecondMentions(context, 1);
             }
         }).start();*/
     }

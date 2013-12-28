@@ -171,11 +171,17 @@
             android:windowSoftInputMode="stateAlwaysHidden"  >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.RedirectToPopup"
+        <activity android:name=".utils.RedirectToPopup"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"
+            android:excludeFromRecents="true" >
+        </activity>
+
+        <activity android:name=".utils.SwitchAccountsRedirect"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TalonDark"
             android:excludeFromRecents="true" >
         </activity>
 
@@ -260,6 +266,9 @@
         </service>
 
         <service android:name="com.klinker.android.twitter.services.MentionsRefreshService">
+        </service>
+
+        <service android:name="com.klinker.android.twitter.services.SecondMentionsRefreshService">
         </service>
 
         <service android:name="com.klinker.android.twitter.services.DirectMessageRefreshService">

@@ -1,11 +1,12 @@
-package com.klinker.android.twitter.ui;
+package com.klinker.android.twitter.utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class RedirectToPopup extends Activity {
+import com.klinker.android.twitter.ui.MainActivityPopup;
 
+public class RedirectToPopup extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

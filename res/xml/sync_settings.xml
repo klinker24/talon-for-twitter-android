@@ -90,6 +90,13 @@
             android:defaultValue="true"
             />
 
+        <CheckBoxPreference
+            android:key="sync_second_mentions"
+            android:title="@string/sync_second_mentions"
+            android:summary="@string/sync_second_mentions_summary"
+            android:defaultValue="true"
+            />
+
         <ListPreference
             android:key="max_tweets"
             android:title="@string/max_number_on_refresh"

@@ -302,7 +302,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toMentionsListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.mViewPager.setCurrentItem(1, true);
+                MainActivity.mViewPager.setCurrentItem(settings.extraPages ? 3 : 1, true);
             }
         };
 
@@ -537,11 +537,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         protected void onPostExecute(Boolean updated) {
 
-            if (updated) {
-                CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
-                showToastBar(text + "", toMentions, 400, true, toMentionsListener);
-            } else {
+            try {
+                if (updated) {
+                    CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
+                    showToastBar(text + "", toMentions, 400, true, toMentionsListener);
+                } else {
 
+                }
+            } catch (Exception e) {
+                // might happen when switching accounts from the notification for second accounts mentions
             }
 
             DrawerActivity.canSwitch = true;

@@ -26,7 +26,6 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.ui.ComposeActivity;
 import com.klinker.android.twitter.ui.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.RedirectToPopup;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
@@ -445,26 +444,7 @@ public class NotificationUtils {
             shortText = tweets.get(0)[1];
             longText = shortText;
 
-            BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
-            String url;
-            try {
-                url = Utils.getTwitter(context).showUser(tweets.get(0)[2]).getBiggerProfileImageURL();
-                CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
-
-                if (wrapper == null) {
-
-                    URL mUrl = new URL(url);
-                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                    image = ImageUtils.notificationResize(context, image);
-                    mCache.put(url + "_notification", image);
-                    largeIcon = image;
-                } else {
-                    largeIcon = wrapper.getBitmap();
-                }
-            } catch (Exception e) {
-                largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
-                e.printStackTrace();
-            }
+            largeIcon = getImage(context, tweets.get(0)[2]);
         } else {
             title = context.getResources().getString(R.string.favorite_users);
             shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
@@ -501,5 +481,83 @@ public class NotificationUtils {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(2, mBuilder.build());
+    }
+
+    public static Bitmap getImage(Context context, String screenname) {
+        BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
+        String url;
+        try {
+            url = Utils.getTwitter(context).showUser(screenname).getBiggerProfileImageURL();
+            CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
+
+            if (wrapper == null) {
+
+                URL mUrl = new URL(url);
+                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                image = ImageUtils.notificationResize(context, image);
+                mCache.put(url + "_notification", image);
+                return image;
+            } else {
+                return wrapper.getBitmap();
+            }
+        } catch (Exception e) {
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+        }
+    }
+
+    public static void notifySecondMentions(Context context, int secondAccount) {
+        MentionsDataSource data = new MentionsDataSource(context);
+        data.open();
+        int numberNew = 2;//data.getUnreadCount(secondAccount);
+
+        int smallIcon = R.drawable.ic_stat_icon;
+        Bitmap largeIcon;
+
+        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+        Notification.Builder mBuilder;
+
+        String title = context.getResources().getString(R.string.app_name) + " - " + context.getResources().getString(R.string.sec_acc);;
+        String name;
+        String message;
+        String messageLong;
+
+        if (numberNew == 1) {
+            name = data.getNewestName(secondAccount);
+            message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
+            messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
+            largeIcon = getImage(context, name);
+        } else { // more than one mention
+            message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
+            messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
+            largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+        }
+
+        if (context.getResources().getBoolean(R.bool.expNotifications)) {
+            mBuilder = new Notification.Builder(context)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(largeIcon)
+                    .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true)
+                    .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(messageLong)));
+        } else {
+            mBuilder = new Notification.Builder(context)
+                    .setContentTitle(title)
+                    .setContentText(messageLong)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(largeIcon)
+                    .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true);
+        }
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(3, mBuilder.build());
+
+        data.close();
     }
 }

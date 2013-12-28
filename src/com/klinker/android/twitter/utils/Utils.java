@@ -41,6 +41,18 @@ public class Utils {
         return tf.getInstance();
     }
 
+    public static Twitter getSecondTwitter(Context context) {
+        AppSettings settings = new AppSettings(context);
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(AppSettings.TWITTER_CONSUMER_KEY)
+                .setOAuthConsumerSecret(AppSettings.TWITTER_CONSUMER_SECRET)
+                .setOAuthAccessToken(settings.secondAuthToken)
+                .setOAuthAccessTokenSecret(settings.secondAuthTokenSecret);
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        return tf.getInstance();
+    }
+
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;

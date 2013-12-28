@@ -7,24 +7,28 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.List;
 
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class MentionsRefreshService extends IntentService {
+/**
+ * Created by luke on 12/28/13.
+ */
+public class SecondMentionsRefreshService extends IntentService {
 
     SharedPreferences sharedPrefs;
 
-    public MentionsRefreshService() {
-        super("MentionsRefreshService");
+    public SecondMentionsRefreshService() {
+        super("SecondMentionsRefreshService");
     }
 
     @Override
@@ -43,9 +47,15 @@ public class MentionsRefreshService extends IntentService {
         int numberNew = 0;
 
         try {
-            Twitter twitter = Utils.getTwitter(context);
+            Twitter twitter = Utils.getSecondTwitter(context);
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+            if(currentAccount == 1) {
+                currentAccount = 2;
+            } else {
+                currentAccount = 1;
+            }
 
             User user = twitter.verifyCredentials();
             MentionsDataSource dataSource = new MentionsDataSource(context);
@@ -54,7 +64,7 @@ public class MentionsRefreshService extends IntentService {
             Paging paging;
             paging = new Paging(1, 50);
 
-            List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
+            List<Status> statuses = twitter.getMentionsTimeline(paging);
 
             boolean broken = false;
 
@@ -100,11 +110,7 @@ public class MentionsRefreshService extends IntentService {
             dataSource.close();
 
             if (numberNew > 0) {
-                NotificationUtils.refreshNotification(context);
-            }
-
-            if (settings.syncSecondMentions) {
-                startService(new Intent(context, SecondMentionsRefreshService.class));
+                NotificationUtils.notifySecondMentions(context, currentAccount);
             }
 
         } catch (TwitterException e) {
