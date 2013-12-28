@@ -198,7 +198,9 @@
         <string name="other_options">Other Options</string>
         <string name="theme">Theme</string>
         <string name="layout">Layout</string>
-            <string name="layout_summary">Changing this will clear your cache.\n\nYou may have to manually shut down the app by swiping it out of your recent apps to get the reflected changes on profile pictures</string>
+            <string name="themeing_complete">Applied Theme</string>
+            <string name="themeing_complete_summary">You will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.</string>
+    <string name="layout_summary">Changing this will clear your cache.\n\nYou may have to manually shut down the app by swiping it out of your recent apps to get the reflected changes on profile pictures</string>
         <string name="text_size">Text Size</string>
         <string name="night_mode">Night Mode</string>
             <string name="night_mode_night">Select Nighttime Start</string>

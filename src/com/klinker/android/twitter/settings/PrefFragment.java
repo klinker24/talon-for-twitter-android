@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -513,15 +514,32 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
             if (cache != null) {
                 cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
+                if (deleted) {
+                    Toast.makeText(context, context.getResources().getString(R.string.trim_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.trim_fail), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                fin = true;
             }
 
             pDialog.dismiss();
 
-            if (deleted) {
-                Toast.makeText(context, context.getResources().getString(R.string.trim_success), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.trim_fail), Toast.LENGTH_SHORT).show();
+            if (fin) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.themeing_complete))
+                        .setMessage(context.getResources().getString(R.string.themeing_complete_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                ((Activity)context).finish();
+                            }
+                        })
+                        .create()
+                        .show();
             }
+
 
         }
     }
