@@ -2,7 +2,6 @@
     - Delete Retweet
 
 - Features:
-    - Notification for the second account's mentions
     - some way to show progress bar on widget
 
 - Bugs:
