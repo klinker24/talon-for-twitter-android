@@ -131,6 +131,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+
         final Preference nightMode = findPreference("night_mode");
         nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -168,6 +169,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
         });
+
+        if (sharedPrefs.getBoolean("addon_theme", false)) {
+            nightMode.setEnabled(false);
+        } else {
+            nightMode.setEnabled(true);
+        }
 
         final Preference emojis = findPreference("use_emojis");
         emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -575,6 +582,14 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 am.cancel(pendingIntent);
         } else if (key.equals("layout")) {
             new TrimCache(null).execute();
+        } else if (key.equals("addon_theme")) {
+            Preference nightmode = findPreference("night_mode");
+
+            if (sharedPrefs.getBoolean("addon_theme", false)) {
+                nightmode.setEnabled(false);
+            } else {
+                nightmode.setEnabled(true);
+            }
         }
     }
 
