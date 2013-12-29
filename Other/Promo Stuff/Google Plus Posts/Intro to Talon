@@ -7,6 +7,7 @@ Talon is a feature PACKED, beautiful Twitter client that I have been making for 
 
 It isn't all about the look though, I said it was feature packed and I meant it, almost everything you could ever think of has been included right off the bat, plus a ton of features that really set this one apart, including:
 - 3 main timelines to - of course - slide between (home, mentions, and direct messages) PLUS 2 more quick sliding pages to give you access to all your links and pictures in one place - we will keep those "Discover" and "Activity" tabs where they belong, out of sight!
+- A powerful developer centered theme engine (https://github.com/klinker24/talon_theme)
 - Light, dark, and pitch black themes along with a night mode
 - Choose between either "Talon" or "Hangouts" layouts
 - "Advance Windowed" option

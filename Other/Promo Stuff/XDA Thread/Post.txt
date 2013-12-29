@@ -37,6 +37,7 @@ Twitter features:
 - And the list goes on :)
 
 Customization features:
+- Powerful developer theme engine (https://github.com/klinker24/talon_theme)
 - Choose between either "Talon" or "Hangouts" layouts
 - Choose from 3 beautiful themes
 - Custom text sizes
