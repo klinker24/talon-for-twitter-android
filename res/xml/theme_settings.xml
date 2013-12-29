@@ -49,7 +49,7 @@
         <Preference
             android:title="@string/make_a_theme" >
             <intent android:action="android.intent.action.VIEW"
-                android:data="https://github.com/klinker24" />
+                android:data="https://github.com/klinker24/talon_theme" />
         </Preference>
 
     </PreferenceCategory>
