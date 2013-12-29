@@ -582,14 +582,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 am.cancel(pendingIntent);
         } else if (key.equals("layout")) {
             new TrimCache(null).execute();
-        } else if (key.equals("addon_themes")) {
-            Preference nightmode = findPreference("night_mode");
-
-            if (sharedPrefs.getBoolean("addon_themes", false)) {
-                nightmode.setEnabled(false);
-            } else {
-                nightmode.setEnabled(true);
-            }
         }
     }
 
