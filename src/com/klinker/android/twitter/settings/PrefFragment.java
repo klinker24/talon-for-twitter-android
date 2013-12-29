@@ -170,7 +170,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         });
 
-        if (sharedPrefs.getBoolean("addon_theme", false)) {
+        if (sharedPrefs.getBoolean("addon_themes", false)) {
             nightMode.setEnabled(false);
         } else {
             nightMode.setEnabled(true);
@@ -582,10 +582,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 am.cancel(pendingIntent);
         } else if (key.equals("layout")) {
             new TrimCache(null).execute();
-        } else if (key.equals("addon_theme")) {
+        } else if (key.equals("addon_themes")) {
             Preference nightmode = findPreference("night_mode");
 
-            if (sharedPrefs.getBoolean("addon_theme", false)) {
+            if (sharedPrefs.getBoolean("addon_themes", false)) {
                 nightmode.setEnabled(false);
             } else {
                 nightmode.setEnabled(true);
