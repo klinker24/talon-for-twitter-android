@@ -46,6 +46,12 @@
                 android:data="https://plus.google.com/u/0/communities/112468199526946242218/stream/c2f77fd2-23f2-4cb5-923e-6bb748fbcb69" />
         </Preference>
 
+        <Preference
+            android:title="@string/make_a_theme" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://github.com/klinker24" />
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory

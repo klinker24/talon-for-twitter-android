@@ -207,6 +207,7 @@
         <string name="addon_themes">Add-on Themes</string>
         <string name="addon_note">This will override any of the default themes applied above. \n\nClick here to find new themes.</string>
         <string name="use_addon_themes">Use add-on theme</string>
+        <string name="make_a_theme">Make a theme</string>
         <string name="layout">Layout</string>
             <string name="themeing_complete">Applied Theme</string>
             <string name="themeing_complete_summary">\"Talon\" will now close.\n\nYou will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.</string>
