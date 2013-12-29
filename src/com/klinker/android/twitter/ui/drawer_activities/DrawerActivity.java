@@ -453,6 +453,10 @@ public abstract class DrawerActivity extends Activity {
         }
 
         Utils.setUpTheme(context, settings);
+
+        if (settings.addonTheme) {
+            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
+        }
     }
 
     @Override

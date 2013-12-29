@@ -205,11 +205,11 @@
         <string name="other_options">Other Options</string>
         <string name="theme">Theme</string>
         <string name="addon_themes">Add-on Themes</string>
-        <string name="addon_note">This will override any of the default themes applied above</string>
+        <string name="addon_note">This will override any of the default themes applied above. \n\nClick here to find new themes.</string>
         <string name="use_addon_themes">Use add-on theme</string>
         <string name="layout">Layout</string>
             <string name="themeing_complete">Applied Theme</string>
-            <string name="themeing_complete_summary">You will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.</string>
+            <string name="themeing_complete_summary">\"Talon\" will now close.\n\nYou will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.</string>
     <string name="layout_summary">Changing this will clear your cache.\n\nYou may have to manually shut down the app by swiping it out of your recent apps to get the reflected changes on profile pictures</string>
         <string name="text_size">Text Size</string>
         <string name="night_mode">Night Mode</string>

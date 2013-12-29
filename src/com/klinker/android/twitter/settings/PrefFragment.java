@@ -216,6 +216,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     sharedPrefs.edit().putBoolean("addon_themes", false).commit();
                     sharedPrefs.edit().putString("addon_theme_package", null).commit();
                     addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
+                    new TrimCache(null).execute();
                     return true;
                 }
 
@@ -273,6 +274,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         } catch (Exception e) {
                             sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
                         }
+
+                        new TrimCache(null).execute();
                     }
 
                 });
