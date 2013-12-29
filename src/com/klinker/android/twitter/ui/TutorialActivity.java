@@ -92,9 +92,9 @@ public class TutorialActivity extends Activity {
         private int state = 0;
         private long startTime = System.currentTimeMillis();
 
-        private static final String TEXT1 = "\nPull open the\nnavigation drawer\n with a left\nside swipe!";
-        private static final String TEXT2 = "\nPage between\ntimelines with\na swipe either \nway from the middle\nof the screen!";
-        private static final String TEXT3 = "That's it!\n \nTouch the\nscreen to\nstart!";
+        private final String TEXT1;
+        private final String TEXT2;
+        private final String TEXT3;
 
         public DrawingPanel (Context context) {
             super(context);
@@ -106,6 +106,15 @@ public class TutorialActivity extends Activity {
             getHolder().addCallback(this);
             setFocusable(true);
             thread = new DrawingThread(getHolder(), this);
+
+            if (!context.getResources().getBoolean(R.bool.isTablet)) {
+                TEXT1 = context.getResources().getString(R.string.part_1_phone);
+            } else {
+                TEXT1 = context.getResources().getString(R.string.part_1_tablet);
+            }
+
+            TEXT2 = context.getResources().getString(R.string.part_2);
+            TEXT3 = context.getResources().getString(R.string.part_3);
         }
 
         @Override

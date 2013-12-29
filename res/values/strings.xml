@@ -192,6 +192,12 @@
     <string name="choose_list">Choose List</string>
     <string name="added_to_list">Added to list</string>
 
+    <!-- Tutorial Activity -->
+    <string name="part_1_tablet">\nAccess features\nby tapping items\nin the\nnavigation\ndrawer!</string>
+    <string name="part_1_phone">\nPull open the\nnavigation drawer\nwith a left\nside swipe!</string>
+    <string name="part_2">\nPage between\ntimelines with\na swipe either\nway from the middle\nof the screen!</string>
+    <string name="part_3">That\'s it!\n\nTouch the\nscreen to\nstart!</string>
+
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>
         <string name="theme_options">Theme Options</string>
@@ -268,7 +274,7 @@
                     - Long click to open tweet\n
                     - Short click to expand tweet</string>
             <string name="extra_pages">Use Extra Pages</string>
-                <string name="extra_pages_summary">Add links and pictures pages ot the left of the timeline</string>
+                <string name="extra_pages_summary">Add links and pictures pages to the left of the timeline</string>
         <string name="memory_management">Memory Management Options</string>
             <string name="delete_cache">Delete Cache Now</string>
             <string name="cache_dialog">Delete Cache?</string>
