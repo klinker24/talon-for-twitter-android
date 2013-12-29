@@ -190,10 +190,10 @@ public class MainActivity extends DrawerActivity {
 
     public void setUpWindow() {
         // nothing here, will be overrode
-        isPopup = false;
+        MainActivity.isPopup = false;
 
         if ((getIntent().getFlags() & 0x00002000) != 0) {
-            isPopup = true;
+            MainActivity.isPopup = true;
         }
     }
 
