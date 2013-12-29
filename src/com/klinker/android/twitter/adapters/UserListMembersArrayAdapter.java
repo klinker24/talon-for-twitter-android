@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
@@ -37,7 +38,12 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
-        holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+        //holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+        if(settings.roundContactImages) {
+            ImageUtils.loadCircleImage(context, holder.picture, user.getBiggerProfileImageURL(), mCache);
+        } else {
+            ImageUtils.loadImage(context, holder.picture, user.getBiggerProfileImageURL(), mCache);
+        }
 
         holder.picture.setOnClickListener(new View.OnClickListener() {
             @Override

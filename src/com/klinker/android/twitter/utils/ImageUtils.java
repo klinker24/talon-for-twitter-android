@@ -450,4 +450,107 @@ public class ImageUtils {
             }
         }
     }
+
+    public static void loadCircleImage(Context context, ImageView iv, String url, BitmapLruCache mCache) {
+        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
+
+        if (null != wrapper) {
+            // The cache has it, so just display it
+            iv.setImageDrawable(wrapper);
+        } else {
+            // Memory Cache doesn't have the URL, do threaded request...
+            iv.setImageDrawable(null);
+
+            ImageUrlCircleAsyncTask mCurrentTask = new ImageUrlCircleAsyncTask(context, iv, mCache, false);
+
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    SDK11.executeOnThreadPool(mCurrentTask, url);
+                } else {
+                    mCurrentTask.execute(url);
+                }
+            } catch (RejectedExecutionException e) {
+                // This shouldn't happen, but might.
+            }
+
+        }
+    }
+
+    private static class ImageUrlCircleAsyncTask
+            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
+
+        private final BitmapLruCache mCache;
+        private Context context;
+        private final WeakReference<ImageView> mImageViewRef;
+        private ImageView iv;
+        private boolean thumbnail;
+
+        ImageUrlCircleAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean thumbnail) {
+            this.context = context;
+            mCache = cache;
+            mImageViewRef = new WeakReference<ImageView>(imageView);
+            iv = imageView;
+            this.thumbnail = thumbnail;
+        }
+
+        @Override
+        protected CacheableBitmapDrawable doInBackground(String... params) {
+            try {
+                // Return early if the ImageView has disappeared.
+                if (null == mImageViewRef.get()) {
+                    return null;
+                }
+                final String url = params[0];
+
+                // Now we're not on the main thread we can check all caches
+                CacheableBitmapDrawable result;
+
+                result = mCache.get(url, null);
+
+                if (null == result) {
+                    Log.d("ImageUrlAsyncTask", "Downloading: " + url);
+
+                    // The bitmap isn't cached so download from the web
+                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                    InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                    Bitmap b = BitmapFactory.decodeStream(is);
+                    b = getCircle(b, context);
+
+                    if (thumbnail) {
+                        b = ImageUtils.overlayPlay(b, context);
+                    }
+
+                    // Add to cache
+                    result = mCache.put(url, b);
+
+                } else {
+                    Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
+                }
+
+                return result;
+
+            } catch (IOException e) {
+                Log.e("ImageUrlAsyncTask", e.toString());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(CacheableBitmapDrawable result) {
+            super.onPostExecute(result);
+
+            try {
+                ImageView iv = mImageViewRef.get();
+
+                if (null != iv) {
+                    iv.setImageDrawable(result);
+                }
+
+            } catch (Exception e) {
+
+            }
+        }
+    }
 }

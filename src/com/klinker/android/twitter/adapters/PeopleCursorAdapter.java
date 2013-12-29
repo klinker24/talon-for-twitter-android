@@ -3,21 +3,29 @@ package com.klinker.android.twitter.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.utils.ImageUtils;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class PeopleCursorAdapter extends CursorAdapter {
 
@@ -26,8 +34,11 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public LayoutInflater inflater;
     public AppSettings settings;
 
-    public boolean talonLayout;
     public int layout;
+    public XmlResourceParser addonLayout = null;
+    public Resources res;
+    public boolean talonLayout;
+    public BitmapLruCache mCache;
     public int border;
 
     private SharedPreferences sharedPrefs;
@@ -35,7 +46,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public static class ViewHolder {
         public TextView name;
         public TextView screenName;
-        public NetworkedCacheableImageView picture;
+        public ImageView picture;
         public LinearLayout background;
     }
 
@@ -51,12 +62,26 @@ public class PeopleCursorAdapter extends CursorAdapter {
 
         settings = new AppSettings(context);
 
+        setUpLayout();
+    }
+
+    public void setUpLayout() {
         talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
 
-        layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+        if (settings.addonTheme) {
+            try {
+                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
+            } catch (Exception e) {
+                e.printStackTrace();
+                layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+            }
+        } else {
+            layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+        }
 
         TypedArray b;
-        if (settings.roundContactImages) {
+        if (talonLayout) {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         } else {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
@@ -64,24 +89,61 @@ public class PeopleCursorAdapter extends CursorAdapter {
         border = b.getResourceId(0, 0);
         b.recycle();
 
+        mCache = App.getInstance(context).getBitmapCache();
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        View v;
-        v = inflater.inflate(layout, viewGroup, false);
-        final ViewHolder holder;
+        View v = null;
+        final ViewHolder holder = new ViewHolder();
+        if (settings.addonTheme) {
+            try {
+                Context viewContext = null;
 
-        holder = new ViewHolder();
+                if (res == null) {
+                    res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                }
 
-        holder.name = (TextView) v.findViewById(R.id.name);
-        holder.screenName = (TextView) v.findViewById(R.id.screen_name);
-        holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.profile_pic);
+                try {
+                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (res != null && viewContext != null) {
+                    int id = res.getIdentifier("person", "layout", settings.addonThemePackage);
+                    v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
+
+
+                    holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
+                    holder.screenName = (TextView) v.findViewById(res.getIdentifier("screen_name", "id", settings.addonThemePackage));
+                    holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
+                    holder.picture = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                v = inflater.inflate(layout, viewGroup, false);
+
+                holder.name = (TextView) v.findViewById(R.id.name);
+                holder.screenName = (TextView) v.findViewById(R.id.screen_name);
+                holder.background = (LinearLayout) v.findViewById(R.id.background);
+                holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+            }
+        } else {
+            v = inflater.inflate(layout, viewGroup, false);
+
+            holder.name = (TextView) v.findViewById(R.id.name);
+            holder.screenName = (TextView) v.findViewById(R.id.screen_name);
+            holder.background = (LinearLayout) v.findViewById(R.id.background);
+            holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+        }
 
         // sets up the font sizes
         holder.name.setTextSize(settings.textSize + 4);
         holder.screenName.setTextSize(settings.textSize);
+
         v.setTag(holder);
         return v;
     }
@@ -98,7 +160,12 @@ public class PeopleCursorAdapter extends CursorAdapter {
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 
-        holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
+        //holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
+        if(settings.roundContactImages) {
+            ImageUtils.loadCircleImage(context, holder.picture, url, mCache);
+        } else {
+            ImageUtils.loadImage(context, holder.picture, url, mCache);
+        }
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
