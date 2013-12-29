@@ -7,4 +7,3 @@
 - Bugs:
 
 - Main TODO:
-    - Get halo working
