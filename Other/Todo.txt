@@ -2,9 +2,11 @@
     - some way to show progress bar on widget
 
 - Bugs:
+    - Pictures not from cache don't come up correctly in the photo view
+        - finishing it then restarting it may fix that
 
 - Main TODO:
-    - Theme the user profiles activity
+    - Theme the user profiles activity (including scaling background option)
     - Theme the Tweet activity
 
 - Minor TODO:
@@ -13,3 +15,5 @@
     - hide the settings menu button when popup is up (it messes up the layouts for some reason)
     - Check internet before logging in
     - Delete Retweets
+    - smooth out the expansion animation
+    - take out their profile pictures in the action bar
