@@ -40,7 +40,7 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
-import com.klinker.android.twitter.adapters.ProfilesArrayAdapter;
+import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
@@ -154,7 +154,7 @@ public class UserProfileActivity extends Activity {
         final View header = inflater.inflate(R.layout.user_profile_header, null);
 
         listView.addHeaderView(header);
-        listView.setAdapter(new ProfilesArrayAdapter(context, new ArrayList<Status>(0)));
+        listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
 
         friends = new ArrayList<User>();
         following = new ArrayList<User>();
@@ -251,7 +251,7 @@ public class UserProfileActivity extends Activity {
                     currentFollowers = -1;
                     refreshes = 0;
 
-                    listView.setAdapter(new ProfilesArrayAdapter(context, new ArrayList<Status>(0)));
+                    listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
 
                     new GetTimeline(thisUser, listView).execute();
                 }
@@ -657,7 +657,7 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final ProfilesArrayAdapter adapter = new ProfilesArrayAdapter(context, statuses, screenName);
+                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses, screenName);
                 listView.setItemManager(builder.build());
                 listView.setAdapter(adapter);
             }

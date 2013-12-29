@@ -3,7 +3,10 @@ package com.klinker.android.twitter.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Html;
@@ -21,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -29,6 +33,7 @@ import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
@@ -38,6 +43,7 @@ import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
@@ -49,6 +55,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public ArrayList<Status> statuses;
     public LayoutInflater inflater;
     public AppSettings settings;
+    public int border;
 
     public static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
     public static Pattern pattern = Pattern.compile(REGEX);
@@ -57,8 +64,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public boolean isProfile = false;
 
     public int layout;
+    public XmlResourceParser addonLayout = null;
+    public Resources res;
     public boolean talonLayout;
-    public int border;
+    public BitmapLruCache mCache;
 
     public int type;
     public String username;
@@ -76,10 +85,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public TextView retweetCount;
         public LinearLayout expandArea;
         public ImageButton replyButton;
-        public NetworkedCacheableImageView image;
+        public ImageView image;
         public LinearLayout background;
-        public NetworkedCacheableImageView playButton;
-        //public Bitmap tweetPic;
+        public ImageView playButton;
 
         public long tweetId;
         public boolean isFavorited;
@@ -93,25 +101,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.context = context;
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
-        this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
-
-        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
-
-        TypedArray b;
-        if (settings.roundContactImages) {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        } else {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
-        }
-        border = b.getResourceId(0, 0);
-        b.recycle();
 
         this.type = NORMAL;
 
         this.username = "";
+
+        setUpLayout();
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, int type) {
@@ -120,24 +117,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.context = context;
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
-        this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
-
-        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
-
-        TypedArray b;
-        if (talonLayout) {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        } else {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
-        }
-        border = b.getResourceId(0, 0);
-        b.recycle();
 
         this.type = type;
         this.username = "";
+
+        setUpLayout();
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, String username) {
@@ -146,12 +132,29 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.context = context;
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
-        this.isProfile = isProfile;
 
         this.settings = new AppSettings(context);
+
+        this.type = NORMAL;
+        this.username = username;
+
+        setUpLayout();
+    }
+
+    public void setUpLayout() {
         talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
 
-        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+        if (settings.addonTheme) {
+            try {
+                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
+            } catch (Exception e) {
+                e.printStackTrace();
+                layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+            }
+        } else {
+            layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+        }
 
         TypedArray b;
         if (talonLayout) {
@@ -162,8 +165,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         border = b.getResourceId(0, 0);
         b.recycle();
 
-        this.type = NORMAL;
-        this.username = username;
+        mCache = App.getInstance(context).getBitmapCache();
     }
 
     @Override
@@ -177,28 +179,83 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     }
 
     public View newView(ViewGroup viewGroup) {
-        View v;
-        final ViewHolder holder;
+        View v = null;
+        final ViewHolder holder = new ViewHolder();
+        if (settings.addonTheme) {
+            try {
+                Context viewContext = null;
 
-        v = inflater.inflate(layout, viewGroup, false);
+                if (res == null) {
+                    res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                }
 
-        holder = new ViewHolder();
+                try {
+                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-        holder.name = (TextView) v.findViewById(R.id.name);
-        holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
-        holder.time = (TextView) v.findViewById(R.id.time);
-        holder.tweet = (TextView) v.findViewById(R.id.tweet);
-        holder.reply = (EditText) v.findViewById(R.id.reply);
-        holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
-        holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
-        holder.favCount = (TextView) v.findViewById(R.id.fav_count);
-        holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
-        holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-        holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
-        holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
-        holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
-        holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+                if (res != null && viewContext != null) {
+                    int id = res.getIdentifier("tweet", "layout", settings.addonThemePackage);
+                    v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
+
+                    holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
+                    holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
+                    holder.time = (TextView) v.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
+                    holder.tweet = (TextView) v.findViewById(res.getIdentifier("tweet", "id", settings.addonThemePackage));
+                    holder.reply = (EditText) v.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
+                    holder.favorite = (ImageButton) v.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
+                    holder.retweet = (ImageButton) v.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
+                    holder.favCount = (TextView) v.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
+                    holder.retweetCount = (TextView) v.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
+                    holder.expandArea = (LinearLayout) v.findViewById(res.getIdentifier("expansion", "id", settings.addonThemePackage));
+                    holder.replyButton = (ImageButton) v.findViewById(res.getIdentifier("reply_button", "id", settings.addonThemePackage));
+                    holder.image = (ImageView) v.findViewById(res.getIdentifier("image", "id", settings.addonThemePackage));
+                    holder.retweeter = (TextView) v.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
+                    holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
+                    holder.playButton = (ImageView) v.findViewById(res.getIdentifier("play_button", "id", settings.addonThemePackage));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                v = inflater.inflate(layout, viewGroup, false);
+
+                holder.name = (TextView) v.findViewById(R.id.name);
+                holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
+                holder.time = (TextView) v.findViewById(R.id.time);
+                holder.tweet = (TextView) v.findViewById(R.id.tweet);
+                holder.reply = (EditText) v.findViewById(R.id.reply);
+                holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
+                holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
+                holder.favCount = (TextView) v.findViewById(R.id.fav_count);
+                holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
+                holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
+                holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
+                holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+                holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+                holder.background = (LinearLayout) v.findViewById(R.id.background);
+                holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            }
+        } else {
+            v = inflater.inflate(layout, viewGroup, false);
+
+            holder.name = (TextView) v.findViewById(R.id.name);
+            holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
+            holder.time = (TextView) v.findViewById(R.id.time);
+            holder.tweet = (TextView) v.findViewById(R.id.tweet);
+            holder.reply = (EditText) v.findViewById(R.id.reply);
+            holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
+            holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
+            holder.favCount = (TextView) v.findViewById(R.id.fav_count);
+            holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
+            holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
+            holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
+            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+            holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+            holder.background = (LinearLayout) v.findViewById(R.id.background);
+            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+        }
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -399,7 +456,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 }
             } else {
                 if (picUrl.contains("youtube")) {
-                    holder.image.loadImage(picUrl, false, null);
+                    //holder.image.loadImage(picUrl, false, null);
+                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
@@ -411,7 +469,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         }
                     });
                 } else {
-                    holder.image.loadImage(picUrl, false, null);
+                    //holder.image.loadImage(picUrl, false, null);
+                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
                     }

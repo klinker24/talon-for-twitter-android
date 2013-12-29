@@ -5,8 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="10dp"
-    android:background="?windowBackground">
+    android:layout_marginTop="10dp" >
 
     <LinearLayout
         android:orientation="vertical"
@@ -20,10 +19,8 @@
             android:layout_height="@dimen/pro_pic_size"
             android:id="@+id/profile_pic"
             android:src="?circleBorder"
-            android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-            android:scaleType="fitCenter" android:adjustViewBounds="true"
-            android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
-            android:contentDescription="@string/placeholder"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"/>
 
@@ -48,8 +45,6 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textStyle="bold"
-                android:textSize="18dp"
-                android:text="Name"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="8dp"/>
 
@@ -57,12 +52,10 @@
                 android:id="@+id/screen_name"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:textSize="14dp"
                 android:layout_below="@id/name"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
-                android:paddingBottom="15dp"
-                android:text="@string/placeholder"/>
+                android:paddingBottom="15dp"/>
 
         </RelativeLayout>
 

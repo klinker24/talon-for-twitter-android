@@ -24,7 +24,7 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         View v;
-        v = inflater.inflate(R.layout.person_no_background, viewGroup, false);
+        v = inflater.inflate(R.layout.person, viewGroup, false);
         final ViewHolder holder;
 
         holder = new ViewHolder();

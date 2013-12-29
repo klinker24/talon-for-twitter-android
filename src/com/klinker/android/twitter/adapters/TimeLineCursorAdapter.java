@@ -155,14 +155,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         View v = null;
         final ViewHolder holder = new ViewHolder();
         if (settings.addonTheme) {
-            Log.v("resources_stuff_talon", "in addon");
             try {
                 Context viewContext = null;
 
                 if (res == null) {
                     res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
                 }
-                Log.v("resources_stuff_talon", "got resources");
 
                 try {
                     viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
@@ -172,15 +170,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     e.printStackTrace();
                 }
 
-                Log.v("resources_stuff_talon", "got context");
-
                 if (res != null && viewContext != null) {
-                    Log.v("resources_stuff_talon", "id");
                     int id = res.getIdentifier("tweet", "layout", settings.addonThemePackage);
-                    Log.v("resources_stuff_talon", "inflateing");
                     v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
-
-                    Log.v("resources_stuff_talon", "inflated");
 
                     holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
                     holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));

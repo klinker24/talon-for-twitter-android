@@ -114,7 +114,7 @@
                       android:layout_height="fill_parent"
                       android:layout_width="fill_parent"
                       android:divider="@null"
-                      android:dividerHeight="5dp"
+                      android:dividerHeight="0dp"
                       android:paddingTop="5dp"
                       android:layout_margin="@dimen/tweet_activ_margin"
                       android:background="?windowBackground"
