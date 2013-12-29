@@ -230,7 +230,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     }
 
                     try {
-                        boolean theme = metaData.getString("evolve_theme").startsWith("version");
+                        boolean theme = metaData.getString("talon_theme").startsWith("version");
                         if (!theme) {
                             packages.remove(i--);
                         }
