@@ -79,5 +79,23 @@
 
         </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/addon_themes" >
+
+
+        <CheckBoxPreference
+            android:key="addon_themes"
+            android:title="@string/use_addon_themes"
+            android:defaultValue="false"
+            />
+
+        <Preference
+            android:summary="@string/addon_note">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/communities/101722781061844311332/stream/e88cabc6-1e5d-4fc3-8059-ed8d56d8ec20" />
+        </Preference>
+
+        </PreferenceCategory>
+
 
 </PreferenceScreen>

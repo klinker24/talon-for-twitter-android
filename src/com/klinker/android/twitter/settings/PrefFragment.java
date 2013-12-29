@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +23,10 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -28,6 +34,7 @@ import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.Item;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
@@ -46,6 +53,7 @@ import com.klinker.android.twitter.utils.Utils;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
@@ -188,6 +196,90 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return true;
             }
 
+        });
+
+        final Preference addonTheme = findPreference("addon_themes");
+
+        String pack = sharedPrefs.getString("addon_theme_package", null);
+        if (pack != null) {
+            try {
+                addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
+            } catch (Exception e) {
+                sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
+            }
+        }
+
+        addonTheme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (sharedPrefs.getBoolean("addon_themes", false)) {
+                    sharedPrefs.edit().putBoolean("addon_themes", false).commit();
+                    sharedPrefs.edit().putString("addon_theme_package", null).commit();
+                    addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
+                    return true;
+                }
+
+                final PackageManager pm = context.getPackageManager();
+                final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+                for (int i = 0; i < packages.size(); i++) {
+                    Bundle metaData = packages.get(i).metaData;
+                    if (metaData == null) {
+                        packages.remove(i--);
+                        continue;
+                    }
+
+                    try {
+                        boolean theme = metaData.getString("evolve_theme").startsWith("version");
+                        if (!theme) {
+                            packages.remove(i--);
+                        }
+                    } catch (Exception e) {
+                        packages.remove(i--);
+                    }
+                }
+
+                final Item[] items = new Item[packages.size()];
+
+                for (int i = 0; i < items.length; i++) {
+                    items[i] = new Item(packages.get(i).loadLabel(pm).toString(), pm.getApplicationIcon(packages.get(i)));
+                }
+
+                ListAdapter adapter = new ArrayAdapter<Item>(
+                        context,
+                        android.R.layout.select_dialog_item,
+                        android.R.id.text1,
+                        items) {
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getView(position, convertView, parent);
+                        TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                        tv.setCompoundDrawablesWithIntrinsicBounds(items[position].actualIcon, null, null, null);
+                        tv.setCompoundDrawablePadding((int) (5 * getResources().getDisplayMetrics().density + 0.5f));
+                        tv.setText(items[position].text);
+                        return v;
+                    }
+                };
+
+                AlertDialog.Builder attachBuilder = new AlertDialog.Builder(context);
+                attachBuilder.setTitle(R.string.addon_themes);
+                attachBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        sharedPrefs.edit().putString("addon_theme_package", packages.get(arg1).packageName).commit();
+                        try {
+                            String pack = packages.get(arg1).packageName;
+                            addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
+                        } catch (Exception e) {
+                            sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
+                        }
+                    }
+
+                });
+
+                attachBuilder.create().show();
+                return true;
+            }
         });
     }
 

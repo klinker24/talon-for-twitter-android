@@ -204,6 +204,9 @@
         <string name="font_options">Font Options</string>
         <string name="other_options">Other Options</string>
         <string name="theme">Theme</string>
+        <string name="addon_themes">Add-on Themes</string>
+        <string name="addon_note">This will override any of the default themes applied above</string>
+        <string name="use_addon_themes">Use add-on theme</string>
         <string name="layout">Layout</string>
             <string name="themeing_complete">Applied Theme</string>
             <string name="themeing_complete_summary">You will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.</string>
