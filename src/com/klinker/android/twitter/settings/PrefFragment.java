@@ -170,10 +170,17 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         });
 
+        final Preference layout = findPreference("layout");
+        final Preference theme = findPreference("theme");
+
         if (sharedPrefs.getBoolean("addon_themes", false)) {
             nightMode.setEnabled(false);
+            layout.setEnabled(false);
+            theme.setEnabled(false);
         } else {
             nightMode.setEnabled(true);
+            layout.setEnabled(true);
+            theme.setEnabled(true);
         }
 
         final Preference emojis = findPreference("use_emojis");
