@@ -31,6 +31,24 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/addon_themes" >
+
+
+        <CheckBoxPreference
+            android:key="addon_themes"
+            android:title="@string/use_addon_themes"
+            android:defaultValue="false"
+            />
+
+        <Preference
+            android:summary="@string/addon_note">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/u/0/communities/112468199526946242218/stream/c2f77fd2-23f2-4cb5-923e-6bb748fbcb69" />
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/font_options" >
 
         <ListPreference
@@ -78,24 +96,5 @@
             />
 
         </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/addon_themes" >
-
-
-        <CheckBoxPreference
-            android:key="addon_themes"
-            android:title="@string/use_addon_themes"
-            android:defaultValue="false"
-            />
-
-        <Preference
-            android:summary="@string/addon_note">
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://plus.google.com/communities/101722781061844311332/stream/e88cabc6-1e5d-4fc3-8059-ed8d56d8ec20" />
-        </Preference>
-
-        </PreferenceCategory>
-
 
 </PreferenceScreen>
