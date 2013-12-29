@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Adapter;
 
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
@@ -29,11 +30,10 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
         mCache = cache;
         this.context = context;
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int layout = Integer.parseInt(sharedPrefs.getString("layout", "" + AppSettings.LAYOUT_TALON));
+        AppSettings settings = new AppSettings(context);
 
         // if the layout is talon's, then they should have circle images
-        circleImages = layout == AppSettings.LAYOUT_TALON;
+        circleImages = settings.roundContactImages;
     }
 
     @Override

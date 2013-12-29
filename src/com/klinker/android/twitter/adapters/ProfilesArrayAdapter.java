@@ -62,7 +62,7 @@ public class ProfilesArrayAdapter extends TimelineArrayAdapter {
         layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
 
         TypedArray b;
-        if (talonLayout) {
+        if (settings.roundContactImages) {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         } else {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});

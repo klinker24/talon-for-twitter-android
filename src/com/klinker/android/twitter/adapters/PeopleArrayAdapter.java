@@ -56,7 +56,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
 
         TypedArray b;
-        if (talonLayout) {
+        if (settings.roundContactImages) {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         } else {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});

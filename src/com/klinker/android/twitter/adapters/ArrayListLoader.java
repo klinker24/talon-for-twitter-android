@@ -29,11 +29,10 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
         mCache = cache;
         this.context = context;
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int layout = Integer.parseInt(sharedPrefs.getString("layout", "" + AppSettings.LAYOUT_TALON));
+        AppSettings settings = new AppSettings(context);
 
         // if the layout is talon's, then they should have circle images
-        circleImages = layout == AppSettings.LAYOUT_TALON;
+        circleImages = settings.roundContactImages;
     }
 
     @Override

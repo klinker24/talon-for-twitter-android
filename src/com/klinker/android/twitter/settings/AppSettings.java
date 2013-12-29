@@ -3,6 +3,9 @@ package com.klinker.android.twitter.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import com.klinker.android.twitter.utils.EmojiUtils;
@@ -55,6 +58,12 @@ public class AppSettings {
     public boolean fullScreenBrowser;
     public boolean favoriteUserNotifications;
     public boolean syncSecondMentions;
+
+    // theme stuff
+    public boolean addonTheme;
+    public String addonThemePackage;
+    public boolean roundContactImages;
+    public int backgroundColor;
 
     public int theme;
     public int layout;
@@ -152,6 +161,37 @@ public class AppSettings {
             if (!(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) {
                 nightMode = true;
                 theme = sharedPrefs.getInt("night_theme", 1);
+            }
+        }
+
+        // theme stuff
+        if (layout == LAYOUT_TALON) {
+            roundContactImages = true;
+        } else {
+            roundContactImages = false;
+        }
+
+        if (sharedPrefs.getBoolean("addon_themes", false)) {
+            addonTheme = true;
+            addonThemePackage = sharedPrefs.getString("addon_theme_package", null);
+
+            try {
+                Bundle metaData = context.getPackageManager().getApplicationInfo(addonThemePackage, PackageManager.GET_META_DATA).metaData;
+
+                roundContactImages = metaData.getBoolean("talon_theme_round_contact_pictures");
+                backgroundColor = Color.parseColor(metaData.getString("talon_theme_background_color"));
+
+                String theme = metaData.getString("talon_theme_base");
+                if (theme.equals("dark")) {
+                    this.theme = THEME_DARK;
+                } else if (theme.equals("black")) {
+                    this.theme = THEME_BLACK;
+                } else {
+                    this.theme = THEME_LIGHT;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();
             }
         }
     }

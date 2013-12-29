@@ -286,7 +286,7 @@ public abstract class DrawerActivity extends Activity {
         }
 
         try {
-            if(settings.layout == AppSettings.LAYOUT_TALON) {
+            if(settings.roundContactImages) {
                 profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
             } else {
                 profilePic.loadImage(profilePicUrl, false, null);
@@ -344,7 +344,7 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
                 try {
-                    if(settings.layout == AppSettings.LAYOUT_TALON) {
+                    if(settings.roundContactImages) {
                         proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null, NetworkedCacheableImageView.CIRCLE);
                     } else {
                         proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null);
@@ -368,7 +368,7 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
                 try {
-                    if(settings.layout == AppSettings.LAYOUT_TALON) {
+                    if(settings.roundContactImages) {
                         proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null, NetworkedCacheableImageView.CIRCLE);
                     } else {
                         proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null);
