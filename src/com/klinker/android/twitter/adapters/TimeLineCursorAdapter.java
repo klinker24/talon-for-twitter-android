@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,6 +18,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -37,6 +42,7 @@ import com.klinker.android.twitter.ui.TweetActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
+import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.regex.Pattern;
@@ -46,6 +52,7 @@ import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimeLineCursorAdapter extends CursorAdapter {
@@ -71,7 +78,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public boolean hasKeyboard = false;
 
     private int layout;
+    private XmlResourceParser addonLayout = null;
+    private Resources res;
     private boolean talonLayout;
+    private BitmapLruCache mCache;
 
     public static class ViewHolder {
         public TextView name;
@@ -86,10 +96,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public TextView retweetCount;
         public LinearLayout expandArea;
         public ImageButton replyButton;
-        public NetworkedCacheableImageView image;
+        public ImageView image;
         public LinearLayout background;
         public TextView charRemaining;
-        public NetworkedCacheableImageView playButton;
+        public ImageView playButton;
         //public Bitmap tweetPic;
 
         public long tweetId;
@@ -116,7 +126,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
 
-        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+        if (settings.addonTheme) {
+            try {
+                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
+            } catch (Exception e) {
+                e.printStackTrace();
+                layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+            }
+        } else {
+            layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+        }
 
         TypedArray b;
         if (settings.roundContactImages) {
@@ -126,32 +146,100 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
         border = b.getResourceId(0, 0);
         b.recycle();
+
+        mCache = App.getInstance(context).getBitmapCache();
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        View v;
-        final ViewHolder holder;
-        v = inflater.inflate(layout, viewGroup, false);
+        View v = null;
+        final ViewHolder holder = new ViewHolder();
+        if (settings.addonTheme) {
+            Log.v("resources_stuff_talon", "in addon");
+            try {
+                Context viewContext = null;
 
-        holder = new ViewHolder();
+                if (res == null) {
+                    res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                }
+                Log.v("resources_stuff_talon", "got resources");
 
-        holder.name = (TextView) v.findViewById(R.id.name);
-        holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
-        holder.time = (TextView) v.findViewById(R.id.time);
-        holder.tweet = (TextView) v.findViewById(R.id.tweet);
-        holder.reply = (EditText) v.findViewById(R.id.reply);
-        holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
-        holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
-        holder.favCount = (TextView) v.findViewById(R.id.fav_count);
-        holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
-        holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-        holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
-        holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
-        holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
-        holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
-        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+                try {
+                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Log.v("resources_stuff_talon", "got context");
+
+                if (res != null && viewContext != null) {
+                    Log.v("resources_stuff_talon", "id");
+                    int id = res.getIdentifier("tweet", "layout", settings.addonThemePackage);
+                    Log.v("resources_stuff_talon", "inflateing");
+                    v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
+
+                    Log.v("resources_stuff_talon", "inflated");
+
+                    holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
+                    holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
+                    holder.time = (TextView) v.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
+                    holder.tweet = (TextView) v.findViewById(res.getIdentifier("tweet", "id", settings.addonThemePackage));
+                    holder.reply = (EditText) v.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
+                    holder.favorite = (ImageButton) v.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
+                    holder.retweet = (ImageButton) v.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
+                    holder.favCount = (TextView) v.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
+                    holder.retweetCount = (TextView) v.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
+                    holder.expandArea = (LinearLayout) v.findViewById(res.getIdentifier("expansion", "id", settings.addonThemePackage));
+                    holder.replyButton = (ImageButton) v.findViewById(res.getIdentifier("reply_button", "id", settings.addonThemePackage));
+                    holder.image = (ImageView) v.findViewById(res.getIdentifier("image", "id", settings.addonThemePackage));
+                    holder.retweeter = (TextView) v.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
+                    holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
+                    holder.charRemaining = (TextView) v.findViewById(res.getIdentifier("char_remaining", "id", settings.addonThemePackage));
+                    holder.playButton = (ImageView) v.findViewById(res.getIdentifier("play_button", "id", settings.addonThemePackage));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                v = inflater.inflate(layout, viewGroup, false);
+
+                holder.name = (TextView) v.findViewById(R.id.name);
+                holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
+                holder.time = (TextView) v.findViewById(R.id.time);
+                holder.tweet = (TextView) v.findViewById(R.id.tweet);
+                holder.reply = (EditText) v.findViewById(R.id.reply);
+                holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
+                holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
+                holder.favCount = (TextView) v.findViewById(R.id.fav_count);
+                holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
+                holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
+                holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
+                holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+                holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+                holder.background = (LinearLayout) v.findViewById(R.id.background);
+                holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
+                holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            }
+        } else {
+            v = inflater.inflate(layout, viewGroup, false);
+
+            holder.name = (TextView) v.findViewById(R.id.name);
+            holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
+            holder.time = (TextView) v.findViewById(R.id.time);
+            holder.tweet = (TextView) v.findViewById(R.id.tweet);
+            holder.reply = (EditText) v.findViewById(R.id.reply);
+            holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
+            holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
+            holder.favCount = (TextView) v.findViewById(R.id.fav_count);
+            holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
+            holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
+            holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
+            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+            holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+            holder.background = (LinearLayout) v.findViewById(R.id.background);
+            holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
+            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+        }
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -163,6 +251,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.reply.setTextSize(settings.textSize);
 
         v.setTag(holder);
+
         return v;
     }
 
@@ -368,7 +457,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             } else {
                 if (picUrl.contains("youtube")) {
-                    holder.image.loadImage(picUrl, false, null);
+                    //holder.image.loadImage(picUrl, false, null); can't use this with the new themes
+                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
@@ -380,7 +470,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     });
                 } else {
-                    holder.image.loadImage(picUrl, false, null);
+                    //holder.image.loadImage(picUrl, false, null); can't use this with the themes
+                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
                     }

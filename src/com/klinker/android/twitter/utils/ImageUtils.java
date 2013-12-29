@@ -10,9 +10,27 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.SDK11;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.RejectedExecutionException;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 
 public class ImageUtils {
@@ -331,5 +349,105 @@ public class ImageUtils {
         return inSampleSize;
     }
 
+    public static void loadImage(Context context, ImageView iv, String url, BitmapLruCache mCache) {
+        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
 
+        if (null != wrapper) {
+            // The cache has it, so just display it
+            iv.setImageDrawable(wrapper);
+        } else {
+            // Memory Cache doesn't have the URL, do threaded request...
+            iv.setImageDrawable(null);
+
+            ImageUrlAsyncTask mCurrentTask = new ImageUrlAsyncTask(context, iv, mCache, false);
+
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    SDK11.executeOnThreadPool(mCurrentTask, url);
+                } else {
+                    mCurrentTask.execute(url);
+                }
+            } catch (RejectedExecutionException e) {
+                // This shouldn't happen, but might.
+            }
+
+        }
+    }
+
+    private static class ImageUrlAsyncTask
+            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
+
+        private final BitmapLruCache mCache;
+        private Context context;
+        private final WeakReference<ImageView> mImageViewRef;
+        private ImageView iv;
+        private boolean thumbnail;
+
+        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean thumbnail) {
+            this.context = context;
+            mCache = cache;
+            mImageViewRef = new WeakReference<ImageView>(imageView);
+            iv = imageView;
+            this.thumbnail = thumbnail;
+        }
+
+        @Override
+        protected CacheableBitmapDrawable doInBackground(String... params) {
+            try {
+                // Return early if the ImageView has disappeared.
+                if (null == mImageViewRef.get()) {
+                    return null;
+                }
+                final String url = params[0];
+
+                // Now we're not on the main thread we can check all caches
+                CacheableBitmapDrawable result;
+
+                result = mCache.get(url, null);
+
+                if (null == result) {
+                    Log.d("ImageUrlAsyncTask", "Downloading: " + url);
+
+                    // The bitmap isn't cached so download from the web
+                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                    InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                    Bitmap b = BitmapFactory.decodeStream(is);
+
+                    if (thumbnail) {
+                        b = ImageUtils.overlayPlay(b, context);
+                    }
+
+                    // Add to cache
+                    result = mCache.put(url, b);
+
+                } else {
+                    Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
+                }
+
+                return result;
+
+            } catch (IOException e) {
+                Log.e("ImageUrlAsyncTask", e.toString());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(CacheableBitmapDrawable result) {
+            super.onPostExecute(result);
+
+            try {
+                ImageView iv = mImageViewRef.get();
+
+                if (null != iv) {
+                    iv.setImageDrawable(result);
+                }
+
+            } catch (Exception e) {
+
+            }
+        }
+    }
 }

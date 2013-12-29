@@ -193,6 +193,9 @@ public class AppSettings {
                 e.printStackTrace();
                 sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();
             }
+        } else {
+            addonTheme = false;
+            addonThemePackage = null;
         }
     }
 }
