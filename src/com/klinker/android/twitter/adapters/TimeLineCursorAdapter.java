@@ -171,7 +171,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
 
                 if (res != null && viewContext != null) {
-                    v = LayoutInflater.from(viewContext).inflate(addonLayout, null);
+                    int id = res.getIdentifier("tweet", "layout", settings.addonThemePackage);
+                    v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
 
                     holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
                     holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));

@@ -124,8 +124,8 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                 }
 
                 if (res != null && viewContext != null) {
-                    //int id = res.getIdentifier("person", "layout", settings.addonThemePackage);
-                    v = LayoutInflater.from(viewContext).inflate(addonLayout, null);
+                    int id = res.getIdentifier("person", "layout", settings.addonThemePackage);
+                    v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
 
 
                     holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
