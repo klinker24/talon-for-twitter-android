@@ -96,7 +96,6 @@ public class SearchedTrendsActivity extends Activity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
