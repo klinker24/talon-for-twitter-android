@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout android:id="@+id/list_progress"
+        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            android:indeterminateOnly="true" />
+    </LinearLayout>
+
+
+    <org.lucasr.smoothie.AsyncListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="8dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbars="vertical"
+        android:listSelector="@android:color/transparent"
+        android:visibility="gone"
+        />
+
+    <com.klinker.android.twitter.ui.widgets.HoloTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_conversation"
+        android:id="@+id/no_conversation" />
+
+</LinearLayout>

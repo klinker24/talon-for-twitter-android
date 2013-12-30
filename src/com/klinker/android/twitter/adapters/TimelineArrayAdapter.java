@@ -28,8 +28,8 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.TweetActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.HtmlUtils;
@@ -324,7 +324,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     }
 
                     Log.v("tweet_page", "clicked");
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
+                    Intent viewTweet = new Intent(context, TweetPager.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
                     viewTweet.putExtra("time", time);
@@ -372,7 +372,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     }
 
                     Log.v("tweet_page", "clicked");
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
+                    Intent viewTweet = new Intent(context, TweetPager.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
                     viewTweet.putExtra("time", time);

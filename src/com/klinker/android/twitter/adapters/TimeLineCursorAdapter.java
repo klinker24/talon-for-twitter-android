@@ -18,7 +18,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.twitter.ui.TweetActivity;
+import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
@@ -287,7 +286,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             link = otherUrl.split("  ")[0];
                         }
 
-                        Intent viewTweet = new Intent(context, TweetActivity.class);
+                        Intent viewTweet = new Intent(context, TweetPager.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
                         viewTweet.putExtra("time", longTime);
@@ -336,7 +335,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             link = otherUrl.split("  ")[0];
                         }
 
-                        Intent viewTweet = new Intent(context, TweetActivity.class);
+                        Intent viewTweet = new Intent(context, TweetPager.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
                         viewTweet.putExtra("time", longTime);

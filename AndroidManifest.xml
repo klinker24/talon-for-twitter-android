@@ -223,14 +223,14 @@
                   android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.TweetActivity"
+        <activity android:name=".ui.tweet_viewer.TweetPager"
                   android:label="@string/app_name"
                   android:configChanges="orientation"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
                   android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.TweetActivityWidget"
+        <activity android:name=".ui.tweet_viewer.TweetActivityWidget"
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"

@@ -33,7 +33,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.ui.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.TweetActivityWidget;
+import com.klinker.android.twitter.ui.tweet_viewer.TweetActivityWidget;
 
 public class WidgetProvider extends AppWidgetProvider {
 
