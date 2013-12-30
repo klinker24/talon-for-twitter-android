@@ -40,6 +40,11 @@ public class PhotoViewerDialog extends Activity {
 
         setContentView(R.layout.photo_dialog_layout);
 
+        if (url == null) {
+            finish();
+            return;
+        }
+
         NetworkedCacheableImageView picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
