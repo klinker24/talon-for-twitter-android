@@ -72,4 +72,10 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    @Override
+    public void onDestroy() {
+        webView.loadUrl("");
+        super.onDestroy();
+    }
 }

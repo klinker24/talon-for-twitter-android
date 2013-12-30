@@ -21,6 +21,7 @@ public class BrowserActivity extends Activity {
 
     private AppSettings settings;
     private String url;
+    private WebView browser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class BrowserActivity extends Activity {
 
         url = getIntent().getStringExtra("url");
 
-        WebView browser = (WebView) findViewById(R.id.webview);
+        browser = (WebView) findViewById(R.id.webview);
         browser.getSettings().setJavaScriptEnabled(true);
         browser.getSettings().setBuiltInZoomControls(true);
         browser.clearCache(true);
@@ -60,6 +61,12 @@ public class BrowserActivity extends Activity {
         browser.loadUrl(url);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onDestroy() {
+        browser.loadUrl("");
+        super.onDestroy();
     }
 
     @Override
