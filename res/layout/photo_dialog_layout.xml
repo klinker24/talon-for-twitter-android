@@ -7,10 +7,24 @@
     android:gravity="center_vertical"
     android:background="@color/photo_dialog_background" >
 
+    <LinearLayout android:id="@+id/list_progress"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            android:indeterminateOnly="true" />
+    </LinearLayout>
+
     <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="40dp"
-        android:src="@drawable/default_header_background"/>
+        android:padding="40dp" />
+
+
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package com.klinker.android.twitter.ui.widgets;
 
 import android.app.Activity;
+import android.app.IntentService;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class PhotoViewerDialog extends Activity {
@@ -25,8 +28,9 @@ public class PhotoViewerDialog extends Activity {
         super.onCreate(savedInstanceState);
         context = this;
 
-        String url = getIntent().getStringExtra("url");
+        final String url = getIntent().getStringExtra("url");
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
+        boolean doRestart = getIntent().getBooleanExtra("restart", true);
 
         AppSettings settings = new AppSettings(context);
 
@@ -37,9 +41,21 @@ public class PhotoViewerDialog extends Activity {
         setContentView(R.layout.photo_dialog_layout);
 
         NetworkedCacheableImageView picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
-        picture.loadImage(url, false, null, 0, fromCache); // no transform
-
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
+
+        picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
+            @Override
+            public void onImageLoaded(CacheableBitmapDrawable result) {
+                overridePendingTransition(0,0);
+                finish();
+                Intent restart = new Intent(context, PhotoViewerDialog.class);
+                restart.putExtra("url", url);
+                restart.putExtra("from_cache", true);
+                restart.putExtra("restart", false);
+                overridePendingTransition(0,0);
+                startActivity(restart);
+            }
+        } : null, 0, fromCache); // no transform
 
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
