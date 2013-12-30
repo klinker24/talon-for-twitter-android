@@ -1,7 +1,6 @@
 package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;

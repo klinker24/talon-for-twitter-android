@@ -1,7 +1,6 @@
 package com.klinker.android.twitter.ui.widgets;
 
 import android.app.Activity;
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;

@@ -30,11 +30,11 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.Tweet;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.utils.ImageUtils;
-import com.klinker.android.twitter.data.Tweet;
 
 import java.net.URL;
 import java.util.ArrayList;

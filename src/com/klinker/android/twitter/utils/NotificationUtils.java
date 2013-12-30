@@ -16,22 +16,22 @@ import android.util.Log;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.MarkReadService;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.ui.ComposeActivity;
 import com.klinker.android.twitter.ui.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
-
 import java.net.URL;
 import java.util.ArrayList;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class NotificationUtils {
 

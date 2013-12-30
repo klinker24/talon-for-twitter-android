@@ -19,9 +19,8 @@ import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
-import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 

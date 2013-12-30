@@ -4,8 +4,6 @@ import android.graphics.Point;
 import android.view.Display;
 import android.view.Window;
 
-import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.Utils;
 
 public class MainActivityPopup extends MainActivity {

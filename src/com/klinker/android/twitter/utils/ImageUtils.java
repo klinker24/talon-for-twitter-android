@@ -15,7 +15,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
