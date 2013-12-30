@@ -163,6 +163,10 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         return hasWebpage;
     }
 
+    public boolean getHasYoutube() {
+        return youtube;
+    }
+
     @Override
     public CharSequence getPageTitle(int i) {
         if (pageCount == 2) {

@@ -31,6 +31,7 @@ import com.klinker.android.twitter.adapters.TweetPagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.ComposeActivity;
+import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
@@ -98,9 +99,9 @@ public class TweetPager extends YouTubeBaseActivity {
         mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,
                 name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
         pager.setAdapter(mSectionsPagerAdapter);
-        pager.setOffscreenPageLimit(0);
+        pager.setOffscreenPageLimit(3);
 
-        int numberOfPages = mSectionsPagerAdapter.getCount();
+        final int numberOfPages = mSectionsPagerAdapter.getCount();
 
         switch (numberOfPages) {
             case 2:
@@ -113,6 +114,40 @@ public class TweetPager extends YouTubeBaseActivity {
                 pager.setCurrentItem(2);
                 break;
         }
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (mSectionsPagerAdapter.getHasYoutube()) {
+                    switch (numberOfPages) {
+                        case 3:
+                            if (i != 0) {
+                                TweetYouTubeFragment.pause();
+                            } else {
+                                TweetYouTubeFragment.resume();
+                            }
+                            break;
+                        case 4:
+                            if (i != 1) {
+                                TweetYouTubeFragment.pause();
+                            } else {
+                                TweetYouTubeFragment.resume();
+                            }
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);

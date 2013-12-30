@@ -25,8 +25,10 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     private View layout;
     private String url;
 
-    private YouTubePlayerView player;
-    private HoloTextView error;
+    private static YouTubePlayerView player;
+    private static HoloTextView error;
+    private static YouTubePlayer realPlayer;
+    private static YouTubePlayer.OnInitializedListener listener;
 
     public TweetYouTubeFragment(AppSettings settings, String url) {
         this.settings = settings;
@@ -48,6 +50,8 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         error = (HoloTextView) layout.findViewById(R.id.error);
 
         player.initialize(AppSettings.YOUTUBE_API_KEY, this);
+
+        listener = this;
 
         return layout;
     }
@@ -76,11 +80,34 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
 
         youTubePlayer.loadVideo(video);
         youTubePlayer.setShowFullscreenButton(false);
+
+        realPlayer = youTubePlayer;
     }
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         player.setVisibility(View.GONE);
         error.setVisibility(View.VISIBLE);
+
+        realPlayer = null;
+    }
+
+    public static void pause() {
+        player.setVisibility(View.GONE);
+
+        if (realPlayer != null) {
+            realPlayer.release();
+        }
+    }
+
+    public static void resume() {
+        if (error.getVisibility() != View.VISIBLE) {
+            player.setVisibility(View.VISIBLE);
+        }
+
+        if (realPlayer != null) {
+            player.initialize(AppSettings.YOUTUBE_API_KEY, listener);
+        }
+
     }
 }
