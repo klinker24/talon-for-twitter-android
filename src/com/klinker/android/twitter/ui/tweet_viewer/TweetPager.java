@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.net.URL;
 import java.util.Random;
 
 import twitter4j.Twitter;
@@ -347,16 +349,29 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_save_image:
 
-                /* TODO fix this, maybe just use the picture url and get it like caching
+                Toast.makeText(context, getResources().getString(R.string.saving_picture), Toast.LENGTH_SHORT).show();
 
-                Bitmap bitmap = ((BitmapDrawable)pictureIv.getDrawable()).getBitmap();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            URL mUrl = new URL(webpage);
 
-                Random generator = new Random();
-                int n = 10000;
-                n = generator.nextInt(n);
-                String fname = "Image-" + n;
+                            Bitmap bitmap = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
 
-                IOUtils.saveImage(bitmap, fname, context);*/
+                            Random generator = new Random();
+                            int n = 1000000;
+                            n = generator.nextInt(n);
+                            String fname = "Image-" + n;
+
+                            IOUtils.saveImage(bitmap, fname, context);
+
+                            Toast.makeText(context, getResources().getString(R.string.saved_picture), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).start();
 
                 return true;
 

@@ -177,6 +177,8 @@
     <string name="open_what">Open what</string>
     <string name="youtube_error">Error playing video</string>
     <string name="no_conversation">No Previous Tweets</string>
+    <string name="saving_picture">Saving the Picture</string>
+    <string name="saved_picture">Picture Saved Successfully</string>
 
     <!-- User Lists -->
     <string name="view_users">View Users</string>
