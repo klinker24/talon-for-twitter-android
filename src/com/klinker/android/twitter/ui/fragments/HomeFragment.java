@@ -40,7 +40,6 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.utils.ConnectionDetector;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -65,7 +64,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public static final int HOME_REFRESH_ID = 121;
 
     private static Twitter twitter;
-    private ConnectionDetector cd;
 
     public static AsyncListView listView;
     private TimeLineCursorAdapter cursorAdapter;
@@ -112,7 +110,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
-        cd = new ConnectionDetector(context);
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
 
@@ -132,10 +129,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
-        // Check if Internet present
-        if (!cd.isConnectingToInternet()) {
-            //Crouton.makeText(context, "No internet connection", Style.ALERT);
-        }
 
         dataSource = new HomeDataSource(context);
         dataSource.open();

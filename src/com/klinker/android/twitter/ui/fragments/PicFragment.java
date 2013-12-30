@@ -29,7 +29,6 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.utils.ConnectionDetector;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -48,7 +47,6 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 public class PicFragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
-    private ConnectionDetector cd;
 
     private static AsyncListView listView;
     private static CursorAdapter cursorAdapter;
@@ -89,7 +87,6 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
-        cd = new ConnectionDetector(context);
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
@@ -106,10 +103,6 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         }
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
-        // Check if Internet present
-        if (!cd.isConnectingToInternet()) {
-
-        }
 
         dataSource = new HomeDataSource(context);
         dataSource.open();

@@ -6,8 +6,6 @@
 - Main TODO:
 
 - Minor TODO:
-    - Add emoji keyboards to play store description
     - finish the reply activity right after hitting the send button
     - hide the settings menu button when popup is up (it messes up the layouts for some reason)
-    - Check internet before logging in
     - Delete Retweets

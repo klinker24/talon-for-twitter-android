@@ -35,7 +35,6 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.utils.ConnectionDetector;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -60,7 +59,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     public static final int DM_REFRESH_ID = 125;
 
     private static Twitter twitter;
-    private ConnectionDetector cd;
 
     private AsyncListView listView;
     private CursorAdapter cursorAdapter;
@@ -101,7 +99,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(context);
-        cd = new ConnectionDetector(context);
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
@@ -118,10 +115,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         }
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
-        // Check if Internet present
-        if (!cd.isConnectingToInternet()) {
-
-        }
 
         sharedPrefs.edit().putInt("dm_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();
 

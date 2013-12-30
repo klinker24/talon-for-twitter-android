@@ -176,8 +176,12 @@ public class LoginActivity extends Activity {
             public void onClick(View arg0) {
                 // Call login_activity twitter function
                 if (btnLoginTwitter.getText().equals(getResources().getString(R.string.login_to_twitter))) {
-                    btnLoginTwitter.setEnabled(false);
-                    new RetreiveFeedTask().execute();
+                    if (Utils.hasInternetConnection(context)) {
+                        btnLoginTwitter.setEnabled(false);
+                        new RetreiveFeedTask().execute();
+                    } else {
+                        Toast.makeText(context, "You don't have an internet connection!", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
                 } else {
