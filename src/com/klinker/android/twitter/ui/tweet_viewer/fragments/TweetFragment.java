@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
@@ -70,7 +73,7 @@ public class TweetFragment extends Fragment {
     public SharedPreferences sharedPrefs;
     public View layout;
 
-    private HoloTextView timetv;
+    private TextView timetv;
     private ImageView pictureIv;
     private ImageButton emojiButton;
     private EmojiKeyboard emojiKeyboard;
@@ -92,6 +95,8 @@ public class TweetFragment extends Fragment {
     private String[] hashtags;
     private String[] otherLinks;
     private boolean isMyTweet;
+
+    private boolean addonTheme;
 
 
     public TweetFragment(AppSettings settings, String name, String screenName, String tweet, long time, String retweeter, String webpage,
@@ -118,6 +123,7 @@ public class TweetFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Override
@@ -125,6 +131,31 @@ public class TweetFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         layout = inflater.inflate(R.layout.tweet_fragment, null);
+        addonTheme = false;
+
+        if (settings.addonTheme) {
+            try {
+                Context viewContext = null;
+                Resources res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+
+                try {
+                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (res != null && viewContext != null) {
+                    int id = res.getIdentifier("tweet_fragment", "layout", settings.addonThemePackage);
+                    layout = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
+                    addonTheme = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                layout = inflater.inflate(R.layout.tweet_fragment, null);
+            }
+        }
         setUIElements(layout);
 
         return layout;
@@ -132,24 +163,81 @@ public class TweetFragment extends Fragment {
 
 
     public void setUIElements(final View layout) {
-        TextView nametv = (TextView) layout.findViewById(R.id.name);
-        TextView screennametv = (TextView) layout.findViewById(R.id.screen_name);
-        TextView tweettv = (TextView) layout.findViewById(R.id.tweet);
-        timetv = (HoloTextView) layout.findViewById(R.id.time);
-        final HoloTextView retweetertv = (HoloTextView) layout.findViewById(R.id.retweeter);
-        pictureIv = (ImageView) layout.findViewById(R.id.imageView);
-        final LinearLayout background = (LinearLayout) layout.findViewById(R.id.linLayout);
-        final ImageButton expand = (ImageButton) layout.findViewById(R.id.expand);
-        final ImageView profilePic = (ImageView) layout.findViewById(R.id.profile_pic);
-        final ImageButton favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
-        final ImageButton retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
-        final HoloTextView favoriteCount = (HoloTextView) layout.findViewById(R.id.fav_count);
-        final HoloTextView retweetCount = (HoloTextView) layout.findViewById(R.id.retweet_count);
-        final EditText reply = (EditText) layout.findViewById(R.id.reply);
-        final ImageButton replyButton = (ImageButton) layout.findViewById(R.id.reply_button);
-        ImageButton attachButton = (ImageButton) layout.findViewById(R.id.attach_button);
-        emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
-        emojiKeyboard = (EmojiKeyboard) layout.findViewById(R.id.emojiKeyboard);
+        TextView nametv;
+        TextView screennametv;
+        TextView tweettv;
+        ImageButton attachButton;
+        Button at;
+        final TextView retweetertv;
+        final LinearLayout background;
+        final ImageButton expand;
+        final ImageView profilePic;
+        final ImageButton favoriteButton;
+        final ImageButton retweetButton;
+        final TextView favoriteCount;
+        final TextView retweetCount;
+        final EditText reply;
+        final ImageButton replyButton;
+        final ImageButton overflow;
+        final LinearLayout buttons;
+        final TextView charRemaining;
+
+        if (!addonTheme) {
+            nametv = (TextView) layout.findViewById(R.id.name);
+            screennametv = (TextView) layout.findViewById(R.id.screen_name);
+            tweettv = (TextView) layout.findViewById(R.id.tweet);
+            retweetertv = (TextView) layout.findViewById(R.id.retweeter);
+            background = (LinearLayout) layout.findViewById(R.id.linLayout);
+            expand = (ImageButton) layout.findViewById(R.id.expand);
+            profilePic = (ImageView) layout.findViewById(R.id.profile_pic);
+            favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
+            retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
+            favoriteCount = (TextView) layout.findViewById(R.id.fav_count);
+            retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
+            reply = (EditText) layout.findViewById(R.id.reply);
+            replyButton = (ImageButton) layout.findViewById(R.id.reply_button);
+            attachButton = (ImageButton) layout.findViewById(R.id.attach_button);
+            overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
+            buttons = (LinearLayout) layout.findViewById(R.id.buttons);
+            charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
+            at = (Button) layout.findViewById(R.id.at_button);
+            emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
+            emojiKeyboard = (EmojiKeyboard) layout.findViewById(R.id.emojiKeyboard);
+            timetv = (TextView) layout.findViewById(R.id.time);
+            pictureIv = (ImageView) layout.findViewById(R.id.imageView);
+            attachImage = (ImageView) layout.findViewById(R.id.attach);
+        } else {
+            Resources res;
+            try {
+                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+            } catch (Exception e) {
+                res = null;
+            }
+
+            nametv = (TextView) layout.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
+            screennametv = (TextView) layout.findViewById(res.getIdentifier("screen_name", "id", settings.addonThemePackage));
+            tweettv = (TextView) layout.findViewById(res.getIdentifier("tweet", "id", settings.addonThemePackage));
+            retweetertv = (TextView) layout.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
+            background = (LinearLayout) layout.findViewById(res.getIdentifier("linLayout", "id", settings.addonThemePackage));
+            expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
+            profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
+            favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
+            retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
+            favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
+            retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
+            reply = (EditText) layout.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
+            replyButton = (ImageButton) layout.findViewById(res.getIdentifier("reply_button", "id", settings.addonThemePackage));
+            attachButton = (ImageButton) layout.findViewById(res.getIdentifier("attach_button", "id", settings.addonThemePackage));
+            overflow = (ImageButton) layout.findViewById(res.getIdentifier("overflow_button", "id", settings.addonThemePackage));
+            buttons = (LinearLayout) layout.findViewById(res.getIdentifier("buttons", "id", settings.addonThemePackage));
+            charRemaining = (TextView) layout.findViewById(res.getIdentifier("char_remaining", "id", settings.addonThemePackage));
+            at = (Button) layout.findViewById(res.getIdentifier("at_button", "id", settings.addonThemePackage));
+            emojiButton = null;
+            emojiKeyboard = null;
+            timetv = (TextView) layout.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
+            pictureIv = (ImageView) layout.findViewById(res.getIdentifier("imageView", "id", settings.addonThemePackage));
+            attachImage = (ImageView) layout.findViewById(res.getIdentifier("attach", "id", settings.addonThemePackage));
+        }
 
         nametv.setTextSize(settings.textSize +2);
         screennametv.setTextSize(settings.textSize);
@@ -160,11 +248,10 @@ public class TweetFragment extends Fragment {
         retweetCount.setTextSize(settings.textSize + 1);
         reply.setTextSize(settings.textSize);
 
-        final ImageButton overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout buttons = (LinearLayout) layout.findViewById(R.id.buttons);
+
                 if (buttons.getVisibility() == View.VISIBLE) {
 
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
@@ -421,8 +508,6 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        attachImage = (ImageView) layout.findViewById(R.id.attach);
-
         attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -471,7 +556,6 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        final TextView charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
         charRemaining.setText(140 - reply.getText().length() + "");
 
         if (isMyTweet) {
@@ -479,6 +563,7 @@ public class TweetFragment extends Fragment {
             overflow.setVisibility(View.GONE);
         }
 
+        reply.setHint(context.getResources().getString(R.string.reply));
         reply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -496,8 +581,12 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        if (!settings.useEmoji) {
-            emojiButton.setVisibility(View.GONE);
+        if (!settings.useEmoji || emojiButton == null) {
+            try {
+                emojiButton.setVisibility(View.GONE);
+            } catch (Exception e) {
+                // it is a custom layout, so the emoji isn't gonna work :(
+            }
         } else {
             emojiKeyboard.setAttached((HoloEditText) reply);
 
@@ -555,7 +644,6 @@ public class TweetFragment extends Fragment {
             });
         }
 
-        Button at = (Button) layout.findViewById(R.id.at_button);
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

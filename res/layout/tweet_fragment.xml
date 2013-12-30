@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content">
 
                         <include android:id="@+id/tweet_background"
-                            layout="@layout/tweet_for_activity"
+                            layout="@layout/tweet_for_fragment"
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent" />
 
