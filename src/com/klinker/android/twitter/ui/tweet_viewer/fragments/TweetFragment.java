@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -52,6 +53,7 @@ import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.io.File;
@@ -72,7 +74,7 @@ public class TweetFragment extends Fragment {
     public View layout;
 
     private HoloTextView timetv;
-    private NetworkedCacheableImageView pictureIv;
+    private ImageView pictureIv;
     private ImageButton emojiButton;
     private EmojiKeyboard emojiKeyboard;
     private PhotoViewAttacher mAttacher;
@@ -138,10 +140,10 @@ public class TweetFragment extends Fragment {
         TextView tweettv = (TextView) layout.findViewById(R.id.tweet);
         timetv = (HoloTextView) layout.findViewById(R.id.time);
         final HoloTextView retweetertv = (HoloTextView) layout.findViewById(R.id.retweeter);
-        pictureIv = (NetworkedCacheableImageView) layout.findViewById(R.id.imageView);
+        pictureIv = (ImageView) layout.findViewById(R.id.imageView);
         final LinearLayout background = (LinearLayout) layout.findViewById(R.id.linLayout);
         final ImageButton expand = (ImageButton) layout.findViewById(R.id.expand);
-        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) layout.findViewById(R.id.profile_pic);
+        final ImageView profilePic = (ImageView) layout.findViewById(R.id.profile_pic);
         final ImageButton favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
         final ImageButton retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
         final HoloTextView favoriteCount = (HoloTextView) layout.findViewById(R.id.fav_count);
@@ -216,7 +218,8 @@ public class TweetFragment extends Fragment {
         if(picture) { // if there is a picture already loaded
 
             pictureIv.setVisibility(View.VISIBLE);
-            pictureIv.loadImage(webpage, false, null);
+            //pictureIv.loadImage(webpage, false, null);
+            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
 
             mAttacher = new PhotoViewAttacher(pictureIv);
             mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
@@ -386,10 +389,13 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        if(settings.layout == AppSettings.LAYOUT_TALON) {
-            profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
+        if(settings.roundContactImages) {
+            //profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
+            ImageUtils.loadCircleImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
         } else {
-            profilePic.loadImage(proPic, false, null);
+            //profilePic.loadImage(proPic, false, null);
+            ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
+
         }
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
