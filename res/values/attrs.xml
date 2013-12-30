@@ -18,15 +18,15 @@ limitations under the License.
 <resources>
 
     <!-- Colors -->
-    <attr name="textColor" format="color"/>
-    <attr name="drawerDividerColor" format="color"/>
-    <attr name="dateColor" format="color"/>
-    <attr name="textShadowColor" format="color"/>
-    <attr name="drawerBackground" format="color"/>
-    <attr name="headerTextColor" format="color"/>
-    <attr name="windowBackground" format="color"/>
-    <attr name="emojiDivider" format="color"/>
-    <attr name="circle_border" format="color"/>
+    <attr name="textColor" format="color" />
+    <attr name="drawerDividerColor" format="color" />
+    <attr name="dateColor" format="color" />
+    <attr name="textShadowColor" format="color" />
+    <attr name="drawerBackground" format="color" />
+    <attr name="headerTextColor" format="color" />
+    <attr name="windowBackground" format="color" />
+    <attr name="emojiDivider" format="color" />
+    <attr name="circle_border" format="color" />
 
     <!-- Drawables -->
     <attr name="myTweetBackground" format="reference"/>
