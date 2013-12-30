@@ -6,5 +6,4 @@
 - Main TODO:
 
 - Minor TODO:
-    - finish the reply activity right after hitting the send button
     - Delete Retweets
