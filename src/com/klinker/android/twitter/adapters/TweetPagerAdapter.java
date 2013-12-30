@@ -63,6 +63,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         this.hashtags = hashtags;
         this.isMyRetweet = isMyRetweet;
         this.isMyTweet = isMyTweet;
+        this.otherLinks = links;
 
         webpages = new ArrayList<String>();
 

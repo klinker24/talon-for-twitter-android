@@ -1,43 +1,39 @@
 package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.ArrayList;
 
-public class WebFragment extends Fragment {
-    private Context context;
+public class WebFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private View layout;
-    private AppSettings settings;
     private ArrayList<String> webpages;
+    private String[] pages;
+
+    private WebView webView;
 
     public WebFragment(AppSettings settings, ArrayList<String> webpages) {
-        this.settings = settings;
         this.webpages = webpages;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        layout = inflater.inflate(R.layout.browser_activity, null);
-        WebView webView = (WebView) layout.findViewById(R.id.webview);
+        layout = inflater.inflate(R.layout.web_fragment, null);
+        webView = (WebView) layout.findViewById(R.id.webview);
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -50,6 +46,31 @@ public class WebFragment extends Fragment {
 
         webView.loadUrl(webpages.get(0));
 
+        pages = new String[webpages.size()];
+
+        for (int i = 0; i < pages.length; i++) {
+            pages[i] = webpages.get(i);
+        }
+
+        Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
+        spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, pages));
+        spinner.setOnItemSelectedListener(this);
+
+        if (pages.length <= 1) {
+            spinner.setVisibility(View.GONE);
+        }
+
         return layout;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        webView.loadUrl(pages[i]);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

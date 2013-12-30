@@ -108,6 +108,5 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         if (realPlayer != null) {
             player.initialize(AppSettings.YOUTUBE_API_KEY, listener);
         }
-
     }
 }

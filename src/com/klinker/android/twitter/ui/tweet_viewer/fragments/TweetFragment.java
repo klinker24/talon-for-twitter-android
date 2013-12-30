@@ -112,6 +112,7 @@ public class TweetFragment extends Fragment {
         this.users = users;
         this.hashtags = hashtags;
         this.isMyTweet = isMyTweet;
+        this.otherLinks = links;
     }
 
     @Override
