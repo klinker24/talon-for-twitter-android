@@ -3,6 +3,8 @@ package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +23,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
@@ -44,6 +47,7 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
+import com.klinker.android.twitter.ui.RetryCompose;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
@@ -504,7 +508,11 @@ public class TweetFragment extends Fragment {
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ReplyToStatus(reply, tweetId).execute();
+                if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
+                    new ReplyToStatus(reply, tweetId).execute();
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -829,37 +837,35 @@ public class TweetFragment extends Fragment {
     class ReplyToStatus extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
+        private String text;
         private EditText message;
         private boolean messageToLong = false;
 
         public ReplyToStatus(EditText message, long tweetId) {
+            this.text = message.getText().toString();
             this.message = message;
             this.tweetId = tweetId;
         }
 
         protected void onPreExecute() {
             removeKeyboard(message);
-            Toast.makeText(context, getResources().getString(R.string.sending) + "...", Toast.LENGTH_SHORT);
+            Toast.makeText(context, getResources().getString(R.string.sending) + "...", Toast.LENGTH_SHORT).show();
+            ((Activity)context).finish();
         }
 
         protected Boolean doInBackground(String... urls) {
             try {
-                if (message.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
-                    Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context);
 
-                    twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message.getText().toString());
-                    reply.setInReplyToStatusId(tweetId);
+                twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(text);
+                reply.setInReplyToStatusId(tweetId);
 
-                    if (!attachedFilePath.equals("")) {
-                        reply.setMedia(new File(attachedFilePath));
-                    }
-
-                    twitter.updateStatus(reply);
-                    return true;
-                } else {
-                    messageToLong = true;
-                    return false;
+                if (!attachedFilePath.equals("")) {
+                    reply.setMedia(new File(attachedFilePath));
                 }
+
+                twitter.updateStatus(reply);
+                return true;
             } catch (Exception e) {
                 return false;
             }
@@ -868,15 +874,37 @@ public class TweetFragment extends Fragment {
         protected void onPostExecute(Boolean sent) {
             if (sent) {
                 Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
-                ((Activity)context).finish();
             } else {
-                if (messageToLong) {
-                    Toast.makeText(context, context.getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
-                }
+                makeFailedNotification(text);
             }
         }
+    }
+
+    public void makeFailedNotification(String text) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.timeline_dark)
+                        .setContentTitle(getResources().getString(R.string.tweet_failed))
+                        .setContentText(getResources().getString(R.string.tap_to_retry));
+
+        Intent resultIntent = new Intent(context, RetryCompose.class);
+        resultIntent.setAction(Intent.ACTION_SEND);
+        resultIntent.setType("text/plain");
+        resultIntent.putExtra(Intent.EXTRA_TEXT, text);
+        resultIntent.putExtra("failed_notification", true);
+
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        context,
+                        0,
+                        resultIntent,
+                        0
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(5, mBuilder.build());
     }
 
     private static final int SELECT_PHOTO = 100;

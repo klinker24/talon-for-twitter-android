@@ -260,8 +260,6 @@ public class ComposeActivity extends Compose {
         new updateTwitterStatus(reply.getText().toString()).execute(status);
     }
 
-
-
     @Override
     public void onPause() {
 

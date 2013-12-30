@@ -386,12 +386,6 @@ public abstract class Compose extends Activity implements
 
     class updateTwitterStatus extends AsyncTask<String, String, Boolean> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
         String text;
 
         public updateTwitterStatus(String text) {
