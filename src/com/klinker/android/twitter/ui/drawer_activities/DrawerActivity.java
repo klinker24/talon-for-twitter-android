@@ -562,6 +562,15 @@ public abstract class DrawerActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (MainActivity.isPopup) {
+            menu.getItem(2).setVisible(false); // hide the settings button if the popup is up
+        }
+
+        return true;
+    }
+
     public static final int SETTINGS_RESULT = 101;
 
     @Override
