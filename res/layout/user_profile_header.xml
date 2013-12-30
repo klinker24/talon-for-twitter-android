@@ -6,7 +6,7 @@
               android:id="@+id/header" >
 
 
-    <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
+    <ImageView
         android:id="@+id/background_image"
         android:layout_height="140dp"
         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
 
     </LinearLayout>
 
-    <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
+    <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_below="@+id/background_image"

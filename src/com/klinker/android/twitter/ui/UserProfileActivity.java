@@ -10,7 +10,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -33,6 +35,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +44,6 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
-import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
@@ -49,6 +51,7 @@ import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -110,12 +113,17 @@ public class UserProfileActivity extends Activity {
     private ArrayList<User> following;
     private boolean canRefresh = true;
 
-    private NetworkedCacheableImageView background;
+    private ImageView background;
+    private ImageView profilePicture;
     private ProgressBar spinner;
+
+    public BitmapLruCache mCache;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mCache = App.getInstance(this).getBitmapCache();
 
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -151,7 +159,36 @@ public class UserProfileActivity extends Activity {
 
         listView.setItemManager(builder.build());
 
-        final View header = inflater.inflate(R.layout.user_profile_header, null);
+        View header;
+        boolean fromAddon = false;
+
+        if(!settings.addonTheme) {
+            header = inflater.inflate(R.layout.user_profile_header, null);
+        } else {
+            try {
+                Context viewContext = null;
+                Resources res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+
+                try {
+                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (res != null && viewContext != null) {
+                    int id = res.getIdentifier("user_profile_header", "layout", settings.addonThemePackage);
+                    header = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
+                    fromAddon = true;
+                } else {
+                    header = inflater.inflate(R.layout.user_profile_header, null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                header = inflater.inflate(R.layout.user_profile_header, null);
+            }
+        }
 
         listView.addHeaderView(header);
         listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
@@ -159,7 +196,7 @@ public class UserProfileActivity extends Activity {
         friends = new ArrayList<User>();
         following = new ArrayList<User>();
 
-        setUpUI();
+        setUpUI(fromAddon);
     }
 
     public void setUpTheme() {
@@ -207,7 +244,7 @@ public class UserProfileActivity extends Activity {
 
         name = from.getStringExtra("name");
         screenName = from.getStringExtra("screenname");
-        proPic = from.getStringExtra("proPic");
+        proPic = from.getStringExtra("profilePicture");
         tweetId = from.getLongExtra("tweetid", 0);
         isRetweet = from.getBooleanExtra("retweet", false);
 
@@ -216,24 +253,61 @@ public class UserProfileActivity extends Activity {
         }
     }
 
-    public void setUpUI() {
-        spinner = (ProgressBar) findViewById(R.id.progress_bar);
+
+    public void setUpUI(boolean fromAddon) {
+        TextView mstatement;
+        TextView mscreenname;
+        AsyncListView mlistView;
+        ImageView mheader;
+
+        if (fromAddon) {
+            try {
+                Resources res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+
+                spinner = (ProgressBar) findViewById(res.getIdentifier("progress_bar", "id", settings.addonThemePackage));
+                tweetsBtn = (Button) findViewById(res.getIdentifier("tweets", "id", settings.addonThemePackage));
+                followersBtn = (Button) findViewById(res.getIdentifier("followers", "id", settings.addonThemePackage));
+                followingBtn = (Button) findViewById(res.getIdentifier("following", "id", settings.addonThemePackage));
+                background = (ImageView) findViewById(res.getIdentifier("background_image", "id", settings.addonThemePackage));
+                profilePicture = (ImageView) findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
+                mstatement = (TextView) findViewById(res.getIdentifier("user_statement", "id", settings.addonThemePackage));
+                mscreenname = (TextView) findViewById(res.getIdentifier("username", "id", settings.addonThemePackage));
+                mlistView = (AsyncListView) findViewById(R.id.listView);
+                mheader = (ImageView) findViewById(res.getIdentifier("background_image", "id", settings.addonThemePackage));
+            } catch (Exception e) {
+                spinner = (ProgressBar) findViewById(R.id.progress_bar);
+                tweetsBtn = (Button) findViewById(R.id.tweets);
+                followersBtn = (Button) findViewById(R.id.followers);
+                followingBtn = (Button) findViewById(R.id.following);
+                background = (ImageView) findViewById(R.id.background_image);
+                profilePicture = (ImageView) findViewById(R.id.profile_pic);
+                mstatement = (TextView) findViewById(R.id.user_statement);
+                mscreenname = (TextView) findViewById(R.id.username);
+                mlistView = (AsyncListView) findViewById(R.id.listView);
+                mheader = (ImageView) findViewById(R.id.background_image);
+            }
+        } else {
+            spinner = (ProgressBar) findViewById(R.id.progress_bar);
+            tweetsBtn = (Button) findViewById(R.id.tweets);
+            followersBtn = (Button) findViewById(R.id.followers);
+            followingBtn = (Button) findViewById(R.id.following);
+            background = (ImageView) findViewById(R.id.background_image);
+            profilePicture = (ImageView) findViewById(R.id.profile_pic);
+            mstatement = (TextView) findViewById(R.id.user_statement);
+            mscreenname = (TextView) findViewById(R.id.username);
+            mlistView = (AsyncListView) findViewById(R.id.listView);
+            mheader = (ImageView) findViewById(R.id.background_image);
+        }
+
+        final TextView statement = mstatement;
+        final TextView screenname = mscreenname;
+        final AsyncListView listView = mlistView;
+        final ImageView header = mheader;
+
         spinner.setVisibility(View.VISIBLE);
 
         actionBar.setTitle(name);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-
-        tweetsBtn = (Button) findViewById(R.id.tweets);
-        followersBtn = (Button) findViewById(R.id.followers);
-        followingBtn = (Button) findViewById(R.id.following);
-
-        background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
-        NetworkedCacheableImageView profilePicture = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
-        final TextView statement = (TextView) findViewById(R.id.user_statement);
-        final TextView screenname = (TextView) findViewById(R.id.username);
-        final AsyncListView listView = (AsyncListView) findViewById(R.id.listView);
-        //final RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
-        final NetworkedCacheableImageView header = (NetworkedCacheableImageView) findViewById(R.id.background_image);
 
         statement.setTextSize(settings.textSize);
         screenname.setTextSize(settings.textSize);
@@ -242,6 +316,7 @@ public class UserProfileActivity extends Activity {
 
         screenname.setText("@" + screenName);
 
+        tweetsBtn.setText(getResources().getString(R.string.tweets));
         tweetsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -258,6 +333,7 @@ public class UserProfileActivity extends Activity {
             }
         });
 
+        followersBtn.setText(getResources().getString(R.string.followers));
         followersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -275,6 +351,7 @@ public class UserProfileActivity extends Activity {
             }
         });
 
+        followingBtn.setText(getResources().getString(R.string.following));
         followingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,7 +384,7 @@ public class UserProfileActivity extends Activity {
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(spinner.getVisibility() == View.GONE) {
+                if (spinner.getVisibility() == View.GONE) {
                     startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getOriginalProfileImageURL()));
                 } else {
                     // it isn't ready to be opened just yet
@@ -345,7 +422,9 @@ public class UserProfileActivity extends Activity {
                 if(visibleItemCount == 0) return;
                 if(firstVisibleItem != 0) return;
 
-                header.setTranslationY(-listView.getChildAt(0).getTop() / 2);
+                if (settings.translateProfileHeader) {
+                    header.setTranslationY(-listView.getChildAt(0).getTop() / 2);
+                }
             }
         });
     }
@@ -505,21 +584,22 @@ public class UserProfileActivity extends Activity {
                 });
             }
 
-            final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
-
-            if(settings.layout == AppSettings.LAYOUT_TALON) {
-                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            if(settings.roundContactImages) {
+                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             } else {
-                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             }
 
             String url = user.getProfileBannerURL();
             if (url != null) {
-                if (!user.getScreenName().equals(settings.myScreenName)) {
+                /*if (!user.getScreenName().equals(settings.myScreenName)) {
                     background.loadImage(url, false, null);
                 } else {
                     background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
-                }
+                }*/
+                ImageUtils.loadImage(context, background, url, mCache);
             }
 
             spinner.setVisibility(View.GONE);
@@ -600,21 +680,22 @@ public class UserProfileActivity extends Activity {
 
             }
 
-            final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
-
-            if(settings.layout == AppSettings.LAYOUT_TALON) {
-                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            if(settings.roundContactImages) {
+                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             } else {
-                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             }
 
             String url = user.getProfileBannerURL();
             if (url != null) {
-                if (!user.getScreenName().equals(settings.myScreenName)) {
+                /*if (!user.getScreenName().equals(settings.myScreenName)) {
                     background.loadImage(url, false, null);
                 } else {
                     background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
-                }
+                }*/
+                ImageUtils.loadImage(context, background, url, mCache);
             }
 
             spinner.setVisibility(View.GONE);
@@ -662,34 +743,23 @@ public class UserProfileActivity extends Activity {
                 listView.setAdapter(adapter);
             }
 
-            final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
-
-            if(settings.layout == AppSettings.LAYOUT_TALON) {
-                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+            if(settings.roundContactImages) {
+                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             } else {
-                profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             }
 
             String url = user.getProfileBannerURL();
             if (url != null) {
-                if (!user.getScreenName().equals(settings.myScreenName)) {
+                /*if (!user.getScreenName().equals(settings.myScreenName)) {
                     background.loadImage(url, false, null);
                 } else {
                     background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
-                }
+                }*/
+                ImageUtils.loadImage(context, background, url, mCache);
             }
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            actionBar.setIcon(profilePic.getDrawable());
-                        }
-                    });
-                }
-            }, 1000);
 
             actionBar.setTitle(thisUser.getName());
 

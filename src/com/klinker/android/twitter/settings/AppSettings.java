@@ -64,6 +64,7 @@ public class AppSettings {
     public String addonThemePackage;
     public boolean roundContactImages;
     public int backgroundColor;
+    public boolean translateProfileHeader;
 
     public int theme;
     public int layout;
@@ -179,6 +180,7 @@ public class AppSettings {
                 Bundle metaData = context.getPackageManager().getApplicationInfo(addonThemePackage, PackageManager.GET_META_DATA).metaData;
 
                 roundContactImages = metaData.getBoolean("talon_theme_round_contact_pictures");
+                translateProfileHeader = metaData.getBoolean("talon_theme_contracting_user_backgrounds");
                 backgroundColor = Color.parseColor(metaData.getString("talon_theme_background_color"));
 
                 String theme = metaData.getString("talon_theme_base");
@@ -196,6 +198,7 @@ public class AppSettings {
         } else {
             addonTheme = false;
             addonThemePackage = null;
+            translateProfileHeader = true;
         }
     }
 }
