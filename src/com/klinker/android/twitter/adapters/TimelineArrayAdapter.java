@@ -150,11 +150,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
-                layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
             }
-        } else {
-            layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
         }
+
+        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
 
         TypedArray b;
         if (talonLayout) {
