@@ -310,13 +310,14 @@ public class UserProfileActivity extends Activity {
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         statement.setTextSize(settings.textSize);
-        screenname.setTextSize(settings.textSize);
+        screenname.setTextSize(settings.textSize + 1);
 
         new GetData(tweetId, null, null, null, statement, listView).execute();
 
         screenname.setText("@" + screenName);
 
         tweetsBtn.setText(getResources().getString(R.string.tweets));
+        tweetsBtn.setTextSize(settings.textSize - 1);
         tweetsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -334,6 +335,7 @@ public class UserProfileActivity extends Activity {
         });
 
         followersBtn.setText(getResources().getString(R.string.followers));
+        followersBtn.setTextSize(settings.textSize - 1);
         followersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -352,6 +354,7 @@ public class UserProfileActivity extends Activity {
         });
 
         followingBtn.setText(getResources().getString(R.string.following));
+        followingBtn.setTextSize(settings.textSize - 1);
         followingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
