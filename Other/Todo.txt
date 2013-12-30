@@ -2,8 +2,6 @@
     - some way to show progress bar on widget
 
 - Bugs:
-    - Pictures not from cache don't come up correctly in the photo view
-        - finishing it then restarting it may fix that
 
 - Main TODO:
 

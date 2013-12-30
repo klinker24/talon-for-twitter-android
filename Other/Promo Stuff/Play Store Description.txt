@@ -66,6 +66,10 @@ Talon's Twitter: @TalonAndroid
 Google+ Beta Page: http://goo.gl/KCXlZk
 XDA Developers Thread: coming soon
 
+Here are two different emoji plugins for you to choose from, choose whichever suits you best, install it and never worry about it again!
+Android: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial
+iOS 7: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios
+
 Permissions Explained:
 - Write to Storage: Saves pictures to your SD card and writes them into the cache.
 - Read from Storage: Used when backing up settings.
