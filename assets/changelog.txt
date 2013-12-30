@@ -1,5 +1,6 @@
 <b>Version 1.00:</b> Ahh finally a release.<br/><br/>
-    &#8226; Added Theme Engine support for developers<br/>
+    &#8226; Added powerful 'Theme Engine' support for developers (https://github.com/lklinker/talon_theme)<br/>
+    &#8226; Redesigned the tweet viewer to use pages. Allows for more dynamic content<br/>
     &#8226; Added a tutorial after login<br/>
     &#8226; Added a 'Hangouts' layout option<br/>
     &#8226; Open multiple links from the tweet activity<br/>
