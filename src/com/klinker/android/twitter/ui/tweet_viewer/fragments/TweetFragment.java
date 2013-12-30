@@ -139,7 +139,7 @@ public class TweetFragment extends Fragment {
         final HoloTextView retweetertv = (HoloTextView) layout.findViewById(R.id.retweeter);
         pictureIv = (NetworkedCacheableImageView) layout.findViewById(R.id.imageView);
         final LinearLayout background = (LinearLayout) layout.findViewById(R.id.linLayout);
-        final ImageButton expand = (ImageButton) layout.findViewById(R.id.switchViews);
+        final ImageButton expand = (ImageButton) layout.findViewById(R.id.expand);
         final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) layout.findViewById(R.id.profile_pic);
         final ImageButton favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
         final ImageButton retweetButton = (ImageButton) layout.findViewById(R.id.retweet);

@@ -20,8 +20,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="?tweetBackgroundNoDialog"
-                android:layout_marginRight="@dimen/tweet_activ_margin"
-                android:layout_marginLeft="@dimen/tweet_activ_margin">
+                android:layout_margin="@dimen/tweet_activ_margin">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -36,13 +35,12 @@
                         android:layout_margin="10dp" />
 
                     <ImageButton
-                        android:id="@+id/switchViews"
+                        android:id="@+id/expand"
                         android:layout_height="48dp"
                         android:layout_width="48dp"
                         android:src="?showMoreButton"
-                        android:minHeight="48dp" android:minWidth="48dp"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true"
-                        android:maxWidth="48dp" android:maxHeight="48dp"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
                         android:background="@drawable/pressed_button"
                         android:layout_margin="10dp"
                         android:rotation="180"/>
@@ -79,8 +77,6 @@
                      android:layout_margin="@dimen/tweet_activ_margin"
                      android:visibility="gone" />
 
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -106,13 +102,6 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="#807f7f" />
-
-            <!--<ImageButton
-                android:id="@+id/location"
-                android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="@drawable/ic_action_place_light"
-                android:background="@drawable/pressed_button" />-->
 
             <ImageButton
                 android:id="@+id/attach_button"
