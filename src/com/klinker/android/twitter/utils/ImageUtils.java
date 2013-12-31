@@ -309,46 +309,14 @@ public class ImageUtils {
         return bmOverlay;
     }
 
-    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-                                                         int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
-    }
-
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
+    static ImageUrlAsyncTask mCurrentTask;
 
     public static void loadImage(Context context, ImageView iv, String url, BitmapLruCache mCache) {
+        // First check whether there's already a task running, if so cancel it
+        /*if (null != mCurrentTask) {
+            mCurrentTask.cancel(true);
+        }*/
+
         BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
 
         if (null != wrapper) {
@@ -358,7 +326,7 @@ public class ImageUtils {
             // Memory Cache doesn't have the URL, do threaded request...
             iv.setImageDrawable(null);
 
-            ImageUrlAsyncTask mCurrentTask = new ImageUrlAsyncTask(context, iv, mCache, false);
+            mCurrentTask = new ImageUrlAsyncTask(context, iv, mCache, false);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -411,11 +379,22 @@ public class ImageUtils {
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    Bitmap b = BitmapFactory.decodeStream(is);
+                    //Bitmap b = BitmapFactory.decodeStream(is);
 
-                    if (thumbnail) {
-                        b = ImageUtils.overlayPlay(b, context);
-                    }
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeStream(is, null, options);
+
+                    int size = calculateInSampleSize(options, 125, 125);
+                    Log.v("caching_images", size +"");
+
+                    options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = false;
+                    options.inSampleSize = size;
+
+                    HttpURLConnection conn2 = (HttpURLConnection) new URL(url).openConnection();
+                    InputStream is2 = new BufferedInputStream(conn2.getInputStream());
+                    Bitmap b = BitmapFactory.decodeStream(is2, null, options);
 
                     // Add to cache
                     result = mCache.put(url, b);
@@ -448,6 +427,28 @@ public class ImageUtils {
 
             }
         }
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = opt.outHeight;
+        final int width = opt.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     public static void loadCircleImage(Context context, ImageView iv, String url, BitmapLruCache mCache) {
