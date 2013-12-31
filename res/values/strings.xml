@@ -211,7 +211,7 @@
         <string name="other_options">Other Options</string>
         <string name="theme">Theme</string>
         <string name="addon_themes">Add-on Themes</string>
-        <string name="addon_note">This will override any of the default themes applied above. \n\nClick here to find new themes.</string>
+        <string name="addon_note">NOTES: These will override any of the default themes applied above. It will also disable the use of the built-in emoji keyboard when replying to a tweet. \n\nClick here to find new themes.</string>
         <string name="use_addon_themes">Use add-on theme</string>
         <string name="make_a_theme">Make a theme</string>
         <string name="layout">Layout</string>
@@ -229,7 +229,7 @@
                 - Hiding Action Bar\n
                 - Actionable Toast Bar\n
                 - Transparent System Bars (Android 4.4 only)\n\n
-                Enabling this setting will affect scrolling performance as well.</string>
+                Enabling this setting will affect scrolling performance.</string>
         <string name="inline_pics">Display In-Line Pictures</string>
         <string name="timestamp">24-Hour Timestamp</string>
         <string name="enable_emojis">Enable Emojis</string>
