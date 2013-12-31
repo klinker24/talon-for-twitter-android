@@ -12,6 +12,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Display;
@@ -351,6 +352,8 @@ public class TweetPager extends YouTubeBaseActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        Looper.prepare();
+                        
                         try {
                             URL mUrl = new URL(webpage);
 
