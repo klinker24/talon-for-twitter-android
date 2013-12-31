@@ -90,6 +90,13 @@
             />
 
         <CheckBoxPreference
+            android:key="display_screen_name"
+            android:title="@string/use_screen_name"
+            android:summary="@string/use_screen_name_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
             android:key="military_time"
             android:title="@string/timestamp"
             android:defaultValue="false"

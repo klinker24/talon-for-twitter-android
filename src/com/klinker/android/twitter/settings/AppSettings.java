@@ -57,6 +57,7 @@ public class AppSettings {
     public boolean fullScreenBrowser;
     public boolean favoriteUserNotifications;
     public boolean syncSecondMentions;
+    public boolean displayScreenName;
 
     // theme stuff
     public boolean addonTheme;
@@ -122,6 +123,7 @@ public class AppSettings {
         fullScreenBrowser = sharedPrefs.getBoolean("full_screen_browser", true);
         favoriteUserNotifications = sharedPrefs.getBoolean("favorite_users_notifications", true);
         syncSecondMentions = sharedPrefs.getBoolean("sync_second_mentions", true);
+        displayScreenName = sharedPrefs.getBoolean("display_screen_name", false);
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {

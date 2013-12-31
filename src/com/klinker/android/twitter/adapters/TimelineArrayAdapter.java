@@ -440,7 +440,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        holder.name.setText(name);
+        holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
         holder.time.setText(Utils.getTimeAgo(time));
         holder.tweet.setText(Html.fromHtml(tweetText));
 

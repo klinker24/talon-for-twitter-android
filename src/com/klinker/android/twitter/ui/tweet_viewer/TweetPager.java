@@ -353,7 +353,7 @@ public class TweetPager extends YouTubeBaseActivity {
                     @Override
                     public void run() {
                         Looper.prepare();
-                        
+
                         try {
                             URL mUrl = new URL(webpage);
 

@@ -231,6 +231,8 @@
                 - Transparent System Bars (Android 4.4 only)\n\n
                 Enabling this setting will affect scrolling performance.</string>
         <string name="inline_pics">Display In-Line Pictures</string>
+        <string name="use_screen_name">Display Twitter Handle</string>
+            <string name="use_screen_name_summary">Display the user\'s Twitter handle instead of their name on timelines</string>
         <string name="timestamp">24-Hour Timestamp</string>
         <string name="enable_emojis">Enable Emojis</string>
         <string name="to_market">To Play Store</string>

@@ -432,7 +432,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        holder.name.setText(name);
+        holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
         holder.time.setText(Utils.getTimeAgo(longTime));
         holder.tweet.setText(Html.fromHtml(tweetText));
 
