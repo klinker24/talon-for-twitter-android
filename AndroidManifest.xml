@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.klinker.android.twitter"
-          android:versionCode="1"
+          android:versionCode="2"
           android:versionName="1.00" >
 
     <uses-sdk
@@ -70,8 +70,7 @@
 
         <activity android:name="com.klinker.android.twitter.ui.widgets.PhotoViewerDialog"
                     android:configChanges="orientation|screenSize"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                    android:excludeFromRecents="true" />
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity android:name="com.klinker.android.twitter.ui.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"

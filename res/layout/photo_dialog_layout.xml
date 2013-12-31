@@ -26,5 +26,14 @@
         android:layout_height="match_parent"
         android:padding="40dp" />
 
+    <ImageButton
+        android:id="@+id/download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pressed_toast"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_save"
+        android:padding="10dp"/>
 
 </RelativeLayout>
