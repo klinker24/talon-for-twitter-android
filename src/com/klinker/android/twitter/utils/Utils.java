@@ -18,6 +18,8 @@ import java.util.Date;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -38,6 +40,18 @@ public class Utils {
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
         TwitterFactory tf = new TwitterFactory(cb.build());
+        return tf.getInstance();
+    }
+
+    public static TwitterStream getStreamingTwitter(Context context) {
+        AppSettings settings = new AppSettings(context);
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY)
+                .setOAuthConsumerSecret(settings.TWITTER_CONSUMER_SECRET)
+                .setOAuthAccessToken(settings.authenticationToken)
+                .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
+        TwitterStreamFactory tf = new TwitterStreamFactory(cb.build());
         return tf.getInstance();
     }
 

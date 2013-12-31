@@ -4,7 +4,8 @@
 - Bugs:
 
 - Main TODO:
+    - Streaming API
+    - Do not disturb hours
 
 - Minor TODO:
     - Delete Retweets
-    - maybe just add some "extra" columns to the database, just in case i want them later

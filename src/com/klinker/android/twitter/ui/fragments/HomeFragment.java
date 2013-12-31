@@ -46,12 +46,20 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import twitter4j.FilterQuery;
 import twitter4j.Paging;
+import twitter4j.StallWarning;
+import twitter4j.Status;
+import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
@@ -94,6 +102,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     private View.OnClickListener toTopListener;
     private View.OnClickListener toMentionsListener;
+
+    public static TwitterStream twitterStream;
 
     @Override
     public void onAttach(Activity activity) {
@@ -557,8 +567,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             unread = mUnread;
         }
 
+        if(settings.liveStreaming) {
+            twitterStream.shutdown();
+            Log.v("twitter_stream", "shutdown stream");
+        }
+
         super.onPause();
     }
+
+    public Long[] fIds;
+    public long[] ids;
 
     @Override
     public void onResume() {
@@ -569,7 +587,67 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+
+        if(settings.liveStreaming) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    twitterStream = Utils.getStreamingTwitter(context);
+                    if(ids == null) {
+                        try {
+                            ids = Utils.getTwitter(context).getFriendsIDs(-1).getIDs();
+                        } catch (Exception e) {
+                            ids = null;
+                        }
+                        fIds = new Long[ids.length];
+                        for (int i = 0; i <fIds.length; i++) {
+                            fIds[i] = ids[i];
+                        }
+                    }
+
+                    if(fIds != null) {
+                        StatusListener listener = new StatusListener() {
+                            @Override
+                            public void onStatus(Status status) {
+                                if(Arrays.asList(fIds).contains(status.getUser().getId())) {
+                                    Log.v("twitter_stream", "@" + status.getUser().getScreenName() + " - " + status.getText());
+                                }
+                            }
+
+                            @Override
+                            public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+                                Log.v("twitter_stream", "Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
+                            }
+
+                            @Override
+                            public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+                                Log.v("twitter_stream", "Got track limitation notice:" + numberOfLimitedStatuses);
+                            }
+
+                            @Override
+                            public void onScrubGeo(long userId, long upToStatusId) {
+                                Log.v("twitter_stream", "Got scrub_geo event userId:" + userId + " upToStatusId:" + upToStatusId);
+                            }
+
+                            @Override
+                            public void onStallWarning(StallWarning warning) {
+                                Log.v("twitter_stream", "Got stall warning:" + warning);
+                            }
+
+                            @Override
+                            public void onException(Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        };
+                        twitterStream.addListener(listener);
+                        twitterStream.filter(new FilterQuery(ids));
+                        Log.v("twitter_stream", "starting stream");
+                    }
+                }
+            }).start();
+        }
     }
+
 
     public int toDP(int px) {
         try {

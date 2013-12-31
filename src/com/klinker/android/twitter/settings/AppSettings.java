@@ -58,6 +58,7 @@ public class AppSettings {
     public boolean favoriteUserNotifications;
     public boolean syncSecondMentions;
     public boolean displayScreenName;
+    public boolean liveStreaming;
 
     // theme stuff
     public boolean addonTheme;
@@ -77,6 +78,7 @@ public class AppSettings {
     public long timelineRefresh;
     public long mentionsRefresh;
     public long dmRefresh;
+    public long myId;
 
     public AppSettings(Context context) {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -92,6 +94,7 @@ public class AppSettings {
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_1", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_1", "");
+            myId = sharedPrefs.getLong("twitter_id_1", 0);
         } else {
             authenticationToken = sharedPrefs.getString("authentication_token_2", "none");
             authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret_2", "none");
@@ -102,6 +105,7 @@ public class AppSettings {
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_2", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_2", "");
+            myId = sharedPrefs.getLong("twitter_id_2", 0);
         }
 
         // Booleans
@@ -124,6 +128,7 @@ public class AppSettings {
         favoriteUserNotifications = sharedPrefs.getBoolean("favorite_users_notifications", true);
         syncSecondMentions = sharedPrefs.getBoolean("sync_second_mentions", true);
         displayScreenName = sharedPrefs.getBoolean("display_screen_name", false);
+        liveStreaming = sharedPrefs.getBoolean("live_streaming", false);
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {
