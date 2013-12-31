@@ -22,6 +22,9 @@ public class DMSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RETWEETER = "retweeter";
     public static final String COLUMN_HASHTAGS = "hashtags";
     public static final String COLUMN_USERS = "users";
+    public static final String COLUMN_EXTRA_ONE = "extra_one";
+    public static final String COLUMN_EXTRA_TWO = "extra_two";
+    public static final String COLUMN_EXTRA_THREE = "extra_three";
 
     private static final String DATABASE_NAME = "direct_messages.db";
     private static final int DATABASE_VERSION = 1;
@@ -42,7 +45,10 @@ public class DMSQLiteHelper extends SQLiteOpenHelper {
             + " text pic url, " + COLUMN_HASHTAGS
             + " text hashtags, " + COLUMN_USERS
             + " text users, " + COLUMN_RETWEETER
-            + " text original name);";
+            + " text original name, " + COLUMN_EXTRA_ONE
+            + " text extra one, " + COLUMN_EXTRA_TWO
+            + " text extra two, " + COLUMN_EXTRA_THREE
+            + " text extra three);";
 
     public DMSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
