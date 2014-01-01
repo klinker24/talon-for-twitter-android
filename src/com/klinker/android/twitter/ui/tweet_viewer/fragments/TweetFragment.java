@@ -368,7 +368,7 @@ public class TweetFragment extends Fragment {
                     if (hashtags != null) {
                         for (String s : hashtags) {
                             if (!s.equals("")) {
-                                strings.add(s);
+                                strings.add("#" + s);
                             }
                         }
                     }
@@ -381,7 +381,7 @@ public class TweetFragment extends Fragment {
                         }
                     }
 
-                    if (!webpage.equals("") && !webpage.contains("youtu") && picture) {
+                    if (!webpage.equals("") && !webpage.contains("youtu") && !webpage.contains("insta") && picture) {
                         strings.add(webpage);
                     }
 

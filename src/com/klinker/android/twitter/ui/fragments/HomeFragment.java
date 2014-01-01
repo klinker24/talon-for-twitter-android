@@ -109,6 +109,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     public static TwitterStream twitterStream;
 
+    public View view;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -270,35 +272,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
 
             }
-
-            private void hideActionBar() {
-                if (shown) {
-                    actionBar.hide();
-                    shown = false;
-                }
-            }
-
-            private void showActionBar() {
-                if (!shown) {
-                    actionBar.show();
-                    shown = true;
-                }
-            }
         });
 
-        final View view = layout;
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(((settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup) || settings.liveStreaming) && sharedPrefs.getBoolean("should_refresh", true)) {
-                    mPullToRefreshLayout.setRefreshing(true);
-                    onRefreshStarted(view);
-                }
-
-                sharedPrefs.edit().putBoolean("should_refresh", true).commit();
-            }
-        }, 250);
+        view = layout;
 
         setUpToastBar(layout);
 
@@ -338,6 +314,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         dataSource.markAllRead(currentAccount);
                     }
                 }, 300);
+
+                context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
             }
         };
 
@@ -600,16 +578,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             unread = mUnread;
         }
 
-        if(settings.liveStreaming) {
-            try {
-                twitterStream.shutdown();
-            } catch (Exception e) {
-                // closed befor the stream was started
-            }
-
-            Log.v("twitter_stream", "shutdown stream");
-        }
-
         super.onPause();
     }
 
@@ -625,8 +593,40 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+    }
 
+    @Override
+    public void onStop() {
         if(settings.liveStreaming) {
+            try {
+                twitterStream.shutdown();
+            } catch (Exception e) {
+                // closed before the stream was started or it is popup
+            }
+
+            Log.v("twitter_stream", "shutdown stream");
+        }
+
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if((settings.refreshOnStart || settings.liveStreaming) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
+                    mPullToRefreshLayout.setRefreshing(true);
+                    onRefreshStarted(view);
+                }
+
+                sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+            }
+        }, 250);
+
+        if(settings.liveStreaming && !MainActivity.isPopup) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -659,7 +659,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                     }
 
                                     if (dataSource.getLastId(currentAccount) != statusId)
-                                    HomeContentProvider.insertTweet(status, currentAccount, context);
+                                        HomeContentProvider.insertTweet(status, currentAccount, context);
 
                                     sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
                                     sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statusId).commit();
@@ -668,17 +668,21 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                                     newTweets = true;
 
-                                    if(MainActivity.canSwitch) {
-                                        context.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                                        getResources().getString(R.string.view_new),
-                                                        400,
-                                                        true,
-                                                        liveStreamRefresh);
-                                            }
-                                        });
+                                    try {
+                                        if(MainActivity.canSwitch) {
+                                            context.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                                            getResources().getString(R.string.view_new),
+                                                            400,
+                                                            true,
+                                                            liveStreamRefresh);
+                                                }
+                                            });
+                                        }
+                                    } catch (Exception e) {
+
                                     }
 
                                 }

@@ -355,7 +355,11 @@ public class TweetPager extends YouTubeBaseActivity {
                         Looper.prepare();
 
                         try {
-                            URL mUrl = new URL(webpage);
+                            String url = webpage;
+                            if (webpage.contains("insta")) {
+                                url = url.substring(0, url.length() - 1) + "l";
+                            }
+                            URL mUrl = new URL(url);
 
                             Bitmap bitmap = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
 
@@ -368,6 +372,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
                             Toast.makeText(context, getResources().getString(R.string.saved_picture), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
+                            e.printStackTrace();
                             Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                         }
                     }

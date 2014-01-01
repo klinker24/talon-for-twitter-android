@@ -6,6 +6,7 @@
 - Main TODO:
     - Do not disturb hours
     - Make some way to get back to the main timeline from links and pictures if they have live streaming on
+    - Notification for downloading pictures
 
 - Minor TODO:
     - Delete Retweets

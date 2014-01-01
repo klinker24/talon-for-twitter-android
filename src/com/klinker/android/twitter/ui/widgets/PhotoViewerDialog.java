@@ -33,13 +33,14 @@ public class PhotoViewerDialog extends Activity {
     public Context context;
     public HoloEditText text;
     public ListView list;
+    public String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
 
-        final String url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url");
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
         boolean doRestart = getIntent().getBooleanExtra("restart", true);
 
@@ -54,6 +55,10 @@ public class PhotoViewerDialog extends Activity {
         if (url == null) {
             finish();
             return;
+        }
+
+        if (url.contains("insta")) {
+            url = url.substring(0, url.length() - 1) + "l";
         }
 
         NetworkedCacheableImageView picture = (NetworkedCacheableImageView) findViewById(R.id.picture);

@@ -48,10 +48,13 @@ public class TimelineRefreshService extends IntentService {
             try {
                 Twitter twitter = Utils.getTwitter(context);
 
+                HomeDataSource dataSource = new HomeDataSource(context);
+                dataSource.open();
+
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                 User user = twitter.verifyCredentials();
-                long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
+                long lastId = dataSource.getLastId(currentAccount);
                 long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
                 List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -94,9 +97,6 @@ public class TimelineRefreshService extends IntentService {
                     numberNew = 0;
                 }
 
-                HomeDataSource dataSource = new HomeDataSource(context);
-                dataSource.open();
-
                 for (twitter4j.Status status : statuses) {
                     try {
                         HomeContentProvider.insertTweet(status, currentAccount, context);
@@ -109,6 +109,8 @@ public class TimelineRefreshService extends IntentService {
                 if (numberNew > 0) {
                     NotificationUtils.refreshNotification(context);
                 }
+
+                dataSource.close();
 
             } catch (TwitterException e) {
                 Log.d("Twitter Update Error", e.getMessage());
