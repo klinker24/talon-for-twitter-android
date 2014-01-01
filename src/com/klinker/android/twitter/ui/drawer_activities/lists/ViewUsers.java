@@ -149,7 +149,7 @@ public class ViewUsers extends Activity {
 
         protected ArrayList<User> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 PagableResponseList<User> users = twitter.getUserListMembers(listId, currCursor);
 

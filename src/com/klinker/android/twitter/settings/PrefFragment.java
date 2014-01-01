@@ -776,7 +776,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
             try {
 
-                Twitter twitter = Utils.getTwitter(context);
+                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 PagableResponseList<User> friendsPaging = twitter.getFriendsList(screenName, -1);

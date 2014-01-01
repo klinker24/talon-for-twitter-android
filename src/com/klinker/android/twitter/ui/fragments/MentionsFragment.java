@@ -62,10 +62,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     private static AsyncListView listView;
     private static CursorAdapter cursorAdapter;
 
-    public AppSettings settings;
     private static SharedPreferences sharedPrefs;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     private PullToRefreshLayout mPullToRefreshLayout;
 
     private static MentionsDataSource dataSource;
@@ -99,7 +97,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(context);
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
@@ -198,7 +195,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     }).start();
                 }*/
 
-                if (settings.uiExtras) {
+                if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
@@ -284,7 +281,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     //dataSource.markAllRead(currentAccount);
 
-                    twitter = Utils.getTwitter(context);
+                    twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
 
                     User user = twitter.verifyCredentials();
@@ -347,12 +344,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
                 long now = new Date().getTime();
-                long alarm = now + settings.mentionsRefresh;
+                long alarm = now + DrawerActivity.settings.mentionsRefresh;
 
                 PendingIntent pendingIntent = PendingIntent.getService(context, MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
 
-                if (settings.mentionsRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.mentionsRefresh, pendingIntent);
+                if (DrawerActivity.settings.mentionsRefresh != 0)
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.mentionsRefresh, pendingIntent);
                 else
                     am.cancel(pendingIntent);
 

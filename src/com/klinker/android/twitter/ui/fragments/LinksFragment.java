@@ -45,15 +45,11 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     private static AsyncListView listView;
     private static CursorAdapter cursorAdapter;
 
-    public AppSettings settings;
     private static SharedPreferences sharedPrefs;
 
     private static HomeDataSource dataSource;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     private PullToRefreshLayout mPullToRefreshLayout;
-
-    private static int unread;
 
     private boolean landscape;
 
@@ -82,7 +78,6 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(context);
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
@@ -178,7 +173,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
                     }).start();
                 }*/
 
-                if (settings.uiExtras) {
+                if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {

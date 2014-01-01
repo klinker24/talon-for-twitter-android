@@ -46,7 +46,7 @@ public class TimelineRefreshService extends IntentService {
             }
 
             try {
-                Twitter twitter = Utils.getTwitter(context);
+                Twitter twitter = Utils.getTwitter(context, settings);
 
                 HomeDataSource dataSource = new HomeDataSource(context);
                 dataSource.open();

@@ -153,7 +153,7 @@ public class ListsActivity extends DrawerActivity {
 
         protected ResponseList<UserList> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
 
@@ -187,7 +187,7 @@ public class ListsActivity extends DrawerActivity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter.createUserList(name, publicList, description);
 

@@ -31,7 +31,11 @@ public class MainActivity extends DrawerActivity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        if (DrawerActivity.settings != null) {
+
+        } else {
+            DrawerActivity.settings = new AppSettings(context);
+        }
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);

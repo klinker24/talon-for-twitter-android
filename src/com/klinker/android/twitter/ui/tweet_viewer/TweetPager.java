@@ -227,7 +227,7 @@ public class TweetPager extends YouTubeBaseActivity {
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context);
+            Twitter twitter = Utils.getTwitter(context, settings);
 
             try {
                 twitter.destroyStatus(tweetId);

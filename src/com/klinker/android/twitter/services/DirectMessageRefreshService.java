@@ -44,7 +44,7 @@ public class DirectMessageRefreshService extends IntentService {
         int numberNew = 0;
 
         try {
-            Twitter twitter = Utils.getTwitter(context);
+            Twitter twitter = Utils.getTwitter(context, settings);
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 

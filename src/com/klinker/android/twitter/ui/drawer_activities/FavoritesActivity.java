@@ -152,7 +152,7 @@ public class FavoritesActivity extends DrawerActivity {
 
         protected ResponseList<twitter4j.Status> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 Paging paging = new Paging(1, 100);
 

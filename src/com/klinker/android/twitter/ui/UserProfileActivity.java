@@ -444,7 +444,7 @@ public class UserProfileActivity extends Activity {
 
         protected twitter4j.User doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 if (!isMyProfile) {
                     User user = twitter.showUser(screenName);
@@ -492,7 +492,7 @@ public class UserProfileActivity extends Activity {
             try {
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 String otherUserName = thisUser.getScreenName();
                 Relationship friendship = twitter.showFriendship(settings.myScreenName, otherUserName);
@@ -532,7 +532,7 @@ public class UserProfileActivity extends Activity {
 
         protected ArrayList<twitter4j.User> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 PagableResponseList<User> friendsPaging = twitter.getFollowersList(user.getId(), currentFollowers);
 
@@ -627,7 +627,7 @@ public class UserProfileActivity extends Activity {
 
         protected ArrayList<twitter4j.User> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), currentFollowing);
 
@@ -722,7 +722,7 @@ public class UserProfileActivity extends Activity {
 
         protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId(), new Paging(1, 100));
 
@@ -775,7 +775,7 @@ public class UserProfileActivity extends Activity {
         protected Boolean doInBackground(String... urls) {
             try {
                 if (thisUser != null) {
-                    Twitter twitter =  Utils.getTwitter(context);
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
                     String otherUserName = thisUser.getScreenName();
 
@@ -828,7 +828,7 @@ public class UserProfileActivity extends Activity {
         protected Boolean doInBackground(String... urls) {
             try {
                 if (thisUser != null) {
-                    Twitter twitter =  Utils.getTwitter(context);
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
                     String otherUserName = thisUser.getScreenName();
 
@@ -1158,7 +1158,7 @@ public class UserProfileActivity extends Activity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter.updateProfile(name, url, location, description);
 
@@ -1259,7 +1259,7 @@ public class UserProfileActivity extends Activity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter.updateProfileBanner(out);
 
@@ -1305,7 +1305,7 @@ public class UserProfileActivity extends Activity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 User user = twitter.updateProfileImage(out);
                 String profileURL = user.getBiggerProfileImageURL();
@@ -1345,7 +1345,7 @@ public class UserProfileActivity extends Activity {
 
         protected ResponseList<UserList> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
 
@@ -1389,7 +1389,7 @@ public class UserProfileActivity extends Activity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter.createUserListMember(listId, userId);
 

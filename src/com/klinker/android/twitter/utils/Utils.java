@@ -22,17 +22,12 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-/**
- * Created with IntelliJ IDEA.
- * User: luke
- * Date: 11/9/13
- * Time: 2:47 PM
- * To change this template use File | Settings | File Templates.
- */
 public class Utils {
 
-    public static Twitter getTwitter(Context context) {
-        AppSettings settings = new AppSettings(context);
+    public static Twitter getTwitter(Context context, AppSettings settings) {
+        if (settings == null) {
+            settings = new AppSettings(context);
+        }
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY)
@@ -43,8 +38,10 @@ public class Utils {
         return tf.getInstance();
     }
 
-    public static TwitterStream getStreamingTwitter(Context context) {
-        AppSettings settings = new AppSettings(context);
+    public static TwitterStream getStreamingTwitter(Context context, AppSettings settings) {
+        if (settings == null) {
+            settings = new AppSettings(context);
+        }
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY)

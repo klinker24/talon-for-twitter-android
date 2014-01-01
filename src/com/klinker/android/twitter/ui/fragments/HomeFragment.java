@@ -78,10 +78,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public static AsyncListView listView;
     private TimeLineCursorAdapter cursorAdapter;
 
-    public AppSettings settings;
     private SharedPreferences sharedPrefs;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     private PullToRefreshLayout mPullToRefreshLayout;
 
     private HomeDataSource dataSource;
@@ -125,7 +123,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(context);
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
 
@@ -227,7 +224,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 }
 
-                if (settings.uiExtras) {
+                if (DrawerActivity.settings.uiExtras) {
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
                             // used to show and hide the action bar
@@ -296,7 +293,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toMentionsListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.mViewPager.setCurrentItem(settings.extraPages ? 3 : 1, true);
+                MainActivity.mViewPager.setCurrentItem(DrawerActivity.settings.extraPages ? 3 : 1, true);
             }
         };
 
@@ -352,7 +349,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                     justStarted = false;
 
-                    twitter = Utils.getTwitter(context);
+                    twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
                     User user = twitter.verifyCredentials();
                     long lastId = dataSource.getLastId(currentAccount);
@@ -363,7 +360,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     boolean foundStatus = false;
                     int lastJ = 0;
 
-                    for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+                    for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
                         if (foundStatus) {
                             break;
                         } else {
@@ -418,12 +415,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
                 long now = new Date().getTime();
-                long alarm = now + settings.timelineRefresh;
+                long alarm = now + DrawerActivity.settings.timelineRefresh;
 
                 PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
 
-                if (settings.timelineRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
+                if (DrawerActivity.settings.timelineRefresh != 0)
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
                 else
                     am.cancel(pendingIntent);
 
@@ -481,7 +478,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         protected Boolean doInBackground(Void... args) {
 
             try {
-                twitter = Utils.getTwitter(context);
+                twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -600,7 +597,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onStop() {
-        if(settings.liveStreaming) {
+        if(DrawerActivity.settings.liveStreaming) {
             try {
                 twitterStream.shutdown();
                 Log.v("twitter_stream", "shutdown stream");
@@ -623,7 +620,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(((settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) || settings.liveStreaming)) {
+                if(((DrawerActivity.settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) || DrawerActivity.settings.liveStreaming)) {
                     justStarted = true;
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
@@ -633,14 +630,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         }, 250);
 
-        if(settings.liveStreaming && !MainActivity.isPopup) {
+        if(DrawerActivity.settings.liveStreaming && !MainActivity.isPopup) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    twitterStream = Utils.getStreamingTwitter(context);
+                    twitterStream = Utils.getStreamingTwitter(context, DrawerActivity.settings);
                     if(ids == null) {
                         try {
-                            ids = Utils.getTwitter(context).getFriendsIDs(-1).getIDs();
+                            ids = Utils.getTwitter(context, DrawerActivity.settings).getFriendsIDs(-1).getIDs();
                         } catch (Exception e) {
                             ids = null;
                         }

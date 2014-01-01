@@ -83,6 +83,8 @@ public class AppSettings {
     public long myId;
 
     public AppSettings(Context context) {
+        Log.v("talon_settings", "getting talon settings");
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Strings

@@ -670,7 +670,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected twitter4j.Status doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 if (holder.retweeter.getVisibility() != View.GONE) {
                     twitter4j.Status retweeted = twitter.showStatus(tweetId).getRetweetedStatus();
                     return retweeted;
@@ -716,7 +716,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
@@ -743,7 +743,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 if (holder.isFavorited) {
                     twitter.destroyFavorite(tweetId);
                 } else {
@@ -772,7 +772,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter.retweetStatus(tweetId);
                 return null;
             } catch (Exception e) {
@@ -797,7 +797,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
 
                 twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
@@ -829,7 +829,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
 
                 MediaEntity[] entities = status.getMediaEntities();

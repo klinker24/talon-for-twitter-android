@@ -85,7 +85,7 @@ public class ConversationFragment extends Fragment {
         }
 
         protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context);
+            Twitter twitter = Utils.getTwitter(context, settings);
             try {
                 twitter4j.Status status = twitter.showStatus(tweetId);
 

@@ -143,7 +143,7 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter.destroyUserList(Integer.parseInt(urls[0]));
 

@@ -135,7 +135,7 @@ public class ChoosenListActivity extends Activity {
 
         protected ResponseList<twitter4j.Status> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 Log.v("list_id", listId + "");
                 Paging paging = new Paging(1, 100);

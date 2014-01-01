@@ -41,22 +41,15 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-/**
- * Created by luke on 12/19/13.
- */
 public class PicFragment extends Fragment implements OnRefreshListener {
-
-    private static Twitter twitter;
 
     private static AsyncListView listView;
     private static CursorAdapter cursorAdapter;
 
-    public AppSettings settings;
     private static SharedPreferences sharedPrefs;
 
     private static HomeDataSource dataSource;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     private PullToRefreshLayout mPullToRefreshLayout;
 
     private boolean landscape;
@@ -86,7 +79,6 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(context);
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
@@ -172,7 +164,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                if (settings.uiExtras) {
+                if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {

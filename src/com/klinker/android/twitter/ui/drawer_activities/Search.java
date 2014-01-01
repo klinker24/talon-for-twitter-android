@@ -198,7 +198,7 @@ public class Search extends DrawerActivity {
             try {
                 Log.v("inside_search", mQuery);
 
-                Twitter twitter = Utils.getTwitter(context);
+                Twitter twitter = Utils.getTwitter(context, settings);
                 Query query = new Query(mQuery);
                 QueryResult result = twitter.search(query);
                 Log.v("inside_search", "got data");

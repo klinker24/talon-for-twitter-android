@@ -9,6 +9,7 @@ import android.widget.Adapter;
 
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 
 import org.lucasr.smoothie.SimpleItemLoader;
@@ -27,10 +28,8 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
         mCache = cache;
         this.context = context;
 
-        AppSettings settings = new AppSettings(context);
-
         // if the layout is talon's, then they should have circle images
-        circleImages = settings.roundContactImages;
+        circleImages = DrawerActivity.settings.roundContactImages;
     }
 
     @Override

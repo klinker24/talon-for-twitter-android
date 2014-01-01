@@ -145,7 +145,7 @@ public class RetweetActivity extends DrawerActivity {
 
         protected ResponseList<twitter4j.Status> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
 
                 Paging paging = new Paging(1, 100);
 

@@ -52,7 +52,7 @@ public class WidgetRefreshService  extends IntentService {
             }
 
             try {
-                Twitter twitter = Utils.getTwitter(context);
+                Twitter twitter = Utils.getTwitter(context, settings);
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 

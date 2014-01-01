@@ -699,7 +699,7 @@ public class TweetFragment extends Fragment {
 
         protected twitter4j.Status doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 if (isRetweet) {
                     twitter4j.Status retweeted = twitter.showStatus(tweetId).getRetweetedStatus();
                     return retweeted;
@@ -746,7 +746,7 @@ public class TweetFragment extends Fragment {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
 
                 via = android.text.Html.fromHtml(status.getSource()).toString();
@@ -786,7 +786,7 @@ public class TweetFragment extends Fragment {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 if (isFavorited) {
                     twitter.destroyFavorite(tweetId);
                 } else {
@@ -815,7 +815,7 @@ public class TweetFragment extends Fragment {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter.retweetStatus(tweetId);
                 return null;
             } catch (Exception e) {
@@ -855,7 +855,7 @@ public class TweetFragment extends Fragment {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(text);
                 reply.setInReplyToStatusId(tweetId);

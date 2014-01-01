@@ -335,7 +335,7 @@ public class LoginActivity extends Activity {
         protected String doInBackground(Void... args) {
 
             try {
-                twitter = Utils.getTwitter(context);
+                twitter = Utils.getTwitter(context, settings);
 
                 User user = twitter.verifyCredentials();
                 if (sharedPrefs.getInt("current_account", 1) == 1) {

@@ -63,10 +63,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     private AsyncListView listView;
     private CursorAdapter cursorAdapter;
 
-    public AppSettings settings;
     private SharedPreferences sharedPrefs;
 
-    private PullToRefreshAttacher mPullToRefreshAttacher;
     private PullToRefreshLayout mPullToRefreshLayout;
 
     private DMDataSource dataSource;
@@ -98,7 +96,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(context);
 
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
@@ -173,7 +170,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         new GetCursorAdapter().execute();
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        if (settings.uiExtras) {
+        if (DrawerActivity.settings.uiExtras) {
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
                 int mLastFirstVisibleItem = 0;
@@ -268,7 +265,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    twitter = Utils.getTwitter(context);
+                    twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
                     User user = twitter.verifyCredentials();
                     long lastId = sharedPrefs.getLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), 0);
@@ -316,14 +313,14 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
                 long now = new Date().getTime();
-                long alarm = now + settings.dmRefresh;
+                long alarm = now + DrawerActivity.settings.dmRefresh;
 
                 Log.v("alarm_date", "direct message " + new Date(alarm).toString());
 
                 PendingIntent pendingIntent = PendingIntent.getService(context, DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
 
-                if (settings.dmRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent);
+                if (DrawerActivity.settings.dmRefresh != 0)
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.dmRefresh, pendingIntent);
                 else
                     am.cancel(pendingIntent);
 

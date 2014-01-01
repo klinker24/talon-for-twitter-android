@@ -38,6 +38,7 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
@@ -63,16 +64,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private SharedPreferences sharedPrefs;
     private int cancelButton;
     private int border;
-
-    public AppSettings settings;
-
-    private static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
-    private static Pattern pattern = Pattern.compile(REGEX);
-
-    private static final String HASHSPACE = "\\s#";
-    private static final String HASHEND = "(\\s#.+?)$";
-    private static Pattern hashspace = Pattern.compile(HASHSPACE);
-    private static Pattern hashend = Pattern.compile(HASHEND);
 
     public boolean hasKeyboard = false;
 
@@ -121,14 +112,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        settings = new AppSettings(context);
+        talonLayout = DrawerActivity.settings.layout == AppSettings.LAYOUT_TALON;
 
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
-
-        if (settings.addonTheme) {
+        if (DrawerActivity.settings.addonTheme) {
             try {
-                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
+                res = context.getPackageManager().getResourcesForApplication(DrawerActivity.settings.addonThemePackage);
+                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", DrawerActivity.settings.addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -137,7 +126,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
 
         TypedArray b;
-        if (settings.roundContactImages) {
+        if (DrawerActivity.settings.roundContactImages) {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         } else {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
@@ -152,16 +141,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         View v = null;
         final ViewHolder holder = new ViewHolder();
-        if (settings.addonTheme) {
+        if (DrawerActivity.settings.addonTheme) {
             try {
                 Context viewContext = null;
 
                 if (res == null) {
-                    res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                    res = context.getPackageManager().getResourcesForApplication(DrawerActivity.settings.addonThemePackage);
                 }
 
                 try {
-                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
+                    viewContext = context.createPackageContext(DrawerActivity.settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -169,25 +158,25 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
 
                 if (res != null && viewContext != null) {
-                    int id = res.getIdentifier("tweet", "layout", settings.addonThemePackage);
+                    int id = res.getIdentifier("tweet", "layout", DrawerActivity.settings.addonThemePackage);
                     v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
 
-                    holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
-                    holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
-                    holder.time = (TextView) v.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
-                    holder.tweet = (TextView) v.findViewById(res.getIdentifier("tweet", "id", settings.addonThemePackage));
-                    holder.reply = (EditText) v.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
-                    holder.favorite = (ImageButton) v.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-                    holder.retweet = (ImageButton) v.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
-                    holder.favCount = (TextView) v.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
-                    holder.retweetCount = (TextView) v.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
-                    holder.expandArea = (LinearLayout) v.findViewById(res.getIdentifier("expansion", "id", settings.addonThemePackage));
-                    holder.replyButton = (ImageButton) v.findViewById(res.getIdentifier("reply_button", "id", settings.addonThemePackage));
-                    holder.image = (ImageView) v.findViewById(res.getIdentifier("image", "id", settings.addonThemePackage));
-                    holder.retweeter = (TextView) v.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
-                    holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
-                    holder.charRemaining = (TextView) v.findViewById(res.getIdentifier("char_remaining", "id", settings.addonThemePackage));
-                    holder.playButton = (ImageView) v.findViewById(res.getIdentifier("play_button", "id", settings.addonThemePackage));
+                    holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.time = (TextView) v.findViewById(res.getIdentifier("time", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.tweet = (TextView) v.findViewById(res.getIdentifier("tweet", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.reply = (EditText) v.findViewById(res.getIdentifier("reply", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.favorite = (ImageButton) v.findViewById(res.getIdentifier("favorite", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.retweet = (ImageButton) v.findViewById(res.getIdentifier("retweet", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.favCount = (TextView) v.findViewById(res.getIdentifier("fav_count", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.retweetCount = (TextView) v.findViewById(res.getIdentifier("retweet_count", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.expandArea = (LinearLayout) v.findViewById(res.getIdentifier("expansion", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.replyButton = (ImageButton) v.findViewById(res.getIdentifier("reply_button", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.image = (ImageView) v.findViewById(res.getIdentifier("image", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.retweeter = (TextView) v.findViewById(res.getIdentifier("retweeter", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.charRemaining = (TextView) v.findViewById(res.getIdentifier("char_remaining", "id", DrawerActivity.settings.addonThemePackage));
+                    holder.playButton = (ImageView) v.findViewById(res.getIdentifier("play_button", "id", DrawerActivity.settings.addonThemePackage));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -232,13 +221,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         // sets up the font sizes
-        holder.tweet.setTextSize(settings.textSize);
-        holder.name.setTextSize(settings.textSize + 4);
-        holder.time.setTextSize(settings.textSize - 3);
-        holder.retweeter.setTextSize(settings.textSize - 3);
-        holder.favCount.setTextSize(settings.textSize + 1);
-        holder.retweetCount.setTextSize(settings.textSize + 1);
-        holder.reply.setTextSize(settings.textSize);
+        holder.tweet.setTextSize(DrawerActivity.settings.textSize);
+        holder.name.setTextSize(DrawerActivity.settings.textSize + 4);
+        holder.time.setTextSize(DrawerActivity.settings.textSize - 3);
+        holder.retweeter.setTextSize(DrawerActivity.settings.textSize - 3);
+        holder.favCount.setTextSize(DrawerActivity.settings.textSize + 1);
+        holder.retweetCount.setTextSize(DrawerActivity.settings.textSize + 1);
+        holder.reply.setTextSize(DrawerActivity.settings.textSize);
 
         v.setTag(holder);
 
@@ -270,7 +259,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String tweetText = tweetTexts;
 
-        if(!settings.reverseClickActions) {
+        if(!DrawerActivity.settings.reverseClickActions) {
             final String fRetweeter = retweeter;
             if (!isDM) {
                 holder.background.setOnLongClickListener(new View.OnLongClickListener() {
@@ -432,11 +421,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
+        holder.name.setText(DrawerActivity.settings.displayScreenName ? "@" + screenname : name);
         holder.time.setText(Utils.getTimeAgo(longTime));
         holder.tweet.setText(Html.fromHtml(tweetText));
 
-        if(settings.inlinePics && picUrl != null) {
+        if(DrawerActivity.settings.inlinePics && picUrl != null) {
             if (picUrl.equals("")) {
                 if (holder.image.getVisibility() == View.VISIBLE) {
                     holder.image.setVisibility(View.GONE);
@@ -492,7 +481,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.GONE);
         }
 
-        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+        if (DrawerActivity.settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             String text = holder.tweet.getText().toString();
             if (EmojiUtils.emojiPattern.matcher(text).find()) {
                 new Thread(new Runnable() {
@@ -574,7 +563,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.favorite.setVisibility(View.VISIBLE);
         }
 
-        if (holder.name.getText().toString().contains(settings.myName)) {
+        if (holder.name.getText().toString().contains(DrawerActivity.settings.myName)) {
             holder.reply.setVisibility(View.GONE);
             holder.replyButton.setVisibility(View.GONE);
             holder.charRemaining.setVisibility(View.GONE);
@@ -596,7 +585,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         s = s.substring(0, s.length() - 1);
                     }
 
-                    if (s.contains("@") && !s.contains(settings.myScreenName) && !s.contains(screenname) && s.length() > 1) {
+                    if (s.contains("@") && !s.contains(DrawerActivity.settings.myScreenName) && !s.contains(screenname) && s.length() > 1) {
                         extraNames += s.substring(s.indexOf("@")) + " ";
                     }
                 }
@@ -679,7 +668,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context);
+            Twitter twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
             try {
                 long tweetId = Long.parseLong(urls[0]);
@@ -719,7 +708,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected twitter4j.Status doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
                 if (holder.retweeter.getVisibility() != View.GONE) {
                     twitter4j.Status retweeted = twitter.showStatus(tweetId).getRetweetedStatus();
                     return retweeted;
@@ -765,7 +754,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
@@ -792,7 +781,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
                 if (holder.isFavorited) {
                     twitter.destroyFavorite(tweetId);
                 } else {
@@ -821,7 +810,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
                 twitter.retweetStatus(tweetId);
                 return null;
             } catch (Exception e) {
@@ -857,7 +846,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         protected Boolean doInBackground(String... urls) {
             try {
                 if (!dontgo) {
-                    Twitter twitter =  Utils.getTwitter(context);
+                    Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
 
                     if (!isDM) {
                         twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
@@ -905,7 +894,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
 
                 MediaEntity[] entities = status.getMediaEntities();

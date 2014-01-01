@@ -90,7 +90,7 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter.destroyUserListMember(listId, Long.parseLong(urls[0]));
 

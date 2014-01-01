@@ -77,7 +77,7 @@ public class WorldTrends extends Fragment {
 
         protected ArrayList<String> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, settings);
 
                 twitter4j.Trends trends = twitter.getPlaceTrends(1);
                 ArrayList<String> currentTrends = new ArrayList<String>();

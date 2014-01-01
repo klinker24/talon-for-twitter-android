@@ -59,7 +59,7 @@ import java.util.Arrays;
 
 public abstract class DrawerActivity extends Activity {
 
-    public AppSettings settings;
+    public static AppSettings settings;
     public Context context;
     public SharedPreferences sharedPrefs;
 

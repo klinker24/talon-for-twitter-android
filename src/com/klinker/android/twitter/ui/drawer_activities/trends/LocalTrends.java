@@ -116,7 +116,7 @@ public class LocalTrends extends Fragment implements
 
         protected ArrayList<String> doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context);
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
 
                 while (!connected) {
                     try {

@@ -38,6 +38,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
@@ -351,7 +352,7 @@ public abstract class Compose extends Activity implements
         protected Boolean doInBackground(String... args) {
             String status = args[0];
             try {
-                Twitter twitter = Utils.getTwitter(getApplicationContext());
+                Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
 
                 String sendTo = contactEntry.getText().toString().replace("@", "").replace(" ", "");
 
@@ -396,7 +397,7 @@ public abstract class Compose extends Activity implements
             Log.d("Tweet Text", "> " + args[0]);
             String status = args[0];
             try {
-                Twitter twitter = Utils.getTwitter(getApplicationContext());
+                Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
 
                 StatusUpdate media = new StatusUpdate(status);
 

@@ -370,7 +370,7 @@ public class NotificationUtils {
             Log.v("notifications_talon", "in screenname");
             String url;
             try {
-                url = Utils.getTwitter(context).showUser(screenname).getBiggerProfileImageURL();
+                url = Utils.getTwitter(context, new AppSettings(context)).showUser(screenname).getBiggerProfileImageURL();
                 CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
 
                 Log.v("notifications_talon", "got wrapper");
@@ -487,7 +487,7 @@ public class NotificationUtils {
         BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
         String url;
         try {
-            url = Utils.getTwitter(context).showUser(screenname).getBiggerProfileImageURL();
+            url = Utils.getTwitter(context, new AppSettings(context)).showUser(screenname).getBiggerProfileImageURL();
             CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
 
             if (wrapper == null) {
