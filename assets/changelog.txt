@@ -12,6 +12,7 @@
     &#8226; Option to show Twitter handles instead of names on the timelines<br/>
     &#8226; Revamped the login to alleviate any problems<br/>
     &#8226; Higher quality instagram pictures<br/>
+    &#8226; Added a do not disturb time setting to block Talon's notifications<br/>
     &#8226; Any links that you open from a tweet will now open to my full screen browser first, then you can open them in the default browser from the Action bar<br/>
     &#8226; Applied the holo orange theme thoughout the rest of the ui<br/>
     &#8226; Added to the 'Get Help' and 'Other Apps' section of settings<br/>
