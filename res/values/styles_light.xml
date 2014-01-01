@@ -41,6 +41,7 @@ limitations under the License.
         <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
 
         <item name="textColor">@color/light_text</item>
+        <item name="action_bar_color">@color/action_bar_light</item>
         <item name="drawerDividerColor">@color/light_text_drawer</item>
         <item name="dateColor">@color/light_date</item>
         <item name="drawerBackground">@color/light_drawer</item>
