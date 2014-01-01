@@ -289,7 +289,7 @@
             <string name="extra_pages">Use Extra Pages</string>
                 <string name="extra_pages_summary">Add links and pictures pages to the left of the timeline</string>
             <string name="live_streaming">Live Streaming</string>
-                <string name="live_streaming_summary">Get automatically notified of new tweets when browsing your main timeline. Will consume more battery.</string>
+                <string name="live_streaming_summary">Get automatically notified of new tweets when browsing your main timeline. This will consume more battery and always \"Refresh on Startup\".</string>
         <string name="memory_management">Memory Management Options</string>
             <string name="delete_cache">Delete Cache Now</string>
             <string name="cache_dialog">Delete Cache?</string>
