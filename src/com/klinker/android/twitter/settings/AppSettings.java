@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.klinker.android.twitter.utils.EmojiUtils;
 
@@ -168,6 +169,26 @@ public class AppSettings {
             if (!(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) {
                 nightMode = true;
                 theme = sharedPrefs.getInt("night_theme", 1);
+            }
+        }
+
+        if (sharedPrefs.getBoolean("quiet_hours", false)) {
+            int quietStartHour = sharedPrefs.getInt("quiet_start_hour", 22);
+            int quietStartMin = sharedPrefs.getInt("quiet_start_min", 0);
+            int quietEndHour = sharedPrefs.getInt("quiet_end_hour", 6);
+            int quietEndMin = sharedPrefs.getInt("quiet_end_min", 0);
+
+            Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minutes = c.get(Calendar.MINUTE);
+
+            int quietEndMinutes = quietEndHour * 60 + quietEndMin;
+            int quietStartMinutes = quietStartHour * 60 + quietStartMin;
+            int currentMinutes = hour * 60 + minutes;
+
+            if (!(currentMinutes > quietEndMinutes && quietStartMinutes > currentMinutes)) {
+                notifications = false;
+                //Log.v("quiet_hours", "quiet hours set now");
             }
         }
 

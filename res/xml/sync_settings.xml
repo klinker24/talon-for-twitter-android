@@ -79,6 +79,13 @@
             android:dependency="notifications"
             />-->
 
+        <CheckBoxPreference
+            android:key="quiet_hours"
+            android:title="@string/quiet_hours"
+            android:defaultValue="false"
+            android:dependency="notifications"
+            />
+
         </PreferenceCategory>
 
     <PreferenceCategory

@@ -132,6 +132,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
 
         final Preference nightMode = findPreference("night_mode");
+        nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
+                                " - " +
+                                getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));
         nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -152,6 +155,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     sharedPrefs.edit().putInt("night_theme", i).commit();
+
+                                                    nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
+                                                            " - " +
+                                                            getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));
+
                                                 }
                                             })
                                             .show();
@@ -162,6 +170,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     }, 22, 0, sharedPrefs.getBoolean("military_time", false), getString(R.string.night_mode_night));
                     dialog.setThemeDark(true);
                     dialog.show(getFragmentManager(), "night_mode_night");
+                } else {
+                    nightMode.setSummary("");
                 }
 
                 return true;
@@ -299,6 +309,41 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         });
     }
 
+    public String getTime(int hours, int mins, boolean militaryTime) {
+        String hour;
+        String min;
+        boolean pm = false;
+
+        if (!militaryTime) {
+            if (hours > 12) {
+                pm = true;
+
+                int x = hours - 12;
+                hour = x + "";
+            } else {
+                hour = hours + "";
+            }
+
+            if (mins < 10) {
+                min = "0" + mins;
+            } else {
+                min = mins + "";
+            }
+
+            return hour + ":" + min + (pm ? " PM" : " AM");
+        } else {
+            hour = hours < 10 ? "0" + hours : hours + "";
+
+            if (mins < 10) {
+                min = "0" + mins;
+            } else {
+                min = mins + "";
+            }
+
+            return hour + ":" + min;
+        }
+    }
+
     public void setUpSyncSettings() {
         final Context context = getActivity();
 
@@ -335,6 +380,42 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return false;
             }
 
+        });
+
+        final Preference quietHours = findPreference("quiet_hours");
+        quietHours.setSummary(getTime(sharedPrefs.getInt("quiet_start_hour", 22), sharedPrefs.getInt("quiet_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
+                " - " +
+                getTime(sharedPrefs.getInt("quiet_end_hour", 6), sharedPrefs.getInt("quiet_end_min", 0), sharedPrefs.getBoolean("military_time", false)));
+        quietHours.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (!((CheckBoxPreference) quietHours).isChecked()) {
+                    com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                            sharedPrefs.edit().putInt("quiet_start_hour", hourOfDay).putInt("quiet_start_min", minute).commit();
+
+                            com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                                    sharedPrefs.edit().putInt("quiet_end_hour", hourOfDay).putInt("quiet_end_min", minute).commit();
+
+                                    quietHours.setSummary(getTime(sharedPrefs.getInt("quiet_start_hour", 22), sharedPrefs.getInt("quiet_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
+                                            " - " +
+                                            getTime(sharedPrefs.getInt("quiet_end_hour", 6), sharedPrefs.getInt("quiet_end_min", 0), sharedPrefs.getBoolean("military_time", false)));
+                                }
+                            }, 6, 0, sharedPrefs.getBoolean("military_time", false), getString(R.string.night_mode_day));
+                            dialog.show(getFragmentManager(), "quiet_hours_end");
+                        }
+                    }, 22, 0, sharedPrefs.getBoolean("military_time", false), getString(R.string.night_mode_night));
+                    dialog.setThemeDark(true);
+                    dialog.show(getFragmentManager(), "quiet_hours_start");
+                } else {
+                    quietHours.setSummary("");
+                }
+
+                return true;
+            }
         });
 
         // remove the mobile data one if they have a tablet
@@ -533,7 +614,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
 
-        Log.v("alarm_date", "key: " + key);
+        //Log.v("alarm_date", "key: " + key);
 
         if (key.equals("timeline_sync_interval")) {
 
