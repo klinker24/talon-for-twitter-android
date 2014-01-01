@@ -72,7 +72,6 @@ public class Search extends DrawerActivity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        listView.setDividerHeight(toDP(5));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
@@ -175,6 +174,12 @@ public class Search extends DrawerActivity {
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
+
+            case R.id.menu_search:
+                overridePendingTransition(0,0);
+                finish();
+                overridePendingTransition(0,0);
+                return super.onOptionsItemSelected(item);
 
             default:
                 return super.onOptionsItemSelected(item);
