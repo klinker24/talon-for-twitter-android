@@ -9,7 +9,8 @@ It isn't all about the look though, I said it was feature packed and I meant it,
 - 3 main timelines to - of course - slide between (home, mentions, and direct messages) PLUS 2 more quick sliding pages to give you access to all your links and pictures in one place - we will keep those "Discover" and "Activity" tabs where they belong, out of sight!
 - A powerful developer centered theme engine (https://github.com/klinker24/talon_theme)
 - Light, dark, and pitch black themes along with a night mode
-- Choose between either "Talon" or "Hangouts" layouts
+- Choose between either "Talon" or "Hangouts" layouts by default
+- Live streaming support
 - "Advance Windowed" option
 - Expandable, actionable, and dynamic notification system
 - Full app popup for quick access where ever you are

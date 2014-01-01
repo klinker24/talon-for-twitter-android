@@ -18,6 +18,7 @@ Created with Android 4.4 (KitKat) in mind. Includes full screen layouts, stunnin
 Beautiful, up-to-date layouts, designs, and neat animations isn't the only thing Talon has going for it though! The list of features is enormous as well, doing everything you could ever want from a Twitter app right off the bat. Even though it is new, I have added every single major and minor Twitter feature that I think is absolutely essential plus a ton that most people wouldn't even think of. Here is a pretty comprehensive list of its features:
 
 Twitter features:
+- Live streaming support
 - Support for 2 accounts
 - View your timelines (main, mentions, direct messages, links, and pictures)
 - View retweets
