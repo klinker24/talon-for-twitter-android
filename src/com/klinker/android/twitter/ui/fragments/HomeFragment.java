@@ -346,7 +346,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 try {
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-                    dataSource.markAllRead(currentAccount);
+                    if(!justStarted) {
+                        dataSource.markAllRead(currentAccount);
+                    }
+
+                    justStarted = false;
 
                     twitter = Utils.getTwitter(context);
 
@@ -432,11 +436,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 try {
                     super.onPostExecute(result);
 
-                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
-
                     if (unread > 0) {
-                        CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                        getLoaderManager().restartLoader(0, null, HomeFragment.this);
 
+                        CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                     } else {
                         CharSequence text = context.getResources().getString(R.string.no_new_tweets);
@@ -611,6 +614,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         super.onStop();
     }
 
+    public boolean justStarted = false;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -618,7 +623,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if((settings.refreshOnStart || settings.liveStreaming) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
+                if(((settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) || settings.liveStreaming)) {
+                    justStarted = true;
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
                 }

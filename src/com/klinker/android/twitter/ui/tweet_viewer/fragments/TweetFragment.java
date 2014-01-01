@@ -403,6 +403,7 @@ public class TweetFragment extends Fragment {
                                 String touched = fItems[item] + "";
 
                                 if (touched.contains("http")) { //weblink
+                                    sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                                     Intent launchBrowser = new Intent(context, BrowserActivity.class);
                                     launchBrowser.putExtra("url", touched);
                                     startActivity(launchBrowser);
