@@ -298,7 +298,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 sharedPrefs.edit().putBoolean("should_refresh", true).commit();
             }
-        }, 750);
+        }, 250);
 
         setUpToastBar(layout);
 
