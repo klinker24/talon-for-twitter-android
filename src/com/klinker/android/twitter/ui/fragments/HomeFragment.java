@@ -335,13 +335,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     @Override
                     public void run() {
                         hideToastBar(400);
-
-                        try {
-                            Thread.sleep(400);
-                            dataSource.markAllRead(currentAccount);
-                        } catch (Exception e) {
-
-                        }
+                        dataSource.markAllRead(currentAccount);
                     }
                 }, 300);
             }
@@ -659,6 +653,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                                     final int currentAccount = sharedPrefs.getInt("current_account", 1);
                                     long statusId = status.getId();
+
+                                    if(!newTweets) {
+                                        dataSource.markAllRead(currentAccount);
+                                    }
 
                                     if (dataSource.getLastId(currentAccount) != statusId)
                                     HomeContentProvider.insertTweet(status, currentAccount, context);
