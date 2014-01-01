@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private View.OnClickListener toMentionsListener;
     private View.OnClickListener liveStreamRefresh;
 
-    public static TwitterStream twitterStream;
+    public TwitterStream twitterStream;
 
     public View view;
 
@@ -600,11 +600,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         if(settings.liveStreaming) {
             try {
                 twitterStream.shutdown();
+                Log.v("twitter_stream", "shutdown stream");
             } catch (Exception e) {
                 // closed before the stream was started or it is popup
+                e.printStackTrace();
+                Log.v("twitter_stream", "error shutting down");
             }
-
-            Log.v("twitter_stream", "shutdown stream");
         }
 
         super.onStop();
