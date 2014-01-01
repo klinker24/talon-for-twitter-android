@@ -2,6 +2,7 @@
     - some way to show progress bar on widget
 
 - Bugs:
+    - Mark read correctly with streams?
 
 - Main TODO:
     - Streaming API

@@ -335,6 +335,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     @Override
                     public void run() {
                         hideToastBar(400);
+
+                        try {
+                            Thread.sleep(400);
+                            dataSource.markAllRead(currentAccount);
+                        } catch (Exception e) {
+
+                        }
                     }
                 }, 300);
             }
