@@ -210,4 +210,21 @@ public class HomeDataSource {
 
         database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
     }
+
+    public long getLastId(int account) {
+        long id = 0;
+
+        Cursor cursor = getCursor(account);
+
+        try {
+            if (cursor.moveToLast()) {
+                id = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
+            }
+        } catch (Exception e) {
+        }
+
+        cursor.close();
+
+        return id;
+    }
 }

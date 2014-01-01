@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -27,6 +28,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
@@ -94,6 +96,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private boolean initial = true;
     private boolean shown = true;
     private boolean landscape;
+    public boolean newTweets = false;
 
     private String jumpToTop;
     private String fromTop;
@@ -102,6 +105,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     private View.OnClickListener toTopListener;
     private View.OnClickListener toMentionsListener;
+    private View.OnClickListener liveStreamRefresh;
 
     public static TwitterStream twitterStream;
 
@@ -210,6 +214,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+                if (newTweets && firstVisibleItem == 0) {
+                    final int unread = dataSource.getUnreadCount(currentAccount);
+                    if (unread > 0) {
+                        showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                getResources().getString(R.string.view_new),
+                                400,
+                                true,
+                                liveStreamRefresh);
+                    }
+                }
+
                 if (settings.uiExtras) {
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
@@ -309,6 +324,22 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         };
 
+        liveStreamRefresh = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                //int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                listView.setSelectionFromTop(0, 0);
+                newTweets = false;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideToastBar(400);
+                    }
+                }, 300);
+            }
+        };
+
         return layout;
     }
 
@@ -341,7 +372,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     twitter = Utils.getTwitter(context);
 
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
+                    long lastId = dataSource.getLastId(currentAccount);
                     long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
 
                     List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
@@ -437,6 +468,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     DrawerActivity.canSwitch = true;
 
                     mPullToRefreshLayout.setRefreshComplete();
+                    newTweets = false;
 
                     new RefreshMentions().execute();
                 } catch (Exception e) {
@@ -568,7 +600,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         if(settings.liveStreaming) {
-            twitterStream.shutdown();
+            try {
+                twitterStream.shutdown();
+            } catch (Exception e) {
+                // closed befor the stream was started
+            }
+
             Log.v("twitter_stream", "shutdown stream");
         }
 
@@ -609,14 +646,45 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         StatusListener listener = new StatusListener() {
                             @Override
                             public void onStatus(Status status) {
-                                if(Arrays.asList(fIds).contains(status.getUser().getId())) {
+                                long replyUserId = status.getInReplyToUserId();
+                                if(Arrays.asList(fIds).contains(status.getUser().getId()) && (Arrays.asList(fIds).contains(replyUserId) || replyUserId == -1)) {
                                     Log.v("twitter_stream", "@" + status.getUser().getScreenName() + " - " + status.getText());
+
+                                    final int currentAccount = sharedPrefs.getInt("current_account", 1);
+                                    long statusId = status.getId();
+
+                                    if (dataSource.getLastId(currentAccount) != statusId)
+                                    HomeContentProvider.insertTweet(status, currentAccount, context);
+
+                                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
+                                    sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statusId).commit();
+
+                                    final int unread = dataSource.getUnreadCount(currentAccount);
+
+                                    newTweets = true;
+
+                                    context.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                                    getResources().getString(R.string.view_new),
+                                                    400,
+                                                    true,
+                                                    liveStreamRefresh);
+                                        }
+                                    });
+
                                 }
                             }
 
                             @Override
                             public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
                                 Log.v("twitter_stream", "Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
+                                try {
+                                    dataSource.deleteTweet(statusDeletionNotice.getStatusId());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
 
                             @Override
@@ -701,7 +769,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         if (newTweets != 0) {
             unread = newTweets;
-            int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(newTweets + (MainActivity.isPopup ? 1 : 2), size);
         }
     }
@@ -791,7 +859,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void updateToastText(String text) {
-        toastDescription.setText(text);
+        if(isToastShowing) {
+            toastDescription.setText(text);
+        }
     }
 
 }
