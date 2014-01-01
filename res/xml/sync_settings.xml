@@ -89,6 +89,7 @@
         </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="other_options"
         android:title="@string/other_options" >
 
         <CheckBoxPreference

@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
@@ -417,6 +418,20 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return true;
             }
         });
+
+        int count = 0;
+
+        if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
+            count++;
+        }
+
+        if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
+            count++;
+        }
+
+        if(count != 2) {
+            ((PreferenceGroup) findPreference("other_options")).removePreference(findPreference("sync_second_mentions"));
+        }
 
         // remove the mobile data one if they have a tablet
         /*if (context.getResources().getBoolean(R.bool.isTablet)) {

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -226,6 +227,18 @@ public class AppSettings {
             addonTheme = false;
             addonThemePackage = null;
             translateProfileHeader = true;
+        }
+
+        int count = 0;
+        if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
+            count++;
+        }
+        if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
+            count++;
+        }
+
+        if(count != 2) {
+            syncSecondMentions = false;
         }
     }
 }
