@@ -319,19 +319,105 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         return layout;
     }
 
+    public List<twitter4j.Status> getList(int page, Twitter twitter) {
+        try {
+            return twitter.getHomeTimeline(new Paging(page, 200));
+        } catch (Exception e) {
+            return new ArrayList<twitter4j.Status>();
+        }
+    }
+
+    public int doRefresh() {
+        int numberNew = 0;
+
+        try {
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+            dataSource.markAllRead(currentAccount);
+
+            twitter = Utils.getTwitter(context, DrawerActivity.settings);
+
+            User user = twitter.verifyCredentials();
+            long lastId = dataSource.getLastId(currentAccount);
+            long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
+
+            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+
+            boolean foundStatus = false;
+            int lastJ = 0;
+
+            for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+                if (foundStatus) {
+                    break;
+                } else {
+                    statuses.addAll(getList(i + 1, twitter));
+                }
+
+                try {
+                    for (int j = lastJ; j < statuses.size(); j++) {
+                        long id = statuses.get(j).getId();
+                        if (id == lastId || id == secondToLastId) {
+                            statuses = statuses.subList(0, j);
+                            foundStatus = true;
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    foundStatus = true;
+                }
+
+                lastJ = statuses.size();
+            }
+
+            if (statuses.size() != 0) {
+                try {
+                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
+                } catch (Exception e) {
+                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
+                }
+                sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
+
+            }
+
+            for (twitter4j.Status status : statuses) {
+                try {
+                    HomeContentProvider.insertTweet(status, currentAccount, context);
+                    //dataSource.createTweet(status, currentAccount);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+
+            numberNew = dataSource.getUnreadCount(currentAccount);
+            unread = numberNew;
+
+        } catch (TwitterException e) {
+            // Error in updating status
+            Log.d("Twitter Update Error", e.getMessage());
+        }
+
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        long now = new Date().getTime();
+        long alarm = now + DrawerActivity.settings.timelineRefresh;
+
+        PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+        if (DrawerActivity.settings.timelineRefresh != 0)
+            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
+        else
+            am.cancel(pendingIntent);
+
+        return numberNew;
+    }
+
     @Override
     public void onRefreshStarted(final View view) {
         new AsyncTask<Void, Void, Void>() {
 
             private int numberNew;
-
-            public List<twitter4j.Status> getList(int page, Twitter twitter) {
-                try {
-                    return twitter.getHomeTimeline(new Paging(page, 200));
-                } catch (Exception e) {
-                    return new ArrayList<twitter4j.Status>();
-                }
-            }
 
             @Override
             protected void onPreExecute() {
@@ -340,90 +426,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             @Override
             protected Void doInBackground(Void... params) {
-                try {
-                    int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-                    if(!justStarted) {
-                        dataSource.markAllRead(currentAccount);
-                    }
-
-                    justStarted = false;
-
-                    twitter = Utils.getTwitter(context, DrawerActivity.settings);
-
-                    User user = twitter.verifyCredentials();
-                    long lastId = dataSource.getLastId(currentAccount);
-                    long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
-
-                    List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
-
-                    boolean foundStatus = false;
-                    int lastJ = 0;
-
-                    for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
-                        if (foundStatus) {
-                            break;
-                        } else {
-                            statuses.addAll(getList(i + 1, twitter));
-                        }
-
-                        try {
-                            for (int j = lastJ; j < statuses.size(); j++) {
-                                long id = statuses.get(j).getId();
-                                if (id == lastId || id == secondToLastId) {
-                                    statuses = statuses.subList(0, j);
-                                    foundStatus = true;
-                                    break;
-                                }
-                            }
-                        } catch (Exception e) {
-                            foundStatus = true;
-                        }
-
-                        lastJ = statuses.size();
-                    }
-
-                    if (statuses.size() != 0) {
-                        try {
-                            sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
-                        } catch (Exception e) {
-                            sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
-                        }
-                        sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
-
-                    }
-
-                    for (twitter4j.Status status : statuses) {
-                        try {
-                            HomeContentProvider.insertTweet(status, currentAccount, context);
-                            //dataSource.createTweet(status, currentAccount);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            break;
-                        }
-                    }
-
-                    numberNew = dataSource.getUnreadCount(currentAccount);
-                    unread = numberNew;
-
-                } catch (TwitterException e) {
-                    // Error in updating status
-                    Log.d("Twitter Update Error", e.getMessage());
-                }
-
-
-                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-                long now = new Date().getTime();
-                long alarm = now + DrawerActivity.settings.timelineRefresh;
-
-                PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-                if (DrawerActivity.settings.timelineRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
-                else
-                    am.cancel(pendingIntent);
-
+                numberNew = doRefresh();
 
                 return null;
             }
@@ -617,11 +621,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onStart() {
         super.onStart();
 
+        justStarted = true;
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(((DrawerActivity.settings.refreshOnStart && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) || DrawerActivity.settings.liveStreaming)) {
-                    justStarted = true;
+                if((DrawerActivity.settings.refreshOnStart || DrawerActivity.settings.liveStreaming) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
                 }
@@ -655,12 +660,18 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                 if(Arrays.asList(fIds).contains(status.getUser().getId()) && (Arrays.asList(fIds).contains(replyUserId) || replyUserId == -1)) {
                                     Log.v("twitter_stream", "@" + status.getUser().getScreenName() + " - " + status.getText());
 
+                                    if (justStarted) {
+                                        doRefresh();
+                                    }
+
                                     final int currentAccount = sharedPrefs.getInt("current_account", 1);
                                     long statusId = status.getId();
 
-                                    if(!newTweets) {
+                                    if(!newTweets && !justStarted) {
                                         dataSource.markAllRead(currentAccount);
                                     }
+
+                                    justStarted = false;
 
                                     if (dataSource.getLastId(currentAccount) != statusId)
                                         HomeContentProvider.insertTweet(status, currentAccount, context);
@@ -668,7 +679,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                     sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
                                     sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statusId).commit();
 
-                                    final int unread = dataSource.getUnreadCount(currentAccount);
+                                    final int unreadtweets = dataSource.getUnreadCount(currentAccount);
 
                                     newTweets = true;
 
@@ -677,7 +688,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                             context.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                                    showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                                             getResources().getString(R.string.view_new),
                                                             400,
                                                             true,
