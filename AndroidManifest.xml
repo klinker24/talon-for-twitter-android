@@ -239,7 +239,7 @@
             android:theme="@style/Theme.TalonDark">
         </activity>
 
-        <service android:name="com.klinker.android.twitter.services.PushNotificationService">
+        <service android:name=".services.TalonPullNotificationService">
         </service>
 
         <service android:name="com.klinker.android.twitter.services.MarkReadService">

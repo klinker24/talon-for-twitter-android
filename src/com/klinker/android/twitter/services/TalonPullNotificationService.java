@@ -7,7 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.klinker.android.twitter.R;
@@ -25,7 +27,7 @@ import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 
-public class PushNotificationService extends Service {
+public class TalonPullNotificationService extends Service {
 
     public static final int FOREGROUND_SERVICE_ID = 11;
     @Override
@@ -41,19 +43,25 @@ public class PushNotificationService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Notification notification = new Notification(R.drawable.ic_stat_icon, getString(R.string.listening) + "...",
-                System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(this, getString(R.string.talon_push),
-                getString(R.string.listening_for_mentions) + "...", pendingIntent);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(android.R.color.transparent)
+                        .setContentTitle(getResources().getString(R.string.talon_pull))
+                        .setContentText(getResources().getString(R.string.listening_for_mentions) + "...")
+                        .setOngoing(true)
+                        .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
+
+        mBuilder.setContentIntent(pendingIntent);
 
         // priority flag is only available on api level 16 and above
         if (getResources().getBoolean(R.bool.expNotifications)) {
-            notification.priority = Notification.PRIORITY_MIN;
+            mBuilder.setPriority(Notification.PRIORITY_MIN);
         }
 
-        startForeground(FOREGROUND_SERVICE_ID, notification);
+        startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
 
         mContext = getApplicationContext();
 

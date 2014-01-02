@@ -71,6 +71,9 @@
     <string name="popup">Popup</string>
     <string name="fav_user_tweets">new favorite user tweets</string>
     <string name="sec_acc">Second Account</string>
+    <string name="talon_pull">Talon Pull</string>
+    <string name="listening">Listening</string>
+    <string name="listening_for_mentions">Listening for mentions</string>
 
     <!-- Login Screen -->
     <string name="setup_roar">Setup Talon</string>
@@ -133,9 +136,6 @@
     <string name="via">via</string>
     <string name="version">Version</string>
     <string name="from">From</string>
-    <string name="talon_push">Talon Push</string>
-    <string name="listening">Listening</string>
-    <string name="listening_for_mentions">Listening for mentions</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
@@ -278,10 +278,10 @@
                     This data is used when searching for users when composing a tweet.</string>
         <string name="sync_success">Sync Successful</string>
         <string name="sync_failed">Sync Failed</string>
-        <string name="push_notification_options">Push Notification Options</string>
-        <string name="push_notifications">Push Notifications</string>
-            <string name="push_notifications_summary">(HIGHLY EXPERIMENTAL - More of a proof of concept) This will post a push notification for any mentions on the current account. It will also disable live streaming.</string>
-            <string name="push_notification_warning">This will burn your battery so fast you won\'t even know what hit you... You have been warned, it isn\'t worth it and I haven\'t had much time to test it.\n\nTo read more about the problems with push notifications, click this preference.</string>
+        <string name="push_notification_options">\"Push Notification\" Options</string>
+        <string name="push_notifications">Talon Pull</string>
+            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new mentions. It will also disable live streaming.</string>
+            <string name="push_notification_warning">Talon Pull will use more battery, potentially A LOT more. You have been warned. These aren\'t push notifications but it is the closest you will get with this app.\n\nTo read more about the problems with push notifications in Talon, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>
 

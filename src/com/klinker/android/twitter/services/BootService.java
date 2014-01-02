@@ -81,5 +81,9 @@ public class BootService  extends BroadcastReceiver {
             am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
+        if (settings.pushNotifications) {
+            context.startService(new Intent(context, TalonPullNotificationService.class));
+        }
+
     }
 }
