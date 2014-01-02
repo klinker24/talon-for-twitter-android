@@ -639,7 +639,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     onRefreshStarted(view);
                 }
 
-                sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+                    }
+                }, 60000);
+
             }
         }, 250);
 
