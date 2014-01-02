@@ -28,6 +28,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TweetPagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.ComposeActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
@@ -226,19 +227,41 @@ public class TweetPager extends YouTubeBaseActivity {
 
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
+        protected void onPreExecute() {
+            finish();
+        }
+
         protected Boolean doInBackground(String... urls) {
             Twitter twitter = Utils.getTwitter(context, settings);
 
             try {
-                twitter.destroyStatus(tweetId);
 
-                HomeDataSource source = new HomeDataSource(context);
-                source.open();
-                source.deleteTweet(tweetId);
-                source.close();
+                try {
+                    HomeDataSource source = new HomeDataSource(context);
+                    source.open();
+                    source.deleteTweet(tweetId);
+                    source.close();
+                } catch (Exception f) {
+
+                }
+
+                try {
+                    MentionsDataSource source = new MentionsDataSource(context);
+                    source.open();
+                    source.deleteTweet(tweetId);
+                    source.close();
+                } catch (Exception p) {
+
+                }
+
+                try {
+                    twitter.destroyStatus(tweetId);
+                } catch (Exception x) {
+
+                }
 
                 return true;
-            } catch (TwitterException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
@@ -250,8 +273,6 @@ public class TweetPager extends YouTubeBaseActivity {
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
-
-            finish();
         }
     }
 
@@ -293,7 +314,7 @@ public class TweetPager extends YouTubeBaseActivity {
         final int MENU_SAVE_IMAGE = 5;
 
         if (!isMyTweet) {
-            menu.getItem(MENU_DELETE_TWEET).setVisible(false);
+            //menu.getItem(MENU_DELETE_TWEET).setVisible(false);
         } else {
             menu.getItem(MENU_QUOTE).setVisible(false);
         }

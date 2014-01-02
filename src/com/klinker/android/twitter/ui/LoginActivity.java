@@ -181,7 +181,7 @@ public class LoginActivity extends Activity {
                         btnLoginTwitter.setEnabled(false);
                         new RetreiveFeedTask().execute();
                     } else {
-                        Toast.makeText(context, "You don't have an internet connection!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, getResources().getString(R.string.no_network) + "!", Toast.LENGTH_SHORT).show();
                     }
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();

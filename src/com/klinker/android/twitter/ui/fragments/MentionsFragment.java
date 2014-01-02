@@ -283,7 +283,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
-
                     User user = twitter.verifyCredentials();
                     long lastId = dataSource.getLastIds(currentAccount)[0];
                     Paging paging;

@@ -41,15 +41,17 @@ public class PushNotificationService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Notification notification = new Notification(R.drawable.ic_stat_icon, "Push Notifications",
+        Notification notification = new Notification(R.drawable.ic_stat_icon, getString(R.string.listening) + "...",
                 System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(this, "Talon Push",
-                "Listening", pendingIntent);
+        notification.setLatestEventInfo(this, getString(R.string.talon_push),
+                getString(R.string.listening_for_mentions) + "...", pendingIntent);
 
         // priority flag is only available on api level 16 and above
-        notification.priority = Notification.PRIORITY_MIN;
+        if (getResources().getBoolean(R.bool.expNotifications)) {
+            notification.priority = Notification.PRIORITY_MIN;
+        }
 
         startForeground(FOREGROUND_SERVICE_ID, notification);
 
@@ -65,9 +67,28 @@ public class PushNotificationService extends Service {
         filter.addAction("com.klinker.android.twitter.START_PUSH");
         registerReceiver(startPush, filter);
 
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
+        registerReceiver(stopService, filter);
+
         if (!settings.liveStreaming) {
             mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            unregisterReceiver(startPush);
+        } catch (Exception e) { }
+        try {
+            unregisterReceiver(stopPush);
+        } catch (Exception e) { }
+        try {
+            unregisterReceiver(stopService);
+        } catch (Exception e) { }
+
+        super.onDestroy();
     }
 
     public BroadcastReceiver stopPush = new BroadcastReceiver() {
@@ -82,9 +103,17 @@ public class PushNotificationService extends Service {
         }
     };
 
+    public BroadcastReceiver stopService = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            stopSelf();
+        }
+    };
+
     public BroadcastReceiver startPush = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            settings = new AppSettings(context);
             pushStream = Utils.getStreamingTwitter(context, DrawerActivity.settings);
             StatusListener listener = new StatusListener() {
                 @Override

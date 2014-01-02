@@ -332,6 +332,8 @@ public abstract class DrawerActivity extends Activity {
                         } else {
                             sharedPrefs.edit().putInt("current_account", 1).commit();
                         }
+                        context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
+
                         Intent login = new Intent(context, LoginActivity.class);
                         finish();
                         startActivity(login);
@@ -356,6 +358,8 @@ public abstract class DrawerActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
+                            context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
+
                             sharedPrefs.edit().putInt("current_account", 2).commit();
                             finish();
                             Intent next = new Intent(context, MainActivity.class);
@@ -379,6 +383,8 @@ public abstract class DrawerActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
+                            context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
+
                             sharedPrefs.edit().putInt("current_account", 1).commit();
                             finish();
                             Intent next = new Intent(context, MainActivity.class);
@@ -471,6 +477,8 @@ public abstract class DrawerActivity extends Activity {
 
     private void logoutFromTwitter() {
 
+        context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
+
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         boolean login1 = sharedPrefs.getBoolean("is_logged_in_1", false);
         boolean login2 = sharedPrefs.getBoolean("is_logged_in_2", false);
@@ -543,6 +551,8 @@ public abstract class DrawerActivity extends Activity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+
+        DrawerActivity.settings = new AppSettings(context);
 
         // for testing
         /*new Thread(new Runnable() {
