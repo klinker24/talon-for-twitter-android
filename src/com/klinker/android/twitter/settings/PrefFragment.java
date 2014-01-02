@@ -133,9 +133,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
 
         final Preference nightMode = findPreference("night_mode");
-        nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
-                                " - " +
-                                getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));
+        if (sharedPrefs.getBoolean("night_mode", false)) {
+            nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
+                    " - " +
+                    getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));
+        } else {
+            nightMode.setSummary("");
+        }
         nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -384,9 +388,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         });
 
         final Preference quietHours = findPreference("quiet_hours");
-        quietHours.setSummary(getTime(sharedPrefs.getInt("quiet_start_hour", 22), sharedPrefs.getInt("quiet_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
-                " - " +
-                getTime(sharedPrefs.getInt("quiet_end_hour", 6), sharedPrefs.getInt("quiet_end_min", 0), sharedPrefs.getBoolean("military_time", false)));
+        if(sharedPrefs.getBoolean("quiet_hours", false)) {
+            quietHours.setSummary(getTime(sharedPrefs.getInt("quiet_start_hour", 22), sharedPrefs.getInt("quiet_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
+                    " - " +
+                    getTime(sharedPrefs.getInt("quiet_end_hour", 6), sharedPrefs.getInt("quiet_end_min", 0), sharedPrefs.getBoolean("military_time", false)));
+        } else {
+            quietHours.setSummary("");
+        }
         quietHours.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
