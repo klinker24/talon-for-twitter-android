@@ -638,12 +638,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            sharedPrefs.edit().putBoolean("should_refresh", true).commit();
-                        }
-                    }, 60000);
+                    if(!DrawerActivity.settings.liveStreaming) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+                            }
+                        }, 60000);
+                    } else {
+                        sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+                    }
                 }
             }
         }, 250);
