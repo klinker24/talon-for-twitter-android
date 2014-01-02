@@ -332,7 +332,7 @@ public abstract class DrawerActivity extends Activity {
                         } else {
                             sharedPrefs.edit().putInt("current_account", 1).commit();
                         }
-                        context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                         Intent login = new Intent(context, LoginActivity.class);
                         finish();
@@ -358,7 +358,7 @@ public abstract class DrawerActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
-                            context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                             sharedPrefs.edit().putInt("current_account", 2).commit();
                             finish();
@@ -383,7 +383,7 @@ public abstract class DrawerActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
-                            context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                             sharedPrefs.edit().putInt("current_account", 1).commit();
                             finish();
