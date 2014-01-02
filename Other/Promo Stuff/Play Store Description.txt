@@ -44,6 +44,7 @@ App Features:
 - Actionable toast bar so you always know where you are and can jump to the top
 - Hiding action bar
 - "Do not disturb" mode
+- Option to always be listening for mentions (see disclaimer in settings)
 - Widget for main timeline
 - DashClock Extension
 - Draft system for unsent/failed tweets
