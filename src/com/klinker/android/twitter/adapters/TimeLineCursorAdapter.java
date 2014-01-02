@@ -357,15 +357,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         return true;
                     }
                 });
-
-                holder.background.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent reply = new Intent(context, ComposeDMActivity.class);
-                        reply.putExtra("user", "@" + screenname);
-                        context.startActivity(reply);
-                    }
-                });
             }
         }
 
@@ -393,6 +384,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     dialog.show();
 
                     return true;
+                }
+            });
+
+            holder.background.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent reply = new Intent(context, ComposeDMActivity.class);
+                    reply.putExtra("user", "@" + screenname);
+                    context.startActivity(reply);
                 }
             });
         }
