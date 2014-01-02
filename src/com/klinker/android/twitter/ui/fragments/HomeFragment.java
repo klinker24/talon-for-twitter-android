@@ -706,11 +706,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                             context.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                                            getResources().getString(R.string.view_new),
-                                                            400,
-                                                            true,
-                                                            liveStreamRefresh);
+                                                    try {
+                                                        showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                                                getResources().getString(R.string.view_new),
+                                                                400,
+                                                                true,
+                                                                liveStreamRefresh);
+                                                    } catch (Exception e) { }
                                                 }
                                             });
                                         }
