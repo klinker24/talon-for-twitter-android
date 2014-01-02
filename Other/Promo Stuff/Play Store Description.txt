@@ -8,13 +8,9 @@ Twitter features:
 - Live streaming support
 - Support for 2 accounts
 - View your timelines (main, mentions, direct messages, links, and pictures)
-- View retweets
-- View your favorites
-- Local and world trending
+- View retweets, favorites, Local and world trending, user profiles, Twitter lists, and more
 - Favorite users
 - Search Twitter
-- View user profiles
-- Twitter lists support
 - Delete, favorite, retweet, quote, and reply to statuses
 - view replies to statuses
 - Update your profile picture, banner, location, and user description
@@ -25,8 +21,9 @@ Twitter features:
 - And the list goes on :)
 
 Customization features:
+- Extremely powerful developer theme engine (https://github.com/klinker24/talon_theme)
 - Choose between either "Talon" or "Hangouts" layouts
-- Choose from 3 beautiful themes
+- Choose from 3 beautiful base themes (light, dark, and pitch black)
 - Custom text sizes
 - Night mode
 - Auto-Refresh options
@@ -34,7 +31,6 @@ Customization features:
 - And many other goodies in there as well!
 
 App Features:
-- Powerful developer theme engine (https://github.com/klinker24/talon_theme)
 - Expandable, actionable, and dynamic notification system
 - Full app popup
 - Full emoji support
@@ -47,9 +43,10 @@ App Features:
 - Never leave your timeline with in-line replies, favorites, and retweets
 - Actionable toast bar so you always know where you are and can jump to the top
 - Hiding action bar
+- "Do not disturb" mode
 - Widget for main timeline
 - DashClock Extension
-- Draft system for unsent tweets
+- Draft system for unsent/failed tweets
 - Google style pull to refresh for quick refreshing
 - Save tweet pictures
 - Share content with other apps, to and from Talon
@@ -85,4 +82,4 @@ Permissions Explained:
 Credit:
 - Jacob Klinker: to many things to list! Tons of ideas, support, and inspiration
 - Aaron Klinker: Icon Design
-- Open source libraries and resources used can be found under the 'Get Help' section in settings.
+- Other open-source libraries and resources used can be found under the 'Get Help' section in settings.

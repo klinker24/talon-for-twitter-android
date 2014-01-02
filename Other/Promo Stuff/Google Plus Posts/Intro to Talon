@@ -7,13 +7,13 @@ Talon is a feature PACKED, beautiful Twitter client that I have been making for 
 
 It isn't all about the look though, I said it was feature packed and I meant it, almost everything you could ever think of has been included right off the bat, plus a ton of features that really set this one apart, including:
 - 3 main timelines to - of course - slide between (home, mentions, and direct messages) PLUS 2 more quick sliding pages to give you access to all your links and pictures in one place - we will keep those "Discover" and "Activity" tabs where they belong, out of sight!
-- A powerful developer centered theme engine (https://github.com/klinker24/talon_theme)
+- An extremely powerful developer centered theme engine (http://goo.gl/4gJ0uF)
 - Light, dark, and pitch black themes along with a night mode
 - Choose between either "Talon" or "Hangouts" layouts by default
-- Live streaming support
-- "Advance Windowed" option
+- Live streaming support for quick, always availible content
+- "Advance Windowed" option to never leave that timeline behind
 - Expandable, actionable, and dynamic notification system
-- Full app popup for quick access where ever you are
+- Full app popup for quick access wherever you are
 - Full emoji support for iOS 7 and Android's Hangouts emojis
 - In-line pictures and YouTube thumbnails
 - Native YouTube support
@@ -33,7 +33,7 @@ XDA-Developers Thread: -- Not availible yet --
 YouTube Video: http://youtu.be/-wEgkt7OXTY
 
 
-I would also like you all to be aware of this: these apps are both quite a bit different than Sliding Messaging and that is the goal, they are aimed at a much more general audience. You don't have to be the "Android Power User" just to understand the settings menu this time. There are still plenty of very useful options, but these apps focus more on beautiful design, a killer feature set, and the right - and useful - amount of customization that you are accustomed to from Sliding Messaging.
+I would also like you all to be aware of this: these apps are both quite a bit different than Sliding Messaging and that is the goal, they are aimed at a much more general audience. You don't have to be the "Android Power User" just to understand the settings menu this time. There are still plenty of very useful options, but these apps focus more on beautiful design, a killer feature set, and the right - and useful - amount of customization that you are accustomed to from Sliding Messaging. The theming this time around is much more powerful and robust, but it will be much more difficult for the average user. We felt as though it is well worth the trade-off and I think you will all agree when we start to see what people can come up with!
 
 All of this right out of the box as well, which should simplify the user experience into something that everyone can appreciate without the headaches of digging through infinite settings and little things only a few people actually care about or use.
 

@@ -4,7 +4,7 @@
 
 Hello guys! From the creators of Sliding Messaging Pro, I would like to announce one of our new projects: Talon for Twitter!
 
-This one, along with klinkdawg's EvolveSMS are the two brand new apps that we have been creating the past few months. They are full of polish, full of features, and full of beautiful design and KitKat style! Both of these apps are availible on the Google Play store today, but lets get to know Talon a little first :)
+This one, along with klinkdawg's EvolveSMS are the two brand new apps that we have been creating the past few months. They are full of polish, features, and beautiful design and KitKat style! Both of these apps are availible on the Google Play store today, but lets get to know Talon a little first :)
 
 
 
@@ -21,13 +21,9 @@ Twitter features:
 - Live streaming support
 - Support for 2 accounts
 - View your timelines (main, mentions, direct messages, links, and pictures)
-- View retweets
-- View your favorites
-- Local and world trending
+- View retweets, favorites, Local and world trending, user profiles, Twitter lists, and more
 - Favorite users
 - Search Twitter
-- View user profiles
-- Twitter lists support
 - Delete, favorite, retweet, quote, and reply to statuses
 - view replies to statuses
 - Update your profile picture, banner, location, and user description
@@ -38,9 +34,9 @@ Twitter features:
 - And the list goes on :)
 
 Customization features:
-- Powerful developer theme engine (https://github.com/klinker24/talon_theme)
+- Extremely powerful developer theme engine (Read the second post :D)
 - Choose between either "Talon" or "Hangouts" layouts
-- Choose from 3 beautiful themes
+- Choose from 3 beautiful base themes (light, dark, and pitch black)
 - Custom text sizes
 - Night mode
 - Auto-Refresh options
@@ -60,9 +56,10 @@ App Features:
 - Never leave your timeline with in-line replies, favorites, and retweets
 - Actionable toast bar so you always know where you are and can jump to the top
 - Hiding action bar
+- "Do not disturb" mode
 - Widget for main timeline
 - DashClock Extension
-- Draft system for unsent tweets
+- Draft system for unsent/failed tweets
 - Google style pull to refresh for quick refreshing
 - Save tweet pictures
 - Share content with other apps, to and from Talon
@@ -79,6 +76,11 @@ Talon's Twitter: @TalonAndroid
 
 [URL="http://goo.gl/KCXlZk"]Google+ Beta Page[/URL]
 
+[B]Emojis[/B]
+Here are two different emoji plugins for you to choose from, choose whichever suits you best, install it and never worry about it again!
+Android: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial
+iOS 7: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios
+
 [B]Permissions Explained:[/B]
 - Write to Storage: Saves pictures to your SD card and writes them into the cache.
 - Read from Storage: Used when backing up settings.
@@ -90,13 +92,9 @@ Talon's Twitter: @TalonAndroid
 - Vibrate: Used for the notifications.
 
 [B]Credits:[/B]
-- Jacob Klinker: to many things to list! Tons of ideas and support
-- Yusuke Yamamoto: Twitter4j library
-- Chris Banes: ActionBar-PullToRefresh, Android-BitmapCache, and PhotoView libraries
-- Lucas Rocha: Smoothie ListView library
-- Andreas Stütz: PagerSlidingTabStrip library
-- Antoine Merle: SmoothProgressBar library
-- Aaron Klinker: Icon
+- Jacob Klinker: to many things to list! Tons of ideas, support, and inspiration
+- Aaron Klinker: Icon Design
+- Other open-source libraries and resources used can be found under the 'Get Help' section in settings.
 
 
 
@@ -122,3 +120,26 @@ Hope you enjoy it as much as I do, sound off in the comments with question, conc
 
 
 One more thing to say before I leave you here, please remember that this is XDA, and you are all expected to be a little bit different Android users, if you are having a force close or something, I would like you to be able to post a logcat of it. If you are wondering about why I did something the way I did, then I will probably explain it to you in a programming sense instead of how I would to a normal user on the Google+ beta page or something, because that makes much more sense to me, is easier on me, and you should be able to understand it a little bit better... Just keep that in mind and stay on topic please :D
+
+
+
+
+
+Second Post:
+
+
+[B]Themeing in Talon for Twitter[/B]
+Real quick, before you get to far into the content, I want to let all you developers know about one of, if not the standout feature of Talon and EvolveSMS: one incredibly powerful theme engine.
+
+Along with these apps, me and Jacob have completely redesigned and rethought our old "Theme Engine" from Sliding Messaging! Although the Sliding Messaging one was cool and great for the average user to customize, it was slow, cluttered, limited, and just bad design from a developer perspective. This won't be an issue with these apps though. We remade everything about it to bring you the ultimate themeing and customization experience, without the bloat and slowdowns. You won't be disappointed when you see what it can do!
+
+All this theme engine takes is a little bit of knowledge about layouts and resources in Android, along with the Android SDK to compile and distribute your package as an APK, then you can make both of these apps into literally ANYTHING you want. We are able to read the layouts, drawables, and some of the colors directly from your compiled package and place them in our apps! Sweet huh, you thought this kind of design your own thing was only for homescreens :D
+
+And the best part: it is completely free and you can easily share these themes with anyone when you are done by just sending the APK or putting it on the Google Play Store!
+
+For more info on these and to start making Talon really your own, check out these links:
+
+1.) [URL="https://github.com/klinker24/talon_theme"]Talon Themeing Example/Walkthrough on GitHub[/URL]
+2.) [URL="http://goo.gl/Odutkx"]Google+ Community Themeing Section[/URL] - A great place to share so anyone can see and use your themes, not just XDA users
+3.) [URL="http://goo.gl/4gJ0uF"]Google+ Themeing Post[/URL]
+
