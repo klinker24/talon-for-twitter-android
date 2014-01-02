@@ -72,7 +72,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         linkItems = new String[]{context.getResources().getString(R.string.theme_settings),
                 context.getResources().getString(R.string.sync_settings),
-                context.getResources().getString(R.string.notification_settings),
                 context.getResources().getString(R.string.advanced_settings),
                 context.getResources().getString(R.string.get_help_settings),
                 context.getResources().getString(R.string.other_apps),

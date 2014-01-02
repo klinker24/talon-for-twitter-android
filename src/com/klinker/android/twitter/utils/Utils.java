@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 
@@ -34,6 +35,9 @@ public class Utils {
                 .setOAuthConsumerSecret(settings.TWITTER_CONSUMER_SECRET)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
+
+        Log.v("logging_in", "auth token: " + settings.authenticationToken);
+        Log.v("logging_in", "auth token secret: " + settings.authenticationTokenSecret);
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }

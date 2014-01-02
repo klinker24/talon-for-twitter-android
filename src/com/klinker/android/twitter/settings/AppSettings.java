@@ -17,8 +17,8 @@ public class AppSettings {
 
     public SharedPreferences sharedPrefs;
 
-    public static String TWITTER_CONSUMER_KEY = "l1RXEJCfdU7q1CRYkTmeaw";
-    public static String TWITTER_CONSUMER_SECRET = "uVsk5H5umoLcYdcVSa6rWFQMN0kFOoTBxAnBid4OAkM";
+    public static String TWITTER_CONSUMER_KEY = "V9yijGrKf79jlYi0l3ekpA";
+    public static String TWITTER_CONSUMER_SECRET = "IHHoYqukYC951gsP8gkhr1RUSBJYYwhGO0P3uuCDkA";
 
     public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
 
@@ -61,6 +61,7 @@ public class AppSettings {
     public boolean syncSecondMentions;
     public boolean displayScreenName;
     public boolean liveStreaming;
+    public boolean pushNotifications;
 
     // theme stuff
     public boolean addonTheme;
@@ -133,6 +134,11 @@ public class AppSettings {
         syncSecondMentions = sharedPrefs.getBoolean("sync_second_mentions", true);
         displayScreenName = sharedPrefs.getBoolean("display_screen_name", false);
         liveStreaming = sharedPrefs.getBoolean("live_streaming", false);
+        pushNotifications = sharedPrefs.getBoolean("push_notifications", false);
+
+        if (pushNotifications) {
+            liveStreaming = false;
+        }
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {

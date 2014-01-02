@@ -84,6 +84,8 @@ public class LoginActivity extends Activity {
         context = this;
         settings = new AppSettings(context);
 
+        //context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH"));
+
         Utils.setUpTheme(context, settings);
         setContentView(R.layout.login_activity);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -289,6 +291,8 @@ public class LoginActivity extends Activity {
                 // Shared Preferences
                 SharedPreferences.Editor e = sharedPrefs.edit();
 
+                Log.v("logging_in", "this is what the token should be: " + accessToken.getToken());
+
                 if (sharedPrefs.getInt("current_account", 1) == 1) {
                     e.putString("authentication_token_1", accessToken.getToken());
                     e.putString("authentication_token_secret_1", accessToken.getTokenSecret());
@@ -335,7 +339,13 @@ public class LoginActivity extends Activity {
         protected String doInBackground(Void... args) {
 
             try {
+                Log.v("logging_in", "before get twitter");
+
+                settings = new AppSettings(context);
+
                 twitter = Utils.getTwitter(context, settings);
+
+                Log.v("logging_in", "before verify");
 
                 User user = twitter.verifyCredentials();
                 if (sharedPrefs.getInt("current_account", 1) == 1) {
@@ -352,10 +362,13 @@ public class LoginActivity extends Activity {
                     sharedPrefs.edit().putLong("twitter_id_2", user.getId()).commit();
                 }
 
+                Log.v("logging_in", "after verify");
+
                 // syncs 200 timeline tweets with 2 pages
                 Paging paging;
                 paging = new Paging(2, 100);
                 List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
+                Log.v("logging_in", "got timeline");
 
                 HomeDataSource dataSource = new HomeDataSource(context);
                 dataSource.open();

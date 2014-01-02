@@ -38,6 +38,7 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.services.PushNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -119,6 +120,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        if(DrawerActivity.settings.pushNotifications) {
+            context.startService(new Intent(context, PushNotificationService.class));
+        }
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
@@ -603,7 +608,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onStop() {
         if(DrawerActivity.settings.liveStreaming) {
             try {
-                twitterStream.shutdown();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        twitterStream.shutdown();
+                    }
+                });
+                //context.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                 Log.v("twitter_stream", "shutdown stream");
             } catch (Exception e) {
                 // closed before the stream was started or it is popup
@@ -636,6 +647,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }, 250);
 
         if(DrawerActivity.settings.liveStreaming && !MainActivity.isPopup) {
+            //context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH"));
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -646,9 +658,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         } catch (Exception e) {
                             ids = null;
                         }
-                        fIds = new Long[ids.length];
-                        for (int i = 0; i <fIds.length; i++) {
-                            fIds[i] = ids[i];
+                        try {
+                            fIds = new Long[ids.length];
+                            for (int i = 0; i <fIds.length; i++) {
+                                fIds[i] = ids[i];
+                            }
+                        } catch (Exception e) {
+                            fIds = null;
                         }
                     }
 

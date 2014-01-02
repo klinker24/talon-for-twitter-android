@@ -70,11 +70,6 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.notification_settings))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notificationSettings});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
         } else if (text.get(position).equals(context.getResources().getString(R.string.advanced_settings))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.advancedSettings});
             int resource = a.getResourceId(0, 0);
