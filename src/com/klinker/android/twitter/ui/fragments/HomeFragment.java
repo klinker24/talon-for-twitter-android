@@ -123,6 +123,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         if(DrawerActivity.settings.pushNotifications) {
             context.startService(new Intent(context, PushNotificationService.class));
+        } else {
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         }
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
