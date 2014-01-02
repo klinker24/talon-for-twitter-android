@@ -72,6 +72,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         linkItems = new String[]{context.getResources().getString(R.string.theme_settings),
                 context.getResources().getString(R.string.sync_settings),
+                context.getResources().getString(R.string.notification_settings),
                 context.getResources().getString(R.string.advanced_settings),
                 context.getResources().getString(R.string.get_help_settings),
                 context.getResources().getString(R.string.other_apps),
@@ -102,14 +103,18 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 setUpSyncSettings();
                 break;
             case 2:
+                addPreferencesFromResource(R.xml.notification_settings);
+                setUpNotificationSettings();
+                break;
+            case 3:
                 addPreferencesFromResource(R.xml.advanced_settings);
                 setUpAdvancedSettings();
                 break;
-            case 3:
+            case 4:
                 addPreferencesFromResource(R.xml.get_help_settings);
                 setUpGetHelpSettings();
                 break;
-            case 4:
+            case 5:
                 addPreferencesFromResource(R.xml.other_apps_settings);
                 setUpOtherAppSettings();
                 break;
@@ -348,43 +353,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }
     }
 
-    public void setUpSyncSettings() {
-        final Context context = getActivity();
+    public void setUpNotificationSettings() {
 
-        final AppSettings settings = new AppSettings(context);
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        Preference sync = findPreference("sync_friends");
-        sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.sync_friends))
-                        .setMessage(context.getResources().getString(R.string.sync_friends_summary))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    new SyncFriends(settings.myScreenName, sharedPrefs).execute();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .create()
-                        .show();
-
-                return false;
-            }
-
-        });
 
         final Preference quietHours = findPreference("quiet_hours");
         if(sharedPrefs.getBoolean("quiet_hours", false)) {
@@ -425,7 +396,45 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return true;
             }
         });
+    }
 
+    public void setUpSyncSettings() {
+        final Context context = getActivity();
+
+        final AppSettings settings = new AppSettings(context);
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        Preference sync = findPreference("sync_friends");
+        sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.sync_friends))
+                        .setMessage(context.getResources().getString(R.string.sync_friends_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    new SyncFriends(settings.myScreenName, sharedPrefs).execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
         int count = 0;
 
         if (sharedPrefs.getBoolean("is_logged_in_1", false)) {

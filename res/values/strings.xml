@@ -279,6 +279,8 @@
             <string name="push_notifications_summary">(HIGHLY EXPERIMENTAL - More of a proof of concept) This will post a push notification for any mentions on the current account. It will also disable live streaming.</string>
             <string name="push_notification_warning">This will burn your battery so fast you won\'t even know what hit you... You have been warned, it isn\'t worth it and I haven\'t had much time to test it.\n\nTo read more about the problems with push notifications, click this preference.</string>
 
+    <string name="notification_settings">Notification Settings</string>
+
     <string name="advanced_settings">Advanced Settings</string>
         <string name="app_feel_category">App Feel Options</string>
             <string name="advance_windowed">Advance Windowed</string>

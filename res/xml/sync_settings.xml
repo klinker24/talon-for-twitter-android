@@ -43,84 +43,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/auto_sync_notifications" >
-
-        <CheckBoxPreference
-            android:key="notifications"
-            android:title="@string/notifications"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="vibrate"
-            android:title="@string/vibrate"
-            android:defaultValue="true"
-            android:dependency="notifications"
-            />
-
-        <CheckBoxPreference
-            android:key="led"
-            android:title="@string/led"
-            android:defaultValue="true"
-            android:dependency="notifications"
-            />
-
-        <CheckBoxPreference
-            android:key="wake"
-            android:title="@string/wake_screen"
-            android:defaultValue="true"
-            android:dependency="notifications"
-            />
-
-        <!--<CheckBoxPreference
-            android:key="sound"
-            android:title="@string/sound"
-            android:defaultValue="true"
-            android:dependency="notifications"
-            />-->
-
-        <CheckBoxPreference
-            android:key="quiet_hours"
-            android:title="@string/quiet_hours"
-            android:defaultValue="false"
-            android:dependency="notifications"
-            />
-
-        </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/push_notification_options" >
-
-        <CheckBoxPreference
-            android:key="push_notifications"
-            android:title="@string/push_notifications"
-            android:summary="@string/push_notifications_summary"
-            android:defaultValue="false"
-            />
-
-        <Preference
-            android:summary="@string/push_notification_warning" >
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
-            </Preference>
-
-        </PreferenceCategory>
-
-
-    <PreferenceCategory
         android:key="other_options"
         android:title="@string/other_options" >
-
-        <CheckBoxPreference
-            android:key="favorite_users_notifications"
-            android:title="@string/fav_users_notifications"
-            android:defaultValue="true"
-            />
 
         <CheckBoxPreference
             android:key="sync_second_mentions"
             android:title="@string/sync_second_mentions"
             android:summary="@string/sync_second_mentions_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="refresh_on_start"
+            android:title="@string/refresh_on_startup"
             android:defaultValue="true"
             />
 
@@ -131,12 +66,6 @@
             android:defaultValue="1"
             android:entries="@array/max_number"
             android:entryValues="@array/max_number_inserted"
-            />
-
-        <CheckBoxPreference
-            android:key="refresh_on_start"
-            android:title="@string/refresh_on_startup"
-            android:defaultValue="true"
             />
 
         <Preference

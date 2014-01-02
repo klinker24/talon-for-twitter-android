@@ -10,12 +10,9 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
 
-/**
- * Created by luke on 11/24/13.
- */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public static final int NUM_PAGES = 5;
+    public static final int NUM_PAGES = 6;
     private Context context;
     private ListView mDrawerList;
 
@@ -50,10 +47,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return context.getResources().getString(R.string.sync_settings);
             case 2:
-                return context.getResources().getString(R.string.advanced_settings);
+                return context.getResources().getString(R.string.notification_settings);
             case 3:
-                return context.getResources().getString(R.string.get_help_settings);
+                return context.getResources().getString(R.string.advanced_settings);
             case 4:
+                return context.getResources().getString(R.string.get_help_settings);
+            case 5:
                 return context.getResources().getString(R.string.other_apps);
         }
         return null;

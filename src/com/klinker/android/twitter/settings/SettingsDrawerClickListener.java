@@ -46,7 +46,7 @@ public class SettingsDrawerClickListener implements ListView.OnItemClickListener
 
         final int mPos = position;
 
-        if (mPos < 5) { // one of the settings pages
+        if (mPos < 6) { // one of the settings pages
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -55,7 +55,7 @@ public class SettingsDrawerClickListener implements ListView.OnItemClickListener
             }, 300);
 
             viewPager.setCurrentItem(mPos, true);
-        } else if (mPos == 5) { // changelog
+        } else if (mPos == 6) { // changelog
 
             // changelog.txt
             String changes = IOUtils.readChangelog(context);
@@ -73,7 +73,7 @@ public class SettingsDrawerClickListener implements ListView.OnItemClickListener
                     .setPositiveButton(R.string.ok, null)
                     .show();
 
-        } else if (mPos == 6) { // rate it option
+        } else if (mPos == 7) { // rate it option
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
