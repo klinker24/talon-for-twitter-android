@@ -1,7 +1,6 @@
-package com.klinker.android.twitter.ui;
+package com.klinker.android.twitter.ui.compose;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -204,7 +203,7 @@ public class ComposeActivity extends Compose {
                             @Override
                             public void run() {
                                 InputMethodManager imm = (InputMethodManager)getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
+                                        INPUT_METHOD_SERVICE);
                                 imm.showSoftInput(reply, 0);
                             }
                         }, 250);
@@ -215,7 +214,7 @@ public class ComposeActivity extends Compose {
                         emojiButton.setImageResource(resource);
                     } else {
                         InputMethodManager imm = (InputMethodManager)getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
+                                INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
 
                         new Handler().postDelayed(new Runnable() {

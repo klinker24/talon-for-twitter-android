@@ -1,7 +1,6 @@
-package com.klinker.android.twitter.ui;
+package com.klinker.android.twitter.ui.compose;
 
 import android.app.NotificationManager;
-import android.content.Context;
 
 public class RetryCompose extends ComposeActivity {
 
@@ -10,7 +9,8 @@ public class RetryCompose extends ComposeActivity {
         super.onStart();
 
         NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotificationManager.cancel(5); // failed option
+        mNotificationManager.cancel(1); // main notification
     }
 }

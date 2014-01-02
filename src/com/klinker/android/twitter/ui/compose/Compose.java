@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui;
+package com.klinker.android.twitter.ui.compose;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -38,7 +38,6 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
@@ -73,6 +72,8 @@ public abstract class Compose extends Activity implements
 
     public PhotoViewAttacher mAttacher;
 
+    public boolean isDM = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,10 +90,11 @@ public abstract class Compose extends Activity implements
         setUpLayout();
         setUpDoneDiscard();
 
-        String to = getIntent().getStringExtra("user") + " ";
+        String to = getIntent().getStringExtra("user") + (isDM ? "" : " ");
 
         if (!to.equals("null ")) {
-            if(contactEntry == null) {
+            if(!isDM) {
+                Log.v("username_for_noti", "to place: " + to);
                 reply.setText(to);
                 reply.setSelection(reply.getText().toString().length());
             } else {
@@ -106,7 +108,7 @@ public abstract class Compose extends Activity implements
         String action = intent.getAction();
         String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
+        if (Intent.ACTION_SEND.equals(action) && type != null && reply.getText().length() > 1) {
             if ("text/plain".equals(type)) {
                 handleSendText(intent); // Handle text being sent
             } else if (type.startsWith("image/")) {
@@ -163,6 +165,7 @@ public abstract class Compose extends Activity implements
                     @Override
                     public void onClick(View v) {
                         discardClicked = true;
+                        sharedPrefs.edit().putString("draft", "").commit();
                         finish();
                     }
                 });
@@ -208,7 +211,8 @@ public abstract class Compose extends Activity implements
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
-            if (contactEntry == null) {
+            if (!isDM) {
+                Log.v("username_for_noti", "shared text: " + sharedText);
                 reply.setText(sharedText);
                 reply.setSelection(reply.getText().toString().length());
             } else {

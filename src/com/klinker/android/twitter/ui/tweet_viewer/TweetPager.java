@@ -30,7 +30,7 @@ import com.klinker.android.twitter.adapters.TweetPagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.ComposeActivity;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.IOUtils;
@@ -40,7 +40,6 @@ import java.net.URL;
 import java.util.Random;
 
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 
 public class TweetPager extends YouTubeBaseActivity {
 

@@ -31,7 +31,7 @@ import android.widget.RemoteViews;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.services.WidgetRefreshService;
-import com.klinker.android.twitter.ui.ComposeActivity;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetActivityWidget;
 

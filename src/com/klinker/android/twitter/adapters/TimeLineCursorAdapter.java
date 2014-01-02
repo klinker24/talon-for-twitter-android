@@ -38,6 +38,7 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
@@ -354,6 +355,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
 
                         return true;
+                    }
+                });
+
+                holder.background.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent reply = new Intent(context, ComposeDMActivity.class);
+                        reply.putExtra("user", "@" + screenname);
+                        context.startActivity(reply);
                     }
                 });
             }

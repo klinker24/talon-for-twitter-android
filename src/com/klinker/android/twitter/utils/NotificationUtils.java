@@ -23,9 +23,9 @@ import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.MarkReadService;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.ComposeActivity;
-import com.klinker.android.twitter.ui.ComposeDMActivity;
+import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.compose.RetryCompose;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -88,15 +88,17 @@ public class NotificationUtils {
             if (addButton) { // the reply and read button should be shown
                 Intent reply;
                 if (unreadCounts[1] == 1) {
-                    reply = new Intent(context, ComposeActivity.class);
+                    reply = new Intent(context, RetryCompose.class);
                 } else {
                     reply = new Intent(context, ComposeDMActivity.class);
                 }
 
-                reply.setAction(Intent.ACTION_SEND);
+                Log.v("username_for_noti", title[1]);
+                reply.putExtra("user", "@" + title[1]);
+                /*reply.setAction(Intent.ACTION_SEND);
                 reply.setType("text/plain");
-                reply.putExtra(Intent.EXTRA_TEXT, "@" + title[1] + " ");
-                reply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                reply.putExtra(Intent.EXTRA_TEXT, "@" + "lukeklinker" + " ");*/
+                //reply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
 
                 mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);
