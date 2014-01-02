@@ -336,7 +336,7 @@
     <string name="feature_requests">Feature Requests</string>
 
     <!-- Emoji Keyboard -->
-    <string name="recent">Favorites</string>
+    <string name="recent">Recents</string>
     <string name="people">People</string>
     <string name="things">Objects</string>
     <string name="nature">Nature</string>
