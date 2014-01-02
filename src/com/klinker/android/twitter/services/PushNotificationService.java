@@ -11,9 +11,11 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import twitter4j.FilterQuery;
@@ -32,7 +34,7 @@ public class PushNotificationService extends Service {
     }
 
     public TwitterStream pushStream;
-    public Context context;
+    public Context mContext;
     public AppSettings settings;
 
     @Override
@@ -51,9 +53,9 @@ public class PushNotificationService extends Service {
 
         startForeground(FOREGROUND_SERVICE_ID, notification);
 
-        context = getApplicationContext();
+        mContext = getApplicationContext();
 
-        settings = new AppSettings(context);
+        settings = new AppSettings(mContext);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.STOP_PUSH");
@@ -64,7 +66,7 @@ public class PushNotificationService extends Service {
         registerReceiver(startPush, filter);
 
         if (!settings.liveStreaming) {
-            context.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
+            mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
         }
     }
 
@@ -88,6 +90,13 @@ public class PushNotificationService extends Service {
                 @Override
                 public void onStatus(Status status) {
                     Log.v("twitter_stream_push", "@" + status.getUser().getScreenName() + " - " + status.getText());
+                    MentionsDataSource dataSource = new MentionsDataSource(mContext);
+                    dataSource.open();
+                    dataSource.createTweet(status, settings.currentAccount);
+
+                    NotificationUtils.refreshNotification(mContext);
+
+                    dataSource.close();
                     if (status.isRetweet()) {
                         Log.v("twitter_stream_push", "Retweeted status");
                     }

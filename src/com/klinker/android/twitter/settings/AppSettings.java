@@ -72,6 +72,7 @@ public class AppSettings {
 
     public int theme;
     public int layout;
+    public int currentAccount;
     public int textSize;
     public int maxTweetsRefresh;
     public int timelineSize;
@@ -150,6 +151,7 @@ public class AppSettings {
         // Integers
         theme = Integer.parseInt(sharedPrefs.getString("theme", "1")); // default is dark
         layout = Integer.parseInt(sharedPrefs.getString("layout", "0")); // default is talon
+        currentAccount = sharedPrefs.getInt("current_account", 1);
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "1000"));
