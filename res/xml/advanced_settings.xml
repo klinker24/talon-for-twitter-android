@@ -98,6 +98,7 @@
         <Preference
             android:key="restore"
             android:title="@string/restore_settings"
+            android:summary="@string/restore_settings_summary"
             />
 
     </PreferenceCategory>

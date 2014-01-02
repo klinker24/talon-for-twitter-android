@@ -8,3 +8,5 @@
 
 - Minor TODO:
     - Delete Retweets
+    - change the push notifications google+ post
+    - make a google plus post about why i clear the cache on theme changes

@@ -501,7 +501,11 @@ public class UserProfileActivity extends Activity {
 
                 isFollowing = friendship.isSourceFollowingTarget();
                 isBlocking = friendship.isSourceBlockingTarget();
-                isFavorite = sharedPrefs.getString("favorite_user_names_" + currentAccount, "").contains(otherUserName);
+
+                FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
+                data.open();
+                isFavorite = data.isFavUser(currentAccount, otherUserName);
+                data.close();
                 isFollowingSet = true;
 
                 return null;

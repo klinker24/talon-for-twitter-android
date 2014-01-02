@@ -325,6 +325,7 @@
                 <string name="backup_success">Backup Successful</string>
                 <string name="restore_success">Restore Successful</string>
             <string name="restore_settings">Restore Settings</string>
+                <string name="restore_settings_summary">Will clear the cache to apply any theme changes.</string>
 
 
     <string name="get_help_settings">Get Help</string>

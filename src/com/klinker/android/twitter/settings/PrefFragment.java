@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -495,6 +496,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
             @Override
             public boolean onPreferenceClick(Preference arg0) {
+
                 File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
 
                 String authenticationToken1 = sharedPrefs.getString("authentication_token_1", "none");
@@ -503,11 +505,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 String myName1 = sharedPrefs.getString("twitter_users_name_1", "");
                 String myBackgroundUrl1 = sharedPrefs.getString("twitter_background_url_1", "");
                 String myProfilePicUrl1 = sharedPrefs.getString("profile_pic_url_1", "");
-                String favoriteUserNames1 = sharedPrefs.getString("favorite_user_names_1", "");
                 long lastTweetId1 = sharedPrefs.getLong("last_tweet_id_1", 0);
                 long secondLastTweetId1 = sharedPrefs.getLong("second_last_tweet_id_1", 0);
                 long lastMentionId1 = sharedPrefs.getLong("last_mention_id_1", 0);
                 long lastDMId1 = sharedPrefs.getLong("last_dm_id_1", 0);
+                long twitterId1 = sharedPrefs.getLong("twitter_id_1", 0);
 
                 String authenticationToken2 = sharedPrefs.getString("authentication_token_2", "none");
                 String authenticationTokenSecret2 = sharedPrefs.getString("authentication_token_secret_2", "none");
@@ -515,11 +517,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 String myName2 = sharedPrefs.getString("twitter_users_name_2", "");
                 String myBackgroundUrl2 = sharedPrefs.getString("twitter_background_url_2", "");
                 String myProfilePicUrl2 = sharedPrefs.getString("profile_pic_url_2", "");
-                String favoriteUserNames2 = sharedPrefs.getString("favorite_user_names_2", "");
                 long lastTweetId2 = sharedPrefs.getLong("last_tweet_id_2", 0);
                 long secondLastTweetId2 = sharedPrefs.getLong("second_last_tweet_id_2", 0);
                 long lastMentionId2 = sharedPrefs.getLong("last_mention_id_2", 0);
                 long lastDMId2 = sharedPrefs.getLong("last_dm_id_2", 0);
+                long twitterId2 = sharedPrefs.getLong("twitter_id_2", 0);
 
                 IOUtils.loadSharedPreferencesFromFile(des, context);
 
@@ -538,6 +540,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 e.putLong("second_last_tweet_id_1", secondLastTweetId1);
                 e.putLong("last_mention_id_1", lastMentionId1);
                 e.putLong("last_dm_id_1", lastDMId1);
+                e.putLong("twitter_id_1", twitterId1);
 
                 e.putString("authentication_token_2", authenticationToken2);
                 e.putString("authentication_token_secret_2", authenticationTokenSecret2);
@@ -550,6 +553,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 e.putLong("second_last_tweet_id_2", secondLastTweetId2);
                 e.putLong("last_mention_id_2", lastMentionId2);
                 e.putLong("last_dm_id_2", lastDMId2);
+                e.putLong("twitter_id_2", twitterId2);
 
                 e.commit();
 
@@ -701,6 +705,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         } else if (key.equals("layout")) {
             new TrimCache(null).execute();
         }
+
     }
 
     class TrimCache extends AsyncTask<String, Void, Boolean> {
