@@ -172,8 +172,6 @@ public class NotificationUtils {
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(1, mBuilder.build());
 
-            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
                 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);

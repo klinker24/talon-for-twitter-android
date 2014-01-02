@@ -97,15 +97,17 @@ public class MentionsRefreshService extends IntentService {
                 }
             }
 
-            dataSource.close();
+            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
-            if (numberNew > 0) {
+            if (settings.notifications) {
                 NotificationUtils.refreshNotification(context);
             }
 
             if (settings.syncSecondMentions) {
                 startService(new Intent(context, SecondMentionsRefreshService.class));
             }
+
+            dataSource.close();
 
         } catch (TwitterException e) {
             // Error in updating status

@@ -106,7 +106,9 @@ public class TimelineRefreshService extends IntentService {
                     }
                 }
 
-                if (numberNew > 0) {
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+
+                if (settings.notifications) {
                     NotificationUtils.refreshNotification(context);
                 }
 
