@@ -66,4 +66,7 @@ The answer is pretty simple: to vastly improve the performance and the smooth sc
 
 By caching them directly as circles, it alleviates the need to do it on the fly which could consume quite a bit of processing power on older phones and would just be a complete waste to render them like that every time.﻿
 
+You may think it is a hassle, but you would be thanking me if you knew the difference it makes.
+
+
 You can also view the current cache size and clear it manually from "Advanced Settings".﻿

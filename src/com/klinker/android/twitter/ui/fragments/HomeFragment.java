@@ -624,6 +624,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public boolean justStarted = false;
+    public Handler waitOnRefresh = new Handler();
+    public Runnable applyRefresh = new Runnable() {
+        @Override
+        public void run() {
+            sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+        }
+    };
 
     @Override
     public void onStart() {
@@ -640,12 +647,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
 
                 if(!DrawerActivity.settings.liveStreaming) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            sharedPrefs.edit().putBoolean("should_refresh", true).commit();
-                        }
-                    }, 60000);
+                    waitOnRefresh.removeCallbacks(applyRefresh);
+                    waitOnRefresh.postDelayed(applyRefresh, 30000);
                 } else {
                     sharedPrefs.edit().putBoolean("should_refresh", true).commit();
                 }

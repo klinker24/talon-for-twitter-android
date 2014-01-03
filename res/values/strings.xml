@@ -226,7 +226,9 @@
         <string name="make_a_theme">Make a theme</string>
         <string name="layout">Layout</string>
             <string name="themeing_complete">Applied Theme</string>
-            <string name="themeing_complete_summary">\"Talon\" will now close.\n\nYou will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.</string>
+            <string name="themeing_complete_summary">\"Talon\" will now close.\n\n
+                You will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.\n\n
+                If your profile pictures don\'t show up the way they should (i.e. circle or square), you will have to remove and re-add the widget.</string>
     <string name="layout_summary">Changing this will clear the app\'s cache.</string>
         <string name="text_size">Text Size</string>
         <string name="night_mode">Night Mode</string>
