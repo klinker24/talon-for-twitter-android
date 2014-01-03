@@ -637,17 +637,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 if((DrawerActivity.settings.refreshOnStart || DrawerActivity.settings.liveStreaming) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
+                }
 
-                    if(!DrawerActivity.settings.liveStreaming) {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                sharedPrefs.edit().putBoolean("should_refresh", true).commit();
-                            }
-                        }, 60000);
-                    } else {
-                        sharedPrefs.edit().putBoolean("should_refresh", true).commit();
-                    }
+                if(!DrawerActivity.settings.liveStreaming) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+                        }
+                    }, 60000);
+                } else {
+                    sharedPrefs.edit().putBoolean("should_refresh", true).commit();
                 }
             }
         }, 250);
