@@ -230,6 +230,7 @@
             <string name="night_mode_day">Select Daytime Start</string>
             <string name="night_mode_theme">Select Theme for Night Mode</string>
         <string name="device_font">Use Device Font</string>
+            <string name="device_font_summary">Regular "Roboto" on most devices. Talon's default font is "Roboto Light".</string>
         <string name="ui_extras">UI Extras</string>
             <string name="ui_extras_summary">Includes:\n
                 - Hiding Action Bar\n

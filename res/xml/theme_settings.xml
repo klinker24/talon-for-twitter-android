@@ -68,6 +68,7 @@
         <CheckBoxPreference
             android:key="device_font"
             android:title="@string/device_font"
+            android:summary="@string/device_font_summary"
             android:defaultValue="false"
             />
 
