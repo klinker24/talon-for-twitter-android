@@ -596,11 +596,13 @@ public abstract class DrawerActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.menu_compose:
                 Intent compose = new Intent(context, ComposeActivity.class);
+                sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
                 startActivity(compose);
                 return true;
 
             case R.id.menu_direct_message:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
+                sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
                 startActivity(dm);
                 return true;
 

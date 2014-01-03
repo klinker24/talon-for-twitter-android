@@ -94,7 +94,8 @@ public class NotificationUtils {
                 }
 
                 Log.v("username_for_noti", title[1]);
-                reply.putExtra("user", "@" + title[1]);
+                sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
+                sharedPrefs.edit().putBoolean("from_notification_bool", true).commit();
                 /*reply.setAction(Intent.ACTION_SEND);
                 reply.setType("text/plain");
                 reply.putExtra(Intent.EXTRA_TEXT, "@" + "lukeklinker" + " ");*/

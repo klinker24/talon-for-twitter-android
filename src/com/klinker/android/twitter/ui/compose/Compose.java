@@ -92,7 +92,7 @@ public abstract class Compose extends Activity implements
 
         String to = getIntent().getStringExtra("user") + (isDM ? "" : " ");
 
-        if (!to.equals("null ")) {
+        if (!to.equals("null ") || (isDM && to.equals("null"))) {
             if(!isDM) {
                 Log.v("username_for_noti", "to place: " + to);
                 reply.setText(to);
@@ -101,6 +101,15 @@ public abstract class Compose extends Activity implements
                 contactEntry.setText(to);
                 reply.requestFocus();
             }
+        }
+
+        String from = sharedPrefs.getString("from_notification", "");
+        boolean noti = sharedPrefs.getBoolean("from_notification_bool", false);
+        if (!from.equals("") && noti) {
+            reply.setText(from);
+            reply.setSelection(reply.getText().toString().length());
+            sharedPrefs.edit().putString("from_notification", "").commit();
+            sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
         }
 
         // Get intent, action and MIME type
