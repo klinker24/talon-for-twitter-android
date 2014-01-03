@@ -74,6 +74,8 @@ public abstract class Compose extends Activity implements
 
     public boolean isDM = false;
 
+    public long notiId = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +110,9 @@ public abstract class Compose extends Activity implements
         if (!from.equals("") && noti) {
             reply.setText(from);
             reply.setSelection(reply.getText().toString().length());
+            notiId = sharedPrefs.getLong("from_notification_id", 0);
+
+            sharedPrefs.edit().putLong("from_notification_id", 0).commit();
             sharedPrefs.edit().putString("from_notification", "").commit();
             sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
         }
@@ -413,6 +418,10 @@ public abstract class Compose extends Activity implements
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
 
                 StatusUpdate media = new StatusUpdate(status);
+
+                if (notiId != 0) {
+                    media.inReplyToStatusId(notiId);
+                }
 
                 if (attachedFilePath.equals("")) {
                     // Update status

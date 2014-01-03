@@ -96,11 +96,11 @@ public class NotificationUtils {
                 Log.v("username_for_noti", title[1]);
                 sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
                 sharedPrefs.edit().putBoolean("from_notification_bool", true).commit();
-                /*reply.setAction(Intent.ACTION_SEND);
-                reply.setType("text/plain");
-                reply.putExtra(Intent.EXTRA_TEXT, "@" + "lukeklinker" + " ");*/
-                //reply.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                MentionsDataSource data = new MentionsDataSource(context);
+                data.open();
+                long id = data.getLastIds(currentAccount)[0];
                 PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+                sharedPrefs.edit().putLong("from_notification_long", id).commit();
 
                 mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);
 
