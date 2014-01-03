@@ -7,6 +7,10 @@
         android:title="@string/rerun_tutorial" />
 
     <Preference
+        android:key="faq"
+        android:title="@string/faq" />
+
+    <Preference
         android:key="youtube"
         android:title="@string/youtube" />
 

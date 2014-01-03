@@ -209,6 +209,13 @@
                   android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 
+        <activity android:name=".settings.FAQActivity"
+            android:label="@string/faq"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.TalonDark.Popup">
+        </activity>
+
         <activity android:name=".ui.tweet_viewer.TweetPager"
                   android:label="@string/app_name"
                   android:configChanges="orientation"

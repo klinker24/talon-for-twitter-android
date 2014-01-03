@@ -885,6 +885,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference faq = findPreference("faq");
+        faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(context, FAQActivity.class));
+                return false;
+            }
+        });
+
         Preference youtube = findPreference("youtube");
         youtube.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
