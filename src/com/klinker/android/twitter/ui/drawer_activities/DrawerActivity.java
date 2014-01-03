@@ -274,8 +274,8 @@ public abstract class DrawerActivity extends Activity {
 
         name.setText(sName);
         screenName.setText("@" + sScreenName);
-        name.setTextSize(settings.textSize);
-        screenName.setTextSize(settings.textSize);
+        name.setTextSize(15);
+        screenName.setTextSize(15);
 
         if (!backgroundUrl.equals("")) {
             backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
@@ -315,8 +315,8 @@ public abstract class DrawerActivity extends Activity {
         HoloTextView screenname2 = (HoloTextView) findViewById(R.id.screen_name_2);
         NetworkedCacheableImageView proPic2 = (NetworkedCacheableImageView) findViewById(R.id.profile_pic_2);
 
-        name2.setTextSize(settings.textSize);
-        screenname2.setTextSize(settings.textSize);
+        name2.setTextSize(15);
+        screenname2.setTextSize(15);
 
         final int current = sharedPrefs.getInt("current_account", 1);
 

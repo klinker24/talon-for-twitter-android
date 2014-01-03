@@ -49,7 +49,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         this.text = text;
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
+        textSize = 15;//Integer.parseInt(sharedPrefs.getString("text_size", "14"));
     }
 
     @Override
