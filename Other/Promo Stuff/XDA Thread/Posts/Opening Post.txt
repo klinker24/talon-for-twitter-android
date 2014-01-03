@@ -6,6 +6,8 @@ Hello guys! From the creators of Sliding Messaging Pro, I would like to announce
 
 This one, along with klinkdawg's EvolveSMS are the two brand new apps that we have been creating the past few months. They are full of polish, features, and beautiful design and KitKat style! Both of these apps are availible on the Google Play store today, but lets get to know Talon a little first :)
 
+[URL="http://goo.gl/N8XcnZ"]Talon for Twitter - Google Play Store[/URL]
+
 
 
 -----------------------------------------------------
@@ -79,8 +81,8 @@ Talon's Twitter: @TalonAndroid
 
 [B]Emojis[/B]
 Here are two different emoji plugins for you to choose from, choose whichever suits you best, install it and never worry about it again!
-Android: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial
-iOS 7: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios
+[URL="https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial"]Sliding Emoji Keyboard - Android[/URL]
+[URL="https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios"]Sliding Emoji Keyboard - iOS[/URL]
 
 [B]Permissions Explained:[/B]
 - Write to Storage: Saves pictures to your SD card and writes them into the cache.
