@@ -94,7 +94,7 @@ public abstract class Compose extends Activity implements
 
         String to = getIntent().getStringExtra("user") + (isDM ? "" : " ");
 
-        if (!to.equals("null ") || (isDM && to.equals("null"))) {
+        if ((!to.equals("null ") && !isDM) || (isDM && !to.equals("null"))) {
             if(!isDM) {
                 Log.v("username_for_noti", "to place: " + to);
                 reply.setText(to);
@@ -122,14 +122,13 @@ public abstract class Compose extends Activity implements
         String action = intent.getAction();
         String type = intent.getType();
 
-        if (Intent.ACTION_SEND.equals(action) && type != null && reply.getText().length() > 1) {
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
                 handleSendText(intent); // Handle text being sent
             } else if (type.startsWith("image/")) {
                 handleSendImage(intent); // Handle single image being sent
             }
         }
-
     }
 
     public void setUpWindow() {
