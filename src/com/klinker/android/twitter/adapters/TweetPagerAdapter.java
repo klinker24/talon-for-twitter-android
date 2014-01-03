@@ -67,6 +67,10 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
 
         webpages = new ArrayList<String>();
 
+        if (links == null) {
+            links = new String[0];
+        }
+        
         if (links.length > 0 && !links[0].equals("")) {
             for (String s : links) {
                 if (s.contains("youtu")) {

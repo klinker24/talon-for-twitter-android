@@ -33,6 +33,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetActivityWidget;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -59,14 +60,15 @@ public class WidgetProvider extends AppWidgetProvider {
             viewTweet.putExtra("tweet", intent.getStringExtra("tweet"));
             viewTweet.putExtra("retweeter", intent.getStringExtra("retweeter"));
             viewTweet.putExtra("webpage", intent.getStringExtra("webpage"));
-            viewTweet.putExtra("picture", false);
+            viewTweet.putExtra("picture", intent.getBooleanExtra("picture", false));
             viewTweet.putExtra("tweetid", intent.getLongExtra("tweetid", 0));
             viewTweet.putExtra("proPic", intent.getStringExtra("propic"));
             viewTweet.putExtra("from_widget", true);
             viewTweet.putExtra("users", intent.getStringExtra("users"));
             viewTweet.putExtra("hashtags", intent.getStringExtra("hashtags"));
+            viewTweet.putExtra("other_links", intent.getStringExtra("other_links"));
 
-            viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             context.startActivity(viewTweet);
         } else {
@@ -101,8 +103,7 @@ public class WidgetProvider extends AppWidgetProvider {
             for (int i = 0; i < appWidgetIds.length; i++) {
                 int appWidgetId = appWidgetIds[i];
 
-                Intent quickText = new Intent(this, ComposeActivity.class);
-                quickText.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent quickText = new Intent(this, RetryCompose.class);
                 PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
 
                 Intent intent2 = new Intent(this, WidgetService.class);

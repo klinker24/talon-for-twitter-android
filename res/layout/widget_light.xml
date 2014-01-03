@@ -89,8 +89,7 @@ limitations under the License.
             android:id="@+id/widgetList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/light_drawer"
-            android:divider="@color/light_date">
+            android:background="@color/light_drawer">
         </ListView>
     </LinearLayout>
 </RelativeLayout>

@@ -98,7 +98,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             if (displayPic) {
                 link = picUrl;
             } else {
-                link = otherUrl;
+                link = otherUrl.split("  ")[0];
             }
 
             Bundle extras = new Bundle();
@@ -109,6 +109,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             extras.putString("retweeter", mWidgetItems.get(arg0).getRetweeter());
             extras.putString("webpage", link);
             extras.putBoolean("picture", displayPic);
+            extras.putString("other_links", mWidgetItems.get(arg0).getOtherWeb());
             extras.putLong("tweetid", mWidgetItems.get(arg0).getId());
             extras.putString("propic", mWidgetItems.get(arg0).getPicUrl());
             extras.putString("users", mWidgetItems.get(arg0).getUsers());

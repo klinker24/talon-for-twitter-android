@@ -111,11 +111,11 @@ public abstract class Compose extends Activity implements
             reply.setText(from);
             reply.setSelection(reply.getText().toString().length());
             notiId = sharedPrefs.getLong("from_notification_id", 0);
-
-            sharedPrefs.edit().putLong("from_notification_id", 0).commit();
-            sharedPrefs.edit().putString("from_notification", "").commit();
-            sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
         }
+
+        sharedPrefs.edit().putLong("from_notification_id", 0).commit();
+        sharedPrefs.edit().putString("from_notification", "").commit();
+        sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
 
         // Get intent, action and MIME type
         Intent intent = getIntent();

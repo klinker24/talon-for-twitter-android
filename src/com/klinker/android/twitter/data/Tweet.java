@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.data;
 
+import android.util.Log;
+
 public class Tweet {
     private long id;
     private String text;
