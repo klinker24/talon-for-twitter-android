@@ -34,6 +34,7 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.Tweet;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
 
 import java.net.URL;
@@ -58,12 +59,14 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
     private boolean darkTheme;
     private BitmapLruCache mCache;
+    private AppSettings settings;
 
     public WidgetViewsFactory(Context context, Intent intent) {
         mContext = context;
         darkTheme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mContext).getString("theme", "1")) != 0;
 
         mCache = App.getInstance(context).getBitmapCache();
+        settings = new AppSettings(context);
     }
 
     @Override
@@ -203,7 +206,9 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 URL mUrl = new URL(url);
 
                 Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                image = ImageUtils.getCircle(image, mContext);
+                if (settings.roundContactImages) {
+                    image = ImageUtils.getCircle(image, mContext);
+                }
 
                 wrapper = mCache.put(url, image);
             } catch (Exception e) {
