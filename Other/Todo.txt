@@ -1,8 +1,6 @@
 - Features:
-    - some way to show progress bar on widget
+    - Show full conversations on tweets (look forward, not back...) - No clue how yet
 
 - Bugs:
 
 - Main TODO:
-    - Notification for downloading pictures
-    - Notification for refreshing widget

@@ -31,13 +31,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
 
-/**
- * Created with IntelliJ IDEA.
- * User: luke
- * Date: 11/21/13
- * Time: 4:02 PM
- * To change this template use File | Settings | File Templates.
- */
 public class IOUtils {
 
     public static void saveImage(Bitmap finalBitmap, String d, Context context) {
