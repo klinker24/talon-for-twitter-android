@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.ui.tweet_viewer;
 
+import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Display;
@@ -367,14 +369,26 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_save_image:
 
-                Toast.makeText(context, getResources().getString(R.string.saving_picture), Toast.LENGTH_SHORT).show();
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+
                         Looper.prepare();
 
                         try {
+                            NotificationCompat.Builder mBuilder =
+                                    new NotificationCompat.Builder(context)
+                                            .setSmallIcon(R.drawable.ic_stat_icon)
+                                            .setTicker(getResources().getString(R.string.downloading) + "...")
+                                            .setContentTitle(getResources().getString(R.string.app_name))
+                                            .setContentText(getResources().getString(R.string.saving_picture) + "...")
+                                            .setProgress(100, 100, true)
+                                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(6, mBuilder.build());
+
                             String url = webpage;
                             if (webpage.contains("insta")) {
                                 url = url.substring(0, url.length() - 1) + "l";
@@ -390,10 +404,29 @@ public class TweetPager extends YouTubeBaseActivity {
 
                             IOUtils.saveImage(bitmap, fname, context);
 
-                            Toast.makeText(context, getResources().getString(R.string.saved_picture), Toast.LENGTH_SHORT).show();
+                            mBuilder =
+                                    new NotificationCompat.Builder(context)
+                                            .setSmallIcon(R.drawable.ic_stat_icon)
+                                            .setTicker(getResources().getString(R.string.saved_picture) + "...")
+                                            .setContentTitle(getResources().getString(R.string.app_name))
+                                            .setContentText(getResources().getString(R.string.saved_picture) + "!")
+                                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+
+                            mNotificationManager.notify(6, mBuilder.build());
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            NotificationCompat.Builder mBuilder =
+                                    new NotificationCompat.Builder(context)
+                                            .setSmallIcon(R.drawable.ic_stat_icon)
+                                            .setTicker(getResources().getString(R.string.error) + "...")
+                                            .setContentTitle(getResources().getString(R.string.app_name))
+                                            .setContentText(getResources().getString(R.string.error) + "...")
+                                            .setProgress(100, 100, true)
+                                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(6, mBuilder.build());
                         }
                     }
                 }).start();

@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.ui.widgets;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -89,14 +91,25 @@ public class PhotoViewerDialog extends Activity {
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, getResources().getString(R.string.saving_picture), Toast.LENGTH_SHORT).show();
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Looper.prepare();
 
                         try {
+                            NotificationCompat.Builder mBuilder =
+                                    new NotificationCompat.Builder(context)
+                                            .setSmallIcon(R.drawable.ic_stat_icon)
+                                            .setTicker(getResources().getString(R.string.downloading) + "...")
+                                            .setContentTitle(getResources().getString(R.string.app_name))
+                                            .setContentText(getResources().getString(R.string.saving_picture) + "...")
+                                            .setProgress(100, 100, true)
+                                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(6, mBuilder.build());
+
                             URL mUrl = new URL(url);
 
                             Bitmap bitmap = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
@@ -107,10 +120,28 @@ public class PhotoViewerDialog extends Activity {
                             String fname = "Image-" + n;
 
                             IOUtils.saveImage(bitmap, fname, context);
+                            mBuilder =
+                                    new NotificationCompat.Builder(context)
+                                            .setSmallIcon(R.drawable.ic_stat_icon)
+                                            .setTicker(getResources().getString(R.string.saved_picture) + "...")
+                                            .setContentTitle(getResources().getString(R.string.app_name))
+                                            .setContentText(getResources().getString(R.string.saved_picture) + "!")
+                                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
 
-                            Toast.makeText(context, getResources().getString(R.string.saved_picture), Toast.LENGTH_SHORT).show();
+                            mNotificationManager.notify(6, mBuilder.build());
                         } catch (Exception e) {
-                            Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            NotificationCompat.Builder mBuilder =
+                                    new NotificationCompat.Builder(context)
+                                            .setSmallIcon(R.drawable.ic_stat_icon)
+                                            .setTicker(getResources().getString(R.string.error) + "...")
+                                            .setContentTitle(getResources().getString(R.string.app_name))
+                                            .setContentText(getResources().getString(R.string.error) + "...")
+                                            .setProgress(100, 100, true)
+                                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(6, mBuilder.build());
                         }
                     }
                 }).start();
