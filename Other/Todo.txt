@@ -1,6 +1,6 @@
 - Features:
     - Show full conversations on tweets (look forward, not back...) - No clue how yet
+    - Retweet and favorite from multiple accounts
 
 - Bugs:
-
-- Main TODO:
+    - None right now
