@@ -34,6 +34,7 @@ import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
+import com.klinker.android.twitter.ui.compose.WidgetCompose;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetActivityWidget;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -103,7 +104,8 @@ public class WidgetProvider extends AppWidgetProvider {
             for (int i = 0; i < appWidgetIds.length; i++) {
                 int appWidgetId = appWidgetIds[i];
 
-                Intent quickText = new Intent(this, RetryCompose.class);
+                Intent quickText = new Intent(this, WidgetCompose.class);
+                quickText.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
 
                 Intent intent2 = new Intent(this, WidgetService.class);
