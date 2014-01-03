@@ -83,6 +83,7 @@ public class NotificationUtils {
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
+                    .setTicker(HtmlUtils.removeColorHtml(shortText))
                     .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(longText)));
 
             if (addButton) { // the reply and read button should be shown
@@ -124,6 +125,7 @@ public class NotificationUtils {
                     .setSmallIcon(R.drawable.ic_stat_icon)
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
+                    .setTicker(HtmlUtils.removeColorHtml(shortText))
                     .setAutoCancel(true);
         }
 
