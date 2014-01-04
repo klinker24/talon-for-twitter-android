@@ -216,6 +216,7 @@ public class LoginActivity extends Activity {
                     timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     timeline.putExtra("tutorial", true);
                     sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                     startActivity(timeline);
                 }
 
@@ -417,7 +418,6 @@ public class LoginActivity extends Activity {
 
 
                 for (twitter4j.Status status : statuses) {
-                    Log.v("mention_found", "found mention");
                     try {
                         mentionsSource.createTweet(status, sharedPrefs.getInt("current_account", 1), false);
                     } catch (Exception e) {

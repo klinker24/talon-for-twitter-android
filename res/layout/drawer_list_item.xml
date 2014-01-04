@@ -8,7 +8,7 @@
     <ImageView android:id="@+id/icon"
         android:layout_height="35dp"
         android:layout_width="35dp"
-        android:layout_marginLeft="15dp" />
+        android:layout_marginLeft="5dp" />
 
     <com.klinker.android.twitter.ui.widgets.HoloTextView
         android:id="@+id/title"
@@ -18,7 +18,7 @@
         android:singleLine="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="5dp"
         android:paddingLeft="11dp" />
 
 </LinearLayout>
