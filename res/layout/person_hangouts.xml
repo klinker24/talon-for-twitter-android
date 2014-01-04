@@ -4,6 +4,8 @@
     android:id="@+id/background"
     android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
     android:layout_height="match_parent"
     android:paddingTop="5dp" >
 
