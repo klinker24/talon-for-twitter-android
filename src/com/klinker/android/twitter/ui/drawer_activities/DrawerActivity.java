@@ -3,6 +3,8 @@ package com.klinker.android.twitter.ui.drawer_activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
@@ -564,17 +567,27 @@ public abstract class DrawerActivity extends Activity {
         }).start();*/
     }
 
+    private SearchView searchView;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, Search.class)));
+        searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (MainActivity.isPopup) {
-            menu.getItem(2).setVisible(false); // hide the settings button if the popup is up
+            menu.getItem(3).setVisible(false); // hide the settings button if the popup is up
         }
 
         return true;
@@ -594,24 +607,30 @@ public abstract class DrawerActivity extends Activity {
         }
 
         switch (item.getItemId()) {
+            case R.id.menu_search:
+                overridePendingTransition(0,0);
+                finish();
+                overridePendingTransition(0,0);
+                return super.onOptionsItemSelected(item);
+
             case R.id.menu_compose:
                 Intent compose = new Intent(context, ComposeActivity.class);
                 sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
                 startActivity(compose);
-                return true;
+                return super.onOptionsItemSelected(item);
 
             case R.id.menu_direct_message:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
                 sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
                 startActivity(dm);
-                return true;
+                return super.onOptionsItemSelected(item);
 
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 finish();
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                 startActivity(settings);
-                return true;
+                return super.onOptionsItemSelected(item);
 
             default:
                 return super.onOptionsItemSelected(item);

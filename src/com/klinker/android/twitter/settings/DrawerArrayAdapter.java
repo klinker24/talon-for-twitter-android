@@ -59,6 +59,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         holder.name.setText(settingName);
+        holder.name.setTextSize(18);
 
         if (text.get(position).equals(context.getResources().getString(R.string.theme_settings))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.themeSettings});

@@ -1,19 +1,25 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,13 +46,17 @@ import twitter4j.QueryResult;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-/**
- * Created by luke on 11/27/13.
- */
-public class Search extends DrawerActivity {
+public class Search extends Activity {
 
     private AsyncListView listView;
     private LinearLayout spinner;
+
+    private Context context;
+    private SharedPreferences sharedPrefs;
+    private AppSettings settings;
+    private ActionBar actionBar;
+
+    private boolean translucent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,12 +68,30 @@ public class Search extends DrawerActivity {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
-        setUpTheme();
+        if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
+            translucent = true;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+            try {
+                int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
+
+                if (immersive == 1) {
+                    translucent = false;
+                }
+            } catch (Exception e) {
+            }
+        } else {
+            translucent = false;
+        }
+
+        Utils.setUpTheme(context, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
-        setContentView(R.layout.retweets_activity);
+        setContentView(R.layout.list_view_activity);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -85,30 +113,35 @@ public class Search extends DrawerActivity {
         View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
 
-        if (DrawerActivity.translucent) {
+        View footer = new View(context);
+        footer.setOnClickListener(null);
+        footer.setOnLongClickListener(null);
+        ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, toDP(5));
+        footer.setLayoutParams(params);
+        listView.addFooterView(footer);
+        listView.setFooterDividersEnabled(false);
 
+        if (translucent) {
             if (Utils.hasNavBar(context)) {
-                View footer = new View(context);
+                footer = new View(context);
                 footer.setOnClickListener(null);
                 footer.setOnLongClickListener(null);
-                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
                 footer.setLayoutParams(params);
                 listView.addFooterView(footer);
                 listView.setFooterDividersEnabled(false);
             }
 
-            if (!MainActivity.isPopup) {
-                View view = new View(context);
-                view.setOnClickListener(null);
-                view.setOnLongClickListener(null);
-                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context) - toDP(5));
-                view.setLayoutParams(params2);
-                listView.addHeaderView(view);
-                listView.setFooterDividersEnabled(false);
-            }
+            View view = new View(context);
+            view.setOnClickListener(null);
+            view.setOnLongClickListener(null);
+            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+            view.setLayoutParams(params2);
+            listView.addHeaderView(view);
+            listView.setHeaderDividersEnabled(false);
         }
 
-        setUpDrawer(8, getResources().getString(R.string.search));
+        //setUpDrawer(8, getResources().getString(R.string.search));
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
         spinner.setVisibility(View.GONE);
@@ -155,20 +188,27 @@ public class Search extends DrawerActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         // Assumes current activity is the searchable activity
+        Log.v("searching_talon", getComponentName().toString());
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
         return true;
     }
 
+    public static final int SETTINGS_RESULT = 101;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
+        }*/
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                onBackPressed();
+                return true;
 
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
@@ -196,6 +236,7 @@ public class Search extends DrawerActivity {
 
         @Override
         protected void onPreExecute() {
+            listView.setVisibility(View.GONE);
             spinner.setVisibility(View.VISIBLE);
         }
 
@@ -232,9 +273,9 @@ public class Search extends DrawerActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        try {
+        /*try {
             mDrawerToggle.onConfigurationChanged(newConfig);
-        } catch (Exception e) { }
+        } catch (Exception e) { }*/
 
         overridePendingTransition(0,0);
         finish();
@@ -244,4 +285,7 @@ public class Search extends DrawerActivity {
         startActivity(restart);
     }
 
+    public int toDP(int px) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+    }
 }

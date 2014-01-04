@@ -37,8 +37,8 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 context1.getResources().getString(R.string.favorite_tweets),
                 context1.getResources().getString(R.string.favorite_users),
                 context1.getResources().getString(R.string.lists),
-                context1.getResources().getString(R.string.trends),
-                context1.getResources().getString(R.string.search) };
+                context1.getResources().getString(R.string.trends) };
+                //context1.getResources().getString(R.string.search) };
 
         return items;
     }
@@ -78,7 +78,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         holder.name.setText(settingName);
-        holder.name.setTextSize(19);
+        holder.name.setTextSize(18);
 
         if (text.get(position).equals(context.getResources().getString(R.string.links))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
