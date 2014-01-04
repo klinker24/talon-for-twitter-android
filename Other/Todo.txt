@@ -1,6 +1,8 @@
 - Features:
     - Show full conversations on tweets (look forward, not back...) - No clue how yet
     - Retweet and favorite from multiple accounts
+    - Change the @ icon
 
 - Bugs:
-    - None right now
+    - #FF problem from kovdev
+    - Double check on the mentions
