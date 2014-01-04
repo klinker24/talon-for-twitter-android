@@ -606,7 +606,5 @@ public class LoginActivity extends Activity {
                 return;
             }
         }
-
-        super.onBackPressed();
     }
 }
