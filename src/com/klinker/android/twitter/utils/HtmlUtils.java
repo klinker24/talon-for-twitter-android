@@ -109,7 +109,7 @@ public class HtmlUtils {
 
         if(hashtags.length > 0) {
             for (String s : sHashtags) {
-                if (s.length() > 1) {
+                if (s.length() > 1 && !s.equals("FF")) {
                     tweetTexts = tweetTexts.replace("#" + s, "<font color='#FF8800'>#" + s + "</font>");
                 }
             }
