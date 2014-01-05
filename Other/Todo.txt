@@ -4,5 +4,4 @@
     - Change the @ icon
 
 - Bugs:
-    - #FF problem from kovdev
     - Double check on the mentions

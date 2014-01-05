@@ -284,7 +284,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
                     User user = twitter.verifyCredentials();
-                    long lastId = dataSource.getLastIds(currentAccount)[0];
+                    long[] lastId = dataSource.getLastIds(currentAccount);
                     Paging paging;
                     paging = new Paging(1, 50);
 
@@ -294,7 +294,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     // first try to get the top 50 tweets
                     for (int i = 0; i < statuses.size(); i++) {
-                        if (statuses.get(i).getId() == lastId) {
+                        long id = statuses.get(i).getId();
+                        if (id == lastId[0] || id == lastId[1]) {
                             statuses = statuses.subList(0, i);
                             broken = true;
                             break;
@@ -307,7 +308,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         List<twitter4j.Status> statuses2 = twitter.getMentionsTimeline(paging2);
 
                         for (int i = 0; i < statuses2.size(); i++) {
-                            if (statuses2.get(i).getId() == lastId) {
+                            long id = statuses2.get(i).getId();
+                            if (id == lastId[0] || id == lastId[1]) {
                                 statuses2 = statuses2.subList(0, i);
                                 break;
                             }
