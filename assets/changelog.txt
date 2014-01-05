@@ -8,6 +8,7 @@
     &#8226; Open multiple links from the tweet activity<br/>
     &#8226; Option to enable favorite user notifications<br/>
     &#8226; Mentions notifications for second account<br/>
+    &#8226; Convert the search to the action bar instead of drawer<br/>
     &#8226; New notification icon<br/>
     &#8226; Save images from the photo viewer<br/>
     &#8226; Option to show Twitter handles instead of names on the timelines<br/>

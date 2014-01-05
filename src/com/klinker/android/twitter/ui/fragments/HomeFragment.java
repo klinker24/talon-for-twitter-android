@@ -518,7 +518,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                     for (int i = 0; i < statuses2.size(); i++) {
                         long id = statuses2.get(i).getId();
-                        if (id == lastId[1] || id == lastId[0]) {
+                        if (id == lastId[0] || id == lastId[1]) {
                             statuses2 = statuses2.subList(0, i);
                             break;
                         }

@@ -4,4 +4,3 @@
     - Change the @ icon
 
 - Bugs:
-    - Double check on the mentions
