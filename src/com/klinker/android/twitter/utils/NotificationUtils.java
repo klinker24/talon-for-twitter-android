@@ -649,7 +649,6 @@ public class NotificationUtils {
         text = currText + "<b>@" + interactor.getScreenName() + "</b> " + type + "\n";
         sharedPrefs.edit().putString("old_interaction_text", text).commit();
 
-
         // set icon
         int types = 0;
         if (newFavorites > 0) {
@@ -674,14 +673,25 @@ public class NotificationUtils {
             }
         }
 
+        // set shorter text
+        if (types > 1) {
+            smallText = types + " new interactions";
+        } else {
+            smallText = text;
+        }
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
-                .setContentText(text)
+                .setContentText(smallText)
                 .setSmallIcon(R.drawable.ic_stat_icon)
                 .setLargeIcon(icon)
                 .setContentIntent(resultPendingIntent)
                 .setTicker(title)
                 .setAutoCancel(true);
+
+        if(context.getResources().getBoolean(R.bool.expNotifications)) {
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(text)));
+        }
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
