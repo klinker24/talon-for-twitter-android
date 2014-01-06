@@ -151,7 +151,11 @@ public class LocalTrends extends Fragment implements
                 listView.setAdapter(new TrendsArrayAdapter(context, trends));
                 listView.setVisibility(View.VISIBLE);
             } else {
-                Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
+                try {
+                    Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    // it isn't attached to the main activity anymore
+                }
             }
 
             LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);

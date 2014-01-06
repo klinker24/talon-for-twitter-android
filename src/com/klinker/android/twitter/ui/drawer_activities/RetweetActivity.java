@@ -135,7 +135,7 @@ public class RetweetActivity extends DrawerActivity {
             }
         });
 
-        setUpDrawer(3, getResources().getString(R.string.retweets));
+        setUpDrawer(6, getResources().getString(R.string.retweets));
 
         new GetRetweets().execute();
 

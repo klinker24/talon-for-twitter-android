@@ -110,19 +110,19 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
                     switch (pos) {
                         case 3:
-                            intent = new Intent(context, RetweetActivity.class);
+                            intent = new Intent(context, TrendsPager.class);
                             break;
                         case 4:
-                            intent = new Intent(context, FavoritesActivity.class);
+                            intent = new Intent(context, ListsActivity.class);
                             break;
                         case 5:
                             intent = new Intent(context, FavoriteUsersActivity.class);
                             break;
                         case 6:
-                            intent = new Intent(context, ListsActivity.class);
+                            intent = new Intent(context, RetweetActivity.class);
                             break;
                         case 7:
-                            intent = new Intent(context, TrendsPager.class);
+                            intent = new Intent(context, FavoritesActivity.class);
                             break;
                         case 8:
                             intent = new Intent(context, Search.class);

@@ -33,11 +33,11 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 context1.getResources().getString(R.string.timeline),
                 context1.getResources().getString(R.string.mentions),
                 context1.getResources().getString(R.string.direct_messages),
-                context1.getResources().getString(R.string.retweets),
-                context1.getResources().getString(R.string.favorite_tweets),
-                context1.getResources().getString(R.string.favorite_users),
+                context1.getResources().getString(R.string.trends),
                 context1.getResources().getString(R.string.lists),
-                context1.getResources().getString(R.string.trends) };
+                context1.getResources().getString(R.string.favorite_users),
+                context1.getResources().getString(R.string.retweets),
+                context1.getResources().getString(R.string.favorite_tweets) };
                 //context1.getResources().getString(R.string.search) };
 
         return items;

@@ -75,7 +75,7 @@ public class ListsActivity extends DrawerActivity {
             }
         }
 
-        setUpDrawer(6, getResources().getString(R.string.lists));
+        setUpDrawer(4, getResources().getString(R.string.lists));
 
         new GetLists().execute();
 
