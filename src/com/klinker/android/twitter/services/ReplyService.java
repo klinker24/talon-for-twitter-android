@@ -43,6 +43,7 @@ public class ReplyService extends IntentService {
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
 
         Intent compose = new Intent(context, RetryCompose.class);
+        compose.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(compose);
     }
 
