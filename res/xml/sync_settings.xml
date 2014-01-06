@@ -3,6 +3,24 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="@string/push_notification_options" >
+
+        <CheckBoxPreference
+            android:key="push_notifications"
+            android:title="@string/push_notifications"
+            android:summary="@string/push_notifications_summary"
+            android:defaultValue="false"
+            />
+
+        <Preference
+            android:summary="@string/push_notification_warning" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="auto_refresh_category"
         android:title="@string/auto_refresh_category" >
 
