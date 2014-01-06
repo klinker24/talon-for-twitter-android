@@ -76,6 +76,12 @@
             android:defaultValue="true"
             />
 
+        <CheckBoxPreference
+            android:key="pebble_notification"
+            android:title="@string/pebble_notifications"
+            android:defaultValue="false"
+            />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

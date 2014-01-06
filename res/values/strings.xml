@@ -297,6 +297,7 @@
             <string name="push_notification_warning">To read more about this option, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>
+        <string name="pebble_notifications">Pebble Notifications</string>
 
     <string name="advanced_settings">Advanced Settings</string>
         <string name="app_feel_category">App Feel Options</string>

@@ -29,8 +29,13 @@ import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -130,6 +135,20 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setTicker(HtmlUtils.removeColorHtml(shortText))
                     .setAutoCancel(true);
+        }
+
+        // Pebble notification
+        if(sharedPrefs.getBoolean("pebble_notification", false)) {
+            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+            Map pebbleData = new HashMap();
+            pebbleData.put("title", title[0]);
+            pebbleData.put("body", Html.fromHtml(longText));
+            JSONObject jsonData = new JSONObject(pebbleData);
+            String notificationData = new JSONArray().put(jsonData).toString();
+            pebble.putExtra("messageType", "PEBBLE_ALERT");
+            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+            pebble.putExtra("notificationData", notificationData);
+            context.sendBroadcast(pebble);
         }
 
         int count = 0;
@@ -598,6 +617,20 @@ public class NotificationUtils {
             wakeLock.acquire(5000);
         }
 
+        // Pebble notification
+        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
+            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+            Map pebbleData = new HashMap();
+            pebbleData.put("title", title);
+            pebbleData.put("body", Html.fromHtml(messageLong));
+            JSONObject jsonData = new JSONObject(pebbleData);
+            String notificationData = new JSONArray().put(jsonData).toString();
+            pebble.putExtra("messageType", "PEBBLE_ALERT");
+            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+            pebble.putExtra("notificationData", notificationData);
+            context.sendBroadcast(pebble);
+        }
+
         data.close();
     }
 
@@ -770,6 +803,20 @@ public class NotificationUtils {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
             wakeLock.acquire(5000);
+        }
+
+        // Pebble notification
+        if(sharedPrefs.getBoolean("pebble_notification", false)) {
+            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+            Map pebbleData = new HashMap();
+            pebbleData.put("title", title);
+            pebbleData.put("body", Html.fromHtml(text));
+            JSONObject jsonData = new JSONObject(pebbleData);
+            String notificationData = new JSONArray().put(jsonData).toString();
+            pebble.putExtra("messageType", "PEBBLE_ALERT");
+            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+            pebble.putExtra("notificationData", notificationData);
+            context.sendBroadcast(pebble);
         }
     }
 }
