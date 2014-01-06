@@ -48,6 +48,7 @@ Customization features:
 App Features:
 - Expandable, actionable, and dynamic notification system
 - Full app popup
+- Option to always be listening for mentions ("Talon Pull")
 - Full emoji support
 - View in-line Twitter and Instagram pictures
 - View in-line YouTube thumbnails
@@ -59,7 +60,6 @@ App Features:
 - Actionable toast bar so you always know where you are and can jump to the top
 - Hiding action bar
 - "Do not disturb" mode
-- Option to always be listening for mentions ("Talon Pull" - see disclaimer in settings)
 - Widget for main timeline
 - DashClock Extension
 - Draft system for unsent/failed tweets

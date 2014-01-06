@@ -2,7 +2,7 @@
     &#8226; Added a very powerful 'Theme Engine' for developers (https://github.com/lklinker/talon_theme)<br/>
     &#8226; Added live streaming to the main timeline<br/>
     &#8226; Redesigned the tweet viewer to use a ViewPager. Allows for more dynamic content<br/>
-    &#8226; Talon Pull service for "push notification" functionality<br/>
+    &#8226; Talon Pull service for "push notification" functionality on interactions<br/>
     &#8226; Added a tutorial after login<br/>
     &#8226; Added a 'Hangouts' layout option as a default theme<br/>
     &#8226; Open multiple links from the tweet activity<br/>
