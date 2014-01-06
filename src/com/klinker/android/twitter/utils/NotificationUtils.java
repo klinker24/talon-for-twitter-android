@@ -664,6 +664,8 @@ public class NotificationUtils {
         String smallText = "";
         Bitmap icon = null;
 
+        AppSettings settings = new AppSettings(context);
+
         Intent resultIntent = new Intent(context, MainActivity.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
@@ -673,14 +675,18 @@ public class NotificationUtils {
 
         // set title
         if (newFavorites + newRetweets + newFollowers > 1) {
-            title = "New Interactions";
+            title = context.getResources().getString(R.string.new_interactions);
         } else {
-            title = "New Interaction";
+            title = context.getResources().getString(R.string.new_interaction_upper);
         }
 
         // set text
         String currText = sharedPrefs.getString("old_interaction_text", "");
-        text = currText + "<b>@" + interactor.getScreenName() + "</b> " + type + "\n";
+        if(settings.displayScreenName) {
+            text = currText + "<b>" + interactor.getScreenName() + "</b> " + type + "\n";
+        } else {
+            text = currText + "<b>" + interactor.getName() + "</b> " + type + "\n";
+        }
         sharedPrefs.edit().putString("old_interaction_text", text).commit();
 
         // set icon
@@ -708,15 +714,16 @@ public class NotificationUtils {
         }
 
         // set shorter text
-        if (types > 1) {
-            smallText = types + " new interactions";
+        int total = newFavorites + newFollowers + newRetweets;
+        if (total > 1) {
+            smallText = total + " " + context.getResources().getString(R.string.new_interactions_lower);
         } else {
             smallText = text;
         }
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
-                .setContentText(smallText)
+                .setContentText(Html.fromHtml(smallText))
                 .setSmallIcon(R.drawable.ic_stat_icon)
                 .setLargeIcon(icon)
                 .setContentIntent(resultPendingIntent)
@@ -726,8 +733,6 @@ public class NotificationUtils {
         if(context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(text)));
         }
-
-        AppSettings settings = new AppSettings(context);
 
         int count = 0;
 

@@ -204,7 +204,7 @@ public class TalonPullNotificationService extends Service {
                     newRetweets++;
                     sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
 
-                    NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " retweeted your status");
+                    NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
                 }
             }
         }
@@ -251,7 +251,7 @@ public class TalonPullNotificationService extends Service {
             newFavs++;
             sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
 
-            NotificationUtils.newInteractions(source, mContext, sharedPreferences, " favorited your status");
+            NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
         }
 
         @Override
@@ -271,7 +271,7 @@ public class TalonPullNotificationService extends Service {
                 newFollows++;
                 sharedPreferences.edit().putInt("new_follows", newFollows).commit();
 
-                NotificationUtils.newInteractions(source, mContext, sharedPreferences, " followed you");
+                NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
             }
         }
 

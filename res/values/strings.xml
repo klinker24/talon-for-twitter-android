@@ -73,11 +73,17 @@
     <string name="sec_acc">Second Account</string>
     <string name="talon_pull">Talon Pull</string>
     <string name="listening">Listening</string>
-    <string name="listening_for_mentions">Listening for mentions</string>
+    <string name="listening_for_mentions">Listening for interactions</string>
     <string name="refreshing">Refreshing</string>
     <string name="refreshing_widget">Refreshing widget</string>
     <string name="downloading">Downloading</string>
     <string name="saving_picture">Saving picture</string>
+    <string name="new_interaction_upper">New Interaction</string>
+    <string name="new_interactions_lower">new interactions</string>
+    <string name="new_interactions">New Interactions</string>
+    <string name="retweeted">retweeted your status</string>
+    <string name="favorited">favorited your status</string>
+    <string name="followed">followed you</string>
 
     <!-- Login Screen -->
     <string name="setup_talon">Setup Talon</string>
