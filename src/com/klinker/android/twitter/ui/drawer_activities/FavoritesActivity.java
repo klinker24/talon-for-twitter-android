@@ -47,6 +47,7 @@ public class FavoritesActivity extends DrawerActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
+        setUpDrawer(7, getResources().getString(R.string.favorite_tweets));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.favorite_tweets));
@@ -141,8 +142,6 @@ public class FavoritesActivity extends DrawerActivity {
                 }
             }
         });
-
-        setUpDrawer(7, getResources().getString(R.string.favorite_tweets));
 
         new GetRetweets().execute();
 

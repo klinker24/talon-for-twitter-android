@@ -43,6 +43,7 @@ public class MainActivity extends DrawerActivity {
 
         setUpWindow();
         setUpTheme();
+        setUpDrawer(0, getResources().getString(R.string.timeline));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.timeline));
@@ -60,8 +61,6 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(settings.extraPages ? 2 : 0);
-
-        setUpDrawer(0, getResources().getString(R.string.timeline));
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {

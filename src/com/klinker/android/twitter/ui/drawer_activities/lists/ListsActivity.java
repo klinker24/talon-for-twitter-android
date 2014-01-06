@@ -30,9 +30,6 @@ import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.UserList;
 
-/**
- * Created by luke on 11/27/13.
- */
 public class ListsActivity extends DrawerActivity {
 
     @Override
@@ -46,6 +43,7 @@ public class ListsActivity extends DrawerActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
+        setUpDrawer(4, getResources().getString(R.string.lists));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
@@ -74,8 +72,6 @@ public class ListsActivity extends DrawerActivity {
                 listView.setFooterDividersEnabled(false);
             }
         }
-
-        setUpDrawer(4, getResources().getString(R.string.lists));
 
         new GetLists().execute();
 

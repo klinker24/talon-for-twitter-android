@@ -219,6 +219,13 @@ public abstract class DrawerActivity extends Activity {
         final String backgroundUrl = settings.myBackgroundUrl;
         final String profilePicUrl = settings.myProfilePicUrl;
 
+        if (!backgroundUrl.equals("")) {
+            backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.default_header_background);
+            backgroundPic.setImageBitmap(ImageUtils.blur(b));
+        }
+
         backgroundPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -279,13 +286,6 @@ public abstract class DrawerActivity extends Activity {
         screenName.setText("@" + sScreenName);
         name.setTextSize(15);
         screenName.setTextSize(15);
-
-        if (!backgroundUrl.equals("")) {
-            backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
-        } else {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.default_header_background);
-            backgroundPic.setImageBitmap(ImageUtils.blur(b));
-        }
 
         try {
             if(settings.roundContactImages) {

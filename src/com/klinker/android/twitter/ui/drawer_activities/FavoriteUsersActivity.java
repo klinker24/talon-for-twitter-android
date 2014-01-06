@@ -41,6 +41,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
+        setUpDrawer(5, getResources().getString(R.string.favorite_users));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.favorite_users));
@@ -126,8 +127,6 @@ public class FavoriteUsersActivity extends DrawerActivity {
                 }
             }
         });
-
-        setUpDrawer(5, getResources().getString(R.string.favorite_users));
 
         LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
         spinner.setVisibility(View.GONE);
