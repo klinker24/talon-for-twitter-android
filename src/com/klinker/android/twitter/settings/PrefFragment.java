@@ -510,6 +510,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 long lastMentionId1 = sharedPrefs.getLong("last_mention_id_1", 0);
                 long lastDMId1 = sharedPrefs.getLong("last_dm_id_1", 0);
                 long twitterId1 = sharedPrefs.getLong("twitter_id_1", 0);
+                boolean isloggedin1 = sharedPrefs.getBoolean("is_logged_in_1", false);
 
                 String authenticationToken2 = sharedPrefs.getString("authentication_token_2", "none");
                 String authenticationTokenSecret2 = sharedPrefs.getString("authentication_token_secret_2", "none");
@@ -522,6 +523,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 long lastMentionId2 = sharedPrefs.getLong("last_mention_id_2", 0);
                 long lastDMId2 = sharedPrefs.getLong("last_dm_id_2", 0);
                 long twitterId2 = sharedPrefs.getLong("twitter_id_2", 0);
+                boolean isloggedin2 = sharedPrefs.getBoolean("is_logged_in_2", false);
 
                 IOUtils.loadSharedPreferencesFromFile(des, context);
 
@@ -541,6 +543,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 e.putLong("last_mention_id_1", lastMentionId1);
                 e.putLong("last_dm_id_1", lastDMId1);
                 e.putLong("twitter_id_1", twitterId1);
+                e.putBoolean("is_logged_in_1", isloggedin1);
 
                 e.putString("authentication_token_2", authenticationToken2);
                 e.putString("authentication_token_secret_2", authenticationTokenSecret2);
@@ -554,6 +557,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 e.putLong("last_mention_id_2", lastMentionId2);
                 e.putLong("last_dm_id_2", lastDMId2);
                 e.putLong("twitter_id_2", twitterId2);
+                e.putBoolean("is_logged_in_2", isloggedin2);
 
                 e.commit();
 
