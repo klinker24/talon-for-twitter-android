@@ -584,4 +584,42 @@ public class NotificationUtils {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(4, mBuilder.build());
     }
+
+    public static void newFavorite(User favoriter, Context context) {
+
+        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle("New Interaction")
+                .setContentText("@" + favoriter.getScreenName() + " favorited your status")
+                .setSmallIcon(R.drawable.ic_stat_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_important_dark))
+                .setContentIntent(resultPendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(4, mBuilder.build());
+    }
+
+    public static void newRetweet(User favoriter, Context context) {
+
+        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle("New Interaction")
+                .setContentText("@" + favoriter.getScreenName() + " retweeted your status")
+                .setSmallIcon(R.drawable.ic_stat_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_repeat_dark))
+                .setContentIntent(resultPendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(4, mBuilder.build());
+    }
 }

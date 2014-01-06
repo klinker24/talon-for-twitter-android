@@ -198,7 +198,7 @@ public class TalonPullNotificationService extends Service {
 
                     dataSource.close();
                 } else { // it is a retweet
-
+                    NotificationUtils.newRetweet(status.getUser(), mContext);
                 }
             }
         }
@@ -240,6 +240,8 @@ public class TalonPullNotificationService extends Service {
                     + target.getScreenName() + " @"
                     + favoritedStatus.getUser().getScreenName() + " - "
                     + favoritedStatus.getText());
+
+            NotificationUtils.newFavorite(source, mContext);
         }
 
         @Override
