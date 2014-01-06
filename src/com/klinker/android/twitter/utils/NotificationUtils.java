@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 
@@ -30,6 +31,7 @@ import com.klinker.android.twitter.ui.compose.RetryCompose;
 import java.net.URL;
 import java.util.ArrayList;
 
+import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
@@ -73,10 +75,10 @@ public class NotificationUtils {
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
-        Notification.Builder mBuilder;
+        NotificationCompat.Builder mBuilder;
 
         if (useExpanded) {
-            mBuilder = new Notification.Builder(context)
+            mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title[0])
                     .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(R.drawable.ic_stat_icon)
@@ -84,7 +86,7 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
                     .setTicker(HtmlUtils.removeColorHtml(shortText))
-                    .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(longText)));
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(longText)));
 
             if (addButton) { // the reply and read button should be shown
                 Intent reply;
@@ -119,7 +121,7 @@ public class NotificationUtils {
                 mBuilder.addAction(R.drawable.ic_popup, context.getResources().getString(R.string.popup), popupPending);
             }
         } else {
-            mBuilder = new Notification.Builder(context)
+            mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title[0])
                     .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(R.drawable.ic_stat_icon)
@@ -460,19 +462,19 @@ public class NotificationUtils {
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
         }
 
-        Notification.Builder mBuilder;
+        NotificationCompat.Builder mBuilder;
 
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
-            mBuilder = new Notification.Builder(context)
+            mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
-                    .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(longText)));
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(longText)));
         } else {
-            mBuilder = new Notification.Builder(context)
+            mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(HtmlUtils.removeColorHtml(shortText))
                     .setSmallIcon(smallIcon)
@@ -520,7 +522,7 @@ public class NotificationUtils {
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
-        Notification.Builder mBuilder;
+        NotificationCompat.Builder mBuilder;
 
         String title = context.getResources().getString(R.string.app_name) + " - " + context.getResources().getString(R.string.sec_acc);;
         String name;
@@ -539,16 +541,16 @@ public class NotificationUtils {
         }
 
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
-            mBuilder = new Notification.Builder(context)
+            mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(HtmlUtils.removeColorHtml(message))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
-                    .setStyle(new Notification.BigTextStyle().bigText(Html.fromHtml(messageLong)));
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(messageLong)));
         } else {
-            mBuilder = new Notification.Builder(context)
+            mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(HtmlUtils.removeColorHtml(messageLong))
                     .setSmallIcon(smallIcon)
@@ -562,5 +564,24 @@ public class NotificationUtils {
         mNotificationManager.notify(3, mBuilder.build());
 
         data.close();
+    }
+
+    public static void newFollower(User newFollower, Context context) {
+
+        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle("New Interaction")
+                .setContentText("@" + newFollower.getScreenName() + " now follows you")
+                .setSmallIcon(R.drawable.ic_stat_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark))
+                .setContentIntent(resultPendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(4, mBuilder.build());
     }
 }
