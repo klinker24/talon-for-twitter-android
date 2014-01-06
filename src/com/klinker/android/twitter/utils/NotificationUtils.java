@@ -23,6 +23,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.MarkReadService;
+import com.klinker.android.twitter.services.ReplyService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -91,7 +92,7 @@ public class NotificationUtils {
             if (addButton) { // the reply and read button should be shown
                 Intent reply;
                 if (unreadCounts[1] == 1) {
-                    reply = new Intent(context, RetryCompose.class);
+                    reply = new Intent(context, ReplyService.class);
                 } else {
                     reply = new Intent(context, ComposeDMActivity.class);
                 }
@@ -102,7 +103,7 @@ public class NotificationUtils {
                 MentionsDataSource data = new MentionsDataSource(context);
                 data.open();
                 long id = data.getLastIds(currentAccount)[0];
-                PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+                PendingIntent replyPending = PendingIntent.getService(context, 0, reply, 0);
                 sharedPrefs.edit().putLong("from_notification_long", id).commit();
 
                 mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);

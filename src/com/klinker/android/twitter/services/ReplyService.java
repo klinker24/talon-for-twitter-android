@@ -10,12 +10,15 @@ import android.preference.PreferenceManager;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 
-public class MarkReadService extends IntentService {
+/**
+ * Created by luke on 1/6/14.
+ */
+public class ReplyService extends IntentService {
 
     SharedPreferences sharedPrefs;
 
-    public MarkReadService() {
-        super("MarkReadService");
+    public ReplyService() {
+        super("ReplyService");
     }
 
     @Override
@@ -38,6 +41,9 @@ public class MarkReadService extends IntentService {
         data.close();
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
+
+        Intent compose = new Intent(context, RetryCompose.class);
+        startActivity(compose);
     }
 
 }
