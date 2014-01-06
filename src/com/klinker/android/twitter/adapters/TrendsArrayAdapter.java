@@ -46,7 +46,11 @@ public class TrendsArrayAdapter extends ArrayAdapter<User> {
 
     @Override
     public int getCount() {
-        return text.size();
+        try {
+            return text.size();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public View newView(ViewGroup viewGroup) {

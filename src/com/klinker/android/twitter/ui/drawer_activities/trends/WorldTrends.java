@@ -95,7 +95,10 @@ public class WorldTrends extends Fragment {
 
         protected void onPostExecute(ArrayList<String> trends) {
 
-            listView.setAdapter(new TrendsArrayAdapter(context, trends));
+            if(trends != null) {
+                listView.setAdapter(new TrendsArrayAdapter(context, trends));
+            }
+
             listView.setVisibility(View.VISIBLE);
 
             LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
