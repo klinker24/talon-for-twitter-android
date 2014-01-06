@@ -1,6 +1,8 @@
 - Features:
     - Rearrange the main drawer items
     - Rearrange the settings for Talon Pull
+    - Pebble notifications
+    - Redo the Direct Messages to be conversation style with just a list of contacts on the main timeline
     - Notification center stuff for interactions (retweets, favorites, and new followers)
     - Show full conversations on tweets (look forward, not back...) - No clue how yet
     - Retweet and favorite from multiple accounts
