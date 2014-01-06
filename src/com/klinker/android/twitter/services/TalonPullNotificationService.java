@@ -45,6 +45,7 @@ public class TalonPullNotificationService extends Service {
     public TwitterStream pushStream;
     public Context mContext;
     public AppSettings settings;
+    public SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
@@ -71,7 +72,7 @@ public class TalonPullNotificationService extends Service {
         startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
 
         mContext = getApplicationContext();
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         settings = new AppSettings(mContext);
 
         IntentFilter filter = new IntentFilter();
@@ -198,7 +199,12 @@ public class TalonPullNotificationService extends Service {
 
                     dataSource.close();
                 } else { // it is a retweet
-                    NotificationUtils.newRetweet(status.getUser(), mContext);
+
+                    int newRetweets = sharedPreferences.getInt("new_retweets", 0);
+                    newRetweets++;
+                    sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
+
+                    NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " retweeted your status");
                 }
             }
         }
@@ -241,7 +247,11 @@ public class TalonPullNotificationService extends Service {
                     + favoritedStatus.getUser().getScreenName() + " - "
                     + favoritedStatus.getText());
 
-            NotificationUtils.newFavorite(source, mContext);
+            int newFavs = sharedPreferences.getInt("new_favorites", 0);
+            newFavs++;
+            sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
+
+            NotificationUtils.newInteractions(source, mContext, sharedPreferences, " favorited your status");
         }
 
         @Override
@@ -256,7 +266,12 @@ public class TalonPullNotificationService extends Service {
                     + followedUser.getScreenName());
 
             if (followedUser.getScreenName().equals(settings.myScreenName)) {
-                NotificationUtils.newFollower(source, mContext);
+
+                int newFollows = sharedPreferences.getInt("new_follows", 0);
+                newFollows++;
+                sharedPreferences.edit().putInt("new_follows", newFollows).commit();
+
+                NotificationUtils.newInteractions(source, mContext, sharedPreferences, " followed you");
             }
         }
 
@@ -269,7 +284,6 @@ public class TalonPullNotificationService extends Service {
             dataSource.open();
             dataSource.createDirectMessage(directMessage, settings.currentAccount);
 
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
             int numUnread = sharedPreferences.getInt("dm_unread_" + settings.currentAccount, 0);
             numUnread++;
             sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();

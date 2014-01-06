@@ -568,7 +568,7 @@ public class NotificationUtils {
 
     public static void newFollower(User newFollower, Context context) {
 
-        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
@@ -587,7 +587,7 @@ public class NotificationUtils {
 
     public static void newFavorite(User favoriter, Context context) {
 
-        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
@@ -606,7 +606,7 @@ public class NotificationUtils {
 
     public static void newRetweet(User favoriter, Context context) {
 
-        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
@@ -616,6 +616,69 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_stat_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_repeat_dark))
                 .setContentIntent(resultPendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(4, mBuilder.build());
+    }
+
+    // type is either " retweeted your status", " favorited your status", or " followed you"
+    public static void newInteractions(User interactor, Context context, SharedPreferences sharedPrefs, String type) {
+        String title = "";
+        String text = "";
+        Bitmap icon = null;
+
+        Intent resultIntent = new Intent(context, MainActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+        int newFollowers = sharedPrefs.getInt("new_followers", 0);
+        int newRetweets = sharedPrefs.getInt("new_retweets", 0);
+        int newFavorites = sharedPrefs.getInt("new_favorites", 0);
+
+        // set title
+        if (newFavorites + newRetweets + newFollowers > 1) {
+            title = "New Interactions";
+        } else {
+            title = "New Interaction";
+        }
+
+        // set text
+        String currText = sharedPrefs.getString("old_interation_text", "");
+        text = currText + "@" + interactor.getScreenName() + " " + type + " ";
+
+
+        // set icon
+        int types = 0;
+        if (newFavorites > 0) {
+            types++;
+        }
+        if(newFollowers > 0) {
+            types++;
+        }
+        if (newRetweets > 0) {
+            types++;
+        }
+
+        if (types > 1) {
+            icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
+        } else {
+            if (newFavorites > 0) {
+                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_important_dark);
+            } else if (newRetweets > 0) {
+                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_repeat_dark);
+            } else {
+                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+            }
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setSmallIcon(R.drawable.ic_stat_icon)
+                .setLargeIcon(icon)
+                .setContentIntent(resultPendingIntent)
+                .setTicker(title)
                 .setAutoCancel(true);
 
         NotificationManager mNotificationManager =

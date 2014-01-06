@@ -1,4 +1,5 @@
 - Features:
+    - Notification center stuff for interactions (retweets, favorites, and new followers)
     - Show full conversations on tweets (look forward, not back...) - No clue how yet
     - Retweet and favorite from multiple accounts
     - Change the @ icon
