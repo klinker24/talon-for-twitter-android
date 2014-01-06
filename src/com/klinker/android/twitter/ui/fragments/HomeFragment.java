@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -150,7 +151,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         dataSource = new HomeDataSource(context);
         dataSource.open();
 
+        LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+        spinner.setVisibility(View.GONE);
+
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView.setVisibility(View.VISIBLE);
 
         getLoaderManager().initLoader(0, null, this);
 

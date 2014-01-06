@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     private static HomeDataSource dataSource;
 
     private PullToRefreshLayout mPullToRefreshLayout;
+    private LinearLayout spinner;
 
     private boolean landscape;
 
@@ -103,7 +105,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
-
+        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
         mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
 
         // Now setup the PullToRefreshLayout
@@ -150,7 +152,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
             }
         }
 
-        new GetCursorAdapter().execute();
+        new GetCursorAdapter(true).execute();
 
         final int currentAccount = sharedPrefs.getInt("current_account", 1);
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
@@ -237,10 +239,22 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onRefreshStarted(View view) {
         mPullToRefreshLayout.setRefreshing(true);
-        new GetCursorAdapter().execute();
+        new GetCursorAdapter(false).execute();
     }
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
+        private boolean bspinner;
+
+        public GetCursorAdapter(boolean spinner) {
+            this.bspinner = spinner;
+        }
+
+        protected void onPreExecute() {
+            if (bspinner) {
+                spinner.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            }
+        }
 
         protected String doInBackground(Void... args) {
 
@@ -256,6 +270,11 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         }
 
         protected void onPostExecute(String file_url) {
+
+            if (bspinner) {
+                spinner.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+            }
 
             attachCursor();
             mPullToRefreshLayout.setRefreshComplete();

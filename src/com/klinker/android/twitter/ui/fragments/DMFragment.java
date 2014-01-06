@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -66,6 +67,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     private SharedPreferences sharedPrefs;
 
     private PullToRefreshLayout mPullToRefreshLayout;
+    private LinearLayout spinner;
 
     private DMDataSource dataSource;
 
@@ -121,6 +123,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
 
         // Now find the PullToRefreshLayout to setup
         mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
@@ -359,6 +362,11 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
+        protected void onPreExecute() {
+            spinner.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        }
+
         protected String doInBackground(Void... args) {
 
             cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
@@ -367,6 +375,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         }
 
         protected void onPostExecute(String file_url) {
+
+            spinner.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
 
             attachCursor();
         }
