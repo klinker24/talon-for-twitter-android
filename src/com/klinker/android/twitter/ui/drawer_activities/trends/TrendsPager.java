@@ -31,12 +31,12 @@ public class TrendsPager extends DrawerActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
+        setContentView(R.layout.trends_activity);
         setUpDrawer(3, getResources().getString(R.string.trends));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.trends));
 
-        setContentView(R.layout.trends_activity);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);

@@ -43,12 +43,12 @@ public class MainActivity extends DrawerActivity {
 
         setUpWindow();
         setUpTheme();
+        setContentView(R.layout.main_activity);
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.timeline));
 
-        setContentView(R.layout.main_activity);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -125,7 +125,7 @@ public class MainActivity extends DrawerActivity {
         });
 
         mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", settings.extraPages ? 2 : 0), false);
-        mViewPager.setOffscreenPageLimit(settings.extraPages ? 5 : 3);
+        mViewPager.setOffscreenPageLimit(2);
 
         if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
             getIntent().putExtra("tutorial", false);

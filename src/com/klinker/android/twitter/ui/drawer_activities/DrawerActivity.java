@@ -88,6 +88,8 @@ public abstract class DrawerActivity extends Activity {
 
     public void setUpDrawer(int number, final String actName) {
 
+        actionBar = getActionBar();
+
         MainDrawerArrayAdapter.current = number;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});

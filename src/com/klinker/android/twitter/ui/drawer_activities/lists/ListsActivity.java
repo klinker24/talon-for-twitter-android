@@ -43,12 +43,12 @@ public class ListsActivity extends DrawerActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
+        setContentView(R.layout.twitter_lists_page);
         setUpDrawer(4, getResources().getString(R.string.lists));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        setContentView(R.layout.twitter_lists_page);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);

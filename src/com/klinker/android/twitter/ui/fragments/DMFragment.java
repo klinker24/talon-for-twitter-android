@@ -93,6 +93,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        Log.v("setting_fragments", "dm fragment");
+
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);

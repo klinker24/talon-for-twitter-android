@@ -47,11 +47,12 @@ public class RetweetActivity extends DrawerActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         setUpTheme();
+        setContentView(R.layout.retweets_activity);
+        setUpDrawer(6, getResources().getString(R.string.retweets));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.retweets));
 
-        setContentView(R.layout.retweets_activity);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -134,8 +135,6 @@ public class RetweetActivity extends DrawerActivity {
                 }
             }
         });
-
-        setUpDrawer(6, getResources().getString(R.string.retweets));
 
         new GetRetweets().execute();
 

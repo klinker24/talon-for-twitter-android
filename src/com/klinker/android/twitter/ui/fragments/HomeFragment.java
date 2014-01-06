@@ -116,6 +116,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        Log.v("setting_fragments", "home fragment");
+
         if(DrawerActivity.settings.pushNotifications) {
             context.startService(new Intent(context, TalonPullNotificationService.class));
         } else {
