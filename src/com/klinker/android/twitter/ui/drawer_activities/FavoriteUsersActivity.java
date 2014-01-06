@@ -129,6 +129,9 @@ public class FavoriteUsersActivity extends DrawerActivity {
 
         setUpDrawer(5, getResources().getString(R.string.favorite_users));
 
+        LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+        spinner.setVisibility(View.GONE);
+
         new GetFavUsers().execute();
 
     }

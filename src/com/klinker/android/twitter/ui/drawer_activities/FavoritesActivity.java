@@ -150,6 +150,13 @@ public class FavoritesActivity extends DrawerActivity {
 
     class GetRetweets extends AsyncTask<String, Void, ResponseList<twitter4j.Status>> {
 
+        protected void onPreExecute() {
+            listView.setVisibility(View.GONE);
+
+            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+            spinner.setVisibility(View.VISIBLE);
+        }
+
         protected ResponseList<twitter4j.Status> doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
