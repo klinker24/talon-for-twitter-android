@@ -251,8 +251,10 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
         protected void onPreExecute() {
             if (bspinner) {
-                spinner.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
+                try {
+                    spinner.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                } catch (Exception e) { }
             }
         }
 
@@ -272,8 +274,10 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         protected void onPostExecute(String file_url) {
 
             if (bspinner) {
-                spinner.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
+                try {
+                    spinner.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                } catch (Exception e) { }
             }
 
             attachCursor();

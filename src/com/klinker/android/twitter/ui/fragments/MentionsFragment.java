@@ -391,8 +391,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
-            spinner.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.GONE);
+            try {
+                spinner.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            } catch (Exception e) { }
         }
 
         protected String doInBackground(Void... args) {
@@ -404,8 +406,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         protected void onPostExecute(String file_url) {
 
-            spinner.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            try {
+                spinner.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+            } catch (Exception e) { }
 
             attachCursor();
         }
