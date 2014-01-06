@@ -293,8 +293,8 @@
         <string name="sync_failed">Sync Failed</string>
         <string name="push_notification_options">\"Push Notification\" Options</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new mentions. It will also disable live streaming.</string>
-            <string name="push_notification_warning">Talon Pull will use more battery, potentially A LOT more. You have been warned. These aren\'t push notifications but it is the closest you will get with this app.\n\nTo read more about the problems with push notifications in Talon, click this preference.</string>
+            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm's, favorites, retweets, or new followers). It will also disable live streaming.</string>
+            <string name="push_notification_warning">To read more about this option, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>
 
