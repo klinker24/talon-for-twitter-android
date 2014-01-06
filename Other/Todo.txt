@@ -5,3 +5,4 @@
     - Change the @ icon
 
 - Bugs:
+    - adapt interactions stuff for big notifications

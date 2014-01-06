@@ -555,6 +555,14 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
+        SharedPreferences.Editor e = sharedPrefs.edit();
+        e.putInt("new_followers", 0);
+        e.putInt("new_favorites", 0);
+        e.putInt("new_retweets", 0);
+        e.putString("old_interaction_text", "");
+        e.commit();
+
+
         DrawerActivity.settings = new AppSettings(context);
 
         // for testing

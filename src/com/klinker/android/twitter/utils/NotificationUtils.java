@@ -627,6 +627,7 @@ public class NotificationUtils {
     public static void newInteractions(User interactor, Context context, SharedPreferences sharedPrefs, String type) {
         String title = "";
         String text = "";
+        String smallText = "";
         Bitmap icon = null;
 
         Intent resultIntent = new Intent(context, MainActivity.class);
@@ -644,8 +645,9 @@ public class NotificationUtils {
         }
 
         // set text
-        String currText = sharedPrefs.getString("old_interation_text", "");
-        text = currText + "@" + interactor.getScreenName() + " " + type + " ";
+        String currText = sharedPrefs.getString("old_interaction_text", "");
+        text = currText + "<b>@" + interactor.getScreenName() + "</b> " + type + "\n";
+        sharedPrefs.edit().putString("old_interaction_text", text).commit();
 
 
         // set icon
