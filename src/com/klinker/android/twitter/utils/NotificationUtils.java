@@ -717,9 +717,9 @@ public class NotificationUtils {
         // set text
         String currText = sharedPrefs.getString("old_interaction_text", "");
         if(settings.displayScreenName) {
-            text = currText + "<b>" + interactor.getScreenName() + "</b> " + type + "\n";
+            text = currText + "<b>" + interactor.getScreenName() + "</b> " + type + "<br>";
         } else {
-            text = currText + "<b>" + interactor.getName() + "</b> " + type + "\n";
+            text = currText + "<b>" + interactor.getName() + "</b> " + type + "<br>";
         }
         sharedPrefs.edit().putString("old_interaction_text", text).commit();
 

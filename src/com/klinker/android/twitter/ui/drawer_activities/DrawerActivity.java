@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -29,6 +31,7 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
@@ -452,14 +455,18 @@ public abstract class DrawerActivity extends Activity {
             items.add(temp);
         }
 
-        InteractionsDataSource data = new InteractionsDataSource(context);
+        final InteractionsDataSource data = new InteractionsDataSource(context);
         data.open();
-        InteractionsCursorAdapter notificationAdapter = new InteractionsCursorAdapter(context, data.getCursor(DrawerActivity.settings.currentAccount));
+        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
         notificationList.setAdapter(notificationAdapter);
 
         notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
             @Override
             public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
+                Log.v("talon_interactions", "position to delete: " + position);
+                data.markRead(settings.currentAccount, position);
+                notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                notificationList.setAdapter(notificationAdapter);
                 return null;
             }
         });
@@ -467,6 +474,8 @@ public abstract class DrawerActivity extends Activity {
         notificationList.enableSwipeToDismiss();
         notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
     }
+
+    public InteractionsCursorAdapter notificationAdapter;
 
     public void setUpTheme() {
 

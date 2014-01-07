@@ -131,7 +131,7 @@ public class InteractionsDataSource {
 
     public Cursor getCursor(int account) {
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
-                allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " ASC");
 
         return cursor;
     }
@@ -139,7 +139,7 @@ public class InteractionsDataSource {
     public Cursor getUnreadCursor(int account) {
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
-                allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[]{account + "", "1"}, null, null, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[]{account + "", "1"}, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " ASC");
 
         return cursor;
     }
@@ -159,12 +159,12 @@ public class InteractionsDataSource {
         Cursor cursor = getUnreadCursor(account);
 
         if (cursor.moveToPosition(position)) {
-            long tweetId = cursor.getLong(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_TWEET_ID));
+            long id = cursor.getLong(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_ID));
 
             ContentValues cv = new ContentValues();
             cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 0);
 
-            database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+            database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_ID + " = ?", new String[] {id + ""});
         }
 
         cursor.close();
