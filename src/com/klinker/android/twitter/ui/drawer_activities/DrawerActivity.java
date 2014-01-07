@@ -1,13 +1,7 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.*;
+import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -16,9 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -28,13 +20,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
+import android.widget.*;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
@@ -52,14 +38,16 @@ import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import de.timroes.android.listview.EnhancedListView;
 import org.lucasr.smoothie.AsyncListView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public abstract class DrawerActivity extends Activity {
 
@@ -71,9 +59,10 @@ public abstract class DrawerActivity extends Activity {
 
     public static ViewPager mViewPager;
 
-    public DrawerLayout mDrawerLayout;
+    public NotificationDrawerLayout mDrawerLayout;
     public LinearLayout mDrawer;
     public ListView drawerList;
+    public EnhancedListView notificationList;
     public ActionBarDrawerToggle mDrawerToggle;
 
     public AsyncListView listView;
@@ -97,7 +86,7 @@ public abstract class DrawerActivity extends Activity {
         int resource = a.getResourceId(0, 0);
         a.recycle();
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
 
         HoloTextView name = (HoloTextView) mDrawer.findViewById(R.id.name);
@@ -108,9 +97,10 @@ public abstract class DrawerActivity extends Activity {
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
         drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
+        notificationList = (EnhancedListView) findViewById(R.id.notificationList);
 
         try {
-            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
             mDrawerToggle = new ActionBarDrawerToggle(
@@ -438,11 +428,39 @@ public abstract class DrawerActivity extends Activity {
             drawerStatusBar.setVisibility(View.VISIBLE);
 
             statusBar.setVisibility(View.VISIBLE);
+
+            drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
+            status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
+            status2Params.height = statusBarHeight;
+            drawerStatusBar.setLayoutParams(status2Params);
+            drawerStatusBar.setVisibility(View.VISIBLE);
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
+
+        List<Map<String, String>> items = new ArrayList<Map<String, String>>();
+        final String[] text = {"test 1", "test 2", "talon", "evolve", "klinker apps"};
+
+        for (int i = 0; i < text.length; i++) {
+            HashMap<String, String> temp = new HashMap<String, String>();
+            temp.put("item", text[i]);
+            items.add(temp);
+        }
+
+        final SimpleAdapter notificationAdapter = new SimpleAdapter(this, items, android.R.layout.simple_list_item_1, new String[]{"item"}, new int[]{android.R.id.text1});
+        notificationList.setAdapter(notificationAdapter);
+
+        notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
+            @Override
+            public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
+                return null;
+            }
+        });
+
+        notificationList.enableSwipeToDismiss();
+        notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
     }
 
     public void setUpTheme() {

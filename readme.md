@@ -10,4 +10,5 @@ DEPENDENCIES
 4.) Crouton <https://github.com/keyboardsurfer/Crouton>
 5.) PhotoView <https://github.com/chrisbanes/PhotoView>
 6.) PagerSlidingTitleStrip <https://github.com/astuetz/PagerSlidingTabStrip>
-6.) Picasso found in repo
+7.) EnhancedListView <https://github.com/klinker41/EnhancedListView>
+8.) Picasso found in repo
