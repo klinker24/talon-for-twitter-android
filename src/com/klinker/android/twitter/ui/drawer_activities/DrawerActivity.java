@@ -30,6 +30,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -590,6 +591,10 @@ public abstract class DrawerActivity extends Activity {
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, Search.class)));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+
+        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+        ImageView view = (ImageView) searchView.findViewById(searchImgId);
+        view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
 
         return super.onCreateOptionsMenu(menu);
     }
