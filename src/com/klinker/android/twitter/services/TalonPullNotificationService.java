@@ -213,6 +213,7 @@ public class TalonPullNotificationService extends Service {
                     dataSource.open();
                     dataSource.createTweet(status, settings.currentAccount);
                     interactions.createMention(mContext, status, settings.currentAccount);
+                    sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
                     NotificationUtils.refreshNotification(mContext);
 

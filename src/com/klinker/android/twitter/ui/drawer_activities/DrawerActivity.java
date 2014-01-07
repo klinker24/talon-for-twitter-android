@@ -162,6 +162,7 @@ public abstract class DrawerActivity extends Activity {
                     if(sharedPrefs.getBoolean("new_notification", false)) {
                         notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(settings.currentAccount));
                         notificationList.setAdapter(notificationAdapter);
+                        notificationList.enableSwipeToDismiss();
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
                         sharedPrefs.edit().putBoolean("new_notification", false).commit();
                     }
@@ -474,9 +475,13 @@ public abstract class DrawerActivity extends Activity {
                     if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
                         oldInteractions.setText(getResources().getString(R.string.new_interactions));
 
+                        notificationList.disableSwipeToDismiss();
+
                         notificationAdapter = new InteractionsCursorAdapter(context, data.getCursor(DrawerActivity.settings.currentAccount));
                     } else {
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
+
+                        notificationList.enableSwipeToDismiss();
 
                         notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                     }

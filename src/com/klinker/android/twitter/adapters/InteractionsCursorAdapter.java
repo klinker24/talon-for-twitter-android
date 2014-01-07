@@ -111,10 +111,12 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         final String text = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_TEXT));
         final String url = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_PRO_PIC));
 
-        Log.v("talon_interactions", "text in adapter: " + text);
-
         holder.title.setText(Html.fromHtml(title));
-        holder.text.setText(text);
+        if(!text.equals("")) {
+            holder.text.setText(text);
+        } else {
+            holder.text.setVisibility(View.GONE);
+        }
 
         if(settings.roundContactImages) {
             holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
