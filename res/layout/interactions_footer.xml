@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/footer"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/pressed_button"
+    android:layout_gravity="center"
+    android:padding="8dp">
 
     <com.klinker.android.twitter.ui.widgets.HoloTextView
-        android:layout_width="match_parent"
+        android:id="@+id/old_interactions_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="?read_button"
-        android:text="@string/old_interactions"/>
+        android:text="@string/old_interactions"
+        android:textSize="18dp" />
 
 </LinearLayout>

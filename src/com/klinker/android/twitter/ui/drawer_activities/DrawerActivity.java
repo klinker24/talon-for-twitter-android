@@ -65,6 +65,7 @@ public abstract class DrawerActivity extends Activity {
     public static ViewPager mViewPager;
 
     public NotificationDrawerLayout mDrawerLayout;
+    public InteractionsCursorAdapter notificationAdapter;
     public LinearLayout mDrawer;
     public ListView drawerList;
     public EnhancedListView notificationList;
@@ -448,29 +449,62 @@ public abstract class DrawerActivity extends Activity {
 
         if(!settings.pushNotifications) {
             mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
-        }
+        } else {
+            final InteractionsDataSource data = new InteractionsDataSource(context);
+            data.open();
+            notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+            notificationList.setAdapter(notificationAdapter);
 
-        final InteractionsDataSource data = new InteractionsDataSource(context);
-        data.open();
-        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
-        notificationList.setAdapter(notificationAdapter);
+            View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer, null);
+            notificationList.addFooterView(viewHeader, null, false);
 
-        notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
-            @Override
-            public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
-                Log.v("talon_interactions_delete", "position to delete: " + position);
-                data.markRead(settings.currentAccount, position);
-                notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
-                notificationList.setAdapter(notificationAdapter);
-                return null;
+            LinearLayout footer = (LinearLayout) viewHeader.findViewById(R.id.footer);
+            footer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    HoloTextView oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
+                    if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
+                        oldInteractions.setText(getResources().getString(R.string.new_interactions));
+
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getCursor(DrawerActivity.settings.currentAccount));
+                    } else {
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                    }
+
+                    notificationList.setAdapter(notificationAdapter);
+                }
+            });
+
+            if (DrawerActivity.translucent) {
+                if (Utils.hasNavBar(context)) {
+                    View nav= new View(context);
+                    nav.setOnClickListener(null);
+                    nav.setOnLongClickListener(null);
+                    ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                    nav.setLayoutParams(params);
+                    notificationList.addFooterView(nav);
+                    notificationList.setFooterDividersEnabled(false);
+                }
             }
-        });
 
-        notificationList.enableSwipeToDismiss();
-        notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
+            notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
+                @Override
+                public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
+                    Log.v("talon_interactions_delete", "position to delete: " + position);
+                    data.markRead(settings.currentAccount, position);
+                    notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                    notificationList.setAdapter(notificationAdapter);
+                    return null;
+                }
+            });
+
+            notificationList.enableSwipeToDismiss();
+            notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
+        }
     }
-
-    public InteractionsCursorAdapter notificationAdapter;
 
     public void setUpTheme() {
 
