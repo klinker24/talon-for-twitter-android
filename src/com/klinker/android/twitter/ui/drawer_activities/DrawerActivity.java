@@ -446,13 +446,8 @@ public abstract class DrawerActivity extends Activity {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
 
-        List<Map<String, String>> items = new ArrayList<Map<String, String>>();
-        final String[] text = {"test 1", "test 2", "talon", "evolve", "klinker apps"};
-
-        for (int i = 0; i < text.length; i++) {
-            HashMap<String, String> temp = new HashMap<String, String>();
-            temp.put("item", text[i]);
-            items.add(temp);
+        if(!settings.pushNotifications) {
+            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
         }
 
         final InteractionsDataSource data = new InteractionsDataSource(context);

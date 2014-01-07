@@ -81,6 +81,7 @@ limitations under the License.
         <item name="keyboard_button_changing">@drawable/ic_keyboard_dark</item>
         <item name="emojiBackspace">@drawable/ic_backspace_dark</item>
         <item name="picturePlaceholder">@drawable/ic_action_picture_dark</item>
+        <item name="read_button">@drawable/ic_action_read_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>

@@ -7,6 +7,7 @@
     <com.klinker.android.twitter.ui.widgets.HoloTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_action_read" />
+        android:drawableLeft="?read_button"
+        android:text="@string/old_interactions"/>
 
 </LinearLayout>

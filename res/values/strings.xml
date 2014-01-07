@@ -55,6 +55,7 @@
     <string name="jump_to_top">To First</string>
     <string name="all_read">All Read!</string>
     <string name="view_new">Load?</string>
+    <string name="old_interactions">Old Interactions</string>
 
     <!-- Notifications -->
     <string name="tweet">Tweet</string>
