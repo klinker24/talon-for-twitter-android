@@ -925,12 +925,4 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             toastDescription.setText(text);
         }
     }
-
-    @Override
-    public void onDestroy() {
-        dataSource.close();
-
-        super.onDestroy();
-    }
-
 }
