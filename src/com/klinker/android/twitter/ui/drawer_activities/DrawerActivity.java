@@ -158,6 +158,13 @@ public abstract class DrawerActivity extends Activity {
 
                 public void onDrawerOpened(View drawerView) {
                     actionBar.setTitle(getResources().getString(R.string.app_name));
+
+                    if(sharedPrefs.getBoolean("new_notification", false)) {
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(settings.currentAccount));
+                        notificationList.setAdapter(notificationAdapter);
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        sharedPrefs.edit().putBoolean("new_notification", false).commit();
+                    }
                 }
 
                 public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -450,20 +457,20 @@ public abstract class DrawerActivity extends Activity {
         if(!settings.pushNotifications) {
             mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
         } else {
-            final InteractionsDataSource data = new InteractionsDataSource(context);
+            data = new InteractionsDataSource(context);
             data.open();
             notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
             notificationList.setAdapter(notificationAdapter);
 
             View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer, null);
             notificationList.addFooterView(viewHeader, null, false);
+            oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
 
             LinearLayout footer = (LinearLayout) viewHeader.findViewById(R.id.footer);
             footer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    HoloTextView oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
                     if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
                         oldInteractions.setText(getResources().getString(R.string.new_interactions));
 
@@ -498,7 +505,6 @@ public abstract class DrawerActivity extends Activity {
                     notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                     notificationList.setAdapter(notificationAdapter);
 
-                    HoloTextView oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
                     oldInteractions.setText(getResources().getString(R.string.old_interactions));
 
                     return null;
@@ -509,6 +515,9 @@ public abstract class DrawerActivity extends Activity {
             notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
         }
     }
+
+    public HoloTextView oldInteractions;
+    public InteractionsDataSource data;
 
     public void setUpTheme() {
 
