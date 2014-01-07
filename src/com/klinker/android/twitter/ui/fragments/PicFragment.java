@@ -396,4 +396,11 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     public void updateToastText(String text) {
         toastDescription.setText(text);
     }
+
+    @Override
+    public void onDestroy() {
+        dataSource.close();
+
+        super.onDestroy();
+    }
 }

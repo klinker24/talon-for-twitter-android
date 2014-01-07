@@ -515,5 +515,10 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         toastDescription.setText(text);
     }
 
+    @Override
+    public void onDestroy() {
+        dataSource.close();
 
+        super.onDestroy();
+    }
 }
