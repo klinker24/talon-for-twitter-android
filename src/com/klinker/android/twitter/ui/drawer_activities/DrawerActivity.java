@@ -102,6 +102,7 @@ public abstract class DrawerActivity extends Activity {
         try {
             mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_rev, Gravity.END);
 
             mDrawerToggle = new ActionBarDrawerToggle(
                     this,                  /* host Activity */
