@@ -44,6 +44,7 @@ public class MainActivity extends DrawerActivity {
         setUpWindow();
         setUpTheme();
         setContentView(R.layout.main_activity);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
         actionBar = getActionBar();
@@ -57,7 +58,6 @@ public class MainActivity extends DrawerActivity {
 
         mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), settings.extraPages);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(settings.extraPages ? 2 : 0);
