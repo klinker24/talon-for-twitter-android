@@ -144,6 +144,14 @@ public class InteractionsDataSource {
         return cursor;
     }
 
+    public Cursor getUnreadBackwordCursor(int account) {
+
+        Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
+                allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[]{account + "", "1"}, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " DESC");
+
+        return cursor;
+    }
+
     public int getUnreadCount(int account) {
 
         Cursor cursor = getUnreadCursor(account);
@@ -156,11 +164,10 @@ public class InteractionsDataSource {
     }
 
     public void markRead(int account, int position) {
-        Cursor cursor = getUnreadCursor(account);
+        Cursor cursor = getUnreadBackwordCursor(account);
 
         if (cursor.moveToPosition(position)) {
             long id = cursor.getLong(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_ID));
-
             ContentValues cv = new ContentValues();
             cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 0);
 

@@ -463,7 +463,7 @@ public abstract class DrawerActivity extends Activity {
         notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
             @Override
             public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
-                Log.v("talon_interactions", "position to delete: " + position);
+                Log.v("talon_interactions_delete", "position to delete: " + position);
                 data.markRead(settings.currentAccount, position);
                 notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                 notificationList.setAdapter(notificationAdapter);

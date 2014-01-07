@@ -716,10 +716,13 @@ public class NotificationUtils {
 
         // set text
         String currText = sharedPrefs.getString("old_interaction_text", "");
+        if (!currText.equals("")) {
+            currText += "<br>";
+        }
         if(settings.displayScreenName) {
-            text = currText + "<b>" + interactor.getScreenName() + "</b> " + type + "<br>";
+            text = currText + "<b>" + interactor.getScreenName() + "</b> " + type;
         } else {
-            text = currText + "<b>" + interactor.getName() + "</b> " + type + "<br>";
+            text = currText + "<b>" + interactor.getName() + "</b> " + type;
         }
         sharedPrefs.edit().putString("old_interaction_text", text).commit();
 
