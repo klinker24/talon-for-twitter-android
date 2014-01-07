@@ -16,12 +16,15 @@ import android.util.Log;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
+
+import java.util.concurrent.ExecutionException;
 
 import twitter4j.DirectMessage;
 import twitter4j.FilterQuery;
@@ -46,6 +49,7 @@ public class TalonPullNotificationService extends Service {
     public Context mContext;
     public AppSettings settings;
     public SharedPreferences sharedPreferences;
+    public InteractionsDataSource interactions;
 
     @Override
     public void onCreate() {
@@ -74,6 +78,8 @@ public class TalonPullNotificationService extends Service {
         mContext = getApplicationContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         settings = new AppSettings(mContext);
+        interactions = new InteractionsDataSource(mContext);
+        interactions.open();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.STOP_PUSH");
@@ -104,6 +110,10 @@ public class TalonPullNotificationService extends Service {
             unregisterReceiver(stopService);
         } catch (Exception e) { }
 
+        try {
+            interactions.close();
+        } catch (Exception e) { }
+
         super.onDestroy();
     }
 
@@ -116,6 +126,10 @@ public class TalonPullNotificationService extends Service {
             } catch (Exception e) {
                 // it isn't running
             }
+
+            try {
+                interactions.close();
+            } catch (Exception e) { }
         }
     };
 
@@ -129,6 +143,10 @@ public class TalonPullNotificationService extends Service {
     public BroadcastReceiver startPush = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            try {
+                interactions.open();
+            } catch (Exception e) { }
+
             settings = new AppSettings(context);
             pushStream = Utils.getStreamingTwitter(context, DrawerActivity.settings);
 
@@ -194,6 +212,7 @@ public class TalonPullNotificationService extends Service {
                     MentionsDataSource dataSource = new MentionsDataSource(mContext);
                     dataSource.open();
                     dataSource.createTweet(status, settings.currentAccount);
+                    interactions.createMention(mContext, status, settings.currentAccount);
 
                     NotificationUtils.refreshNotification(mContext);
 
@@ -203,6 +222,7 @@ public class TalonPullNotificationService extends Service {
                     int newRetweets = sharedPreferences.getInt("new_retweets", 0);
                     newRetweets++;
                     sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
+                    interactions.createInteraction(mContext, status.getUser(), status, settings.currentAccount, InteractionsDataSource.TYPE_RETWEET);
 
                     NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
                 }
@@ -250,6 +270,7 @@ public class TalonPullNotificationService extends Service {
             int newFavs = sharedPreferences.getInt("new_favorites", 0);
             newFavs++;
             sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
+            interactions.createInteraction(mContext, source, favoritedStatus, settings.currentAccount, InteractionsDataSource.TYPE_FAVORITE);
 
             NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
         }
@@ -270,6 +291,7 @@ public class TalonPullNotificationService extends Service {
                 int newFollows = sharedPreferences.getInt("new_follows", 0);
                 newFollows++;
                 sharedPreferences.edit().putInt("new_follows", newFollows).commit();
+                interactions.createInteraction(mContext, source, null, settings.currentAccount, InteractionsDataSource.TYPE_FOLLOWER);
 
                 NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
             }
