@@ -78,7 +78,6 @@ public class InteractionsDataSource {
 
         String text = "";
 
-        User user = status.getUser();
         String title = "";
 
         switch (type) {
