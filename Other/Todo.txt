@@ -11,5 +11,7 @@
 - Notification Center:
     - Combine notifications for retweets and favorites
     - Maybe do the combined pictures
+    - Mark them as read from the notification
     - delete all the data on logout
     - trim it the same way as the other databases
+    - Change the background color for unread notifications

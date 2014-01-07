@@ -263,19 +263,21 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onFavorite(User source, User target, Status favoritedStatus) {
-            Log.v("twitter_stream_push", "onFavorite source:@"
-                    + source.getScreenName() + " target:@"
-                    + target.getScreenName() + " @"
-                    + favoritedStatus.getUser().getScreenName() + " - "
-                    + favoritedStatus.getText());
+            if(!source.getScreenName().equals(settings.myScreenName)) {
+                Log.v("twitter_stream_push", "onFavorite source:@"
+                        + source.getScreenName() + " target:@"
+                        + target.getScreenName() + " @"
+                        + favoritedStatus.getUser().getScreenName() + " - "
+                        + favoritedStatus.getText());
 
-            int newFavs = sharedPreferences.getInt("new_favorites", 0);
-            newFavs++;
-            sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
-            interactions.createInteraction(mContext, source, favoritedStatus, settings.currentAccount, InteractionsDataSource.TYPE_FAVORITE);
-            sharedPreferences.edit().putBoolean("new_notification", true).commit();
+                int newFavs = sharedPreferences.getInt("new_favorites", 0);
+                newFavs++;
+                sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
+                interactions.createInteraction(mContext, source, favoritedStatus, settings.currentAccount, InteractionsDataSource.TYPE_FAVORITE);
+                sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-            NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+                NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+            }
         }
 
         @Override
@@ -313,6 +315,7 @@ public class TalonPullNotificationService extends Service {
             int numUnread = sharedPreferences.getInt("dm_unread_" + settings.currentAccount, 0);
             numUnread++;
             sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();
+            sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
             NotificationUtils.refreshNotification(mContext);
 

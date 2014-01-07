@@ -45,6 +45,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
     public boolean talonLayout;
     public BitmapLruCache mCache;
     public int border;
+    public int color;
 
     public static class ViewHolder {
         public HoloTextView title;
@@ -81,6 +82,11 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         b.recycle();
 
         mCache = App.getInstance(context).getBitmapCache();
+
+
+        b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.message_color});
+        color = b.getResourceId(0, 0);
+        b.recycle();
     }
 
     @Override
@@ -110,8 +116,10 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         final String title = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_TITLE));
         final String text = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_TEXT));
         final String url = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_PRO_PIC));
+        final int unread = cursor.getInt(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_UNREAD));
 
         holder.title.setText(Html.fromHtml(title));
+
         if(!text.equals("")) {
             holder.text.setVisibility(View.VISIBLE);
             holder.text.setText(text);
@@ -123,6 +131,13 @@ public class InteractionsCursorAdapter extends CursorAdapter {
             holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
         } else {
             holder.picture.loadImage(url, true, null);
+        }
+
+        // set the background color
+        if (unread == 1) {
+            holder.background.setBackgroundResource(color);
+        } else {
+            holder.background.setBackgroundResource(context.getResources().getColor(android.R.color.transparent));
         }
     }
 
