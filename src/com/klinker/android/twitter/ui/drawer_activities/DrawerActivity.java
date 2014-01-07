@@ -497,6 +497,10 @@ public abstract class DrawerActivity extends Activity {
                     data.markRead(settings.currentAccount, position);
                     notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                     notificationList.setAdapter(notificationAdapter);
+
+                    HoloTextView oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
+                    oldInteractions.setText(getResources().getString(R.string.old_interactions));
+
                     return null;
                 }
             });
