@@ -23,10 +23,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
@@ -450,7 +452,9 @@ public abstract class DrawerActivity extends Activity {
             items.add(temp);
         }
 
-        final SimpleAdapter notificationAdapter = new SimpleAdapter(this, items, android.R.layout.simple_list_item_1, new String[]{"item"}, new int[]{android.R.id.text1});
+        InteractionsDataSource data = new InteractionsDataSource(context);
+        data.open();
+        InteractionsCursorAdapter notificationAdapter = new InteractionsCursorAdapter(context, data.getCursor(DrawerActivity.settings.currentAccount));
         notificationList.setAdapter(notificationAdapter);
 
         notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {

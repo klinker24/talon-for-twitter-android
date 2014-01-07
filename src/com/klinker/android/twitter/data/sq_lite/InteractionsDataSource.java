@@ -5,18 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.utils.HtmlUtils;
 
 import java.util.GregorianCalendar;
 
 import twitter4j.Status;
 import twitter4j.User;
 
-/**
- * Created by luke on 1/7/14.
- */
 public class InteractionsDataSource {
 
     // Database fields
@@ -24,7 +21,7 @@ public class InteractionsDataSource {
     private InteractionsSQLiteHelper dbHelper;
     public String[] allColumns = {InteractionsSQLiteHelper.COLUMN_ID, InteractionsSQLiteHelper.COLUMN_UNREAD, InteractionsSQLiteHelper.COLUMN_TWEET_ID, InteractionsSQLiteHelper.COLUMN_ACCOUNT, InteractionsSQLiteHelper.COLUMN_TYPE,
             InteractionsSQLiteHelper.COLUMN_TEXT, InteractionsSQLiteHelper.COLUMN_TITLE, InteractionsSQLiteHelper.COLUMN_PRO_PIC,
-            InteractionsSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS };
+            InteractionsSQLiteHelper.COLUMN_TIME, InteractionsSQLiteHelper.COLUMN_USERS };
 
     public static final int TYPE_FOLLOWER = 0;
     public static final int TYPE_RETWEET = 1;
@@ -52,7 +49,7 @@ public class InteractionsDataSource {
         User user = status.getUser();
         String users = "@" + user.getScreenName() + " ";
         String text = status.getText();
-        String title = context.getResources().getString(R.string.mentioned_by) + " @" + user.getScreenName();
+        String title = context.getResources().getString(R.string.mentioned_by) + " <b>@" + user.getScreenName() + "</b>";
 
         values.put(InteractionsSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(InteractionsSQLiteHelper.COLUMN_TEXT, text);
@@ -69,37 +66,39 @@ public class InteractionsDataSource {
 
     public void createInteraction(Context context, User source, Status status, int account, int type) {
         ContentValues values = new ContentValues();
-        long id = status.getId();
+        long id;
+        if (status != null) {
+            id = status.getId();
+        } else {
+            id = 0; // 0 will be used for whenever it is just a follow
+        }
         long time = new GregorianCalendar().getTime().getTime(); // current time
 
         String users = "@" + source.getScreenName() + " ";
-        
-        String text;
-        if (status != null) {
-            text = status.getText();
-        } else {
-            text = "";
-        }
+
+        String text = "";
 
         User user = status.getUser();
         String title = "";
 
         switch (type) {
             case TYPE_FAVORITE:
-                title = "@" + source.getScreenName() + " " + context.getResources().getString(R.string.favorited);
+                title = "<b>@" + source.getScreenName() + "</b> " + context.getResources().getString(R.string.favorited);
+                text = status.getText();
                 break;
             case TYPE_RETWEET:
-                title = "@" + source.getScreenName() + " " + context.getResources().getString(R.string.retweeted);
+                title = "<b>@" + source.getScreenName() + "</b> " + context.getResources().getString(R.string.retweeted);
+                text = status.getRetweetedStatus().getText();
                 break;
             case TYPE_FOLLOWER:
-                title = "@" + source.getScreenName() + " " + context.getResources().getString(R.string.followed);
+                title = "<b>@" + source.getScreenName() + "</b> " + context.getResources().getString(R.string.followed);
                 break;
         }
 
         values.put(InteractionsSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(InteractionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(InteractionsSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, user.getBiggerProfileImageURL());
+        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getBiggerProfileImageURL());
         values.put(InteractionsSQLiteHelper.COLUMN_TIME, time);
         values.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
         values.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
