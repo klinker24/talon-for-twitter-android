@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
@@ -32,7 +33,7 @@ public class ComposeDMActivity extends Compose {
             contactEntry.setSelection(contactEntry.getText().toString().length());
         }
 
-        Button at = (Button) findViewById(R.id.at_button);
+        ImageButton at = (ImageButton) findViewById(R.id.at_button);
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

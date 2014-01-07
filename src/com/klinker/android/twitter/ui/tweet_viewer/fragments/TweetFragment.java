@@ -171,7 +171,7 @@ public class TweetFragment extends Fragment {
         TextView screennametv;
         TextView tweettv;
         ImageButton attachButton;
-        Button at;
+        ImageButton at;
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
@@ -204,7 +204,7 @@ public class TweetFragment extends Fragment {
             overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
             buttons = (LinearLayout) layout.findViewById(R.id.buttons);
             charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
-            at = (Button) layout.findViewById(R.id.at_button);
+            at = (ImageButton) layout.findViewById(R.id.at_button);
             emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
             emojiKeyboard = (EmojiKeyboard) layout.findViewById(R.id.emojiKeyboard);
             timetv = (TextView) layout.findViewById(R.id.time);
@@ -235,7 +235,7 @@ public class TweetFragment extends Fragment {
             overflow = (ImageButton) layout.findViewById(res.getIdentifier("overflow_button", "id", settings.addonThemePackage));
             buttons = (LinearLayout) layout.findViewById(res.getIdentifier("buttons", "id", settings.addonThemePackage));
             charRemaining = (TextView) layout.findViewById(res.getIdentifier("char_remaining", "id", settings.addonThemePackage));
-            at = (Button) layout.findViewById(res.getIdentifier("at_button", "id", settings.addonThemePackage));
+            at = (ImageButton) layout.findViewById(res.getIdentifier("at_button", "id", settings.addonThemePackage));
             emojiButton = null;
             emojiKeyboard = null;
             timetv = (TextView) layout.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));

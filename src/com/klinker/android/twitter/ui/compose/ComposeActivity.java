@@ -124,7 +124,7 @@ public class ComposeActivity extends Compose {
             }
         });
 
-        Button at = (Button) findViewById(R.id.at_button);
+        ImageButton at = (ImageButton) findViewById(R.id.at_button);
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
