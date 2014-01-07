@@ -113,6 +113,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         holder.title.setText(Html.fromHtml(title));
         if(!text.equals("")) {
+            holder.text.setVisibility(View.VISIBLE);
             holder.text.setText(text);
         } else {
             holder.text.setVisibility(View.GONE);
