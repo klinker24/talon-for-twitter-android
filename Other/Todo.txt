@@ -6,3 +6,10 @@
 
 - Bugs:
     - Change the @ sign on the gitub theme
+
+
+- Notification Center:
+    - Combine notifications for retweets and favorites
+    - Maybe do the combined pictures
+    - delete all the data on logout
+    - trim it the same way as the other databases
