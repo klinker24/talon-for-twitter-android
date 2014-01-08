@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?drawerDividerColor" />
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pressed_button"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/read_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="?read_button"
+            />
+
+        <com.klinker.android.twitter.ui.widgets.HoloTextView
+            android:id="@+id/old_interactions_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/old_interactions"
+            android:paddingLeft="10dp"
+            android:gravity="center"
+            android:textSize="19dp"
+            android:layout_gravity="right|center_vertical"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?drawerDividerColor" />
+
+</LinearLayout>

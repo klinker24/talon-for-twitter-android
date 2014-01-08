@@ -22,18 +22,19 @@ import com.klinker.android.twitter.ui.drawer_activities.RetweetActivity;
 import com.klinker.android.twitter.ui.drawer_activities.Search;
 import com.klinker.android.twitter.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter.ui.drawer_activities.trends.TrendsPager;
+import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {
 
     private Context context;
-    private DrawerLayout drawer;
+    private NotificationDrawerLayout drawer;
     private ViewPager viewPager;
     private boolean noWait;
     private boolean extraPages;
 
     private SharedPreferences sharedPreferences;
 
-    public MainDrawerClickListener(Context context, DrawerLayout drawer, ViewPager viewPager, boolean extraPages) {
+    public MainDrawerClickListener(Context context, NotificationDrawerLayout drawer, ViewPager viewPager, boolean extraPages) {
         this.context = context;
         this.drawer = drawer;
         this.viewPager = viewPager;

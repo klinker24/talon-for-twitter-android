@@ -87,7 +87,7 @@ public class PhotoViewerDialog extends Activity {
             }
         });
 
-        ImageButton download = (ImageButton) findViewById(R.id.download);
+        HoloTextView download = (HoloTextView) findViewById(R.id.download);
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

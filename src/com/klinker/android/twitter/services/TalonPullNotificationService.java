@@ -16,12 +16,15 @@ import android.util.Log;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
+
+import java.util.concurrent.ExecutionException;
 
 import twitter4j.DirectMessage;
 import twitter4j.FilterQuery;
@@ -46,6 +49,7 @@ public class TalonPullNotificationService extends Service {
     public Context mContext;
     public AppSettings settings;
     public SharedPreferences sharedPreferences;
+    public InteractionsDataSource interactions;
 
     @Override
     public void onCreate() {
@@ -54,6 +58,9 @@ public class TalonPullNotificationService extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
+        Intent stop = new Intent(this, StopPull.class);
+        PendingIntent stopPending = PendingIntent.getService(this, 0, stop, 0);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.color.transparent)
@@ -61,6 +68,10 @@ public class TalonPullNotificationService extends Service {
                         .setContentText(getResources().getString(R.string.listening_for_mentions) + "...")
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
+
+        if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
+            mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
+        }
 
         mBuilder.setContentIntent(pendingIntent);
 
@@ -74,6 +85,8 @@ public class TalonPullNotificationService extends Service {
         mContext = getApplicationContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         settings = new AppSettings(mContext);
+        interactions = new InteractionsDataSource(mContext);
+        interactions.open();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.STOP_PUSH");
@@ -104,6 +117,10 @@ public class TalonPullNotificationService extends Service {
             unregisterReceiver(stopService);
         } catch (Exception e) { }
 
+        try {
+            interactions.close();
+        } catch (Exception e) { }
+
         super.onDestroy();
     }
 
@@ -116,6 +133,10 @@ public class TalonPullNotificationService extends Service {
             } catch (Exception e) {
                 // it isn't running
             }
+
+            try {
+                interactions.close();
+            } catch (Exception e) { }
         }
     };
 
@@ -129,6 +150,10 @@ public class TalonPullNotificationService extends Service {
     public BroadcastReceiver startPush = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            try {
+                interactions.open();
+            } catch (Exception e) { }
+
             settings = new AppSettings(context);
             pushStream = Utils.getStreamingTwitter(context, DrawerActivity.settings);
 
@@ -194,17 +219,27 @@ public class TalonPullNotificationService extends Service {
                     MentionsDataSource dataSource = new MentionsDataSource(mContext);
                     dataSource.open();
                     dataSource.createTweet(status, settings.currentAccount);
+                    interactions.createMention(mContext, status, settings.currentAccount);
+                    sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                    NotificationUtils.refreshNotification(mContext);
+                    if(settings.notifications) {
+                        NotificationUtils.refreshNotification(mContext);
+                    }
 
                     dataSource.close();
                 } else { // it is a retweet
 
-                    int newRetweets = sharedPreferences.getInt("new_retweets", 0);
-                    newRetweets++;
-                    sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
+                    if (!status.getUser().getScreenName().equals(settings.myScreenName)) {
+                        int newRetweets = sharedPreferences.getInt("new_retweets", 0);
+                        newRetweets++;
+                        sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
+                        interactions.updateInteraction(mContext, status.getUser(), status, settings.currentAccount, InteractionsDataSource.TYPE_RETWEET);
+                        sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                    NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
+                        if(settings.notifications) {
+                            NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
+                        }
+                    }
                 }
             }
         }
@@ -241,17 +276,23 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onFavorite(User source, User target, Status favoritedStatus) {
-            Log.v("twitter_stream_push", "onFavorite source:@"
-                    + source.getScreenName() + " target:@"
-                    + target.getScreenName() + " @"
-                    + favoritedStatus.getUser().getScreenName() + " - "
-                    + favoritedStatus.getText());
+            if(!source.getScreenName().equals(settings.myScreenName) && target.getScreenName().equals(settings.myScreenName)) {
+                Log.v("twitter_stream_push", "onFavorite source:@"
+                        + source.getScreenName() + " target:@"
+                        + target.getScreenName() + " @"
+                        + favoritedStatus.getUser().getScreenName() + " - "
+                        + favoritedStatus.getText());
 
-            int newFavs = sharedPreferences.getInt("new_favorites", 0);
-            newFavs++;
-            sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
+                int newFavs = sharedPreferences.getInt("new_favorites", 0);
+                newFavs++;
+                sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
+                interactions.updateInteraction(mContext, source, favoritedStatus, settings.currentAccount, InteractionsDataSource.TYPE_FAVORITE);
+                sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-            NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+                if(settings.notifications) {
+                    NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+                }
+            }
         }
 
         @Override
@@ -270,8 +311,12 @@ public class TalonPullNotificationService extends Service {
                 int newFollows = sharedPreferences.getInt("new_follows", 0);
                 newFollows++;
                 sharedPreferences.edit().putInt("new_follows", newFollows).commit();
+                interactions.createInteraction(mContext, source, null, settings.currentAccount, InteractionsDataSource.TYPE_FOLLOWER);
+                sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
+                if (settings.notifications) {
+                    NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
+                }
             }
         }
 
@@ -288,7 +333,9 @@ public class TalonPullNotificationService extends Service {
             numUnread++;
             sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();
 
-            NotificationUtils.refreshNotification(mContext);
+            if (settings.notifications) {
+                NotificationUtils.refreshNotification(mContext);
+            }
 
             dataSource.close();
         }

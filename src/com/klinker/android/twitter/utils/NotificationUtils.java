@@ -27,7 +27,6 @@ import com.klinker.android.twitter.services.ReplyService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.compose.RetryCompose;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -116,7 +115,7 @@ public class NotificationUtils {
                 Intent markRead = new Intent(context, MarkReadService.class);
                 PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
 
-                mBuilder.addAction(R.drawable.ic_action_read, context.getResources().getString(R.string.mark_read), readPending);
+                mBuilder.addAction(R.drawable.ic_action_read_dark, context.getResources().getString(R.string.mark_read), readPending);
             } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
                 Intent popup = new Intent(context, RedirectToPopup.class);
                 popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -716,10 +715,13 @@ public class NotificationUtils {
 
         // set text
         String currText = sharedPrefs.getString("old_interaction_text", "");
+        if (!currText.equals("")) {
+            currText += "<br>";
+        }
         if(settings.displayScreenName) {
-            text = currText + "<b>" + interactor.getScreenName() + "</b> " + type + "\n";
+            text = currText + "<b>" + interactor.getScreenName() + "</b> " + type;
         } else {
-            text = currText + "<b>" + interactor.getName() + "</b> " + type + "\n";
+            text = currText + "<b>" + interactor.getName() + "</b> " + type;
         }
         sharedPrefs.edit().putString("old_interaction_text", text).commit();
 

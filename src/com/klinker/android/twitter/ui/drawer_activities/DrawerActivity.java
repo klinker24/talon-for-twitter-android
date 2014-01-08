@@ -1,24 +1,18 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.*;
+import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -28,20 +22,18 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
+import android.widget.*;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
@@ -52,14 +44,16 @@ import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import de.timroes.android.listview.EnhancedListView;
 import org.lucasr.smoothie.AsyncListView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public abstract class DrawerActivity extends Activity {
 
@@ -71,9 +65,11 @@ public abstract class DrawerActivity extends Activity {
 
     public static ViewPager mViewPager;
 
-    public DrawerLayout mDrawerLayout;
+    public NotificationDrawerLayout mDrawerLayout;
+    public InteractionsCursorAdapter notificationAdapter;
     public LinearLayout mDrawer;
     public ListView drawerList;
+    public EnhancedListView notificationList;
     public ActionBarDrawerToggle mDrawerToggle;
 
     public AsyncListView listView;
@@ -87,6 +83,12 @@ public abstract class DrawerActivity extends Activity {
     public static int statusBarHeight;
     public static int navBarHeight;
 
+    public int openMailResource;
+    public int closedMailResource;
+    public static HoloTextView oldInteractions;
+    public ImageView readButton;
+    public InteractionsDataSource data;
+
     public void setUpDrawer(int number, final String actName) {
 
         actionBar = getActionBar();
@@ -97,7 +99,16 @@ public abstract class DrawerActivity extends Activity {
         int resource = a.getResourceId(0, 0);
         a.recycle();
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        a = context.getTheme().obtainStyledAttributes(new int[] {R.attr.read_button});
+        openMailResource = a.getResourceId(0,0);
+        a.recycle();
+
+        a = context.getTheme().obtainStyledAttributes(new int[] {R.attr.unread_button});
+        closedMailResource = a.getResourceId(0,0);
+        a.recycle();
+
+
+        mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
 
         HoloTextView name = (HoloTextView) mDrawer.findViewById(R.id.name);
@@ -108,10 +119,12 @@ public abstract class DrawerActivity extends Activity {
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
         drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
+        notificationList = (EnhancedListView) findViewById(R.id.notificationList);
 
         try {
-            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_rev, Gravity.END);
 
             mDrawerToggle = new ActionBarDrawerToggle(
                     this,                  /* host Activity */
@@ -136,31 +149,47 @@ public abstract class DrawerActivity extends Activity {
                     if (MainDrawerArrayAdapter.current > 2) {
                         actionBar.setTitle(actName);
                     } else {
-                            int position = mViewPager.getCurrentItem();
+                        int position = mViewPager.getCurrentItem();
 
-                            switch (position) {
-                                case 0:
-                                    actionBar.setTitle(getResources().getString(R.string.links));
-                                    break;
-                                case 1:
-                                    actionBar.setTitle(getResources().getString(R.string.pictures));
-                                    break;
-                                case 2:
-                                    actionBar.setTitle(getResources().getString(R.string.timeline));
-                                    break;
-                                case 3:
-                                    actionBar.setTitle(getResources().getString(R.string.mentions));
-                                    break;
-                                case 4:
-                                    actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                                    break;
-                            }
+                        switch (position) {
+                            case 0:
+                                actionBar.setTitle(getResources().getString(R.string.links));
+                                break;
+                            case 1:
+                                actionBar.setTitle(getResources().getString(R.string.pictures));
+                                break;
+                            case 2:
+                                actionBar.setTitle(getResources().getString(R.string.timeline));
+                                break;
+                            case 3:
+                                actionBar.setTitle(getResources().getString(R.string.mentions));
+                                break;
+                            case 4:
+                                actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                                break;
                         }
+                    }
 
+                    if (oldInteractions.getText().toString().equals(getResources().getString(R.string.new_interactions))) {
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
+                        notificationList.enableSwipeToDismiss();
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                        notificationList.setAdapter(notificationAdapter);
+                    }
                 }
 
                 public void onDrawerOpened(View drawerView) {
                     actionBar.setTitle(getResources().getString(R.string.app_name));
+
+                    if(sharedPrefs.getBoolean("new_notification", false)) {
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(settings.currentAccount));
+                        notificationList.setAdapter(notificationAdapter);
+                        notificationList.enableSwipeToDismiss();
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
+                        sharedPrefs.edit().putBoolean("new_notification", false).commit();
+                    }
                 }
 
                 public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -176,7 +205,6 @@ public abstract class DrawerActivity extends Activity {
                 }
             };
 
-            // Set the drawer toggle as the DrawerListener
             mDrawerLayout.setDrawerListener(mDrawerToggle);
         } catch (Exception e) {
             // landscape mode
@@ -367,6 +395,7 @@ public abstract class DrawerActivity extends Activity {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                             sharedPrefs.edit().putInt("current_account", 2).commit();
+                            sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                             finish();
                             Intent next = new Intent(context, MainActivity.class);
                             startActivity(next);
@@ -392,6 +421,7 @@ public abstract class DrawerActivity extends Activity {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                             sharedPrefs.edit().putInt("current_account", 1).commit();
+                            sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                             finish();
                             Intent next = new Intent(context, MainActivity.class);
                             startActivity(next);
@@ -438,10 +468,87 @@ public abstract class DrawerActivity extends Activity {
             drawerStatusBar.setVisibility(View.VISIBLE);
 
             statusBar.setVisibility(View.VISIBLE);
+
+            drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
+            status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
+            status2Params.height = statusBarHeight;
+            drawerStatusBar.setLayoutParams(status2Params);
+            drawerStatusBar.setVisibility(View.VISIBLE);
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) {
             actionBar.setDisplayHomeAsUpEnabled(false);
+        }
+
+        if(!settings.pushNotifications) {
+            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+        } else {
+            data = new InteractionsDataSource(context);
+            data.open();
+            notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+            notificationList.setAdapter(notificationAdapter);
+
+            View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer, null);
+            notificationList.addFooterView(viewHeader, null, false);
+            oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
+            readButton = (ImageView) findViewById(R.id.read_button);
+
+            LinearLayout footer = (LinearLayout) viewHeader.findViewById(R.id.footer);
+            footer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
+                        oldInteractions.setText(getResources().getString(R.string.new_interactions));
+                        readButton.setImageResource(closedMailResource);
+
+                        notificationList.disableSwipeToDismiss();
+
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getCursor(DrawerActivity.settings.currentAccount));
+                    } else {
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
+
+                        notificationList.enableSwipeToDismiss();
+
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                    }
+
+                    notificationList.setAdapter(notificationAdapter);
+                }
+            });
+
+            if (DrawerActivity.translucent) {
+                if (Utils.hasNavBar(context)) {
+                    View nav= new View(context);
+                    nav.setOnClickListener(null);
+                    nav.setOnLongClickListener(null);
+                    ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+                    nav.setLayoutParams(params);
+                    notificationList.addFooterView(nav);
+                    notificationList.setFooterDividersEnabled(false);
+                }
+            }
+
+            notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
+                @Override
+                public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
+                    Log.v("talon_interactions_delete", "position to delete: " + position);
+                    data.markRead(settings.currentAccount, position);
+                    notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                    notificationList.setAdapter(notificationAdapter);
+
+                    oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                    readButton.setImageResource(openMailResource);
+
+                    return null;
+                }
+            });
+
+            notificationList.enableSwipeToDismiss();
+            notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
+
+            notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager, settings.extraPages));
         }
     }
 
@@ -494,6 +601,10 @@ public abstract class DrawerActivity extends Activity {
         e.remove("authentication_token_" + currentAccount);
         e.remove("authentication_token_secret_" + currentAccount);
         e.remove("is_logged_in_" + currentAccount);
+        e.remove("new_notification");
+        e.remove("new_retweets");
+        e.remove("new_favorites");
+        e.remove("new_follows");
         e.commit();
 
         HomeDataSource homeSources = new HomeDataSource(context);
@@ -515,6 +626,11 @@ public abstract class DrawerActivity extends Activity {
         favs.open();
         favs.deleteAllUsers(currentAccount);
         favs.close();
+
+        InteractionsDataSource inters = new InteractionsDataSource(context);
+        inters.open();
+        inters.deleteAllInteractions(currentAccount);
+        inters.close();
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
@@ -603,6 +719,14 @@ public abstract class DrawerActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (MainActivity.isPopup) {
             menu.getItem(3).setVisible(false); // hide the settings button if the popup is up
+            menu.getItem(0).setVisible(false); // hide the search button in popup
+
+            // disable the left drawer so they can't switch activities in the popup.
+            // causes problems with the layouts
+            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.START);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setHomeButtonEnabled(false);
         }
 
         return true;

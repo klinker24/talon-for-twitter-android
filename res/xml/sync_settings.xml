@@ -9,7 +9,7 @@
             android:key="push_notifications"
             android:title="@string/push_notifications"
             android:summary="@string/push_notifications_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <Preference
@@ -74,7 +74,7 @@
         <CheckBoxPreference
             android:key="refresh_on_start"
             android:title="@string/refresh_on_startup"
-            android:defaultValue="true"
+            android:defaultValue="false"
             />
 
         <ListPreference

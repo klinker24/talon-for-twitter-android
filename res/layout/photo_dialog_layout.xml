@@ -26,15 +26,25 @@
         android:layout_height="match_parent"
         android:padding="20dp" />
 
-    <ImageButton
-        android:id="@+id/download"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/pressed_toast"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_action_save"
-        android:layout_marginTop="40dp"
-        android:padding="10dp"/>
+        android:gravity="center_horizontal"
+        android:layout_marginTop="40dp">
+
+        <com.klinker.android.twitter.ui.widgets.HoloTextView
+            android:id="@+id/download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/pressed_toast"
+            android:drawableLeft="@drawable/ic_action_save"
+            android:textSize="21dp"
+            android:drawablePadding="8dp"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/save"/>
+
+        </LinearLayout>
+
 
 </RelativeLayout>

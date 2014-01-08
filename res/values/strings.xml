@@ -55,6 +55,7 @@
     <string name="jump_to_top">To First</string>
     <string name="all_read">All Read!</string>
     <string name="view_new">Load?</string>
+    <string name="old_interactions">All Interactions</string>
 
     <!-- Notifications -->
     <string name="tweet">Tweet</string>
@@ -84,6 +85,8 @@
     <string name="retweeted">retweeted your status</string>
     <string name="favorited">favorited your status</string>
     <string name="followed">followed you</string>
+    <string name="new_retweets">retweets</string>
+    <string name="new_favorites">favorites</string>
 
     <!-- Login Screen -->
     <string name="setup_talon">Setup Talon</string>
@@ -99,7 +102,7 @@
     <string name="syncing_timeline">Syncing timeline...</string>
     <string name="syncing_mentions">Syncing mentions...</string>
     <string name="syncing_direct_messages">Syncing direct messages...</string>
-    <string name="syncing_user">Syncing Friends...</string>
+    <string name="syncing_user">Syncing friends...</string>
     <string name="done_syncing">Done with sync.</string>
     <string name="login_error">Something went wrong... Please retry!</string>
     <string name="no_network">You aren\'t connected to the internet</string>
@@ -146,6 +149,8 @@
     <string name="via">via</string>
     <string name="version">Version</string>
     <string name="from">From</string>
+    <string name="save">Save</string>
+    <string name="stop">Stop</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>

@@ -36,6 +36,7 @@ import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.SettingsPagerActivity;
 import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -60,7 +61,7 @@ public class SearchedTrendsActivity extends Activity {
 
     public static ViewPager mViewPager;
 
-    private DrawerLayout mDrawerLayout;
+    private NotificationDrawerLayout mDrawerLayout;
     private LinearLayout mDrawer;
     private ListView drawerList;
     private ActionBarDrawerToggle mDrawerToggle;

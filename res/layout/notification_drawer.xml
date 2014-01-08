@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:animateLayoutChanges="true"
+              android:background="?windowBackground" >
+
+    <View android:id="@+id/drawer_status_bar_2"
+          android:layout_width="match_parent"
+          android:layout_height="20dp"
+          android:background="@android:color/black"
+          android:visibility="gone"/>
+
+    <include layout="@layout/ab_header"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" />
+
+    <de.timroes.android.listview.EnhancedListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/notificationList"/>
+
+</LinearLayout>
