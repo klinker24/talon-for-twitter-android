@@ -232,7 +232,7 @@ public class TalonPullNotificationService extends Service {
                     int newRetweets = sharedPreferences.getInt("new_retweets", 0);
                     newRetweets++;
                     sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
-                    interactions.createInteraction(mContext, status.getUser(), status, settings.currentAccount, InteractionsDataSource.TYPE_RETWEET);
+                    interactions.updateInteraction(mContext, status.getUser(), status, settings.currentAccount, InteractionsDataSource.TYPE_RETWEET);
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
                     if(settings.notifications) {
@@ -284,7 +284,7 @@ public class TalonPullNotificationService extends Service {
                 int newFavs = sharedPreferences.getInt("new_favorites", 0);
                 newFavs++;
                 sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
-                interactions.createInteraction(mContext, source, favoritedStatus, settings.currentAccount, InteractionsDataSource.TYPE_FAVORITE);
+                interactions.updateInteraction(mContext, source, favoritedStatus, settings.currentAccount, InteractionsDataSource.TYPE_FAVORITE);
                 sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
                 if(settings.notifications) {

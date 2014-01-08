@@ -108,14 +108,44 @@ public class InteractionsDataSource {
     }
 
     public void updateInteraction(Context context, User source, Status status, int account, int type) {
+        Cursor cursor = interactionExists(status.getId(), account);
 
+        if (cursor.getCount() > 0) { // it does exist
+            // i want to do the updating stuff
+
+            if (cursor.moveToFirst()) {
+                String users = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_USERS));
+                String title = "";
+
+                String[] x = users.split(" ");
+
+                if (type == TYPE_RETWEET) { // retweet
+                    title = x.length + " " + context.getResources().getString(R.string.new_retweets);
+                } else { // favorite
+                    title = x.length + " " + context.getResources().getString(R.string.new_favorites);
+                }
+
+                users += "@" + source.getScreenName() + " ";
+
+                ContentValues cv = new ContentValues();
+                cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
+                cv.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
+                cv.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
+                cv.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getBiggerProfileImageURL());
+
+                database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {status.getId() + ""});
+            }
+        } else {
+            // this creates the entry
+            createInteraction(context, source, status, account, type);
+        }
     }
 
-    public boolean interactionExists(long tweetId, int account) {
+    public Cursor interactionExists(long tweetId, int account) {
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{account + "", tweetId + ""}, null, null, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
-        return cursor.getCount() > 0;
+        return cursor;
     }
 
     public void deleteInteraction(long id) {
