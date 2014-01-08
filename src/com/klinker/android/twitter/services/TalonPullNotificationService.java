@@ -69,8 +69,8 @@ public class TalonPullNotificationService extends Service {
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
 
-        if (mContext.getResources().getBoolean(R.bool.expNotifications)) {
-            mBuilder.addAction(R.drawable.ic_cancel_dark, mContext.getResources().getString(R.string.stop), stopPending);
+        if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
+            mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
         }
 
         mBuilder.setContentIntent(pendingIntent);
