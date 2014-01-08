@@ -14,13 +14,12 @@ import android.widget.AdapterView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 
-/**
- * Created by luke on 1/8/14.
- */
 public class InteractionClickListener implements AdapterView.OnItemClickListener {
 
     private Context context;
@@ -45,8 +44,9 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         HoloTextView title = (HoloTextView) view.findViewById(R.id.title);
+        String mTitle = title.getText().toString();
 
-        if(title.getText().toString().contains(context.getResources().getString(R.string.mentioned_by))) { // this is a mention
+        if(mTitle.contains(context.getResources().getString(R.string.mentioned_by))) { // this is a mention
             if (MainDrawerArrayAdapter.current < 3) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -96,6 +96,27 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                     }
                 }).start();
             }
+        } else if (mTitle.contains(context.getResources().getString(R.string.retweeted))) { // it is a retweet
+            // open up the dialog with the users that retweeted it
+        } else if (mTitle.contains(context.getResources().getString(R.string.favorited))) { // it is a favorite
+            // open the dialog with the users that favorited it
+        } else if (mTitle.contains(context.getResources().getString(R.string.followed))) { // someone new followed you
+            // a new follower, open up the followers profile
+            String username = mTitle.substring(mTitle.indexOf("@"), mTitle.length());
+
+            Intent user = new Intent(context, UserProfileActivity.class);
+            user.putExtra("screenname", username);
+            user.putExtra("proPic", "");
+            context.startActivity(user);
         }
+
+        // mark it read in the sql database
+        InteractionsDataSource data = new InteractionsDataSource(context);
+        data.open();
+        data.markRead(sharedPreferences.getInt("current_account", 1), i);
+        data.close();
+
+        // tell the system to refresh the notifications when the user opens the drawer again
+        sharedPreferences.edit().putBoolean("new_notification", true).commit();
     }
 }
