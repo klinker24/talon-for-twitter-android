@@ -1,16 +1,18 @@
 - Features:
-    - Faq about reducing battery consumption
-    - features section for Google+
     - Redo the Direct Messages to be conversation style with just a list of contacts on the main timeline
-    - Notification center stuff for interactions (retweets, favorites, and new followers)
     - Show full conversations on tweets (look forward, not back...) - No clue how yet
     - Retweet and favorite from multiple accounts
     - Add location to the tweet viewer
     - Report as spam
 
 - Bugs:
-    - Change the @ sign on the gitub theme
 
 - Notification Center:
-    - Combine notifications for retweets and favorites
     - Combined pictures from Evolve
+
+-- For Release --
+
+    -- Faq about reducing battery consumption and immersive mode/how the app handles it
+    -- Review all the faq's and promo and make sure they are good/include talon pull stuff
+    -- features section for Google+
+    -- Change the @ sign on the gitub theme
