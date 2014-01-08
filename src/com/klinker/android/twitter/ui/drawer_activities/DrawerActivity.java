@@ -33,6 +33,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
@@ -525,6 +526,8 @@ public abstract class DrawerActivity extends Activity {
 
             notificationList.enableSwipeToDismiss();
             notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
+
+            notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager, settings.extraPages));
         }
     }
 
