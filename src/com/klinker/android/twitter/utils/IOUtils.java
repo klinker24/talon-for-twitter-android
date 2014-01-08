@@ -17,6 +17,8 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 
@@ -206,6 +208,21 @@ public class IOUtils {
             AppSettings settings = new AppSettings(context);
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
+            InteractionsDataSource interactions = new InteractionsDataSource(context);
+            interactions.open();
+            Cursor inters = interactions.getCursor(account);
+
+            if (inters.getCount() > 50) {
+                if (inters.moveToPosition(inters.getCount() - 50)) {
+                    do {
+                        interactions.deleteInteraction(inters.getLong(inters.getColumnIndex(InteractionsSQLiteHelper.COLUMN_ID)));
+                    } while (inters.moveToPrevious());
+                }
+            }
+
+            interactions.close();
+            inters.close();
+
             HomeDataSource home = new HomeDataSource(context);
             home.open();
             Cursor timeline = home.getCursor(account);
@@ -257,6 +274,7 @@ public class IOUtils {
                 }
             }
 
+            timeline.close();
             dm.close();
             return true;
         } catch (Exception e) {

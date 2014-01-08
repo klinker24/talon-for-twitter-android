@@ -10,4 +10,3 @@
 - Notification Center:
     - Combine notifications for retweets and favorites
     - Maybe do the combined pictures
-    - trim it the same way as the other databases

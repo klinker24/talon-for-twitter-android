@@ -118,9 +118,8 @@ public class InteractionsDataSource {
         return cursor.getCount() > 0;
     }
 
-    public void deleteInteraction(long tweetId) {
-        long id = tweetId;
-        database.delete(InteractionsSQLiteHelper.TABLE_INTERACTIONS, InteractionsSQLiteHelper.COLUMN_TWEET_ID
+    public void deleteInteraction(long id) {
+        database.delete(InteractionsSQLiteHelper.TABLE_INTERACTIONS, InteractionsSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
