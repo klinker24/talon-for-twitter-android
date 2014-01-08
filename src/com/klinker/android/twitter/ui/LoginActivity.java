@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -66,6 +67,7 @@ public class LoginActivity extends Activity {
     private static String verifier;
 
     private Button btnLoginTwitter;
+    private Button noThanks;
     private TextSwitcher title;
     private TextSwitcher summary;
     private TextSwitcher progDescription;
@@ -99,6 +101,7 @@ public class LoginActivity extends Activity {
         twitter = factory.getInstance();
 
         btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
+        noThanks = (Button) findViewById(R.id.dont_follow);
         title = (TextSwitcher) findViewById(R.id.welcome);
         summary = (TextSwitcher) findViewById(R.id.info);
         progDescription = (TextSwitcher) findViewById(R.id.progress_desc);
@@ -171,6 +174,18 @@ public class LoginActivity extends Activity {
             }
         });
 
+        noThanks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FollowMe().execute();
+
+                btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
+                noThanks.setVisibility(View.GONE);
+
+                summary.setText(getResources().getString(R.string.third_info));
+            }
+        });
+
         btnLoginTwitter.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -185,6 +200,11 @@ public class LoginActivity extends Activity {
                     }
                 } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
+                } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.no_thanks))) {
+                    btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
+                    noThanks.setVisibility(View.GONE);
+
+                    summary.setText(getResources().getString(R.string.third_info));
                 } else {
 
                     if (settings.timelineRefresh != 0) { // user only wants manual
@@ -239,9 +259,29 @@ public class LoginActivity extends Activity {
 
     }
 
-    class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
+    class FollowMe extends AsyncTask<String, Void, Void> {
 
-        private Exception exception;
+        @Override
+        protected Void doInBackground(String... urls) {
+            Twitter twit = Utils.getTwitter(context, settings);
+
+            try {
+                twit.createFriendship("TalonAndroid");
+            } catch (Exception x) {
+
+            }
+
+            try {
+                twit.createFriendship("lukeklinker");
+            } catch (Exception f) {
+
+            }
+            return null;
+        }
+
+    }
+
+    class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... urls) {
@@ -329,7 +369,6 @@ public class LoginActivity extends Activity {
             progressBar.setIndeterminate(true);
 
             btnLoginTwitter.setEnabled(false);
-            btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
 
             progDescription.setVisibility(View.VISIBLE);
             progDescription.setText(getResources().getString(R.string.syncing_timeline));
@@ -516,14 +555,20 @@ public class LoginActivity extends Activity {
 
         protected void onPostExecute(String file_url) {
 
+            String text = getResources().getString(R.string.follow_me_description);
+            text = text.replace("@TalonAndroid", "<font color='#FF8800'>@TalonAndroid</font>");
+            text = text.replace("@lukeklinker", "<font color='#FF8800'>@lukeklinker</font>");
+
             btnLoginTwitter.setEnabled(true);
+            btnLoginTwitter.setText(getResources().getString(R.string.no_thanks));
+            noThanks.setVisibility(View.VISIBLE);
 
             progressBar.setIndeterminate(false);
             progressBar.setProgress(100);
 
             progDescription.setText(getResources().getString(R.string.done_syncing));
             title.setText(getResources().getString(R.string.third_welcome));
-            summary.setText(getResources().getString(R.string.third_info));
+            summary.setText(Html.fromHtml(text));
         }
 
     }

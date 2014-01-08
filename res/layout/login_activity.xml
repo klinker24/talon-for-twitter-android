@@ -55,15 +55,21 @@
 
         <!-- Twitter Login Button -->
         <LinearLayout
-                      android:orientation="vertical"
+                      android:orientation="horizontal"
                       android:layout_width="match_parent"
                       android:layout_height="fill_parent"
-                      android:gravity="center" >
+                      android:gravity="center">
 
             <Button android:id="@+id/btnLoginTwitter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_to_twitter"/>
+
+            <Button android:id="@+id/dont_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/follow_me"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

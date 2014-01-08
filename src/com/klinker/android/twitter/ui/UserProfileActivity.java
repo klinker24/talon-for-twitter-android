@@ -601,7 +601,15 @@ public class UserProfileActivity extends Activity {
                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             }
 
-            String url = user.getProfileBannerURL();
+            String url;
+            try {
+                url = user.getProfileBannerURL();
+            } catch (Exception e) {
+                // awkward... they clicked here before the user was actually found...
+                // Damn you kb/sec internet
+                url = null;
+            }
+
             if (url != null) {
                 /*if (!user.getScreenName().equals(settings.myScreenName)) {
                     background.loadImage(url, false, null);
@@ -697,7 +705,15 @@ public class UserProfileActivity extends Activity {
                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             }
 
-            String url = user.getProfileBannerURL();
+            String url;
+            try {
+                url = user.getProfileBannerURL();
+            } catch (Exception e) {
+                // awkward... they clicked here before the user was actually found...
+                // Damn you kb/sec internet
+                url = null;
+            }
+
             if (url != null) {
                 /*if (!user.getScreenName().equals(settings.myScreenName)) {
                     background.loadImage(url, false, null);
@@ -760,7 +776,14 @@ public class UserProfileActivity extends Activity {
                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
             }
 
-            String url = user.getProfileBannerURL();
+            String url;
+            try {
+                url = user.getProfileBannerURL();
+            } catch (Exception e) {
+                // awkward... they clicked here before the user was actually found...
+                // Damn you kb/sec internet
+                url = null;
+            }
             if (url != null) {
                 /*if (!user.getScreenName().equals(settings.myScreenName)) {
                     background.loadImage(url, false, null);
