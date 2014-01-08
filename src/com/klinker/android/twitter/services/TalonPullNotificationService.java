@@ -229,14 +229,16 @@ public class TalonPullNotificationService extends Service {
                     dataSource.close();
                 } else { // it is a retweet
 
-                    int newRetweets = sharedPreferences.getInt("new_retweets", 0);
-                    newRetweets++;
-                    sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
-                    interactions.updateInteraction(mContext, status.getUser(), status, settings.currentAccount, InteractionsDataSource.TYPE_RETWEET);
-                    sharedPreferences.edit().putBoolean("new_notification", true).commit();
+                    if (!status.getUser().getScreenName().equals(settings.myScreenName)) {
+                        int newRetweets = sharedPreferences.getInt("new_retweets", 0);
+                        newRetweets++;
+                        sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
+                        interactions.updateInteraction(mContext, status.getUser(), status, settings.currentAccount, InteractionsDataSource.TYPE_RETWEET);
+                        sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                    if(settings.notifications) {
-                        NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
+                        if(settings.notifications) {
+                            NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
+                        }
                     }
                 }
             }
@@ -274,7 +276,7 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onFavorite(User source, User target, Status favoritedStatus) {
-            if(!favoritedStatus.getUser().getScreenName().equals(settings.myScreenName) && !source.getScreenName().equals(settings.myScreenName)) {
+            if(!source.getScreenName().equals(settings.myScreenName) && target.getScreenName().equals(settings.myScreenName)) {
                 Log.v("twitter_stream_push", "onFavorite source:@"
                         + source.getScreenName() + " target:@"
                         + target.getScreenName() + " @"
