@@ -117,6 +117,8 @@ public class InteractionsDataSource {
                 String users = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_USERS));
                 String title = "";
 
+                users += "@" + source.getScreenName() + " ";
+
                 String[] x = users.split(" ");
 
                 if (type == TYPE_RETWEET) { // retweet
@@ -125,7 +127,6 @@ public class InteractionsDataSource {
                     title = x.length + " " + context.getResources().getString(R.string.new_favorites);
                 }
 
-                users += "@" + source.getScreenName() + " ";
 
                 ContentValues cv = new ContentValues();
                 cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);

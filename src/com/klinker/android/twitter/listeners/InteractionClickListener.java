@@ -31,7 +31,6 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
     private Context context;
     private NotificationDrawerLayout drawer;
     private ViewPager viewPager;
-    private boolean noWait;
     private boolean extraPages;
 
     private SharedPreferences sharedPreferences;
@@ -41,8 +40,6 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
         this.drawer = drawer;
         this.viewPager = viewPager;
         this.extraPages = extraPages;
-        this.noWait = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
-                context.getResources().getBoolean(R.bool.isTablet);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -67,7 +64,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                             // landscape mode
                         }
                     }
-                }, noWait ? 0 : 300);
+                }, 300);
 
                 viewPager.setCurrentItem((extraPages ? 3 : 1), true);
             } else {
@@ -87,12 +84,10 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
 
                         sharedPreferences.edit().putBoolean("should_refresh", false).commit();
 
-                        if (!noWait) {
-                            try {
-                                Thread.sleep(400);
-                            } catch (Exception e) {
+                        try {
+                            Thread.sleep(400);
+                        } catch (Exception e) {
 
-                            }
                         }
 
                         try {
@@ -106,7 +101,17 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                     }
                 }).start();
             }
-        } else if (mTitle.contains(context.getResources().getString(R.string.retweeted)) || mTitle.contains(context.getResources().getString(R.string.favorited))) { // it is a retweet
+        } else if (mTitle.contains(context.getResources().getString(R.string.retweeted)) ||
+                mTitle.contains(context.getResources().getString(R.string.favorited)) ||
+                mTitle.contains(context.getResources().getString(R.string.new_favorites)) ||
+                mTitle.contains(context.getResources().getString(R.string.new_retweets))) { // it is a retweet or favorite
+
+            try {
+                drawer.closeDrawer(Gravity.END);
+            } catch (Exception e) {
+                // landscape mode
+            }
+
             // open up the dialog with the users that retweeted it
 
             final String[] fItems = data.getUsers(sharedPreferences.getInt("current_account", 1),
@@ -129,6 +134,13 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             AlertDialog alert = builder.create();
             alert.show();
         } else if (mTitle.contains(context.getResources().getString(R.string.followed))) { // someone new followed you
+
+            try {
+                drawer.closeDrawer(Gravity.END);
+            } catch (Exception e) {
+                // landscape mode
+            }
+
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.length());
 
