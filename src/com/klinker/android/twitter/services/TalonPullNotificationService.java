@@ -222,7 +222,9 @@ public class TalonPullNotificationService extends Service {
                     interactions.createMention(mContext, status, settings.currentAccount);
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                    NotificationUtils.refreshNotification(mContext);
+                    if(settings.notifications) {
+                        NotificationUtils.refreshNotification(mContext);
+                    }
 
                     dataSource.close();
                 } else { // it is a retweet
@@ -233,7 +235,9 @@ public class TalonPullNotificationService extends Service {
                     interactions.createInteraction(mContext, status.getUser(), status, settings.currentAccount, InteractionsDataSource.TYPE_RETWEET);
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                    NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
+                    if(settings.notifications) {
+                        NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
+                    }
                 }
             }
         }
@@ -283,7 +287,9 @@ public class TalonPullNotificationService extends Service {
                 interactions.createInteraction(mContext, source, favoritedStatus, settings.currentAccount, InteractionsDataSource.TYPE_FAVORITE);
                 sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+                if(settings.notifications) {
+                    NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+                }
             }
         }
 
@@ -306,7 +312,9 @@ public class TalonPullNotificationService extends Service {
                 interactions.createInteraction(mContext, source, null, settings.currentAccount, InteractionsDataSource.TYPE_FOLLOWER);
                 sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
+                if (settings.notifications) {
+                    NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
+                }
             }
         }
 
@@ -323,7 +331,9 @@ public class TalonPullNotificationService extends Service {
             numUnread++;
             sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();
 
-            NotificationUtils.refreshNotification(mContext);
+            if (settings.notifications) {
+                NotificationUtils.refreshNotification(mContext);
+            }
 
             dataSource.close();
         }
