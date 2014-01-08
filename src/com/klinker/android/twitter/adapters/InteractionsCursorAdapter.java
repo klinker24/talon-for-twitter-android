@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
@@ -45,7 +46,8 @@ public class InteractionsCursorAdapter extends CursorAdapter {
     public boolean talonLayout;
     public BitmapLruCache mCache;
     public int border;
-    public int color;
+    public ColorDrawable color;
+    public ColorDrawable transparent;
 
     public static class ViewHolder {
         public HoloTextView title;
@@ -83,10 +85,11 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         mCache = App.getInstance(context).getBitmapCache();
 
-
         b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.message_color});
-        color = b.getResourceId(0, 0);
+        color = new ColorDrawable(context.getResources().getColor(b.getResourceId(0, 0)));
         b.recycle();
+
+        transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
     }
 
     @Override
@@ -135,9 +138,9 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         // set the background color
         if (unread == 1) {
-            holder.background.setBackgroundResource(color);
+            holder.background.setBackgroundDrawable(color);
         } else {
-            holder.background.setBackgroundResource(context.getResources().getColor(android.R.color.transparent));
+            holder.background.setBackgroundDrawable(transparent);
         }
     }
 

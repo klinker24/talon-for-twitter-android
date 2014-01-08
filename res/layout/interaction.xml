@@ -42,7 +42,5 @@
             android:textColor="?dateColor"
             />
 
-        </LinearLayout>
-
-
+    </LinearLayout>
 </LinearLayout>

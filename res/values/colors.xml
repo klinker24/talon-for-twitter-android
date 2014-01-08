@@ -37,7 +37,7 @@ limitations under the License.
     <color name="emoji_divider_light">#22333333</color>
     <color name="circle_outline_light">#AA444444</color>
     <color name="action_bar_light">#DDDDDD</color>
-    <color name="light_message">@android:color/white</color>
+    <color name="light_message">#FFFFFF</color>
 
     <!-- Dark Theme -->
     <color name="dark_background">#262626</color>

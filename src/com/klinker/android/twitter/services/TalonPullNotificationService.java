@@ -315,7 +315,6 @@ public class TalonPullNotificationService extends Service {
             int numUnread = sharedPreferences.getInt("dm_unread_" + settings.currentAccount, 0);
             numUnread++;
             sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();
-            sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
             NotificationUtils.refreshNotification(mContext);
 
