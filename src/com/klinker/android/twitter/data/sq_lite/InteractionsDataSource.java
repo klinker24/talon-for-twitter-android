@@ -127,7 +127,6 @@ public class InteractionsDataSource {
                     title = x.length + " " + context.getResources().getString(R.string.new_favorites);
                 }
 
-
                 ContentValues cv = new ContentValues();
                 cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
                 cv.put(InteractionsSQLiteHelper.COLUMN_USERS, users);

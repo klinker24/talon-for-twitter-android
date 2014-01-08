@@ -85,8 +85,8 @@
     <string name="retweeted">retweeted your status</string>
     <string name="favorited">favorited your status</string>
     <string name="followed">followed you</string>
-    <string name="new_retweets">new retweets</string>
-    <string name="new_favorites">new favorites</string>
+    <string name="new_retweets">retweets</string>
+    <string name="new_favorites">favorites</string>
 
     <!-- Login Screen -->
     <string name="setup_talon">Setup Talon</string>
