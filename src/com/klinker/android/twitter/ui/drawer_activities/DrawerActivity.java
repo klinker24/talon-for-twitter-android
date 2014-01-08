@@ -160,7 +160,6 @@ public abstract class DrawerActivity extends Activity {
                         notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                         notificationList.setAdapter(notificationAdapter);
                     }
-
                 }
 
                 public void onDrawerOpened(View drawerView) {
