@@ -133,26 +133,33 @@ public abstract class DrawerActivity extends Activity {
                     if (MainDrawerArrayAdapter.current > 2) {
                         actionBar.setTitle(actName);
                     } else {
-                            int position = mViewPager.getCurrentItem();
+                        int position = mViewPager.getCurrentItem();
 
-                            switch (position) {
-                                case 0:
-                                    actionBar.setTitle(getResources().getString(R.string.links));
-                                    break;
-                                case 1:
-                                    actionBar.setTitle(getResources().getString(R.string.pictures));
-                                    break;
-                                case 2:
-                                    actionBar.setTitle(getResources().getString(R.string.timeline));
-                                    break;
-                                case 3:
-                                    actionBar.setTitle(getResources().getString(R.string.mentions));
-                                    break;
-                                case 4:
-                                    actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                                    break;
-                            }
+                        switch (position) {
+                            case 0:
+                                actionBar.setTitle(getResources().getString(R.string.links));
+                                break;
+                            case 1:
+                                actionBar.setTitle(getResources().getString(R.string.pictures));
+                                break;
+                            case 2:
+                                actionBar.setTitle(getResources().getString(R.string.timeline));
+                                break;
+                            case 3:
+                                actionBar.setTitle(getResources().getString(R.string.mentions));
+                                break;
+                            case 4:
+                                actionBar.setTitle(getResources().getString(R.string.direct_messages));
+                                break;
                         }
+                    }
+
+                    if (oldInteractions.getText().toString().equals(getResources().getString(R.string.new_interactions))) {
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        notificationList.enableSwipeToDismiss();
+                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                        notificationList.setAdapter(notificationAdapter);
+                    }
 
                 }
 
