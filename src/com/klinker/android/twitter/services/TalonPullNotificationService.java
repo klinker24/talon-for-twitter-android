@@ -58,6 +58,9 @@ public class TalonPullNotificationService extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
+        Intent stop = new Intent(this, StopPull.class);
+        PendingIntent stopPending = PendingIntent.getService(this, 0, stop, 0);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.color.transparent)
@@ -65,6 +68,10 @@ public class TalonPullNotificationService extends Service {
                         .setContentText(getResources().getString(R.string.listening_for_mentions) + "...")
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
+
+        if (mContext.getResources().getBoolean(R.bool.expNotifications)) {
+            mBuilder.addAction(R.drawable.ic_cancel_dark, mContext.getResources().getString(R.string.stop), stopPending);
+        }
 
         mBuilder.setContentIntent(pendingIntent);
 

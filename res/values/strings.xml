@@ -148,6 +148,7 @@
     <string name="version">Version</string>
     <string name="from">From</string>
     <string name="save">Save</string>
+    <string name="stop">Stop</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
