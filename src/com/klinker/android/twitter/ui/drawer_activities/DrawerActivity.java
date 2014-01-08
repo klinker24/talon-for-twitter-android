@@ -699,6 +699,13 @@ public abstract class DrawerActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (MainActivity.isPopup) {
             menu.getItem(3).setVisible(false); // hide the settings button if the popup is up
+            menu.getItem(0).setVisible(false); // hide the search button in popup
+
+            // disable the left drawer so they can't switch activities in the popup.
+            // causes problems with the layouts
+            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.START);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
         }
 
         return true;
