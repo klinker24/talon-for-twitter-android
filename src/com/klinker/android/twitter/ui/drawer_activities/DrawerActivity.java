@@ -83,6 +83,12 @@ public abstract class DrawerActivity extends Activity {
     public static int statusBarHeight;
     public static int navBarHeight;
 
+    public int openMailResource;
+    public int closedMailResource;
+    public static HoloTextView oldInteractions;
+    public ImageView readButton;
+    public InteractionsDataSource data;
+
     public void setUpDrawer(int number, final String actName) {
 
         actionBar = getActionBar();
@@ -92,6 +98,15 @@ public abstract class DrawerActivity extends Activity {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
         a.recycle();
+
+        a = context.getTheme().obtainStyledAttributes(new int[] {R.attr.read_button});
+        openMailResource = a.getResourceId(0,0);
+        a.recycle();
+
+        a = context.getTheme().obtainStyledAttributes(new int[] {R.attr.unread_button});
+        closedMailResource = a.getResourceId(0,0);
+        a.recycle();
+
 
         mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
@@ -157,6 +172,7 @@ public abstract class DrawerActivity extends Activity {
 
                     if (oldInteractions.getText().toString().equals(getResources().getString(R.string.new_interactions))) {
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
                         notificationList.enableSwipeToDismiss();
                         notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                         notificationList.setAdapter(notificationAdapter);
@@ -171,6 +187,7 @@ public abstract class DrawerActivity extends Activity {
                         notificationList.setAdapter(notificationAdapter);
                         notificationList.enableSwipeToDismiss();
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
                         sharedPrefs.edit().putBoolean("new_notification", false).commit();
                     }
                 }
@@ -474,6 +491,7 @@ public abstract class DrawerActivity extends Activity {
             View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer, null);
             notificationList.addFooterView(viewHeader, null, false);
             oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
+            readButton = (ImageView) findViewById(R.id.read_button);
 
             LinearLayout footer = (LinearLayout) viewHeader.findViewById(R.id.footer);
             footer.setOnClickListener(new View.OnClickListener() {
@@ -482,12 +500,14 @@ public abstract class DrawerActivity extends Activity {
 
                     if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
                         oldInteractions.setText(getResources().getString(R.string.new_interactions));
+                        readButton.setImageResource(closedMailResource);
 
                         notificationList.disableSwipeToDismiss();
 
                         notificationAdapter = new InteractionsCursorAdapter(context, data.getCursor(DrawerActivity.settings.currentAccount));
                     } else {
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
 
                         notificationList.enableSwipeToDismiss();
 
@@ -519,6 +539,7 @@ public abstract class DrawerActivity extends Activity {
                     notificationList.setAdapter(notificationAdapter);
 
                     oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                    readButton.setImageResource(openMailResource);
 
                     return null;
                 }
@@ -530,9 +551,6 @@ public abstract class DrawerActivity extends Activity {
             notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager, settings.extraPages));
         }
     }
-
-    public static HoloTextView oldInteractions;
-    public InteractionsDataSource data;
 
     public void setUpTheme() {
 

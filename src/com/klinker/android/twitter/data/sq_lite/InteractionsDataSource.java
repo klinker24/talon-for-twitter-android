@@ -133,6 +133,7 @@ public class InteractionsDataSource {
                 cv.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
                 cv.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
                 cv.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getBiggerProfileImageURL());
+                cv.put(InteractionsSQLiteHelper.COLUMN_TIME, new GregorianCalendar().getTimeInMillis());
 
                 database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {status.getId() + ""});
             }

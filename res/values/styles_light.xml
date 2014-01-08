@@ -82,6 +82,7 @@ limitations under the License.
         <item name="emojiBackspace">@drawable/ic_backspace_light</item>
         <item name="picturePlaceholder">@drawable/ic_action_picture_light</item>
         <item name="read_button">@drawable/ic_action_read_light</item>
+        <item name="unread_button">@drawable/ic_action_unread_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="notificationSettings">@drawable/drawer_notifications_light</item>

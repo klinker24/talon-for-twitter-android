@@ -274,7 +274,7 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onFavorite(User source, User target, Status favoritedStatus) {
-            if(!source.getScreenName().equals(settings.myScreenName)) {
+            if(!favoritedStatus.getUser().getScreenName().equals(settings.myScreenName) && !source.getScreenName().equals(settings.myScreenName)) {
                 Log.v("twitter_stream_push", "onFavorite source:@"
                         + source.getScreenName() + " target:@"
                         + target.getScreenName() + " @"
