@@ -559,6 +559,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 e.putLong("twitter_id_2", twitterId2);
                 e.putBoolean("is_logged_in_2", isloggedin2);
 
+                e.remove("new_notifications");
+                e.remove("new_retweets");
+                e.remove("new_favorites");
+                e.remove("new_follows");
+
                 e.commit();
 
                 return false;

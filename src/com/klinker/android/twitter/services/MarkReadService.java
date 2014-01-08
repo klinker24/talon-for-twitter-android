@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 
@@ -36,6 +37,11 @@ public class MarkReadService extends IntentService {
         data.open();
         data.markAllRead(currentAccount);
         data.close();
+
+        InteractionsDataSource dataSource = new InteractionsDataSource(context);
+        dataSource.open();
+        dataSource.markAllRead(currentAccount);
+        dataSource.close();
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
     }

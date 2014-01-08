@@ -372,6 +372,7 @@ public abstract class DrawerActivity extends Activity {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                             sharedPrefs.edit().putInt("current_account", 2).commit();
+                            sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                             finish();
                             Intent next = new Intent(context, MainActivity.class);
                             startActivity(next);
@@ -397,6 +398,7 @@ public abstract class DrawerActivity extends Activity {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                             sharedPrefs.edit().putInt("current_account", 1).commit();
+                            sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                             finish();
                             Intent next = new Intent(context, MainActivity.class);
                             startActivity(next);
@@ -573,6 +575,10 @@ public abstract class DrawerActivity extends Activity {
         e.remove("authentication_token_" + currentAccount);
         e.remove("authentication_token_secret_" + currentAccount);
         e.remove("is_logged_in_" + currentAccount);
+        e.remove("new_notification");
+        e.remove("new_retweets");
+        e.remove("new_favorites");
+        e.remove("new_follows");
         e.commit();
 
         HomeDataSource homeSources = new HomeDataSource(context);
@@ -594,6 +600,11 @@ public abstract class DrawerActivity extends Activity {
         favs.open();
         favs.deleteAllUsers(currentAccount);
         favs.close();
+
+        InteractionsDataSource inters = new InteractionsDataSource(context);
+        inters.open();
+        inters.deleteAllInteractions(currentAccount);
+        inters.close();
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
