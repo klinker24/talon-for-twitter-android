@@ -1,7 +1,10 @@
 package com.klinker.android.twitter.listeners;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -15,8 +18,11 @@ import android.widget.AdapterView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 
@@ -100,10 +106,28 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                     }
                 }).start();
             }
-        } else if (mTitle.contains(context.getResources().getString(R.string.retweeted))) { // it is a retweet
+        } else if (mTitle.contains(context.getResources().getString(R.string.retweeted)) || mTitle.contains(context.getResources().getString(R.string.favorited))) { // it is a retweet
             // open up the dialog with the users that retweeted it
-        } else if (mTitle.contains(context.getResources().getString(R.string.favorited))) { // it is a favorite
-            // open the dialog with the users that favorited it
+
+            final String[] fItems = data.getUsers(sharedPreferences.getInt("current_account", 1),
+                    i,
+                    DrawerActivity.oldInteractions.getText().toString().equals(context.getResources().getString(R.string.old_interactions))).split(" ");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setItems(fItems, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+                    String touched = fItems[item];
+
+                    Intent user = new Intent(context, UserProfileActivity.class);
+                    user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
+                    user.putExtra("proPic", "");
+                    context.startActivity(user);
+
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         } else if (mTitle.contains(context.getResources().getString(R.string.followed))) { // someone new followed you
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.length());

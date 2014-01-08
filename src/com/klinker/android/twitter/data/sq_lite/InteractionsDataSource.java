@@ -135,6 +135,13 @@ public class InteractionsDataSource {
         return cursor;
     }
 
+    public Cursor getBackwordCursor(int account) {
+        Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
+                allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " DESC");
+
+        return cursor;
+    }
+
     public Cursor getUnreadCursor(int account) {
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
@@ -174,6 +181,26 @@ public class InteractionsDataSource {
         }
 
         cursor.close();
+    }
+
+    public String getUsers(int account, int position, boolean unread) {
+        Cursor cursor;
+
+        if (unread) {
+            cursor = getUnreadBackwordCursor(account);
+        } else {
+            cursor = getBackwordCursor(account);
+        }
+
+        String users = "";
+
+        if (cursor.moveToPosition(position)) {
+            users = cursor.getString(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_USERS));
+        }
+
+        cursor.close();
+
+        return users;
     }
 
     public void markAllRead(int account) {

@@ -531,7 +531,7 @@ public abstract class DrawerActivity extends Activity {
         }
     }
 
-    public HoloTextView oldInteractions;
+    public static HoloTextView oldInteractions;
     public InteractionsDataSource data;
 
     public void setUpTheme() {
