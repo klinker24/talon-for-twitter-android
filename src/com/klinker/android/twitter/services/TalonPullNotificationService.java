@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
@@ -61,6 +62,10 @@ public class TalonPullNotificationService extends Service {
         Intent stop = new Intent(this, StopPull.class);
         PendingIntent stopPending = PendingIntent.getService(this, 0, stop, 0);
 
+        RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+        remoteView.setOnClickPendingIntent(R.id.popup_button, stopPending);
+        remoteView.setImageViewResource(R.id.icon, R.drawable.ic_stat_icon);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.color.transparent)
@@ -68,6 +73,12 @@ public class TalonPullNotificationService extends Service {
                         .setContentText(getResources().getString(R.string.listening_for_mentions) + "...")
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
+
+        /*NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setContent(remoteView);
+                        //.setOngoing(true);*/
+
 
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);

@@ -10,7 +10,7 @@
         android:id="@+id/icon"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:background="#3333B5E5"
+        android:background="@android:color/black"
         android:scaleType="center" />
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent.Title"
-            android:text="@string/app_name"
+            android:text="@string/talon_pull"
             android:gravity="bottom"/>
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_height="32dp"
             android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent"
             android:maxLines="1"
-            android:text="new tweets"/>
+            android:text="@string/listening_for_mentions"/>
 
         </LinearLayout>
 
@@ -42,7 +42,7 @@
         android:id="@+id/popup_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/ic_popup"
+        android:src="@drawable/ic_cancel_dark"
         android:background="@android:color/transparent"
         android:layout_marginRight="10dp" />
 
