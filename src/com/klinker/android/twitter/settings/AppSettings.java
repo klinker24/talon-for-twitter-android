@@ -122,7 +122,7 @@ public class AppSettings {
         led = sharedPrefs.getBoolean("led", true);
         sound = sharedPrefs.getBoolean("sound", true);
         vibrate = sharedPrefs.getBoolean("vibrate", true);
-        refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", true);
+        refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", false);
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
         uiExtras = sharedPrefs.getBoolean("ui_extras", true);
         wakeScreen = sharedPrefs.getBoolean("wake", true);
@@ -135,7 +135,7 @@ public class AppSettings {
         syncSecondMentions = sharedPrefs.getBoolean("sync_second_mentions", true);
         displayScreenName = sharedPrefs.getBoolean("display_screen_name", false);
         liveStreaming = sharedPrefs.getBoolean("live_streaming", false);
-        pushNotifications = sharedPrefs.getBoolean("push_notifications", false);
+        pushNotifications = sharedPrefs.getBoolean("push_notifications", true);
 
         if (pushNotifications) {
             liveStreaming = false;
