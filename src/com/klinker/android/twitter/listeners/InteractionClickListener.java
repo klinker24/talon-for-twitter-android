@@ -46,6 +46,10 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
         HoloTextView title = (HoloTextView) view.findViewById(R.id.title);
         String mTitle = title.getText().toString();
 
+        // get the datasource ready to read/write
+        InteractionsDataSource data = new InteractionsDataSource(context);
+        data.open();
+
         if(mTitle.contains(context.getResources().getString(R.string.mentioned_by))) { // this is a mention
             if (MainDrawerArrayAdapter.current < 3) {
                 new Handler().postDelayed(new Runnable() {
@@ -102,7 +106,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             // open the dialog with the users that favorited it
         } else if (mTitle.contains(context.getResources().getString(R.string.followed))) { // someone new followed you
             // a new follower, open up the followers profile
-            String username = mTitle.substring(mTitle.indexOf("@"), mTitle.length());
+            String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.length());
 
             Intent user = new Intent(context, UserProfileActivity.class);
             user.putExtra("screenname", username);
@@ -111,8 +115,6 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
         }
 
         // mark it read in the sql database
-        InteractionsDataSource data = new InteractionsDataSource(context);
-        data.open();
         data.markRead(sharedPreferences.getInt("current_account", 1), i);
         data.close();
 
