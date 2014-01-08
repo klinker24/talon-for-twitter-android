@@ -187,7 +187,6 @@ public abstract class DrawerActivity extends Activity {
                 }
             };
 
-            // Set the drawer toggle as the DrawerListener
             mDrawerLayout.setDrawerListener(mDrawerToggle);
         } catch (Exception e) {
             // landscape mode
@@ -706,6 +705,7 @@ public abstract class DrawerActivity extends Activity {
             mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.START);
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setHomeButtonEnabled(false);
         }
 
         return true;

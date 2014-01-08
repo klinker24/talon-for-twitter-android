@@ -12,4 +12,4 @@
 
 - Notification Center:
     - Combine notifications for retweets and favorites
-    - Maybe do the combined pictures
+    - Combined pictures from Evolve
