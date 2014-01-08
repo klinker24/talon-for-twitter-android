@@ -48,10 +48,10 @@ limitations under the License.
     <color name="emoji_divider_dark">#22000000</color>
     <color name="circle_outline_dark">#AAAAAAAA</color>
     <color name="action_bar_dark">#1B1B1B</color>
-    <color name="dark_message">@android:color/white</color>
+    <color name="dark_message">#404040</color>
 
     <!-- Black Theme -->
     <color name="action_bar_black">@android:color/black</color>
-    <color name="black_message">@android:color/white</color>
+    <color name="black_message">#171717</color>
 
 </resources>
