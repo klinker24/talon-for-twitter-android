@@ -10,7 +10,7 @@
             android:key="advance_windowed"
             android:title="@string/advance_windowed"
             android:summary="@string/advance_windowed_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <CheckBoxPreference
