@@ -172,16 +172,18 @@ public class FavoritesActivity extends DrawerActivity {
 
         protected void onPostExecute(ResponseList<twitter4j.Status> statuses) {
 
-            ArrayList<twitter4j.Status> arrayList = new ArrayList<twitter4j.Status>();
-            for (twitter4j.Status s : statuses) {
-                arrayList.add(s);
+            if (statuses != null) {
+                ArrayList<twitter4j.Status> arrayList = new ArrayList<twitter4j.Status>();
+                for (twitter4j.Status s : statuses) {
+                    arrayList.add(s);
+                }
+
+                listView.setAdapter(new TimelineArrayAdapter(context, arrayList, TimelineArrayAdapter.FAVORITE));
+                listView.setVisibility(View.VISIBLE);
+
+                LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                spinner.setVisibility(View.GONE);
             }
-
-            listView.setAdapter(new TimelineArrayAdapter(context, arrayList, TimelineArrayAdapter.FAVORITE));
-            listView.setVisibility(View.VISIBLE);
-
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-            spinner.setVisibility(View.GONE);
         }
     }
 
