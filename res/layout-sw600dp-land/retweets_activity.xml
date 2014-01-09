@@ -1,57 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
-    <!-- The navigation drawer -->
-    <include layout="@layout/main_drawer"
-        android:id="@+id/left_drawer"
-        android:layout_width="@dimen/drawer_size_land"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
-        android:layout_gravity="start" >
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
 
-    </include>
+        <!-- The navigation drawer -->
+        <include layout="@layout/main_drawer"
+            android:id="@+id/left_drawer"
+            android:layout_width="@dimen/drawer_size_land"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" >
 
-    <RelativeLayout android:layout_height="match_parent"
-                  android:layout_width="match_parent"  >
+        </include>
 
-        <LinearLayout android:id="@+id/list_progress"
-                      android:orientation="vertical"
-                      android:layout_height="0dp"
-                      android:layout_width="fill_parent"
-                      android:layout_weight="1"
-                      android:gravity="center" >
+        <RelativeLayout android:layout_height="match_parent"
+                      android:layout_width="match_parent"  >
 
-            <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@android:style/Widget.Holo.Light.ProgressBar.Large"
-                    android:indeterminateOnly="true" />
-        </LinearLayout>
+            <LinearLayout android:id="@+id/list_progress"
+                          android:orientation="vertical"
+                          android:layout_height="0dp"
+                          android:layout_width="fill_parent"
+                          android:layout_weight="1"
+                          android:gravity="center" >
+
+                <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+                        android:indeterminateOnly="true" />
+            </LinearLayout>
 
 
-        <org.lucasr.smoothie.AsyncListView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/listView"
-                android:layout_height="match_parent"
+            <org.lucasr.smoothie.AsyncListView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/listView"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="8dp"
+                    android:divider="@null"
+                    android:dividerHeight="5dp"
+                    android:scrollbars="vertical"
+                    android:listSelector="@android:color/transparent"
+                    android:visibility="gone"
+                    />
+
+            <View android:id="@+id/activity_status_bar"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="8dp"
-                android:divider="@null"
-                android:dividerHeight="5dp"
-                android:scrollbars="vertical"
-                android:listSelector="@android:color/transparent"
-                android:visibility="gone"
-                />
+                android:layout_height="20dp"
+                android:background="@android:color/black"
+                android:visibility="gone"/>
 
-        <View android:id="@+id/activity_status_bar"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@android:color/black"
-            android:visibility="gone"/>
+        </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+    <include layout="@layout/notification_drawer"
+        android:id="@+id/right_drawer"
+        android:layout_width="@dimen/drawer_size_port"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"/>
+</com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout>

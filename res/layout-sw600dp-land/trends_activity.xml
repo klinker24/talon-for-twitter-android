@@ -1,50 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
-    <!-- The navigation drawer -->
-    <include layout="@layout/main_drawer"
-        android:id="@+id/left_drawer"
-        android:layout_width="@dimen/drawer_size_land"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
-        android:layout_gravity="start" >
-
-    </include>
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="horizontal">
 
-        <View android:id="@+id/activity_status_bar"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@android:color/black"
-            android:visibility="gone"/>
+        <!-- The navigation drawer -->
+        <include layout="@layout/main_drawer"
+            android:id="@+id/left_drawer"
+            android:layout_width="@dimen/drawer_size_land"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" >
 
-        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/pager"
+        </include>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity"
-            android:paddingTop="?android:actionBarSize">
+            android:orientation="vertical" >
 
-            <android.support.v4.view.PagerTitleStrip
-                android:id="@+id/pager_title_strip"
+            <View android:id="@+id/activity_status_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:background="@color/app_color"
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp"
-                android:textColor="#fff" />
+                android:layout_height="20dp"
+                android:background="@android:color/black"
+                android:visibility="gone"/>
 
-        </android.support.v4.view.ViewPager>
-        </LinearLayout>
+            <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity"
+                android:paddingTop="?android:actionBarSize">
+
+                <android.support.v4.view.PagerTitleStrip
+                    android:id="@+id/pager_title_strip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:background="@color/app_color"
+                    android:paddingBottom="4dp"
+                    android:paddingTop="4dp"
+                    android:textColor="#fff" />
+
+            </android.support.v4.view.ViewPager>
+            </LinearLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/notification_drawer"
+        android:id="@+id/right_drawer"
+        android:layout_width="@dimen/drawer_size_port"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"/>
+</com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout>
