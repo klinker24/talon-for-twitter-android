@@ -31,6 +31,8 @@ If there was a better way, I wish I could find it. I think that this is the meth
 [U]Conclusion[/U]
 Thanks for the read, if you made it all the way, hope that gives you an idea as to why push notifications just aren't even an option at this point and what my solution to that problem has been, even if it is not ideal.﻿ It works, and it seems to be working quite well for me.
 
+So just know: "Talon Pull" isn't quite the same as push notifications, but it is as close as you are going to get and is working better for me than I would have ever imagined. Enjoy!
+
 
 2.) [URL="https://plus.google.com/117432358268488452276/posts/Kc2sB8uBYwa"][B]Translucency[/B][/URL]
 
@@ -54,6 +56,7 @@ Maybe Twitter will open this up in the future, but I wouldn't get your hopes up.
 
 For now, the best you will get is the numbers on them
 
+
 5.) [URL="https://plus.google.com/117432358268488452276/posts/ZgAHJxKycfv"][B]Clearing the Cache[/B][/URL]
 
 If you know much about caching in Android, then you may wonder why in the world I would want to clear it every time you switch themes.
@@ -64,5 +67,29 @@ By caching them directly as circles, it alleviates the need to do it on the fly 
 
 You may think it is a hassle, but you would be thanking me if you knew the difference it makes.
 
-
 You can also view the current cache size and clear it manually from "Advanced Settings".﻿
+
+
+6.) [URL="https://plus.google.com/117432358268488452276/posts/e2h3DTY5h7Q"][B]Battery Consumption[/B][/URL]
+
+If you use Talon a lot throughout the day, it is going to take up battery, simple as that. I find that on a 30 min refresh intervol for the different timelines and manually going in and browsing/updating throughout the day, it takes about 4-5% of my battery. I would say this is pretty normal because there are days that Google+ takes up to 10% with just casual browsing.
+
+If that isn't acceptable for you though, then there are a few things you can do to reduce battery consumption:
+1.) Turn down the refresh interval on the timelines. This is the big one. It is those background services that are going to drain your battery.
+2.) Turn off "Refresh on Startup".
+3.) Turn off "Talon Pull" and "Live Streaming"
+4.) Don't have it sync the second account's mentions
+
+And if all else fails... Get off Twitter and do something productive for awhile =D haha any app that accesses the internet and refreshes as much as a Twitter client is inherently going to use more battery in the background. There are ways to reduce it, but not always ways around it!
+
+
+7.) [URL="https://plus.google.com/117432358268488452276/posts/ec8UwdGUEEH"][B]Custom ROMs Immersive Mode[/B][/URL]
+
+My custom ROM has "Immersive Mode" and Talon doesn't seem to play nice with it! What's up with that?!
+
+The way that immersive mode works in your ROMs currently isn't so hot unfortunately. There is a reason Google didn't put it into the whole system because app developers would have problems implementing the "translucency" with conflicting system stuff.
+
+Not to fret to much though, I was able to get things working smoothly with it in Talon. The problem was that my ListView's are expanded through the different system bars. This can be a big problem if you try to switch to "Immersive" in the middle of doing something in the app. You will notice the margins get all wanky on the top and the bottom of your lists.
+
+It can be easily solve though by just restarting the app by swiping it out of your recent apps screen. Sorry, but that is the best I am going to be able to do here, Translucent bars an "Immersive Mode" just weren't meant to work together.
+

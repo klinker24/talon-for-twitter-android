@@ -4,6 +4,7 @@
     - Retweet and favorite from multiple accounts
     - Add location to the tweet viewer
     - Report as spam
+    - Mute users
 
 - Bugs:
 
