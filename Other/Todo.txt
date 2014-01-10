@@ -13,6 +13,7 @@
 -- For Release --
 
     -- Faq about reducing battery consumption and immersive mode/how the app handles it
+    -- Put the favorite user notifications in the interactions database if push notification are turned on as well
     -- Review all the faq's and promo and make sure they are good/include talon pull stuff
     -- Features Explained section for Google+
         - Talon Pull/Interactions Center

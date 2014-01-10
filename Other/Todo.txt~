@@ -1,40 +1,29 @@
-- Main Drawer Items/Activities:
-    - Favorite Users
-    - Lists
-    - Trending (Local and worldwide)
-    - Search
-
-- Settings:
-    - Refresh on start
-    - Auto-Refresh
-    - Notifications
-    - Caching limits
-    - Clear cache
-    - Theme Stuff
-    - Get Help item
-    - Reverse clicks option
-
-- User Profiles Activity:
-    - followers and following list
-    - Add to list option
-    - "My profile" stuff:
-        - Change bio
-        - Change profile pic
-        - change banner pic
-    - Spinning progress bar while loading
-    - Maybe find a good way to display the number of tweets, followers, and following counts
-
-- Tweet Viewer Activity:
-    - View full conversations and be able to switch to and from web articles and pictures back to the list
-    - Delete Retweet
-
 - Features:
-    - Cool icon
-    - Emoji Support
-    - Search for users when composing
-    - Length counter for message
-    - Switch tweet background to right side when it is my tweet
+    - Redo the Direct Messages to be conversation style with just a list of contacts on the main timeline
+    - Show full conversations on tweets (look forward, not back...) - No clue how yet
+    - Retweet and favorite from multiple accounts
+    - Add location to the tweet viewer
+    - Report as spam
 
 - Bugs:
-    - Limiting cache to 15 mb
-    - Convert everything away from picasso
+
+- Notification Center:
+    - Combined pictures from Evolve
+
+-- For Release --
+
+    -- Faq about reducing battery consumption and immersive mode/how the app handles it
+    -- Review all the faq's and promo and make sure they are good/include talon pull stuff
+    -- Features Explained section for Google+
+        - Talon Pull/Interactions Center
+        - Themeing
+        - UI Extras (transparency and toast bar)
+        - Links and Pictures timelines
+        - Live Streaming
+        - In-App Browser
+        - Emojis!
+        - Do Not Disturb and Night mode
+        - Notifications for favorite users
+        - Windowed advances
+        - In-Line replies, retweets, and favorites
+    -- Change the @ sign on the gitub theme

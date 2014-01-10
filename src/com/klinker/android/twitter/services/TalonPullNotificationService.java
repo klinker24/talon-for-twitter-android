@@ -240,7 +240,7 @@ public class TalonPullNotificationService extends Service {
                     dataSource.close();
                 } else { // it is a retweet
 
-                    if (!status.getUser().getScreenName().equals(settings.myScreenName)) {
+                    if (!status.getUser().getScreenName().equals(settings.myScreenName) && status.getRetweetedStatus().getUser().getScreenName().equals(settings.myScreenName)) {
                         int newRetweets = sharedPreferences.getInt("new_retweets", 0);
                         newRetweets++;
                         sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
