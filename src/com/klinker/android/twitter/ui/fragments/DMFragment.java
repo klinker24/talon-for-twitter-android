@@ -360,6 +360,17 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         }.execute();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (sharedPrefs.getBoolean("refresh_me_dm", false)) {
+            new GetCursorAdapter().execute();
+        }
+
+        sharedPrefs.edit().putBoolean("refresh_me_dm", false).commit();
+    }
+
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {

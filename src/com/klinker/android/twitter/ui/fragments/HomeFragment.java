@@ -568,6 +568,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             try {
                 if (updated) {
+                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                     showToastBar(text + "", toMentions, 400, true, toMentionsListener);
                 } else {

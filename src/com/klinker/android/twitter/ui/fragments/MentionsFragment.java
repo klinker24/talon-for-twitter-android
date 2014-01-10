@@ -388,6 +388,17 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         }.execute();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
+            new GetCursorAdapter().execute();
+        }
+
+        sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
+    }
+
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {

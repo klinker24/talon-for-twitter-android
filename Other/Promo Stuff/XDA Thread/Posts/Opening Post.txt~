@@ -46,9 +46,9 @@ Customization features:
 - And many other goodies in there as well!
 
 App Features:
-- "Talon Pull" to be always listening for interactions (mentions, retweets, favorites, new followers, and direct messages)
 - Expandable, actionable, and dynamic notification system
 - Full app popup
+- Option to always be listening for mentions ("Talon Pull")
 - Full emoji support
 - View in-line Twitter and Instagram pictures
 - View in-line YouTube thumbnails

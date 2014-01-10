@@ -226,12 +226,15 @@ public class TalonPullNotificationService extends Service {
             if(status.getText().contains("@" + settings.myScreenName)) {
                 Log.v("twitter_stream_push", "onStatus @" + status.getUser().getScreenName() + " - " + status.getText());
 
+                AppSettings settings = new AppSettings(mContext);
+
                 if (!status.isRetweet()) { // it is a normal mention
                     MentionsDataSource dataSource = new MentionsDataSource(mContext);
                     dataSource.open();
                     dataSource.createTweet(status, settings.currentAccount);
                     interactions.createMention(mContext, status, settings.currentAccount);
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
+                    sharedPreferences.edit().putBoolean("refresh_me_mentions", true).commit();
 
                     if(settings.notifications) {
                         NotificationUtils.refreshNotification(mContext);
@@ -288,6 +291,8 @@ public class TalonPullNotificationService extends Service {
         @Override
         public void onFavorite(User source, User target, Status favoritedStatus) {
             if(!source.getScreenName().equals(settings.myScreenName) && target.getScreenName().equals(settings.myScreenName)) {
+                AppSettings settings = new AppSettings(mContext);
+
                 Log.v("twitter_stream_push", "onFavorite source:@"
                         + source.getScreenName() + " target:@"
                         + target.getScreenName() + " @"
@@ -319,6 +324,8 @@ public class TalonPullNotificationService extends Service {
 
             if (followedUser.getScreenName().equals(settings.myScreenName)) {
 
+                AppSettings settings = new AppSettings(mContext);
+
                 int newFollows = sharedPreferences.getInt("new_follows", 0);
                 newFollows++;
                 sharedPreferences.edit().putInt("new_follows", newFollows).commit();
@@ -336,6 +343,8 @@ public class TalonPullNotificationService extends Service {
             Log.v("twitter_stream_push", "onDirectMessage text:"
                     + directMessage.getText());
 
+            AppSettings settings = new AppSettings(mContext);
+
             DMDataSource dataSource = new DMDataSource(mContext);
             dataSource.open();
             dataSource.createDirectMessage(directMessage, settings.currentAccount);
@@ -343,6 +352,7 @@ public class TalonPullNotificationService extends Service {
             int numUnread = sharedPreferences.getInt("dm_unread_" + settings.currentAccount, 0);
             numUnread++;
             sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();
+            sharedPreferences.edit().putBoolean("refresh_me_dm", true).commit();
 
             if (settings.notifications) {
                 NotificationUtils.refreshNotification(mContext);
