@@ -18,7 +18,6 @@ That leaves only one thing to do: wait. Maybe Twitter will open up some kind of 
 
 
 [U]Talon Pull[/U] - My solution/workaround
-
 As I said before, this is NOT push notifications. Push notifications are sent to your device to notify you from some kind of server. They aren't always on, and only turn on when your device receives the info from the web service.
 
 Talon Pull on the other hand, uses Twitter's Streaming API to just create an "always on" service to be constantly listening for and streaming tweets that contain your Twitter Handle. The way this works is that you are signed in with your API keys after you turn on the option to enable Talon Pull. I then just create this "listener" that Twitter's servers will send new tweets to. Luckily, they will take care of most of the filtering of those tweets on their end, to reduce the load as much as possible on your device (because before the filtering, it literally will receive every single public tweet that is happening. It was amazing when I first flipped and saw the tweets flowing over my log haha). So we filter it down to as few of tweets actually reaching your device as possible, then I start broadcasting the notifications when you receive the new ones.
@@ -52,9 +51,9 @@ The main app color will always be orange. Don't ask to change it. That isn't som
 
 This is another thing that isn't going to happen at this point. It isn't possible to get the user ID's or their names with the current version of the API's.
 
-Maybe Twitter will open this up in the future, but I wouldn't get your hopes up.﻿
+Maybe Twitter will open this up in the future, but I wouldn't get your hopes up.﻿For now, the best you will get is the numbers on them
 
-For now, the best you will get is the numbers on them
+The only way to get this information is through the use of "Talon Pull" and the Streaming API's. When you get a retweet or favorite, it will be put in the interactions drawer on the right side of any activities with drawers.The only way to get this information is through the use of "Talon Pull" and the Streaming API's. When you get a retweet or favorite, it will be put in the interactions drawer on the right side of any activities with drawers.
 
 
 5.) [URL="https://plus.google.com/117432358268488452276/posts/ZgAHJxKycfv"][B]Clearing the Cache[/B][/URL]
