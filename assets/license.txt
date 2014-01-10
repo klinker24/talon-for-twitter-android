@@ -5,6 +5,8 @@
 &#8226; Jake Klinker, Development assistance, ideas and inspiration<br/>
 &#8226; Aaron Klinker, Icon Design<br/><br/>
 
+&#8226; Joaquim Verges, One heck of a way to quickly view pictures from the timeline<br/><br/>
+
 <b><u>Open Source Libraries Used</u></b><br/><br/>
 &#8226; YouTube APIs<br/><br/>
 <u>Apache License:</u><br/>
@@ -14,6 +16,8 @@
 &#8226; <b>PhotoView</b> by Chris Banes on Github<br/>
 &#8226; <b>Smoothie</b> by Lucas Rocha on Github<br/>
 &#8226; <b>DateTimePicker</b> by the Android Open Source Project and portions by Jake Klinker<br/>
+&#8226; <b>EnhancedListView</b> by Tim Roes<br/>
+&#8226; <b>NineOldAndroids</b> by Jake Wharton<br/>
 &#8226; <b>PagerSlidingTabStrip</b> by astuetz on Github<br/><br/>
 <u>Beer Ware License:</u><br/>
 &#8226; <b>SmoothProgressBar</b> by castorflex on Github

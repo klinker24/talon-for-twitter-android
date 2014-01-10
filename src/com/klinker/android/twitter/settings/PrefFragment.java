@@ -953,7 +953,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent tweet = new Intent(getActivity(), ComposeActivity.class);
-                tweet.putExtra("user", "@lukeklinker");
+                tweet.putExtra("user", "@lukeklinker @TalonAndroid");
                 startActivity(tweet);
                 return false;
             }
