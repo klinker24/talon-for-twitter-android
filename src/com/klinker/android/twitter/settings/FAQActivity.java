@@ -69,6 +69,11 @@ public class FAQActivity extends Activity {
     }
 
     public void setUpFAQ() {
+        // TODO add a list of all here
+        /*faq.add(new String[] {
+                "All FAQ (XDA Link)",
+                "add link here"
+        });*/
         faq.add(new String[] {
                 "Push Notifications",
                 "https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq"
@@ -88,6 +93,14 @@ public class FAQActivity extends Activity {
         faq.add(new String[] {
                 "Clearing Cache",
                 "https://plus.google.com/117432358268488452276/posts/ZgAHJxKycfv"
+        });
+        faq.add(new String[] {
+                "Immersive Mode (Custom ROMs)",
+                "https://plus.google.com/117432358268488452276/posts/ec8UwdGUEEH"
+        });
+        faq.add(new String[] {
+                "Battery Consumption",
+                "https://plus.google.com/117432358268488452276/posts/e2h3DTY5h7Q"
         });
 
     }
