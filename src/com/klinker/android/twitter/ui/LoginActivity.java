@@ -237,6 +237,8 @@ public class LoginActivity extends Activity {
                     timeline.putExtra("tutorial", true);
                     sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                     sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
                     startActivity(timeline);
                 }
 
