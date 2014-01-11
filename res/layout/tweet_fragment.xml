@@ -141,7 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:hint="@string/reply"
-                android:layout_gravity="bottom"
+                android:layout_gravity="center_vertical"
                 android:inputType="textMultiLine|textCapSentences"/>
 
             <LinearLayout
