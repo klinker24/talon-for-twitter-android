@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.FAQArrayAdapter;
@@ -19,13 +16,13 @@ import java.util.ArrayList;
 
 public class FAQActivity extends Activity {
 
-    private ArrayList<String[]> faq = new ArrayList<String[]>();
+    public ArrayList<String[]> links = new ArrayList<String[]>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setUpFAQ();
+        setUpLinks();
 
         AppSettings settings = new AppSettings(this);
 
@@ -34,8 +31,8 @@ public class FAQActivity extends Activity {
 
         setContentView(R.layout.faq_activity);
 
-        ListView faqs = (ListView) findViewById(R.id.listView);
-        faqs.setAdapter(new FAQArrayAdapter(this, faq));
+        ListView list = (ListView) findViewById(R.id.listView);
+        list.setAdapter(new FAQArrayAdapter(this, this.links));
     }
 
     public void setUpWindow() {
@@ -68,37 +65,37 @@ public class FAQActivity extends Activity {
 
     }
 
-    public void setUpFAQ() {
+    public void setUpLinks() {
         // TODO add a list of all here
-        /*faq.add(new String[] {
+        /*links.add(new String[] {
                 "All FAQ (XDA Link)",
                 "add link here"
         });*/
-        faq.add(new String[] {
+        links.add(new String[]{
                 "Push Notifications",
                 "https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq"
         });
-        faq.add(new String[] {
+        links.add(new String[]{
                 "Translucency",
                 "https://plus.google.com/117432358268488452276/posts/Kc2sB8uBYwa"
         });
-        faq.add(new String[] {
+        links.add(new String[]{
                 "Theming Limits",
                 "https://plus.google.com/117432358268488452276/posts/dHDRSc4J3yV"
         });
-        faq.add(new String[] {
+        links.add(new String[]{
                 "More Info on Status's",
                 "https://plus.google.com/117432358268488452276/posts/hY7Aa3eSVvC"
         });
-        faq.add(new String[] {
+        links.add(new String[]{
                 "Clearing Cache",
                 "https://plus.google.com/117432358268488452276/posts/ZgAHJxKycfv"
         });
-        faq.add(new String[] {
+        links.add(new String[]{
                 "Immersive Mode (Custom ROMs)",
                 "https://plus.google.com/117432358268488452276/posts/ec8UwdGUEEH"
         });
-        faq.add(new String[] {
+        links.add(new String[]{
                 "Battery Consumption",
                 "https://plus.google.com/117432358268488452276/posts/e2h3DTY5h7Q"
         });

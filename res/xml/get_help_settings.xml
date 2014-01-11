@@ -11,6 +11,10 @@
         android:title="@string/faq" />
 
     <Preference
+        android:key="features"
+        android:title="@string/features_explained" />
+
+    <Preference
         android:key="youtube"
         android:title="@string/youtube" />
 

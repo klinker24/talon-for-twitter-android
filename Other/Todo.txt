@@ -18,3 +18,4 @@
     -- Features Explained activity from the get help settings
     -- Change the @ sign on the gitub theme
     -- Add license
+    -- more lines in the interactions drawer
