@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.settings;
 
+import com.klinker.android.twitter.R;
+
 /**
  * Created by luke on 1/10/14.
  */
@@ -7,6 +9,8 @@ public class FeaturesActivity extends FAQActivity {
 
     @Override
     public void setUpLinks() {
+        getActionBar().setTitle(getResources().getString(R.string.features_explained));
+
         links.add(new String[]{
                 "Talon Pull",
                 "https://plus.google.com/117432358268488452276/posts/E6k7d1VYNY8"

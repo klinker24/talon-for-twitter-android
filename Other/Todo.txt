@@ -14,8 +14,6 @@
 -- For Release --
 
     -- Put the favorite user notifications in the interactions database if push notification are turned on as well
-    -- Review all the faq's and promo and make sure they are good/include talon pull stuff
-    -- Features Explained activity from the get help settings
     -- Change the @ sign on the gitub theme
     -- Add license
     -- more lines in the interactions drawer

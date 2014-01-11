@@ -92,7 +92,7 @@ public class FAQActivity extends Activity {
                 "https://plus.google.com/117432358268488452276/posts/ZgAHJxKycfv"
         });
         links.add(new String[]{
-                "Immersive Mode (Custom ROMs)",
+                "Immersive Mode Support",
                 "https://plus.google.com/117432358268488452276/posts/ec8UwdGUEEH"
         });
         links.add(new String[]{
