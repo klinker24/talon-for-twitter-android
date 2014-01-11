@@ -42,8 +42,4 @@
         android:key="credits"
         android:title="@string/credits" />
 
-    <Preference
-        android:key="disclaimer"
-        android:title="@string/disclaimer" />
-
 </PreferenceScreen>

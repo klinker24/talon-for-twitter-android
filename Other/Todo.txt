@@ -15,5 +15,3 @@
 
     -- Put the favorite user notifications in the interactions database if push notification are turned on as well
     -- Change the @ sign on the gitub theme
-    -- Add license
-    -- more lines in the interactions drawer
