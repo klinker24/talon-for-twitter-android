@@ -229,7 +229,7 @@
         </activity>
 
         <activity android:name=".settings.FeaturesActivity"
-            android:label="@string/feature_requests"
+            android:label="@string/features_explained"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonDark.Popup">
