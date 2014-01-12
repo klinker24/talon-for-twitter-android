@@ -277,7 +277,9 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-
+            try {
+                home.deleteTweet(statusDeletionNotice.getStatusId());
+            } catch (Exception e) { }
         }
 
         @Override
