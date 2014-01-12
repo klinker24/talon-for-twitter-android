@@ -43,6 +43,7 @@ import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -112,6 +113,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         @Override
         public void onReceive(Context context, Intent intent) {
             int unreadtweets = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+            markReadForLoad();
             if (unreadtweets != 0) {
                 showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                         getResources().getString(R.string.view_new),
@@ -814,6 +816,18 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void updateToastText(String text) {
         if(isToastShowing) {
             toastDescription.setText(text);
+        }
+    }
+
+    public void markReadForLoad() {
+        try {
+            int current = listView.getFirstVisiblePosition();
+            TextView tweetText = (TextView) listView.getChildAt(current).findViewById(R.id.tweet);
+            String text = tweetText.getText().toString();
+
+            dataSource.markMultipleRead(text, DrawerActivity.settings.currentAccount);
+        } catch (Exception e) {
+            
         }
     }
 }

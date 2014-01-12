@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.klinker.android.twitter.utils.HtmlUtils;
 
@@ -233,8 +234,6 @@ public class HomeDataSource {
         cursor.close();
     }
 
-    // true is unread
-    // false have been read
     public void markMultipleRead(int current, int account) {
 
         Cursor cursor = getUnreadCursor(account);
@@ -256,6 +255,32 @@ public class HomeDataSource {
         }
 
         cursor.close();
+    }
+
+    public void markMultipleRead(String text, int account) {
+
+        Cursor c = getUnreadCursor(account); // first is the oldest
+
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+
+        boolean dontMark = true;
+        if (c.moveToLast()) {
+            do {
+                String thisText = c.getString(c.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+                Log.v("talon_pull_mark_read", thisText);
+                if (text.equals(thisText)) {
+                    dontMark = false;
+                }
+
+                if (!dontMark) {
+                    long tweetId = c.getLong(c.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+                }
+            } while (c.moveToPrevious());
+        }
+
+        c.close();
     }
 
     public void markAllRead(int account) {
