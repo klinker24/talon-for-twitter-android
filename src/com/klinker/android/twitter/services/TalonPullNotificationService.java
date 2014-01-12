@@ -101,6 +101,10 @@ public class TalonPullNotificationService extends Service {
             mBuilder.addAction(R.drawable.ic_popup, getResources().getString(R.string.popup), popupPending);
         }
 
+        try {
+            mBuilder.setWhen(0);
+        } catch (Exception e) { }
+
         mBuilder.setContentIntent(pendingIntent);
 
         // priority flag is only available on api level 16 and above

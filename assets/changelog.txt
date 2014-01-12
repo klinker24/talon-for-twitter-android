@@ -1,8 +1,8 @@
 <b>Version 1.00:</b> Ahh finally a release, and a huge update along with it.<br/><br/>
+    &#8226; "Talon Pull" for push notifications and live streaming... AWESOME feature :) <br/>
     &#8226; Added a very powerful 'Theme Engine' for developers (https://github.com/lklinker/talon_theme)<br/>
     &#8226; Added live streaming to the main timeline<br/>
     &#8226; Redesigned the tweet viewer to use a ViewPager. Allows for more dynamic content<br/>
-    &#8226; Talon Pull service for "push notification" functionality on interactions<br/>
     &#8226; Added a tutorial after login<br/>
     &#8226; Added a 'Hangouts' layout option as a default theme<br/>
     &#8226; Open multiple links from the tweet activity<br/>
@@ -14,6 +14,7 @@
     &#8226; Option to show Twitter handles instead of names on the timelines<br/>
     &#8226; Revamped the login to alleviate any problems<br/>
     &#8226; Higher quality instagram pictures<br/>
+    &#8226; Report as spam option<br/>
     &#8226; Added a do not disturb time setting to block Talon's notifications<br/>
     &#8226; Any links that you open from a tweet will now open to my full screen browser first, then you can open them in the default browser from the Action bar<br/>
     &#8226; Applied the holo orange theme though out the rest of the ui<br/>

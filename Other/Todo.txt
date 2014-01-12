@@ -3,8 +3,8 @@
     - Show full conversations on tweets (look forward, not back...) - No clue how yet
     - Retweet and favorite from multiple accounts
     - Add location to the tweet viewer
-    - Report as spam
     - Mute users
+    - Get more tweets when you get to the bottom of profiles
 
 - Bugs:
 

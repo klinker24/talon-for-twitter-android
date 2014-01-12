@@ -24,6 +24,7 @@
     <string name="menu_favorite">Nutzer favorisieren</string>
     <string name="menu_unfavorite">Nutzer entfavorisieren</string>
     <string name="menu_create_list">Neue Liste erstellen</string>
+    <string name="menu_spam">Mark as Spam</string> <!-- added -->
 
     <!-- added -->
     <!-- Times -->
@@ -111,7 +112,7 @@
     <string name="login_to_twitter">In Twitter anmelden</string>
     <string name="first_welcome">Willkommen bei Talon!</string>
     <string name="second_welcome">Daten synchronisieren</string>
-    <string name="third_welcome">Das war's schon!</string>
+    <string name="third_welcome">Das war\'s schon!</string>
     <string name="back_to_timeline">Bring mich zu meiner Timeline!</string>
     <string name="initial_sync">Jetzt synchronisieren!</string>
     <string name="first_info">Bevor wir anfangen können, musst du dich erst anmelden. </string>

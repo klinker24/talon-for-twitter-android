@@ -24,6 +24,7 @@
     <string name="menu_favorite">Favorite User</string>
     <string name="menu_unfavorite">Un-Favorite User</string>
     <string name="menu_create_list">Create New List</string>
+    <string name="menu_spam">Mark as Spam</string> <!-- added -->
 
     <!-- added -->
     <!-- Times -->

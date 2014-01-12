@@ -277,6 +277,55 @@ public class TweetPager extends YouTubeBaseActivity {
         }
     }
 
+    class MarkSpam extends AsyncTask<String, Void, Boolean> {
+
+        protected void onPreExecute() {
+            finish();
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            Twitter twitter = Utils.getTwitter(context, settings);
+
+            try {
+
+                try {
+                    HomeDataSource source = new HomeDataSource(context);
+                    source.open();
+                    source.deleteTweet(tweetId);
+                    source.close();
+                } catch (Exception f) {
+
+                }
+
+                try {
+                    MentionsDataSource source = new MentionsDataSource(context);
+                    source.open();
+                    source.deleteTweet(tweetId);
+                    source.close();
+                } catch (Exception p) {
+
+                }
+
+                try {
+                    twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));
+                } catch (Exception m) {
+
+                }
+
+                try {
+                    twitter.destroyStatus(tweetId);
+                } catch (Exception x) {
+
+                }
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
     private ShareActionProvider mShareActionProvider;
 
     @Override
@@ -313,11 +362,13 @@ public class TweetPager extends YouTubeBaseActivity {
         final int MENU_COPY_TEXT = 3;
         final int MENU_OPEN_WEB = 4;
         final int MENU_SAVE_IMAGE = 5;
+        final int MENU_SPAM = 6;
 
         if (!isMyTweet) {
             menu.getItem(MENU_DELETE_TWEET).setVisible(false);
         } else {
             menu.getItem(MENU_QUOTE).setVisible(false);
+            menu.getItem(MENU_SPAM).setVisible(false);
         }
 
         if (mSectionsPagerAdapter.getHasWebpage()) {
@@ -443,6 +494,9 @@ public class TweetPager extends YouTubeBaseActivity {
                 startActivity(quote);
 
                 return true;
+
+            case R.id.menu_spam:
+                new MarkSpam().execute();
 
             default:
                 return super.onOptionsItemSelected(item);
