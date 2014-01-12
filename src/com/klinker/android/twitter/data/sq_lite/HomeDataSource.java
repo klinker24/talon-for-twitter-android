@@ -39,13 +39,14 @@ public class HomeDataSource {
     public void createTweet(Status status, int account) {
         ContentValues values = new ContentValues();
         String originalName = "";
-        long id = status.getId();
         long time = status.getCreatedAt().getTime();
 
         if(status.isRetweet()) {
             originalName = status.getUser().getScreenName();
             status = status.getRetweetedStatus();
         }
+
+        long id = status.getId();
 
         String[] html = HtmlUtils.getHtmlStatus(status);
         String text = html[0];
@@ -74,13 +75,14 @@ public class HomeDataSource {
     public void createTweet(Status status, int account, boolean initial) {
         ContentValues values = new ContentValues();
         String originalName = "";
-        long id = status.getId();
         long time = status.getCreatedAt().getTime();
 
         if(status.isRetweet()) {
             originalName = status.getUser().getScreenName();
             status = status.getRetweetedStatus();
         }
+
+        long id = status.getId();
 
         String[] html = HtmlUtils.getHtmlStatus(status);
         String text = html[0];
