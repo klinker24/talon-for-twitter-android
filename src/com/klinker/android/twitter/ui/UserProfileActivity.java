@@ -104,6 +104,7 @@ public class UserProfileActivity extends Activity {
     private boolean isBlocking;
     private boolean isFollowing;
     private boolean isFavorite;
+    private boolean isMuted;
     private boolean isFollowingSet = false;
 
     private ItemManager.Builder builder;
@@ -501,6 +502,7 @@ public class UserProfileActivity extends Activity {
 
                 isFollowing = friendship.isSourceFollowingTarget();
                 isBlocking = friendship.isSourceBlockingTarget();
+                isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
 
                 FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
                 data.open();
@@ -1106,14 +1108,18 @@ public class UserProfileActivity extends Activity {
             case R.id.menu_mute:
                 String current = sharedPrefs.getString("muted_users", "");
                 sharedPrefs.edit().putString("muted_users", current + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                finish();
                 return true;
 
             case R.id.menu_unmute:
                 String muted = sharedPrefs.getString("muted_users", "");
-                muted.replace(screenName + " ", "");
+                muted = muted.replace(screenName + " ", "");
                 sharedPrefs.edit().putString("muted_users", muted).commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                finish();
                 return true;
-            
+
             default:
                 return super.onOptionsItemSelected(item);
         }
