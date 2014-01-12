@@ -405,6 +405,60 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final AppSettings settings = new AppSettings(context);
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        final Preference timeline = findPreference("timeline_sync_interval");
+        final Preference mentions = findPreference("mentions_sync_interval");
+        final Preference dms = findPreference("dm_sync_interval");
+        final Preference onStart = findPreference("refresh_on_start");
+        final Preference mobileOnly = findPreference("sync_mobile_data");
+
+        if (sharedPrefs.getBoolean("push_notifications", true)) {
+            timeline.setEnabled(false);
+            mentions.setEnabled(false);
+            dms.setEnabled(false);
+            onStart.setEnabled(false);
+            mobileOnly.setEnabled(false);
+        }
+
+        final Preference pull = findPreference("push_notifications");
+        pull.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (!((CheckBoxPreference) pull).isChecked()) {
+                    timeline.setEnabled(false);
+                    mentions.setEnabled(false);
+                    dms.setEnabled(false);
+                    onStart.setEnabled(false);
+                    mobileOnly.setEnabled(false);
+
+                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    PendingIntent pendingIntent1 = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+                    PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
+                    PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
+
+                    am.cancel(pendingIntent1);
+                    am.cancel(pendingIntent2);
+                    am.cancel(pendingIntent3);
+
+                    SharedPreferences.Editor e = sharedPrefs.edit();
+
+                    e.putString("timeline_sync_interval", "0");
+                    e.putString("mentions_sync_interval", "0");
+                    e.putString("dm_sync_interval", "0");
+                    //e.putBoolean("push_notifications", true);
+
+                    e.commit();
+                } else {
+                    timeline.setEnabled(true);
+                    mentions.setEnabled(true);
+                    dms.setEnabled(true);
+                    onStart.setEnabled(true);
+                    mobileOnly.setEnabled(true);
+                }
+
+                return true;
+            }
+        });
+
         Preference sync = findPreference("sync_friends");
         sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 

@@ -35,7 +35,7 @@
         <ListPreference
             android:key="timeline_sync_interval"
             android:title="@string/timeline_sync_interval"
-            android:defaultValue="1800000"
+            android:defaultValue="0"
             android:entries="@array/sync_interval"
             android:entryValues="@array/sync_interval_inserted"
             />
@@ -44,7 +44,7 @@
         <ListPreference
             android:key="mentions_sync_interval"
             android:title="@string/mentions_sync_interval"
-            android:defaultValue="1800000"
+            android:defaultValue="0"
             android:entries="@array/sync_interval"
             android:entryValues="@array/sync_interval_inserted"
             />
@@ -53,7 +53,7 @@
         <ListPreference
             android:key="dm_sync_interval"
             android:title="@string/dm_sync_interval"
-            android:defaultValue="1800000"
+            android:defaultValue="0"
             android:entries="@array/sync_interval"
             android:entryValues="@array/sync_interval_inserted"
             />
