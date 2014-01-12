@@ -48,6 +48,10 @@ public class FeaturesActivity extends FAQActivity {
                 "Favorite Users",
                 "https://plus.google.com/117432358268488452276/posts/FmZjvfJ4geC"
         });
+        links.add(new String[] {
+                "Muting Users",
+                "https://plus.google.com/117432358268488452276/posts/22M69xehf3X"
+        });
         links.add(new String[]{
                 "Night Modes",
                 "https://plus.google.com/117432358268488452276/posts/C1gwfGuQeDD"
