@@ -511,6 +511,32 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        Preference muted = findPreference("manage_mutes");
+        muted.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] users = sharedPrefs.getString("muted_users", "").split(" ");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(users, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        String touched = users[item];
+
+                        Intent user = new Intent(context, UserProfileActivity.class);
+                        user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
+                        user.putExtra("proPic", "");
+                        context.startActivity(user);
+
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                return false;
+            }
+        });
+
         Preference backup = findPreference("backup");
         backup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 

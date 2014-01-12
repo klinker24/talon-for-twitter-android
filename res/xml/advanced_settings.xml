@@ -87,6 +87,16 @@
         </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="advanced_other"
+        android:title="@string/other_options" >
+
+        <Preference
+            android:key="manage_mutes"
+            android:title="@string/muted_users" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="backup_category"
         android:title="@string/backup_category">
 
