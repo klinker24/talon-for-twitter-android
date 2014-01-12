@@ -54,6 +54,7 @@ import de.timroes.android.listview.EnhancedListView;
 import org.lucasr.smoothie.AsyncListView;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public abstract class DrawerActivity extends Activity {
 
@@ -170,25 +171,33 @@ public abstract class DrawerActivity extends Activity {
                         }
                     }
 
-                    if (oldInteractions.getText().toString().equals(getResources().getString(R.string.new_interactions))) {
-                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
-                        readButton.setImageResource(openMailResource);
-                        notificationList.enableSwipeToDismiss();
-                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
-                        notificationList.setAdapter(notificationAdapter);
+                    try {
+                        if (oldInteractions.getText().toString().equals(getResources().getString(R.string.new_interactions))) {
+                            oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                            readButton.setImageResource(openMailResource);
+                            notificationList.enableSwipeToDismiss();
+                            notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                            notificationList.setAdapter(notificationAdapter);
+                        }
+                    } catch (Exception e) {
+                        // don't have talon pull on
                     }
                 }
 
                 public void onDrawerOpened(View drawerView) {
                     actionBar.setTitle(getResources().getString(R.string.app_name));
 
-                    if(sharedPrefs.getBoolean("new_notification", false)) {
-                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(settings.currentAccount));
-                        notificationList.setAdapter(notificationAdapter);
-                        notificationList.enableSwipeToDismiss();
-                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
-                        readButton.setImageResource(openMailResource);
-                        sharedPrefs.edit().putBoolean("new_notification", false).commit();
+                    try {
+                        if(sharedPrefs.getBoolean("new_notification", false)) {
+                            notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(settings.currentAccount));
+                            notificationList.setAdapter(notificationAdapter);
+                            notificationList.enableSwipeToDismiss();
+                            oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                            readButton.setImageResource(openMailResource);
+                            sharedPrefs.edit().putBoolean("new_notification", false).commit();
+                        }
+                    } catch (Exception e) {
+                        // don't have talon pull on
                     }
                 }
 

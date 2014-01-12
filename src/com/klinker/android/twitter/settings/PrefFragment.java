@@ -517,8 +517,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceClick(Preference preference) {
                 final String[] users = sharedPrefs.getString("muted_users", "").split(" ");
 
-                if (users.length == 0) {
-                    Toast.makeText(context, context.getResources().getString(R.string.no_users), Toast.LENGTH_SHORT);
+                if (users.length == 0 || (users.length == 1 && users[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_users), Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(users, new DialogInterface.OnClickListener() {
