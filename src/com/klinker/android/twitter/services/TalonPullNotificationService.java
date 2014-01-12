@@ -17,6 +17,7 @@ import android.widget.RemoteViews;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
@@ -55,6 +56,7 @@ public class TalonPullNotificationService extends Service {
     public SharedPreferences sharedPreferences;
     public InteractionsDataSource interactions;
     public HomeDataSource home;
+    public FavoriteUsersDataSource favs;
 
     public NotificationCompat.Builder mBuilder;
 
@@ -65,6 +67,9 @@ public class TalonPullNotificationService extends Service {
         settings = new AppSettings(this);
         home = new HomeDataSource(this);
         home.open();
+
+        favs = new FavoriteUsersDataSource(this);
+        favs.open();
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -130,9 +135,8 @@ public class TalonPullNotificationService extends Service {
         filter.addAction("com.klinker.android.twitter.NEW_TWEET");
         registerReceiver(updateNotification, filter);
 
-        if (!settings.liveStreaming) {
-            mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
-        }
+        mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
+
     }
 
     @Override
@@ -156,6 +160,10 @@ public class TalonPullNotificationService extends Service {
 
         try {
             home.close();
+        } catch (Exception e) { }
+
+        try {
+            favs.close();
         } catch (Exception e) { }
 
         super.onDestroy();
@@ -260,6 +268,10 @@ public class TalonPullNotificationService extends Service {
                 mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
 
                 sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+
+                if (favs.isFavUser(settings.currentAccount, status.getUser().getScreenName())) {
+                    NotificationUtils.favUsersNotification(settings.currentAccount, mContext);
+                }
             }
         }
 

@@ -60,7 +60,7 @@ public class AppSettings {
     public boolean favoriteUserNotifications;
     public boolean syncSecondMentions;
     public boolean displayScreenName;
-    public boolean liveStreaming;
+    //public boolean liveStreaming;
     public boolean pushNotifications;
 
     // theme stuff
@@ -134,11 +134,12 @@ public class AppSettings {
         favoriteUserNotifications = sharedPrefs.getBoolean("favorite_users_notifications", true);
         syncSecondMentions = sharedPrefs.getBoolean("sync_second_mentions", true);
         displayScreenName = sharedPrefs.getBoolean("display_screen_name", false);
-        liveStreaming = sharedPrefs.getBoolean("live_streaming", false);
+        //liveStreaming = sharedPrefs.getBoolean("live_streaming", false);
         pushNotifications = sharedPrefs.getBoolean("push_notifications", true);
 
         if (pushNotifications) {
-            liveStreaming = false;
+            //liveStreaming = false;
+            refreshOnStart = false;
         }
 
         // if they have the keyboard trial installed, then go from their preference

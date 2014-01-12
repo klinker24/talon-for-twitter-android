@@ -640,28 +640,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         context.registerReceiver(pullReceiver, filter);
     }
 
-    @Override
-    public void onStop() {
-        if(DrawerActivity.settings.liveStreaming) {
-            try {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        twitterStream.shutdown();
-                    }
-                });
-                //context.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
-                Log.v("twitter_stream", "shutdown stream");
-            } catch (Exception e) {
-                // closed before the stream was started or it is popup
-                e.printStackTrace();
-                Log.v("twitter_stream", "error shutting down");
-            }
-        }
-
-        super.onStop();
-    }
-
     public boolean justStarted = false;
     public Handler waitOnRefresh = new Handler();
     public Runnable applyRefresh = new Runnable() {
@@ -680,17 +658,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if((DrawerActivity.settings.refreshOnStart || DrawerActivity.settings.liveStreaming) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
+                if((DrawerActivity.settings.refreshOnStart) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
                 }
 
-                if(!DrawerActivity.settings.liveStreaming) {
-                    waitOnRefresh.removeCallbacks(applyRefresh);
-                    waitOnRefresh.postDelayed(applyRefresh, 30000);
-                } else {
-                    sharedPrefs.edit().putBoolean("should_refresh", true).commit();
-                }
+                waitOnRefresh.removeCallbacks(applyRefresh);
+                waitOnRefresh.postDelayed(applyRefresh, 30000);
             }
         }, 250);
     }

@@ -61,6 +61,7 @@
         <CheckBoxPreference
             android:key="pebble_notification"
             android:title="@string/pebble_notifications"
+            android:summary="@string/pebble_notifications_summary"
             android:defaultValue="false"
             />
 
