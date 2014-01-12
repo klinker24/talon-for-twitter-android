@@ -6,9 +6,11 @@ import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -105,6 +107,22 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public TwitterStream twitterStream;
 
     public View view;
+
+    public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int unreadtweets = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+            if (unreadtweets != 0) {
+                showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                        getResources().getString(R.string.view_new),
+                        400,
+                        true,
+                        liveStreamRefresh);
+            }
+
+            newTweets = true;
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -309,15 +327,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         liveStreamRefresh = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newTweets = false;
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
                 //int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                 listView.setSelectionFromTop(0, 0);
-                newTweets = false;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         hideToastBar(400);
                         dataSource.markAllRead(currentAccount);
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                     }
                 }, 300);
 
@@ -343,6 +362,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             dataSource.markAllRead(currentAccount);
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
@@ -591,8 +611,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         if (unread > 0) {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
             dataSource.markMultipleRead(mUnread, currentAccount);
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
             unread = mUnread;
         }
+
+        try {
+            context.unregisterReceiver(pullReceiver);
+        } catch (Exception e) { }
 
         super.onPause();
     }
@@ -609,6 +634,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
+        context.registerReceiver(pullReceiver, filter);
     }
 
     @Override
@@ -664,119 +693,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }
         }, 250);
-
-        if(DrawerActivity.settings.liveStreaming && !MainActivity.isPopup) {
-            //context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH"));
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    twitterStream = Utils.getStreamingTwitter(context, DrawerActivity.settings);
-                    if(ids == null) {
-                        try {
-                            ids = Utils.getTwitter(context, DrawerActivity.settings).getFriendsIDs(-1).getIDs();
-                        } catch (Exception e) {
-                            ids = null;
-                        }
-                        try {
-                            fIds = new Long[ids.length];
-                            for (int i = 0; i <fIds.length; i++) {
-                                fIds[i] = ids[i];
-                            }
-                        } catch (Exception e) {
-                            fIds = null;
-                        }
-                    }
-
-                    if(fIds != null) {
-                        StatusListener listener = new StatusListener() {
-                            @Override
-                            public void onStatus(Status status) {
-                                long replyUserId = status.getInReplyToUserId();
-                                if(Arrays.asList(fIds).contains(status.getUser().getId()) && (Arrays.asList(fIds).contains(replyUserId) || replyUserId == -1)) {
-                                    Log.v("twitter_stream", "@" + status.getUser().getScreenName() + " - " + status.getText());
-
-                                    if (justStarted) {
-                                        doRefresh();
-                                    }
-
-                                    final int currentAccount = sharedPrefs.getInt("current_account", 1);
-                                    long statusId = status.getId();
-
-                                    if(!newTweets && !justStarted) {
-                                        dataSource.markAllRead(currentAccount);
-                                    }
-
-                                    justStarted = false;
-
-                                    if (dataSource.getLastId(currentAccount) != statusId)
-                                        HomeContentProvider.insertTweet(status, currentAccount, context);
-
-                                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
-                                    sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statusId).commit();
-
-                                    final int unreadtweets = dataSource.getUnreadCount(currentAccount);
-
-                                    newTweets = true;
-
-                                    try {
-                                        if(MainActivity.canSwitch) {
-                                            context.runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                                                getResources().getString(R.string.view_new),
-                                                                400,
-                                                                true,
-                                                                liveStreamRefresh);
-                                                    } catch (Exception e) { }
-                                                }
-                                            });
-                                        }
-                                    } catch (Exception e) {
-
-                                    }
-
-                                }
-                            }
-
-                            @Override
-                            public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-                                Log.v("twitter_stream", "Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
-                                try {
-                                    dataSource.deleteTweet(statusDeletionNotice.getStatusId());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
-                                Log.v("twitter_stream", "Got track limitation notice:" + numberOfLimitedStatuses);
-                            }
-
-                            @Override
-                            public void onScrubGeo(long userId, long upToStatusId) {
-                                Log.v("twitter_stream", "Got scrub_geo event userId:" + userId + " upToStatusId:" + upToStatusId);
-                            }
-
-                            @Override
-                            public void onStallWarning(StallWarning warning) {
-                                Log.v("twitter_stream", "Got stall warning:" + warning);
-                            }
-
-                            @Override
-                            public void onException(Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        };
-                        twitterStream.addListener(listener);
-                        twitterStream.filter(new FilterQuery(ids));
-                        Log.v("twitter_stream", "starting stream");
-                    }
-                }
-            }).start();
-        }
     }
 
 

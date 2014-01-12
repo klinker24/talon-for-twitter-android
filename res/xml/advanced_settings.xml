@@ -27,12 +27,12 @@
                 android:defaultValue="true"
                 />
 
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="live_streaming"
             android:title="@string/live_streaming"
             android:summary="@string/live_streaming_summary"
             android:defaultValue="false"
-            />
+            />-->
 
     </PreferenceCategory>
 

@@ -42,15 +42,11 @@ App Features:
 - Complete landscape and tablet modes
 - Advance to new pages in a "windowed" viewing mode
 - Never leave your timeline with in-line replies, favorites, and retweets
-- Actionable toast bar so you always know where you are and can jump to the top
 - Hiding action bar
 - "Do not disturb" mode
 - Widget for main timeline
 - DashClock Extension
-- Draft system for unsent/failed tweets
 - Google style pull to refresh for quick refreshing
-- Save tweet pictures
-- Share content with other apps, to and from Talon
 
 You will never go back to your old Twitter client again!
 

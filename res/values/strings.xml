@@ -87,6 +87,7 @@
     <string name="followed">followed you</string>
     <string name="new_retweets">retweets</string>
     <string name="new_favorites">favorites</string>
+    <string name="new_tweets_upper">New Tweets</string>
 
     <!-- Login Screen -->
     <string name="setup_talon">Setup Talon</string>
@@ -301,7 +302,7 @@
         <string name="sync_failed">Sync Failed</string>
         <string name="push_notification_options">\"Push Notification\" Options</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers). It will also disable live streaming.</string>
+            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers). It will also live stream tweets to your main timeline.</string>
             <string name="push_notification_warning">To read more about this option, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>

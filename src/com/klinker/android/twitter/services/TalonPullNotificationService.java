@@ -17,12 +17,14 @@ import android.widget.RemoteViews;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.NotificationUtils;
+import com.klinker.android.twitter.utils.RedirectToPopup;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.concurrent.ExecutionException;
@@ -41,6 +43,7 @@ import twitter4j.UserStreamListener;
 public class TalonPullNotificationService extends Service {
 
     public static final int FOREGROUND_SERVICE_ID = 11;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -51,10 +54,17 @@ public class TalonPullNotificationService extends Service {
     public AppSettings settings;
     public SharedPreferences sharedPreferences;
     public InteractionsDataSource interactions;
+    public HomeDataSource home;
+
+    public NotificationCompat.Builder mBuilder;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        settings = new AppSettings(this);
+        home = new HomeDataSource(this);
+        home.open();
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -62,26 +72,28 @@ public class TalonPullNotificationService extends Service {
         Intent stop = new Intent(this, StopPull.class);
         PendingIntent stopPending = PendingIntent.getService(this, 0, stop, 0);
 
-        RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-        remoteView.setOnClickPendingIntent(R.id.popup_button, stopPending);
-        remoteView.setImageViewResource(R.id.icon, R.drawable.ic_stat_icon);
+        Intent popup = new Intent(this, RedirectToPopup.class);
+        popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        popup.putExtra("from_notification", true);
+        PendingIntent popupPending = PendingIntent.getActivity(this, 0, popup, 0);
 
-        NotificationCompat.Builder mBuilder =
+
+        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
+        remoteView.setOnClickPendingIntent(R.id.popup_button, stopPending);
+        remoteView.setImageViewResource(R.id.icon, R.drawable.ic_stat_icon);*/
+
+        mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.color.transparent)
                         .setContentTitle(getResources().getString(R.string.talon_pull))
-                        .setContentText(getResources().getString(R.string.listening_for_mentions) + "...")
+                        .setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + home.getUnreadCount(settings.currentAccount))
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
-
-        /*NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setContent(remoteView);
-                        //.setOngoing(true);*/
 
 
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
+            mBuilder.addAction(R.drawable.ic_popup, getResources().getString(R.string.popup), popupPending);
         }
 
         mBuilder.setContentIntent(pendingIntent);
@@ -95,7 +107,6 @@ public class TalonPullNotificationService extends Service {
 
         mContext = getApplicationContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        settings = new AppSettings(mContext);
         interactions = new InteractionsDataSource(mContext);
         interactions.open();
 
@@ -110,6 +121,14 @@ public class TalonPullNotificationService extends Service {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
         registerReceiver(stopService, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.UPDATE_NOTIF");
+        registerReceiver(updateNotification, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
+        registerReceiver(updateNotification, filter);
 
         if (!settings.liveStreaming) {
             mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
@@ -127,9 +146,16 @@ public class TalonPullNotificationService extends Service {
         try {
             unregisterReceiver(stopService);
         } catch (Exception e) { }
+        try {
+            unregisterReceiver(updateNotification);
+        } catch (Exception e) { }
 
         try {
             interactions.close();
+        } catch (Exception e) { }
+
+        try {
+            home.close();
         } catch (Exception e) { }
 
         super.onDestroy();
@@ -148,6 +174,18 @@ public class TalonPullNotificationService extends Service {
             try {
                 interactions.close();
             } catch (Exception e) { }
+        }
+    };
+
+    public BroadcastReceiver updateNotification = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Log.v("twitter_stream_push", "updating notification");
+
+            mBuilder.setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + home.getUnreadCount(settings.currentAccount));
+
+            startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
         }
     };
 
@@ -175,48 +213,6 @@ public class TalonPullNotificationService extends Service {
             //pushStream.filter(new FilterQuery().track(new String[]{myName}));
             pushStream.user(new String[] {myName});
             Log.v("twitter_stream_push", "started push notifications");
-        }
-    };
-
-    public StatusListener listener = new StatusListener() {
-        @Override
-        public void onStatus(Status status) {
-            Log.v("twitter_stream_push", "@" + status.getUser().getScreenName() + " - " + status.getText());
-            MentionsDataSource dataSource = new MentionsDataSource(mContext);
-            dataSource.open();
-            dataSource.createTweet(status, settings.currentAccount);
-
-            NotificationUtils.refreshNotification(mContext);
-
-            dataSource.close();
-            if (status.isRetweet()) {
-                Log.v("twitter_stream_push", "Retweeted status");
-            }
-        }
-
-        @Override
-        public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-            Log.v("twitter_stream_push", "Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
-        }
-
-        @Override
-        public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
-            Log.v("twitter_stream_push", "Got track limitation notice:" + numberOfLimitedStatuses);
-        }
-
-        @Override
-        public void onScrubGeo(long userId, long upToStatusId) {
-            Log.v("twitter_stream_push", "Got scrub_geo event userId:" + userId + " upToStatusId:" + upToStatusId);
-        }
-
-        @Override
-        public void onStallWarning(StallWarning warning) {
-            Log.v("twitter_stream_push", "Got stall warning:" + warning);
-        }
-
-        @Override
-        public void onException(Exception ex) {
-            ex.printStackTrace();
         }
     };
 
@@ -255,6 +251,15 @@ public class TalonPullNotificationService extends Service {
                         }
                     }
                 }
+            }
+
+            if (!(status.isRetweet() && home.tweetExists(status.getRetweetedStatus().getId(), settings.currentAccount))) {
+                home.createTweet(status, settings.currentAccount);
+
+                mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
+                mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
+
+                sharedPreferences.edit().putBoolean("refresh_me", true).commit();
             }
         }
 

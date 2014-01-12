@@ -227,4 +227,11 @@ public class HomeDataSource {
 
         return id;
     }
+
+    public boolean tweetExists(long tweetId, int account) {
+        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor.getCount() > 0;
+    }
 }
