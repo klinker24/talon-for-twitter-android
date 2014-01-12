@@ -4,6 +4,7 @@
     - Retweet and favorite from multiple accounts
     - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles
+    - To first in action bar
 
 - Bugs:
 
@@ -14,3 +15,7 @@
 
     -- Change the @ sign on the gitub theme
     -- Look back 5 tweets on timeline and mentions refreshes
+
+    -- Double DM's when you send a new one
+    -- Test the mark read on live stream
+    -- make sure feature link works for muted users
