@@ -25,6 +25,7 @@
     <string name="menu_unfavorite">Un-Favorite User</string>
     <string name="menu_create_list">Create New List</string>
 
+    <!-- added -->
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
     <string name="just_now">just now</string>
@@ -34,6 +35,12 @@
     <string name="hours_ago">%s hours ago</string>
     <string name="yesterday">yesterday</string>
     <string name="days_ago">%s days ago</string>
+
+    <!-- added -->
+    <!-- Muting -->
+    <string name="mute">Mute</string>
+    <string name="unmute">Un-Mute</string>
+    <string name="muted_users">Muted Users</string>
 
     <!-- Main Activity -->
     <string name="links">Links</string>
