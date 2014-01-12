@@ -432,7 +432,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         });
 
         holder.name.setText(DrawerActivity.settings.displayScreenName ? "@" + screenname : name);
-        holder.time.setText(Utils.getTimeAgo(longTime));
+        holder.time.setText(Utils.getTimeAgo(longTime, context));
         holder.tweet.setText(Html.fromHtml(tweetText));
 
         if(DrawerActivity.settings.inlinePics && picUrl != null) {

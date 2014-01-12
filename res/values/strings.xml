@@ -25,6 +25,16 @@
     <string name="menu_unfavorite">Un-Favorite User</string>
     <string name="menu_create_list">Create New List</string>
 
+    <!-- Times -->
+    <!-- When translating: put the %s where the number should go in the string. -->
+    <string name="just_now">just now</string>
+    <string name="a_min_ago">a minute ago</string>
+    <string name="minutes_ago">%s minutes ago</string>
+    <string name="an_hour_ago">an hour ago</string>
+    <string name="hours_ago">%s hours ago</string>
+    <string name="yesterday">yesterday</string>
+    <string name="days_ago">%s days ago</string>
+
     <!-- Main Activity -->
     <string name="links">Links</string>
     <string name="pictures">Pictures</string>
