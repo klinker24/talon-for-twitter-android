@@ -58,8 +58,18 @@
           android:showAsAction="never" />
 
     <item android:id="@+id/menu_change_bio"
-          android:orderInCategory="11"
+          android:orderInCategory="12"
           android:title="@string/menu_change_bio"
           android:showAsAction="never" />
+
+    <item android:id="@+id/menu_mute"
+          android:orderInCategory="13"
+          android:title="@string/mute"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_unmute"
+        android:orderInCategory="14"
+        android:title="@string/unmute"
+        android:showAsAction="never" />
 
 </menu>

@@ -977,6 +977,8 @@ public class UserProfileActivity extends Activity {
         final int MENU_CHANGE_PICTURE = 9;
         final int MENU_CHANGE_BANNER = 10;
         final int MENU_CHANGE_BIO = 11;
+        final int MENU_MUTE = 12;
+        final int MENU_UNMUTE = 13;
 
         if (isMyProfile) {
             menu.getItem(MENU_TWEET).setVisible(false);
@@ -988,6 +990,8 @@ public class UserProfileActivity extends Activity {
             menu.getItem(MENU_DM).setVisible(false);
             menu.getItem(MENU_FAVORITE).setVisible(false);
             menu.getItem(MENU_UNFAVORITE).setVisible(false);
+            menu.getItem(MENU_MUTE).setVisible(false);
+            menu.getItem(MENU_UNMUTE).setVisible(false);
         } else {
             if (isFollowingSet) {
                 if (isFollowing) {
@@ -1007,6 +1011,12 @@ public class UserProfileActivity extends Activity {
                 } else {
                     menu.getItem(MENU_UNFAVORITE).setVisible(false);
                 }
+
+                if (isMuted) {
+                    menu.getItem(MENU_MUTE).setVisible(false);
+                } else {
+                    menu.getItem(MENU_UNMUTE).setVisible(false);
+                }
             } else {
                 menu.getItem(MENU_FOLLOW).setVisible(false);
                 menu.getItem(MENU_UNFOLLOW).setVisible(false);
@@ -1014,6 +1024,8 @@ public class UserProfileActivity extends Activity {
                 menu.getItem(MENU_UNFAVORITE).setVisible(false);
                 menu.getItem(MENU_BLOCK).setVisible(false);
                 menu.getItem(MENU_UNBLOCK).setVisible(false);
+                menu.getItem(MENU_MUTE).setVisible(false);
+                menu.getItem(MENU_UNMUTE).setVisible(false);
             }
 
             menu.getItem(MENU_CHANGE_BIO).setVisible(false);
@@ -1091,6 +1103,17 @@ public class UserProfileActivity extends Activity {
                 updateProfile();
                 return true;
 
+            case R.id.menu_mute:
+                String current = sharedPrefs.getString("muted_users", "");
+                sharedPrefs.edit().putString("muted_users", current + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
+                return true;
+
+            case R.id.menu_unmute:
+                String muted = sharedPrefs.getString("muted_users", "");
+                muted.replace(screenName + " ", "");
+                sharedPrefs.edit().putString("muted_users", muted).commit();
+                return true;
+            
             default:
                 return super.onOptionsItemSelected(item);
         }
