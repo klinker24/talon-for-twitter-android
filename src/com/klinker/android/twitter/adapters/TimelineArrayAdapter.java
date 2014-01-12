@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
@@ -756,6 +757,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         protected void onPostExecute(String count) {
+            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
             new GetFavoriteCount(holder, tweetId).execute();
         }
     }
@@ -781,6 +783,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         protected void onPostExecute(String count) {
+            Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
             new GetRetweetCount(holder, tweetId).execute();
         }
     }

@@ -13,6 +13,5 @@
 
 -- For Release --
 
-    -- Put the favorite user notifications in the interactions database if push notification are turned on as well
     -- Change the @ sign on the gitub theme
     -- Look back 5 tweets on timeline and mentions refreshes

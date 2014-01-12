@@ -800,6 +800,7 @@ public class TweetFragment extends Fragment {
         }
 
         protected void onPostExecute(String count) {
+            Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
             new GetFavoriteCount(favs, favButton, tweetId).execute();
         }
     }
@@ -825,6 +826,7 @@ public class TweetFragment extends Fragment {
         }
 
         protected void onPostExecute(String count) {
+            Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
             new GetRetweetCount(retweetCount, tweetId).execute();
         }
     }

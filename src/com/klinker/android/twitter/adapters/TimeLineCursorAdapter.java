@@ -804,6 +804,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         protected void onPostExecute(String count) {
+            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
             new GetFavoriteCount(holder, tweetId).execute();
         }
     }
@@ -829,6 +830,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         protected void onPostExecute(String count) {
+            Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
             new GetRetweetCount(holder, tweetId).execute();
         }
     }

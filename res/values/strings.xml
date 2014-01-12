@@ -217,6 +217,7 @@
     <string name="saved_picture">Picture Saved Successfully</string>
     <string name="retweet_success">Retweet Successful</string> <!-- added -->
     <string name="favorite_success">Favorite Successful</string> <!-- added -->
+    <string name="success">Success</string> <!-- added -->
 
     <!-- User Lists -->
     <string name="view_users">View Users</string>
