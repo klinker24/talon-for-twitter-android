@@ -148,6 +148,20 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             user.putExtra("screenname", username);
             user.putExtra("proPic", "");
             context.startActivity(user);
+        } else if (mTitle.contains(context.getResources().getString(R.string.tweeted))) {
+            try {
+                drawer.closeDrawer(Gravity.END);
+            } catch (Exception e) {
+                // landscape mode
+            }
+
+            // a new follower, open up the followers profile
+            String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
+
+            Intent user = new Intent(context, UserProfileActivity.class);
+            user.putExtra("screenname", username);
+            user.putExtra("proPic", "");
+            context.startActivity(user);
         }
 
         // mark it read in the sql database
