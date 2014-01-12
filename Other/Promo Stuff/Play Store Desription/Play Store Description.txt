@@ -109,6 +109,7 @@ App Features:
 - View in-line YouTube thumbnails
 - Native YouTube player
 - In-app browser
+- Muted Users
 - Complete landscape and tablet modes
 - Advance to new pages in a "windowed" viewing mode
 - Never leave your timeline with in-line replies, favorites, and retweets
@@ -149,4 +150,5 @@ Permissions Explained:
 Credit:
 - Jacob Klinker: to many things to list! Tons of ideas, support, and inspiration
 - Aaron Klinker: Icon Design
+- JRW - For an awesome name
 - Other open-source libraries and resources used can be found under the 'Get Help' section in settings.

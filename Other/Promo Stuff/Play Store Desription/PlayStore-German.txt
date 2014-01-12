@@ -37,6 +37,7 @@ App-Funktionen:
 - YouTube-Vorschaubilder inline anzeigen
 - Nativer YouTube-Player
 - In-App-Browser
+- Muted Users
 - Vollständige Tablet- und Querformat-Modi
 - Seiten in eine Fensteransicht erweiterbar
 - Timeline muss dank Inline-Antworten, -Favoriten und -Retweets nie wieder verlassen werden
@@ -67,4 +68,5 @@ iOS 7: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_k
 Credit:
 - Jacob Klinker: für viele Dinge auf dieser Liste! Eine Menge an Ideen, Unterstützung und Inspiration
 - Aaron Klinker: Icon-Design
+- JRW - For an awesome name
 - Verwendete Open-Source-Bibliotheken und -Ressourcen können im "Hilfe"-Bereich der Talon-Einstellungen eingesehen werden.

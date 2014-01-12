@@ -6,7 +6,8 @@ Klinker Apps assumes zero liability for misdelivered tweets, missed notification
 <b><u>Credits</u></b><br/><br/>
 &#8226; Luke Klinker, Main Developer<br/>
 &#8226; Jake Klinker, Development assistance, ideas and inspiration<br/>
-&#8226; Aaron Klinker, Icon Design<br/><br/>
+&#8226; Aaron Klinker, Icon Design<br/>
+&#8226; JRW, Naming of "Talon"<br/><br/>
 
 &#8226; Joaquim Verges, One heck of a way to quickly view pictures from the timeline<br/><br/>
 
