@@ -7,8 +7,6 @@ Wundervolle, den aktuellen Standards entsprechende Designs und Animationen sind 
 Twitter-Funktionen:
 - Live-Streaming
 - Unterstützung für bis zu 2 Benutzerkonten
-- Timelines (Haupt-Timeline, Erwähnungen, Direktnachrichten, Links, Bilder)
-- Retweets, Favoriten, lokale und weltweite Trends, Nutzerprofile, Listen und vieles mehr
 - Favorisieren von Nutzern
 - Twitter durchsuchen
 - Tweets löschen, favorisieren, retweeten, zitieren und darauf antworten
@@ -64,16 +62,6 @@ XDA-Developers-Thread: coming soon
 Hier findest du zwei verschiedene Emoji-Plugins. Wähle, welches dir besser gefällt und kümmere dich anschließend nie wieder darum!
 Android: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial
 iOS 7: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios
-
-Erklärung der Berechtigungen:
-- "USB-Speicherinhalte ändern oder löschen": Ermöglicht das Speichern der Bilder auf den Massenspeicher und im Zwischenspeicher.
-- "USB-Speicherinhalte lesen": Wird benötigt, um die Einstellungen zu sichern.
-- "Standort": Wird zum laden der Trends und zum Anhängen des Standortes an Tweets verwendet.
-- "Voller Netzwerkzugriff": Sonst wäre eine Interaktion mit Twitter nicht möglich ;)
-- "Netzwerkverbindungen abrufen": Dadurch kann eingestellt werden, Daten nur bei einer WLAN-Verbindung im Hintergrund zu synchronisieren.
-- "Beim Start ausführen": Plant die Hintergrundaktualisierungen neu.
-- "Ruhezustand deaktivieren": Wird für Aktualisierung der Daten im Hintergrund und zum Aktivieren des Bildschirms verwendet.
-- "Vibrationsalarm steuern": Wird für die Benachrichtigungen verwendet.
 
 
 Credit:
