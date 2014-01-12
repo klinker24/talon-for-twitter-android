@@ -366,25 +366,27 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onDirectMessage(DirectMessage directMessage) {
-            Log.v("twitter_stream_push", "onDirectMessage text:"
-                    + directMessage.getText());
+            if (!directMessage.getSender().getScreenName().equals(settings.myScreenName)) {
+                Log.v("twitter_stream_push", "onDirectMessage text:"
+                        + directMessage.getText());
 
-            AppSettings settings = new AppSettings(mContext);
+                AppSettings settings = new AppSettings(mContext);
 
-            DMDataSource dataSource = new DMDataSource(mContext);
-            dataSource.open();
-            dataSource.createDirectMessage(directMessage, settings.currentAccount);
+                DMDataSource dataSource = new DMDataSource(mContext);
+                dataSource.open();
+                dataSource.createDirectMessage(directMessage, settings.currentAccount);
 
-            int numUnread = sharedPreferences.getInt("dm_unread_" + settings.currentAccount, 0);
-            numUnread++;
-            sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();
-            sharedPreferences.edit().putBoolean("refresh_me_dm", true).commit();
+                int numUnread = sharedPreferences.getInt("dm_unread_" + settings.currentAccount, 0);
+                numUnread++;
+                sharedPreferences.edit().putInt("dm_unread_" + settings.currentAccount, numUnread).commit();
+                sharedPreferences.edit().putBoolean("refresh_me_dm", true).commit();
 
-            if (settings.notifications) {
-                NotificationUtils.refreshNotification(mContext);
+                if (settings.notifications) {
+                    NotificationUtils.refreshNotification(mContext);
+                }
+
+                dataSource.close();
             }
-
-            dataSource.close();
         }
 
         @Override
