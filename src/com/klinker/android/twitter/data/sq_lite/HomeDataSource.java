@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 
 import com.klinker.android.twitter.utils.HtmlUtils;
 
@@ -15,6 +16,7 @@ public class HomeDataSource {
     // Database fields
     private SQLiteDatabase database;
     private HomeSQLiteHelper dbHelper;
+    private Context context;
     public static String[] allColumns = { HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_TWEET_ID, HomeSQLiteHelper.COLUMN_ACCOUNT, HomeSQLiteHelper.COLUMN_TYPE,
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
             HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
@@ -22,6 +24,7 @@ public class HomeDataSource {
 
     public HomeDataSource(Context context) {
         dbHelper = new HomeSQLiteHelper(context);
+        this.context = context;
     }
 
     public void open() throws SQLException {
@@ -116,38 +119,90 @@ public class HomeDataSource {
 
     public Cursor getCursor(int account) {
 
+        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }
 
     public Cursor getWidgetCursor(int account) {
 
+        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC");
+                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC");
 
         return cursor;
     }
 
     public Cursor getUnreadCursor(int account) {
 
+        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?";
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, where, new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }
 
     public Cursor getPicsCursor(int account) {
+
+        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'";
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'", null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }
 
     public Cursor getLinksCursor(int account) {
+
+        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'";
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'", null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }
