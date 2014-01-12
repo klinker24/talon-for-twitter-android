@@ -27,6 +27,7 @@ public class InteractionsDataSource {
     public static final int TYPE_RETWEET = 1;
     public static final int TYPE_FAVORITE = 2;
     public static final int TYPE_MENTION = 3;
+    public static final int TYPE_FAV_USER = 4;
 
     public InteractionsDataSource(Context context) {
         dbHelper = new InteractionsSQLiteHelper(context);
@@ -50,6 +51,30 @@ public class InteractionsDataSource {
         String users = "@" + user.getScreenName() + " ";
         String text = status.getText();
         String title = context.getResources().getString(R.string.mentioned_by) + " <b>@" + user.getScreenName() + "</b>";
+
+        values.put(InteractionsSQLiteHelper.COLUMN_ACCOUNT, account);
+        values.put(InteractionsSQLiteHelper.COLUMN_TEXT, text);
+        values.put(InteractionsSQLiteHelper.COLUMN_TWEET_ID, id);
+        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, user.getBiggerProfileImageURL());
+        values.put(InteractionsSQLiteHelper.COLUMN_TIME, time);
+        values.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
+        values.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
+        values.put(InteractionsSQLiteHelper.COLUMN_TYPE, type);
+        values.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
+
+        database.insert(InteractionsSQLiteHelper.TABLE_INTERACTIONS, null, values);
+    }
+
+    public void createFavoriteUserInter(Context context, Status status, int account) {
+        ContentValues values = new ContentValues();
+        long id = status.getId();
+        long time = new GregorianCalendar().getTime().getTime(); // current time
+        int type = TYPE_FAV_USER;
+
+        User user = status.getUser();
+        String users = "@" + user.getScreenName() + " ";
+        String text = status.getText();
+        String title = "<b>@" + user.getScreenName() + "</b> " + context.getResources().getString(R.string.tweeted);
 
         values.put(InteractionsSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(InteractionsSQLiteHelper.COLUMN_TEXT, text);

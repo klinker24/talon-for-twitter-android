@@ -440,12 +440,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     am.cancel(pendingIntent3);
 
                     SharedPreferences.Editor e = sharedPrefs.edit();
-
                     e.putString("timeline_sync_interval", "0");
                     e.putString("mentions_sync_interval", "0");
                     e.putString("dm_sync_interval", "0");
-                    //e.putBoolean("push_notifications", true);
-
                     e.commit();
                 } else {
                     timeline.setEnabled(true);

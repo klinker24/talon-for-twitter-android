@@ -271,6 +271,8 @@ public class TalonPullNotificationService extends Service {
 
                 if (favs.isFavUser(settings.currentAccount, status.getUser().getScreenName())) {
                     NotificationUtils.favUsersNotification(settings.currentAccount, mContext);
+                    interactions.createFavoriteUserInter(mContext, status, settings.currentAccount);
+                    sharedPreferences.edit().putBoolean("new_notification", true).commit();
                 }
             }
         }
@@ -279,6 +281,7 @@ public class TalonPullNotificationService extends Service {
         public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
             try {
                 home.deleteTweet(statusDeletionNotice.getStatusId());
+                sharedPreferences.edit().putBoolean("refresh_me", true).commit();
             } catch (Exception e) { }
         }
 

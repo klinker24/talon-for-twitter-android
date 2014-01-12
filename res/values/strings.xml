@@ -165,6 +165,7 @@
     <string name="from">From</string>
     <string name="save">Save</string>
     <string name="stop">Stop</string>
+    <string name="tweeted">tweeted</string> <!-- added -->
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
@@ -214,6 +215,8 @@
     <string name="no_conversation">No Previous Tweets</string>
     <string name="saving_picture">Saving the Picture</string>
     <string name="saved_picture">Picture Saved Successfully</string>
+    <string name="retweet_success">Retweet Successful</string> <!-- added -->
+    <string name="favorite_success">Favorite Successful</string> <!-- added -->
 
     <!-- User Lists -->
     <string name="view_users">View Users</string>
