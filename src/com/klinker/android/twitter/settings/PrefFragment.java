@@ -517,21 +517,25 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceClick(Preference preference) {
                 final String[] users = sharedPrefs.getString("muted_users", "").split(" ");
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setItems(users, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        String touched = users[item];
+                if (users.length == 0) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_users), Toast.LENGTH_SHORT);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(users, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String touched = users[item];
 
-                        Intent user = new Intent(context, UserProfileActivity.class);
-                        user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
-                        user.putExtra("proPic", "");
-                        context.startActivity(user);
+                            Intent user = new Intent(context, UserProfileActivity.class);
+                            user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
+                            user.putExtra("proPic", "");
+                            context.startActivity(user);
 
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
 
                 return false;
             }
@@ -1039,7 +1043,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent tweet = new Intent(getActivity(), ComposeActivity.class);
-                tweet.putExtra("user", "@lukeklinker @TalonAndroid");
+                tweet.putExtra("user", "@TalonAndroid");
                 startActivity(tweet);
                 return false;
             }

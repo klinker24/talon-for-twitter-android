@@ -827,7 +827,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             dataSource.markMultipleRead(text, DrawerActivity.settings.currentAccount);
         } catch (Exception e) {
-            
+
         }
     }
 }

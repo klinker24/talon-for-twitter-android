@@ -24,9 +24,8 @@
     <string name="menu_favorite">Favorite User</string>
     <string name="menu_unfavorite">Un-Favorite User</string>
     <string name="menu_create_list">Create New List</string>
-    <string name="menu_spam">Mark as Spam</string> <!-- added -->
+    <string name="menu_spam">Mark as Spam</string>
 
-    <!-- added -->
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
     <string name="just_now">just now</string>
@@ -37,11 +36,11 @@
     <string name="yesterday">yesterday</string>
     <string name="days_ago">%s days ago</string>
 
-    <!-- added -->
     <!-- Muting -->
     <string name="mute">Mute</string>
     <string name="unmute">Un-Mute</string>
     <string name="muted_users">Muted Users</string>
+    <string name="no_users">No Users</string>
 
     <!-- Main Activity -->
     <string name="links">Links</string>
@@ -105,7 +104,7 @@
     <string name="followed">followed you</string>
     <string name="new_retweets">retweets</string>
     <string name="new_favorites">favorites</string>
-    <string name="new_tweets_upper">New Tweets</string> <!-- added -->
+    <string name="new_tweets_upper">New Tweets</string>
 
     <!-- Login Screen -->
     <string name="setup_talon">Setup Talon</string>
@@ -173,7 +172,7 @@
     <string name="from">From</string>
     <string name="save">Save</string>
     <string name="stop">Stop</string>
-    <string name="tweeted">tweeted</string> <!-- added -->
+    <string name="tweeted">tweeted</string>
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
@@ -223,9 +222,9 @@
     <string name="no_conversation">No Previous Tweets</string>
     <string name="saving_picture">Saving the Picture</string>
     <string name="saved_picture">Picture Saved Successfully</string>
-    <string name="retweet_success">Retweet Successful</string> <!-- added -->
-    <string name="favorite_success">Favorite Successful</string> <!-- added -->
-    <string name="success">Success</string> <!-- added -->
+    <string name="retweet_success">Retweet Successful</string>
+    <string name="favorite_success">Favorite Successful</string>
+    <string name="success">Success</string>
 
     <!-- User Lists -->
     <string name="view_users">View Users</string>
@@ -324,12 +323,12 @@
         <string name="sync_failed">Sync Failed</string>
         <string name="push_notification_options">\"Push Notification\" Options</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).\n\nIt will also live stream tweets to your main timeline.</string> <!-- changed -->
+            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).\n\nIt will also live stream tweets to your main timeline.</string>
             <string name="push_notification_warning">To read more about this option, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>
         <string name="pebble_notifications">Pebble Notifications</string>
-        <string name="pebble_notifications_summary">Used with the Pebble smart watch.</string> <!-- added -->
+        <string name="pebble_notifications_summary">Used with the Pebble smart watch.</string>
 
     <string name="advanced_settings">Advanced Settings</string>
         <string name="app_feel_category">App Feel Options</string>
