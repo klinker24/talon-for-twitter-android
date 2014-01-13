@@ -418,6 +418,7 @@
     <!-- added after release -->
     <string name="use_inapp_browser">Use In-app Browser</string>
     <string name="dismiss_all">Dismiss All</string>
+    <string name="handle_and_name">Display handle and name</string>
 
 
 </resources>

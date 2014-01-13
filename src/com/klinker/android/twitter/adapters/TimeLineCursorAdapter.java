@@ -77,6 +77,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public static class ViewHolder {
         public TextView name;
+        public TextView screenTV;
         public ImageView profilePic;
         public TextView tweet;
         public TextView time;
@@ -166,6 +167,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
 
                     holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
+                    holder.screenTV = (TextView) v.findViewById(res.getIdentifier("screenname", "id", settings.addonThemePackage));
                     holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
                     holder.time = (TextView) v.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
                     holder.tweet = (TextView) v.findViewById(res.getIdentifier("tweet", "id", settings.addonThemePackage));
@@ -187,6 +189,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 v = inflater.inflate(layout, viewGroup, false);
 
                 holder.name = (TextView) v.findViewById(R.id.name);
+                holder.screenTV = (TextView) v.findViewById(R.id.screenname);
                 holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
                 holder.time = (TextView) v.findViewById(R.id.time);
                 holder.tweet = (TextView) v.findViewById(R.id.tweet);
@@ -207,6 +210,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             v = inflater.inflate(layout, viewGroup, false);
 
             holder.name = (TextView) v.findViewById(R.id.name);
+            holder.screenTV = (TextView) v.findViewById(R.id.screenname);
             holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
             holder.time = (TextView) v.findViewById(R.id.time);
             holder.tweet = (TextView) v.findViewById(R.id.tweet);
@@ -226,6 +230,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
+        holder.screenTV.setTextSize(settings.textSize - 2);
         holder.name.setTextSize(settings.textSize + 4);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
@@ -434,7 +439,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
+        if (!settings.showBoth) {
+            holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
+        } else {
+            if (holder.screenTV.getVisibility() == View.GONE) {
+                holder.screenTV.setVisibility(View.VISIBLE);
+            }
+            holder.name.setText(name);
+            holder.screenTV.setText("@" + screenname);
+        }
+
         holder.time.setText(Utils.getTimeAgo(longTime, context));
         holder.tweet.setText(Html.fromHtml(tweetText));
 

@@ -53,13 +53,22 @@
                 android:text="Name"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="8dp"/>
+
+            <com.klinker.android.twitter.ui.widgets.HoloTextView
+                android:id="@+id/screenname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginLeft="20dp"
+                android:textColor="?dateColor"
+                android:visibility="gone"/>
+
             <com.klinker.android.twitter.ui.widgets.HoloTextView
                 android:id="@+id/time"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginRight="2dp"
                 android:layout_marginStart="5dp"
-                android:textSize="11dp"
                 android:maxLines="1"
                 android:textStyle="italic"
                 android:textColor="?dateColor"
@@ -71,7 +80,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:textSize="14dp"
-                android:layout_below="@id/name"
+                android:paddingTop="3dp"
+                android:layout_below="@+id/screenname"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
                 android:paddingBottom="10dp"

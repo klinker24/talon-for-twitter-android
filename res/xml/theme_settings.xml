@@ -91,6 +91,12 @@
             />
 
         <CheckBoxPreference
+            android:key="both_handle_name"
+            android:title="@string/handle_and_name"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
             android:key="display_screen_name"
             android:title="@string/use_screen_name"
             android:summary="@string/use_screen_name_summary"
