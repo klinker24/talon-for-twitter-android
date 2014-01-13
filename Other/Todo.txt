@@ -24,5 +24,3 @@
     -- mute hashtags
     -- dismiss all in notification drawer
     -- gif stuff on webview
-    -- high quality images in picture viewer
-    -- open directly to external browser

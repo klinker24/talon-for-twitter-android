@@ -443,7 +443,7 @@ public class TweetFragment extends Fragment {
                                     search.putExtra(SearchManager.QUERY, touched);
                                     context.startActivity(search);
                                 }
-                                
+
                                 dialog.dismiss();
                             }
                         });

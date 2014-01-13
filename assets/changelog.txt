@@ -1,6 +1,7 @@
 <b>Version 1.02:</b> Crashes and more bugs :)<br/><br/>
     &#8226; Correctly mute retweets<br/>
     &#8226; Higher quality images on timeline<br/>
+    &#8226; In-app browser is now optional<br/>
     &#8226; Lowered swipe length for Pull to Refresh<br/>
     &#8226; Open app from clicking icon on widget<br/>
     &#8226; Finished German translation<br/>
