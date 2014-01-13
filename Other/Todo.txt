@@ -26,3 +26,4 @@
     -- show both handle and name
     -- Option for live streaming
     -- mute hashtags
+    -- check mentions before inserting

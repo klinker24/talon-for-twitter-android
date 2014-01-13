@@ -234,7 +234,9 @@ public class TalonPullNotificationService extends Service {
                 if (!status.isRetweet()) { // it is a normal mention
                     MentionsDataSource dataSource = new MentionsDataSource(mContext);
                     dataSource.open();
-                    dataSource.createTweet(status, settings.currentAccount);
+                    if (!dataSource.tweetExists(status.getId(), settings.currentAccount)) {
+                        dataSource.createTweet(status, settings.currentAccount);
+                    }
                     interactions.createMention(mContext, status, settings.currentAccount);
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
                     sharedPreferences.edit().putBoolean("refresh_me_mentions", true).commit();
@@ -261,7 +263,9 @@ public class TalonPullNotificationService extends Service {
             }
 
             if (!(status.isRetweet() && home.tweetExists(status.getRetweetedStatus().getId(), settings.currentAccount))) {
-                home.createTweet(status, settings.currentAccount);
+                if (!home.tweetExists(status.getId(), settings.currentAccount)) {
+                    home.createTweet(status, settings.currentAccount);
+                }
 
                 mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                 mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));

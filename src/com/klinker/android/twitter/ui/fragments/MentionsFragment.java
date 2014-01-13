@@ -333,7 +333,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            dataSource.createTweet(status, currentAccount);
+                            if (!dataSource.tweetExists(status.getId(), currentAccount)) {
+                                dataSource.createTweet(status, currentAccount);
+                            }
                         } catch (Exception e) {
                             break;
                         }
