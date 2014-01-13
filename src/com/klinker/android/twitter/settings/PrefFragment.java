@@ -334,7 +334,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 } else {
                     showHandle.setEnabled(false);
                 }
-                
+
                 return true;
             }
         });
