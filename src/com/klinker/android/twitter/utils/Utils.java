@@ -43,9 +43,8 @@ public class Utils {
     }
 
     public static TwitterStream getStreamingTwitter(Context context, AppSettings settings) {
-        if (settings == null) {
-            settings = new AppSettings(context);
-        }
+        settings = new AppSettings(context);
+
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY)
