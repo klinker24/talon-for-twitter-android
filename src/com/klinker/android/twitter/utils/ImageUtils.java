@@ -379,13 +379,13 @@ public class ImageUtils {
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    //Bitmap b = BitmapFactory.decodeStream(is);
+                    Bitmap b = BitmapFactory.decodeStream(is);
 
-                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    /*BitmapFactory.Options options = new BitmapFactory.Options();
                     options.inJustDecodeBounds = true;
                     BitmapFactory.decodeStream(is, null, options);
 
-                    int size = calculateInSampleSize(options, 200, 200);
+                    int size = 1;//calculateInSampleSize(options, 200, 200);
                     Log.v("caching_images", size +"");
 
                     options = new BitmapFactory.Options();
@@ -394,7 +394,7 @@ public class ImageUtils {
 
                     HttpURLConnection conn2 = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is2 = new BufferedInputStream(conn2.getInputStream());
-                    Bitmap b = BitmapFactory.decodeStream(is2, null, options);
+                    Bitmap b = BitmapFactory.decodeStream(is2, null, options);*/
 
                     // Add to cache
                     result = mCache.put(url, b);

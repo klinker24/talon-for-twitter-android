@@ -8,14 +8,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,9 +27,15 @@ import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.IOUtils;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
+import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -36,6 +45,7 @@ public class PhotoViewerDialog extends Activity {
     public HoloEditText text;
     public ListView list;
     public String url;
+    public NetworkedCacheableImageView picture;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +73,7 @@ public class PhotoViewerDialog extends Activity {
             url = url.substring(0, url.length() - 1) + "l";
         }
 
-        NetworkedCacheableImageView picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
+        picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
         picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
@@ -151,4 +161,35 @@ public class PhotoViewerDialog extends Activity {
         });
     }
 
+    private class DownloadPic extends AsyncTask<String, Void, Bitmap> {
+
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
+
+                // The bitmap isn't cached so download from the web
+                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                Bitmap b = BitmapFactory.decodeStream(is);
+
+                return b;
+
+            } catch (IOException e) {
+                Log.e("ImageUrlAsyncTask", e.toString());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+
+            if (result != null) {
+
+            }
+        }
+    }
 }

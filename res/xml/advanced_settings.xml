@@ -27,6 +27,12 @@
                 android:defaultValue="true"
                 />
 
+        <CheckBoxPreference
+            android:key="inapp_browser"
+            android:title="@string/use_inapp_browser"
+            android:defaultValue="true"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory
