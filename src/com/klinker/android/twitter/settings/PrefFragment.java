@@ -250,6 +250,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     sharedPrefs.edit().putString("addon_theme_package", null).commit();
                     addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
                     new TrimCache(null).execute();
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                     return true;
                 }
 
@@ -309,6 +310,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         }
 
                         new TrimCache(null).execute();
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                     }
 
                 });

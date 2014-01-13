@@ -18,4 +18,3 @@
 
     -- Double DM's when you send a new one
     -- Test the mark read on live stream
-    -- make sure feature link works for muted users

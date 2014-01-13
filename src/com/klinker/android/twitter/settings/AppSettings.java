@@ -240,6 +240,8 @@ public class AppSettings {
             translateProfileHeader = true;
         }
 
+        Log.v("talon_settings_contact", roundContactImages + "");
+
         int count = 0;
         if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
             count++;
