@@ -319,6 +319,25 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return true;
             }
         });
+
+        final Preference showHandle = findPreference("display_screen_name");
+        if (sharedPrefs.getBoolean("both_handle_name", false)) {
+            showHandle.setEnabled(false);
+        }
+
+        final Preference both = findPreference("both_handle_name");
+        both.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (((CheckBoxPreference)both).isChecked()) {
+                    showHandle.setEnabled(true);
+                } else {
+                    showHandle.setEnabled(false);
+                }
+                
+                return true;
+            }
+        });
     }
 
     public String getTime(int hours, int mins, boolean militaryTime) {
@@ -805,6 +824,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 am.cancel(pendingIntent);
         } else if (key.equals("layout")) {
             new TrimCache(null).execute();
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         }
 
     }

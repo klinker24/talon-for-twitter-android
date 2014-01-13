@@ -4,8 +4,10 @@
     &#8226; Dismiss all on interactions drawer<br/>
     &#8226; In-app browser is now optional<br/>
     &#8226; Lowered swipe length for Pull to Refresh<br/>
+    &#8226; Option to display both screenname and name on timeline tweets<br/>
     &#8226; Open app from clicking icon on widget<br/>
     &#8226; Finished German translation<br/>
+    &#8226; Fixed contact images on layout change<br/>
     &#8226; Attempted fixes for Play Store crash reports<br/>
 <br/>
 

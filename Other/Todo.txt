@@ -21,5 +21,4 @@
 
     -- Double DM's when you send a new one
     -- change the picture loading to like it is with emojis
-    -- show both handle and name
     -- mute hashtags
