@@ -142,7 +142,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             }
 
             // a new follower, open up the followers profile
-            String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.length());
+            String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
 
             Intent user = new Intent(context, UserProfileActivity.class);
             user.putExtra("screenname", username);
