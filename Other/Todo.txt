@@ -8,6 +8,7 @@
     - scheduling tweets
     - different image uploading service
     - widget with just the unread numbers on it
+    - tweetmarker
 
 - Bugs:
 

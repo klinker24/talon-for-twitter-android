@@ -1,4 +1,4 @@
-<b>Version 1.02:</b> Crashes and more bugs :)<br/><br/>
+<b>Version 1.02:</b> Features, crashes, and more bugs :)<br/><br/>
     &#8226; Correctly mute retweets<br/>
     &#8226; Higher quality images on timeline<br/>
     &#8226; Dismiss all on interactions drawer<br/>
