@@ -1,6 +1,8 @@
 <b>Version 1.02:</b> Crashes and more bugs :)<br/><br/>
     &#8226; Correctly mute retweets<br/>
-    &#8226; Open app from clicking icon on widget<br/><br/>
+    &#8226; Lowered swipe length for Pull to Refresh<br/>
+    &#8226; Open app from clicking icon on widget<br/>
+    &#8226; Attempted fixes for Play Store crash reports<br/>
 <br/>
 
 <b>Version 1.01:</b> Bug here, bug there. Some nice fixes :)<br/><br/>

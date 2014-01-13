@@ -21,7 +21,5 @@
     -- Double DM's when you send a new one
     -- change the picture loading to like it is with emojis
     -- show both handle and name
-    -- Optional for live streaming
     -- mute hashtags
     -- dismiss all in notification drawer
-    -- pull to refresh distance
