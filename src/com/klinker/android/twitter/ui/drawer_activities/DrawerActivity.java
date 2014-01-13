@@ -490,7 +490,11 @@ public abstract class DrawerActivity extends Activity {
         }
 
         if(!settings.pushNotifications) {
-            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+            try {
+                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+            } catch (Exception e) {
+                // no drawer?
+            }
         } else {
             data = new InteractionsDataSource(context);
             data.open();
