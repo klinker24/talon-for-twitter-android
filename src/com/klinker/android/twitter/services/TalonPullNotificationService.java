@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
@@ -23,19 +22,15 @@ import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.RedirectToPopup;
 import com.klinker.android.twitter.utils.Utils;
 
-import java.util.concurrent.ExecutionException;
 
 import twitter4j.DirectMessage;
-import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
-import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.User;
 import twitter4j.UserList;
@@ -216,7 +211,7 @@ public class TalonPullNotificationService extends Service {
             } catch (Exception e) { }
 
             settings = new AppSettings(context);
-            pushStream = Utils.getStreamingTwitter(context, DrawerActivity.settings);
+            pushStream = Utils.getStreamingTwitter(context, settings);
 
             String myName = settings.myScreenName;
             Log.v("twitter_stream_push", "my id: " + myName + "");
