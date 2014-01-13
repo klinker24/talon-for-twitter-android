@@ -66,6 +66,8 @@ public class TalonPullNotificationService extends Service {
         favs = new FavoriteUsersDataSource(this);
         favs.open();
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
@@ -110,7 +112,6 @@ public class TalonPullNotificationService extends Service {
         startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
 
         mContext = getApplicationContext();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         interactions = new InteractionsDataSource(mContext);
         interactions.open();
 

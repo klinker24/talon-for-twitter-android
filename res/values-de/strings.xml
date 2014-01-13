@@ -26,22 +26,20 @@
     <string name="menu_create_list">Neue Liste erstellen</string>
     <string name="menu_spam">Mark as Spam</string> <!-- added -->
 
-    <!-- added -->
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
-    <string name="just_now">just now</string>
-    <string name="a_min_ago">a minute ago</string>
-    <string name="minutes_ago">%s minutes ago</string>
-    <string name="an_hour_ago">an hour ago</string>
-    <string name="hours_ago">%s hours ago</string>
-    <string name="yesterday">yesterday</string>
-    <string name="days_ago">%s days ago</string>
+    <string name="just_now">jetzt</string>
+    <string name="a_min_ago">vor einer Minute</string>
+    <string name="minutes_ago">vor %s Minuten</string>
+    <string name="an_hour_ago">vor einer Stunde</string>
+    <string name="hours_ago">vor %s Stunden</string>
+    <string name="yesterday">gestern</string>
+    <string name="days_ago">vor %s Tagen</string>
 
-    <!-- added -->
     <!-- Muting -->
-    <string name="mute">Mute</string>
-    <string name="unmute">Un-Mute</string>
-    <string name="muted_users">Muted Users</string>
+    <string name="mute">Stummschalten</string>
+    <string name="unmute">Lautschalten</string>
+    <string name="muted_users">Stummgeschaltene Nutzer</string>
 
     <!-- Main Activity -->
     <string name="links">Links</string>
