@@ -23,5 +23,6 @@
     -- change the links to the xda thread on the play store description
     -- add the rest of the german strings
     -- open the app from the icon on the widget
-    -- look into the live streaming problem
+    -- look into the live streaming problem (http://pastebin.com/73vwA092)
     -- show both handle and name
+    -- Option for live streaming

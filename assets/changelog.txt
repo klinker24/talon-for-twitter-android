@@ -1,5 +1,5 @@
 <b>Version 1.01:</b> Bug here, bug there. Some nice fixes :)<br/><br/>
-    &#8226; Should fix the problem with
+    &#8226; Should fix the problem with Talon Pull not working right for some<br/>
 
 <b>Version 1.00:</b> Ahh finally a release, and a huge update along with it.<br/><br/>
     &#8226; "Talon Pull" for push notifications and live streaming... AWESOME feature :) <br/>
