@@ -308,6 +308,7 @@ public class LoginActivity extends Activity {
             try {
                 requestToken = twitter.getOAuthRequestToken("oauth:///talonforandroid");
             } catch (TwitterException ex) {
+                ex.printStackTrace();
                 Looper.prepare();
                 restartLogin();
             }
