@@ -4,7 +4,6 @@ import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -31,7 +30,6 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
-import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
@@ -54,7 +52,6 @@ import de.timroes.android.listview.EnhancedListView;
 import org.lucasr.smoothie.AsyncListView;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 public abstract class DrawerActivity extends Activity {
 
@@ -182,6 +179,8 @@ public abstract class DrawerActivity extends Activity {
                     } catch (Exception e) {
                         // don't have talon pull on
                     }
+
+                    invalidateOptionsMenu();
                 }
 
                 public void onDrawerOpened(View drawerView) {
@@ -199,6 +198,8 @@ public abstract class DrawerActivity extends Activity {
                     } catch (Exception e) {
                         // don't have talon pull on
                     }
+
+                    invalidateOptionsMenu();
                 }
 
                 public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -501,7 +502,7 @@ public abstract class DrawerActivity extends Activity {
             notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
             notificationList.setAdapter(notificationAdapter);
 
-            View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer, null);
+            View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer_1, null);
             notificationList.addFooterView(viewHeader, null, false);
             oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
             readButton = (ImageView) findViewById(R.id.read_button);
@@ -730,9 +731,21 @@ public abstract class DrawerActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+            menu.getItem(3).setVisible(false);
+        } else {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+            menu.getItem(3).setVisible(true);
+        }
+
         if (MainActivity.isPopup) {
-            menu.getItem(3).setVisible(false); // hide the settings button if the popup is up
-            menu.getItem(0).setVisible(false); // hide the search button in popup
+            menu.getItem(4).setVisible(false); // hide the settings button if the popup is up
+            menu.getItem(1).setVisible(false); // hide the search button in popup
 
             // disable the left drawer so they can't switch activities in the popup.
             // causes problems with the layouts
@@ -782,6 +795,13 @@ public abstract class DrawerActivity extends Activity {
                 finish();
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                 startActivity(settings);
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_dismiss:
+                data.markAllRead(DrawerActivity.settings.currentAccount);
+                mDrawerLayout.closeDrawer(Gravity.END);
+                notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                notificationList.setAdapter(notificationAdapter);
                 return super.onOptionsItemSelected(item);
 
             default:

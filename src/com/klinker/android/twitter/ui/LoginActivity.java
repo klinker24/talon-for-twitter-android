@@ -191,16 +191,16 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View arg0) {
                 // Call login_activity twitter function
-                if (btnLoginTwitter.getText().equals(getResources().getString(R.string.login_to_twitter))) {
+                if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.login_to_twitter))) {
                     if (Utils.hasInternetConnection(context)) {
                         btnLoginTwitter.setEnabled(false);
                         new RetreiveFeedTask().execute();
                     } else {
                         Toast.makeText(context, getResources().getString(R.string.no_network) + "!", Toast.LENGTH_SHORT).show();
                     }
-                } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.initial_sync))) {
+                } else if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
-                } else if (btnLoginTwitter.getText().equals(getResources().getString(R.string.no_thanks))) {
+                } else if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.no_thanks))) {
                     btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
                     noThanks.setVisibility(View.GONE);
 

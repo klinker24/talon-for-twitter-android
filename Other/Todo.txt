@@ -23,4 +23,3 @@
     -- show both handle and name
     -- mute hashtags
     -- dismiss all in notification drawer
-    -- gif stuff on webview

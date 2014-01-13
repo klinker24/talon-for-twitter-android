@@ -417,6 +417,7 @@
 
     <!-- added after release -->
     <string name="use_inapp_browser">Use In-app Browser</string>
+    <string name="dismiss_all">Dismiss All</string>
 
 
 </resources>
