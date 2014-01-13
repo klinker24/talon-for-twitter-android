@@ -128,6 +128,10 @@ public class HomeDataSource {
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
             }
+
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -145,6 +149,10 @@ public class HomeDataSource {
             String[] split = users.split(" ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
         }
 
@@ -164,6 +172,10 @@ public class HomeDataSource {
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
             }
+
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -182,6 +194,10 @@ public class HomeDataSource {
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
             }
+
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -199,6 +215,10 @@ public class HomeDataSource {
             String[] split = users.split(" ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
         }
 

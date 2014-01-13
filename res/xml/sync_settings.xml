@@ -12,6 +12,13 @@
             android:defaultValue="true"
             />
 
+        <CheckBoxPreference
+            android:key="live_streaming"
+            android:title="@string/live_streaming"
+            android:summary="@string/live_streaming_summary"
+            android:defaultValue="true"
+            />
+
         <Preference
             android:summary="@string/push_notification_warning" >
             <intent android:action="android.intent.action.VIEW"

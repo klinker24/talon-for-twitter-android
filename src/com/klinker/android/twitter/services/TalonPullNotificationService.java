@@ -84,11 +84,19 @@ public class TalonPullNotificationService extends Service {
         remoteView.setOnClickPendingIntent(R.id.popup_button, stopPending);
         remoteView.setImageViewResource(R.id.icon, R.drawable.ic_stat_icon);*/
 
+        String text;
+
+        if (settings.liveStreaming) {
+            text = getResources().getString(R.string.new_tweets_upper) + ": " + home.getUnreadCount(sharedPreferences.getInt("current_account", 1));
+        } else {
+            text = getResources().getString(R.string.listening_for_mentions) + "...";
+        }
+
         mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.color.transparent)
                         .setContentTitle(getResources().getString(R.string.talon_pull))
-                        .setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + home.getUnreadCount(sharedPreferences.getInt("current_account", 1)))
+                        .setContentText(text)
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
 
@@ -127,13 +135,15 @@ public class TalonPullNotificationService extends Service {
         filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
         registerReceiver(stopService, filter);
 
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.UPDATE_NOTIF");
-        registerReceiver(updateNotification, filter);
+        if (settings.liveStreaming) {
+            filter = new IntentFilter();
+            filter.addAction("com.klinker.android.twitter.UPDATE_NOTIF");
+            registerReceiver(updateNotification, filter);
 
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
-        registerReceiver(updateNotification, filter);
+            filter = new IntentFilter();
+            filter.addAction("com.klinker.android.twitter.NEW_TWEET");
+            registerReceiver(updateNotification, filter);
+        }
 
         mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
 
@@ -263,21 +273,23 @@ public class TalonPullNotificationService extends Service {
                 }
             }
 
-            if (!(status.isRetweet() && home.tweetExists(status.getRetweetedStatus().getId(), sharedPreferences.getInt("current_account", 1)))) {
-                if (!home.tweetExists(status.getId(), sharedPreferences.getInt("current_account", 1))) {
-                    home.createTweet(status, sharedPreferences.getInt("current_account", 1));
-                }
+            if (settings.liveStreaming) {
+                if (!(status.isRetweet() && home.tweetExists(status.getRetweetedStatus().getId(), sharedPreferences.getInt("current_account", 1)))) {
+                    if (!home.tweetExists(status.getId(), sharedPreferences.getInt("current_account", 1))) {
+                        home.createTweet(status, sharedPreferences.getInt("current_account", 1));
+                    }
 
-                mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
-                mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
+                    mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
+                    mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
 
-                sharedPreferences.edit().putBoolean("refresh_me", true).commit();
-                sharedPreferences.edit().putLong("second_last_tweet_id_" + sharedPreferences.getInt("current_account", 1), home.getLastId(sharedPreferences.getInt("current_account", 1)));
+                    sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+                    sharedPreferences.edit().putLong("second_last_tweet_id_" + sharedPreferences.getInt("current_account", 1), home.getLastId(sharedPreferences.getInt("current_account", 1)));
 
-                if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName())) {
-                    NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
-                    interactions.createFavoriteUserInter(mContext, status, sharedPreferences.getInt("current_account", 1));
-                    sharedPreferences.edit().putBoolean("new_notification", true).commit();
+                    if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName())) {
+                        NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
+                        interactions.createFavoriteUserInter(mContext, status, sharedPreferences.getInt("current_account", 1));
+                        sharedPreferences.edit().putBoolean("new_notification", true).commit();
+                    }
                 }
             }
         }

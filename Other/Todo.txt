@@ -6,6 +6,7 @@
     - Get more tweets when you get to the bottom of profiles
     - To first in action bar
     - scheduling tweets
+    - different image uploading service
 
 - Bugs:
 
@@ -18,7 +19,6 @@
 
     -- Double DM's when you send a new one
     -- change the picture loading to like it is with emojis
-    -- open the app from the icon on the widget
     -- show both handle and name
     -- Optional for live streaming
     -- mute hashtags

@@ -421,6 +421,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             mobileOnly.setEnabled(false);
         }
 
+        final Preference stream = findPreference("live_streaming");
+        stream.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                return true;
+            }
+        });
+
         final Preference pull = findPreference("push_notifications");
         pull.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
