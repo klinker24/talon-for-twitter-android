@@ -122,6 +122,7 @@ public class WidgetProvider extends AppWidgetProvider {
                 views.setEmptyView(R.id.widgetList, R.color.light_background);
 
                 views.setOnClickPendingIntent(R.id.textView1, openAppPending);
+                views.setOnClickPendingIntent(R.id.launcherIcon, openAppPending);
                 views.setOnClickPendingIntent(R.id.replyButton, quickPending);
                 views.setOnClickPendingIntent(R.id.syncButton, refreshPending);
 

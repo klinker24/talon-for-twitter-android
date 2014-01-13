@@ -5,6 +5,7 @@
     - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles
     - To first in action bar
+    - scheduling tweets
 
 - Bugs:
 
@@ -17,10 +18,9 @@
 
     -- Double DM's when you send a new one
     -- change the picture loading to like it is with emojis
-    -- add the rest of the german strings
     -- open the app from the icon on the widget
     -- show both handle and name
-    -- Option for live streaming
+    -- Optional for live streaming
     -- mute hashtags
     -- dismiss all in notification drawer
     -- pull to refresh distance
