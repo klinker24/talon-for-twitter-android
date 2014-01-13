@@ -13,7 +13,6 @@
 
 -- For Release --
 
-    -- Change the @ sign on the gitub theme
     -- Look back 5 tweets on timeline and mentions refreshes
 
     -- Double DM's when you send a new one

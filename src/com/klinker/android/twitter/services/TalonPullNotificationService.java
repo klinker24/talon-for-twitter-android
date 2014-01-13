@@ -272,6 +272,7 @@ public class TalonPullNotificationService extends Service {
                 mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
 
                 sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+                sharedPreferences.edit().putLong("second_last_tweet_id_" + settings.currentAccount, home.getLastId(settings.currentAccount));
 
                 if (favs.isFavUser(settings.currentAccount, status.getUser().getScreenName())) {
                     NotificationUtils.favUsersNotification(settings.currentAccount, mContext);
