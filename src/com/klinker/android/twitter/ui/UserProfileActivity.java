@@ -595,13 +595,18 @@ public class UserProfileActivity extends Activity {
                 });
             }
 
-            if(settings.roundContactImages) {
-                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
-                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-            } else {
-                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
-                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+            try {
+                if(settings.roundContactImages) {
+                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                } else {
+                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                }
+            } catch (Exception e) {
+
             }
+
 
             String url;
             try {

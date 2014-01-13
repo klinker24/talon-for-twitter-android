@@ -122,7 +122,7 @@ public class TweetFragment extends Fragment {
         this.isMyTweet = isMyTweet;
         this.otherLinks = links;
     }
-    
+
     public TweetFragment() {
         this.settings = null;
 
@@ -902,30 +902,34 @@ public class TweetFragment extends Fragment {
     }
 
     public void makeFailedNotification(String text) {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.timeline_dark)
-                        .setContentTitle(getResources().getString(R.string.tweet_failed))
-                        .setContentText(getResources().getString(R.string.tap_to_retry));
+        try {
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.drawable.timeline_dark)
+                            .setContentTitle(getResources().getString(R.string.tweet_failed))
+                            .setContentText(getResources().getString(R.string.tap_to_retry));
 
-        Intent resultIntent = new Intent(context, RetryCompose.class);
-        resultIntent.setAction(Intent.ACTION_SEND);
-        resultIntent.setType("text/plain");
-        resultIntent.putExtra(Intent.EXTRA_TEXT, text);
-        resultIntent.putExtra("failed_notification", true);
+            Intent resultIntent = new Intent(context, RetryCompose.class);
+            resultIntent.setAction(Intent.ACTION_SEND);
+            resultIntent.setType("text/plain");
+            resultIntent.putExtra(Intent.EXTRA_TEXT, text);
+            resultIntent.putExtra("failed_notification", true);
 
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        context,
-                        0,
-                        resultIntent,
-                        0
-                );
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            context,
+                            0,
+                            resultIntent,
+                            0
+                    );
 
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(5, mBuilder.build());
+            mBuilder.setContentIntent(resultPendingIntent);
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(5, mBuilder.build());
+        } catch (Exception e) {
+
+        }
     }
 
     private static final int SELECT_PHOTO = 100;

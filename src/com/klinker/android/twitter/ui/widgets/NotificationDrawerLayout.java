@@ -660,9 +660,13 @@ public class NotificationDrawerLayout extends ViewGroup {
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
 
             if (isContentView(child)) {
-                child.layout(lp.leftMargin, lp.topMargin,
-                        lp.leftMargin + child.getMeasuredWidth(),
-                        lp.topMargin + child.getMeasuredHeight());
+                try {
+                    child.layout(lp.leftMargin, lp.topMargin,
+                            lp.leftMargin + child.getMeasuredWidth(),
+                            lp.topMargin + child.getMeasuredHeight());
+                } catch (Exception e) {
+
+                }
             } else { // Drawer, if it wasn't onMeasure would have thrown an exception.
                 final int childWidth = child.getMeasuredWidth();
                 final int childHeight = child.getMeasuredHeight();

@@ -89,8 +89,12 @@ public class ListsActivity extends DrawerActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        try {
+            if (mDrawerToggle.onOptionsItemSelected(item)) {
+                return true;
+            }
+        } catch (Exception e) {
+            
         }
 
         switch (item.getItemId()) {
@@ -161,8 +165,10 @@ public class ListsActivity extends DrawerActivity {
 
         protected void onPostExecute(ResponseList<UserList> lists) {
 
-            listView.setAdapter(new ListsArrayAdapter(context, lists));
-            listView.setVisibility(View.VISIBLE);
+            if (lists != null) {
+                listView.setAdapter(new ListsArrayAdapter(context, lists));
+                listView.setVisibility(View.VISIBLE);
+            }
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
