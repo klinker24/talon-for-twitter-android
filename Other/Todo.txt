@@ -27,3 +27,4 @@
     -- Option for live streaming
     -- mute hashtags
     -- dismiss all in notification drawer
+    -- pull to refresh distance
