@@ -16,4 +16,6 @@
     -- Look back 5 tweets on timeline and mentions refreshes
 
     -- Double DM's when you send a new one
-    -- Test the mark read on live stream
+    -- Followed you from interactions drawer
+    -- revert retweet ids
+    -- change the picture loading to like it is with emojis
