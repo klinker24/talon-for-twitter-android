@@ -58,7 +58,7 @@ E-Mail: klinkerapps@gmail.com
 Mein Twitter: @lukeklinker
 Talons Twitter: @TalonAndroid
 Google+-Beta-Community: http://goo.gl/KCXlZk
-XDA-Developers-Thread: coming soon
+XDA-Developers-Thread: http://forum.xda-developers.com/showthread.php?t=2608962
 
 Hier findest du zwei verschiedene Emoji-Plugins. Wähle, welches dir besser gefällt und kümmere dich anschließend nie wieder darum!
 Android: https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial
