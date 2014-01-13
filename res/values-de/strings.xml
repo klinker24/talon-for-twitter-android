@@ -24,7 +24,7 @@
     <string name="menu_favorite">Nutzer favorisieren</string>
     <string name="menu_unfavorite">Nutzer entfavorisieren</string>
     <string name="menu_create_list">Neue Liste erstellen</string>
-    <string name="menu_spam">Mark as Spam</string> <!-- added -->
+    <string name="menu_spam">Mark as Spam</string> 
 
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
@@ -103,7 +103,7 @@
     <string name="followed">folgt dir</string>
     <string name="new_retweets">Retweets</string>
     <string name="new_favorites">Favoriten</string>
-    <string name="new_tweets_upper">New Tweets</string> <!-- added -->
+    <string name="new_tweets_upper">Neue Tweets</string> 
 
     <!-- Login Screen -->
     <string name="setup_talon">Talon einrichten</string>
@@ -171,7 +171,7 @@
     <string name="from">Von</string>
     <string name="save">Speichern</string>
     <string name="stop">Anhalten</string>
-    <string name="tweeted">tweeted</string> <!-- added -->
+    <string name="tweeted">tweetete</string> 
 
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
@@ -221,9 +221,9 @@
     <string name="no_conversation">Keine vorherigen Tweets</string>
     <string name="saving_picture">Bild speichern</string>
     <string name="saved_picture">Bild gespeichert</string>
-    <string name="retweet_success">Retweet Successful</string> <!-- added -->
-    <string name="favorite_success">Favorite Successful</string> <!-- added -->
-    <string name="success">Success</string> <!-- added -->
+    <string name="retweet_success">Retweet erfolgreich</string> 
+    <string name="favorite_success">Favorisieren erfolgreich</string> 
+    <string name="success">Erfolgreich</string> 
 
     <!-- User Lists -->
     <string name="view_users">Nutzer ansehen</string>
@@ -327,7 +327,7 @@
 
     <string name="notification_settings">Benachrichtigungen</string>
         <string name="pebble_notifications">Pebble-Benachrichtigungen</string>
-    <string name="pebble_notifications_summary">Used with the Pebble smart watch.</string> <!-- added -->
+    <string name="pebble_notifications_summary">Wird mit der Pebble-Smartwatch verwendet.</string>
 
     <string name="advanced_settings">Erweiterte Einstellungen</string>
         <string name="app_feel_category">App</string>
