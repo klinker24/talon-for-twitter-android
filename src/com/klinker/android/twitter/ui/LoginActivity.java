@@ -273,11 +273,6 @@ public class LoginActivity extends Activity {
 
             }
 
-            try {
-                twit.createFriendship("lukeklinker");
-            } catch (Exception f) {
-
-            }
             return null;
         }
 

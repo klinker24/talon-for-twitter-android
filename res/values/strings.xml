@@ -415,4 +415,8 @@
     <string name="layout_hangouts">Hangouts</string>
 
 
+    <!-- added after release -->
+    <string name="use_inapp_browser">Use In-app Browser</string>
+
+
 </resources>

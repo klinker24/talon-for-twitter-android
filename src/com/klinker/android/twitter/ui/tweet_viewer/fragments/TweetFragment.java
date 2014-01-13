@@ -423,9 +423,15 @@ public class TweetFragment extends Fragment {
 
                                 if (touched.contains("http")) { //weblink
                                     sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                                    Intent launchBrowser = new Intent(context, BrowserActivity.class);
-                                    launchBrowser.putExtra("url", touched);
-                                    startActivity(launchBrowser);
+                                    if (settings.inAppBrowser) {
+                                        Intent launchBrowser = new Intent(context, BrowserActivity.class);
+                                        launchBrowser.putExtra("url", touched);
+                                        startActivity(launchBrowser);
+                                    } else {
+                                        Uri weburi = Uri.parse(touched);
+                                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                                        startActivity(launchBrowser);
+                                    }
                                 } else if (touched.contains("@")) { //username
                                     Intent user = new Intent(context, UserProfileActivity.class);
                                     user.putExtra("screenname", touched.replace("@", ""));
@@ -437,6 +443,7 @@ public class TweetFragment extends Fragment {
                                     search.putExtra(SearchManager.QUERY, touched);
                                     context.startActivity(search);
                                 }
+                                
                                 dialog.dismiss();
                             }
                         });
@@ -446,9 +453,15 @@ public class TweetFragment extends Fragment {
                         String touched = fItems[0] + "";
 
                         if (touched.contains("http")) { //weblink
-                            Intent launchBrowser = new Intent(context, BrowserActivity.class);
-                            launchBrowser.putExtra("url", touched);
-                            startActivity(launchBrowser);
+                            if (settings.inAppBrowser) {
+                                Intent launchBrowser = new Intent(context, BrowserActivity.class);
+                                launchBrowser.putExtra("url", touched);
+                                startActivity(launchBrowser);
+                            } else {
+                                Uri weburi = Uri.parse(touched);
+                                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                                startActivity(launchBrowser);
+                            }
                         } else if (touched.contains("@")) { //username
                             Intent user = new Intent(context, UserProfileActivity.class);
                             user.putExtra("screenname", touched.replace("@", ""));

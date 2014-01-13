@@ -62,6 +62,7 @@ public class AppSettings {
     public boolean displayScreenName;
     public boolean liveStreaming;
     public boolean pushNotifications;
+    public boolean inAppBrowser;
 
     // theme stuff
     public boolean addonTheme;
@@ -136,6 +137,7 @@ public class AppSettings {
         displayScreenName = sharedPrefs.getBoolean("display_screen_name", false);
         liveStreaming = sharedPrefs.getBoolean("live_streaming", true);
         pushNotifications = sharedPrefs.getBoolean("push_notifications", true);
+        inAppBrowser = sharedPrefs.getBoolean("inapp_browser", true);
 
         if (pushNotifications) {
             //liveStreaming = false;
