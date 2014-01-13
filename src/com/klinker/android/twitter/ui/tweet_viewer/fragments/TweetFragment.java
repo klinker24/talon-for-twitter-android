@@ -122,6 +122,24 @@ public class TweetFragment extends Fragment {
         this.isMyTweet = isMyTweet;
         this.otherLinks = links;
     }
+    
+    public TweetFragment() {
+        this.settings = null;
+
+        this.name = "";
+        this.screenName = "";
+        this.tweet = "";
+        this.time = 0;
+        this.retweeter = "";
+        this.webpage = "";
+        this.proPic = "";
+        this.picture = false;
+        this.tweetId = 0;
+        this.users = null;
+        this.hashtags = null;
+        this.isMyTweet = false;
+        this.otherLinks = null;
+    }
 
     @Override
     public void onAttach(Activity activity) {
