@@ -16,13 +16,10 @@
     -- Look back 5 tweets on timeline and mentions refreshes
 
     -- Double DM's when you send a new one
-    -- Followed you from interactions drawer
-    -- revert retweet ids
     -- change the picture loading to like it is with emojis
     -- add List of all faq's from xda
     -- add the rest of the german strings
     -- open the app from the icon on the widget
-    -- look into the live streaming problem (http://pastebin.com/73vwA092)
     -- show both handle and name
     -- Option for live streaming
     -- mute hashtags

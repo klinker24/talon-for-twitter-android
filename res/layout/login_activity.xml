@@ -14,7 +14,7 @@
         <LinearLayout
                       android:orientation="vertical"
                       android:layout_width="match_parent"
-                      android:layout_height="360dp"  >
+                      android:layout_height="300dp"  >
 
             <TextSwitcher
                     android:id="@+id/welcome"
