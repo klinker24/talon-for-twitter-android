@@ -17,7 +17,6 @@
 
     -- Double DM's when you send a new one
     -- change the picture loading to like it is with emojis
-    -- add List of all faq's from xda
     -- add the rest of the german strings
     -- open the app from the icon on the widget
     -- show both handle and name

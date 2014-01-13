@@ -67,10 +67,10 @@ public class FAQActivity extends Activity {
 
     public void setUpLinks() {
         // TODO add a list of all here
-        /*links.add(new String[] {
+        links.add(new String[] {
                 "All FAQ (XDA Link)",
-                "add link here"
-        });*/
+                "http://forum.xda-developers.com/showpost.php?p=49392415&postcount=2"
+        });
         links.add(new String[]{
                 "Push Notifications",
                 "https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq"

@@ -94,7 +94,7 @@ public class ListsActivity extends DrawerActivity {
                 return true;
             }
         } catch (Exception e) {
-            
+
         }
 
         switch (item.getItemId()) {
