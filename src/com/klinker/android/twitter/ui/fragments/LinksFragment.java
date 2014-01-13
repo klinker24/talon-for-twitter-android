@@ -37,6 +37,7 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -109,6 +110,8 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
         // Now setup the PullToRefreshLayout
         ActionBarPullToRefresh.from(context)
+                // set up the scroll distance
+                .options(Options.create().scrollDistance(.4f).build())
                 // Mark All Children as pullable
                 .allChildrenArePullable()
                         // Set the OnRefreshListener

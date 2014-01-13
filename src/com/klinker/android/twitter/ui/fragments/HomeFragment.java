@@ -65,6 +65,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -184,6 +185,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         // Now setup the PullToRefreshLayout
         ActionBarPullToRefresh.from(context)
+                // set up the scroll distance
+                .options(Options.create().scrollDistance(.4f).build())
                 // Mark All Children as pullable
                 .allChildrenArePullable()
                         // Set the OnRefreshListener

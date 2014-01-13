@@ -1,3 +1,8 @@
+<b>Version 1.02:</b> Crashes and more bugs :)<br/><br/>
+    &#8226; Correctly mute retweets<br/>
+    &#8226; Open app from clicking icon on widget<br/><br/>
+<br/>
+
 <b>Version 1.01:</b> Bug here, bug there. Some nice fixes :)<br/><br/>
     &#8226; Should fix the problem with Talon Pull not working right for some<br/>
     &#8226; Fix problems with tweets being saved twice<br/><br/>

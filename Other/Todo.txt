@@ -7,6 +7,7 @@
     - To first in action bar
     - scheduling tweets
     - different image uploading service
+    - widget with just the unread numbers on it
 
 - Bugs:
 
