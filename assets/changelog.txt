@@ -2,6 +2,7 @@
     &#8226; Correctly mute retweets<br/>
     &#8226; Lowered swipe length for Pull to Refresh<br/>
     &#8226; Open app from clicking icon on widget<br/>
+    &#8226; Finished German translation<br/>
     &#8226; Attempted fixes for Play Store crash reports<br/>
 <br/>
 
