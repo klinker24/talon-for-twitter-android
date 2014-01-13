@@ -22,4 +22,3 @@
     -- change the picture loading to like it is with emojis
     -- show both handle and name
     -- mute hashtags
-    -- dismiss all in notification drawer
