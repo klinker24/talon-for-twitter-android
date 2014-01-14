@@ -831,8 +831,12 @@ public class TweetFragment extends Fragment {
         }
 
         protected void onPostExecute(String count) {
-            Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-            new GetFavoriteCount(favs, favButton, tweetId).execute();
+            try {
+                Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                new GetFavoriteCount(favs, favButton, tweetId).execute();
+            } catch (Exception e) {
+                // they quit out of the activity
+            }
         }
     }
 
@@ -857,8 +861,12 @@ public class TweetFragment extends Fragment {
         }
 
         protected void onPostExecute(String count) {
-            Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
-            new GetRetweetCount(retweetCount, tweetId).execute();
+            try {
+                Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
+                new GetRetweetCount(retweetCount, tweetId).execute();
+            } catch (Exception e) {
+                
+            }
         }
     }
 
