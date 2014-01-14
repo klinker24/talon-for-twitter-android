@@ -295,8 +295,12 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(Void none) {
             showWebView();
 
-            mWebView.loadUrl(requestToken.getAuthenticationURL());
-            mWebView.requestFocus(View.FOCUS_DOWN);
+            if (requestToken != null) {
+                mWebView.loadUrl(requestToken.getAuthenticationURL());
+                mWebView.requestFocus(View.FOCUS_DOWN);
+            } else {
+                restartLogin();
+            }
         }
 
         private void loginToTwitter() {
