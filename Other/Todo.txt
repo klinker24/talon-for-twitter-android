@@ -19,7 +19,9 @@
 
     -- Look back 5 tweets on timeline and mentions refreshes
 
-    -- Double DM's when you send a new one
     -- change the picture loading to like it is with emojis
     -- mute hashtags
     -- sharing tweets with links
+    -- reverse the order of replies to the conversation
+    -- Use the search stuff to get forward replies (https://dev.twitter.com/discussions/17647)
+    -- Spannable String to
