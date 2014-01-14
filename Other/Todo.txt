@@ -11,6 +11,7 @@
     - tweetmarker
     - option to not display retweets
     - link shortener
+    - mute retweets
 
 - Bugs:
     - Wrong images in some places
@@ -30,4 +31,3 @@
     -- mute hashtags
     -- Use the search stuff to get forward replies (https://dev.twitter.com/discussions/17647)
     -- Spannable String to main timelines (
-    -- notification options, can just set them to zero in not. utils i think

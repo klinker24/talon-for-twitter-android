@@ -65,6 +65,14 @@ public class AppSettings {
     public boolean inAppBrowser;
     public boolean showBoth;
 
+    // notifications
+    public boolean timelineNot;
+    public boolean mentionsNot;
+    public boolean dmsNot;
+    public boolean followersNot;
+    public boolean favoritesNot;
+    public boolean retweetNot;
+
     // theme stuff
     public boolean addonTheme;
     public String addonThemePackage;
@@ -140,6 +148,12 @@ public class AppSettings {
         pushNotifications = sharedPrefs.getBoolean("push_notifications", true);
         inAppBrowser = sharedPrefs.getBoolean("inapp_browser", true);
         showBoth = sharedPrefs.getBoolean("both_handle_name", false);
+        timelineNot = sharedPrefs.getBoolean("timeline_notifications", true);
+        mentionsNot = sharedPrefs.getBoolean("mentions_notifications", true);
+        dmsNot = sharedPrefs.getBoolean("direct_message_notifications", true);
+        favoritesNot = sharedPrefs.getBoolean("favorite_notifications", true);
+        retweetNot = sharedPrefs.getBoolean("retweet_notifications", true);
+        followersNot = sharedPrefs.getBoolean("follower_notifications", true);
 
         if (pushNotifications) {
             //liveStreaming = false;

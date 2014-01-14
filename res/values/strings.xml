@@ -323,7 +323,7 @@
         <string name="sync_failed">Sync Failed</string>
         <string name="push_notification_options">\"Push Notification\" Options</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).\n\nIt will also live stream tweets to your main timeline.</string>
+            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).</string>
             <string name="push_notification_warning">To read more about this option, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>
@@ -344,7 +344,6 @@
             <string name="extra_pages">Use Extra Pages</string>
                 <string name="extra_pages_summary">Add links and pictures pages to the left of the timeline.</string>
             <string name="live_streaming">Live Streaming</string>
-                <string name="live_streaming_summary">This will consume more battery and always \"Refresh on Startup.\"</string>
         <string name="memory_management">Memory Management Options</string>
             <string name="delete_cache">Delete Cache Now</string>
             <string name="cache_dialog">Delete Cache?</string>
@@ -419,6 +418,10 @@
     <string name="use_inapp_browser">Use In-app Browser</string>
     <string name="dismiss_all">Dismiss All</string>
     <string name="handle_and_name">Display handle and name</string>
+    <string name="notification_types">Notification Types</string>
+    <string name="with_talon_pull">Accessed through \"Talon Pull\"</string>
+    <string name="favorited_tweet">Favorites on your tweets</string>
+    <string name="new_followers">New followers</string>
 
 
 </resources>

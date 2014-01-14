@@ -86,7 +86,7 @@ public class TalonPullNotificationService extends Service {
 
         String text;
 
-        if (settings.liveStreaming) {
+        if (settings.liveStreaming && settings.timelineNot) {
             text = getResources().getString(R.string.new_tweets_upper) + ": " + home.getUnreadCount(sharedPreferences.getInt("current_account", 1));
         } else {
             text = getResources().getString(R.string.listening_for_mentions) + "...";
@@ -135,7 +135,7 @@ public class TalonPullNotificationService extends Service {
         filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
         registerReceiver(stopService, filter);
 
-        if (settings.liveStreaming) {
+        if (settings.liveStreaming && settings.timelineNot) {
             filter = new IntentFilter();
             filter.addAction("com.klinker.android.twitter.UPDATE_NOTIF");
             registerReceiver(updateNotification, filter);
@@ -210,17 +210,6 @@ public class TalonPullNotificationService extends Service {
     public BroadcastReceiver stopService = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            try {
-                pushStream.shutdown();
-                Log.v("twitter_stream_push", "stopping push notifications");
-            } catch (Exception e) {
-                // it isn't running
-            }
-
-            try {
-                interactions.close();
-            } catch (Exception e) { }
-
             stopSelf();
         }
     };
@@ -251,8 +240,6 @@ public class TalonPullNotificationService extends Service {
             if(status.getText().contains("@" + settings.myScreenName)) {
                 Log.v("twitter_stream_push", "onStatus @" + status.getUser().getScreenName() + " - " + status.getText());
 
-                AppSettings settings = new AppSettings(mContext);
-
                 if (!status.isRetweet()) { // it is a normal mention
                     MentionsDataSource dataSource = new MentionsDataSource(mContext);
                     dataSource.open();
@@ -263,21 +250,23 @@ public class TalonPullNotificationService extends Service {
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
                     sharedPreferences.edit().putBoolean("refresh_me_mentions", true).commit();
 
-                    if(settings.notifications) {
+                    if(settings.notifications && settings.mentionsNot) {
                         NotificationUtils.refreshNotification(mContext);
                     }
 
                     dataSource.close();
                 } else { // it is a retweet
-
                     if (!status.getUser().getScreenName().equals(settings.myScreenName) && status.getRetweetedStatus().getUser().getScreenName().equals(settings.myScreenName)) {
-                        int newRetweets = sharedPreferences.getInt("new_retweets", 0);
-                        newRetweets++;
-                        sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
+                        if (settings.retweetNot) {
+                            int newRetweets = sharedPreferences.getInt("new_retweets", 0);
+                            newRetweets++;
+                            sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
+                        }
+
                         interactions.updateInteraction(mContext, status.getUser(), status, sharedPreferences.getInt("current_account", 1), InteractionsDataSource.TYPE_RETWEET);
                         sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                        if(settings.notifications) {
+                        if(settings.notifications && settings.retweetNot) {
                             NotificationUtils.newInteractions(status.getUser(), mContext, sharedPreferences, " " + getResources().getString(R.string.retweeted));
                         }
                     }
@@ -296,7 +285,7 @@ public class TalonPullNotificationService extends Service {
                     sharedPreferences.edit().putBoolean("refresh_me", true).commit();
                     sharedPreferences.edit().putLong("second_last_tweet_id_" + sharedPreferences.getInt("current_account", 1), home.getLastId(sharedPreferences.getInt("current_account", 1)));
 
-                    if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName())) {
+                    if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName()) && settings.favoriteUserNotifications) {
                         NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
                         interactions.createFavoriteUserInter(mContext, status, sharedPreferences.getInt("current_account", 1));
                         sharedPreferences.edit().putBoolean("new_notification", true).commit();
@@ -349,14 +338,17 @@ public class TalonPullNotificationService extends Service {
                         + favoritedStatus.getUser().getScreenName() + " - "
                         + favoritedStatus.getText());
 
-                int newFavs = sharedPreferences.getInt("new_favorites", 0);
-                newFavs++;
-                sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
                 interactions.updateInteraction(mContext, source, favoritedStatus, sharedPreferences.getInt("current_account", 1), InteractionsDataSource.TYPE_FAVORITE);
                 sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                if(settings.notifications) {
-                    NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+                if (settings.favoritesNot) {
+                    int newFavs = sharedPreferences.getInt("new_favorites", 0);
+                    newFavs++;
+                    sharedPreferences.edit().putInt("new_favorites", newFavs).commit();
+
+                    if(settings.notifications) {
+                        NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.favorited));
+                    }
                 }
             }
         }
@@ -376,14 +368,17 @@ public class TalonPullNotificationService extends Service {
 
                 AppSettings settings = new AppSettings(mContext);
 
-                int newFollows = sharedPreferences.getInt("new_follows", 0);
-                newFollows++;
-                sharedPreferences.edit().putInt("new_follows", newFollows).commit();
                 interactions.createInteraction(mContext, source, null, sharedPreferences.getInt("current_account", 1), InteractionsDataSource.TYPE_FOLLOWER);
                 sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
-                if (settings.notifications) {
-                    NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
+                if (settings.followersNot) {
+                    int newFollows = sharedPreferences.getInt("new_follows", 0);
+                    newFollows++;
+                    sharedPreferences.edit().putInt("new_follows", newFollows).commit();
+
+                    if (settings.notifications) {
+                        NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
+                    }
                 }
             }
         }
@@ -405,7 +400,7 @@ public class TalonPullNotificationService extends Service {
                 sharedPreferences.edit().putInt("dm_unread_" + sharedPreferences.getInt("current_account", 1), numUnread).commit();
                 sharedPreferences.edit().putBoolean("refresh_me_dm", true).commit();
 
-                if (settings.notifications) {
+                if (settings.notifications && settings.dmsNot) {
                     NotificationUtils.refreshNotification(mContext);
                 }
 

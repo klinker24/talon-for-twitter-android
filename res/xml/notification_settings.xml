@@ -49,8 +49,46 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="other_options"
-        android:title="@string/other_options" >
+        android:title="@string/notification_types" >
+
+        <CheckBoxPreference
+            android:title="@string/timeline"
+            android:key="timeline_notifications"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:title="@string/mentions"
+            android:key="mentions_notifications"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:title="@string/direct_messages"
+            android:key="direct_message_notifications"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="favorite_notifications"
+            android:title="@string/favorited_tweet"
+            android:summary="@string/with_talon_pull"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="retweet_notifications"
+            android:title="@string/retweets"
+            android:summary="@string/with_talon_pull"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="follower_notifications"
+            android:title="@string/new_followers"
+            android:summary="@string/with_talon_pull"
+            android:defaultValue="true"
+            />
 
         <CheckBoxPreference
             android:key="favorite_users_notifications"
@@ -66,5 +104,6 @@
             />
 
     </PreferenceCategory>
+
 
 </PreferenceScreen>

@@ -46,6 +46,7 @@ import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import de.timroes.android.listview.EnhancedListView;

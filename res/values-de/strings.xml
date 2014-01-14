@@ -322,7 +322,7 @@
         <string name="sync_failed">Synchronisierung fehlgeschlagen</string>
         <string name="push_notification_options">\"Push-Benachrichtigungen\"</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).\n\nIt will also live stream tweets to your main timeline.</string> <!-- changed -->
+            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).</string>
             <string name="push_notification_warning">Hier berühren, um mehr über diese Option zu erfahren.</string>
 
     <string name="notification_settings">Benachrichtigungen</string>

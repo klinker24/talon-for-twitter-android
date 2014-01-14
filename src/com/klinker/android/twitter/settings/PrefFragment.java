@@ -418,6 +418,38 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return true;
             }
         });
+
+        Preference.OnPreferenceChangeListener click = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                return true;
+            }
+        };
+
+        Preference timeline = findPreference("timeline_notifications");
+        timeline.setOnPreferenceChangeListener(click);
+
+        Preference mention = findPreference("mentions_notifications");
+        mention.setOnPreferenceChangeListener(click);
+
+        Preference dm = findPreference("direct_message_notifications");
+        dm.setOnPreferenceChangeListener(click);
+
+        Preference favorite = findPreference("favorite_notifications");
+        favorite.setOnPreferenceChangeListener(click);
+
+        Preference retweet = findPreference("retweet_notifications");
+        retweet.setOnPreferenceChangeListener(click);
+
+        Preference followers = findPreference("follower_notifications");
+        followers.setOnPreferenceChangeListener(click);
+
+        Preference users = findPreference("favorite_users_notifications");
+        users.setOnPreferenceChangeListener(click);
+
+        Preference pebble = findPreference("pebble_notification");
+        pebble.setOnPreferenceChangeListener(click);
     }
 
     public void setUpSyncSettings() {
@@ -434,7 +466,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         if (sharedPrefs.getBoolean("push_notifications", true)) {
             timeline.setEnabled(false);
-            mentions.setEnabled(false);
             dms.setEnabled(false);
             onStart.setEnabled(false);
             mobileOnly.setEnabled(false);
@@ -455,7 +486,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if (!((CheckBoxPreference) pull).isChecked()) {
                     timeline.setEnabled(false);
-                    mentions.setEnabled(false);
                     dms.setEnabled(false);
                     onStart.setEnabled(false);
                     mobileOnly.setEnabled(false);
@@ -476,7 +506,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     e.commit();
                 } else {
                     timeline.setEnabled(true);
-                    mentions.setEnabled(true);
                     dms.setEnabled(true);
                     onStart.setEnabled(true);
                     mobileOnly.setEnabled(true);

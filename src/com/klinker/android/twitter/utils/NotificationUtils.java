@@ -68,145 +68,161 @@ public class NotificationUtils {
 
         //int[] unreadCounts = new int[] {4, 1, 2}; // for testing
         int[] unreadCounts = getUnreads(context);
-        String shortText = getShortText(unreadCounts, context, currentAccount);
-        String longText = getLongText(unreadCounts, context, currentAccount);
-        // [0] is the full title and [1] is the screenname
-        String[] title = getTitle(unreadCounts, context, currentAccount);
-        boolean useExpanded = useExp(context);
-        boolean addButton = addBtn(unreadCounts);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra("from_notification", true);
+        // if they don't want that type of notification, simply set it to zero
+        if (!settings.timelineNot) {
+            unreadCounts[0] = 0;
+        }
+        if (!settings.mentionsNot) {
+            unreadCounts[1] = 0;
+        }
+        if (!settings.dmsNot) {
+            unreadCounts[2] = 0;
+        }
 
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+        if (unreadCounts[0] == 0 && unreadCounts[1] == 0 && unreadCounts[2] == 0) {
 
-        NotificationCompat.Builder mBuilder;
+        } else {
+            String shortText = getShortText(unreadCounts, context, currentAccount);
+            String longText = getLongText(unreadCounts, context, currentAccount);
+            // [0] is the full title and [1] is the screenname
+            String[] title = getTitle(unreadCounts, context, currentAccount);
+            boolean useExpanded = useExp(context);
+            boolean addButton = addBtn(unreadCounts);
 
-        if (useExpanded) {
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(title[0])
-                    .setContentText(HtmlUtils.removeColorHtml(shortText))
-                    .setSmallIcon(R.drawable.ic_stat_icon)
-                    .setLargeIcon(getIcon(context, unreadCounts, title[1]))
-                    .setContentIntent(resultPendingIntent)
-                    .setAutoCancel(true)
-                    .setTicker(HtmlUtils.removeColorHtml(shortText))
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(longText)));
+            Intent resultIntent = new Intent(context, MainActivity.class);
+            resultIntent.putExtra("from_notification", true);
 
-            if (addButton) { // the reply and read button should be shown
-                Intent reply;
-                if (unreadCounts[1] == 1) {
-                    reply = new Intent(context, ReplyService.class);
-                } else {
-                    reply = new Intent(context, ComposeDMActivity.class);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+            NotificationCompat.Builder mBuilder;
+
+            if (useExpanded) {
+                mBuilder = new NotificationCompat.Builder(context)
+                        .setContentTitle(title[0])
+                        .setContentText(HtmlUtils.removeColorHtml(shortText))
+                        .setSmallIcon(R.drawable.ic_stat_icon)
+                        .setLargeIcon(getIcon(context, unreadCounts, title[1]))
+                        .setContentIntent(resultPendingIntent)
+                        .setAutoCancel(true)
+                        .setTicker(HtmlUtils.removeColorHtml(shortText))
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(longText)));
+
+                if (addButton) { // the reply and read button should be shown
+                    Intent reply;
+                    if (unreadCounts[1] == 1) {
+                        reply = new Intent(context, ReplyService.class);
+                    } else {
+                        reply = new Intent(context, ComposeDMActivity.class);
+                    }
+
+                    Log.v("username_for_noti", title[1]);
+                    sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
+                    sharedPrefs.edit().putBoolean("from_notification_bool", true).commit();
+                    MentionsDataSource data = new MentionsDataSource(context);
+                    data.open();
+                    long id = data.getLastIds(currentAccount)[0];
+                    PendingIntent replyPending = PendingIntent.getService(context, 0, reply, 0);
+                    sharedPrefs.edit().putLong("from_notification_long", id).commit();
+
+                    mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);
+
+                    Intent markRead = new Intent(context, MarkReadService.class);
+                    PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+
+                    mBuilder.addAction(R.drawable.ic_action_read_dark, context.getResources().getString(R.string.mark_read), readPending);
+                } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
+                    Intent popup = new Intent(context, RedirectToPopup.class);
+                    popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    popup.putExtra("from_notification", true);
+
+                    PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
+
+                    mBuilder.addAction(R.drawable.ic_popup, context.getResources().getString(R.string.popup), popupPending);
+                }
+            } else {
+                mBuilder = new NotificationCompat.Builder(context)
+                        .setContentTitle(title[0])
+                        .setContentText(HtmlUtils.removeColorHtml(shortText))
+                        .setSmallIcon(R.drawable.ic_stat_icon)
+                        .setLargeIcon(getIcon(context, unreadCounts, title[1]))
+                        .setContentIntent(resultPendingIntent)
+                        .setTicker(HtmlUtils.removeColorHtml(shortText))
+                        .setAutoCancel(true);
+            }
+
+            // Pebble notification
+            if(sharedPrefs.getBoolean("pebble_notification", false)) {
+                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+                Map pebbleData = new HashMap();
+                pebbleData.put("title", title[0]);
+                pebbleData.put("body", Html.fromHtml(longText));
+                JSONObject jsonData = new JSONObject(pebbleData);
+                String notificationData = new JSONArray().put(jsonData).toString();
+                pebble.putExtra("messageType", "PEBBLE_ALERT");
+                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+                pebble.putExtra("notificationData", notificationData);
+                context.sendBroadcast(pebble);
+            }
+
+            int count = 0;
+
+            if (settings.vibrate)
+                count++;
+            if (settings.sound)
+                count++;
+
+            int homeTweets = unreadCounts[0];
+            int mentionsTweets = unreadCounts[1];
+            int dmTweets = unreadCounts[2];
+
+            int newC = 0;
+
+            if (homeTweets > 0) {
+                newC++;
+            }
+            if (mentionsTweets > 0) {
+                newC++;
+            }
+            if (dmTweets > 0) {
+                newC++;
+            }
+
+            if (settings.notifications && newC > 0) {
+                switch (count) {
+                    case 2:
+                        if (settings.vibrate && settings.sound)
+                            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
+                        break;
+                    case 1:
+                        if (settings.vibrate)
+                            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                        else if (settings.sound)
+                            mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+                        break;
+
+                    default:
+                        break;
                 }
 
-                Log.v("username_for_noti", title[1]);
-                sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
-                sharedPrefs.edit().putBoolean("from_notification_bool", true).commit();
-                MentionsDataSource data = new MentionsDataSource(context);
-                data.open();
-                long id = data.getLastIds(currentAccount)[0];
-                PendingIntent replyPending = PendingIntent.getService(context, 0, reply, 0);
-                sharedPrefs.edit().putLong("from_notification_long", id).commit();
+                if (settings.led)
+                    mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
-                mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);
+                NotificationManager mNotificationManager =
+                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(1, mBuilder.build());
 
-                Intent markRead = new Intent(context, MarkReadService.class);
-                PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+                // if we want to wake the screen on a new message
+                if (settings.wakeScreen) {
+                    PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                    final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+                    wakeLock.acquire(5000);
+                }
 
-                mBuilder.addAction(R.drawable.ic_action_read_dark, context.getResources().getString(R.string.mark_read), readPending);
-            } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
-                Intent popup = new Intent(context, RedirectToPopup.class);
-                popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                popup.putExtra("from_notification", true);
-
-                PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
-
-                mBuilder.addAction(R.drawable.ic_popup, context.getResources().getString(R.string.popup), popupPending);
-            }
-        } else {
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(title[0])
-                    .setContentText(HtmlUtils.removeColorHtml(shortText))
-                    .setSmallIcon(R.drawable.ic_stat_icon)
-                    .setLargeIcon(getIcon(context, unreadCounts, title[1]))
-                    .setContentIntent(resultPendingIntent)
-                    .setTicker(HtmlUtils.removeColorHtml(shortText))
-                    .setAutoCancel(true);
-        }
-
-        // Pebble notification
-        if(sharedPrefs.getBoolean("pebble_notification", false)) {
-            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-            Map pebbleData = new HashMap();
-            pebbleData.put("title", title[0]);
-            pebbleData.put("body", Html.fromHtml(longText));
-            JSONObject jsonData = new JSONObject(pebbleData);
-            String notificationData = new JSONArray().put(jsonData).toString();
-            pebble.putExtra("messageType", "PEBBLE_ALERT");
-            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-            pebble.putExtra("notificationData", notificationData);
-            context.sendBroadcast(pebble);
-        }
-
-        int count = 0;
-
-        if (settings.vibrate)
-            count++;
-        if (settings.sound)
-            count++;
-
-        int homeTweets = unreadCounts[0];
-        int mentionsTweets = unreadCounts[1];
-        int dmTweets = unreadCounts[2];
-
-        int newC = 0;
-
-        if (homeTweets > 0) {
-            newC++;
-        }
-        if (mentionsTweets > 0) {
-            newC++;
-        }
-        if (dmTweets > 0) {
-            newC++;
-        }
-
-        if (settings.notifications && newC > 0) {
-            switch (count) {
-                case 2:
-                    if (settings.vibrate && settings.sound)
-                        mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                    break;
-                case 1:
-                    if (settings.vibrate)
-                        mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                    else if (settings.sound)
-                        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (settings.led)
-                mBuilder.setLights(0xFFFFFF, 1000, 1000);
-
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(1, mBuilder.build());
-
-            // if we want to wake the screen on a new message
-            if (settings.wakeScreen) {
-                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-                wakeLock.acquire(5000);
-            }
-
-            // if there are unread tweets on the timeline, check them for favorite users
-            if (settings.favoriteUserNotifications && unreadCounts[0] > 0) {
-                favUsersNotification(currentAccount, context);
+                // if there are unread tweets on the timeline, check them for favorite users
+                if (settings.favoriteUserNotifications && unreadCounts[0] > 0) {
+                    favUsersNotification(currentAccount, context);
+                }
             }
         }
     }
