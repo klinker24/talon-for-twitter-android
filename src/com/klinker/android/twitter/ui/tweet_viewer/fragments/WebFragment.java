@@ -39,6 +39,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
         webView = (WebView) layout.findViewById(R.id.webview);
 
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.clearCache(true);
         webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setLoadWithOverviewMode(true);

@@ -1,4 +1,9 @@
-<b>Version 1.02:</b> Features, crashes, and more bugs :)<br/><br/>
+<b>Version 1.051:</b> Lots more crash fixes :)<br/><br/>
+    &#8226; fixed links when sharing or quoting a tweet<br/>
+    &#8226; Play store crash report fixes<br/><br/>
+<br/>
+
+<b>Version 1.05:</b> Features, crashes, and more bugs :)<br/><br/>
     &#8226; Correctly mute retweets<br/>
     &#8226; Higher quality images on timeline<br/>
     &#8226; Dismiss all on interactions drawer<br/>
@@ -8,7 +13,7 @@
     &#8226; Open app from clicking icon on widget<br/>
     &#8226; Finished German translation<br/>
     &#8226; Fixed contact images on layout change<br/>
-    &#8226; Attempted fixes for Play Store crash reports<br/>
+    &#8226; Attempted fixes for Play Store crash reports<br/><br/>
 <br/>
 
 <b>Version 1.01:</b> Bug here, bug there. Some nice fixes :)<br/><br/>

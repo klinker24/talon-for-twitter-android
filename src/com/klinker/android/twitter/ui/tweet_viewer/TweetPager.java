@@ -345,8 +345,10 @@ public class TweetPager extends YouTubeBaseActivity {
     }
 
     private Intent getShareIntent() {
-        String text1 = "\"@" + screenName + ": " + tweet + "\" ";
+        String text1 = tweet;
         text1 = HtmlUtils.removeColorHtml(text1);
+        text1 = restoreLinks(text1);
+        text1 = "\"@" + screenName + ": " + text1 + "\" ";
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, text1);
@@ -395,8 +397,10 @@ public class TweetPager extends YouTubeBaseActivity {
                 return true;
 
             case R.id.menu_share:
-                String text1 = "\"@" + screenName + ": " + tweet + "\" ";
+                String text1 = tweet;
                 text1 = HtmlUtils.removeColorHtml(text1);
+                text1 = restoreLinks(text1);
+                text1 = "\"@" + screenName + ": " + text1 + "\" ";
                 Log.v("my_text_on_share", text1);
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
@@ -407,7 +411,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_copy_text:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("tweet_text", HtmlUtils.removeColorHtml(tweet));
+                ClipData clip = ClipData.newPlainText("tweet_text", restoreLinks(HtmlUtils.removeColorHtml(tweet)));
                 clipboard.setPrimaryClip(clip);
                 return true;
 
@@ -485,9 +489,12 @@ public class TweetPager extends YouTubeBaseActivity {
                 return true;
 
             case R.id.menu_quote:
-                String text = "\"@" + screenName + ": " + tweet + "\" ";
+                String text = tweet;
 
                 text = HtmlUtils.removeColorHtml(text);
+                text = restoreLinks(text);
+
+                text = "\"@" + screenName + ": " + text + "\" ";
 
                 Intent quote = new Intent(context, ComposeActivity.class);
                 quote.putExtra("user", text);
@@ -501,5 +508,50 @@ public class TweetPager extends YouTubeBaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public String restoreLinks(String text) {
+        String full = text;
+
+        String[] split = text.split(" ");
+
+        boolean changed = false;
+
+        if (otherLinks.length > 0) {
+            for (int i = 0; i < split.length; i++) {
+                String s = split[i];
+
+                Log.v("recreating_links", "s link first: " + s);
+
+                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                    s = s.replace("...", "").replace("http", "");
+
+                    Log.v("recreating_links", "s link: " + s);
+
+                    for (int x = 0; x < otherLinks.length; x++) {
+                        Log.v("recreating_links", "other link first: " + otherLinks[x]);
+                        if (otherLinks[x].contains(s)) {
+                            changed = true;
+                            s = otherLinks[x];
+                            Log.v("recreating_links", "other link: " + otherLinks[x]);
+                            break;
+                        }
+                    }
+                }
+
+                split[i] = s;
+            }
+        }
+
+        if(changed) {
+            full = "";
+            for (String p : split) {
+                full += p + " ";
+            }
+
+            full = full.substring(0, full.length() - 1);
+        }
+
+        return full;
     }
 }
