@@ -55,7 +55,7 @@ public class ImageUtils {
             canvas.drawBitmap(bitmap, null, rect, paint);
         } catch (Exception e) {
             // bitmap is null i guess
-            
+
         }
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.contact_picture_border));
@@ -71,8 +71,6 @@ public class ImageUtils {
 
         canvas.drawCircle(scale / 2,
                 scale / 2, (scale / 2) - (scale / 25), paint);
-
-
 
         return output;
     }

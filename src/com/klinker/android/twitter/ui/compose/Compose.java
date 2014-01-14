@@ -438,6 +438,21 @@ public abstract class Compose extends Activity implements
                     media.setMedia(new File(attachedFilePath));
 
                     if(addLocation) {
+                        int wait = 0;
+                        while (!mLocationClient.isConnected() && wait < 4) {
+                            try {
+                                Thread.sleep(1500);
+                            } catch (Exception e) {
+                                return false;
+                            }
+
+                            wait++;
+                        }
+
+                        if (wait == 4) {
+                            return false;
+                        }
+
                         Location location = mLocationClient.getLastLocation();
                         GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
                         media.setLocation(geolocation);

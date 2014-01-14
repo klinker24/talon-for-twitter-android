@@ -63,14 +63,19 @@ public class IOUtils {
 
     public static String getPath(Uri uri, Context context) {
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        String filePath;
 
-        Cursor cursor = context.getContentResolver().query(
-                uri, filePathColumn, null, null, null);
-        cursor.moveToFirst();
+        try {
+            Cursor cursor = context.getContentResolver().query(
+                    uri, filePathColumn, null, null, null);
+            cursor.moveToFirst();
 
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String filePath = cursor.getString(columnIndex);
-        cursor.close();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            filePath = cursor.getString(columnIndex);
+            cursor.close();
+        } catch (Exception e) {
+            filePath = uri.getPath();
+        }
 
         return filePath;
     }

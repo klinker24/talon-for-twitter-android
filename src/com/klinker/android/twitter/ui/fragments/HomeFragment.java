@@ -310,14 +310,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toTopListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
-                        listView.setSelection(0);
-                    } else {
+                if (unread < 200) {
+                    try {
+                        if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
+                            listView.setSelection(0);
+                        } else {
+                            listView.smoothScrollToPosition(0);
+                        }
+                    } catch (Exception e) {
                         listView.smoothScrollToPosition(0);
                     }
-                } catch (Exception e) {
-                    listView.smoothScrollToPosition(0);
+                } else {
+                    dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
                 }
             }
         };

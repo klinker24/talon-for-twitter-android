@@ -46,7 +46,9 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         webView.setWebViewClient(new WebViewClient());
 
-        webView.loadUrl(webpages.get(0));
+        if (webpages.size() > 0) {
+            webView.loadUrl(webpages.get(0));
+        }
 
         pages = new String[webpages.size()];
 
