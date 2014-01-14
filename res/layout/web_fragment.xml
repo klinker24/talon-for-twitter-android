@@ -12,6 +12,7 @@
 
     <Spinner
         android:id="@+id/spinner"
+        android:contentDescription="Pick Website"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

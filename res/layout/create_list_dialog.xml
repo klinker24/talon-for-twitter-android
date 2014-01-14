@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/pressed_button"
+            android:contentDescription="@string/cancel"
             android:text="@string/cancel"
             android:id="@+id/cancel"/>
         <Button
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/pressed_button"
+            android:contentDescription="Private List"
             android:text="@string/sPrivate"
             android:id="@+id/private_btn"/>
         <Button
@@ -40,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/pressed_button"
+            android:contentDescription="Publilc List"
             android:text="@string/sPublic"
             android:id="@+id/public_btn"/>
     </LinearLayout>

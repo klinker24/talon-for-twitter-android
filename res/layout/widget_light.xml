@@ -57,6 +57,7 @@ limitations under the License.
 
                 <ImageButton
                     android:id="@+id/syncButton"
+                    android:contentDescription="Sync Tweets Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/replyButton"
@@ -71,6 +72,7 @@ limitations under the License.
 
                 <ImageButton
                     android:id="@+id/replyButton"
+                    android:contentDescription="New Tweet Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

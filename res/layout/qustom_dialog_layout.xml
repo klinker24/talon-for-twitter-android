@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout android:id="@+id/title_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
             android:minHeight="64dip"
             android:layout_marginStart="16dip"
             android:layout_marginEnd="16dip">
+
             <com.android.internal.widget.DialogTitle android:id="@+id/alertTitle"
                 style="@android:style/TextAppearance.Holo.DialogWindowTitle"
                 android:singleLine="true"
@@ -45,6 +47,7 @@
 
     <com.klinker.android.twitter.ui.widgets.HoloEditText
         android:id="@+id/content"
+        android:contentDescription="Contact Entry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -63,11 +63,13 @@
             <Button android:id="@+id/btnLoginTwitter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Progress through Login"
                 android:text="@string/login_to_twitter"/>
 
             <Button android:id="@+id/dont_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Follow Talon"
                 android:text="@string/follow_me"
                 android:visibility="gone"/>
 

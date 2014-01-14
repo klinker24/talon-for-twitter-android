@@ -40,6 +40,7 @@ limitations under the License.
 
             <ImageView
                 android:id="@+id/contactPicture"
+                android:contentDescription="Profile Picture"
                 android:layout_height="48dp"
                 android:layout_width="48dp"
                 android:layout_marginLeft="12dp"

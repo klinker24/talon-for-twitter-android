@@ -41,6 +41,7 @@
                         android:src="?showMoreButton"
                         android:scaleType="fitCenter"
                         android:adjustViewBounds="true"
+                        android:contentDescription="Expand Picture"
                         android:background="@drawable/pressed_button"
                         android:layout_margin="10dp"
                         android:rotation="180"/>

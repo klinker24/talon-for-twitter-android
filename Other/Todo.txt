@@ -10,6 +10,7 @@
     - widget with just the unread numbers on it
     - tweetmarker
     - option to not display retweets
+    - link shortener
 
 - Bugs:
     - Wrong images in some places

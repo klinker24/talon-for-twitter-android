@@ -21,10 +21,10 @@
             android:layout_height="@dimen/pro_pic_size"
             android:id="@+id/profile_pic"
             android:src="?squareBorder"
+            android:contentDescription="Profile Picture"
             android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
-            android:contentDescription="@string/placeholder"
             android:layout_marginLeft="2dp"/>
 
     </LinearLayout>
@@ -149,6 +149,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="?notFavoritedButton"
+                    android:contentDescription="Favorite Tweet Button"
                     android:minHeight="32dp" android:minWidth="32dp"
                     android:scaleType="fitCenter" android:adjustViewBounds="true"
                     android:maxWidth="32dp" android:maxHeight="32dp"
@@ -167,6 +168,7 @@
                     android:layout_width="37dp"
                     android:layout_height="37dp"
                     android:src="?retweetButton"
+                    android:contentDescription="Retweet Button"
                     android:minHeight="37dp" android:minWidth="37dp"
                     android:scaleType="fitCenter" android:adjustViewBounds="true"
                     android:maxWidth="37dp" android:maxHeight="37dp"
@@ -218,6 +220,7 @@
                         android:layout_width="37dp"
                         android:layout_height="37dp"
                         android:src="?sendButton"
+                        android:contentDescription="Send Reply"
                         android:minHeight="37dp" android:minWidth="37dp"
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
                         android:maxWidth="37dp" android:maxHeight="37dp"

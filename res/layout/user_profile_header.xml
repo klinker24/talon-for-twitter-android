@@ -51,6 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textSize="14dp"
+                android:contentDescription="View Tweets"
                 android:background="@drawable/pressed_button"
                 android:text="@string/tweets" />
 
@@ -64,6 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textSize="14dp"
+                android:contentDescription="View Followers"
                 android:background="@drawable/pressed_button"
                 android:text="@string/followers" />
 
@@ -77,6 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:textSize="14dp"
+                android:contentDescription="View Following"
                 android:background="@drawable/pressed_button"
                 android:text="@string/following" />
 

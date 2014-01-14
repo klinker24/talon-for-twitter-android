@@ -19,6 +19,7 @@
                 android:id="@+id/at_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:contentDescription="Attach User"
                 android:background="@drawable/pressed_button"
                 android:src="@drawable/mentions_light"
                 android:gravity="center"
@@ -29,6 +30,7 @@
                 android:id="@+id/contact_entry"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:contentDescription="Enter Contact"
                 android:layout_height="match_parent"
                 android:hint="@string/send_to" />
 
@@ -60,6 +62,7 @@
                 android:layout_weight="1"
                 android:maxLines="5"
                 android:minLines="2"
+                android:contentDescription="Tweet Content"
                 android:hint="@string/compose_tweet_hint"
                 android:inputType="textCapSentences|textMultiLine"/>
 
@@ -82,6 +85,7 @@
                     android:layout_height="48dp"
                     android:layout_width="48dp"
                     android:src="?emoji_button_changing"
+                    android:contentDescription="Emoji Button"
                     android:background="@drawable/pressed_button"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
@@ -133,6 +137,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/toastButton"
                     android:background="@drawable/pressed_toast"
+                    android:contentDescription="Load Draft"
                     android:gravity="center"
                     android:textSize="14sp"
                     android:textColor="@android:color/white"

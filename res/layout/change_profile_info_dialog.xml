@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/pressed_button"
+            android:contentDescription="@string/cancel"
             android:text="@string/cancel"
             android:id="@+id/cancel"/>
         <Button
@@ -45,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/pressed_button"
+            android:contentDescription="@string/update"
             android:text="@string/update"
             android:id="@+id/change"/>
 

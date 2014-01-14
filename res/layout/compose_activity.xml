@@ -37,6 +37,7 @@
                     android:id="@+id/at_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:contentDescription="Attach User"
                     android:background="@drawable/pressed_button"
                     android:src="@drawable/mentions_light"
                     android:gravity="center"
@@ -49,6 +50,7 @@
                     android:layout_width="48dp"
                     android:src="@drawable/ic_action_place_light"
                     android:background="@drawable/pressed_button"
+                    android:contentDescription="Add Location"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp" />
@@ -57,6 +59,7 @@
                     android:id="@+id/attach"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
+                    android:contentDescription="Attach Picture"
                     android:src="@drawable/ic_attach_light"
                     android:background="@drawable/pressed_button"
                     android:minHeight="48dp" android:minWidth="48dp"
@@ -67,6 +70,7 @@
                     android:id="@+id/emoji"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
+                    android:contentDescription="Emojis"
                     android:src="@drawable/ic_emoji_keyboard_dark"
                     android:background="@drawable/pressed_button"
                     android:minHeight="48dp" android:minWidth="48dp"
@@ -89,6 +93,7 @@
                     android:layout_weight="1"
                     android:maxLines="5"
                     android:minLines="2"
+                    android:contentDescription="Tweet Content"
                     android:hint="@string/compose_tweet_hint"
                     android:inputType="textCapSentences|textMultiLine"/>
 
@@ -109,6 +114,7 @@
                         android:id="@+id/overflow_button"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:contentDescription="Extra Options"
                         android:background="@drawable/pressed_button"
                         android:src="?overflow_button"
                         android:gravity="center"

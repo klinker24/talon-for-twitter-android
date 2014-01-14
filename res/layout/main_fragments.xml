@@ -80,6 +80,7 @@
                     android:gravity="center"
                     android:textSize="14sp"
                     android:textColor="@android:color/white"
+                    android:contentDescription="Toast Button"
                     android:textAllCaps="true"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"/>

@@ -20,6 +20,7 @@
             android:layout_width="@dimen/pro_pic_size"
             android:layout_height="@dimen/pro_pic_size"
             android:id="@+id/profile_pic"
+            android:contentDescription="Profile Picture"
             android:src="?circleBorder"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"

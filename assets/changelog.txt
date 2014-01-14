@@ -1,6 +1,7 @@
 <b>Version 1.051:</b> Lots more crash fixes :)<br/><br/>
     &#8226; fixed links when sharing or quoting a tweet<br/>
     &#8226; fixed the tweets being constrained to 139 chars<br/>
+    &#8226; fixed the action bar showing the "links" title at incorrect times<br/>
     &#8226; Play store crash report fixes<br/><br/>
 <br/>
 

@@ -11,6 +11,7 @@
                android:layout_width="match_parent"
                android:scaleType="centerCrop"
                android:background="@drawable/pressed_button"
+               android:contentDescription="Background Picture"
             />
 
     <LinearLayout
@@ -41,6 +42,7 @@
                 android:src="@drawable/ic_action_expand_dark"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:background="@drawable/pressed_toast"
+                android:contentDescription="Options Button"
                 android:paddingRight="12dp"
                 android:paddingLeft="14dp"
                 />

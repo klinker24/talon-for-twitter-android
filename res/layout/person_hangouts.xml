@@ -21,6 +21,7 @@
             android:layout_height="@dimen/pro_pic_size"
             android:id="@+id/profile_pic"
             android:src="?circleBorder"
+            android:contentDescription="Profile Picture"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginLeft="2dp"/>
