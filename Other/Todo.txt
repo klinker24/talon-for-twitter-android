@@ -11,6 +11,10 @@
     - tweetmarker
 
 - Bugs:
+    - Wrong images in some places
+    - youtube thumbnails not always working right
+    - saves some of them twice...
+    - mentions are all messed up with 2 accounts
 
 - Notification Center:
     - Combined pictures from Evolve
