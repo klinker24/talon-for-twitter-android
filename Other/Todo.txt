@@ -9,6 +9,7 @@
     - different image uploading service
     - widget with just the unread numbers on it
     - tweetmarker
+    - option to not display retweets
 
 - Bugs:
     - Wrong images in some places

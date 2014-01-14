@@ -500,7 +500,11 @@ public abstract class DrawerActivity extends Activity {
             data = new InteractionsDataSource(context);
             data.open();
             notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
-            notificationList.setAdapter(notificationAdapter);
+            try {
+                notificationList.setAdapter(notificationAdapter);
+            } catch (Exception e) {
+
+            }
 
             View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer_1, null);
             notificationList.addFooterView(viewHeader, null, false);
