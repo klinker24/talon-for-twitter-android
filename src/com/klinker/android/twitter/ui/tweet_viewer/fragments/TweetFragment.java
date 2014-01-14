@@ -865,7 +865,7 @@ public class TweetFragment extends Fragment {
                 Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
                 new GetRetweetCount(retweetCount, tweetId).execute();
             } catch (Exception e) {
-                
+
             }
         }
     }

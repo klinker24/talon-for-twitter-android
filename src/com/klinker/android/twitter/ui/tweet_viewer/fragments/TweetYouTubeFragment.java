@@ -34,6 +34,11 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         this.url = url;
     }
 
+    public TweetYouTubeFragment() {
+        this.settings = null;
+        this.url = "";
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

@@ -41,6 +41,11 @@ public class ConversationFragment extends Fragment {
         this.tweetId = tweetId;
     }
 
+    public ConversationFragment() {
+        this.settings = null;
+        this.tweetId = 0;
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

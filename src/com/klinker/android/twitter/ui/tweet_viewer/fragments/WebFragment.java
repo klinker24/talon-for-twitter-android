@@ -27,6 +27,10 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
         this.webpages = webpages;
     }
 
+    public WebFragment() {
+        this.webpages = new ArrayList<String>();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
