@@ -32,6 +32,10 @@ public class PeopleEmojiAdapter extends BaseEmojiAdapter {
 
     public PeopleEmojiAdapter(Context context, EmojiKeyboard keyboard) {
         super(context, keyboard);
+
+        if (res == null) {
+            init(context);
+        }
     }
 
     @Override

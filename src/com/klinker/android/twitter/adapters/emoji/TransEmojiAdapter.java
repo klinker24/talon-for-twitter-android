@@ -32,6 +32,10 @@ public class TransEmojiAdapter extends BaseEmojiAdapter {
 
     public TransEmojiAdapter(Context context, EmojiKeyboard keyboard) {
         super(context, keyboard);
+
+        if (res == null) {
+            init(context);
+        }
     }
 
     @Override

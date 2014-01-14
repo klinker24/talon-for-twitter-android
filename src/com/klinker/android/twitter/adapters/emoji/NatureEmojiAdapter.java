@@ -32,6 +32,10 @@ public class NatureEmojiAdapter extends BaseEmojiAdapter {
 
     public NatureEmojiAdapter(Context context, EmojiKeyboard keyboard) {
         super(context, keyboard);
+
+        if (res == null) {
+            init(context);
+        }
     }
 
     @Override
