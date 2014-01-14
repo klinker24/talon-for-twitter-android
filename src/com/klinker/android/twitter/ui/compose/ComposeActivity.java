@@ -239,7 +239,7 @@ public class ComposeActivity extends Compose {
         String status = editText.getText().toString();
 
         // Check for blank text
-        if ((status.trim().length() > 0 || !attachedFilePath.equals("")) && editText.getText().length() < 140) {
+        if ((status.trim().length() > 0 || !attachedFilePath.equals("")) && editText.getText().length() <= 140) {
             // update status
             doneClicked = true;
             sendStatus(status);

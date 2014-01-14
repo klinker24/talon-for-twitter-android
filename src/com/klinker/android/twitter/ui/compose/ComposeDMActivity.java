@@ -129,12 +129,12 @@ public class ComposeDMActivity extends Compose {
 
         if(!contactEntry.getText().toString().contains(" ")) {
             // Check for blank text
-            if (status.trim().length() > 0 && status.length() < 140) {
+            if (status.trim().length() > 0 && status.length() <= 140) {
                 // update status
                 sendStatus(status);
                 return true;
             } else {
-                if (editText.getText().length() < 140) {
+                if (editText.getText().length() <= 140) {
                     // EditText is empty
                     Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
                 } else {

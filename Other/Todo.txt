@@ -16,6 +16,8 @@
     - youtube thumbnails not always working right
     - saves some of them twice...
     - mentions are all messed up with 2 accounts
+    - pebble
+    - add the content description tags
 
 - Notification Center:
     - Combined pictures from Evolve
@@ -26,7 +28,6 @@
 
     -- change the picture loading to like it is with emojis
     -- mute hashtags
-    -- reverse the order of replies to the conversation
     -- Use the search stuff to get forward replies (https://dev.twitter.com/discussions/17647)
-    -- Spannable String to main timelines
+    -- Spannable String to main timelines (
     -- notification options, can just set them to zero in not. utils i think

@@ -122,7 +122,7 @@ public class ConversationFragment extends Fragment {
 
             try {
                 if (replies.size() > 0) {
-                    
+
                     ArrayList<twitter4j.Status> reversed = new ArrayList<twitter4j.Status>();
                     for (int i = replies.size() - 1; i >= 0; i--) {
                          reversed.add(replies.get(i));
