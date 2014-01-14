@@ -35,7 +35,7 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 public class ImageUtils {
 
     public static Bitmap getCircle(Bitmap currentImage, Context context) {
-        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
         Bitmap output = Bitmap.createBitmap(scale,
@@ -51,7 +51,12 @@ public class ImageUtils {
         canvas.drawCircle(scale / 2,
                 scale / 2, (scale / 2) - (scale / 25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, null, rect, paint);
+        try {
+            canvas.drawBitmap(bitmap, null, rect, paint);
+        } catch (Exception e) {
+            // bitmap is null i guess
+            
+        }
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.contact_picture_border));
 
