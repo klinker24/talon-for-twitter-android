@@ -18,7 +18,6 @@
     - saves some of them twice...
     - mentions are all messed up with 2 accounts
     - pebble
-    - add the content description tags
 
 - Notification Center:
     - Combined pictures from Evolve
