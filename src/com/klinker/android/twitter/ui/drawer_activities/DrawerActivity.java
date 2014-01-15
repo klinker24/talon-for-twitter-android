@@ -338,10 +338,14 @@ public abstract class DrawerActivity extends Activity {
             }
         });
 
-        name.setText(sName);
-        screenName.setText("@" + sScreenName);
-        name.setTextSize(15);
-        screenName.setTextSize(15);
+        try {
+            name.setText(sName);
+            screenName.setText("@" + sScreenName);
+            name.setTextSize(15);
+            screenName.setTextSize(15);
+        } catch (Exception e) {
+            // 7 inch tablet in portrait
+        }
 
         try {
             if(settings.roundContactImages) {
