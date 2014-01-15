@@ -64,9 +64,9 @@ public class BrowserActivity extends Activity {
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         browser.loadUrl("");
-        super.onDestroy();
+        super.onStop();
     }
 
     @Override
