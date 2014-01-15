@@ -1,5 +1,5 @@
 <b>Version 1.07:</b> First beta build :)<br/><br/>
-    &#8226; Better support for images on timelines<br/>
+    &#8226; Better support for image loading on timelines<br/>
     &#8226; Added translation<br/>
     &#8226; Fix for multiple accounts, i think<br/><br/>
 <br/>
