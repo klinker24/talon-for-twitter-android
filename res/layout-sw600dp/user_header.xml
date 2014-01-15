@@ -18,8 +18,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:layout_marginTop="20dp"
             android:gravity="bottom|center_horizontal"
             android:background="@drawable/gradient">
@@ -30,18 +28,20 @@
             android:id="@+id/profile_pic"
             android:src="?circleBorder"
             android:layout_weight="1"
+            android:layout_marginRight="13dp"
+            android:layout_marginLeft="13dp"
             android:layout_marginBottom="6dp"
             android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
-            android:contentDescription="Profile Picture"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="2dp"/>
+            android:contentDescription="Profile Picture" />
 
         <View android:id="@+id/divider"
               android:background="@color/white_divider"
               android:layout_width="match_parent"
-              android:layout_height="1dp" />
+              android:layout_height="1dp"
+              android:layout_marginLeft="12dp"
+              android:layout_marginRight="12dp" />
 
         <ImageButton
                 android:id="@+id/options"
@@ -52,8 +52,8 @@
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:background="@drawable/pressed_toast"
                 android:contentDescription="Options"
-                android:paddingRight="12dp"
-                android:paddingLeft="14dp"
+                android:paddingRight="13dp"
+                android:paddingLeft="13dp"
                 />
 
     </LinearLayout>
