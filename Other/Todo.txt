@@ -30,3 +30,4 @@
     -- mute hashtags
     -- Use the search stuff to get forward replies (https://dev.twitter.com/discussions/17647)
     -- Spannable String to main timelines (http://stackoverflow.com/questions/7570239/android-linkify-text-spannable-text-in-single-text-view-as-like-twitter-twee)
+    -- finish the accessibility stuff

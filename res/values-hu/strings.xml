@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Talon</string>
+    <string name="app_name_full">Talon for Twitter</string>
+    <string name="extension_description">Megjeleníti az olvasatlan tweetek, említések és közvetelen üzenetek számát, amint frissülnek.</string>
+
+    <!-- Action Bar -->
+    <string name="menu_refresh">Idővonal frissítése</string>
+    <string name="menu_compose">Új Tweet</string>
+    <string name="menu_logout">Kijelentkezés</string>
+    <string name="menu_settings">Beállítások</string>
+    <string name="menu_follow">Felhasználó követése</string>
+    <string name="menu_unfollow">Felhasználó követésének megszüntetése</string>
+    <string name="menu_tweet">Tweet küldése</string>
+    <string name="menu_dm">Közvetlen üzenet küldése</string>
+    <string name="menu_block">Felhasználó tiltása</string>
+    <string name="menu_unblock">Felhasználó tiltásának feloldása</string>
+    <string name="menu_add_to_list">Hozzáadás a listsához</string>
+    <string name="menu_change_picture">Profilkép szerkesztése</string>
+    <string name="menu_change_bio">Profil névjegy szerkesztése</string>
+    <string name="menu_change_banner">Profil fejléc szerkesztése</string>
+    <string name="menu_direct_message">Új közvetlen üzenet</string>
+    <string name="menu_save_image">Kép mentése</string>
+    <string name="menu_favorite">Felhasználó a kedvencekhet</string>
+    <string name="menu_unfavorite">Felhasználó eltávolítása a kedvencekből</string>
+    <string name="menu_create_list">Új lista létrehozása</string>
+    <string name="menu_spam">Megjelölés Spamnek</string>
+
+    <!-- Times -->
+    <!-- When translating: put the %s where the number should go in the string. -->
+    <string name="just_now">éppen most</string>
+    <string name="a_min_ago">egy perce</string>
+    <string name="minutes_ago">%s perce</string>
+    <string name="an_hour_ago">egy órája</string>
+    <string name="hours_ago">%s órája</string>
+    <string name="yesterday">tegnap</string>
+    <string name="days_ago">%s napja</string>
+
+    <!-- Muting -->
+    <string name="mute">Némítás</string>
+    <string name="unmute">Némítás feloldása</string>
+    <string name="muted_users">Elnémított felhasználók</string>
+    <string name="no_users">Nincs felhasználó</string>
+
+    <!-- Main Activity -->
+    <string name="links">Hivatkozások</string>
+    <string name="pictures">Képek</string>
+    <string name="timeline">Idővonal</string>
+    <string name="mentions">Említések</string>
+    <string name="direct_messages">Közvetlen üzenetek</string>
+    <string name="retweets">Retweetek</string>
+    <string name="favorite_tweets">Kedvenc Tweetek</string>
+    <string name="favorite_users">Kedvenc felhasználók</string>
+    <string name="trends">Trendek</string>
+    <string name="local_trends">Helyi trenek</string>
+    <string name="world_trends">Trendek a világban</string>
+    <string name="search">Keresés</string>
+    <string name="lists">Listák</string>
+    <string name="search_hint">\@felhasználónév vagy keresés...</string>
+    <string name="new_tweet">új tweet</string>
+    <string name="new_tweets">új tweetek</string>
+    <string name="no_new_tweets">Nincsenek új tweetek</string>
+    <string name="new_mention">új említés</string>
+    <string name="new_mentions">új említések</string>
+    <string name="no_new_mentions">Nincsenek új említések</string>
+    <string name="new_direct_message">új követlen üzenet</string>
+    <string name="new_direct_messages">új követlen üzenetek</string>
+    <string name="no_new_direct_messages">Nincsenek új közvetlen üzenetek</string>
+    <string name="tap_to_setup">Érintse meg a beállításhoz</string>
+    <string name="new_account">Új fiók</string>
+    <string name="from_top">tetejétől</string>
+    <string name="jump_to_top">Elsőhöz</string>
+    <string name="all_read">Összes olvasott!</string>
+    <string name="view_new">Betölti?</string>
+    <string name="old_interactions">Összes esemény</string>
+
+    <!-- Notifications -->
+    <string name="tweet">Tweet</string>
+    <string name="tweets">Tweetek</string>
+    <string name="mention">Említés</string>
+    <string name="message">Üzenet</string>
+    <string name="messages">Üzenetek</string>
+    <string name="new_message">új üzenet</string>
+    <string name="new_messages">új üzenetek</string>
+    <string name="mentioned_by">Említetve általa: </string>
+    <string name="message_from">Üzenet tőle: </string>
+    <string name="mark_read">Olvasott</string>
+    <string name="noti_reply">Válasz</string>
+    <string name="popup">Felugró</string>
+    <string name="fav_user_tweets">kedvenc felhasználó új tweetjei</string>
+    <string name="sec_acc">Második fiók</string>
+    <string name="talon_pull">Talon lehúzás</string>
+    <string name="listening">Figyelés</string>
+    <string name="listening_for_mentions">Események figyelése</string>
+    <string name="refreshing">Frissítés</string>
+    <string name="refreshing_widget">Widget frissítése</string>
+    <string name="downloading">Letöltés</string>
+    <string name="saving_picture">Kép mentése</string>
+    <string name="new_interaction_upper">Új esemény</string>
+    <string name="new_interactions_lower">új események</string>
+    <string name="new_interactions">Új események</string>
+    <string name="retweeted">retweetelte az állapotát</string>
+    <string name="favorited">kedvencekhez adta az állapotát</string>
+    <string name="followed">követi</string>
+    <string name="new_retweets">retweetek</string>
+    <string name="new_favorites">kedvencek</string>
+    <string name="new_tweets_upper">Új Tweetek</string>
+
+    <!-- Login Screen -->
+    <string name="setup_talon">Talon beállítása</string>
+    <string name="login_to_twitter">Bejelentkezés a Twitterbe</string>
+    <string name="first_welcome">Üdvözli a Talon!</string>
+    <string name="second_welcome">Adatok szinkronizálása</string>
+    <string name="third_welcome">Kész!</string>
+    <string name="back_to_timeline">Ugrás az idővonalhoz!</string>
+    <string name="initial_sync">Szinkronizálás!</string>
+    <string name="first_info">Mielőtt elkezdené, jelentkezzen be. </string>
+    <string name="second_info">Nagyszerű!\n\nMost lekérdezünk pár szükséges adatot.\n\nAz internet kapcsolattól függően ez letarthat egy ideig.</string>
+    <string name="third_info">Reméljük élvezni fogja a Talont!\n\n-- Luke Klinker</string>
+    <string name="syncing_timeline">Idővonal szinkronizálása...</string>
+    <string name="syncing_mentions">Említések szinkronizálása...</string>
+    <string name="syncing_direct_messages">Közvetlen üzenetek szinkronizálása...</string>
+    <string name="syncing_user">Barátok szinkronizálása...</string>
+    <string name="done_syncing">A szinkronizálás befejeződött.</string>
+    <string name="login_error">Valami hiba történt... Kérem próbálja meg újra!</string>
+    <string name="no_network">Nincs kapcsolódva az internethez</string>
+    <string name="no_thanks">Most nem</string>
+    <string name="follow_me">Kövessen minket!</string>
+    <string name="follow_me_description">Kövesse @TalonAndroid és @lukeklinker felhasználókat a támogatáshoz és, hogy értesüljön a legújabb funkciókról!</string>
+
+    <!-- Compose New Activity -->
+    <string name="compose_activity">Új Tweet</string>
+    <string name="compose_tweet_hint">Ide írjon...</string>
+    <string name="send_to">Adja meg a felhasználó nevét</string>
+    <string name="direct_message_sent">Közvetlen üzenet elküldve</string>
+    <string name="type_user">Írja be a felhasználót</string>
+    <string name="add_user">Felhasználó hozzáadása</string>
+    <string name="location_connected">Hely csatolva</string>
+    <string name="location_disconnected">Hely nem elérhető</string>
+    <string name="finding_location">Hely keresése</string>
+    <string name="draft_found">Piszkozat elérhető</string>
+    <string name="apply">Alkalmazza?</string>
+    <string name="tweet_failed">Hiba a tweet küldésekor</string>
+    <string name="tap_to_retry">Érintse meg az újrapróbáláshoz</string>
+    <string name="one_recepient">Közvetlen üzenetet csak egy címzettnek küldhet!</string>
+
+    <!-- Actionbar Done-Discard -->
+    <string name="discard">Elvetés</string>
+    <string name="send">Küldés</string>
+
+    <!-- Other -->
+    <string name="placeholder">Placeholder</string>
+    <string name="reply">Válasz...</string>
+    <string name="error">Hiba</string>
+    <string name="error_loading_page">Hiba az oldal betöltésekor</string>
+    <string name="delete">Törlés</string>
+    <string name="cancel">Mégsem</string>
+    <string name="delete_direct_message">Törli az üzenetet?</string>
+    <string name="save_image">Kép elmentve</string>
+    <string name="tweet_success">Sikeres tweetelés</string>
+    <string name="error_sending_tweet">Hiba a tweet küldésekor</string>
+    <string name="tweet_to_long">Túl hosszú tweet!</string>
+    <string name="ok">OK</string>
+    <string name="no">Nem</string>
+    <string name="changelog">Újdonságok</string>
+    <string name="created_by">Készítette: </string>
+    <string name="no_location">A hely nem elérhető</string>
+    <string name="take_picture">Kép készítése</string>
+    <string name="from_file">Kép hozzáadása</string>
+    <string name="via">via</string>
+    <string name="version">Verzió</string>
+    <string name="from">Feladó</string>
+    <string name="save">Mentés</string>
+    <string name="stop">Stop</string>
+    <string name="tweeted">tweetelve</string>
+
+    <!-- User Profile Activity -->
+    <string name="followers">Követők</string>
+    <string name="following">Követve</string>
+    <string name="tweets">Tweetek</string>
+    <string name="blocked_user">Letiltott felhasználó</string>
+    <string name="unblocked_user">Feloldott felhasználó</string>
+    <string name="followed_user">Követett felhasználó</string>
+    <string name="unfollowed_user">Nem követett felhasználó</string>
+    <string name="no_description">Nincs elérhető felhasználói leírás.</string>
+    <string name="favorite_user">Kedvenc felhasználó</string>
+    <string name="unfavorite_user">Nem kedvenc felhasználó</string>
+    <string name="updating_pro_pic">Profilkép frissítése</string>
+    <string name="updating_banner_pic">Fejléc kép frissítése</string>
+    <string name="uploaded">Fájl feltöltve</string>
+    <string name="change_profile_info">Profil névjegy módosítása</string>
+    <string name="update">Frissítés</string>
+    <string name="optional_name">Név (opcionális)</string>
+    <string name="optional_url">URL (opcionális)</string>
+    <string name="optional_location">Hely (opcionális)</string>
+    <string name="optional_description">Leírás (opcionális)</string>
+    <string name="updated_profile">Frissített profil</string>
+    <string name="name_char_length">Név: max. 20 karakter</string>
+    <string name="url_char_length">URL: max. 100 karakter</string>
+    <string name="location_char_length">Hely: max. 30 karakter</string>
+    <string name="description_char_length">Leírás: max. 160 karakter</string>
+
+    <!-- Retweets Activity -->
+    <string name="retweets_lower">retweetek</string>
+    <string name="retweet_lower">retweet</string>
+    <string name="retweeter">retweetelte: @</string>
+
+    <!-- Tweet Activity -->
+    <string name="menu_open_web">Webes hivatkozás megnyitása</string>
+    <string name="menu_copy_text">Tweet szövegének másolása</string>
+    <string name="menu_share">Tweet megosztása</string>
+    <string name="menu_delete_tweet">Tweet törlése</string>
+    <string name="conversation">Beszélgetés</string>
+    <string name="webpage">Weboldal</string>
+    <string name="tweet_youtube">YouTube</string>
+    <string name="menu_quote">Tweet idézése</string>
+    <string name="deleted_tweet">Tweet törölve</string>
+    <string name="error_deleting">Hiba a tweet törlésekor</string>
+    <string name="sending">Küldés</string>
+    <string name="open_what">Megnyitás</string>
+    <string name="youtube_error">Hiba a videó lejátszásakor</string>
+    <string name="no_conversation">Nincsenek régebbi tweetek</string>
+    <string name="saving_picture">Kép mentése</string>
+    <string name="saved_picture">Kép mentése sikerült</string>
+    <string name="retweet_success">Sikeres Retweet</string>
+    <string name="favorite_success">Kedvenc hozzáadása sikerült</string>
+    <string name="success">Sikerült</string>
+
+    <!-- User Lists -->
+    <string name="view_users">Felhasználók megtekintése</string>
+    <string name="delete_list">Lista törlése</string>
+    <string name="remove_user">Felhasználó eltávolítása</string>
+    <string name="remove">Eltávolítás</string>
+    <string name="from_list">a listáról</string>
+    <string name="removed_user">Eltávolított felhasználó</string>
+    <string name="create_new_list">Új lista létrehozása</string>
+    <string name="list_name">Lista neve...</string>
+    <string name="list_description">Opcionális lista leírás...</string>
+    <string name="deleted_list">Törölt lista</string>
+    <string name="back_to_refresh">Vissza a frissített listákhoz</string>
+    <string name="sPrivate">Privát</string>
+    <string name="sPublic">Nyilvános</string>
+    <string name="finding_lists">Listák keresése...</string>
+    <string name="choose_list">Lista kiválasztása</string>
+    <string name="added_to_list">Hozzáadva a listához</string>
+
+    <!-- Tutorial Activity -->
+    <string name="part_1_tablet">\nFérjen hozzá\na listákhoz\naz elemek megérintésével\na navigációs\nsávon!</string>
+    <string name="part_1_phone">\nNyissa meg\na navigációs sávot\negy balra\ncsúsztatással!</string>
+    <string name="part_2">\nLapozzon\naz idővonalak között\na kijelző közepéről\nindított\ncsúsztatással!</string>
+    <string name="part_3">Ennyi!\n\nÉrintse meg a\nskijelzőt\na kezdéshez!</string>
+
+    <!-- Settings Menu -->
+    <string name="theme_settings">Téma beállítások</string>
+        <string name="theme_options">Téma beállítások</string>
+        <string name="font_options">Betűkészlet beállítások</string>
+        <string name="other_options">Egyéb beállítások</string>
+        <string name="theme">Téma</string>
+        <string name="addon_themes">Téma kiegészítő</string>
+        <string name="addon_note">Kattintson ide új témák kereséséhez.\n\nMEGJEGYZÉS:\n- Ez le fogja tiltani a beépített emoji billentyűzetet, amikor válaszol egy tweetre.\n- Kérjük ne küldjön hibajelentést, amíg nem tudja azt reprodukálni egyéni téma alkalmazása NÉLKÜL.</string>
+        <string name="use_addon_themes">Téma kiegészítő használata</string>
+        <string name="make_a_theme">Téma készítése</string>
+        <string name="layout">Elrendezés</string>
+            <string name="themeing_complete">Alkalmazott téma</string>
+            <string name="themeing_complete_summary">\"A Talon\" most bezáródik.\n\n
+                A változások alkalmazásához csúsztatással el kell távolítania a \"Talon-t\" a legutóbbi alkalmazások listájáról.\n\n
+                Ha a profilképek nem úgy jelennek meg, ahogy kellene (pl. kör vagy négyzet), akkor el kell távolítani és újra hozzáadni a widgetet.</string>
+    <string name="layout_summary">Ez a változtatás törölni fogja az alkalmazás gyorsítótárát.</string>
+        <string name="text_size">Szövegméret</string>
+        <string name="night_mode">Éjszakai mód</string>
+            <string name="night_mode_night">Éjszaka kezdetének kiválasztása</string>
+            <string name="night_mode_day">Nappal kezdetének kiválasztása</string>
+            <string name="night_mode_theme">Éjszakai mód témájának kiválasztása</string>
+        <string name="device_font">Használja az eszköz betűtípusát</string>
+            <string name="device_font_summary">Általában \"Roboto\" a legtöbb eszközön. A Talon alapértelmezett betűtípusa \"Roboto Light\".</string>
+        <string name="ui_extras">UI extrák</string>
+            <string name="ui_extras_summary">Magában foglalja:\n
+                - Műveleti sáv elrejtése\n
+                - Művelet képes Toast sáv\n
+                - Átlátszó rendszersávok (csak Android 4.4)\n\n
+                Ennek a beállításnak az engedélyezése hatással lesz a görgetési teljesítményre.</string>
+        <string name="inline_pics">Beágyazott képek megjelenítése</string>
+        <string name="use_screen_name">Twitter név megjelenítése</string>
+            <string name="use_screen_name_summary">A felhasználó Twitter nevének megjelenítése az idővonalon a neve helyett.</string>
+        <string name="timestamp">24 órás időbélyegző</string>
+        <string name="enable_emojis">Emoji engedélyezése</string>
+        <string name="to_market">A Play Áruházba</string>
+        <string name="get_android">Android Emojik beszerzése</string>
+        <string name="get_ios">iOS Emojik beszerzése</string>
+        <string name="emoji_dialog_summary">Az emojik alkamazáson belüli engedélyezéséhez, először telepíteni kell a Play Áruházból a \"Sliding Emoji Keyboard\" vagy a \"Sliding Emoji Keyboard - iOS\" csomagot.\n\n
+                A két emoji típus között úgy válthat, hogy eltávolítja az egyiket és telepíti a másikat. Ha mindkét csomag telepítve van, akkor a Talon az alapértelmezett Android emojikat fogja használni.\n\n
+                MEGJEGYZÉS: Az Emojik a próbaidőszak lejárata után is működni fognak! A csomag használható pluginként és különálló billentyűzetként is.</string>
+
+        <string name="theme_light">Világos téma</string>
+        <string name="theme_dark">Sötét téma</string>
+        <string name="theme_black">Fekete téma</string>
+
+    <string name="sync_settings">Szinkronizáció beállítások</string>
+        <string name="sync_mobile_data">Mobiladat használata</string>
+        <string name="sync_mobile_data_summary">Idővonal automatikus frissítése mobiladat és WiFi használatával.</string>
+        <string name="auto_sync_notifications">Automatikus frissítés értesítés beállítások</string>
+            <string name="notifications">Értesítések</string>
+            <string name="vibrate">Rezgés</string>
+            <string name="led">LED fény</string>
+            <string name="wake_screen">Kijelző bekapcsolása</string>
+            <string name="sound">Értesítés hang</string>
+            <string name="quiet_hours">Ne zavarjon</string>
+        <string name="max_number_on_refresh">Max frissítendő Tweetek</string>
+        <string name="fav_users_notifications">Kedvenc felhasználó értesítések</string>
+        <string name="sync_second_mentions">Második fiók említéseinek szinkronizálása</string>
+            <string name="sync_second_mentions_summary">Az első fiókkal együtt automatikusan ellenőrizze és értesítsen új említésekről a második fiókban is.</string>
+        <string name="max_number_summary">A nagyob maximum lassabb frissítést jelent.</string>
+        <string name="auto_refresh_category">Auto-frissítés beállítások</string>
+            <string name="refresh_on_startup">Frissítés indításkor</string>
+            <string name="timeline_sync_interval">Idővonal frissítési gyakoriság</string>
+            <string name="mentions_sync_interval">Említések frissítési gyakoriság</string>
+            <string name="dm_sync_interval">Közvetlen üzenetek frissítési gyakoriság</string>
+        <string name="sync_friends">Barátok adatainak szinkronizálása</string>
+        <string name="sync_friends_summary2">Új tweetek írásakor újraszinkronizálja a barátok adatait.</string>
+        <string name="sync_friends_summary">Barátok lista kézi frissítése.\n\nEz megtörtént a bejelentkezéskor, valamint az újak automatikusan hozzá lettek adva, amikor a Talonból adta hozzá követéshez, de ez az opció le fogja kérni az összes legújabb "követését".\n\n
+                    Ez az adat egy új tweet írásakor a felhasználók kereséséhez lesz használva.</string>
+        <string name="sync_success">Szinkronizáció sikeres</string>
+        <string name="sync_failed">Szinkronizáció sikertelen</string>
+        <string name="push_notification_options">\"Push értesítések\" beállítás</string>
+        <string name="push_notifications">Talon Pull</string>
+            <string name="push_notifications_summary">Ez egy figyelő szolgáltatást indít, hogy azonnali értesítéseket küldjön új események érkezésekor(említések, közvetlen üzenetek, kedvencek, retweetek, új követők).\n\nAz idővonalán is azonnal megjeleníti a tweeteket.</string>
+            <string name="push_notification_warning">További információért kattintson ide.</string>
+
+    <string name="notification_settings">Értesítés beállítások</string>
+        <string name="pebble_notifications">Pebble értesítések</string>
+        <string name="pebble_notifications_summary">Pebble okosórával használható.</string>
+
+    <string name="advanced_settings">Haladó beállítások</string>
+        <string name="app_feel_category">App Feel beállítások</string>
+            <string name="advance_windowed">Előrehozott ablakok</string>
+                <string name="advance_windowed_summary">A profilokat és tweeteket egy \"ablakos\" nézetben jeleníti meg az idővonal felett.</string>
+            <string name="full_screen_browsers">Teljesképernyős böngésző</string>
+                <string name="full_screen_browsers_summary">A weboldalakat tartalmazó tweeteket teljesképernyős módban nyitja meg.</string>
+            <string name="reverse_click_actions">Kattintás műveletek megfordítása</string>
+                <string name="reverse_click_actions_summary">Tweeteken lévő kattintás műveletek megfordítása.\n\n
+                    Alapértelmezett (amikor le van tiltva):\n
+                    - Hosszú kattintás megnyitja a tweetet\n
+                    - Rövid kattintás kibontja a tweetet</string>
+            <string name="extra_pages">Extra oldalak használata</string>
+                <string name="extra_pages_summary">Hivatkozások és képek oldalak hozzáadása az idővonal bal oldalához.</string>
+            <string name="live_streaming">Élő közvetítés</string>
+                <string name="live_streaming_summary">Több energiát fogyaszt és mindig \"frissít indításkor.\"</string>
+        <string name="memory_management">Memóriakezelés beállítások</string>
+            <string name="delete_cache">Gyorsítótár törlése most</string>
+            <string name="cache_dialog">Törli a gyorsítótárat?</string>
+            <string name="not_cache">Nem érvényes az alkalmazás gyorsítótárra.</string>
+            <string name="current_cache_size">Jelenlegi gyorsítótár mérete</string>
+                <string name="cache_dialog_summary">Ez a művelet nem vonható vissza.</string>
+            <string name="timeline_size">Idővonal mérete</string>
+                <string name="timeline_size_summary">Az adatbázisban tárolható tweetek maximális száma</string>
+            <string name="mentions_size">Említések mérete</string>
+                <string name="mentions_size_summary">Az adatbázisban tárolható említések maximális száma</string>
+            <string name="dm_size">Közvetlen üzenetek mérete</string>
+                <string name="dm_size_summary">Az adatbázisban tárolható közvetlen üzenetek maximális száma</string>
+            <string name="auto_trim">Adatbázisok automatikus karbantartása</string>
+            <string name="trim_now">Adatbázisok karbantartása most</string>
+                <string name="trim_dialog">Elindítja a karbantartást?</string>
+                <string name="trimming">Karbantartás...</string>
+                <string name="trim_success">Karbantartás sikeres</string>
+                <string name="trim_fail">Karbantartás sikertelen</string>
+        <string name="backup_category">Mentés és visszaállítás beállítások</string>
+            <string name="backup_settings">Mentés beállítások</string>
+                <string name="backup_settings_dialog">Új biztonsági mentés létrehozása?</string>
+                <string name="backup_settings_dialog_summary">Ezzel felülírja az összes korábbi mentést.</string>
+                <string name="backup_success">Biztonsági mentés sikeres</string>
+                <string name="restore_success">Visszaállítás sikeres</string>
+            <string name="restore_settings">Visszaállítás beállítások</string>
+                <string name="restore_settings_summary">A téma változások alkalmazásához törölni fogja a gyorsítótárat.</string>
+
+
+    <string name="get_help_settings">Segítség kérése</string>
+        <string name="rerun_tutorial">Kezdeti lépések indítása</string>
+        <string name="faq">Gyakran Ismételt Kérdések</string>
+        <string name="features_explained">Funkciók leírása</string>
+        <string name="youtube">YouTube Videó</string>
+        <string name="google_plus">Google+ közösség</string>
+        <string name="xda_thread">XDA fórum</string>
+        <string name="email_me">Email küldése</string>
+        <string name="tweet_me">Tweet küldése</string>
+        <string name="follow_talon">Kövesse a Talont a Twitteren</string>
+        <string name="credits">Készítők</string>
+        <string name="disclaimer">Jogi nyilatkozat</string>
+
+    <string name="other_apps">További alkalmazásaink</string>
+    <string name="whats_new">Újdonságok</string>
+    <string name="rate_it">Talon értékelése</string>
+    <string name="talon_settings">Talon beállítások</string>
+    <string name="feature_requests">Új funkció kérése</string>
+
+    <!-- Emoji Keyboard -->
+    <string name="recent">Legutóbbi</string>
+    <string name="people">Emberek</string>
+    <string name="things">Tárgyak</string>
+    <string name="nature">Természet</string>
+    <string name="places">Helyek</string>
+    <string name="symbols">Szimbólumok</string>
+
+    <!-- Array value for translation -->
+    <string name="five_mins">5 perc</string>
+    <string name="ten_mins">10 perc</string>
+    <string name="twenty_mins">20 perc</string>
+    <string name="thirty_mins">30 perc</string>
+    <string name="fourty_five_mins">45 perc</string>
+    <string name="one_hour">1 óra</string>
+    <string name="two_hours">2 óra</string>
+    <string name="three_hours">3 óra</string>
+    <string name="four_hours">4 óra</string>
+    <string name="manual">Kézi</string>
+
+    <string name="layout_hangouts">Csevegő</string>
+
+
+    <!-- added after release -->
+    <string name="use_inapp_browser">Belső böngésző használata</string>
+    <string name="dismiss_all">Összes elvetése</string>
+    <string name="handle_and_name">Twitter név és rendes név megjelenítése</string>
+
+
+</resources>
