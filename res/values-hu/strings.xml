@@ -323,7 +323,7 @@
         <string name="sync_failed">Szinkronizáció sikertelen</string>
         <string name="push_notification_options">\"Push értesítések\" beállítás</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">Ez egy figyelő szolgáltatást indít, hogy azonnali értesítéseket küldjön új események érkezésekor(említések, közvetlen üzenetek, kedvencek, retweetek, új követők).\n\nAz idővonalán is azonnal megjeleníti a tweeteket.</string>
+            <string name="push_notifications_summary">Ez egy figyelő szolgáltatást indít, hogy azonnali értesítéseket küldjön új események érkezésekor(említések, közvetlen üzenetek, kedvencek, retweetek, új követők).</string>
             <string name="push_notification_warning">További információért kattintson ide.</string>
 
     <string name="notification_settings">Értesítés beállítások</string>
