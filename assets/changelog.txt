@@ -1,4 +1,9 @@
-<b>Version 1.06:</b> First beta build :)<br/><br/>
+<b>Version 1.07:</b> First beta build :)<br/><br/>
+    &#8226; Added translation<br/>
+    &#8226; Fix for multiple accounts<br/><br/>
+<br/>
+
+<b>Version 1.06:</b><br/><br/>
     &#8226; Huge expansion of notification options<br/>
     &#8226; Fixed links when sharing or quoting a tweet<br/>
     &#8226; Fixed the tweets being constrained to 139 chars<br/>
