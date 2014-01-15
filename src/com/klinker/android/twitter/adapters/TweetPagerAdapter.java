@@ -197,7 +197,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                 case 2:
                     return context.getResources().getString(R.string.discussion);
             }
-        } else if (pageCount == 3 && youtube) {
+        } else if (pageCount == 4 && youtube) {
             switch (i) {
                 case 0:
                     return context.getResources().getString(R.string.tweet_youtube);
@@ -208,7 +208,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                 case 3:
                     return context.getResources().getString(R.string.discussion);
             }
-        } else if (pageCount == 3) { // no youtube, just a hasWebpage
+        } else if (pageCount == 4) { // no youtube, just a hasWebpage
             switch (i) {
                 case 0:
                     return context.getResources().getString(R.string.webpage);

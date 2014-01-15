@@ -57,6 +57,8 @@ public class TalonPullNotificationService extends Service {
 
     public NotificationCompat.Builder mBuilder;
 
+    public static boolean shuttingDown = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -222,13 +224,16 @@ public class TalonPullNotificationService extends Service {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    TalonPullNotificationService.shuttingDown = true;
                     try {
                         pushStream.cleanUp();
                         pushStream.shutdown();
                         Log.v("twitter_stream_push", "stopping push notifications");
                     } catch (Exception e) {
                         // it isn't running
+
                     }
+                    TalonPullNotificationService.shuttingDown = false;
                 }
             }).start();
 
@@ -239,20 +244,34 @@ public class TalonPullNotificationService extends Service {
     public BroadcastReceiver startPush = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            try {
-                interactions.open();
-            } catch (Exception e) { }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (TalonPullNotificationService.shuttingDown) {
+                        try {
+                            Thread.sleep(1500);
+                        } catch (Exception e) {
 
-            settings = new AppSettings(context);
-            pushStream = Utils.getStreamingTwitter(context, settings);
+                        }
+                    }
 
-            String myName = settings.myScreenName;
-            Log.v("twitter_stream_push", "my id: " + myName + "");
+                    try {
+                        interactions.open();
+                    } catch (Exception e) { }
 
-            pushStream.addListener(userStream);
-            //pushStream.filter(new FilterQuery().track(new String[]{myName}));
-            pushStream.user(new String[] {myName});
-            Log.v("twitter_stream_push", "started push notifications");
+                    settings = new AppSettings(mContext);
+                    pushStream = Utils.getStreamingTwitter(mContext, settings);
+
+                    String myName = settings.myScreenName;
+                    Log.v("twitter_stream_push", "my id: " + myName + "");
+
+                    pushStream.addListener(userStream);
+                    //pushStream.filter(new FilterQuery().track(new String[]{myName}));
+                    pushStream.user(new String[] {myName});
+                    Log.v("twitter_stream_push", "started push notifications");
+                }
+            }).start();
+
         }
     };
 
