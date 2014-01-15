@@ -422,6 +422,8 @@
     <string name="with_talon_pull">Accessed through \"Talon Pull\"</string>
     <string name="favorited_tweet">Favorites on your tweets</string>
     <string name="new_followers">New followers</string>
+    <string name="discussion">Discussion</string>
+    <string name="no_replies">No Replies</string>
 
 
 </resources>
