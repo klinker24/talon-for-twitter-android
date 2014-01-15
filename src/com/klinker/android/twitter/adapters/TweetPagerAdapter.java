@@ -7,7 +7,8 @@ import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.tweet_viewer.fragments.ConversationFragment;
+import com.klinker.android.twitter.ui.tweet_viewer.fragments.DiscussionFragment;
+import com.klinker.android.twitter.ui.tweet_viewer.fragments.DiscussionFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.WebFragment;
@@ -93,7 +94,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
             this.hasWebpage = false;
         }
 
-        pageCount = 2; // tweet and conversation will always be there
+        pageCount = 2; // tweet and Discussion will always be there
 
         if (this.hasWebpage) {
             pageCount++;
@@ -112,8 +113,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 1:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
-                    return conversation;
+                    DiscussionFragment Discussion = new DiscussionFragment(settings, tweetId, screenName);
+                    return Discussion;
             }
         } else if (pageCount == 3 && youtube) {
             switch (i) {
@@ -124,8 +125,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 2:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
-                    return conversation;
+                    DiscussionFragment Discussion = new DiscussionFragment(settings, tweetId, screenName);
+                    return Discussion;
             }
         } else if (pageCount == 3) { // no youtube, just a hasWebpage
             switch (i) {
@@ -136,8 +137,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 2:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
-                    return conversation;
+                    DiscussionFragment Discussion = new DiscussionFragment(settings, tweetId, screenName);
+                    return Discussion;
             }
         } else { // every page is shown
             switch (i) {
@@ -151,8 +152,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 3:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
-                    return conversation;
+                    DiscussionFragment Discussion = new DiscussionFragment(settings, tweetId, screenName);
+                    return Discussion;
             }
         }
 

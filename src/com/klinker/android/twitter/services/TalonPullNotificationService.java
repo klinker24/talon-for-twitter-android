@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -182,13 +184,18 @@ public class TalonPullNotificationService extends Service {
     public BroadcastReceiver stopPush = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            try {
-                pushStream.cleanUp();
-                pushStream.shutdown();
-                Log.v("twitter_stream_push", "stopping push notifications");
-            } catch (Exception e) {
-                // it isn't running
-            }
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        pushStream.cleanUp();
+                        pushStream.shutdown();
+                        Log.v("twitter_stream_push", "stopping push notifications");
+                    } catch (Exception e) {
+                        // it isn't running
+                    }
+                }
+            });
 
             try {
                 interactions.close();
@@ -212,13 +219,18 @@ public class TalonPullNotificationService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            try {
-                pushStream.cleanUp();
-                pushStream.shutdown();
-                Log.v("twitter_stream_push", "stopping push notifications");
-            } catch (Exception e) {
-                // it isn't running
-            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        pushStream.cleanUp();
+                        pushStream.shutdown();
+                        Log.v("twitter_stream_push", "stopping push notifications");
+                    } catch (Exception e) {
+                        // it isn't running
+                    }
+                }
+            }).start();
 
             stopSelf();
         }

@@ -25,24 +25,29 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class ConversationFragment extends Fragment {
+public class DiscussionFragment extends Fragment {
     private Context context;
     private View layout;
     private AppSettings settings;
     private long tweetId;
+    private String screenname;
 
-    public ConversationFragment(AppSettings settings, long tweetId) {
+    public DiscussionFragment(AppSettings settings, long tweetId, String screenname) {
         this.settings = settings;
         this.tweetId = tweetId;
+        this.screenname = screenname;
     }
 
-    public ConversationFragment() {
+    public DiscussionFragment() {
         this.settings = null;
         this.tweetId = 0;
     }
@@ -61,7 +66,6 @@ public class ConversationFragment extends Fragment {
         final AsyncListView replyList = (AsyncListView) layout.findViewById(R.id.listView);
         final LinearLayout progressSpinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         final HoloTextView none = (HoloTextView) layout.findViewById(R.id.no_conversation);
-        none.setText(getResources().getString(R.string.no_replies));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
@@ -99,24 +103,25 @@ public class ConversationFragment extends Fragment {
         protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
             Twitter twitter = Utils.getTwitter(context, settings);
             try {
-                twitter4j.Status status = twitter.showStatus(tweetId);
+                Query query = new Query("@" + screenname + " since_id:" + tweetId);
+                query.setCount(100);
+                QueryResult result=twitter.search(query);
 
-                twitter4j.Status replyStatus = twitter.showStatus(status.getInReplyToStatusId());
+                ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
 
-                ArrayList<twitter4j.Status> replies = new ArrayList<twitter4j.Status>();
-
-                try {
-                    while(!replyStatus.getText().equals("")) {
-                        replies.add(replyStatus);
-                        Log.v("reply_status", replyStatus.getText());
-
-                        replyStatus = twitter.showStatus(replyStatus.getInReplyToStatusId());
+                do{
+                    List<twitter4j.Status> tweets = result.getTweets();
+                    for(twitter4j.Status tweet: tweets){
+                        if (tweet.getInReplyToStatusId() == tweetId) {
+                            all.add(tweet);
+                        }
                     }
-                } catch (Exception e) {
-                    // the list of replies has ended, but we dont want to go to null
-                }
+                    query=result.nextQuery();
+                    if(query!=null)
+                        result=twitter.search(query);
+                }while(query!=null);
 
-                return replies;
+                return all;
 
             } catch (TwitterException e) {
                 e.printStackTrace();
@@ -132,7 +137,7 @@ public class ConversationFragment extends Fragment {
 
                     ArrayList<twitter4j.Status> reversed = new ArrayList<twitter4j.Status>();
                     for (int i = replies.size() - 1; i >= 0; i--) {
-                         reversed.add(replies.get(i));
+                        reversed.add(replies.get(i));
                     }
 
                     listView.setAdapter(new TimelineArrayAdapter(context, reversed));
