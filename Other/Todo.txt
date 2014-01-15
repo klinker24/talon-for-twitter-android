@@ -32,3 +32,4 @@
 
     -- mute hashtags
     -- Spannable String to main timelines (http://stackoverflow.com/questions/7570239/android-linkify-text-spannable-text-in-single-text-view-as-like-twitter-twee)
+    -- location, website, and following status in the profiles
