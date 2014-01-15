@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/pressed_button"
-            android:contentDescription="Publilc List"
+            android:contentDescription="Public List"
             android:text="@string/sPublic"
             android:id="@+id/public_btn"/>
     </LinearLayout>

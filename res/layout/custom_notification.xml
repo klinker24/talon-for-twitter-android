@@ -43,6 +43,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/ic_cancel_dark"
+        android:contentDescription="Popup"
         android:background="@android:color/transparent"
         android:layout_marginRight="10dp" />
 

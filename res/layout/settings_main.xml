@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/pressed_button"
+            android:contentDescription="Created By"
             android:id="@+id/created_by_layout"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"

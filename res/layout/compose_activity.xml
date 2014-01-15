@@ -70,7 +70,7 @@
                     android:id="@+id/emoji"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
-                    android:contentDescription="Emojis"
+                    android:contentDescription="Add Emojis"
                     android:src="@drawable/ic_emoji_keyboard_dark"
                     android:background="@drawable/pressed_button"
                     android:minHeight="48dp" android:minWidth="48dp"

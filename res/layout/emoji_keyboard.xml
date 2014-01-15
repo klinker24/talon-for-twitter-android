@@ -55,6 +55,7 @@ limitations under the License.
                              android:layout_height="48dp"
                              android:scaleType="fitCenter"
                              android:src="?emojiBackspace"
+                             android:contentDescription="Backspace"
                              android:background="@drawable/pressed_button"
                              android:paddingLeft="15dp"
                              android:paddingRight="15dp"/>
