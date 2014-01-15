@@ -103,6 +103,8 @@ public abstract class Compose extends Activity implements
                 contactEntry.setText(to);
                 reply.requestFocus();
             }
+            
+            sharedPrefs.edit().putString("draft", "").commit();
         }
 
         String from = sharedPrefs.getString("from_notification", "");
