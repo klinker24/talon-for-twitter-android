@@ -517,6 +517,34 @@ public class NotificationUtils {
                     .setAutoCancel(true);
         }
 
+        int count = 0;
+
+        AppSettings settings = new AppSettings(context);
+
+        if (settings.vibrate)
+            count++;
+        if (settings.sound)
+            count++;
+
+        switch (count) {
+            case 2:
+                if (settings.vibrate && settings.sound)
+                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
+                break;
+            case 1:
+                if (settings.vibrate)
+                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                else if (settings.sound)
+                    mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+                break;
+
+            default:
+                break;
+        }
+
+        if (settings.led)
+            mBuilder.setLights(0xFFFFFF, 1000, 1000);
+
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(2, mBuilder.build());

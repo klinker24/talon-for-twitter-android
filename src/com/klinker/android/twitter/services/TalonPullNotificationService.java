@@ -183,6 +183,7 @@ public class TalonPullNotificationService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
+                pushStream.cleanUp();
                 pushStream.shutdown();
                 Log.v("twitter_stream_push", "stopping push notifications");
             } catch (Exception e) {
@@ -212,12 +213,13 @@ public class TalonPullNotificationService extends Service {
         public void onReceive(Context context, Intent intent) {
 
             try {
+                pushStream.cleanUp();
                 pushStream.shutdown();
                 Log.v("twitter_stream_push", "stopping push notifications");
             } catch (Exception e) {
                 // it isn't running
             }
-            
+
             stopSelf();
         }
     };
