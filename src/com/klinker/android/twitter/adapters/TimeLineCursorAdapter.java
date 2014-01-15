@@ -11,6 +11,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -462,9 +463,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.playButton.setVisibility(View.GONE);
                 }
             } else {
+                if (holder.image.getVisibility() == View.GONE) {
+                    holder.image.setVisibility(View.VISIBLE);
+                }
+
                 if (picUrl.contains("youtube")) {
-                    //holder.image.loadImage(picUrl, false, null); can't use this with the new themes
-                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
@@ -472,12 +475,32 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            // todo, take you to the tweet
                         }
                     });
+
+                    holder.image.setImageDrawable(new ColorDrawable(android.R.color.transparent));
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(300);
+                            } catch (Exception e) {
+                            }
+                            if (holder.tweetId == id) {
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
+                                    }
+                                });
+                            }
+                        }
+                    }).start();
+
+
                 } else {
-                    //holder.image.loadImage(picUrl, false, null); can't use this with the themes
-                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
                     }
@@ -488,15 +511,31 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", picUrl));
                         }
                     });
-                }
 
-                if (holder.image.getVisibility() == View.GONE) {
-                    holder.image.setVisibility(View.VISIBLE);
+                    holder.image.setImageDrawable(new ColorDrawable(android.R.color.transparent));
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(300);
+                            } catch (Exception e) {
+                            }
+
+                            if (holder.tweetId == id) {
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
+                                    }
+                                });
+                            }
+                        }
+                    }).start();
                 }
             }
-
-
         }
+
 
         if (retweeter.length() > 0 && !isDM) {
             holder.retweeter.setText("retweeted by @" + retweeter);
