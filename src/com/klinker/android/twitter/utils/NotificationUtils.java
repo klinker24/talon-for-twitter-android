@@ -70,7 +70,7 @@ public class NotificationUtils {
         int[] unreadCounts = getUnreads(context);
 
         // if they don't want that type of notification, simply set it to zero
-        if (!settings.timelineNot) {
+        if (!settings.timelineNot || (settings.pushNotifications && settings.liveStreaming)) {
             unreadCounts[0] = 0;
         }
         if (!settings.mentionsNot) {

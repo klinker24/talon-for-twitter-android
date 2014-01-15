@@ -1,4 +1,5 @@
-<b>Version 1.051:</b> Lots more crash fixes :)<br/><br/>
+<b>Version 1.06:</b> First beta build :)<br/><br/>
+    &#8226; Huge expansion of notification options<br/>
     &#8226; Fixed links when sharing or quoting a tweet<br/>
     &#8226; Fixed the tweets being constrained to 139 chars<br/>
     &#8226; Fixed the action bar showing the "links" title at incorrect times<br/>

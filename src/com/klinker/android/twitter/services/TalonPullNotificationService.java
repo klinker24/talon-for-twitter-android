@@ -210,6 +210,14 @@ public class TalonPullNotificationService extends Service {
     public BroadcastReceiver stopService = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            try {
+                pushStream.shutdown();
+                Log.v("twitter_stream_push", "stopping push notifications");
+            } catch (Exception e) {
+                // it isn't running
+            }
+            
             stopSelf();
         }
     };
