@@ -66,6 +66,7 @@ public class DiscussionFragment extends Fragment {
         final AsyncListView replyList = (AsyncListView) layout.findViewById(R.id.listView);
         final LinearLayout progressSpinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         final HoloTextView none = (HoloTextView) layout.findViewById(R.id.no_conversation);
+        none.setText(getResources().getString(R.string.no_replies));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
