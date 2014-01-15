@@ -21,10 +21,9 @@
                 android:layout_height="48dp"
                 android:contentDescription="Attach User"
                 android:background="@drawable/pressed_button"
-                android:src="@drawable/mentions_light"
+                android:src="?mentionItem"
                 android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="#807f7f" />
+                android:layout_gravity="center" />
 
             <com.klinker.android.twitter.ui.widgets.HoloEditText
                 android:id="@+id/contact_entry"

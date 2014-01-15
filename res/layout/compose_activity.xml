@@ -41,8 +41,7 @@
                     android:background="@drawable/pressed_button"
                     android:src="@drawable/mentions_light"
                     android:gravity="center"
-                    android:layout_gravity="center"
-                    android:textColor="#807f7f" />
+                    android:layout_gravity="center" />
 
             <ImageButton
                     android:id="@+id/location"
