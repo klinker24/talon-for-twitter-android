@@ -12,12 +12,16 @@
     - option to not display retweets
     - link shortener
     - mute retweets
+    - instapaper mobilizer
+
 
 - Bugs:
     - Wrong images in some places
     - youtube thumbnails not always working right
     - saves some of them twice...
     - mentions are all messed up with 2 accounts
+    - in app browser keeps playing video
+    - some people cant see profiles correctly
 
 - Notification Center:
     - Combined pictures from Evolve
