@@ -23,6 +23,7 @@
     - some people cant see profiles correctly
     - colors in the notification drawer
     - night mode not updating when it is after midnight
+    - Take out extra mentions on main timeline (check if the long user id is one that the user follows)
 
 - Notification Center:
     - Combined pictures from Evolve

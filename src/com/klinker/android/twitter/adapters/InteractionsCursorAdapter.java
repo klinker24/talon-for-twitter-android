@@ -138,9 +138,10 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         // set the background color
         if (unread == 1) {
-            view.setBackgroundDrawable(color);
+            //holder.background.setBackgroundDrawable(color);
+            holder.background.setBackgroundDrawable(transparent);
         } else {
-            view.setBackgroundDrawable(transparent);
+            holder.background.setBackgroundDrawable(transparent);
         }
     }
 
