@@ -106,13 +106,13 @@ public class TweetPager extends YouTubeBaseActivity {
         final int numberOfPages = mSectionsPagerAdapter.getCount();
 
         switch (numberOfPages) {
-            case 2:
+            case 3:
                 pager.setCurrentItem(0);
                 break;
-            case 3:
+            case 4:
                 pager.setCurrentItem(1);
                 break;
-            case 4:
+            case 5:
                 pager.setCurrentItem(2);
                 break;
         }
@@ -127,14 +127,14 @@ public class TweetPager extends YouTubeBaseActivity {
             public void onPageSelected(int i) {
                 if (mSectionsPagerAdapter.getHasYoutube()) {
                     switch (numberOfPages) {
-                        case 3:
+                        case 4:
                             if (i != 0) {
                                 TweetYouTubeFragment.pause();
                             } else {
                                 TweetYouTubeFragment.resume();
                             }
                             break;
-                        case 4:
+                        case 5:
                             if (i != 1) {
                                 TweetYouTubeFragment.pause();
                             } else {
