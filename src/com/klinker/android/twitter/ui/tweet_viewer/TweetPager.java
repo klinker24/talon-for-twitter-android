@@ -494,7 +494,11 @@ public class TweetPager extends YouTubeBaseActivity {
                 text = HtmlUtils.removeColorHtml(text);
                 text = restoreLinks(text);
 
-                text = "\"@" + screenName + ": " + text + "\" ";
+                if (!settings.preferRT) {
+                    text = "\"@" + screenName + ": " + text + "\" ";
+                } else {
+                    text = " RT @" + screenName + ": " + text;
+                }
 
                 Intent quote = new Intent(context, ComposeActivity.class);
                 quote.putExtra("user", text);

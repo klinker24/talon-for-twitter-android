@@ -64,6 +64,7 @@ public class AppSettings {
     public boolean pushNotifications;
     public boolean inAppBrowser;
     public boolean showBoth;
+    public boolean preferRT;
 
     // notifications
     public boolean timelineNot;
@@ -154,6 +155,7 @@ public class AppSettings {
         favoritesNot = sharedPrefs.getBoolean("favorite_notifications", true);
         retweetNot = sharedPrefs.getBoolean("retweet_notifications", true);
         followersNot = sharedPrefs.getBoolean("follower_notifications", true);
+        preferRT = sharedPrefs.getBoolean("prefer_rt", false);
 
         if (pushNotifications) {
             //liveStreaming = false;
