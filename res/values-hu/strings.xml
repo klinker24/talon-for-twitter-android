@@ -52,7 +52,7 @@
     <string name="favorite_tweets">Kedvenc Tweetek</string>
     <string name="favorite_users">Kedvenc felhasználók</string>
     <string name="trends">Trendek</string>
-    <string name="local_trends">Helyi trenek</string>
+    <string name="local_trends">Helyi trendek</string>
     <string name="world_trends">Trendek a világban</string>
     <string name="search">Keresés</string>
     <string name="lists">Listák</string>
@@ -68,7 +68,7 @@
     <string name="no_new_direct_messages">Nincsenek új közvetlen üzenetek</string>
     <string name="tap_to_setup">Érintse meg a beállításhoz</string>
     <string name="new_account">Új fiók</string>
-    <string name="from_top">tetejétől</string>
+    <string name="from_top">a legfelsőtől</string>
     <string name="jump_to_top">Elsőhöz</string>
     <string name="all_read">Összes olvasott!</string>
     <string name="view_new">Betölti?</string>
@@ -76,20 +76,20 @@
 
     <!-- Notifications -->
     <string name="tweet">Tweet</string>
-    <string name="tweets">Tweetek</string>
+    <string name="tweets">Tweet</string>
     <string name="mention">Említés</string>
     <string name="message">Üzenet</string>
-    <string name="messages">Üzenetek</string>
+    <string name="messages">Üzenet</string>
     <string name="new_message">új üzenet</string>
-    <string name="new_messages">új üzenetek</string>
-    <string name="mentioned_by">Említetve általa: </string>
+    <string name="new_messages">új üzenet</string>
+    <string name="mentioned_by">Említve általa: </string>
     <string name="message_from">Üzenet tőle: </string>
     <string name="mark_read">Olvasott</string>
     <string name="noti_reply">Válasz</string>
-    <string name="popup">Felugró</string>
+    <string name="popup">Előhoz</string>
     <string name="fav_user_tweets">kedvenc felhasználó új tweetjei</string>
     <string name="sec_acc">Második fiók</string>
-    <string name="talon_pull">Talon lehúzás</string>
+    <string name="talon_pull">Talon Pull</string>
     <string name="listening">Figyelés</string>
     <string name="listening_for_mentions">Események figyelése</string>
     <string name="refreshing">Frissítés</string>
@@ -97,14 +97,14 @@
     <string name="downloading">Letöltés</string>
     <string name="saving_picture">Kép mentése</string>
     <string name="new_interaction_upper">Új esemény</string>
-    <string name="new_interactions_lower">új események</string>
-    <string name="new_interactions">Új események</string>
+    <string name="new_interactions_lower">új esemény</string>
+    <string name="new_interactions">Új esemény</string>
     <string name="retweeted">retweetelte az állapotát</string>
     <string name="favorited">kedvencekhez adta az állapotát</string>
     <string name="followed">követi</string>
-    <string name="new_retweets">retweetek</string>
-    <string name="new_favorites">kedvencek</string>
-    <string name="new_tweets_upper">Új Tweetek</string>
+    <string name="new_retweets">retweet</string>
+    <string name="new_favorites">kedvenc</string>
+    <string name="new_tweets_upper">Új Tweet</string>
 
     <!-- Login Screen -->
     <string name="setup_talon">Talon beállítása</string>
@@ -115,8 +115,8 @@
     <string name="back_to_timeline">Ugrás az idővonalhoz!</string>
     <string name="initial_sync">Szinkronizálás!</string>
     <string name="first_info">Mielőtt elkezdené, jelentkezzen be. </string>
-    <string name="second_info">Nagyszerű!\n\nMost lekérdezünk pár szükséges adatot.\n\nAz internet kapcsolattól függően ez letarthat egy ideig.</string>
-    <string name="third_info">Reméljük élvezni fogja a Talont!\n\n-- Luke Klinker</string>
+    <string name="second_info">Nagyszerű!\n\nMost lekérdezünk pár szükséges adatot.\n\nAz internet kapcsolattól függően ez eltarthat egy ideig.</string>
+    <string name="third_info">Reméljük élvezni fogja a Talon használatát!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Idővonal szinkronizálása...</string>
     <string name="syncing_mentions">Említések szinkronizálása...</string>
     <string name="syncing_direct_messages">Közvetlen üzenetek szinkronizálása...</string>
@@ -248,7 +248,7 @@
     <string name="part_1_tablet">\nFérjen hozzá\na listákhoz\naz elemek megérintésével\na navigációs\nsávon!</string>
     <string name="part_1_phone">\nNyissa meg\na navigációs sávot\negy balra\ncsúsztatással!</string>
     <string name="part_2">\nLapozzon\naz idővonalak között\na kijelző közepéről\nindított\ncsúsztatással!</string>
-    <string name="part_3">Ennyi!\n\nÉrintse meg a\nskijelzőt\na kezdéshez!</string>
+    <string name="part_3">Ennyi!\n\nÉrintse meg a\nkijelzőt a\nkezdéshez!</string>
 
     <!-- Settings Menu -->
     <string name="theme_settings">Téma beállítások</string>
@@ -261,24 +261,23 @@
         <string name="use_addon_themes">Téma kiegészítő használata</string>
         <string name="make_a_theme">Téma készítése</string>
         <string name="layout">Elrendezés</string>
-            <string name="themeing_complete">Alkalmazott téma</string>
-            <string name="themeing_complete_summary">\"A Talon\" most bezáródik.\n\n
+            <string name="themeing_complete">Téma alkalmazása</string>
+            <string name="themeing_complete_summary">A \"Talon\" most bezáródik.\n\n
                 A változások alkalmazásához csúsztatással el kell távolítania a \"Talon-t\" a legutóbbi alkalmazások listájáról.\n\n
-                Ha a profilképek nem úgy jelennek meg, ahogy kellene (pl. kör vagy négyzet), akkor el kell távolítani és újra hozzáadni a widgetet.</string>
+                Ha a profilképek nem úgy jelennek meg, ahogy kellene (pl. kör vagy négyzet), akkor el kell távolítani és újra hozzá kell adni a widgetet.</string>
     <string name="layout_summary">Ez a változtatás törölni fogja az alkalmazás gyorsítótárát.</string>
-        <string name="text_size">Szövegméret</string>
+        <string name="text_size">Betűméret</string>
         <string name="night_mode">Éjszakai mód</string>
-            <string name="night_mode_night">Éjszaka kezdetének kiválasztása</string>
-            <string name="night_mode_day">Nappal kezdetének kiválasztása</string>
+            <string name="night_mode_night">Éjszaka kezdete</string>
+            <string name="night_mode_day">Nappal kezdete</string>
             <string name="night_mode_theme">Éjszakai mód témájának kiválasztása</string>
         <string name="device_font">Használja az eszköz betűtípusát</string>
             <string name="device_font_summary">Általában \"Roboto\" a legtöbb eszközön. A Talon alapértelmezett betűtípusa \"Roboto Light\".</string>
         <string name="ui_extras">UI extrák</string>
-            <string name="ui_extras_summary">Magában foglalja:\n
+            <string name="ui_extras_summary">Tartalmazza:\n
                 - Műveleti sáv elrejtése\n
                 - Művelet képes Toast sáv\n
-                - Átlátszó rendszersávok (csak Android 4.4)\n\n
-                Ennek a beállításnak az engedélyezése hatással lesz a görgetési teljesítményre.</string>
+                - Átlátszó rendszersávok (csak Android 4.4)\n\nA beállítás engedélyezése hatással lesz a görgetési teljesítményre.</string>
         <string name="inline_pics">Beágyazott képek megjelenítése</string>
         <string name="use_screen_name">Twitter név megjelenítése</string>
             <string name="use_screen_name_summary">A felhasználó Twitter nevének megjelenítése az idővonalon a neve helyett.</string>
@@ -305,11 +304,11 @@
             <string name="wake_screen">Kijelző bekapcsolása</string>
             <string name="sound">Értesítés hang</string>
             <string name="quiet_hours">Ne zavarjon</string>
-        <string name="max_number_on_refresh">Max frissítendő Tweetek</string>
+        <string name="max_number_on_refresh">Max. frissítendő Tweetek</string>
         <string name="fav_users_notifications">Kedvenc felhasználó értesítések</string>
         <string name="sync_second_mentions">Második fiók említéseinek szinkronizálása</string>
             <string name="sync_second_mentions_summary">Az első fiókkal együtt automatikusan ellenőrizze és értesítsen új említésekről a második fiókban is.</string>
-        <string name="max_number_summary">A nagyob maximum lassabb frissítést jelent.</string>
+        <string name="max_number_summary">A nagyobb érték hosszabb frissítést jelent.</string>
         <string name="auto_refresh_category">Auto-frissítés beállítások</string>
             <string name="refresh_on_startup">Frissítés indításkor</string>
             <string name="timeline_sync_interval">Idővonal frissítési gyakoriság</string>
@@ -317,27 +316,27 @@
             <string name="dm_sync_interval">Közvetlen üzenetek frissítési gyakoriság</string>
         <string name="sync_friends">Barátok adatainak szinkronizálása</string>
         <string name="sync_friends_summary2">Új tweetek írásakor újraszinkronizálja a barátok adatait.</string>
-        <string name="sync_friends_summary">Barátok lista kézi frissítése.\n\nEz megtörtént a bejelentkezéskor, valamint az újak automatikusan hozzá lettek adva, amikor a Talonból adta hozzá követéshez, de ez az opció le fogja kérni az összes legújabb "követését".\n\n
+        <string name="sync_friends_summary">Barátok lista kézi frissítése.\n\nEz el lett végezve a bejelentkezéskor, valamint az újak automatikusan hozzá lettek adva, ha a Talonból adta hozzá követéshez. Ez az opció le fogja kérni az összes legújabb "követését".\n\n
                     Ez az adat egy új tweet írásakor a felhasználók kereséséhez lesz használva.</string>
         <string name="sync_success">Szinkronizáció sikeres</string>
         <string name="sync_failed">Szinkronizáció sikertelen</string>
         <string name="push_notification_options">\"Push értesítések\" beállítás</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">Ez egy figyelő szolgáltatást indít, hogy azonnali értesítéseket küldjön új események érkezésekor(említések, közvetlen üzenetek, kedvencek, retweetek, új követők).</string>
-            <string name="push_notification_warning">További információért kattintson ide.</string>
+            <string name="push_notifications_summary">Egy figyelő szolgáltatást indít, hogy azonnali értesítéseket küldjön új események érkezésekor (említések, közvetlen üzenetek, kedvencek, retweetek, új követők).\n\nAz idővonalán is azonnal élőben jeleníti a tweeteket.</string>
+            <string name="push_notification_warning">További információkért kattintson ide.</string>
 
     <string name="notification_settings">Értesítés beállítások</string>
         <string name="pebble_notifications">Pebble értesítések</string>
         <string name="pebble_notifications_summary">Pebble okosórával használható.</string>
 
     <string name="advanced_settings">Haladó beállítások</string>
-        <string name="app_feel_category">App Feel beállítások</string>
+        <string name="app_feel_category">Alkalmazás beállítások</string>
             <string name="advance_windowed">Előrehozott ablakok</string>
                 <string name="advance_windowed_summary">A profilokat és tweeteket egy \"ablakos\" nézetben jeleníti meg az idővonal felett.</string>
             <string name="full_screen_browsers">Teljesképernyős böngésző</string>
                 <string name="full_screen_browsers_summary">A weboldalakat tartalmazó tweeteket teljesképernyős módban nyitja meg.</string>
             <string name="reverse_click_actions">Kattintás műveletek megfordítása</string>
-                <string name="reverse_click_actions_summary">Tweeteken lévő kattintás műveletek megfordítása.\n\n
+                <string name="reverse_click_actions_summary">Tweeteken történő kattintás műveletek megfordítása.\n\n
                     Alapértelmezett (amikor le van tiltva):\n
                     - Hosszú kattintás megnyitja a tweetet\n
                     - Rövid kattintás kibontja a tweetet</string>
@@ -412,7 +411,7 @@
     <string name="four_hours">4 óra</string>
     <string name="manual">Kézi</string>
 
-    <string name="layout_hangouts">Csevegő</string>
+    <string name="layout_hangouts">Hangouts</string>
 
 
     <!-- added after release -->

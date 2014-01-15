@@ -3,7 +3,8 @@
     &#8226; Better support for image loading on timelines<br/>
     &#8226; Option to use old style RT for quotes instead of current method (under advanced settings)<br/>
     &#8226; Added translation (Hungarian, Brazilian Portuguese)<br/>
-    &#8226; Fix for multiple accounts<br/><br/>
+    &#8226; Fixes for multiple accounts<br/>
+    &#8226; Play Store crash fixes<br/>
 <br/>
 
 <b>Version 1.06:</b><br/><br/>
