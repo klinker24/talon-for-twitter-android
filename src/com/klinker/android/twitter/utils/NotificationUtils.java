@@ -840,9 +840,11 @@ public class NotificationUtils {
         if (settings.led)
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(4, mBuilder.build());
+        if (settings.notifications) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(4, mBuilder.build());
+        }
 
         // if we want to wake the screen on a new message
         if (settings.wakeScreen) {
