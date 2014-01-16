@@ -286,7 +286,11 @@ public class LoginActivity extends Activity {
                 loginToTwitter();
                 return null;
             } catch (Exception e) {
-                Looper.prepare();
+                try {
+                    Looper.prepare();
+                } catch (Exception x) {
+                    // looper exists already
+                }
                 restartLogin();
                 return null;
             }
@@ -308,7 +312,11 @@ public class LoginActivity extends Activity {
                 requestToken = twitter.getOAuthRequestToken("oauth:///talonforandroid");
             } catch (TwitterException ex) {
                 ex.printStackTrace();
-                Looper.prepare();
+                try {
+                    Looper.prepare();
+                } catch (Exception e) {
+                    // looper exists already
+                }
                 restartLogin();
             }
 
@@ -322,7 +330,11 @@ public class LoginActivity extends Activity {
             try {
                 return twitter.getOAuthAccessToken(requestToken, verifier);
             } catch (Exception e) {
-                Looper.prepare();
+                try {
+                    Looper.prepare();
+                } catch (Exception x) {
+                    // looper exists already
+                }
                 restartLogin();
                 return null;
             }

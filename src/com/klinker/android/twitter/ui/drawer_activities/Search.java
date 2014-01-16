@@ -275,8 +275,10 @@ public class Search extends Activity {
 
         protected void onPostExecute(ArrayList<twitter4j.Status> searches) {
 
-            listView.setAdapter(new TimelineArrayAdapter(context, searches));
-            listView.setVisibility(View.VISIBLE);
+            if (searches != null) {
+                listView.setAdapter(new TimelineArrayAdapter(context, searches));
+                listView.setVisibility(View.VISIBLE);
+            }
 
             spinner.setVisibility(View.GONE);
         }

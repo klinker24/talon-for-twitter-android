@@ -140,7 +140,11 @@ public class HtmlUtils {
                     } else if (exp.substring(start).contains("?")) {
                         end = exp.indexOf("?");
                     }
-                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    try {
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    } catch (Exception e) {
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/2.jpg";
+                    }
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtu.be")) {
                     // first get the youtube video code
@@ -151,7 +155,11 @@ public class HtmlUtils {
                     } else if (exp.substring(start).contains("?")) {
                         end = exp.indexOf("?");
                     }
-                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    try {
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    } catch (Exception e) {
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/2.jpg";
+                    }
                     otherUrl += exp + "  ";
                 }else {
                     otherUrl += exp + "  ";

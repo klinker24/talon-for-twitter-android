@@ -105,6 +105,9 @@ public class MentionsDataSource {
     }
 
     public Cursor getCursor(int account) {
+        if (database == null) {
+            open();
+        }
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                 allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 

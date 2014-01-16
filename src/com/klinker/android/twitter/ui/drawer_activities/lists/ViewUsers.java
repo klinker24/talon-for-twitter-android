@@ -171,35 +171,37 @@ public class ViewUsers extends Activity {
         }
 
         protected void onPostExecute(ArrayList<User> users) {
-            final UserListMembersArrayAdapter people = new UserListMembersArrayAdapter(context, users, listId);
-            final int firstVisible = listView.getFirstVisiblePosition();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    listView.setAdapter(people);
+            if (users != null) {
+                final UserListMembersArrayAdapter people = new UserListMembersArrayAdapter(context, users, listId);
+                final int firstVisible = listView.getFirstVisiblePosition();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(people);
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            listView.setSelection(firstVisible);
-                        }
-                    }, 100);
-
-                    listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-                        @Override
-                        public boolean onPreDraw() {
-                            if(listView.getFirstVisiblePosition() == firstVisible) {
-                                listView.getViewTreeObserver().removeOnPreDrawListener(this);
-                                return true;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                listView.setSelection(firstVisible);
                             }
-                            else {
-                                return false;
+                        }, 100);
+
+                        listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+                            @Override
+                            public boolean onPreDraw() {
+                                if(listView.getFirstVisiblePosition() == firstVisible) {
+                                    listView.getViewTreeObserver().removeOnPreDrawListener(this);
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }
                             }
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
+            }
 
             listView.setVisibility(View.VISIBLE);
         }

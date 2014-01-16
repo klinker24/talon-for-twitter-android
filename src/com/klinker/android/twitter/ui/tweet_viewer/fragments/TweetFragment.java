@@ -155,6 +155,10 @@ public class TweetFragment extends Fragment {
         layout = inflater.inflate(R.layout.tweet_fragment, null);
         addonTheme = false;
 
+        if(settings == null) {
+            settings = new AppSettings(context);
+        }
+
         if (settings.addonTheme) {
             try {
                 Context viewContext = null;

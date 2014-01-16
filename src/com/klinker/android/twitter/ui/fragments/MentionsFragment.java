@@ -371,19 +371,24 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                    refreshCursor();
-                    CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
-                    showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                    int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape ? 1 : 2), size);
-                } else {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
-                    refreshCursor();
 
-                    CharSequence text = getResources().getString(R.string.no_new_mentions);
-                    showToastBar(text + "", allRead, 400, true, toTopListener);
+                try {
+                    if (update) {
+                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        refreshCursor();
+                        CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
+                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                        int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                        listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape ? 1 : 2), size);
+                    } else {
+                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        refreshCursor();
+
+                        CharSequence text = getResources().getString(R.string.no_new_mentions);
+                        showToastBar(text + "", allRead, 400, true, toTopListener);
+                    }
+                } catch (Exception e) {
+                    // user closed the app before it was done
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
