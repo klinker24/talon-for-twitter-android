@@ -32,12 +32,12 @@
             android:dependency="notifications"
             />
 
-        <!--<CheckBoxPreference
+        <CheckBoxPreference
             android:key="sound"
             android:title="@string/sound"
             android:defaultValue="true"
             android:dependency="notifications"
-            />-->
+            />
 
         <CheckBoxPreference
             android:key="quiet_hours"
