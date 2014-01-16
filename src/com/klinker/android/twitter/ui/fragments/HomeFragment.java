@@ -727,6 +727,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
         listView.setAdapter(cursorAdapter);
+        newTweets = false;
 
         initial = false;
 
