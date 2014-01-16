@@ -5,6 +5,7 @@
     &#8226; Option to use old style RT for quotes instead of current method (under advanced settings)<br/>
     &#8226; Option to use absolute dates on the timelines instead of relative<br/>
     &#8226; Added translation (Hungarian, Brazilian Portuguese, Spanish)<br/>
+    &#8226; Compose tweets with the current search query while searching<br/>
     &#8226; Clear Searches option under advanced settings<br/>
     &#8226; Fixed the flickering of the actionable toast bar<br/>
     &#8226; Fixes for multiple accounts<br/>
