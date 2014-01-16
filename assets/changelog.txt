@@ -4,7 +4,7 @@
     &#8226; Better support for image loading on timelines<br/>
     &#8226; Option to use old style RT for quotes instead of current method (under advanced settings)<br/>
     &#8226; Option to use absolute dates on the timelines instead of relative<br/>
-    &#8226; Added translation (Hungarian, Brazilian Portuguese)<br/>
+    &#8226; Added translation (Hungarian, Brazilian Portuguese, Spanish)<br/>
     &#8226; Fixed the flickering of the actionable toast bar<br/>
     &#8226; Fixes for multiple accounts<br/>
     &#8226; Play Store crash fixes<br/>

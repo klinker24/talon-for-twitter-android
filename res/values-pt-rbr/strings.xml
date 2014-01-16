@@ -20,7 +20,7 @@
     <string name="menu_change_bio">Mudar Bio</string>
     <string name="menu_change_banner">Alterar Capa</string>
     <string name="menu_direct_message">Nova Menssagem Direta</string>
-    <string name="menu_save_image">Salvar Imagem</string>
+    <string name="menu_save_image">Salvar</string>
     <string name="menu_favorite">Favoritar Usuário</string>
     <string name="menu_unfavorite">Remover dos Favoritos</string>
     <string name="menu_create_list">Criar Nova Lista</string>
@@ -69,7 +69,7 @@
     <string name="tap_to_setup">Toque para configurar</string>
     <string name="new_account">Nova Conta</string>
     <string name="from_top">restantes</string>
-    <string name="jump_to_top">Para o Topo</string>
+    <string name="jump_to_top">Ir para o Topo</string>
     <string name="all_read">Todos Lidos!</string>
     <string name="view_new">Carregar?</string>
     <string name="old_interactions">Todas as interações</string>
@@ -246,7 +246,7 @@
 
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\nAcesse os recursos\ntocando nos itens\nda barra de\nnavegação\nlateral!</string>
-    <string name="part_1_phone">\nDeslize do canto\nesquerdo para o direito\npara abrir\na barra de navegação lateral!</string>
+    <string name="part_1_phone">\nDeslize do canto\nesquerdo proo direito\npara abrir a\nbarra de navegação!</string>
     <string name="part_2">\nNavegue entre\nas abas deslizando,\ndo meio da tela,\npara esquerda\nou direita!</string>
     <string name="part_3">Pronto!\n\nToque na\ntela para\ncomeçar!</string>
 
@@ -272,16 +272,16 @@
             <string name="night_mode_day">Selecione o horário para terminar</string>
             <string name="night_mode_theme">Selecione o tema para o Modo Noturno</string>
         <string name="device_font">Usar Fonte do Dispositivo</string>
-            <string name="device_font_summary">A maioria dos dispositivos usa a fonte \"Roboto\". Talon usa como fonte padrão a \"Roboto Light\".</string>
+            <string name="device_font_summary">A maioria dos dispositivos usa a fonte \"Roboto\". Talon usa \"Roboto Light\" como fonte padrão.</string>
         <string name="ui_extras">Extras</string>
             <string name="ui_extras_summary">Incluem:\n
                 - Esconder Barra de Ação\n
                 - Aciona a Toast Bar\n
-                - Barras do Sistema Translúcidas (Android 4.4 only)\n\n
-                Ativar essa opção pode afetar performance da rolagem.</string>
+                - Barras do Sistema Translúcidas (Android 4.4)\n\n
+                Ativar essa opção pode afetar a performance da rolagem.</string>
         <string name="inline_pics">Mostrar Imagens In-line</string>
-        <string name="use_screen_name">Mostrar Nome de @Usuário</string>
-            <string name="use_screen_name_summary">Mostra o nome de @usuário no lugar do nome completo.</string>
+        <string name="use_screen_name">Mostrar apnenas @NomeDeUsuário</string>
+            <string name="use_screen_name_summary">Mostra o @NomeDeUsuário no lugar do Nome Completo.</string>
         <string name="timestamp">Formato da hora: 24hs</string>
         <string name="enable_emojis">Ativar Emojis</string>
         <string name="to_market">To Play Store</string>
@@ -296,7 +296,7 @@
         <string name="theme_black">Tema Preto</string>
 
     <string name="sync_settings">Sincronização</string>
-        <string name="sync_mobile_data">Usde dados da operadora</string>
+        <string name="sync_mobile_data">Dados da Operadora</string>
         <string name="sync_mobile_data_summary">Atualizar timelines automaticamente quando usando Dados e WiFi.</string>
         <string name="auto_sync_notifications">Opções para notificações automáticas</string>
             <string name="notifications">Notificações</string>
@@ -317,14 +317,14 @@
             <string name="dm_sync_interval">Taxa de Atualização das DM\'s</string>
         <string name="sync_friends">Sinc. Dados de Amigos</string>
         <string name="sync_friends_summary2">Atualiza dados do amigos para serem usados ao compor seus tweets.</string>
-        <string name="sync_friends_summary">Sincroniza manualmente a lista de amigos.\n\nIsso foi feito quando você fez login no Talon, e é atualizado automaticamente quando você segue alguém usando Talon, mas isso irá atualizar tudo sobre quem você está seguindo.\n\n
-                    Esses dados vão ser usados quando você for buscar usuários quando estiver escrevendo um tweet.</string>
+        <string name="sync_friends_summary">Sincroniza manualmente a lista de amigos.\n\nIsso foi feito quando você fez login no Talon, e é atualizado automaticamente quando você segue alguém usando Talon. Isso irá atualizar tudo sobre quem você está seguindo.\n\n
+                   Esses dados vão ser usados quando você for buscar usuários quando estiver escrevendo um tweet.</string>
         <string name="sync_success">Sincronia Concluída</string>
         <string name="sync_failed">Falha na Sincronização</string>
         <string name="push_notification_options">Opções de \"Notificações Push\"</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">Isso irá lhe notificar assim que você receber novas interações (menções, dm\'s, tweets favoritados, retweets, ou novos seguidores.</string>
-            <string name="push_notification_warning">Para ler mais sobre essa opçao, toque aqui.</string>
+            <string name="push_notifications_summary">Isso irá lhe notificar assim que você receber novas interações (menções, dm\'s, tweets favoritados, retweets, ou novos seguidores.\n\nIsso também vai carregar automaticamente sua timeline.</string>
+            <string name="push_notification_warning">Para ler mais sobre essa opção, toque aqui.</string>
 
     <string name="notification_settings">Notificações</string>
         <string name="pebble_notifications">Notificações no Pebble</string>
@@ -336,12 +336,12 @@
                 <string name="advance_windowed_summary">Quando você tocar em um perfil ou um tweet, o app abre uma \"janela\" por cima da timeline.</string>
             <string name="full_screen_browsers">Navegador em Tela Cheia</string>
                 <string name="full_screen_browsers_summary">Abre tweets que contêm uma página da web em tela cheia.</string>
-            <string name="reverse_click_actions">Reverter Toque de Açao</string>
+            <string name="reverse_click_actions">Reverter Toque de Ação</string>
                 <string name="reverse_click_actions_summary">Reverte o que acontece quando você toca em um tweet.\n\n
                     Padrão (quando desabilitado):\n
                     - Toque longo para abrir o tweet\n
                     - Toque curto para expandir o tweet</string>
-            <string name="extra_pages">Use Timelines Extra</string>
+            <string name="extra_pages">Use Timelines Extras</string>
                 <string name="extra_pages_summary">Adiciona duas timelines ao lado esquerdo da timeline principal. Uma de tweets com links e outra de tweets com imagens.</string>
             <string name="live_streaming">Live Streaming</string>
                 <string name="live_streaming_summary">Isso vai consumir mais bateria mas estará sempre \"Atualizando ao Abrir.\"</string>
@@ -418,7 +418,7 @@
     <!-- added after release -->
     <string name="use_inapp_browser">Usar Navegador Interno</string>
     <string name="dismiss_all">Descartar tudo</string>
-    <string name="handle_and_name">Mostar @Nome and Nome</string>
+    <string name="handle_and_name">Mostar @Nome e Nome</string>
 
 
 </resources>
