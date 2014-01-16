@@ -115,11 +115,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         public void onReceive(Context context, Intent intent) {
             int unreadtweets = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
             markReadForLoad();
+            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
             if (unreadtweets != 0) {
                 showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                         getResources().getString(R.string.view_new),
                         400,
-                        true,
+                        false,
                         liveStreamRefresh);
             }
 
@@ -246,12 +247,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                 if (newTweets && firstVisibleItem == 0) {
-                    final int unread = dataSource.getUnreadCount(currentAccount);
+                    unread = dataSource.getUnreadCount(currentAccount);
                     if (unread > 0) {
                         showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                 getResources().getString(R.string.view_new),
                                 400,
-                                true,
+                                false,
                                 liveStreamRefresh);
                     }
                 }
@@ -284,7 +285,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         if (!landscape && !isTablet) {
                             actionBar.show();
                         }
-                        if (!infoBar) {
+                        if (!infoBar && unread == 0) {
                             hideToastBar(400);
                         }
                     }
@@ -758,55 +759,71 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toastButton = (TextView) view.findViewById(R.id.toastButton);
     }
 
+    public Handler handler = new Handler();
+    public Runnable hideToast = new Runnable() {
+        @Override
+        public void run() {
+            hideToastBar(mLength);
+            infoBar = false;
+        }
+    };
+    public long mLength;
+
     private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        if (quit) {
+            infoBar = true;
+        } else {
+            infoBar = false;
+        }
+
+        mLength = length;
+        handler.removeCallbacks(hideToast);
+
         toastDescription.setText(description);
         toastButton.setText(buttonText);
         toastButton.setOnClickListener(listener);
 
-        toastBar.setVisibility(View.VISIBLE);
+        if(!isToastShowing) {
+            isToastShowing = true;
+            toastBar.setVisibility(View.VISIBLE);
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                isToastShowing = true;
-                if (quit) {
-                    infoBar = true;
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
                 }
-            }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (quit) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideToastBar(length);
-                            infoBar = false;
-                        }
-                    }, 3000);
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (quit) {
+                        handler.postDelayed(hideToast, 3000);
+                    }
                 }
-            }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
+                }
+            });
+            anim.setDuration(length);
+            toastBar.startAnimation(anim);
+        }
     }
 
     private void hideToastBar(long length) {
+        mLength = length;
+
         if (!isToastShowing) {
             return;
         }
+
+        isToastShowing = false;
 
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                isToastShowing = false;
             }
 
             @Override
@@ -824,7 +841,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void updateToastText(String text) {
-        if(isToastShowing) {
+        if(isToastShowing && !text.contains("0")) {
             toastDescription.setText(text);
         }
     }
