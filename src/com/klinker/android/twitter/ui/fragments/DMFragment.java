@@ -132,7 +132,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         // Now setup the PullToRefreshLayout
         ActionBarPullToRefresh.from(context)
                 // set up the scroll distance
-                .options(Options.create().scrollDistance(.4f).build())
+                .options(Options.create().scrollDistance(.3f).build())
                 // Mark All Children as pullable
                 .allChildrenArePullable()
                         // Set the OnRefreshListener
