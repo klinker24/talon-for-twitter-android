@@ -10,6 +10,12 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/prompt_pos"
+            />
+
         <ImageView
                 android:id="@+id/picture"
                 android:layout_height="0dp"

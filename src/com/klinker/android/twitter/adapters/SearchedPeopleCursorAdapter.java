@@ -17,7 +17,7 @@ import com.klinker.android.twitter.utils.ImageUtils;
 
 public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
 
-    private HoloEditText text;
+    public HoloEditText text;
 
     public SearchedPeopleCursorAdapter(Context context, Cursor cursor, HoloEditText text) {
         super(context, cursor);

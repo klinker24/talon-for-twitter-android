@@ -3,14 +3,20 @@ package com.klinker.android.twitter.ui.compose;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 
@@ -23,7 +29,7 @@ public class ComposeDMActivity extends Compose {
 
         setUpSimilar();
 
-        contactEntry = (EditText) findViewById(R.id.contact_entry);
+        contactEntry = (HoloEditText) findViewById(R.id.contact_entry);
         contactEntry.setVisibility(View.VISIBLE);
 
         String screenname = getIntent().getStringExtra("screenname");
@@ -32,6 +38,61 @@ public class ComposeDMActivity extends Compose {
             contactEntry.setText("@" + screenname);
             contactEntry.setSelection(contactEntry.getText().toString().length());
         }
+
+        autocomplete = new ListPopupWindow(context);
+        autocomplete.setAnchorView(contactEntry);
+        autocomplete.setHeight(toDP(110));
+        autocomplete.setWidth(toDP(275));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, contactEntry.getText().toString()), contactEntry));
+        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autocomplete.dismiss();
+            }
+        });
+
+        contactEntry.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                String searchText = contactEntry.getText().toString();
+
+                try {
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                        autocomplete.show();
+                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                        autocomplete.dismiss();
+                    } else if (autocomplete.isShowing()) {
+                        String[] split = searchText.split(" ");
+                        String adapterText;
+                        if (split.length > 1) {
+                            adapterText = split[split.length - 1];
+                        } else {
+                            adapterText = split[0];
+                        }
+                        adapterText = adapterText.replace("@", "");
+                        Log.v("adapter_text", adapterText);
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, adapterText), contactEntry));
+                    }
+                } catch (Exception e) {
+                    // there is no text
+                    autocomplete.dismiss();
+                }
+
+            }
+        });
 
         ImageButton at = (ImageButton) findViewById(R.id.at_button);
         at.setOnClickListener(new View.OnClickListener() {

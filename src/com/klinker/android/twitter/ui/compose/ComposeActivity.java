@@ -8,18 +8,28 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
+import com.klinker.android.twitter.adapters.SearchedPeopleCursorAdapter;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 
@@ -55,6 +65,62 @@ public class ComposeActivity extends Compose {
             reply.setText(sharedPrefs.getString("draft", ""));
             reply.setSelection(reply.getText().length());
         }
+
+        autocomplete = new ListPopupWindow(context);
+        autocomplete.setAnchorView(findViewById(R.id.prompt_pos));
+        autocomplete.setHeight(toDP(110));
+        autocomplete.setWidth(toDP(275));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, reply.getText().toString()), reply));
+        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autocomplete.dismiss();
+            }
+        });
+
+        reply.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                String searchText = reply.getText().toString();
+
+                try {
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                        autocomplete.show();
+
+                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                        autocomplete.dismiss();
+                    } else if (autocomplete.isShowing()) {
+                        String[] split = reply.getText().toString().split(" ");
+                        String adapterText;
+                        if (split.length > 1) {
+                            adapterText = split[split.length - 1];
+                        } else {
+                            adapterText = split[0];
+                        }
+                        adapterText = adapterText.replace("@", "");
+                        Log.v("adapter_text", adapterText);
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, adapterText), reply));
+                    }
+                } catch (Exception e) {
+                    // there is no text
+                    autocomplete.dismiss();
+                }
+
+            }
+        });
 
         mAttacher = new PhotoViewAttacher(attachImage);
 

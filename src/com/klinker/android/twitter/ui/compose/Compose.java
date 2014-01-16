@@ -21,6 +21,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +39,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
+import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -59,14 +63,17 @@ public abstract class Compose extends Activity implements
     public Context context;
     public SharedPreferences sharedPrefs;
 
-    public EditText contactEntry;
-    public EditText reply;
+    public HoloEditText contactEntry;
+    public HoloEditText reply;
     public ImageView attachImage;
     public ImageButton attachButton;
     public ImageButton emojiButton;
     public EmojiKeyboard emojiKeyboard;
     public ImageButton overflow;
     public TextView charRemaining;
+    public ListPopupWindow autocomplete;
+
+    public FollowersDataSource data;
 
     public String attachedFilePath = "";
 
@@ -76,6 +83,8 @@ public abstract class Compose extends Activity implements
 
     public long notiId = 0;
 
+    public int currentAccount;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +92,11 @@ public abstract class Compose extends Activity implements
         settings = new AppSettings(this);
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        data = new FollowersDataSource(context);
+        data.open();
+
+        currentAccount = sharedPrefs.getInt("current_account", 1);
 
         mLocationClient = new LocationClient(context, this, this);
         mLocationClient.connect();
@@ -201,7 +215,7 @@ public abstract class Compose extends Activity implements
         attachButton = (ImageButton) findViewById(R.id.attach);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
-        reply = (EditText) findViewById(R.id.tweet_content);
+        reply = (HoloEditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
         charRemaining.setText(140 - reply.getText().length() + "");
@@ -488,4 +502,12 @@ public abstract class Compose extends Activity implements
 
     public abstract boolean doneClick();
     public abstract void setUpLayout();
+
+    public int toDP(int px) {
+        try {
+            return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+        } catch (Exception e) {
+            return px;
+        }
+    }
 }
