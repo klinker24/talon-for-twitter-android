@@ -20,7 +20,6 @@
     - saves some of them twice...
     - some people cant see profiles correctly
     - night mode not updating when it is after midnight
-    - Take out extra mentions on main timeline (check if the long user id is one that the user follows)
 
 - Notification Center:
     - Combined pictures from Evolve
