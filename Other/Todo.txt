@@ -1,6 +1,5 @@
 - Features:
     - Redo the Direct Messages to be conversation style with just a list of contacts on the main timeline
-    - Show full conversations on tweets (look forward, not back...) - No clue how yet
     - Retweet and favorite from multiple accounts
     - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles

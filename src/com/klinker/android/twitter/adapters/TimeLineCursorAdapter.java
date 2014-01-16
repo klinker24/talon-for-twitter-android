@@ -555,7 +555,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
 
         if (retweeter.length() > 0 && !isDM) {
-            holder.retweeter.setText("retweeted by @" + retweeter);
+            holder.retweeter.setText(context.getResources().getString(R.string.retweeter) + retweeter);
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (isDM && screenname.equals(sharedPrefs.getString("twitter_screen_name", ""))) {
             holder.retweeter.setText("reply to @" + retweeter);

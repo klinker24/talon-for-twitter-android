@@ -576,18 +576,20 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     numberNew = 0;
                 }
 
-                /*MentionsDataSource dataSource = new MentionsDataSource(context);
-                dataSource.open();
+                MentionsDataSource mentions = new MentionsDataSource(context);
+                mentions.open();
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, currentAccount);
+                        mentions.createTweet(status, currentAccount);
                     } catch (Exception e) {
                         break;
                     }
                 }
 
-                dataSource.close();*/
+                sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+
+                mentions.close();
 
             } catch (TwitterException e) {
                 // Error in updating status
@@ -634,9 +636,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         super.onPause();
     }
-
-    public Long[] fIds;
-    public long[] ids;
 
     @Override
     public void onResume() {
