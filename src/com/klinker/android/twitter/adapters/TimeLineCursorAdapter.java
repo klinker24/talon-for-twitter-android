@@ -489,10 +489,36 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
 
+                    final String fRetweeter = retweeter;
+
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            // todo, take you to the tweet
+                            String link;
+
+                            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                            if (displayPic) {
+                                link = picUrl;
+                            } else {
+                                link = otherUrl.split("  ")[0];
+                            }
+
+                            Intent viewTweet = new Intent(context, TweetPager.class);
+                            viewTweet.putExtra("name", name);
+                            viewTweet.putExtra("screenname", screenname);
+                            viewTweet.putExtra("time", longTime);
+                            viewTweet.putExtra("tweet", tweetText);
+                            viewTweet.putExtra("retweeter", fRetweeter);
+                            viewTweet.putExtra("webpage", link);
+                            viewTweet.putExtra("other_links", otherUrl);
+                            viewTweet.putExtra("picture", displayPic);
+                            viewTweet.putExtra("tweetid", holder.tweetId);
+                            viewTweet.putExtra("proPic", profilePic);
+                            viewTweet.putExtra("users", users);
+                            viewTweet.putExtra("hashtags", hashtags);
+                            viewTweet.putExtra("clicked_youtube", true);
+
+                            context.startActivity(viewTweet);
                         }
                     });
 

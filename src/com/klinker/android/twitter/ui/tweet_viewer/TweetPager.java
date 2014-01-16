@@ -117,6 +117,10 @@ public class TweetPager extends YouTubeBaseActivity {
                 break;
         }
 
+        if (getIntent().getBooleanExtra("clicked_youtube", false)) {
+            pager.setCurrentItem(0);
+        }
+
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {

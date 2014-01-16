@@ -8,6 +8,7 @@
     &#8226; Compose tweets with the current search query while searching<br/>
     &#8226; Clear Searches option under advanced settings<br/>
     &#8226; Fixed the flickering of the actionable toast bar<br/>
+    &#8226; Clicking a YouTube video on the timeline will take you directly to that video to view<br/>
     &#8226; Fixes for multiple accounts<br/>
     &#8226; Play Store crash fixes<br/>
 <br/>
