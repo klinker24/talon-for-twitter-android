@@ -278,7 +278,7 @@ public class TalonPullNotificationService extends Service {
     public UserStreamListener userStream = new UserStreamListener() {
         @Override
         public void onStatus(Status status) {
-            if(status.getText().contains("@" + settings.myScreenName)) {
+            if(status.getText().toLowerCase().contains("@" + settings.myScreenName.toLowerCase())) {
                 Log.v("twitter_stream_push", "onStatus @" + status.getUser().getScreenName() + " - " + status.getText());
 
                 if (!status.isRetweet()) { // it is a normal mention
