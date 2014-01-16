@@ -246,7 +246,7 @@
 
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\nAcesse os recursos\ntocando nos itens\nda barra de\nnavegação\nlateral!</string>
-    <string name="part_1_phone">\nDeslize do canto\nesquerdo proo direito\npara abrir a\nbarra de navegação!</string>
+    <string name="part_1_phone">\nDeslizar do canto\nesquerdo pro direito\nabre a barra\nde navegação!</string>
     <string name="part_2">\nNavegue entre\nas abas deslizando,\ndo meio da tela,\npara esquerda\nou direita!</string>
     <string name="part_3">Pronto!\n\nToque na\ntela para\ncomeçar!</string>
 
@@ -332,7 +332,7 @@
 
     <string name="advanced_settings">Opções Avançadas</string>
         <string name="app_feel_category">Opções do app</string>
-            <string name="advance_windowed">Janela Avançada</string>
+            <string name="advance_windowed">Janela Pop-up</string>
                 <string name="advance_windowed_summary">Quando você tocar em um perfil ou um tweet, o app abre uma \"janela\" por cima da timeline.</string>
             <string name="full_screen_browsers">Navegador em Tela Cheia</string>
                 <string name="full_screen_browsers_summary">Abre tweets que contêm uma página da web em tela cheia.</string>
@@ -419,6 +419,14 @@
     <string name="use_inapp_browser">Usar Navegador Interno</string>
     <string name="dismiss_all">Descartar tudo</string>
     <string name="handle_and_name">Mostar @Nome e Nome</string>
-
+    <string name="notification_types">Tipos de Notificação</string>
+    <string name="with_talon_pull">Precisa ter o \"Talon Pull\" ativado</string>
+    <string name="favorited_tweet">Tweets Favoritados</string>
+    <string name="new_followers">Novos Seguidores</string>
+    <string name="discussion">Respostas</string>
+    <string name="no_replies">Sem Respostas</string>
+    <string name="rt_style_quotes">Usar estilo \"RT\" para citar</string>
+    <string name="rt_style_quotes_summary">Usa o modelo \" RT @username: ...\" para citar no lugar do método Talon de citação.\n\nAcessado pela Barra de Ação ou no menu de qualquer tweet.</string>
+    <string name="absolute_date">Usar datas absolutas</string>
 
 </resources>

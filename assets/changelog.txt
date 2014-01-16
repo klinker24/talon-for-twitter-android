@@ -1,11 +1,12 @@
-<b>Version 1.07:</b> Finally, some time for real features :)<br/><br/>
+<b>Version 1.10:</b> Finally, some time for real features :)<br/><br/>
     &#8226; View replies to your tweet on the discussions panel of the tweet viewer<br/>
     &#8226; Huge update for 7 inch tablet layouts<br/>
     &#8226; Better support for image loading on timelines<br/>
     &#8226; Option to use old style RT for quotes instead of current method (under advanced settings)<br/>
     &#8226; Option to use absolute dates on the timelines instead of relative<br/>
-    &#8226; Added translation (Hungarian, Brazilian Portuguese, Spanish)<br/>
+    &#8226; Added translation (Hungarian, Brazilian Portuguese, Spanish, Russian, started Dutch)<br/>
     &#8226; Compose tweets with the current search query while searching<br/>
+    &#8226; Much better handling of mentions on the timeline from Talon Pull. *Should* solve the problem of things getting saved twice<br/>
     &#8226; Clear Searches option under advanced settings<br/>
     &#8226; Fixed the flickering of the actionable toast bar<br/>
     &#8226; Clicking a YouTube video on the timeline will take you directly to that video to view<br/>
