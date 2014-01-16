@@ -841,8 +841,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void updateToastText(String text) {
-        if(isToastShowing && !text.contains("0")) {
+        if(isToastShowing && !text.equals("0 " + fromTop)) {
             toastDescription.setText(text);
+        } else if (text.equals("0 " + fromTop)) {
+            hideToastBar(400);
         }
     }
 

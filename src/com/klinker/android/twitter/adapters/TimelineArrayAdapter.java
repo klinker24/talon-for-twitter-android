@@ -37,7 +37,9 @@ import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import twitter4j.MediaEntity;
@@ -72,6 +74,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public int type;
     public String username;
+
+    public java.text.DateFormat dateFormatter;
+    public java.text.DateFormat timeFormatter;
 
     public static class ViewHolder {
         public TextView name;
@@ -143,6 +148,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     }
 
     public void setUpLayout() {
+        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
+
         talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
 
         if (settings.addonTheme) {
@@ -442,7 +453,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
-        holder.time.setText(Utils.getTimeAgo(time, context));
+        if (!settings.absoluteDate) {
+            holder.time.setText(Utils.getTimeAgo(time, context));
+        } else {
+            Date date = new Date(time);
+            holder.time.setText(timeFormatter.format(date) + ", " + dateFormatter.format(date));
+        }
         holder.tweet.setText(Html.fromHtml(tweetText));
 
         if(settings.inlinePics) {

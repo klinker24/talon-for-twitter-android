@@ -47,6 +47,9 @@ import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import twitter4j.DirectMessage;
@@ -75,6 +78,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private Resources res;
     private boolean talonLayout;
     private BitmapLruCache mCache;
+
+    public java.text.DateFormat dateFormatter;
+    public java.text.DateFormat timeFormatter;
 
     public static class ViewHolder {
         public TextView name;
@@ -141,6 +147,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         b.recycle();
 
         mCache = App.getInstance(context).getBitmapCache();
+
+        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
     }
 
     @Override
@@ -450,7 +462,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.screenTV.setText("@" + screenname);
         }
 
-        holder.time.setText(Utils.getTimeAgo(longTime, context));
+        if (!settings.absoluteDate) {
+            holder.time.setText(Utils.getTimeAgo(longTime, context));
+        } else {
+            Date date = new Date(longTime);
+            holder.time.setText(timeFormatter.format(date) + ", " + dateFormatter.format(date));
+        }
         holder.tweet.setText(Html.fromHtml(tweetText));
 
         if(settings.inlinePics && picUrl != null) {

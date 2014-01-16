@@ -1,9 +1,11 @@
-<b>Version 1.07:</b> First beta build :)<br/><br/>
+<b>Version 1.07:</b> Finally, some time for real features :)<br/><br/>
     &#8226; View replies to your tweet on the discussions panel of the tweet viewer<br/>
     &#8226; Huge update for 7 inch tablet layouts<br/>
     &#8226; Better support for image loading on timelines<br/>
     &#8226; Option to use old style RT for quotes instead of current method (under advanced settings)<br/>
+    &#8226; Option to use absolute dates on the timelines instead of relative<br/>
     &#8226; Added translation (Hungarian, Brazilian Portuguese)<br/>
+    &#8226; Fixed the flickering of the actionable toast bar<br/>
     &#8226; Fixes for multiple accounts<br/>
     &#8226; Play Store crash fixes<br/>
 <br/>

@@ -65,6 +65,7 @@ public class AppSettings {
     public boolean inAppBrowser;
     public boolean showBoth;
     public boolean preferRT;
+    public boolean absoluteDate;
 
     // notifications
     public boolean timelineNot;
@@ -156,6 +157,7 @@ public class AppSettings {
         retweetNot = sharedPrefs.getBoolean("retweet_notifications", true);
         followersNot = sharedPrefs.getBoolean("follower_notifications", true);
         preferRT = sharedPrefs.getBoolean("prefer_rt", false);
+        absoluteDate = sharedPrefs.getBoolean("absolute_date", false);
 
         if (pushNotifications) {
             //liveStreaming = false;
