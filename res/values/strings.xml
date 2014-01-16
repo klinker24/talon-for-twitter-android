@@ -427,5 +427,6 @@
     <string name="rt_style_quotes">Prefer \"RT\" style quotes</string>
     <string name="rt_style_quotes_summary">Uses old \" RT @username: ...\" to quote instead of Talon\'s quote method.\n\nAccessed from the Action Bar or menu on any tweet.</string>
     <string name="absolute_date">Use absolute dates</string>
+    <string name="clear_searches">Clear Searches</string>
 
 </resources>

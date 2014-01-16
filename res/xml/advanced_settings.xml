@@ -90,6 +90,11 @@
             android:title="@string/delete_cache"
             />
 
+        <Preference
+            android:key="clear_searches"
+            android:title="@string/clear_searches"
+            />
+
         </PreferenceCategory>
 
     <PreferenceCategory

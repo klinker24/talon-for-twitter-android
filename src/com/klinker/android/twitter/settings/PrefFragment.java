@@ -21,6 +21,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -37,6 +38,7 @@ import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.Item;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
@@ -599,6 +601,17 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     alert.show();
                 }
 
+                return false;
+            }
+        });
+
+        Preference clearSearch = findPreference("clear_searches");
+        clearSearch.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
+                        MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+                suggestions.clearHistory();
                 return false;
             }
         });
