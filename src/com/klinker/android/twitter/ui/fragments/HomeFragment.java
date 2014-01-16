@@ -113,11 +113,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int unreadtweets = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+            unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
             markReadForLoad();
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-            if (unreadtweets != 0) {
-                showToastBar(unreadtweets + " " + (unreadtweets == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+            if (unread != 0) {
+                showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                         getResources().getString(R.string.view_new),
                         400,
                         false,
@@ -290,7 +290,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         }
                     }
 
-                    if (isToastShowing && !infoBar) {
+                    if (isToastShowing && !infoBar && firstVisibleItem != 0) {
                         updateToastText(firstVisibleItem + " " + fromTop);
                     }
 
