@@ -9,9 +9,14 @@
         android:icon="?searchIcon"
         android:actionViewClass="android.widget.SearchView" />
 
+    <item android:title="@string/compose_with_search"
+        android:id="@+id/menu_compose_with_search"
+        android:orderInCategory="2"
+        android:showAsAction="never" />
+
 
     <item android:id="@+id/menu_settings"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/menu_settings"
         android:showAsAction="never" />
 

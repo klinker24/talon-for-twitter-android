@@ -2,6 +2,7 @@ package com.klinker.android.twitter.ui.drawer_activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.IntentService;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,8 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.SettingsPagerActivity;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.compose.Compose;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -165,11 +168,13 @@ public class Search extends Activity {
         imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
     }
 
+    String searchQuery = "";
+
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            String newQuery = query.replace("@", "from:");
-            new DoSearch(newQuery).execute();
+            searchQuery = intent.getStringExtra(SearchManager.QUERY);
+            String query = searchQuery.replace("@", "from:");
+            new DoSearch(query).execute();
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
@@ -215,6 +220,12 @@ public class Search extends Activity {
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
+
+            case R.id.menu_compose_with_search:
+                Intent compose = new Intent(context, ComposeActivity.class);
+                compose.putExtra("user", searchQuery);
+                startActivity(compose);
+                return  super.onOptionsItemSelected(item);
 
             case R.id.menu_search:
                 overridePendingTransition(0,0);
