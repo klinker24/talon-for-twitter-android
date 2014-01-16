@@ -29,10 +29,15 @@ import com.klinker.android.twitter.utils.RedirectToPopup;
 import com.klinker.android.twitter.utils.Utils;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import twitter4j.DirectMessage;
+import twitter4j.IDs;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
+import twitter4j.Twitter;
 import twitter4j.TwitterStream;
 import twitter4j.User;
 import twitter4j.UserList;
@@ -58,6 +63,8 @@ public class TalonPullNotificationService extends Service {
     public NotificationCompat.Builder mBuilder;
 
     public static boolean shuttingDown = false;
+
+    public ArrayList<Long> ids;
 
     @Override
     public void onCreate() {
@@ -149,9 +156,44 @@ public class TalonPullNotificationService extends Service {
             registerReceiver(updateNotification, filter);
         }
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // get the ids of everyone you follow
+                try {
+                    Log.v("getting_ids", "started getting ids, mine: " + settings.myId);
+                    Twitter twitter = Utils.getTwitter(mContext, settings);
+                    long currCursor = -1;
+                    IDs idObject;
+                    int rep = 0;
+
+                    do {
+                        idObject = twitter.getFriendsIDs(settings.myId, currCursor);
+                        long[] lIds = idObject.getIDs();
+                        ids = new ArrayList<Long>();
+                        for (int i = 0; i < lIds.length; i++) {
+                            Log.v("getting_ids", i + ": " + lIds[i]);
+                            ids.add(lIds[i]);
+                        }
+
+                        rep++;
+                    } while ((currCursor = idObject.getNextCursor()) != 0 && rep < 3);
+
+                    ids.add(settings.myId);
+
+                    idsLoaded = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
         mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
 
     }
+
+    public boolean idsLoaded = false;
 
     @Override
     public void onDestroy() {
@@ -314,11 +356,11 @@ public class TalonPullNotificationService extends Service {
                 }
             }
 
-            if (settings.liveStreaming) {
-                if (!(status.isRetweet() && home.tweetExists(status.getRetweetedStatus().getId(), sharedPreferences.getInt("current_account", 1)))) {
-                    if (!home.tweetExists(status.getId(), sharedPreferences.getInt("current_account", 1))) {
-                        home.createTweet(status, sharedPreferences.getInt("current_account", 1));
-                    }
+            if (settings.liveStreaming && idsLoaded) {
+                Long mId = status.getUser().getId();
+                if (!(status.isRetweet() && home.tweetExists(status.getRetweetedStatus().getId(), sharedPreferences.getInt("current_account", 1))) &&
+                        ids.contains(mId)) {
+                    home.createTweet(status, sharedPreferences.getInt("current_account", 1));
 
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));

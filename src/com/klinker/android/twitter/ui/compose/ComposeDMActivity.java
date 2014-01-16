@@ -83,7 +83,6 @@ public class ComposeDMActivity extends Compose {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        Log.v("adapter_text", adapterText);
                         autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, adapterText), contactEntry));
                     }
                 } catch (Exception e) {
