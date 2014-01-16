@@ -495,7 +495,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     mPullToRefreshLayout.setRefreshComplete();
                     newTweets = false;
 
-                    new RefreshMentions().execute();
+                    //new RefreshMentions().execute();
                 } catch (Exception e) {
                     DrawerActivity.canSwitch = true;
 
