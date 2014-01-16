@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.klinker.android.twitter"
           android:versionCode="6"
-          android:versionName="1.10" >
+          android:versionName="1.10 Beta 1" >
 
     <uses-sdk
             android:minSdkVersion="14"
