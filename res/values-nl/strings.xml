@@ -16,7 +16,7 @@
     <string name="menu_unblock">Deblokkeer Gebruiker</string>
     <string name="menu_add_to_list">Voeg toe aan lijst</string>
     <string name="menu_change_picture">Verander Profielfoto</string>
-    <string name="menu_change_bio">Verander Profielfoto</string>
+    <string name="menu_change_bio">Verander Profiel Info</string>
     <string name="menu_change_banner">Verander Profiel Banner</string>
     <string name="menu_direct_message">Nieuw Direct Bericht</string>
     <string name="menu_save_image">Afbeelding opslaan</string>
@@ -41,6 +41,7 @@
     <!-- Main Activity -->
     <string name="links">Links</string>
     <string name="pictures">Afbeeldingen</string>
+    <string name="timeline">Timeline</string>
     <string name="mentions">Vermeldingen</string>
     <string name="direct_messages">Directe Berichten</string>
     <string name="retweets">Retweets</string>
@@ -93,9 +94,9 @@
     <string name="new_interaction_upper">Nieuwe Interactie</string>
     <string name="new_interactions_lower">nieuwe interacties</string>
     <string name="new_interactions">Nieuwe interacties</string>
-    <string name="retweeted">retweete jouw status</string>
-    <string name="favorited">voegde jouw status toe aan favorieten</string>
-    <string name="followed">volgde jou</string>
+    <string name="retweeted">retweete uw status</string>
+    <string name="favorited">voegde uw status toe aan favorieten</string>
+    <string name="followed">volgde u</string>
     <string name="new_retweets">retweets</string>
     <string name="new_favorites">favorieten</string>
     <string name="new_tweets_upper">Nieuwe Tweets</string>
@@ -106,9 +107,59 @@
     <string name="second_welcome">Data synchroniseren</string>
     <string name="third_welcome">Dat is het!</string>
     <string name="back_to_timeline">Breng me naar mijn timeline!</string>
+    <string name="initial_sync">Sync Nu!</string>
+    <string name="first_info">Voordat we beginnen, laten we u inloggen.</string>
+    <string name="second_info">Geweldig!\n\nNu gaan we wat eerste gegevens ophalen.\n\nDit kan enige tijd duren, afhankelijk van uw internetverbinding.</string>
+    <string name="third_info">Hopelijk waardeert u Talon!\n\n-- Luke Klinker</string>
+    <string name="syncing_timeline">Timeline aan het synchroniseren...</string>
+    <string name="syncing_mentions">Vermeldingen aan het synchroniseren...</string>
+    <string name="syncing_direct_messages">Directe berichten aan het synchroniseren...</string>
+    <string name="syncing_user">Vrienden aan het synchroniseren...</string>
+    <string name="done_syncing">Klaar met synchroniseren.</string>
+    <string name="login_error">Er iets fout gegaan... Probeer het alstublieft opnieuw!</string>
+    <string name="no_network">U bent niet verbonden met het internet.</string>
+    <string name="no_thanks">Niet nu</string>
+    <string name="follow_me">Volg!</string>
+    <string name="follow_me_description">Volg @TalonAndroid en @lukeklinker voor alle nieuwe fucties en ondersteuning!</string>
     <!-- Compose New Activity -->
+    <string name="compose_activity">Nieuwe Tweet</string>
+    <string name="compose_tweet_hint">Typ tweet hier...</string>
+    <string name="send_to">Voer gebruiker\'s schermnaam in</string>
+    <string name="direct_message_sent">Direct Bericht Verzonden</string>
+    <string name="type_user">Typ Gebruiker</string>
+    <string name="add_user">Gebruiker toevoegen</string>
+    <string name="location_connected">Locatie toegevoegd</string>
+    <string name="location_disconnected">Locatie verloren</string>
+    <string name="finding_location">Zoeken naar locaties</string>
+    <string name="draft_found">Concept gevonden</string>
+    <string name="apply">Toepassen?</string>
+    <string name="tweet_failed">Fout bij versturen tweet</string>
+    <string name="tap_to_retry">Tik om opnieuw te proberen</string>
+    <string name="one_recepient">U kunt Directe Berichten alleen naar één gebruiker sturen!</string>
     <!-- Actionbar Done-Discard -->
+    <string name="discard">Weggooien</string>
+    <string name="send">Versturen</string>
     <!-- Other -->
+    <string name="placeholder">Plaatshouder</string>
+    <string name="reply">Reageren...</string>
+    <string name="error">Fout</string>
+    <string name="error_loading_page">Fout bij laden webpagina</string>
+    <string name="delete">Verwijderen</string>
+    <string name="cancel">Annuleren</string>
+    <string name="delete_direct_message">Bericht Verwijderen?</string>
+    <string name="save_image">Afbeelding Opgeslagen</string>
+    <string name="tweet_success">Tweet Succesvol</string>
+    <string name="error_sending_tweet">Fout bij Versturen Tweet</string>
+    <string name="tweet_to_long">Tweet te lang!</string>
+    <string name="ok">Oké</string>
+    <string name="no">Nee</string>
+    <string name="changelog">Wat is er Nieuw</string>
+    <string name="created_by">Gemaakt door</string>
+    <string name="no_location">Kon locatie niet vinden</string>
+    <string name="take_picture">Maak Foto</string>
+    <string name="from_file">Afbeelding Toevoegen</string>
+    <string name="via">via</string>
+    <string name="version">Versie</string>
     <string name="from">Van</string>
     <string name="save">Opslaan</string>
     <string name="stop">Stop</string>
@@ -125,6 +176,7 @@
     <string name="unfavorite_user">Gebruiker Gedefavoriet</string>
     <string name="updating_pro_pic">Profielfoto aan het updaten</string>
     <string name="updating_banner_pic">Banner afbeelding aan het updaten</string>
+    <string name="uploaded">Bestand Geüpload</string>
     <string name="change_profile_info">Verander Profiel Info</string>
     <string name="update">Update</string>
     <string name="optional_name">Naam (Optioneel)</string>
@@ -187,8 +239,8 @@
     <string name="font_options">Lettertype Opties</string>
     <string name="other_options">Andere Opties</string>
     <string name="theme">Thema</string>
-    <string name="addon_themes">Add-on Thema\'s</string>
-    <string name="addon_note">Klik hier om nieuwe thema\'s te vinden\n\nNOTITIES:\n- Dit zal het ingebouwde emoji toetsenbord uitschakelen tijdens het reageren op een tweet.\n- Rapporteer alstublieft geen fouten tenzij u ze kunt bevestigen ZONDER dat er een aangepast thema is ingesteld.</string>
+    <string name="addon_themes">Add-on Thema's</string>
+    <string name="addon_note">Klik hier om nieuwe thema's te vinden\n\nNOTITIES:\n- Dit zal het ingebouwde emoji toetsenbord uitschakelen tijdens het reageren op een tweet.\n- Rapporteer alstublieft geen fouten tenzij u ze kunt bevestigen ZONDER dat er een aangepast thema is ingesteld.</string>
     <string name="use_addon_themes">Gebruik add-on thema</string>
     <string name="make_a_theme">Maak een thema</string>
     <string name="layout">Lay-out</string>
@@ -204,8 +256,146 @@ Als uw profielfoto\'s niet worden weergegeven zoals ze zouden moeten (bijv. rond
     <string name="night_mode_theme">Selecteer Thema voor Nacht Modus</string>
     <string name="device_font">Gebruik Apparaat Lettertype</string>
     <string name="device_font_summary">Standaard \"Roboto\" op de meeste apparaten. Talon\'s standaard lettertype is \"Roboto Light\".</string>
-    <string name="ui_extras">UI Extra\'s</string>
+    <string name="ui_extras">UI Extra's</string>
+    <string name="ui_extras_summary">Houd in:\n
+- Verberg Actie Balk\n
+- Bruikbare Toast Balk
+- Transparante Systeem Balken (Alleen Android 4.4)\n\n
+Deze instellingen toepassen beïnvloedt de prestatie van het scrollen.</string>
+    <string name="inline_pics">Geef In-Line Afbeeldingen Weer</string>
+    <string name="use_screen_name">Geef Twitter-cliënt Weer</string>
+    <string name="use_screen_name_summary">Geef de Twitter-cliënt weer in plaats van hun naam op timelines.</string>
+    <string name="timestamp">24-Uur Tijdstempel</string>
+    <string name="enable_emojis">Gebruik Emojis</string>
+    <string name="to_market">Naar Play Store</string>
+    <string name="get_android">Krijg Android Emojis</string>
+    <string name="get_ios">Krijg iOS Emojis</string>
+    <string name="emoji_dialog_summary">Om emojis te gebruiken in deze app, moet je het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
+Je kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n
+NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat pakket wordt zowel als plug-in gebruikt, en als een op zichzelf staand toetsenbord. </string>
+    <string name="theme_light">Licht Thema</string>
+    <string name="theme_dark">Donker Thema</string>
+    <string name="theme_black">Zwart Thema</string>
+    <string name="sync_settings">Sync Instellingen</string>
+    <string name="sync_mobile_data">Gebruik mobiele data</string>
+    <string name="sync_mobile_data_summary">Auto-vernieuw tijdlijnen via mobiele data en WiFi.</string>
+    <string name="auto_sync_notifications">Auto-Vernieuw Notificaties Opties</string>
+    <string name="notifications">Notificaties</string>
+    <string name="vibrate">Trillen</string>
+    <string name="led">Knipper LED</string>
+    <string name="wake_screen">Maak Scherm Wakker</string>
+    <string name="sound">Notificatie Geluid</string>
+    <string name="quiet_hours">Niet Storen</string>
+    <string name="max_number_on_refresh">Max aantal Tweets om te Vernieuwen</string>
+    <string name="fav_users_notifications">Favoriete Gebruiker Notificaties</string>
+    <string name="sync_second_mentions">Sync Tweede Acc. Vermeldingen</string>
+    <string name="sync_second_mentions_summary">Controleer en waarschuw automatisch voor nieuwe vermeldingen op uw tweede account, tegelijk met het eerste.</string>
+    <string name="max_number_summary">Hogere max betekent een langzamere verniewing</string>
+    <string name="auto_refresh_category">Auto-Vernieuw Opties</string>
+    <string name="refresh_on_startup">Vernieuw bij Opstarten</string>
+    <string name="timeline_sync_interval">Timeline Vernieuw Interval</string>
+    <string name="mentions_sync_interval">Vermeldingen Vernieuw Interval</string>
+    <string name="dm_sync_interval">Directe Berichten Vernieuw Interval</string>
+    <string name="sync_friends">Sync Vriend's Gegevens</string>
+    <string name="sync_friends_summary2">Her-sync vriend's gegevens bij het opstellen van tweets.</string>
+    <string name="sync_friends_summary">Vernieuw vriendenlijst handmatig.\n\n Dit is al gedaan voor u tijdens het inloggen en ze worden automatisch toegevoegd wanneer u iemand volgt vanuit Talon, maar deze optie zal al je laatste "volgers" ophalen.\n\n
+Deze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het opstellen van een tweet.</string>
+    <string name="sync_success">Sync Succesvol</string>
+    <string name="sync_failed">Sync Mislukt</string>
+    <string name="push_notification_options">\"\"Push Notificaties\" Opties\"</string>
+    <string name="push_notifications">Talon Pull</string>
+    <string name="push_notifications_summary">Dit zal een service starten om notificaties weer te kunnen geven wanneer je nieuwe interacties ontvangt (vermeldingen, dm\'s, favorieten, retweets, of nieuwe volgers).</string>
+    <string name="push_notification_warning">Klik op deze voorkeur om meer over deze optie te lezen.</string>
+    <string name="notification_settings">Notificatie Instellingen</string>
+    <string name="pebble_notifications">Pebble Notificaties</string>
+    <string name="pebble_notifications_summary">Gebruikt met de Pebble smart watch.</string>
+    <string name="advanced_settings">Geavanceerde Instellingen</string>
+    <string name="app_feel_category">App Gevoels Opties</string>
+    <string name="advance_windowed">Geavanceerde Venstermodus</string>
+    <string name="advance_windowed_summary">Open profielen en tweets in een \"venster\" weergave boven de timelines.</string>
+    <string name="full_screen_browsers">Volledig Scherm Browsers</string>
+    <string name="full_screen_browsers_summary">Open tweets die een webpagina bevatten in volledig scherm.</string>
+    <string name="reverse_click_actions">Draai Klik Acties Om</string>
+    <string name="reverse_click_actions_summary">Draai de klik acties op tweets om.\n\n
+Standaard (wanneer uitgeschakeld):\n
+- Lang drukken om een tweet te openen\n
+- Kort drukken om tweet uit te klappen</string>
+    <string name="extra_pages">Gebruik Extra Pagina's</string>
+    <string name="extra_pages_summary">Voeg links en afbeelding pagina's toe, links van de timeline.</string>
+    <string name="live_streaming">Live Streaming</string>
+    <string name="memory_management">Geheugenbeheer Opties</string>
+    <string name="delete_cache">Verwijder Cache nu</string>
+    <string name="cache_dialog">Verwijder Cache?</string>
+    <string name="not_cache">Dit wordt niet toegepast op de app cache.</string>
+    <string name="current_cache_size">Huidige cache grootte</string>
+    <string name="cache_dialog_summary">Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="timeline_size">Timeline Grootte</string>
+    <string name="timeline_size_summary">Max aantal tweets om op te slaan in de database</string>
+    <string name="mentions_size">Vermedingen grootte</string>
+    <string name="mentions_size_summary">Max aantal vermeldingen om op te slaan in de database</string>
+    <string name="dm_size">Directe Berichten Grootte</string>
+    <string name="dm_size_summary">Max aantal directe berichten om op te slaan in de database</string>
+    <string name="auto_trim">Auto-Trim Databases</string>
+    <string name="trim_now">Trim Databases Nu</string>
+    <string name="trim_dialog">Databases nu trimmen?</string>
+    <string name="trimming">Aan het trimmen...</string>
+    <string name="trim_success">Trim succesvol</string>
+    <string name="trim_fail">Trim mislukt</string>
+    <string name="backup_category">Back-up en Terugzetten Opties</string>
+    <string name="backup_settings">Back-up Instellingen</string>
+    <string name="backup_settings_dialog">Nieuwe back-up maken?</string>
+    <string name="backup_settings_dialog_summary">Dit zal alle vorige back-ups overschrijven.</string>
+    <string name="backup_success">Back-up Succesvol</string>
+    <string name="restore_success">Terugzetten Succesvol</string>
+    <string name="restore_settings">Instellingen Terugzetten</string>
+    <string name="restore_settings_summary">Zal de cache leegmaken om enkele thema aanpassing toe te passen.</string>
+    <string name="get_help_settings">Krijg Hulp</string>
+    <string name="rerun_tutorial">Start Opstart Tutorial</string>
+    <string name="faq">Vaak Gestelde Vragen</string>
+    <string name="features_explained">Functies Uitgelegd</string>
+    <string name="youtube">YouTube video</string>
+    <string name="google_plus">Google+ Community</string>
+    <string name="xda_thread">XDA Thread</string>
+    <string name="email_me">Email Mij</string>
+    <string name="tweet_me">Tweet naar Mij</string>
+    <string name="follow_talon">Volg Talon op Twitter</string>
+    <string name="credits">Credits</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="other_apps">Onze Andere Apps</string>
+    <string name="whats_new">Wat is er Nieuw</string>
+    <string name="rate_it">Waardeer Talon</string>
+    <string name="talon_settings">Talon Instellingen</string>
+    <string name="feature_requests">Aangevraagde functies</string>
     <!-- Emoji Keyboard -->
+    <string name="recent">Recente</string>
+    <string name="people">Mensen</string>
+    <string name="things">Objecten</string>
+    <string name="nature">Natuur</string>
+    <string name="places">Plaatsen</string>
+    <string name="symbols">Symbolen</string>
     <!-- Array value for translation -->
+    <string name="five_mins">5 minuten</string>
+    <string name="ten_mins">10 minuten</string>
+    <string name="twenty_mins">20 minuten</string>
+    <string name="thirty_mins">30 minuten</string>
+    <string name="fourty_five_mins">45 minuten</string>
+    <string name="one_hour">1 uur</string>
+    <string name="two_hours">2 uren</string>
+    <string name="three_hours">3 uren</string>
+    <string name="four_hours">4 uren</string>
+    <string name="manual">Handmatig</string>
+    <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
+    <string name="use_inapp_browser">Gebruik In-app Browser</string>
+    <string name="dismiss_all">Verwerp Alles</string>
+    <string name="handle_and_name">Geef cliënt en naam weer</string>
+    <string name="notification_types">Notificatie Types</string>
+    <string name="with_talon_pull">Toegang gekregen via \"Talon Pull\"</string>
+    <string name="favorited_tweet">Favorieten op uw tweets</string>
+    <string name="new_followers">Nieuwe volgers</string>
+    <string name="discussion">Discussie</string>
+    <string name="no_replies">Geen Reacties</string>
+    <string name="rt_style_quotes">Geef de voorkeur aan \"RT\" stijl quotes</string>
+    <string name="rt_style_quotes_summary">Gebruikt oude \" RT @gebruikersnaam ...\" om te quoten in plaats van Talon\'s quote methode.\n\nToegang gekregen via de Actie Balk of menu in iedere tweet.</string>
+    <string name="absolute_date">Gebruik absolute data.</string>
 </resources>

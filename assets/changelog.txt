@@ -2,6 +2,8 @@
     &#8226; Limit the number of tweets on the timeline according to the "Timeline size" under Advanced Settings<br/>
     &#8226; "To First" toast is now optional<br/>
     &#8226; Faster refreshes<br/>
+    &#8226; Attempted a few fixes for the jumping around on timelines (with load button and viewing picture/tweet)<br/>
+    &#8226; More translation edits and fully added the Dutch translation<br/>
 <br/><br/>
 
 <b>Version 1.10 Beta 1:</b> Finally, some time for real features :)<br/><br/>

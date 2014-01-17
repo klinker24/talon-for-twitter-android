@@ -85,6 +85,8 @@
     <string name="fav_user_tweets">новые твиты от избранных</string>
     <string name="sec_acc">Второй аккаунт</string>
     <string name="talon_pull">Talon Pull</string>
+    <string name="listening">Проверка</string>
+    <string name="listening_for_mentions">Проверка новых уведомлений</string>
     <string name="refreshing">Обновление</string>
     <string name="refreshing_widget">Обновление виджета...</string>
     <string name="downloading">Загрузка</string>
@@ -158,8 +160,10 @@
     <string name="from_file">Прикрепить изображение</string>
     <string name="via">через</string>
     <string name="version">Версия</string>
+    <string name="from">От</string>
     <string name="save">Сохранить</string>
     <string name="stop">Остановить</string>
+    <string name="tweeted">твитнул(а)</string>
     <!-- User Profile Activity -->
     <string name="followers">Читатели</string>
     <string name="following">Подписки</string>
@@ -249,7 +253,7 @@
     <string name="night_mode">Ночной режим</string>
     <string name="night_mode_night">Время начала ночного режима</string>
     <string name="night_mode_day">Время начала дневного режима</string>
-    <string name="night_mode_theme">Выберите ночную тему</string>
+    <string name="night_mode_theme">Выберите тему ночного режима</string>
     <string name="device_font">Использовать системный шрифт</string>
     <string name="device_font_summary">Стандартный Roboto на большинстве устройств. Используемый в Talon шрифт – Roboto Light.</string>
     <string name="ui_extras">Дополнения интерфейса</string>
@@ -300,6 +304,9 @@
     <string name="sync_failed">Синхронизация не удалась</string>
     <string name="push_notification_options">\"Настройки Push-уведомлений\"</string>
     <string name="push_notifications">Talon Pull</string>
+    <string name="push_notifications_summary">Эта опция позволит мгновенно получать уведомления о новых упоминаниях, сообщениях, ретвитах, читателях и т.д.</string>
+    <string name="push_notification_warning">Нажмите сюда, чтобы получить больше информации об этой функции.</string>
+    <string name="notification_settings">Настройки уведомлений</string>
     <string name="pebble_notifications">Pebble-уведомления</string>
     <string name="pebble_notifications_summary">Используется со смарт-часами Pebble</string>
     <string name="advanced_settings">Дополнительные настройки</string>
@@ -347,9 +354,48 @@
     <string name="faq">F.A.Q.</string>
     <string name="features_explained">Пояснения к функциям</string>
     <string name="youtube">Видео на YouTube</string>
+    <string name="google_plus">Сообщество в Google+</string>
+    <string name="xda_thread">Тема на XDA</string>
+    <string name="email_me">Отправить мне e-mail</string>
+    <string name="tweet_me">Отправить мне твит</string>
+    <string name="follow_talon">Читать Talon в Твиттере</string>
+    <string name="credits">О приложении</string>
+    <string name="disclaimer">Внимание</string>
+    <string name="other_apps">Другие приложения</string>
+    <string name="whats_new">Что нового</string>
+    <string name="rate_it">Оценить Talon</string>
+    <string name="talon_settings">Настройки Talon</string>
+    <string name="feature_requests">Предложения новых функций</string>
     <!-- Emoji Keyboard -->
+    <string name="recent">Недавние</string>
+    <string name="people">Люди</string>
+    <string name="things">Предметы</string>
+    <string name="nature">Природа</string>
+    <string name="places">Места</string>
+    <string name="symbols">Символы</string>
     <!-- Array value for translation -->
+    <string name="five_mins">5 минут</string>
+    <string name="ten_mins">10 минут</string>
+    <string name="twenty_mins">20 минут</string>
+    <string name="thirty_mins">30 минут</string>
+    <string name="fourty_five_mins">45 минут</string>
+    <string name="one_hour">1 час</string>
+    <string name="two_hours">2 часа</string>
+    <string name="three_hours">3 часа</string>
+    <string name="four_hours">4 часа</string>
+    <string name="manual">Вручную</string>
+    <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
+    <string name="use_inapp_browser">Использовать встроенный браузер</string>
+    <string name="dismiss_all">Отклонить все</string>
+    <string name="handle_and_name">Отображать имя и @никнейм</string>
+    <string name="notification_types">Типы уведомлений</string>
+    <string name="with_talon_pull">Доступно через \"Talon Pull\"</string>
+    <string name="favorited_tweet">Ваши твиты, добавленные в избранное</string>
+    <string name="new_followers">Новые читатели</string>
+    <string name="discussion">Обсуждение</string>
+    <string name="no_replies">Новых ответов нет</string>
     <string name="rt_style_quotes">Использовать цитирование с \"RT\"</string>
+    <string name="rt_style_quotes_summary">Использует старый стиль цитирования (\"RT @никнейм: ...\") вместо метода Talon (\"@никнейм: ...\").\n\nЦитирование доступно из панели заголовка или меню любого твита.</string>
     <string name="absolute_date">Альтернативный стиль дат</string>
 </resources>
