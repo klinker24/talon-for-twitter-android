@@ -628,10 +628,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             unread = mUnread;
         }
 
-        try {
-            context.unregisterReceiver(pullReceiver);
-        } catch (Exception e) { }
-
         super.onPause();
     }
 
@@ -658,6 +654,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             sharedPrefs.edit().putBoolean("should_refresh", true).commit();
         }
     };
+
+    @Override
+    public void onStop() {
+        Log.v("talon_stopping", "stopping here");
+        try {
+            context.unregisterReceiver(pullReceiver);
+        } catch (Exception e) { }
+        super.onStop();
+    }
 
     @Override
     public void onStart() {
