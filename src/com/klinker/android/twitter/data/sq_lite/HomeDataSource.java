@@ -2,6 +2,7 @@ package com.klinker.android.twitter.data.sq_lite;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +20,7 @@ public class HomeDataSource {
     private HomeSQLiteHelper dbHelper;
     private Context context;
     private int timelineSize;
+    private boolean noRetweets;
     public static String[] allColumns = { HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_TWEET_ID, HomeSQLiteHelper.COLUMN_ACCOUNT, HomeSQLiteHelper.COLUMN_TYPE,
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
             HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
@@ -27,7 +29,9 @@ public class HomeDataSource {
     public HomeDataSource(Context context) {
         dbHelper = new HomeSQLiteHelper(context);
         this.context = context;
-        timelineSize = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("timeline_size", "1000"));
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        timelineSize = Integer.parseInt(sharedPreferences.getString("timeline_size", "1000"));
+        noRetweets = sharedPreferences.getBoolean("ignore_retweets", false);
     }
 
     public void open() throws SQLException {
@@ -136,6 +140,10 @@ public class HomeDataSource {
             }
         }
 
+        if (noRetweets) {
+            where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
@@ -161,6 +169,10 @@ public class HomeDataSource {
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
+        }
+
+        if (noRetweets) {
+            where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -189,6 +201,9 @@ public class HomeDataSource {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
         }
+        if (noRetweets) {
+            where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, where, new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -210,6 +225,10 @@ public class HomeDataSource {
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
+        }
+
+        if (noRetweets) {
+            where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -237,6 +256,10 @@ public class HomeDataSource {
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
+        }
+
+        if (noRetweets) {
+            where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
