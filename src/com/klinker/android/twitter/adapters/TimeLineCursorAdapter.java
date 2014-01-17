@@ -705,18 +705,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.reply.setSelection(holder.reply.getText().length());
 
         if (holder.favCount.getText().toString().length() <= 2) {
-            holder.favCount.setText("- ");
-            holder.retweetCount.setText("- ");
+            holder.favCount.setText("");
+            holder.retweetCount.setText("");
         }
 
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
 
-        if (holder.favCount.getText().toString().equals("- ")) {
+        if (holder.favCount.getText().toString().equals("")) {
             new GetFavoriteCount(holder, holder.tweetId).execute();
         }
 
-        if (holder.retweetCount.getText().toString().equals("- ")) {
+        if (holder.retweetCount.getText().toString().equals("")) {
             new GetRetweetCount(holder, holder.tweetId).execute();
         }
 
@@ -830,7 +830,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected void onPostExecute(twitter4j.Status status) {
             if (status != null) {
-                holder.favCount.setText("- " + status.getFavoriteCount());
+                holder.favCount.setText(" " + status.getFavoriteCount());
 
                 if (status.isFavorited()) {
                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
@@ -873,7 +873,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected void onPostExecute(String count) {
             if (count != null) {
-                holder.retweetCount.setText("- " + count);
+                holder.retweetCount.setText(" " + count);
             }
         }
     }

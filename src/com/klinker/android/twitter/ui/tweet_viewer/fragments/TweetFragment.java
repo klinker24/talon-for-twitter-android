@@ -748,7 +748,7 @@ public class TweetFragment extends Fragment {
 
         protected void onPostExecute(twitter4j.Status status) {
             if (status != null) {
-                favs.setText("- " + status.getFavoriteCount());
+                favs.setText(" " + status.getFavoriteCount());
 
                 if (status.isFavorited()) {
                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
@@ -795,7 +795,7 @@ public class TweetFragment extends Fragment {
 
         protected void onPostExecute(String count) {
             if (count != null) {
-                retweetCount.setText("- " + count);
+                retweetCount.setText(" " + count);
             }
 
             try {

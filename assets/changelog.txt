@@ -1,4 +1,10 @@
-<b>Version 1.10:</b> Finally, some time for real features :)<br/><br/>
+<b>Version 1.10 Beta 2:</b><br/><br/>
+    &#8226; Limit the number of tweets on the timeline according to the "Timeline size" under Advanced Settings<br/>
+    &#8226; "To First" toast is now optional<br/>
+    &#8226; Faster refreshes<br/>
+<br/><br/>
+
+<b>Version 1.10 Beta 1:</b> Finally, some time for real features :)<br/><br/>
     &#8226; View replies to your tweet on the discussions panel of the tweet viewer<br/>
     &#8226; Huge update for 7 inch tablet layouts<br/>
     &#8226; Better support for image loading on timelines<br/>
@@ -12,7 +18,7 @@
     &#8226; Clicking a YouTube video on the timeline will take you directly to that video to view<br/>
     &#8226; Fixes for multiple accounts<br/>
     &#8226; Play Store crash fixes<br/>
-<br/>
+<br/><br/>
 
 <b>Version 1.06:</b><br/><br/>
     &#8226; Huge expansion of notification options<br/>
