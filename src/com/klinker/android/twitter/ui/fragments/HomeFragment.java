@@ -421,9 +421,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             for (twitter4j.Status status : statuses) {
                 try {
-                    if (!dataSource.tweetExists(status.getId(), currentAccount)) {
-                        HomeContentProvider.insertTweet(status, currentAccount, context);
-                    }
+                    HomeContentProvider.insertTweet(status, currentAccount, context);
                     //dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
                     e.printStackTrace();
