@@ -131,7 +131,7 @@ public class HtmlUtils {
                 if(exp.toLowerCase().contains("instag")) {
                     imageUrl = exp + "media/?size=t";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("youtu")) {
+                } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) {
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
@@ -307,7 +307,7 @@ public class HtmlUtils {
                 if(exp.toLowerCase().contains("instag")) {
                     imageUrl = exp + "media/?size=t";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("youtube")) { // normal youtube link
+                } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) { // normal youtube link
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
