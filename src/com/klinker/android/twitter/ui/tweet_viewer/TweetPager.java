@@ -377,16 +377,12 @@ public class TweetPager extends YouTubeBaseActivity {
             menu.getItem(MENU_SPAM).setVisible(false);
         }
 
-        if (mSectionsPagerAdapter.getHasWebpage()) {
+        if (!mSectionsPagerAdapter.getHasWebpage()) {
             menu.getItem(MENU_OPEN_WEB).setVisible(false);
         }
 
         if (!picture) {
             menu.getItem(MENU_SAVE_IMAGE).setVisible(false);
-        }
-
-        if (otherLinks.length == 0) {
-            menu.getItem(MENU_OPEN_WEB).setVisible(false);
         }
 
         return true;
