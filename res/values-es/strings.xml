@@ -304,7 +304,7 @@
     <string name="sync_failed">Sincronización fallida</string>
     <string name="push_notification_options">\"Opciones para \"Notificaciones Push\"\"</string>
     <string name="push_notifications">Talon Pull</string>
-    <string name="push_notifications_summary">Esto iniciará un "escucha" para mostrar notificaciones en cuanto hayan nuevas interacciones (menciones, mensajes directos, favoritos, retweets, o nuevos seguidores).\n\nTambién se bajarán tweets en tiempo real a su timeline principal.</string>
+    <string name="push_notifications_summary">Esto iniciará un "escucha" para mostrar notificaciones en cuanto hayan nuevas interacciones (menciones, mensajes directos, favoritos, retweets, o nuevos seguidores).</string>
     <string name="push_notification_warning">Para leer más acerca de esta opción (en inglés), toque este mensaje.</string>
     <string name="notification_settings">Configuración de notificaciones</string>
     <string name="pebble_notifications">Notificaciones para Pebble</string>
