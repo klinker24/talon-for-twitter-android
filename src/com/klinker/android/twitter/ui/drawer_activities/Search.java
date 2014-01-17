@@ -178,7 +178,7 @@ public class Search extends Activity {
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
+            suggestions.saveRecentQuery(searchQuery, null);
         }
     }
 

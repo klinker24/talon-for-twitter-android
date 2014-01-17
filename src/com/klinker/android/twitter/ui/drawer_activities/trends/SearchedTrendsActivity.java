@@ -175,7 +175,7 @@ public class SearchedTrendsActivity extends Activity {
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
+            suggestions.saveRecentQuery(searchQuery, null);
         }
     }
 
