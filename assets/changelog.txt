@@ -1,6 +1,7 @@
 <b>Version 1.10 Beta 3:</b><br/><br/>
     &#8226; Much better refreshing of mentions from the main timeline<br/>
     &#8226; "To first" button added in the action bar if you disable the toast<br/>
+    &#8226; Option to ignore all retweets on your timeline<br/>
 <br/><br/>
 
 <b>Version 1.10 Beta 2:</b><br/><br/>

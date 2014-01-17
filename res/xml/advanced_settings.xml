@@ -99,15 +99,15 @@
             android:title="@string/muted_users" />
 
         <CheckBoxPreference
-            android:key="prefer_rt"
-            android:title="@string/rt_style_quotes"
-            android:summary="@string/rt_style_quotes_summary"
+            android:key="ignore_retweets"
+            android:title="@string/ignore_retweets"
             android:defaultValue="false"
             />
 
         <CheckBoxPreference
-            android:key="ignore_retweets"
-            android:title="@string/ignore_retweets"
+            android:key="prefer_rt"
+            android:title="@string/rt_style_quotes"
+            android:summary="@string/rt_style_quotes_summary"
             android:defaultValue="false"
             />
 
