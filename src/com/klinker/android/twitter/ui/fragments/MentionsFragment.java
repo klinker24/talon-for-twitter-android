@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -85,6 +87,13 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     private String allRead;
 
     private View.OnClickListener toTopListener;
+
+    public BroadcastReceiver refrehshMentions = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            new GetCursorAdapter().execute();
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -406,6 +415,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             new GetCursorAdapter().execute();
         }
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
+        context.registerReceiver(refrehshMentions, filter);
+
         sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
     }
 
@@ -446,6 +459,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
             dataSource.markMultipleRead(mUnread, currentAccount);
             unread = mUnread;
+        }
+
+        try {
+            context.unregisterReceiver(refrehshMentions);
+        } catch (Exception e) {
+
         }
 
         super.onPause();

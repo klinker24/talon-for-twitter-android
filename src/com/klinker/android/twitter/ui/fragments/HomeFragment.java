@@ -311,20 +311,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toTopListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (unread < 200) {
-                    try {
-                        if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
-                            listView.setSelection(0);
-                        } else {
-                            listView.smoothScrollToPosition(0);
-                        }
-                    } catch (Exception e) {
-                        listView.smoothScrollToPosition(0);
-                    }
-                } else {
-                    dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
-                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                }
+                toTop();
             }
         };
 
@@ -357,6 +344,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         };
 
         return layout;
+    }
+
+    public void toTop() {
+        if (unread < 200) {
+            try {
+                if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
+                    listView.setSelection(0);
+                } else {
+                    listView.smoothScrollToPosition(0);
+                }
+            } catch (Exception e) {
+                listView.smoothScrollToPosition(0);
+            }
+        } else {
+            dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+        }
     }
 
     public List<twitter4j.Status> getList(int page, Twitter twitter) {
@@ -494,7 +498,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     mPullToRefreshLayout.setRefreshComplete();
                     newTweets = false;
 
-                    //new RefreshMentions().execute();
+                    new RefreshMentions().execute();
                 } catch (Exception e) {
                     DrawerActivity.canSwitch = true;
 
@@ -602,6 +606,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             try {
                 if (updated) {
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_MENTIONS"));
                     sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                     showToastBar(text + "", toMentions, 400, true, toMentionsListener);
