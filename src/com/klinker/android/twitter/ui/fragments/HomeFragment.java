@@ -732,6 +732,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        newTweets = false;
         String[] projection = HomeDataSource.allColumns;
         CursorLoader cursorLoader = new CursorLoader(
                 context,
@@ -747,7 +748,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
         listView.setAdapter(cursorAdapter);
-        newTweets = false;
 
         initial = false;
 

@@ -4,15 +4,18 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:id="@+id/header" >
-
+    <View
+        android:layout_height="140dp"
+        android:layout_width="match_parent"
+        android:minHeight="140dp"
+        />
 
     <ImageView
         android:id="@+id/background_image"
         android:layout_height="140dp"
         android:layout_width="match_parent"
-        android:minHeight="210dp"
+        android:minHeight="140dp"
         android:scaleType="centerCrop"
-        android:layout_marginTop="-5dp"
         />
 
     <LinearLayout
