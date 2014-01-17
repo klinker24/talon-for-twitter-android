@@ -759,11 +759,20 @@ public abstract class DrawerActivity extends Activity {
             menu.getItem(1).setVisible(false);
             menu.getItem(2).setVisible(false);
             menu.getItem(3).setVisible(false);
+            menu.getItem(5).setVisible(false);
         } else {
             menu.getItem(0).setVisible(false);
             menu.getItem(1).setVisible(true);
             menu.getItem(2).setVisible(true);
             menu.getItem(3).setVisible(true);
+            menu.getItem(5).setVisible(false);
+        }
+
+        // to first listener
+        if (MainDrawerArrayAdapter.current > 2 || settings.useToast) {
+            menu.getItem(5).setVisible(false);
+        } else {
+            menu.getItem(5).setVisible(true);
         }
 
         if (MainActivity.isPopup) {

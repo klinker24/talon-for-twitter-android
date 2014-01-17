@@ -3,6 +3,10 @@ package com.klinker.android.twitter.ui.fragments;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -67,6 +71,33 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     private String allRead;
 
     private View.OnClickListener toTopListener;
+
+    public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            toTop();
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
+        context.registerReceiver(jumpTopReceiver, filter);
+    }
+
+    @Override
+    public void onPause() {
+        try {
+            context.unregisterReceiver(jumpTopReceiver);
+        } catch (Exception e) {
+            // not registered
+        }
+
+        super.onPause();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -233,19 +264,23 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
         toTopListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
-                        listView.setSelection(0);
-                    } else {
-                        listView.smoothScrollToPosition(0);
-                    }
-                } catch (Exception e) {
-                    listView.smoothScrollToPosition(0);
-                }
+                toTop();
             }
         };
 
         return layout;
+    }
+
+    public void toTop() {
+        try {
+            if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
+                listView.setSelection(0);
+            } else {
+                listView.smoothScrollToPosition(0);
+            }
+        } catch (Exception e) {
+            listView.smoothScrollToPosition(0);
+        }
     }
 
     @Override

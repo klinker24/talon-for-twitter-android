@@ -95,6 +95,13 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         }
     };
 
+    public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            toTop();
+        }
+    };
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -264,19 +271,23 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         toTopListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
-                        listView.setSelection(0);
-                    } else {
-                        listView.smoothScrollToPosition(0);
-                    }
-                } catch (Exception e) {
-                    listView.smoothScrollToPosition(0);
-                }
+                toTop();
             }
         };
 
         return layout;
+    }
+
+    public void toTop() {
+        try {
+            if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
+                listView.setSelection(0);
+            } else {
+                listView.smoothScrollToPosition(0);
+            }
+        } catch (Exception e) {
+            listView.smoothScrollToPosition(0);
+        }
     }
 
     @Override
@@ -419,6 +430,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
         context.registerReceiver(refrehshMentions, filter);
 
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
+        context.registerReceiver(jumpTopReceiver, filter);
+
         sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
     }
 
@@ -463,6 +478,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         try {
             context.unregisterReceiver(refrehshMentions);
+        } catch (Exception e) {
+        }
+        try {
+            context.unregisterReceiver(jumpTopReceiver);
         } catch (Exception e) {
 
         }
