@@ -827,6 +827,10 @@ public abstract class DrawerActivity extends Activity {
                 notificationList.setAdapter(notificationAdapter);
                 return super.onOptionsItemSelected(item);
 
+            case R.id.menu_to_first:
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.TOP_TIMELINE"));
+                return super.onOptionsItemSelected(item);
+
             default:
                 return super.onOptionsItemSelected(item);
         }

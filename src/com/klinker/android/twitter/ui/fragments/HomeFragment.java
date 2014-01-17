@@ -128,6 +128,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
     };
 
+    public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            toTop();
+        }
+    };
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -319,6 +326,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onClick(View view) {
                 MainActivity.mViewPager.setCurrentItem(DrawerActivity.settings.extraPages ? 3 : 1, true);
+                hideToastBar(400);
             }
         };
 
@@ -650,6 +658,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.NEW_TWEET");
         context.registerReceiver(pullReceiver, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
+        context.registerReceiver(jumpTopReceiver, filter);
     }
 
     public boolean justStarted = false;
@@ -850,9 +862,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void updateToastText(String text) {
-        if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop))) {
+        if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
             toastDescription.setText(text);
-        } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop)) {
+        } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
             hideToastBar(400);
         }
     }

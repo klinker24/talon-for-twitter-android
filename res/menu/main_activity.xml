@@ -31,4 +31,9 @@
           android:title="@string/menu_settings"
           android:showAsAction="never" />
 
+    <item android:id="@+id/menu_to_first"
+        android:orderInCategory="6"
+        android:title="@string/jump_to_top"
+        android:showAsAction="never" />
+
 </menu>
