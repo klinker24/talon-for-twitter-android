@@ -192,14 +192,14 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
                                 if (!landscape && !isTablet) {
                                     actionBar.hide();
                                 }
-                                if (!isToastShowing) {
+                                if (!isToastShowing && DrawerActivity.settings.useToast) {
                                     showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
                                 if (!landscape && !isTablet) {
                                     actionBar.show();
                                 }
-                                if (isToastShowing && !infoBar) {
+                                if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
                                     hideToastBar(400);
                                 }
                             }
@@ -210,12 +210,12 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
                         if (!landscape && !isTablet) {
                             actionBar.show();
                         }
-                        if (!infoBar) {
+                        if (!infoBar && DrawerActivity.settings.useToast) {
                             hideToastBar(400);
                         }
                     }
 
-                    if (isToastShowing && !infoBar) {
+                    if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
                         updateToastText(firstVisibleItem + " " + fromTop);
                     }
 

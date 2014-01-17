@@ -85,6 +85,13 @@
             />
 
         <CheckBoxPreference
+            android:key="use_toast"
+            android:title="@string/use_toast"
+            android:defaultValue="true"
+            android:dependency="ui_extras"
+            />
+
+        <CheckBoxPreference
             android:key="inline_pics"
             android:title="@string/inline_pics"
             android:defaultValue="true"

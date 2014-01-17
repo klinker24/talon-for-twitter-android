@@ -429,5 +429,6 @@
     <string name="absolute_date">Use absolute dates</string>
     <string name="clear_searches">Clear Searches</string>
     <string name="compose_with_search">Compose Tweet with Search</string>
+    <string name="use_toast">Use \"To First\" Toast</string>
 
 </resources>

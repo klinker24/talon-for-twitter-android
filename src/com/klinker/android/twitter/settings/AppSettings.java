@@ -66,6 +66,7 @@ public class AppSettings {
     public boolean showBoth;
     public boolean preferRT;
     public boolean absoluteDate;
+    public boolean useToast;
 
     // notifications
     public boolean timelineNot;
@@ -158,6 +159,7 @@ public class AppSettings {
         followersNot = sharedPrefs.getBoolean("follower_notifications", true);
         preferRT = sharedPrefs.getBoolean("prefer_rt", false);
         absoluteDate = sharedPrefs.getBoolean("absolute_date", false);
+        useToast = sharedPrefs.getBoolean("use_toast", true);
 
         if (pushNotifications) {
             //liveStreaming = false;
