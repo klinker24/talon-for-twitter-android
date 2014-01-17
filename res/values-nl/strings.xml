@@ -239,8 +239,8 @@
     <string name="font_options">Lettertype Opties</string>
     <string name="other_options">Andere Opties</string>
     <string name="theme">Thema</string>
-    <string name="addon_themes">Add-on Thema's</string>
-    <string name="addon_note">Klik hier om nieuwe thema's te vinden\n\nNOTITIES:\n- Dit zal het ingebouwde emoji toetsenbord uitschakelen tijdens het reageren op een tweet.\n- Rapporteer alstublieft geen fouten tenzij u ze kunt bevestigen ZONDER dat er een aangepast thema is ingesteld.</string>
+    <string name="addon_themes">Add-on Thema\'s</string>
+    <string name="addon_note">Klik hier om nieuwe thema\'s te vinden\n\nNOTITIES:\n- Dit zal het ingebouwde emoji toetsenbord uitschakelen tijdens het reageren op een tweet.\n- Rapporteer alstublieft geen fouten tenzij u ze kunt bevestigen ZONDER dat er een aangepast thema is ingesteld.</string>
     <string name="use_addon_themes">Gebruik add-on thema</string>
     <string name="make_a_theme">Maak een thema</string>
     <string name="layout">Lay-out</string>
@@ -256,7 +256,7 @@ Als uw profielfoto\'s niet worden weergegeven zoals ze zouden moeten (bijv. rond
     <string name="night_mode_theme">Selecteer Thema voor Nacht Modus</string>
     <string name="device_font">Gebruik Apparaat Lettertype</string>
     <string name="device_font_summary">Standaard \"Roboto\" op de meeste apparaten. Talon\'s standaard lettertype is \"Roboto Light\".</string>
-    <string name="ui_extras">UI Extra's</string>
+    <string name="ui_extras">UI Extra\'s</string>
     <string name="ui_extras_summary">Houd in:\n
 - Verberg Actie Balk\n
 - Bruikbare Toast Balk
@@ -296,8 +296,8 @@ NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat
     <string name="timeline_sync_interval">Timeline Vernieuw Interval</string>
     <string name="mentions_sync_interval">Vermeldingen Vernieuw Interval</string>
     <string name="dm_sync_interval">Directe Berichten Vernieuw Interval</string>
-    <string name="sync_friends">Sync Vriend's Gegevens</string>
-    <string name="sync_friends_summary2">Her-sync vriend's gegevens bij het opstellen van tweets.</string>
+    <string name="sync_friends">Sync Vriend\'s Gegevens</string>
+    <string name="sync_friends_summary2">Her-sync vriend\'s gegevens bij het opstellen van tweets.</string>
     <string name="sync_friends_summary">Vernieuw vriendenlijst handmatig.\n\n Dit is al gedaan voor u tijdens het inloggen en ze worden automatisch toegevoegd wanneer u iemand volgt vanuit Talon, maar deze optie zal al je laatste "volgers" ophalen.\n\n
 Deze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het opstellen van een tweet.</string>
     <string name="sync_success">Sync Succesvol</string>
@@ -320,8 +320,8 @@ Deze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het ops
 Standaard (wanneer uitgeschakeld):\n
 - Lang drukken om een tweet te openen\n
 - Kort drukken om tweet uit te klappen</string>
-    <string name="extra_pages">Gebruik Extra Pagina's</string>
-    <string name="extra_pages_summary">Voeg links en afbeelding pagina's toe, links van de timeline.</string>
+    <string name="extra_pages">Gebruik Extra Pagina\'s</string>
+    <string name="extra_pages_summary">Voeg links en afbeelding pagina\'s toe, links van de timeline.</string>
     <string name="live_streaming">Live Streaming</string>
     <string name="memory_management">Geheugenbeheer Opties</string>
     <string name="delete_cache">Verwijder Cache nu</string>
