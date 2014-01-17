@@ -79,14 +79,16 @@ public class PhotoViewerDialog extends Activity {
         picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
-                overridePendingTransition(0,0);
-                finish();
-                Intent restart = new Intent(context, PhotoViewerDialog.class);
-                restart.putExtra("url", url);
-                restart.putExtra("from_cache", true);
-                restart.putExtra("restart", false);
-                overridePendingTransition(0,0);
-                startActivity(restart);
+                if (isRunning) {
+                    overridePendingTransition(0,0);
+                    finish();
+                    Intent restart = new Intent(context, PhotoViewerDialog.class);
+                    restart.putExtra("url", url);
+                    restart.putExtra("from_cache", true);
+                    restart.putExtra("restart", false);
+                    overridePendingTransition(0,0);
+                    startActivity(restart);
+                }
             }
         } : null, 0, fromCache); // no transform
 
@@ -191,5 +193,19 @@ public class PhotoViewerDialog extends Activity {
 
             }
         }
+    }
+
+    public boolean isRunning = true;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isRunning = true;
+    }
+
+    @Override
+    public void onPause() {
+        isRunning = false;
+        super.onPause();
     }
 }
