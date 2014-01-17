@@ -470,7 +470,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final Preference mobileOnly = findPreference("sync_mobile_data");
 
         if (sharedPrefs.getBoolean("push_notifications", true)) {
-            timeline.setEnabled(false);
+            if (sharedPrefs.getBoolean("live_streaming", true)) {
+                timeline.setEnabled(false);
+            }
             dms.setEnabled(false);
             onStart.setEnabled(false);
             mobileOnly.setEnabled(false);
@@ -490,7 +492,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 if (!((CheckBoxPreference) pull).isChecked()) {
-                    timeline.setEnabled(false);
+                    if (sharedPrefs.getBoolean("live_streaming", true)) {
+                        timeline.setEnabled(false);
+                    }
                     dms.setEnabled(false);
                     onStart.setEnabled(false);
                     mobileOnly.setEnabled(false);
@@ -505,7 +509,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     am.cancel(pendingIntent3);
 
                     SharedPreferences.Editor e = sharedPrefs.edit();
-                    e.putString("timeline_sync_interval", "0");
+                    if (sharedPrefs.getBoolean("live_streaming", true)) {
+                        e.putString("timeline_sync_interval", "0");
+                    }
                     e.putString("mentions_sync_interval", "0");
                     e.putString("dm_sync_interval", "0");
                     e.commit();
