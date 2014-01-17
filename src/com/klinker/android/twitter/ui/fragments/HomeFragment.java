@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         @Override
         public void onReceive(Context context, Intent intent) {
             unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
-            markReadForLoad();
+            //markReadForLoad();
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
             if (unread != 0) {
                 showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
