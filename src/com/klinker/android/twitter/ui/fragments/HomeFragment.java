@@ -339,6 +339,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onClick(View view) {
                 newTweets = false;
+                markReadForLoad();
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
                 //int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                 listView.setSelectionFromTop(0, 0);
