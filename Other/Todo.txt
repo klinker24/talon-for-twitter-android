@@ -15,6 +15,7 @@
 
 - Bugs:
     - some people cant see profiles correctly
+    - Jumping around the timeline? might be fixed
 
 - Notification Center:
     - Combined pictures from Evolve

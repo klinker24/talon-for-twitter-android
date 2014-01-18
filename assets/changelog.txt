@@ -4,6 +4,7 @@
     &#8226; Option to ignore all retweets on your timeline<br/>
     &#8226; Fix for night mode when it starts after midnight<br/>
     &#8226; Better widget updating<br/>
+    &#8226; Might have fixed the profiles not showing correctly for everyone<br/>
 <br/><br/>
 
 <b>Version 1.10 Beta 2:</b><br/><br/>
