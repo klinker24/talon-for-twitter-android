@@ -302,7 +302,7 @@ public class TweetFragment extends Fragment {
             screennametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
         }
 
-        if (name.contains(settings.myName)) {
+        if (screenName.equals(settings.myScreenName)) {
             reply.setVisibility(View.GONE);
             replyButton.setVisibility(View.GONE);
             attachButton.setVisibility(View.GONE);
