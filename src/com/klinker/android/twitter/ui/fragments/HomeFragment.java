@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
             if (unread != 0) {
                 showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                        getResources().getString(R.string.view_new),
+                        getResources().getString(R.string.view),
                         400,
                         false,
                         liveStreamRefresh);
@@ -260,7 +260,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     //unread = dataSource.getUnreadCount(currentAccount);
                     if (liveUnread > 0) {
                         showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                getResources().getString(R.string.view_new),
+                                getResources().getString(R.string.view),
                                 400,
                                 false,
                                 liveStreamRefresh);

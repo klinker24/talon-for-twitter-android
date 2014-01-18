@@ -437,5 +437,6 @@
     <string name="no_hashtags">No hashtags</string>
     <string name="mute_hashtags">Mute Hashtags</string>
     <string name="muted">Muted</string>
+    <string name="view">View</string>
 
 </resources>
