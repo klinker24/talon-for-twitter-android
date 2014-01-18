@@ -1,11 +1,12 @@
 <b>Version 1.10 Beta 3:</b><br/><br/>
     &#8226; Much better refreshing of mentions from the main timeline<br/>
     &#8226; "To first" button added in the action bar if you disable the toast<br/>
+    &#8226; Mute hashtags from the overflow menu on a tweet<br/>
     &#8226; Option to ignore all retweets on your timeline<br/>
     &#8226; Fix for night mode when it starts after midnight<br/>
     &#8226; Better widget updating<br/>
     &#8226; Might have fixed the profiles not showing correctly for everyone<br/>
-    &#8226; Polish translation<br/>
+    &#8226; Polish translation added<br/>
 <br/><br/>
 
 <b>Version 1.10 Beta 2:</b><br/><br/>

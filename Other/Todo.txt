@@ -3,7 +3,6 @@
     - Retweet and favorite from multiple accounts
     - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles
-    - To first in action bar
     - scheduling tweets
     - different image uploading service
     - widget with just the unread numbers on it
