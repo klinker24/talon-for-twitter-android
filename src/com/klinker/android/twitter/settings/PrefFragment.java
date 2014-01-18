@@ -611,6 +611,39 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference hashtags = findPreference("manage_mutes_hashtags");
+        hashtags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] tags = sharedPrefs.getString("muted_hashtags", "").split(" ");
+
+                if (tags.length == 0 || (tags.length == 1 && tags[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_hashtags), Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(tags, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String newTags = "";
+
+                            for (int i = 0; i < tags.length; i++) {
+                                if (i != item) {
+                                    newTags += tags[i] + " ";
+                                }
+                            }
+
+                            sharedPrefs.edit().putString("muted_hashtags", newTags).commit();
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                return false;
+            }
+        });
+
         Preference clearSearch = findPreference("clear_searches");
         clearSearch.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

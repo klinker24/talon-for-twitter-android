@@ -434,5 +434,6 @@
     <string name="view">View</string>
     <string name="muted_hashtags">Muted Hashtags</string>
     <string name="muted_hashtags_summary">Click hashtag to remove the mute.</string>
+    <string name="no_hashtags">No hashtags</string>
 
 </resources>
