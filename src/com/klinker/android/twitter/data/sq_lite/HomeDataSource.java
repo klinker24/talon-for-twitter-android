@@ -21,6 +21,7 @@ public class HomeDataSource {
     private Context context;
     private int timelineSize;
     private boolean noRetweets;
+    private SharedPreferences sharedPreferences;
     public static String[] allColumns = { HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_TWEET_ID, HomeSQLiteHelper.COLUMN_ACCOUNT, HomeSQLiteHelper.COLUMN_TYPE,
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
             HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
@@ -29,7 +30,7 @@ public class HomeDataSource {
     public HomeDataSource(Context context) {
         dbHelper = new HomeSQLiteHelper(context);
         this.context = context;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         timelineSize = Integer.parseInt(sharedPreferences.getString("timeline_size", "1000"));
         noRetweets = sharedPreferences.getBoolean("ignore_retweets", false);
     }
@@ -126,7 +127,8 @@ public class HomeDataSource {
 
     public Cursor getCursor(int account) {
 
-        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String users = sharedPreferences.getString("muted_users", "");
+        String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (!users.equals("")) {
@@ -137,6 +139,13 @@ public class HomeDataSource {
 
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -157,7 +166,8 @@ public class HomeDataSource {
 
     public Cursor getWidgetCursor(int account) {
 
-        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String users = sharedPreferences.getString("muted_users", "");
+        String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (!users.equals("")) {
@@ -168,6 +178,13 @@ public class HomeDataSource {
 
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -188,7 +205,8 @@ public class HomeDataSource {
 
     public Cursor getUnreadCursor(int account) {
 
-        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String users = sharedPreferences.getString("muted_users", "");
+        String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?";
 
         if (!users.equals("")) {
@@ -201,6 +219,14 @@ public class HomeDataSource {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
         }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
@@ -213,7 +239,8 @@ public class HomeDataSource {
 
     public Cursor getPicsCursor(int account) {
 
-        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String users = sharedPreferences.getString("muted_users", "");
+        String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'";
 
         if (!users.equals("")) {
@@ -224,6 +251,13 @@ public class HomeDataSource {
 
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -244,7 +278,8 @@ public class HomeDataSource {
 
     public Cursor getLinksCursor(int account) {
 
-        String users = PreferenceManager.getDefaultSharedPreferences(context).getString("muted_users", "");
+        String users = sharedPreferences.getString("muted_users", "");
+        String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'";
 
         if (!users.equals("")) {
@@ -255,6 +290,13 @@ public class HomeDataSource {
 
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 

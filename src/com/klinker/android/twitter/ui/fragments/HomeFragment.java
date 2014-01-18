@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         @Override
         public void onReceive(Context context, Intent intent) {
             unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
-            //markReadForLoad();
+            markReadForLoad();
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
             if (unread != 0) {
                 showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
@@ -732,7 +732,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        newTweets = false;
         String[] projection = HomeDataSource.allColumns;
         CursorLoader cursorLoader = new CursorLoader(
                 context,
@@ -752,13 +751,20 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         initial = false;
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
-        int newTweets = dataSource.getUnreadCount(currentAccount);
+        int numTweets = dataSource.getUnreadCount(currentAccount);
 
-        if (newTweets != 0) {
-            unread = newTweets;
+        if (numTweets != 0) {
+            unread = numTweets;
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(newTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
+            listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                newTweets = false;
+            }
+        }, 500);
     }
 
     @Override
