@@ -617,6 +617,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceClick(Preference preference) {
                 final String[] tags = sharedPrefs.getString("muted_hashtags", "").split(" ");
 
+                for (int i = 0; i < tags.length; i++) {
+                    tags[i] = "#" + tags[i];
+                }
+
                 if (tags.length == 0 || (tags.length == 1 && tags[0].equals(""))) {
                     Toast.makeText(context, context.getResources().getString(R.string.no_hashtags), Toast.LENGTH_SHORT).show();
                 } else {
@@ -627,7 +631,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                             for (int i = 0; i < tags.length; i++) {
                                 if (i != item) {
-                                    newTags += tags[i] + " ";
+                                    newTags += tags[i].replace("#", "") + " ";
                                 }
                             }
 

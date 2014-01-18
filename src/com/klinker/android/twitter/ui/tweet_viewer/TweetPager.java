@@ -1,10 +1,14 @@
 package com.klinker.android.twitter.ui.tweet_viewer;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -14,6 +18,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -32,13 +37,17 @@ import com.klinker.android.twitter.adapters.TweetPagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.BrowserActivity;
+import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
+import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 
 import twitter4j.Twitter;
@@ -512,6 +521,58 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_spam:
                 new MarkSpam().execute();
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_mute_hashtags:
+                if (!hashtags[0].equals("")) {
+                    ArrayList<String> tags = new ArrayList<String>();
+                    if (hashtags != null) {
+                        for (String s : hashtags) {
+                            if (!s.equals("")) {
+                                tags.add("#" + s);
+                            }
+                        }
+                    }
+
+                    final CharSequence[] fItems = new CharSequence[tags.size()];
+
+                    for (int i = 0; i < tags.size(); i++) {
+                        fItems[i] = tags.get(i);
+                    }
+
+                    final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+                    if (fItems.length > 1) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setItems(fItems, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                String touched = fItems[item] + "";
+                                Toast.makeText(context, getResources().getString(R.string.muted) + " " + touched, Toast.LENGTH_SHORT).show();
+                                touched = touched.replace("#", "") + " ";
+
+                                String current = sharedPreferences.getString("muted_hashtags", "");
+                                sharedPreferences.edit().putString("muted_hashtags", current + touched).commit();
+                                sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    } else {
+                        String touched = fItems[0] + "";
+                        Toast.makeText(context, getResources().getString(R.string.muted) + " " + touched, Toast.LENGTH_SHORT).show();
+                        touched = touched.replace("#", "") + " ";
+
+                        String current = sharedPreferences.getString("muted_hashtags", "");
+                        sharedPreferences.edit().putString("muted_hashtags", current + touched).commit();
+                        sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+
+                    }
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.no_hashtags), Toast.LENGTH_SHORT).show();
+                }
+                return super.onOptionsItemSelected(item);
 
             default:
                 return super.onOptionsItemSelected(item);

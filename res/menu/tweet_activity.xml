@@ -39,4 +39,9 @@
           android:orderInCategory="7"
           android:showAsAction="never" />
 
+    <item android:id="@+id/menu_mute_hashtags"
+          android:title="@string/mute_hashtags"
+          android:orderInCategory="8"
+          android:showAsAction="never" />
+
 </menu>
