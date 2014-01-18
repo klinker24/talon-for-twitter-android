@@ -3,6 +3,7 @@
     &#8226; "To first" button added in the action bar if you disable the toast<br/>
     &#8226; Option to ignore all retweets on your timeline<br/>
     &#8226; Fix for night mode when it starts after midnight<br/>
+    &#8226; Better widget updating<br/>
 <br/><br/>
 
 <b>Version 1.10 Beta 2:</b><br/><br/>

@@ -14,19 +14,12 @@
 
 
 - Bugs:
-    - youtube thumbnails not always working right
-    - saves some of them twice...
     - some people cant see profiles correctly
-    - night mode not updating when it is after midnight
 
 - Notification Center:
     - Combined pictures from Evolve
 
 -- For Release --
 
-    -- Look back 5 tweets on timeline and mentions refreshes
-
-    -- mute hashtags
     -- Spannable String to main timelines (http://stackoverflow.com/questions/7570239/android-linkify-text-spannable-text-in-single-text-view-as-like-twitter-twee)
     -- location, website, and following status in the profiles
-    -- widget update with talon pull
