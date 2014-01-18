@@ -430,6 +430,9 @@
     <string name="clear_searches">Clear Searches</string>
     <string name="compose_with_search">Compose Tweet with Search</string>
     <string name="use_toast">Use \"To First\" Toast</string>
-    <string name="ignore_retweets">Ignore retweets on main timelines</string>
+    <string name="ignore_retweets">Ignore Retweets</string>
+    <string name="ignore_retweets_summary">Do not display any retweets while scrolling your main timelines</string>
+    <string name="view">View</string>
+    <string name="muted_hashtags">Muted Hashtags</string>
 
 </resources>

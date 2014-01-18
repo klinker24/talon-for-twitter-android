@@ -96,11 +96,18 @@
 
         <Preference
             android:key="manage_mutes"
-            android:title="@string/muted_users" />
+            android:title="@string/muted_users"
+            />
+
+        <Preference
+            android:key="manage_mutes_hashtags"
+            android:title="@string/muted_hashtags"
+            />
 
         <CheckBoxPreference
             android:key="ignore_retweets"
             android:title="@string/ignore_retweets"
+            android:summary="@string/ignore_retweets_summary"
             android:defaultValue="false"
             />
 
