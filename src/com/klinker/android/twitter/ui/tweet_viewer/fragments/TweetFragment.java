@@ -539,6 +539,12 @@ public class TweetFragment extends Fragment {
 
         reply.setText("@" + screenName + " " + extraNames);
 
+        if (settings.autoInsertHashtags) {
+            for (String s : hashtags) {
+                reply.append("#" + s + " ");
+            }
+        }
+
         reply.setSelection(reply.getText().length());
 
         replyButton.setOnClickListener(new View.OnClickListener() {

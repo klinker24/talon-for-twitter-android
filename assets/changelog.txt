@@ -6,6 +6,8 @@
     &#8226; Fix for night mode when it starts after midnight<br/>
     &#8226; Better widget updating<br/>
     &#8226; Might have fixed the profiles not showing correctly for everyone<br/>
+    &#8226; More fixes for the toast bar<br/>
+    &#8226; Option to auto insert hashtags when replying to a tweet<br/>
     &#8226; Polish translation added<br/>
 <br/><br/>
 

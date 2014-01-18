@@ -67,6 +67,7 @@ public class AppSettings {
     public boolean preferRT;
     public boolean absoluteDate;
     public boolean useToast;
+    public boolean autoInsertHashtags;
 
     // notifications
     public boolean timelineNot;
@@ -160,6 +161,7 @@ public class AppSettings {
         preferRT = sharedPrefs.getBoolean("prefer_rt", false);
         absoluteDate = sharedPrefs.getBoolean("absolute_date", false);
         useToast = sharedPrefs.getBoolean("use_toast", true);
+        autoInsertHashtags = sharedPrefs.getBoolean("auto_insert_hashtags", false);
 
         if (pushNotifications) {
             //liveStreaming = false;

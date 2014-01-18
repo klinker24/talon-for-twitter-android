@@ -760,10 +760,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int numTweets = dataSource.getUnreadCount(currentAccount);
 
-        if (numTweets != 0) {
+        if (numTweets != 0 && liveUnread == 0) {
             unread = numTweets;
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
+        } else if (liveUnread != 0) {
+            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
         }
 
         liveUnread = 0;

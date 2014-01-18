@@ -33,6 +33,13 @@
             android:defaultValue="true"
             />
 
+        <CheckBoxPreference
+            android:key="auto_insert_hashtags"
+            android:title="@string/auto_insert_hashtags"
+            android:summary="@string/to_replies"
+            android:defaultValue="false"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory
