@@ -287,6 +287,8 @@ public class TweetPager extends YouTubeBaseActivity {
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
+
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
         }
     }
 
