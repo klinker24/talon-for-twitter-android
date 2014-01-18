@@ -413,7 +413,6 @@
 
     <string name="layout_hangouts">Hangouts</string>
 
-
     <!-- added after release -->
     <string name="use_inapp_browser">Use In-app Browser</string>
     <string name="dismiss_all">Dismiss All</string>
@@ -434,5 +433,6 @@
     <string name="ignore_retweets_summary">Do not display any retweets while scrolling your main timelines</string>
     <string name="view">View</string>
     <string name="muted_hashtags">Muted Hashtags</string>
+    <string name="muted_hashtags_summary">Click hashtag to remove the mute.</string>
 
 </resources>

@@ -102,6 +102,7 @@
         <Preference
             android:key="manage_mutes_hashtags"
             android:title="@string/muted_hashtags"
+            android:summary="@string/muted_hashtags_summary"
             />
 
         <CheckBoxPreference

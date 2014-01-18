@@ -202,7 +202,8 @@ public class AppSettings {
             int nightStartMinutes = nightStartHour * 60 + nightStartMin;
             int currentMinutes = hour * 60 + minutes;
 
-            if (!(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) {
+            if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
+                    (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
                 nightMode = true;
                 theme = sharedPrefs.getInt("night_theme", 1);
             }
