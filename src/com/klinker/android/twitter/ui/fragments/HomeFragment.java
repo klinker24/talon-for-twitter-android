@@ -110,14 +110,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     public View view;
 
+    public int liveUnread = 0;
+
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+            //unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+            liveUnread++;
             markReadForLoad();
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
             if (unread != 0) {
-                showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                         getResources().getString(R.string.view_new),
                         400,
                         false,
@@ -253,10 +256,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                if (newTweets && firstVisibleItem == 0) {
-                    unread = dataSource.getUnreadCount(currentAccount);
-                    if (unread > 0) {
-                        showToastBar(unread + " " + (unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
+                    //unread = dataSource.getUnreadCount(currentAccount);
+                    if (liveUnread > 0) {
+                        showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                 getResources().getString(R.string.view_new),
                                 400,
                                 false,
@@ -758,6 +761,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
         }
+
+        liveUnread = 0;
 
         new Handler().postDelayed(new Runnable() {
             @Override
