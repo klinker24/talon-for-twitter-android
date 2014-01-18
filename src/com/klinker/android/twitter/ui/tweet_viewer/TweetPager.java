@@ -612,6 +612,20 @@ public class TweetPager extends YouTubeBaseActivity {
             }
         }
 
+        if (!webpage.equals("")) {
+            for (int i = 0; i < split.length; i++) {
+                String s = split[i];
+
+                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                    s = webpage;
+                }
+
+                split[i] = s;
+            }
+        }
+
+
+
         if(changed) {
             full = "";
             for (String p : split) {

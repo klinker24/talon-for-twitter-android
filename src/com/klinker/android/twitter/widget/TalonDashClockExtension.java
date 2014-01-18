@@ -55,7 +55,7 @@ public class TalonDashClockExtension extends DashClockExtension {
 
             publishUpdate(new ExtensionData()
                     .visible(true)
-                    .icon(R.drawable.timeline_dark)
+                    .icon(R.drawable.ic_stat_icon)
                     .status(homeTweets + mentionsTweets + dmTweets + "")
                     .expandedTitle(NotificationUtils.getTitle(unreads, this, currentAccount)[0])
                     .expandedBody(NotificationUtils.getLongTextNoHtml(unreads, this, currentAccount))

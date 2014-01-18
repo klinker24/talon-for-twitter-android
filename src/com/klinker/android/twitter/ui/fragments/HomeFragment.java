@@ -117,9 +117,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         public void onReceive(Context context, Intent intent) {
             //unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
             liveUnread++;
+            int current = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+            if (liveUnread > current) {
+                liveUnread = current;
+            }
             markReadForLoad();
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-            if (unread != 0) {
+            if (liveUnread != 0) {
                 showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                         getResources().getString(R.string.view),
                         400,
@@ -295,7 +299,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         if (!landscape && !isTablet) {
                             actionBar.show();
                         }
-                        if (!infoBar && unread == 0 && DrawerActivity.settings.useToast) {
+                        if (!infoBar && unread == 0 && liveUnread == 0 && DrawerActivity.settings.useToast) {
                             hideToastBar(400);
                         }
                     }
