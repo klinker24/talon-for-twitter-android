@@ -273,7 +273,7 @@ public class IOUtils {
             dm.open();
 
             dm.deleteDups(settings.currentAccount);
-            
+
             timeline = dm.getCursor(account);
 
             Log.v("trimming", "dm size: " + timeline.getCount());

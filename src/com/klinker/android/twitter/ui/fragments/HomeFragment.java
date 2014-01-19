@@ -398,7 +398,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
             User user = twitter.verifyCredentials();
-            long lastId = dataSource.getLastId(currentAccount);
+            long[] lastId = dataSource.getLastIds(currentAccount);
             long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
 
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
@@ -416,7 +416,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 try {
                     for (int j = lastJ; j < statuses.size(); j++) {
                         long id = statuses.get(j).getId();
-                        if (id == lastId || id == secondToLastId) {
+                        if (id == lastId[0] || id == lastId[1] || id == lastId[2] || id == lastId[3] || id == lastId[4]) {
                             statuses = statuses.subList(0, j);
                             foundStatus = true;
                             break;

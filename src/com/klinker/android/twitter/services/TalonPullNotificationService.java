@@ -367,7 +367,7 @@ public class TalonPullNotificationService extends Service {
                     mContext.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
 
                     sharedPreferences.edit().putBoolean("refresh_me", true).commit();
-                    sharedPreferences.edit().putLong("second_last_tweet_id_" + sharedPreferences.getInt("current_account", 1), home.getLastId(sharedPreferences.getInt("current_account", 1)));
+                    sharedPreferences.edit().putLong("second_last_tweet_id_" + sharedPreferences.getInt("current_account", 1), home.getLastIds(sharedPreferences.getInt("current_account", 1))[0]);
 
                     if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName()) && settings.favoriteUserNotifications) {
                         NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
