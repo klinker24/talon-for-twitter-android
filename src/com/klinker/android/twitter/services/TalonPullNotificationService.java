@@ -58,6 +58,7 @@ public class TalonPullNotificationService extends Service {
     public SharedPreferences sharedPreferences;
     public InteractionsDataSource interactions;
     public HomeDataSource home;
+    public MentionsDataSource mentions;
     public FavoriteUsersDataSource favs;
 
     public NotificationCompat.Builder mBuilder;
@@ -76,6 +77,9 @@ public class TalonPullNotificationService extends Service {
 
         favs = new FavoriteUsersDataSource(this);
         favs.open();
+
+        mentions = new MentionsDataSource(this);
+        mentions.open();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -324,10 +328,8 @@ public class TalonPullNotificationService extends Service {
                 Log.v("twitter_stream_push", "onStatus @" + status.getUser().getScreenName() + " - " + status.getText());
 
                 if (!status.isRetweet()) { // it is a normal mention
-                    MentionsDataSource dataSource = new MentionsDataSource(mContext);
-                    dataSource.open();
-                    if (!dataSource.tweetExists(status.getId(), sharedPreferences.getInt("current_account", 1))) {
-                        dataSource.createTweet(status, sharedPreferences.getInt("current_account", 1));
+                    if (!mentions.tweetExists(status.getId(), sharedPreferences.getInt("current_account", 1))) {
+                        mentions.createTweet(status, sharedPreferences.getInt("current_account", 1));
                     }
                     interactions.createMention(mContext, status, sharedPreferences.getInt("current_account", 1));
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
@@ -337,7 +339,6 @@ public class TalonPullNotificationService extends Service {
                         NotificationUtils.refreshNotification(mContext);
                     }
 
-                    dataSource.close();
                 } else { // it is a retweet
                     if (!status.getUser().getScreenName().equals(settings.myScreenName) && status.getRetweetedStatus().getUser().getScreenName().equals(settings.myScreenName)) {
                         if (settings.retweetNot) {

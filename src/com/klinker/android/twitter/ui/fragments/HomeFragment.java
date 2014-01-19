@@ -547,10 +547,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                 User user = twitter.verifyCredentials();
-                MentionsDataSource dataSource = new MentionsDataSource(context);
-                dataSource.open();
-                long[] lastId = dataSource.getLastIds(currentAccount);
-                dataSource.close();
+                MentionsDataSource mentions = new MentionsDataSource(context);
+                mentions.open();
+                long[] lastId = mentions.getLastIds(currentAccount);
+                mentions.close();
                 Paging paging;
                 paging = new Paging(1, 50);
 
@@ -594,12 +594,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     numberNew = 0;
                 }
 
-                MentionsDataSource mentions = new MentionsDataSource(context);
-                mentions.open();
+                MentionsDataSource mentions2 = new MentionsDataSource(context);
+                mentions2.open();
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        mentions.createTweet(status, currentAccount);
+                        mentions2.createTweet(status, currentAccount);
                     } catch (Exception e) {
                         break;
                     }
@@ -607,7 +607,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-                mentions.close();
+                mentions2.close();
 
             } catch (TwitterException e) {
                 // Error in updating status
