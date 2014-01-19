@@ -82,7 +82,8 @@
 
         <Preference
             android:key="trim_now"
-            android:title="@string/trim_now"
+            android:title="@string/clean_now"
+            android:summary="@string/clean_now_summary"
             />
 
         <Preference

@@ -244,6 +244,8 @@ public class IOUtils {
                 }
             }
 
+            home.deleteDups(settings.currentAccount);
+
             home.close();
 
             MentionsDataSource mentions = new MentionsDataSource(context);
@@ -283,6 +285,7 @@ public class IOUtils {
             dm.close();
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

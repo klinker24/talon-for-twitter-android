@@ -541,7 +541,9 @@ public class TweetFragment extends Fragment {
 
         if (settings.autoInsertHashtags) {
             for (String s : hashtags) {
-                reply.append("#" + s + " ");
+                if (!s.equals("")) {
+                    reply.append("#" + s + " ");
+                }
             }
         }
 

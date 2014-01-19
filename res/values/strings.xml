@@ -440,5 +440,7 @@
     <string name="view">View</string>
     <string name="auto_insert_hashtags">Auto-Insert Hashtags</string>
     <string name="to_replies">Insert any hashtags contained in the tweet into the reply.</string>
+    <string name="clean_now">Clean Databases Now</string>
+    <string name="clean_now_summary">Includes trimming and removing duplicates in your database.</string>
 
 </resources>

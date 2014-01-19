@@ -416,4 +416,8 @@ public class HomeDataSource {
 
         return cursor.getCount() > 0;
     }
+
+    public void deleteDups(int account) {
+        database.execSQL("DELETE FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + HomeSQLiteHelper.TABLE_HOME + " GROUP BY " + HomeSQLiteHelper.COLUMN_TWEET_ID + ") AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+    }
 }
