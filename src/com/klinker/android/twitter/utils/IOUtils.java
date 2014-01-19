@@ -230,6 +230,9 @@ public class IOUtils {
 
             HomeDataSource home = new HomeDataSource(context);
             home.open();
+
+            home.deleteDups(settings.currentAccount);
+
             Cursor timeline = home.getCursor(account);
 
             Log.v("trimming", "timeline size: " + timeline.getCount());
@@ -244,12 +247,13 @@ public class IOUtils {
                 }
             }
 
-            home.deleteDups(settings.currentAccount);
-
             home.close();
 
             MentionsDataSource mentions = new MentionsDataSource(context);
             mentions.open();
+
+            mentions.deleteDups(settings.currentAccount);
+
             timeline = mentions.getCursor(account);
 
             Log.v("trimming", "mentions size: " + timeline.getCount());
@@ -267,6 +271,9 @@ public class IOUtils {
 
             DMDataSource dm = new DMDataSource(context);
             dm.open();
+
+            dm.deleteDups(settings.currentAccount);
+            
             timeline = dm.getCursor(account);
 
             Log.v("trimming", "dm size: " + timeline.getCount());

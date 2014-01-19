@@ -246,4 +246,8 @@ public class MentionsDataSource {
 
         return cursor.getCount() > 0;
     }
+
+    public void deleteDups(int account) {
+        database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+    }
 }
