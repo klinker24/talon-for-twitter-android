@@ -98,7 +98,6 @@
                     android:layout_weight="1"
                     android:maxLines="5"
                     android:minLines="2"
-                    android:contentDescription="Tweet Content"
                     android:hint="@string/compose_tweet_hint"
                     android:inputType="textCapSentences|textMultiLine"/>
 

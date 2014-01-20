@@ -86,7 +86,7 @@ public class DMDataSource {
         String name = "";
 
         try {
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToLast()) {
                 name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
             }
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class DMDataSource {
         String message = "";
 
         try {
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToLast()) {
                 message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
             }
         } catch (Exception e) {

@@ -2,21 +2,27 @@ package com.klinker.android.twitter.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
@@ -24,8 +30,11 @@ import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.DirectMessage;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.widgets.HoloEditText;
+import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -37,6 +46,7 @@ import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
@@ -49,6 +59,9 @@ public class DirectMessageConversation extends Activity {
     private ActionBar actionBar;
 
     private AsyncListView listView;
+    private HoloEditText composeBar;
+    private ImageButton sendButton;
+    private HoloTextView charRemaining;
 
     private String listName;
 
@@ -69,7 +82,7 @@ public class DirectMessageConversation extends Activity {
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        setContentView(R.layout.list_view_activity);
+        setContentView(R.layout.dm_conversation);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -78,6 +91,9 @@ public class DirectMessageConversation extends Activity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
+        sendButton = (ImageButton) findViewById(R.id.send_button);
+        composeBar = (HoloEditText) findViewById(R.id.tweet_content);
+        charRemaining = (HoloTextView) findViewById(R.id.char_remaining);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         CursorListLoader loader = new CursorListLoader(cache, context);
@@ -93,6 +109,38 @@ public class DirectMessageConversation extends Activity {
         actionBar.setTitle(getIntent().getStringExtra("name"));
 
         new GetList().execute();
+
+        charRemaining.setText(140 - composeBar.getText().length() + "");
+        composeBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                try {
+                    charRemaining.setText(140 - composeBar.getText().length() + "");
+                } catch (Exception e) {
+                    charRemaining.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String status = composeBar.getText().toString();
+                if (status.trim().length() > 0 && status.length() <= 140) {
+                    new SendDirectMessage().execute(status);
+                    composeBar.setText("");
+                }
+            }
+        });
     }
 
     public void setUpWindow() {
@@ -153,6 +201,87 @@ public class DirectMessageConversation extends Activity {
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
+    }
+
+    class SendDirectMessage extends AsyncTask<String, String, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        protected Boolean doInBackground(String... args) {
+            String status = args[0];
+            try {
+                Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
+
+                String sendTo = listName;
+
+                twitter4j.DirectMessage message = twitter.sendDirectMessage(sendTo, status);
+
+                DMDataSource data = new DMDataSource(context);
+                data.open();
+                data.createDirectMessage(message, settings.currentAccount);
+                data.close();
+
+                sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), message.getId()).commit();
+                sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
+
+                return true;
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        protected void onPostExecute(Boolean sent) {
+            // dismiss the dialog after getting all products
+
+            if (sent) {
+                Toast.makeText(getBaseContext(),
+                        getApplicationContext().getResources().getString(R.string.direct_message_sent),
+                        Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                Toast.makeText(getBaseContext(),
+                        getResources().getString(R.string.error),
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
+        }
+
+    }
+
+    public BroadcastReceiver updateConv = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            new GetList().execute();
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.UPDATE_DM");
+        context.registerReceiver(updateConv, filter);
+    }
+
+    @Override
+    public void onPause() {
+        try {
+            context.unregisterReceiver(updateConv);
+        } catch (Exception e) {
+
+        }
+
+        super.onPause();
     }
 
 }

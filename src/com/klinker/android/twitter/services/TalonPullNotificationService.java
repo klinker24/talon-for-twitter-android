@@ -485,6 +485,9 @@ public class TalonPullNotificationService extends Service {
                 sharedPreferences.edit().putInt("dm_unread_" + sharedPreferences.getInt("current_account", 1), numUnread).commit();
                 sharedPreferences.edit().putBoolean("refresh_me_dm", true).commit();
 
+
+                sharedPreferences.edit().putLong("last_direct_message_id_" + sharedPreferences.getInt("current_account", 1), directMessage.getId()).commit();
+
                 if (settings.notifications && settings.dmsNot) {
                     NotificationUtils.refreshNotification(mContext);
                 }
