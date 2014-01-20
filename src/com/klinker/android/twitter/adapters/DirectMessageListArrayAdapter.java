@@ -18,6 +18,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.DirectMessage;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.DirectMessageConversation;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 
@@ -166,14 +167,11 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
-                viewProfile.putExtra("name", dm.getName());
-                viewProfile.putExtra("screenname", dm.getScreenname());
-                viewProfile.putExtra("proPic", dm.getPicture());
-                //viewProfile.putExtra("tweetid", holder.tweetId);
-                viewProfile.putExtra("retweet", false);
+                Intent viewConv = new Intent(context, DirectMessageConversation.class);
+                viewConv.putExtra("screenname", dm.getScreenname());
+                viewConv.putExtra("name", dm.getName());
 
-                context.startActivity(viewProfile);
+                context.startActivity(viewConv);
             }
         });
     }

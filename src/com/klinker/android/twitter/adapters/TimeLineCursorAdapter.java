@@ -317,7 +317,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 });
             }
 
-            if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
+            if (!isDM) {
                 holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -364,7 +364,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 });
             }
 
-            if (!isDM || (isDM  && !screenname.equals(sharedPrefs.getString("twitter_screen_name", "")))) {
+            if (!isDM) {
                 holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
@@ -405,15 +405,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     dialog.show();
 
                     return true;
-                }
-            });
-
-            holder.background.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent reply = new Intent(context, ComposeDMActivity.class);
-                    reply.putExtra("user", "@" + screenname);
-                    context.startActivity(reply);
                 }
             });
         }
@@ -584,9 +575,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             String text = context.getResources().getString(R.string.retweeter);
             //holder.retweeter.setText(settings.displayScreenName ? text + retweeter : text.substring(0, text.length() - 2) + " " + name);
             holder.retweeter.setText(text + retweeter);
-            holder.retweeter.setVisibility(View.VISIBLE);
-        } else if (isDM && screenname.equals(settings.myScreenName)) {
-            holder.retweeter.setText("reply to @" + retweeter);
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);

@@ -445,7 +445,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                         String message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
                         String profilePic = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_ONE));
 
-                        messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, screenname, message, profilePic));
+                        messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, otherName, message, profilePic));
                     }
                 } while (cursor.moveToPrevious());
             }

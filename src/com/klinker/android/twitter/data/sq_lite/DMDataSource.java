@@ -73,6 +73,13 @@ public class DMDataSource {
         return cursor;
     }
 
+    public Cursor getConvCursor(String name, int account) {
+        Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+
+        return cursor;
+    }
+
     public String getNewestName(int account) {
 
         Cursor cursor = getCursor(account);
