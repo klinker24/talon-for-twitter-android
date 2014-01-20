@@ -102,7 +102,11 @@ public class HtmlUtils {
         if (users.length > 0) {
             for (String s : sUsers) {
                 if (s.length() > 1) {
-                    tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
+                    if (tweetTexts.contains(s)) {
+                        tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
+                    } else {
+                        tweetTexts = tweetTexts.replace("@" + s.toLowerCase(), "<font color='#FF8800'>@" + s + "</font>");
+                    }
                 }
             }
         }
@@ -278,7 +282,11 @@ public class HtmlUtils {
         if (users.length > 0) {
             for (String s : sUsers) {
                 if (s.length() > 1) {
-                    tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
+                    if (tweetTexts.contains(s)) {
+                        tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
+                    } else {
+                        tweetTexts = tweetTexts.replace("@" + s.toLowerCase(), "<font color='#FF8800'>@" + s + "</font>");
+                    }
                 }
             }
         }
