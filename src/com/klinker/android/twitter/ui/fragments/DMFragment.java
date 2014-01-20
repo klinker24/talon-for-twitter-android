@@ -98,6 +98,12 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             toTop();
         }
     };
+    public BroadcastReceiver updateDM = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            new GetCursorAdapter().execute();
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -357,9 +363,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                /*if (update) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
-                    refreshCursor();
+                if (update) {
+                    new GetCursorAdapter().execute();
 
                     CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
                     showToastBar(text + "", jumpToTop, 400, true, toTopListener);
@@ -367,12 +372,11 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                     listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape ? 1 : 2), size);
                 } else {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
-                    refreshCursor();
+                    new GetCursorAdapter().execute();
 
                     CharSequence text = getResources().getString(R.string.no_new_direct_messages);
                     showToastBar(text + "", allRead, 400, true, toTopListener);
-                }*/
+                }
 
                 mPullToRefreshLayout.setRefreshComplete();
 
@@ -393,6 +397,10 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
         context.registerReceiver(jumpTopReceiver, filter);
 
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.UPDATE_DM");
+        context.registerReceiver(updateDM, filter);
+
         sharedPrefs.edit().putBoolean("refresh_me_dm", false).commit();
     }
 
@@ -402,6 +410,12 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             context.unregisterReceiver(jumpTopReceiver);
         } catch (Exception e) {
             // not registered
+        }
+
+        try {
+            context.unregisterReceiver(updateDM);
+        } catch (Exception e) {
+
         }
 
         super.onPause();

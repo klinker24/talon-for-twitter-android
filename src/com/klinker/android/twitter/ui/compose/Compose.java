@@ -418,6 +418,8 @@ public abstract class Compose extends Activity implements
                         Toast.LENGTH_SHORT)
                         .show();
             }
+
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
         }
 
     }

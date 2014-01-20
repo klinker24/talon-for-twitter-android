@@ -1,11 +1,18 @@
 package com.klinker.android.twitter.adapters;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +20,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.DirectMessage;
+import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.DirectMessageConversation;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import twitter4j.Paging;
+import twitter4j.Twitter;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -174,6 +188,33 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
                 context.startActivity(viewConv);
             }
         });
+
+        holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        new DeleteConv(context, dm.getScreenname()).execute();
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setTitle(R.string.delete_conversation);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -195,5 +236,68 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         bindView(v, context, messages.get(position));
 
         return v;
+    }
+
+    class DeleteConv extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog pDialog;
+        Context context;
+        SharedPreferences sharedPrefs;
+        String name;
+
+        public DeleteConv(Context context, String name) {
+            this.context = context;
+            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            this.name = name;
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(context.getResources().getString(R.string.deleting_messages) + "...");
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        protected Boolean doInBackground(String... urls) {
+
+            DMDataSource data = new DMDataSource(context);
+            data.open();
+
+            try {
+                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
+
+                Cursor cursor = data.getConvCursor(name, settings.currentAccount);
+
+                if (cursor.moveToFirst()) {
+                    do {
+                        long id = cursor.getLong(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TWEET_ID));
+                        data.deleteTweet(id);
+                        twitter.destroyDirectMessage(id);
+                    } while (cursor.moveToNext());
+                }
+
+                data.deleteDups(settings.currentAccount);
+
+                data.close();
+                return true;
+
+            } catch (Exception e) {
+                data.close();
+                // they have no direct messages
+                return true;
+            }
+
+
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            pDialog.dismiss();
+            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
+            sharedPrefs.edit().putLong("last_direct_message_id_" + settings.currentAccount, 0).commit();
+        }
     }
 }

@@ -442,5 +442,7 @@
     <string name="to_replies">Insert any hashtags contained in the tweet into the reply.</string>
     <string name="clean_now">Clean Databases Now</string>
     <string name="clean_now_summary">Includes trimming and removing duplicates in your database.</string>
+    <string name="delete_conversation">Delete Conversation?</string>
+    <string name="deleting_messages">Deleting messages</string>
 
 </resources>
