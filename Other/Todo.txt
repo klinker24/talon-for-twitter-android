@@ -4,12 +4,16 @@
     - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles
     - scheduling tweets
+    - in line imgur and twitpic
     - different image uploading service
     - widget with just the unread numbers on it
     - tweetmarker
     - link shortener
     - instapaper mobilizer
     - nearby tweets
+    - pictures timeline on profiles
+    - pick where the local trends are
+    - user's favorites on profiles
 
 
 - Bugs:
@@ -23,3 +27,9 @@
 
     -- Spannable String to main timelines (http://stackoverflow.com/questions/7570239/android-linkify-text-spannable-text-in-single-text-view-as-like-twitter-twee)
     -- location, website, and following status in the profiles
+    -- fill in the timeline
+    -- share button on expansion
+    -- option to open compose window when clicking an edit text
+    -- search by real name or screenname
+    -- 7 in layout for phones in landscape
+    -- condensed roboto font option
