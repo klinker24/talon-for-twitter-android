@@ -42,7 +42,7 @@
     <string name="links">Ссылки</string>
     <string name="pictures">Изображения</string>
     <string name="timeline">Лента</string>
-    <string name="mentions">Упоминания</string>
+    <string name="mentions">Упоминаний</string>
     <string name="direct_messages">Сообщения</string>
     <string name="retweets">Ретвиты</string>
     <string name="favorite_tweets">Избранное</string>
@@ -64,8 +64,8 @@
     <string name="no_new_direct_messages">Новых сообщений нет</string>
     <string name="tap_to_setup">Настроить</string>
     <string name="new_account">Новый аккаунт</string>
-    <string name="from_top">вверху</string>
-    <string name="jump_to_top">Наверх</string>
+    <string name="from_top">твитов</string>
+    <string name="jump_to_top">К первому</string>
     <string name="all_read">ОК!</string>
     <string name="view_new">Загрузить?</string>
     <string name="old_interactions">Все отклики</string>
@@ -117,7 +117,7 @@
     <string name="syncing_user">Синхронизация друзей...</string>
     <string name="done_syncing">Синхронизация завершена.</string>
     <string name="login_error">Что-то пошло не так! Пожалуйста, повторите попытку.</string>
-    <string name="no_network">Вы не подключены к интернету.</string>
+    <string name="no_network">Вы не подключены к интернету</string>
     <string name="no_thanks">Не сейчас</string>
     <string name="follow_me">Да, давайте!</string>
     <string name="follow_me_description">Читайте @TalonAndroid и @lukeklinker, чтобы узнать о новых функциях и получить поддержку!</string>
@@ -128,7 +128,7 @@
     <string name="direct_message_sent">Сообщение отправлено</string>
     <string name="type_user">Выберите пользователя</string>
     <string name="add_user">Добавить</string>
-    <string name="location_connected">Местоположение добавлено</string>
+    <string name="location_connected">Геометка добавлена</string>
     <string name="location_disconnected">Местоположение потеряно</string>
     <string name="finding_location">Поиск местоположения</string>
     <string name="draft_found">Найден черновик</string>
@@ -160,7 +160,7 @@
     <string name="from_file">Прикрепить изображение</string>
     <string name="via">через</string>
     <string name="version">Версия</string>
-    <string name="from">От</string>
+    <string name="from">Из</string>
     <string name="save">Сохранить</string>
     <string name="stop">Остановить</string>
     <string name="tweeted">твитнул(а)</string>
@@ -197,7 +197,7 @@
     <string name="menu_copy_text">Копировать текст</string>
     <string name="menu_share">Поделиться твитом</string>
     <string name="menu_delete_tweet">Удалить твит</string>
-    <string name="conversation">Диалог</string>
+    <string name="conversation">Предыдущие твиты</string>
     <string name="webpage">Веб-страница</string>
     <string name="tweet_youtube">YouTube</string>
     <string name="menu_quote">Цитировать</string>
@@ -234,7 +234,7 @@
     <string name="part_2">\nПереключайте\nвкладки\nсвайпом\nв любую сторону\nс середины экрана!</string>
     <string name="part_3">Это всё!\n\nДотроньтесь,\nчтобы\nначать!</string>
     <!-- Settings Menu -->
-    <string name="theme_settings">Настройки тем</string>
+    <string name="theme_settings">Темы</string>
     <string name="theme_options">Опции тем</string>
     <string name="font_options">Настройки шрифта</string>
     <string name="other_options">Прочие настройки</string>
@@ -270,13 +270,13 @@
     <string name="to_market">В Play Маркет</string>
     <string name="get_android">Android</string>
     <string name="get_ios">iOS</string>
-    <string name="emoji_dialog_summary">Для того, чтобы использовать Emoji в этом приложении, вам нужно загрузить бесплатную клавиатуру \"Sliding Emoji Keyboard\" или \"Sliding Emoji Keyboard - iOS\" из Play Маркета. Если вы установите оба приложения, то будет использоваться первое (стиль Android). Удалите одно из них, чтобы задействовать другое.\n\n
+    <string name="emoji_dialog_summary">Чтобы использовать Emoji в этом приложении, вам нужно загрузить бесплатную клавиатуру \"Sliding Emoji Keyboard\" или \"Sliding Emoji Keyboard - iOS\" из Play Маркета. Если вы установите оба приложения, то будет использоваться первое (стиль Android). Удалите одно из них, чтобы задействовать другое.\n\n
                 ПРИМЕЧАНИЕ: Emoji будут продолжать работать в Talon даже после истечения срока действия пробной версии этих приложений. \n\n
                 Выберите предпочитаемый стиль, нажав на одну из кнопок.</string>
     <string name="theme_light">Светлая тема</string>
     <string name="theme_dark">Тёмная тема</string>
     <string name="theme_black">Чёрная тема</string>
-    <string name="sync_settings">Настройки синхронизации</string>
+    <string name="sync_settings">Синхронизация</string>
     <string name="sync_mobile_data">Мобильное подключение</string>
     <string name="sync_mobile_data_summary">Автоматически обновлять ленту через мобильную сеть и Wi-Fi.</string>
     <string name="auto_sync_notifications">Настройки уведомлений при автообновлении</string>
@@ -287,7 +287,7 @@
     <string name="sound">Звук</string>
     <string name="quiet_hours">Не Беспокоить</string>
     <string name="max_number_on_refresh">Число загружаемых твитов</string>
-    <string name="fav_users_notifications">Уведомлять об избранном</string>
+    <string name="fav_users_notifications">Избранные пользователи</string>
     <string name="sync_second_mentions">Синхронизировать второй аккаунт</string>
     <string name="sync_second_mentions_summary">Автоматически проверять и уведомлять о новых упоминаниях на втором аккаунте вместе с первым.</string>
     <string name="max_number_summary">Чем больше число, тем медленнее обновление.</string>
@@ -305,19 +305,19 @@
     <string name="push_notification_options">\"Настройки Push-уведомлений\"</string>
     <string name="push_notifications">Talon Pull</string>
     <string name="push_notifications_summary">Эта опция позволит мгновенно получать уведомления о новых упоминаниях, сообщениях, ретвитах, читателях и т.д.</string>
-    <string name="push_notification_warning">Нажмите сюда, чтобы получить больше информации об этой функции.</string>
-    <string name="notification_settings">Настройки уведомлений</string>
-    <string name="pebble_notifications">Pebble-уведомления</string>
-    <string name="pebble_notifications_summary">Используется со смарт-часами Pebble</string>
-    <string name="advanced_settings">Дополнительные настройки</string>
-    <string name="app_feel_category">Пользовательский опыт</string>
-    <string name="advance_windowed">Использовать окна чаще</string>
+    <string name="push_notification_warning">Нажмите сюда, чтобы узнать больше.</string>
+    <string name="notification_settings">Уведомления</string>
+    <string name="pebble_notifications">Уведомления Pebble</string>
+    <string name="pebble_notifications_summary">Используется со смарт-часами Pebble.</string>
+    <string name="advanced_settings">Дополнительно</string>
+    <string name="app_feel_category">Взаимодействие</string>
+    <string name="advance_windowed">Использовать окна</string>
     <string name="advance_windowed_summary">Открывать профили и твиты во всплывающих окнах поверх ленты.</string>
-    <string name="full_screen_browsers">Браузер во весь экран</string>
+    <string name="full_screen_browsers">Полноэкранный браузер</string>
     <string name="full_screen_browsers_summary">Открывать твиты, содержащие ссылки, в полноэкранном режиме.</string>
     <string name="reverse_click_actions">Переназначить действия по нажатию.</string>
     <string name="reverse_click_actions_summary">Переназначить действия по нажатию на твит.\n\n
-                    По-умолчанию (когда галочка снята):\n
+                    По умолчанию (когда галочка снята):\n
                     - Короткое нажатие показывает дополнительные опции\n
                     - Длинное нажатие открывает твит</string>
     <string name="extra_pages">Дополнительные вкладки</string>
@@ -328,7 +328,7 @@
     <string name="cache_dialog">Очистить кэш?</string>
     <string name="not_cache">Это не влияет на кэш самого приложения.</string>
     <string name="current_cache_size">Текущий размер кэша</string>
-    <string name="cache_dialog_summary">Это действие необратимо</string>
+    <string name="cache_dialog_summary">Это действие необратимо.</string>
     <string name="timeline_size">Лимит ленты</string>
     <string name="timeline_size_summary">Максимальное количество твитов, хранимых в базе данных.</string>
     <string name="mentions_size">Лимит упоминаний</string>
@@ -348,10 +348,10 @@
     <string name="backup_success">Создание бэкапа завершено</string>
     <string name="restore_success">Восстановление завершено</string>
     <string name="restore_settings">Восстановить настройки</string>
-    <string name="restore_settings_summary">Для изменения настроек оформления, кэш будет очищен.</string>
+    <string name="restore_settings_summary">Кэш будет очищен для применения настроек оформления.</string>
     <string name="get_help_settings">Поддержка</string>
     <string name="rerun_tutorial">Запустить обучение</string>
-    <string name="faq">F.A.Q.</string>
+    <string name="faq">FAQ</string>
     <string name="features_explained">Пояснения к функциям</string>
     <string name="youtube">Видео на YouTube</string>
     <string name="google_plus">Сообщество в Google+</string>
@@ -393,9 +393,20 @@
     <string name="with_talon_pull">Доступно через \"Talon Pull\"</string>
     <string name="favorited_tweet">Ваши твиты, добавленные в избранное</string>
     <string name="new_followers">Новые читатели</string>
-    <string name="discussion">Обсуждение</string>
+    <string name="discussion">Ответы</string>
     <string name="no_replies">Новых ответов нет</string>
     <string name="rt_style_quotes">Использовать цитирование с \"RT\"</string>
     <string name="rt_style_quotes_summary">Использует старый стиль цитирования (\"RT @никнейм: ...\") вместо метода Talon (\"@никнейм: ...\").\n\nЦитирование доступно из панели заголовка или меню любого твита.</string>
     <string name="absolute_date">Альтернативный стиль дат</string>
+    <string name="clear_searches">Очистить истрию поиска</string>
+    <string name="compose_with_search">Написать твит</string>
+    <string name="use_toast">Показывать Toast \"К первому\"</string>
+    <string name="ignore_retweets">Скрывать ретвиты</string>
+    <string name="ignore_retweets_summary">Не показывать ретвиты при чтении лент</string>
+    <string name="view">Показать</string>
+    <string name="muted_hashtags">Скрытые хэштеги</string>
+    <string name="muted_hashtags_summary">Нажмите на хэштег, чтобы показывать его снова.</string>
+    <string name="no_hashtags">Нет хэштегов</string>
+    <string name="mute_hashtags">Скрыть хэштеги</string>
+    <string name="muted">Скрыт хэштег</string>
 </resources>

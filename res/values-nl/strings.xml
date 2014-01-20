@@ -8,18 +8,18 @@
     <string name="menu_compose">Nieuwe Tweet</string>
     <string name="menu_logout">Uitloggen</string>
     <string name="menu_settings">Instellingen </string>
-    <string name="menu_follow">Volg gebruiker</string>
+    <string name="menu_follow">Volg Gebruiker</string>
     <string name="menu_unfollow">Ontvolg Gebruiker</string>
     <string name="menu_tweet">Verstuur Tweet</string>
     <string name="menu_dm">Verstuur Direct Bericht</string>
-    <string name="menu_block">Blokkeer gebruiker</string>
+    <string name="menu_block">Blokkeer Gebruiker</string>
     <string name="menu_unblock">Deblokkeer Gebruiker</string>
     <string name="menu_add_to_list">Voeg toe aan lijst</string>
     <string name="menu_change_picture">Verander Profielfoto</string>
     <string name="menu_change_bio">Verander Profiel Info</string>
     <string name="menu_change_banner">Verander Profiel Banner</string>
     <string name="menu_direct_message">Nieuw Direct Bericht</string>
-    <string name="menu_save_image">Afbeelding opslaan</string>
+    <string name="menu_save_image">Sla afbeelding op</string>
     <string name="menu_favorite">Voeg gebruiker toe aan favorieten</string>
     <string name="menu_unfavorite">Verwijder gebruiker uit favorieten</string>
     <string name="menu_create_list">Maak Nieuwe Lijst</string>
@@ -52,7 +52,7 @@
     <string name="world_trends">Wereld trends</string>
     <string name="search">Zoeken</string>
     <string name="lists">Lijsten</string>
-    <string name="search_hint">\@username of zoeken... </string>
+    <string name="search_hint">\@gebruikersnaam of zoeken... </string>
     <string name="new_tweet">nieuwe tweet</string>
     <string name="new_tweets">nieuwe tweets</string>
     <string name="no_new_tweets">Geen nieuwe tweets</string>
@@ -81,11 +81,11 @@
     <string name="message_from">Bericht van</string>
     <string name="mark_read">Lezen</string>
     <string name="noti_reply">Antwoorden</string>
-    <string name="popup">Popup</string>
+    <string name="popup">Pop-up</string>
     <string name="fav_user_tweets">nieuwe tweet favoriete gebruiker</string>
     <string name="sec_acc">Tweede Account</string>
     <string name="talon_pull">Talon Pull</string>
-    <string name="listening">Luisteren</string>
+    <string name="listening">Luisterend</string>
     <string name="listening_for_mentions">Luisteren voor interacties</string>
     <string name="refreshing">Aan het vernieuwen</string>
     <string name="refreshing_widget">Widget aan het vernieuwen</string>
@@ -229,10 +229,10 @@
     <string name="choose_list">Kies Lijst</string>
     <string name="added_to_list">Toegevoegd aan lijst</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nToegang tot functies\nbij tikken op items\nin de\nnavigatie\ndrawer!</string>
+    <string name="part_1_tablet">\nToegang tot\nfuncties bij tikken\nop items in\nde navigatie\ndrawer!</string>
     <string name="part_1_phone">\nTrek de\nnavigatie drawer open\nmet een linkse\nzijkant swipe!</string>
     <string name="part_2">\nWissel tussen\ntimelines met\neen swipe vanuit\nhet midden van\nhet scherm!</string>
-    <string name="part_3">Dat is het!\n\nRaak het\nscherm aan om\nte starten!</string>
+    <string name="part_3">Dat is het!\n\nRaak aan\nom te\nstarten!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Thema Instellingen</string>
     <string name="theme_options">Thema Opties</string>
@@ -248,20 +248,20 @@
     <string name="themeing_complete_summary">\"Talon\" zal nu sluiten.\n\n
 U zult \"Talon\" uit uw recente apps moeten swypen om de wijzigingen volledig op uw timeline te kunnen zien.
 Als uw profielfoto\'s niet worden weergegeven zoals ze zouden moeten (bijv. rond of vierkant), dan moet u de widget verwijderen en opnieuw toevoegen.</string>
-    <string name="layout_summary">Wanneer dit gewijzigd word zal de app\'s cache worden geleegd.</string>
+    <string name="layout_summary">Wanneer dit gewijzigd wordt zal de app\'s cache worden geleegd.</string>
     <string name="text_size">Tekst Grootte</string>
     <string name="night_mode">Nacht Modus</string>
-    <string name="night_mode_night">Selecteer Nachttijd Start</string>
-    <string name="night_mode_day">Selecteer Dagtijd Start</string>
+    <string name="night_mode_night">Selecteer Start Nachttijd</string>
+    <string name="night_mode_day">Selecteer Start Dagtijd</string>
     <string name="night_mode_theme">Selecteer Thema voor Nacht Modus</string>
     <string name="device_font">Gebruik Apparaat Lettertype</string>
     <string name="device_font_summary">Standaard \"Roboto\" op de meeste apparaten. Talon\'s standaard lettertype is \"Roboto Light\".</string>
     <string name="ui_extras">UI Extra\'s</string>
-    <string name="ui_extras_summary">Houd in:\n
+    <string name="ui_extras_summary">Houdt in:\n
 - Verberg Actie Balk\n
 - Bruikbare Toast Balk
 - Transparante Systeem Balken (Alleen Android 4.4)\n\n
-Deze instellingen toepassen beïnvloedt de prestatie van het scrollen.</string>
+Het toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</string>
     <string name="inline_pics">Geef In-Line Afbeeldingen Weer</string>
     <string name="use_screen_name">Geef Twitter-cliënt Weer</string>
     <string name="use_screen_name_summary">Geef de Twitter-cliënt weer in plaats van hun naam op timelines.</string>
@@ -270,8 +270,8 @@ Deze instellingen toepassen beïnvloedt de prestatie van het scrollen.</string>
     <string name="to_market">Naar Play Store</string>
     <string name="get_android">Krijg Android Emojis</string>
     <string name="get_ios">Krijg iOS Emojis</string>
-    <string name="emoji_dialog_summary">Om emojis te gebruiken in deze app, moet je het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
-Je kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n
+    <string name="emoji_dialog_summary">Om emojis te gebruiken in deze app, moet u het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
+U kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n
 NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat pakket wordt zowel als plug-in gebruikt, en als een op zichzelf staand toetsenbord. </string>
     <string name="theme_light">Licht Thema</string>
     <string name="theme_dark">Donker Thema</string>
@@ -290,7 +290,7 @@ NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat
     <string name="fav_users_notifications">Favoriete Gebruiker Notificaties</string>
     <string name="sync_second_mentions">Sync Tweede Acc. Vermeldingen</string>
     <string name="sync_second_mentions_summary">Controleer en waarschuw automatisch voor nieuwe vermeldingen op uw tweede account, tegelijk met het eerste.</string>
-    <string name="max_number_summary">Hogere max betekent een langzamere verniewing</string>
+    <string name="max_number_summary">Hogere max betekent een langzamere vernieuwing</string>
     <string name="auto_refresh_category">Auto-Vernieuw Opties</string>
     <string name="refresh_on_startup">Vernieuw bij Opstarten</string>
     <string name="timeline_sync_interval">Timeline Vernieuw Interval</string>
@@ -304,8 +304,8 @@ Deze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het ops
     <string name="sync_failed">Sync Mislukt</string>
     <string name="push_notification_options">\"\"Push Notificaties\" Opties\"</string>
     <string name="push_notifications">Talon Pull</string>
-    <string name="push_notifications_summary">Dit zal een service starten om notificaties weer te kunnen geven wanneer je nieuwe interacties ontvangt (vermeldingen, dm\'s, favorieten, retweets, of nieuwe volgers).</string>
-    <string name="push_notification_warning">Klik op deze voorkeur om meer over deze optie te lezen.</string>
+    <string name="push_notifications_summary">Dit zal een service starten om notificaties weer te kunnen geven wanneer u nieuwe interacties ontvangt (vermeldingen, dm\'s, favorieten, retweets, of nieuwe volgers).</string>
+    <string name="push_notification_warning">Tik hier om meer over deze optie te lezen.</string>
     <string name="notification_settings">Notificatie Instellingen</string>
     <string name="pebble_notifications">Pebble Notificaties</string>
     <string name="pebble_notifications_summary">Gebruikt met de Pebble smart watch.</string>
@@ -324,7 +324,7 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="extra_pages_summary">Voeg links en afbeelding pagina\'s toe, links van de timeline.</string>
     <string name="live_streaming">Live Streaming</string>
     <string name="memory_management">Geheugenbeheer Opties</string>
-    <string name="delete_cache">Verwijder Cache nu</string>
+    <string name="delete_cache">Verwijder Cache Nu</string>
     <string name="cache_dialog">Verwijder Cache?</string>
     <string name="not_cache">Dit wordt niet toegepast op de app cache.</string>
     <string name="current_cache_size">Huidige cache grootte</string>
@@ -390,12 +390,23 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="dismiss_all">Verwerp Alles</string>
     <string name="handle_and_name">Geef cliënt en naam weer</string>
     <string name="notification_types">Notificatie Types</string>
-    <string name="with_talon_pull">Toegang gekregen via \"Talon Pull\"</string>
+    <string name="with_talon_pull">Gebruik via \"Talon Pull\"</string>
     <string name="favorited_tweet">Favorieten op uw tweets</string>
     <string name="new_followers">Nieuwe volgers</string>
     <string name="discussion">Discussie</string>
     <string name="no_replies">Geen Reacties</string>
     <string name="rt_style_quotes">Geef de voorkeur aan \"RT\" stijl quotes</string>
-    <string name="rt_style_quotes_summary">Gebruikt oude \" RT @gebruikersnaam ...\" om te quoten in plaats van Talon\'s quote methode.\n\nToegang gekregen via de Actie Balk of menu in iedere tweet.</string>
-    <string name="absolute_date">Gebruik absolute data.</string>
+    <string name="rt_style_quotes_summary">Gebruikt oude \" RT @gebruikersnaam ...\" om te quoten in plaats van Talon\'s quote methode.\n\nTe gebruiken via de Actie Balk of het menu van iedere tweet.</string>
+    <string name="absolute_date">Gebruik absolute datums</string>
+    <string name="clear_searches">Verwijder zoekopdrachten</string>
+    <string name="compose_with_search">Stel tweet op met zoekopdracht</string>
+    <string name="use_toast">Gebruik \'Naar Eerste\' Toast</string>
+    <string name="ignore_retweets">Negeer Retweets</string>
+    <string name="ignore_retweets_summary">Geef geen enkele retweets weer tijdens het scrollen door de hoofd timelines</string>
+    <string name="view">Bekijk</string>
+    <string name="muted_hashtags">Genegeerde Hashtags</string>
+    <string name="muted_hashtags_summary">Tik op hashtag om demping te verwijderen. </string>
+    <string name="no_hashtags">Geen hashtags</string>
+    <string name="mute_hashtags">Demp Hashtags</string>
+    <string name="muted">Gedempt</string>
 </resources>

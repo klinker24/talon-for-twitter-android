@@ -37,6 +37,7 @@
     <string name="mute">Stummschalten</string>
     <string name="unmute">Lautschalten</string>
     <string name="muted_users">Stummgeschaltene Nutzer</string>
+    <string name="no_users">Keine Benutzer</string>
     <!-- Main Activity -->
     <string name="links">Links</string>
     <string name="pictures">Bilder</string>
@@ -63,8 +64,8 @@
     <string name="no_new_direct_messages">Keine neuen Direktnachrichten</string>
     <string name="tap_to_setup">Zum Einrichten berühren</string>
     <string name="new_account">Neues Benutzerkonto</string>
-    <string name="from_top">vom Anfang</string>
-    <string name="jump_to_top">Zum ersten</string>
+    <string name="from_top">Vom Anfang</string>
+    <string name="jump_to_top">Zum Ersten</string>
     <string name="all_read">Alles gelesen!</string>
     <string name="view_new">Laden?</string>
     <string name="old_interactions">Alle Interaktionen</string>
@@ -93,7 +94,7 @@
     <string name="new_interaction_upper">Neue Interaktion</string>
     <string name="new_interactions_lower">neue Interaktionen</string>
     <string name="new_interactions">Neue Interaktionen</string>
-    <string name="retweeted">hat deinen deinen Tweet retweetet</string>
+    <string name="retweeted">hat deinen Tweet retweetet</string>
     <string name="favorited">hat deinen Tweet favorisiert</string>
     <string name="followed">folgt dir</string>
     <string name="new_retweets">Retweets</string>
@@ -131,7 +132,7 @@
     <string name="location_disconnected">Standort verloren</string>
     <string name="finding_location">Suchen nach Standorten</string>
     <string name="draft_found">Entwurf vorhanden</string>
-    <string name="apply">Verwenden?</string>
+    <string name="apply">Anwenden?</string>
     <string name="tweet_failed">Senden des Tweets fehlgeschlagen</string>
     <string name="tap_to_retry">Erneut versuchen</string>
     <string name="one_recepient">Du kannst Direktnachrichten nur an einen Nutzer senden!</string>
@@ -288,7 +289,7 @@
     <string name="max_number_on_refresh">Maximal zu aktualisierende Tweets</string>
     <string name="fav_users_notifications">Favoriten-Benachrichtigungen</string>
     <string name="sync_second_mentions">Zweitkonto-Erwähnungen synchronisieren</string>
-    <string name="sync_second_mentions_summary">Zweites Benutzerkonto automatisch auf neue Erwähnungen überprüfen und darüber diese benachrichtigen.</string>
+    <string name="sync_second_mentions_summary">Zweites Benutzerkonto automatisch auf neue Erwähnungen überprüfen und darüber benachrichtigen.</string>
     <string name="max_number_summary">Je höher die Anzahl, desto länger dauert die Aktualisierung.</string>
     <string name="auto_refresh_category">Automatische Aktualisierung</string>
     <string name="refresh_on_startup">Beim Start aktualisieren</string>
@@ -303,7 +304,7 @@
     <string name="sync_failed">Synchronisierung fehlgeschlagen</string>
     <string name="push_notification_options">\"Push-Benachrichtigungen\"</string>
     <string name="push_notifications">Talon Pull</string>
-    <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).</string>
+    <string name="push_notifications_summary">Startet einen Dienst, der Benachrichtigungen bei neuen Interaktionen anzeigt (Erwähnungen, Direktnachrichten, Favorisierungen, Retweets, neue Followers).</string>
     <string name="push_notification_warning">Hier berühren, um mehr über diese Option zu erfahren.</string>
     <string name="notification_settings">Benachrichtigungen</string>
     <string name="pebble_notifications">Pebble-Benachrichtigungen</string>
@@ -334,7 +335,7 @@
     <string name="mentions_size_summary">Maximale Anzahl an Erwähnungen, die in der Datenbank gespeichert werden</string>
     <string name="dm_size">Direktnachrichten-Größe</string>
     <string name="dm_size_summary">Maximale Anzahl an Direktnachrichten, die in der Datenbank gespeichert werden</string>
-    <string name="auto_trim">Datenbanken autom. trimmen</string>
+    <string name="auto_trim">Datenbanken automatisch trimmen</string>
     <string name="trim_now">Datenbanken jetzt trimmen</string>
     <string name="trim_dialog">Datenbanken jetzt trimmen?</string>
     <string name="trimming">Wird getrimmt...</string>
@@ -349,7 +350,7 @@
     <string name="restore_settings">Einstellungen wiederherstellen</string>
     <string name="restore_settings_summary">Zwischenspeicher wird geleert, um mögliche Theme-Änderungen vorzunehmen.</string>
     <string name="get_help_settings">Hilfe erhalten</string>
-    <string name="rerun_tutorial">Ersteinrichtung-Tutorial starten</string>
+    <string name="rerun_tutorial">Ersteinrichtungs-Tutorial starten</string>
     <string name="faq">Häufig gestellte Fragen (FAQ)</string>
     <string name="features_explained">Erklärung der Features</string>
     <string name="youtube">YouTube-Video</string>
@@ -360,7 +361,7 @@
     <string name="follow_talon">Talon auf Twitter folgen</string>
     <string name="credits">Credits</string>
     <string name="disclaimer">Haftungsausschluss</string>
-    <string name="other_apps">Unsere Apps</string>
+    <string name="other_apps">Unsere weiteren Apps</string>
     <string name="whats_new">Neuerungen</string>
     <string name="rate_it">Talon bewerten</string>
     <string name="talon_settings">Talon-Einstellungen</string>
@@ -385,4 +386,27 @@
     <string name="manual">Manuell</string>
     <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
+    <string name="use_inapp_browser">In-App-Browser verwenden</string>
+    <string name="dismiss_all">Alle verwerfen</string>
+    <string name="handle_and_name">Benutzername und Anzeigename anzeigen</string>
+    <string name="notification_types">Benachrichtigungen</string>
+    <string name="with_talon_pull">Erfolgt über \"Talon Pull\"</string>
+    <string name="favorited_tweet">Favorisierte Tweets</string>
+    <string name="new_followers">Neue Follower</string>
+    <string name="discussion">Unterhaltung</string>
+    <string name="no_replies">Keine Antworten</string>
+    <string name="rt_style_quotes">Mit \"RT\" zitieren</string>
+    <string name="rt_style_quotes_summary">\"RT @benutzername: ...\" anstelle von Talons Methode zum Zitieren verwenden.\n\nEs kann über die Aktionsleiste, das Menü oder jeden Tweets zitiert werden.</string>
+    <string name="absolute_date">Genaue Zeitangaben</string>
+    <string name="clear_searches">Lösche Suchverlauf</string>
+    <string name="compose_with_search">Tweet mit Suche erstellen</string>
+    <string name="use_toast">\"Zum Anfang\"-Leiste verwenden</string>
+    <string name="ignore_retweets">Retweets verbergen</string>
+    <string name="ignore_retweets_summary">Beim Scrollen durch die Timeline keine Retweets anzeigen</string>
+    <string name="view">Zeige</string>
+    <string name="muted_hashtags">Stummgeschaltete Hashtags</string>
+    <string name="muted_hashtags_summary">Hashtag berühren, um die Stummschaltung zu entfernen.</string>
+    <string name="no_hashtags">Keine Hashtags</string>
+    <string name="mute_hashtags">Hashtags stummschalten</string>
+    <string name="muted">Stumm</string>
 </resources>
