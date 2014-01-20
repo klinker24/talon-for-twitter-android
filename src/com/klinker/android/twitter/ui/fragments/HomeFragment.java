@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                         getResources().getString(R.string.view),
                         400,
-                        false,
+                        !DrawerActivity.settings.useToast,
                         liveStreamRefresh);
             }
 
@@ -248,75 +248,135 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         final int currentAccount = sharedPrefs.getInt("current_account", 1);
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        if (DrawerActivity.settings.useToast) {
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-            int mLastFirstVisibleItem = 0;
+                int mLastFirstVisibleItem = 0;
 
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int i) {
 
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
-                    //unread = dataSource.getUnreadCount(currentAccount);
-                    if (liveUnread > 0) {
-                        showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                getResources().getString(R.string.view),
-                                400,
-                                false,
-                                liveStreamRefresh);
-                    }
                 }
 
-                if (DrawerActivity.settings.uiExtras) {
-                    if (firstVisibleItem != 0) {
-                        if (MainActivity.canSwitch) {
-                            // used to show and hide the action bar
-                            if (firstVisibleItem < 3) {
+                @Override
+                public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                if (!landscape && !isTablet) {
-                                    actionBar.hide();
+                    if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
+                        //unread = dataSource.getUnreadCount(currentAccount);
+                        if (liveUnread > 0) {
+                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                    getResources().getString(R.string.view),
+                                    400,
+                                    false,
+                                    liveStreamRefresh);
+                        }
+                    }
+
+                    if (DrawerActivity.settings.uiExtras) {
+                        if (firstVisibleItem != 0) {
+                            if (MainActivity.canSwitch) {
+                                // used to show and hide the action bar
+                                if (firstVisibleItem < 3) {
+
+                                } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                                    if (!landscape && !isTablet) {
+                                        actionBar.hide();
+                                    }
+                                    if (!isToastShowing) {
+                                        showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
+                                    }
+                                } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                                    if (!landscape && !isTablet) {
+                                        actionBar.show();
+                                    }
+                                    if (isToastShowing && !infoBar) {
+                                        hideToastBar(400);
+                                    }
                                 }
-                                if (!isToastShowing && DrawerActivity.settings.useToast) {
-                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
-                                }
-                            } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                if (!landscape && !isTablet) {
-                                    actionBar.show();
-                                }
-                                if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
-                                    hideToastBar(400);
-                                }
+
+                                mLastFirstVisibleItem = firstVisibleItem;
                             }
+                        } else {
+                            if (!landscape && !isTablet) {
+                                actionBar.show();
+                            }
+                            if (!infoBar && unread == 0 && liveUnread == 0) {
+                                hideToastBar(400);
+                            }
+                        }
 
-                            mLastFirstVisibleItem = firstVisibleItem;
+                        if (isToastShowing && !infoBar && firstVisibleItem != 0) {
+                            updateToastText(firstVisibleItem + " " + fromTop, jumpToTop);
                         }
-                    } else {
-                        if (!landscape && !isTablet) {
-                            actionBar.show();
-                        }
-                        if (!infoBar && unread == 0 && liveUnread == 0 && DrawerActivity.settings.useToast) {
-                            hideToastBar(400);
+
+                        if (MainActivity.translucent && actionBar.isShowing()) {
+                            showStatusBar();
+                        } else if (MainActivity.translucent) {
+                            hideStatusBar();
                         }
                     }
 
-                    if (isToastShowing && !infoBar && firstVisibleItem != 0 && DrawerActivity.settings.useToast) {
-                        updateToastText(firstVisibleItem + " " + fromTop);
-                    }
+                }
+            });
+        } else {
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-                    if (MainActivity.translucent && actionBar.isShowing()) {
-                        showStatusBar();
-                    } else if (MainActivity.translucent) {
-                        hideStatusBar();
-                    }
+                int mLastFirstVisibleItem = 0;
+
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int i) {
+
                 }
 
-            }
-        });
+                @Override
+                public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                    if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
+                        //unread = dataSource.getUnreadCount(currentAccount);
+                        if (liveUnread > 0) {
+                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                    getResources().getString(R.string.view),
+                                    400,
+                                    true,
+                                    liveStreamRefresh);
+                        }
+                    }
+
+                    if (DrawerActivity.settings.uiExtras) {
+                        if (firstVisibleItem != 0) {
+                            if (MainActivity.canSwitch) {
+                                // used to show and hide the action bar
+                                if (firstVisibleItem < 3) {
+
+                                } else if (firstVisibleItem < mLastFirstVisibleItem) {
+                                    if (!landscape && !isTablet) {
+                                        actionBar.hide();
+                                    }
+
+                                } else if (firstVisibleItem > mLastFirstVisibleItem) {
+                                    if (!landscape && !isTablet) {
+                                        actionBar.show();
+                                    }
+                                }
+
+                                mLastFirstVisibleItem = firstVisibleItem;
+                            }
+                        } else {
+                            if (!landscape && !isTablet) {
+                                actionBar.show();
+                            }
+                        }
+
+                        if (MainActivity.translucent && actionBar.isShowing()) {
+                            showStatusBar();
+                        } else if (MainActivity.translucent) {
+                            hideStatusBar();
+                        }
+                    }
+
+                }
+            });
+        }
 
         view = layout;
 
@@ -816,13 +876,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         mLength = length;
-        handler.removeCallbacks(hideToast);
 
         toastDescription.setText(description);
         toastButton.setText(buttonText);
         toastButton.setOnClickListener(listener);
 
         if(!isToastShowing) {
+            handler.removeCallbacks(hideToast);
             isToastShowing = true;
             toastBar.setVisibility(View.VISIBLE);
 
@@ -879,9 +939,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toastBar.startAnimation(anim);
     }
 
-    public void updateToastText(String text) {
+    public void updateToastText(String text, String button) {
         if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
             toastDescription.setText(text);
+            toastButton.setText(button);
         } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
             hideToastBar(400);
         }

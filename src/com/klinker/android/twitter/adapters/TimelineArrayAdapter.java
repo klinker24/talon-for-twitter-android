@@ -94,6 +94,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public ImageView image;
         public LinearLayout background;
         public ImageView playButton;
+        public TextView screenTV;
 
         public long tweetId;
         public boolean isFavorited;
@@ -227,6 +228,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.retweeter = (TextView) v.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
                     holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
                     holder.playButton = (ImageView) v.findViewById(res.getIdentifier("play_button", "id", settings.addonThemePackage));
+                    holder.screenTV = (TextView) v.findViewById(res.getIdentifier("screenname", "id", settings.addonThemePackage));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -247,6 +249,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
                 holder.background = (LinearLayout) v.findViewById(R.id.background);
                 holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+                holder.screenTV = (TextView) v.findViewById(R.id.screenname);
             }
         } else {
             v = inflater.inflate(layout, viewGroup, false);
@@ -266,11 +269,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
             holder.background = (LinearLayout) v.findViewById(R.id.background);
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            holder.screenTV = (TextView) v.findViewById(R.id.screenname);
         }
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
         holder.name.setTextSize(settings.textSize + 4);
+        holder.screenTV.setTextSize(settings.textSize - 2);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
         holder.favCount.setTextSize(settings.textSize + 1);
@@ -452,7 +457,16 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
+        if (!settings.showBoth) {
+            holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
+        } else {
+            if (holder.screenTV.getVisibility() == View.GONE) {
+                holder.screenTV.setVisibility(View.VISIBLE);
+            }
+            holder.name.setText(name);
+            holder.screenTV.setText("@" + screenname);
+        }
+
         if (!settings.absoluteDate) {
             holder.time.setText(Utils.getTimeAgo(time, context));
         } else {

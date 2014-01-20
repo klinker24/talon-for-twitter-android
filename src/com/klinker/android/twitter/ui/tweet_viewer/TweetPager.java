@@ -119,10 +119,10 @@ public class TweetPager extends YouTubeBaseActivity {
                 pager.setCurrentItem(0);
                 break;
             case 4:
-                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
                 break;
             case 5:
-                pager.setCurrentItem(2);
+                pager.setCurrentItem(1);
                 break;
         }
 
@@ -592,37 +592,43 @@ public class TweetPager extends YouTubeBaseActivity {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
 
-                Log.v("recreating_links", "s link first: " + s);
-
                 if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    s = s.replace("...", "").replace("http", "");
-
-                    Log.v("recreating_links", "s link: " + s);
+                    String f = s.replace("...", "").replace("http", "");
 
                     for (int x = 0; x < otherLinks.length; x++) {
                         Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                        if (otherLinks[x].contains(s)) {
+                        if (otherLinks[x].contains(f)) {
                             changed = true;
-                            s = otherLinks[x];
-                            Log.v("recreating_links", "other link: " + otherLinks[x]);
+                            f = otherLinks[x];
                             break;
                         }
                     }
+
+                    if (changed) {
+                        split[i] = f;
+                    } else {
+                        split[i] = s;
+                    }
+                } else {
+                    split[i] = s;
                 }
 
-                split[i] = s;
             }
         }
+
+        Log.v("talon_picture", ":" + webpage + ":");
 
         if (!webpage.equals("")) {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
 
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    s = webpage;
-                }
+                Log.v("talon_picture_", s);
 
-                split[i] = s;
+                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                    split[i] = webpage;
+                    changed = true;
+                    Log.v("talon_picture", split[i]);
+                }
             }
         }
 
