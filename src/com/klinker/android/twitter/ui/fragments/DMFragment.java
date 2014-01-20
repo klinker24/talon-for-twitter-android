@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,9 +33,11 @@ import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
+import com.klinker.android.twitter.adapters.DirectMessageListArrayAdapter;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -43,6 +47,7 @@ import com.klinker.android.twitter.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -65,7 +70,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     private static Twitter twitter;
 
     private AsyncListView listView;
-    private CursorAdapter cursorAdapter;
+    private ArrayAdapter cursorAdapter;
 
     private SharedPreferences sharedPrefs;
 
@@ -149,14 +154,14 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                         // Finally commit the setup to our PullToRefreshLayout
                 .setup(mPullToRefreshLayout);
 
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+        /*BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         CursorListLoader loader = new CursorListLoader(cache, context);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
         builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
         builder.setThreadPoolSize(4);
 
-        listView.setItemManager(builder.build());
+        listView.setItemManager(builder.build());*/
 
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
@@ -352,7 +357,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                if (update) {
+                /*if (update) {
                     cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
                     refreshCursor();
 
@@ -367,7 +372,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
                     CharSequence text = getResources().getString(R.string.no_new_direct_messages);
                     showToastBar(text + "", allRead, 400, true, toTopListener);
-                }
+                }*/
 
                 mPullToRefreshLayout.setRefreshComplete();
 
@@ -413,7 +418,40 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         protected String doInBackground(Void... args) {
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
+            Cursor cursor = dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
+
+            ArrayList<com.klinker.android.twitter.data.DirectMessage> messageList = new ArrayList<com.klinker.android.twitter.data.DirectMessage>();
+            ArrayList<String> names = new ArrayList<String>();
+
+            if (cursor.moveToLast()) {
+                do {
+                    String screenname = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                    String otherName = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_RETWEETER));
+
+                    if (!names.contains(screenname) && !screenname.equals(DrawerActivity.settings.myScreenName)) {
+                        Log.v("direct_message", "adding screenname: " + screenname);
+                        names.add(screenname);
+
+                        String name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_NAME));
+                        String message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                        String profilePic = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_PRO_PIC));
+
+                        messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, screenname, message, profilePic));
+                    } else if (screenname.equals(DrawerActivity.settings.myScreenName) && !names.contains(otherName)) {
+
+                        names.add(otherName);
+
+                        String name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_TWO));
+                        String message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                        String profilePic = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_ONE));
+
+                        messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, screenname, message, profilePic));
+                    }
+                } while (cursor.moveToPrevious());
+            }
+
+            cursorAdapter = new DirectMessageListArrayAdapter(context, messageList);
+            //cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
 
             return null;
         }
@@ -425,13 +463,14 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 listView.setVisibility(View.VISIBLE);
             } catch (Exception e) { }
 
-            attachCursor();
+            listView.setAdapter(cursorAdapter);
+            //attachCursor();
         }
 
     }
 
     public void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
+        //cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
     }
 

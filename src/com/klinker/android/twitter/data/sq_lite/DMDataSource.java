@@ -19,7 +19,7 @@ public class DMDataSource {
     public String[] allColumns = {DMSQLiteHelper.COLUMN_ID, DMSQLiteHelper.COLUMN_TWEET_ID, DMSQLiteHelper.COLUMN_ACCOUNT, DMSQLiteHelper.COLUMN_TYPE,
             DMSQLiteHelper.COLUMN_TEXT, DMSQLiteHelper.COLUMN_NAME, DMSQLiteHelper.COLUMN_PRO_PIC,
             DMSQLiteHelper.COLUMN_SCREEN_NAME, DMSQLiteHelper.COLUMN_TIME, DMSQLiteHelper.COLUMN_PIC_URL, DMSQLiteHelper.COLUMN_RETWEETER,
-            DMSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS };
+            DMSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS, DMSQLiteHelper.COLUMN_EXTRA_ONE, DMSQLiteHelper.COLUMN_EXTRA_TWO };
 
     public DMDataSource(Context context) {
         dbHelper = new DMSQLiteHelper(context);
@@ -45,6 +45,8 @@ public class DMDataSource {
         values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, status.getSender().getScreenName());
         values.put(DMSQLiteHelper.COLUMN_TIME, time);
         values.put(DMSQLiteHelper.COLUMN_RETWEETER, status.getRecipientScreenName());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getBiggerProfileImageURL());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
 
         MediaEntity[] entities = status.getMediaEntities();
 
@@ -65,8 +67,8 @@ public class DMDataSource {
     }
 
     public Cursor getCursor(int account) {
-        Cursor cursor = database.query(DMSQLiteHelper.TABLE_DM,
-                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
+        Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
 
         return cursor;
     }
@@ -110,4 +112,6 @@ public class DMDataSource {
     public void deleteDups(int account) {
         database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
     }
+
+
 }

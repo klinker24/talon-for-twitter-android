@@ -721,6 +721,10 @@ public abstract class DrawerActivity extends Activity {
 
         DrawerActivity.settings = new AppSettings(context);
 
+        if (sharedPrefs.getBoolean("need_new_dm", true)) {
+            Utils.newDMRefresh(context);
+        }
+
         // for testing
         /*new Thread(new Runnable() {
             @Override

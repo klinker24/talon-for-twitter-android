@@ -239,6 +239,7 @@ public class LoginActivity extends Activity {
                     sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                     sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
                     sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
+                    sharedPrefs.edit().putBoolean("need_new_dm", false).commit();
                     startActivity(timeline);
                 }
 

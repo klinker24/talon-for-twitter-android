@@ -1,22 +1,33 @@
 package com.klinker.android.twitter.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.Date;
+import java.util.List;
 
+import twitter4j.DirectMessage;
+import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
@@ -264,6 +275,110 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonBlack_Hangouts_Popup_Notif);
                     break;
             }
+        }
+    }
+
+    public static void newDMRefresh(final Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle("Refresh Direct Messages")
+                .setMessage("With this version comes a new system to interact with Direct Messages. This system needs some setup though. It will connect to data, press OK to continue")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        new RefreshDM(context).execute();
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    static class RefreshDM extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog pDialog;
+        Context context;
+        SharedPreferences sharedPrefs;
+
+        public RefreshDM(Context context) {
+            this.context = context;
+            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage("Setting up direct messages");
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        protected Boolean doInBackground(String... urls) {
+
+            DMDataSource data = new DMDataSource(context);
+            data.open();
+            data.deleteAllTweets(1);
+            data.deleteAllTweets(2);
+
+            sharedPrefs.edit().putLong("last_direct_message_id_1", 0).commit();
+            sharedPrefs.edit().putLong("last_direct_message_id_2", 0).commit();
+
+            try {
+                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
+
+                Paging paging = new Paging(1, 100);
+
+                List<DirectMessage> dm = twitter.getDirectMessages(paging);
+                boolean id = false;
+                try {
+                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).commit();
+                    id = true;
+                } catch (Exception e) {
+                    // no received messages
+                }
+
+                for (DirectMessage directMessage : dm) {
+                    try {
+                        data.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
+
+                List<DirectMessage> sent = twitter.getSentDirectMessages();
+
+                try {
+                    if (!id) {
+                        sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).commit();
+                    }
+                } catch (Exception e) {
+                    // no received messages
+                }
+
+                for (DirectMessage directMessage : sent) {
+                    try {
+                        data.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
+
+                data.close();
+                return true;
+
+            } catch (Exception e) {
+                // they have no direct messages
+                return true;
+            }
+
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            pDialog.dismiss();
+            Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
+
+            sharedPrefs.edit().putBoolean("need_new_dm", false).commit();
         }
     }
 }
