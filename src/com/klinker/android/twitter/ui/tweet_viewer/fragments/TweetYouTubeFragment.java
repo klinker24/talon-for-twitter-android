@@ -64,32 +64,36 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         String video;
 
-        if (url.contains("youtube")) { // normal youtube link
-            // first get the youtube video code
-            int start = url.indexOf("v=") + 2;
-            int end;
-            if (url.substring(start).contains("&")) {
-                end = url.indexOf("&");
-                video = url.substring(start, end);
-            } else if (url.substring(start).contains("?")) {
-                end = url.indexOf("?");
-                video = url.substring(start, end);
-            } else {
-                video = url.substring(start);
+        try {
+            if (url.contains("youtube")) { // normal youtube link
+                // first get the youtube video code
+                int start = url.indexOf("v=") + 2;
+                int end;
+                if (url.substring(start).contains("&")) {
+                    end = url.indexOf("&");
+                    video = url.substring(start, end);
+                } else if (url.substring(start).contains("?")) {
+                    end = url.indexOf("?");
+                    video = url.substring(start, end);
+                } else {
+                    video = url.substring(start);
+                }
+            } else { // shortened youtube link
+                // first get the youtube video code
+                int start = url.indexOf(".be/") + 4;
+                int end;
+                if (url.substring(start).contains("&")) {
+                    end = url.indexOf("&");
+                    video = url.substring(start, end);
+                } else if (url.substring(start).contains("?")) {
+                    end = url.indexOf("?");
+                    video = url.substring(start, end);
+                } else {
+                    video = url.substring(start);
+                }
             }
-        } else { // shortened youtube link
-            // first get the youtube video code
-            int start = url.indexOf(".be/") + 4;
-            int end;
-            if (url.substring(start).contains("&")) {
-                end = url.indexOf("&");
-                video = url.substring(start, end);
-            } else if (url.substring(start).contains("?")) {
-                end = url.indexOf("?");
-                video = url.substring(start, end);
-            } else {
-                video = url.substring(start);
-            }
+        } catch (Exception e) {
+            video = "";
         }
 
         youTubePlayer.loadVideo(video);
