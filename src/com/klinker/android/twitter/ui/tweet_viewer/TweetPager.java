@@ -119,10 +119,10 @@ public class TweetPager extends YouTubeBaseActivity {
                 pager.setCurrentItem(0);
                 break;
             case 4:
-                pager.setCurrentItem(0);
+                pager.setCurrentItem(1);
                 break;
             case 5:
-                pager.setCurrentItem(1);
+                pager.setCurrentItem(2);
                 break;
         }
 

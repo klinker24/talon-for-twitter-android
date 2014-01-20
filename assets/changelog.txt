@@ -1,4 +1,9 @@
+<b>Version 1.12:</b><br/><br/>
+    &#8226; Threaded direct messages<br/>
+<br/><br/>
+
 <b>Version 1.11:</b><br/><br/>
+    &#8226; Threaded direct messages<br/>
     &#8226; Fixes for duplicates - If it does happen, go to advanced settings then clean timeline<br/>
     &#8226; Fix user names not always being highlighted<br/>
     &#8226; More changes/fixes for the toast bar<br/>
