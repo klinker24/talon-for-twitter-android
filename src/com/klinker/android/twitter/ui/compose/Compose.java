@@ -227,7 +227,11 @@ public abstract class Compose extends Activity implements
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                try {
+                    charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                } catch (Exception e) {
+                    charRemaining.setText("");
+                }
             }
 
             @Override
