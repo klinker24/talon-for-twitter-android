@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,12 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
         webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        webView.getSettings().setSupportZoom(true);
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        }
 
         webView.setWebViewClient(new WebViewClient());
 
