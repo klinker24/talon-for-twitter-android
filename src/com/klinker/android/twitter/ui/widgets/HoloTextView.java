@@ -44,8 +44,20 @@ public class HoloTextView extends TextView {
 
     private void setTypeface(Context context) {
         if (typeface == null) {
-            useDeviceFont = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("device_font", false);
-            typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
+            String type = PreferenceManager.getDefaultSharedPreferences(context).getString("font_type", "1");
+            useDeviceFont = type.equals("0");
+
+            switch (Integer.parseInt(type)) {
+                case 1:
+                    typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
+                    break;
+                case 2:
+                    typeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-Regular.ttf");
+                    break;
+                default:
+                    typeface = null;
+                    break;
+            }
         }
 
         if (!useDeviceFont) {

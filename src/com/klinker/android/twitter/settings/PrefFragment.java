@@ -135,13 +135,14 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        Preference deviceFont = findPreference("device_font");
-        deviceFont.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference deviceFont = findPreference("font_type");
+        deviceFont.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceChange(Preference preference, Object o) {
                 HoloTextView.typeface = null;
                 HoloEditText.typeface = null;
-                return false;
+
+                return true;
             }
         });
 

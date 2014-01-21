@@ -1,6 +1,7 @@
 <b>Version 1.13:</b><br/><br/>
     &#8226; View users locations, websites, and following status on user profiles<br/>
     &#8226; Option to open to in app browser on tweets that contain websites<br/>
+    &#8226; Use twitter's automatic link shortening<br/>
     &#8226; Got rid of the zoom button in the in app browser<br/>
     &#8226; Fixes for widget<br/>
     &#8226; Italian and French translations<br/>

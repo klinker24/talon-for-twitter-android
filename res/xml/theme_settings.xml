@@ -65,12 +65,20 @@
             android:entryValues="@array/text_size"
             />
 
-        <CheckBoxPreference
+        <ListPreference
+            android:key="font_type"
+            android:title="@string/font_type"
+            android:defaultValue="1"
+            android:entries="@array/font_type"
+            android:entryValues="@array/font_type_inserted"
+            />
+
+        <!--<CheckBoxPreference
             android:key="device_font"
             android:title="@string/device_font"
             android:summary="@string/device_font_summary"
             android:defaultValue="false"
-            />
+            />-->
 
         </PreferenceCategory>
 

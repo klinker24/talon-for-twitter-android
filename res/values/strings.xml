@@ -452,5 +452,9 @@
     <string name="not_following_you">Not following you</string>
     <string name="open_to_web">Open tweets to webpage</string>
     <string name="open_to_web_summary">If a tweet contains a web url, it will open directly to that url instead of the tweet itself.</string>
+    <string name="device">Device Font</string>
+    <string name="roboto_light">Roboto Light (Default)</string>
+    <string name="roboto_condensed">Roboto Condensed</string>
+    <string name="font_type">Font type</string>
 
 </resources>
