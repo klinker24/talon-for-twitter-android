@@ -227,10 +227,25 @@ public abstract class Compose extends Activity implements
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                try {
-                    charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
-                } catch (Exception e) {
-                    charRemaining.setText("");
+                String text = reply.getText().toString();
+                if (!text.contains("http")) { // no links, normal tweet
+                    try {
+                        charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                    } catch (Exception e) {
+                        charRemaining.setText("");
+                    }
+                } else {
+                    int count = 0;
+                    String[] split = text.split(" ");
+                    for (String s : split) {
+                        if (!s.contains("http")) {
+                            count += s.length() + 1;
+                        } else {
+                            count += 22;
+                        }
+                    }
+
+                    charRemaining.setText(140 - count + "");
                 }
             }
 

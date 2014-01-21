@@ -14,6 +14,7 @@
     - pictures timeline on profiles
     - pick where the local trends are
     - user's favorites on profiles
+    -- Spannable String to main timelines (http://stackoverflow.com/questions/7570239/android-linkify-text-spannable-text-in-single-text-view-as-like-twitter-twee)
 
 
 - Bugs:
@@ -25,7 +26,6 @@
 
 -- For Release --
 
-    -- Spannable String to main timelines (http://stackoverflow.com/questions/7570239/android-linkify-text-spannable-text-in-single-text-view-as-like-twitter-twee)
     -- share button on expansion
     -- option to open compose window when clicking an edit text
     -- search by real name or screenname
