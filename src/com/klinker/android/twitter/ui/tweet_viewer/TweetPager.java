@@ -105,6 +105,10 @@ public class TweetPager extends YouTubeBaseActivity {
             setUpWindow(youtube);
         }
 
+        if (settings.addonTheme) {
+            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
+        }
+
         setContentView(R.layout.tweet_pager);
         pager = (ViewPager) findViewById(R.id.pager);
         mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,

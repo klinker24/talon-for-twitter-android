@@ -209,6 +209,10 @@ public class UserProfileActivity extends Activity {
         actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        if (settings.addonTheme) {
+            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
+        }
     }
 
     public void setUpWindow() {

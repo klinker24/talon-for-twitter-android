@@ -295,7 +295,7 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        if (settings.theme == 0) {
+        if (settings.theme == 0 && !settings.addonTheme) {
             nametv.setTextColor(getResources().getColor(android.R.color.black));
             nametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
             screennametv.setTextColor(getResources().getColor(android.R.color.black));
