@@ -1,5 +1,6 @@
 <b>Version 1.12:</b><br/><br/>
     &#8226; Threaded direct messages<br/>
+    &#8226; Fill gaps in the timeline from Sync settings<br/>
     &#8226; Theme fixes<br/>
 <br/><br/>
 
