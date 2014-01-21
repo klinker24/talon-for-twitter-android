@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -107,6 +108,8 @@ public class DirectMessageConversation extends Activity {
         listName = getIntent().getStringExtra("screenname");
 
         actionBar.setTitle(getIntent().getStringExtra("name"));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         new GetList().execute();
 
@@ -282,6 +285,19 @@ public class DirectMessageConversation extends Activity {
         }
 
         super.onPause();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
