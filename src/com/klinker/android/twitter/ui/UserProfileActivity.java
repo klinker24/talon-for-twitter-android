@@ -23,7 +23,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -442,6 +445,7 @@ public class UserProfileActivity extends Activity {
     class GetData extends AsyncTask<String, Void, User> {
         private AsyncListView listView;
         private TextView statement;
+        private String followingStatus = "";
 
         public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, AsyncListView listView) {
 
@@ -455,6 +459,8 @@ public class UserProfileActivity extends Activity {
 
                 if (!isMyProfile) {
                     User user = twitter.showUser(screenName);
+                    followingStatus = Utils.getTwitter(context, settings).showFriendship(settings.myScreenName, user.getScreenName()).isTargetFollowingSource() ?
+                            getResources().getString(R.string.follows_you) : getResources().getString(R.string.not_following_you);
 
                     return user;
                 } else {
@@ -474,11 +480,31 @@ public class UserProfileActivity extends Activity {
                 new GetActionBarInfo(user).execute();
 
                 String state = user.getDescription();
+                String loca = user.getLocation();
+                String url = user.getURL();
+
+                if (!loca.equals("")) {
+                    state += "\n\n" + user.getLocation();
+                }
+                if (url != null) {
+                    if (loca.equals("")) {
+                        state += "\n";
+                    }
+                    state += "\n" + user.getURL();
+                }
+
+                if (!followingStatus.equals("")) {
+                    state += "\n\n" + followingStatus;
+                }
                 if (state.equals("")) {
                     statement.setText(getResources().getString(R.string.no_description));
                 } else {
                     statement.setText(state);
                 }
+
+                statement.setLinkTextColor(getResources().getColor(R.color.app_color));
+
+                linkifyText(statement);
 
                 tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
                 followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
@@ -1472,6 +1498,15 @@ public class UserProfileActivity extends Activity {
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private static void linkifyText(TextView textView) {
+        CharSequence text = textView.getText();
+        if (Patterns.PHONE.matcher(text).find() ||
+                Patterns.EMAIL_ADDRESS.matcher(text).find() ||
+                Patterns.WEB_URL.matcher(text).find()) {
+            Linkify.addLinks(textView, Linkify.ALL);
         }
     }
 }

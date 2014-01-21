@@ -1,4 +1,5 @@
 <b>Version 1.13:</b><br/><br/>
+    &#8226; View users locations, websites, and following status on their profiles<br/>
     &#8226; Fixes for widget<br/>
     &#8226; Italian and French translations<br/>
 <br/><br/>

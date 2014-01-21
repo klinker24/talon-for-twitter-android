@@ -448,5 +448,7 @@
     <string name="fill_gaps">Fill timeline gaps</string>
     <string name="fill_gaps_summary">Fill gaps that occur from a bad streaming connection while live streaming is enabled.</string>
     <string name="filling_timeline">Filling timeline gaps</string>
+    <string name="follows_you">Follows you</string>
+    <string name="not_following_you">Not following you</string>
 
 </resources>
