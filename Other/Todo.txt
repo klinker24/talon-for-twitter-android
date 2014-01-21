@@ -29,5 +29,4 @@
     -- option to open compose window when clicking an edit text
     -- search by real name or screenname
     -- 7 in layout for phones in landscape
-    -- condensed roboto font option
     -- change color to blue option

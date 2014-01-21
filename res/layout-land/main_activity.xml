@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="horizontal">
@@ -15,7 +13,7 @@
         <!-- The navigation drawer -->
         <include layout="@layout/main_drawer"
             android:id="@+id/left_drawer"
-            android:layout_width="@dimen/drawer_size_land"
+            android:layout_width="74dp"
             android:layout_height="match_parent"
             android:layout_gravity="start" >
 
@@ -50,8 +48,8 @@
     </LinearLayout>
 
     <include layout="@layout/notification_drawer"
-             android:id="@+id/right_drawer"
-             android:layout_width="@dimen/drawer_size_port"
-             android:layout_height="match_parent"
-             android:layout_gravity="end"/>
- </com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout>
+        android:id="@+id/right_drawer"
+        android:layout_width="@dimen/drawer_size_port"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"/>
+</com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout>

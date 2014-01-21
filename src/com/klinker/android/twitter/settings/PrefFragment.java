@@ -1237,7 +1237,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceClick(Preference preference) {
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"klinkerapps@gmail.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Twitter");
                 emailIntent.setType("plain/text");
 

@@ -15,6 +15,13 @@
         android:title="@string/features_explained" />
 
     <Preference
+        android:key="klinkerapps"
+        android:title="@string/our_website" >
+        <intent android:action="android.intent.action.VIEW"
+            android:data="https://klinkerapps.com" />
+        </Preference>
+
+    <Preference
         android:key="youtube"
         android:title="@string/youtube" />
 

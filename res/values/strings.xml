@@ -456,5 +456,6 @@
     <string name="roboto_light">Roboto Light (Default)</string>
     <string name="roboto_condensed">Roboto Condensed</string>
     <string name="font_type">Font type</string>
+    <string name="our_website">Website</string>
 
 </resources>
