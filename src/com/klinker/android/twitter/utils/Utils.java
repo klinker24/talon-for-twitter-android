@@ -316,6 +316,8 @@ public class Utils {
 
         protected Boolean doInBackground(String... urls) {
 
+            IOUtils.trimDatabase(context, sharedPrefs.getInt("current_account", 1));
+
             DMDataSource data = new DMDataSource(context);
             data.open();
             data.deleteAllTweets(1);
@@ -375,8 +377,12 @@ public class Utils {
         }
 
         protected void onPostExecute(Boolean deleted) {
-            pDialog.dismiss();
-            Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
+            try {
+                pDialog.dismiss();
+                Toast.makeText(context, "Done", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                // they closed it so the dialog wasn't attached
+            }
 
             sharedPrefs.edit().putBoolean("need_new_dm", false).commit();
         }
