@@ -3,6 +3,8 @@ package com.klinker.android.twitter.adapters;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter.R;
@@ -72,7 +74,9 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         if (links == null) {
             links = new String[0];
         }
-        
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
         if (links.length > 0 && !links[0].equals("")) {
             for (String s : links) {
                 if (s.contains("youtu")) {
@@ -85,11 +89,17 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
             }
 
             if (youtube) {
-                if (links.length > 1) {
+                if (links.length > 1 && sharedPrefs.getBoolean("inapp_browser", true)) {
                     this.hasWebpage = true;
+                } else {
+                    this.hasWebpage = false;
                 }
             } else {
-                this.hasWebpage = true;
+                if (sharedPrefs.getBoolean("inapp_browser", true)) {
+                    this.hasWebpage = true;
+                } else {
+                    this.hasWebpage= false;
+                }
             }
         } else {
             this.hasWebpage = false;

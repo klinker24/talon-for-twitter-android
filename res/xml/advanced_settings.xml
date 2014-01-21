@@ -34,6 +34,14 @@
             />
 
         <CheckBoxPreference
+            android:key="open_to_web"
+            android:title="@string/open_to_web"
+            android:summary="@string/open_to_web_summary"
+            android:defaultValue="true"
+            android:dependency="inapp_browser"
+            />
+
+        <CheckBoxPreference
             android:key="auto_insert_hashtags"
             android:title="@string/auto_insert_hashtags"
             android:summary="@string/to_replies"

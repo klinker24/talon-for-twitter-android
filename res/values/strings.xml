@@ -450,5 +450,7 @@
     <string name="filling_timeline">Filling timeline gaps</string>
     <string name="follows_you">Follows you</string>
     <string name="not_following_you">Not following you</string>
+    <string name="open_to_web">Open tweets to webpage</string>
+    <string name="open_to_web_summary">If a tweet contains a web url, it will open directly to that url instead of the tweet itself.</string>
 
 </resources>
