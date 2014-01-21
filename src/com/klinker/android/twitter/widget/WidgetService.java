@@ -87,7 +87,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         try {
             Log.v("talon_widget", "starting getviewat");
-            card.setTextViewText(R.id.contactName, mWidgetItems.get(arg0).getName());
+            card.setTextViewText(R.id.contactName, settings.displayScreenName ? "@" + mWidgetItems.get(arg0).getScreenName() : mWidgetItems.get(arg0).getName());
             card.setTextViewText(R.id.contactText, Html.fromHtml(mWidgetItems.get(arg0).getTweet()));
             final int arg = arg0;
 
