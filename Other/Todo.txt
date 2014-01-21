@@ -32,4 +32,5 @@
     -- search by real name or screenname
     -- 7 in layout for phones in landscape
     -- condensed roboto font option
-    --
+    -- preference for what page to open on a tweet
+    -- change color to blue
