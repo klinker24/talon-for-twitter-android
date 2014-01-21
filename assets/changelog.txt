@@ -1,5 +1,6 @@
 <b>Version 1.12:</b><br/><br/>
     &#8226; Threaded direct messages<br/>
+    &#8226; Theme fixes<br/>
 <br/><br/>
 
 <b>Version 1.11:</b><br/><br/>

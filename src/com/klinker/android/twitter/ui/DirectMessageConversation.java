@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -110,6 +111,7 @@ public class DirectMessageConversation extends Activity {
         actionBar.setTitle(getIntent().getStringExtra("name"));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         new GetList().execute();
 
