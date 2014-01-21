@@ -198,7 +198,6 @@ public class TweetPager extends YouTubeBaseActivity {
         } else {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
-
     }
 
     public void getFromIntent() {

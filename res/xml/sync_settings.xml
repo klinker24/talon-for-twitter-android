@@ -25,6 +25,12 @@
                 android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
         </Preference>
 
+        <Preference
+            android:key="fill_gaps"
+            android:title="@string/fill_gaps"
+            android:summary="@string/fill_gaps_summary"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory

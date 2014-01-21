@@ -38,6 +38,8 @@ import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.Item;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
@@ -45,6 +47,7 @@ import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
 import com.klinker.android.twitter.ui.fragments.MentionsFragment;
@@ -55,11 +58,15 @@ import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import twitter4j.PagableResponseList;
+import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.User;
 
 public class PrefFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -477,6 +484,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             onStart.setEnabled(false);
             mobileOnly.setEnabled(false);
         }
+
+        final Preference fillGaps = findPreference("fill_gaps");
+        fillGaps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                new FillGaps().execute();
+                return false;
+            }
+        });
 
         final Preference stream = findPreference("live_streaming");
         stream.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -974,6 +990,78 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         .show();
             }
 
+
+        }
+    }
+
+    class FillGaps extends AsyncTask<String, Void, Boolean> {
+
+        private ProgressDialog pDialog;
+
+        public List<twitter4j.Status> getList(int page, Twitter twitter) {
+            try {
+                return twitter.getHomeTimeline(new Paging(page, 200));
+            } catch (Exception e) {
+                return new ArrayList<twitter4j.Status>();
+            }
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.filling_timeline) + "...");
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            AppSettings settings = new AppSettings(context);
+
+            try {
+                int currentAccount = settings.currentAccount;
+
+                HomeDataSource dataSource = new HomeDataSource(context);
+                dataSource.open();
+
+                Twitter twitter = Utils.getTwitter(context, DrawerActivity.settings);
+                twitter.verifyCredentials();
+
+                List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+
+                for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+                    statuses.addAll(getList(i + 1, twitter));
+                }
+
+                for (twitter4j.Status status : statuses) {
+                    try {
+                        HomeContentProvider.insertTweet(status, currentAccount, context);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                }
+
+                dataSource.deleteDups(currentAccount);
+
+                dataSource.markUnreadFilling(currentAccount);
+
+                dataSource.close();
+
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+
+            } catch (TwitterException e) {
+                // Error in updating status
+                Log.d("Twitter Update Error", e.getMessage());
+            }
+            return true;
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+
+            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+
+            pDialog.dismiss();
 
         }
     }

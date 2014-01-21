@@ -445,5 +445,8 @@
     <string name="delete_conversation">Delete Conversation?</string>
     <string name="deleting_messages">Deleting messages</string>
     <string name="type_message">Type message...</string>
+    <string name="fill_gaps">Fill timeline gaps</string>
+    <string name="fill_gaps_summary">Fill gaps that occur from a bad streaming connection while live streaming is enabled.</string>
+    <string name="filling_timeline">Filling timeline gaps</string>
 
 </resources>

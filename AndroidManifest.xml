@@ -170,7 +170,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden"  >
+            android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name=".utils.RedirectToPopup"

@@ -746,6 +746,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         try {
             context.unregisterReceiver(pullReceiver);
         } catch (Exception e) { }
+        try {
+            context.unregisterReceiver(jumpTopReceiver);
+        } catch (Exception e) { }
         super.onStop();
     }
 

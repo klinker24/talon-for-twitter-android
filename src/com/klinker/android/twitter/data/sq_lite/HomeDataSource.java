@@ -393,6 +393,38 @@ public class HomeDataSource {
         database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
     }
 
+    public void markUnreadFilling(int account) {
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
+
+        // first get the unread cursor to find the first id to mark unread
+        Cursor unread = getUnreadCursor(account);
+
+        if (unread.moveToFirst()) {
+            // this is the long for the first unread tweet in the list
+            long id = unread.getLong(unread.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+
+            Cursor full = getCursor(account);
+            if (full.moveToFirst()) {
+                boolean startUnreads = false;
+                do {
+                    long thisId = full.getLong(full.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+
+                    if (thisId == id) {
+                        startUnreads = true;
+                    }
+
+                    if (startUnreads) {
+                        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {thisId + ""});
+                    }
+                } while (full.moveToNext());
+            }
+            full.close();
+        }
+
+        unread.close();
+    }
+
     public long[] getLastIds(int account) {
         long id[] = new long[5];
 
