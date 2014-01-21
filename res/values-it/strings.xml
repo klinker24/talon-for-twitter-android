@@ -21,7 +21,7 @@
     <string name="menu_direct_message">Nuovo Messaggio Diretto</string>
     <string name="menu_save_image">Salva Immagine</string>
     <string name="menu_favorite">Preferisci Utente</string>
-    <string name="menu_unfavorite">Non preferire più l'utente</string>
+    <string name="menu_unfavorite">Non preferire più l\'utente</string>
     <string name="menu_create_list">Crea una Nuova LIsta</string>
     <string name="menu_spam">Segnala come Spam</string>
     <!-- Times -->
@@ -29,7 +29,7 @@
     <string name="just_now">Proprio ora</string>
     <string name="a_min_ago">Un minuto fa</string>
     <string name="minutes_ago">%s minuti fa</string>
-    <string name="an_hour_ago">un'ora fa</string>
+    <string name="an_hour_ago">un\'ora fa</string>
     <string name="hours_ago">%s ore fa</string>
     <string name="yesterday">ieri</string>
     <string name="days_ago">%s giorni fa</string>
@@ -64,8 +64,8 @@
     <string name="no_new_direct_messages">Nessun nuovo messaggio diretto</string>
     <string name="tap_to_setup">Premi per configurare</string>
     <string name="new_account">Nuovo Account</string>
-    <string name="from_top">dall'inizio</string>
-    <string name="jump_to_top">All'inizio</string>
+    <string name="from_top">dall\'inizio</string>
+    <string name="jump_to_top">All\'inizio</string>
     <string name="all_read">Tutto letto!</string>
     <string name="view_new">Caricare?</string>
     <string name="old_interactions">Tutte le interazioni</string>
@@ -82,7 +82,7 @@
     <string name="mark_read">Leggi</string>
     <string name="noti_reply">Rispondi</string>
     <string name="popup">Popup</string>
-    <string name="fav_user_tweets">Nuovi tweet dall'utente preferito</string>
+    <string name="fav_user_tweets">Nuovi tweet dall\'utente preferito</string>
     <string name="sec_acc">Secondo Account</string>
     <string name="talon_pull">Talon PUll</string>
     <string name="listening">In ascolto</string>
@@ -109,7 +109,7 @@
     <string name="back_to_timeline">Portami sulla mia timeline!</string>
     <string name="initial_sync">Sincronizza ora!</string>
     <string name="first_info">Prima di iniziare, andiamo ad effettuare il login. </string>
-    <string name="second_info">Grande!\n\nOra otterremo alcuni dati iniziali.\n\nCiò potrebbe durare un po' di tempo a seconda della tua connessione ad internet.</string>
+    <string name="second_info">Grande!\n\nOra otterremo alcuni dati iniziali.\n\nCiò potrebbe durare un po\' di tempo a seconda della tua connessione ad internet.</string>
     <string name="third_info">Spero ti piaccia Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Sincronizzando la timeline...</string>
     <string name="syncing_mentions">Sincronizzando le menzioni...</string>
@@ -126,14 +126,14 @@
     <string name="compose_tweet_hint">Scrivi il tuo Tweet qui...</string>
     <string name="send_to">Inserisci l\'username</string>
     <string name="direct_message_sent">Invia Messaggio Diretto</string>
-    <string name="type_user">Digita l'username</string>
+    <string name="type_user">Digita l\'username</string>
     <string name="add_user">Aggiungi utente</string>
     <string name="location_connected">Posizione allegata</string>
     <string name="location_disconnected">Posizione persa</string>
     <string name="finding_location">In attesa di posizione</string>
     <string name="draft_found">Bozza trovata</string>
     <string name="apply">Applicare?</string>
-    <string name="tweet_failed">Errore nell'invio del tweet</string>
+    <string name="tweet_failed">Errore nell\'invio del tweet</string>
     <string name="tap_to_retry">Premi per riprovare</string>
     <string name="one_recepient">Puoi inviare un messaggio diretto solamente ad un utente!</string>
     <!-- Actionbar Done-Discard -->
@@ -149,7 +149,7 @@
     <string name="delete_direct_message">Eliminare Messaggio?</string>
     <string name="save_image">Immagine Salvata</string>
     <string name="tweet_success">Tweet inviato con successo</string>
-    <string name="error_sending_tweet">Errore nell'invio del tweet</string>
+    <string name="error_sending_tweet">Errore nell\'invio del tweet</string>
     <string name="tweet_to_long">Tweet troppo lungo!</string>
     <string name="ok">OK</string>
     <string name="no">No</string>
@@ -174,8 +174,8 @@
     <string name="no_description">Nessuna descrizione disponibile</string>
     <string name="favorite_user">Utente Preferito</string>
     <string name="unfavorite_user">Utente non più preferito</string>
-    <string name="updating_pro_pic">Aggiornamento dell'immagine profilo</string>
-    <string name="updating_banner_pic">Aggiornamento dell'immagine Intestazione</string>
+    <string name="updating_pro_pic">Aggiornamento dell\'immagine profilo</string>
+    <string name="updating_banner_pic">Aggiornamento dell\'immagine Intestazione</string>
     <string name="uploaded">File Caricato</string>
     <string name="change_profile_info">Modifica Informazioni Profilo</string>
     <string name="update">Aggiorna</string>
@@ -202,7 +202,7 @@
     <string name="tweet_youtube">YouTube</string>
     <string name="menu_quote">Cita Tweet</string>
     <string name="deleted_tweet">Tweet eliminato</string>
-    <string name="error_deleting">Errore nell'eliminazione del tweet</string>
+    <string name="error_deleting">Errore nell\'eliminazione del tweet</string>
     <string name="sending">Invio</string>
     <string name="open_what">Apri quale</string>
     <string name="youtube_error">Errore nella riproduzione del video</string>
@@ -240,7 +240,7 @@
     <string name="other_options">Altre Opzioni</string>
     <string name="theme">Tema</string>
     <string name="addon_themes">Temi Add-on</string>
-    <string name="addon_note">Clicca qui per trovare nuovi temi.\n\nNOTE:\n- Ciò disabiliterà l'uso delle emoji integrate nella testiera quando si risponde ad un tweet.\n- Si prega di non riportare bug finché non sei in grado di confermarli senza un tema personalizzato applicato.</string>
+    <string name="addon_note">Clicca qui per trovare nuovi temi.\n\nNOTE:\n- Ciò disabiliterà l\'uso delle emoji integrate nella testiera quando si risponde ad un tweet.\n- Si prega di non riportare bug finché non sei in grado di confermarli senza un tema personalizzato applicato.</string>
     <string name="use_addon_themes">Usa un tema personalizzato</string>
     <string name="make_a_theme">Crea un tema</string>
     <string name="layout">Layout</string>
@@ -251,8 +251,8 @@
     <string name="layout_summary">Modificando ciò verrà eliminata la cache dell\'app.</string>
     <string name="text_size">Dimensione Testo</string>
     <string name="night_mode">Modalità Notte</string>
-    <string name="night_mode_night">Seleziona l'orario di inizio notte</string>
-    <string name="night_mode_day">Seleziona l'ora di inizio giorno</string>
+    <string name="night_mode_night">Seleziona l\'orario di inizio notte</string>
+    <string name="night_mode_day">Seleziona l\'ora di inizio giorno</string>
     <string name="night_mode_theme">Seleziona il tema per la modalità notte</string>
     <string name="device_font">Usa il font di sistema</string>
     <string name="device_font_summary">Regular \"Roboto\" nella maggior parte dei dispositivi. Il font di default di Talon è \"Roboto Light\".</string>
@@ -271,7 +271,7 @@
     <string name="get_android">Ottieni gli Emoji di Android</string>
     <string name="get_ios">Ottieni gli Emoji di iOS</string>
     <string name="emoji_dialog_summary">Per abilitare gli emoji in questa applicazione, è necessario avere installato il pacchetto \"Sliding Emoji Keyboard\" o \"Sliding Emoji Keyboard - iOS\" dal Play Store.\n\n
-È possibile switchare tra i due tipi di emoji disinstallandone una e installando l'altra. Se sono presenti entrambele versioni, Talon userà le emoji di Android.\n\n
+È possibile switchare tra i due tipi di emoji disinstallandone una e installando l\'altra. Se sono presenti entrambele versioni, Talon userà le emoji di Android.\n\n
 NOTA: le Emoji continueranno a funzionare in questa app anche se il periodo di prova è scaduto! Questo pacchetto viene utilizzato sia come plugin che come tastiera stand-alone.</string>
     <string name="theme_light">Tema Light</string>
     <string name="theme_dark">Tema Dark</string>
@@ -292,13 +292,13 @@ NOTA: le Emoji continueranno a funzionare in questa app anche se il periodo di p
     <string name="sync_second_mentions_summary">Controlla automaticamente e notifica nuove menzioni sul tuo secondo account insieme al primo.</string>
     <string name="max_number_summary">Un numero più alto implica un aggiornamento più lento.</string>
     <string name="auto_refresh_category">Opzioni Auto-Aggiornamento</string>
-    <string name="refresh_on_startup">Aggiorna all'avvio</string>
+    <string name="refresh_on_startup">Aggiorna all\'avvio</string>
     <string name="timeline_sync_interval">Intervallo Aggiornamento Timeline</string>
     <string name="mentions_sync_interval">Intervallo Aggiornamento Menzioni</string>
     <string name="dm_sync_interval">Intervallo Aggiornamento Messaggi Diretti</string>
     <string name="sync_friends">Sincronizza i dati degli amici</string>
     <string name="sync_friends_summary2">Re-sincronizza i dati degli amici da usare quando si scrive un tweet.</string>
-    <string name="sync_friends_summary">Sincronizza manualmente la lista degli amici.\n\nCiò viene eseguito per te al login, ed essi vengono aggiunti automaticamente quando inizi a seguire qualcuno dall'app Talon, ma questa opzione prenderà tutti le ultime persone seguite.\n\n
+    <string name="sync_friends_summary">Sincronizza manualmente la lista degli amici.\n\nCiò viene eseguito per te al login, ed essi vengono aggiunti automaticamente quando inizi a seguire qualcuno dall\'app Talon, ma questa opzione prenderà tutti le ultime persone seguite.\n\n
 Queste informazioni vengono utilizzate durante una ricerca di utenti quando si scrive un tweet.</string>
     <string name="sync_success">Sincronizzazione completata</string>
     <string name="sync_failed">Sincronizzazione fallita</string>
@@ -326,7 +326,7 @@ Queste informazioni vengono utilizzate durante una ricerca di utenti quando si s
     <string name="memory_management">Opzioni Gestione Memoria</string>
     <string name="delete_cache">Elimina Cache adesso</string>
     <string name="cache_dialog">Eliminare Cache?</string>
-    <string name="not_cache">Ciò non viene applicato alla cache dell'app.</string>
+    <string name="not_cache">Ciò non viene applicato alla cache dell\'app.</string>
     <string name="current_cache_size">Dimensione attuale della cache</string>
     <string name="cache_dialog_summary">Questa azione non può essere annullata</string>
     <string name="timeline_size">Lunghezza Timeline</string>
@@ -356,7 +356,7 @@ Queste informazioni vengono utilizzate durante una ricerca di utenti quando si s
     <string name="youtube">Video su YouTube</string>
     <string name="google_plus">Community su Google+</string>
     <string name="xda_thread">Thread sul forum XDA</string>
-    <string name="email_me">Inviami un'email</string>
+    <string name="email_me">Inviami un\'email</string>
     <string name="tweet_me">Inviami un Tweet</string>
     <string name="follow_talon">Segui Talon su Twitter</string>
     <string name="credits">Riconoscimenti</string>
@@ -400,12 +400,12 @@ Queste informazioni vengono utilizzate durante una ricerca di utenti quando si s
     <string name="absolute_date">Usa date assolute</string>
     <string name="clear_searches">Cancella ricerche</string>
     <string name="compose_with_search">Scrivi Tweet con Cerca</string>
-    <string name="use_toast">Usa il Toast \"All'inizio\"</string>
+    <string name="use_toast">Usa il Toast \"All\'inizio\"</string>
     <string name="ignore_retweets">Ignora Retweet</string>
     <string name="ignore_retweets_summary">Non visualizzare alcun retweet quando si scorre la timeline principale</string>
     <string name="view">Visualizza</string>
     <string name="muted_hashtags">Hashtag Nascosti</string>
-    <string name="muted_hashtags_summary">Clicca sull'hashtag per ripristinarli-</string>
+    <string name="muted_hashtags_summary">Clicca sull\'hashtag per ripristinarli-</string>
     <string name="no_hashtags">Nessun Hashtag</string>
     <string name="mute_hashtags">Hashtag Nascosti</string>
     <string name="muted">Nascosto</string>
