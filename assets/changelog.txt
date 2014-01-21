@@ -1,4 +1,9 @@
 <b>Version 1.13:</b><br/><br/>
+    &#8226; Fixes for widget<br/>
+    &#8226; Italian and French translations<br/>
+<br/><br/>
+
+<b>Version 1.13:</b><br/><br/>
     &#8226; Threaded direct messages<br/>
     &#8226; Fill gaps in the timeline from Sync settings<br/>
     &#8226; Theme fixes<br/>
