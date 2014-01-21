@@ -13,6 +13,7 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,7 +170,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.name.setText(settings.displayScreenName ? "@" + dm.getScreenname() : dm.getName());
-        holder.text.setText(dm.getMessage());
+        holder.text.setText(Html.fromHtml(dm.getMessage()));
 
         //holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
         if(settings.roundContactImages) {
