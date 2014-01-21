@@ -388,7 +388,7 @@ public class ImageUtils {
                     options.inJustDecodeBounds = true;
                     BitmapFactory.decodeStream(is, null, options);
 
-                    int size = calculateInSampleSize(options, 400, 400);
+                    int size = calculateInSampleSize(options, 300, 300);
                     Log.v("caching_images", size +"");
 
                     options = new BitmapFactory.Options();
