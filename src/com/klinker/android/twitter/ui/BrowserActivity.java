@@ -3,6 +3,7 @@ package com.klinker.android.twitter.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +43,12 @@ public class BrowserActivity extends Activity {
         browser.getSettings().setAppCacheEnabled(false);
         browser.getSettings().setLoadWithOverviewMode(true);
         browser.getSettings().setUseWideViewPort(true);
+        browser.getSettings().setDisplayZoomControls(false);
+        browser.getSettings().setSupportZoom(true);
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            browser.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        }
 
         final Activity activity = this;
         browser.setWebChromeClient(new WebChromeClient() {
