@@ -711,6 +711,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             context.unregisterReceiver(jumpTopReceiver);
         } catch (Exception e) { }
 
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+
         markReadForLoad();
         super.onStop();
     }
@@ -938,13 +940,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 current--;
             }
 
+            dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        dataSource.markAllRead(DrawerActivity.settings.currentAccount);
                         dataSource.markUnread(DrawerActivity.settings.currentAccount, id);
                     }
                 }).start();
