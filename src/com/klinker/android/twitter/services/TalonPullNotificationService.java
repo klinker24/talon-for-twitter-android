@@ -41,6 +41,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterStream;
 import twitter4j.User;
 import twitter4j.UserList;
+import twitter4j.UserMentionEntity;
 import twitter4j.UserStreamListener;
 
 public class TalonPullNotificationService extends Service {
@@ -345,7 +346,12 @@ public class TalonPullNotificationService extends Service {
     public UserStreamListener userStream = new UserStreamListener() {
         @Override
         public void onStatus(Status status) {
-            if(status.getText().toLowerCase().contains("@" + settings.myScreenName.toLowerCase())) {
+            UserMentionEntity[] entities = status.getUserMentionEntities();
+            ArrayList<String> names = new ArrayList<String>();
+            for (UserMentionEntity e : entities) {
+                names.add(e.getScreenName());
+            }
+            if(names.contains(settings.myScreenName)) {
                 Log.v("twitter_stream_push", "onStatus @" + status.getUser().getScreenName() + " - " + status.getText());
 
                 if (!status.isRetweet()) { // it is a normal mention
