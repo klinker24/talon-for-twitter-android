@@ -102,7 +102,7 @@ public class TalonPullNotificationService extends Service {
         String text;
 
         if (settings.liveStreaming && settings.timelineNot) {
-            text = getResources().getString(R.string.new_tweets_upper) + ": " + home.getUnreadCount(sharedPreferences.getInt("current_account", 1));
+            text = getResources().getString(R.string.new_tweets_upper) + ": " + pullUnread;
         } else {
             text = getResources().getString(R.string.listening_for_mentions) + "...";
         }
@@ -149,6 +149,10 @@ public class TalonPullNotificationService extends Service {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
         registerReceiver(stopService, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.CLEAR_PULL_UNREAD");
+        registerReceiver(clearPullUnread, filter);
 
         if (settings.liveStreaming && settings.timelineNot) {
             filter = new IntentFilter();
@@ -213,6 +217,9 @@ public class TalonPullNotificationService extends Service {
         try {
             unregisterReceiver(updateNotification);
         } catch (Exception e) { }
+        try {
+            unregisterReceiver(clearPullUnread);
+        } catch (Exception e) { }
 
         try {
             interactions.close();
@@ -251,13 +258,27 @@ public class TalonPullNotificationService extends Service {
         }
     };
 
+    public int pullUnread = 0;
+
     public BroadcastReceiver updateNotification = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
             Log.v("twitter_stream_push", "updating notification");
 
-            mBuilder.setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + home.getUnreadCount(sharedPreferences.getInt("current_account", 1)));
+            mBuilder.setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + pullUnread);
+
+            startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
+        }
+    };
+
+    public BroadcastReceiver clearPullUnread = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            pullUnread = 0;
+
+            mBuilder.setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + pullUnread);
 
             startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
         }
@@ -363,6 +384,7 @@ public class TalonPullNotificationService extends Service {
                         ids.contains(mId)) {
                     home.createTweet(status, sharedPreferences.getInt("current_account", 1));
 
+                    pullUnread++;
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
@@ -370,7 +392,7 @@ public class TalonPullNotificationService extends Service {
                     sharedPreferences.edit().putBoolean("refresh_me", true).commit();
                     sharedPreferences.edit().putLong("second_last_tweet_id_" + sharedPreferences.getInt("current_account", 1), home.getLastIds(sharedPreferences.getInt("current_account", 1))[0]);
 
-                    if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName()) && settings.favoriteUserNotifications) {
+                    if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName()) && settings.favoriteUserNotifications && settings.notifications) {
                         NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
                         interactions.createFavoriteUserInter(mContext, status, sharedPreferences.getInt("current_account", 1));
                         sharedPreferences.edit().putBoolean("new_notification", true).commit();

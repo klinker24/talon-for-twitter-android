@@ -410,7 +410,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     public void run() {
                         hideToastBar(400);
                         dataSource.markAllRead(currentAccount);
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
                     }
                 }, 300);
 
@@ -752,6 +752,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
         context.registerReceiver(jumpTopReceiver, filter);
+
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
     }
 
 
