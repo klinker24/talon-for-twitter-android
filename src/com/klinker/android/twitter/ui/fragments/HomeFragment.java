@@ -51,16 +51,10 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import twitter4j.FilterQuery;
 import twitter4j.Paging;
-import twitter4j.StallWarning;
-import twitter4j.Status;
-import twitter4j.StatusDeletionNotice;
-import twitter4j.StatusListener;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
@@ -386,6 +380,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onClick(View view) {
                 toTop();
+                hideToastBar(400);
             }
         };
 
@@ -943,22 +938,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 current--;
             }
 
-            dataSource.markAllRead(DrawerActivity.settings.currentAccount);
-
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
-                long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                dataSource.markUnread(DrawerActivity.settings.currentAccount, id);
+                final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+                        dataSource.markUnread(DrawerActivity.settings.currentAccount, id);
+                    }
+                }).start();
             }
-
-            //Log.v("talon_marking_read", "first pos: " + current);
-
-            //TextView tweetText = (TextView) listView.getChildAt(current).findViewById(R.id.tweet);
-            //String text = tweetText.getText().toString();
-
-            //Log.v("talon_marking_read", "top tweet text: " + text);
-
-            //dataSource.markMultipleRead(text, DrawerActivity.settings.currentAccount);
         } catch (Exception e) {
             e.printStackTrace();
         }

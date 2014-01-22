@@ -351,7 +351,6 @@ public class HomeDataSource {
                     mark = true;
                 }
                 if (mark) {
-                    Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
                     database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
                 }
             } while (cursor.moveToNext());
@@ -394,7 +393,6 @@ public class HomeDataSource {
         if (c.moveToLast()) {
             do {
                 String thisText = c.getString(c.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-                Log.v("talon_pull_mark_read", thisText);
                 if (text.equals(thisText)) {
                     dontMark = false;
                 }
