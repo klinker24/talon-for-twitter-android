@@ -53,6 +53,11 @@ public class PhotoViewerDialog extends Activity {
         context = this;
 
         url = getIntent().getStringExtra("url");
+
+        if (url.contains("twitpic")) {
+            url = url.replace("thumb", "full");
+        }
+
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
         boolean doRestart = getIntent().getBooleanExtra("restart", true);
 

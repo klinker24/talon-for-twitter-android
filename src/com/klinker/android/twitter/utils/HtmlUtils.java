@@ -165,7 +165,11 @@ public class HtmlUtils {
                         imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/2.jpg";
                     }
                     otherUrl += exp + "  ";
-                }else {
+                } else if (exp.toLowerCase().contains("twitpic")) {
+                    int start = exp.indexOf(".com/") + 6;
+                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start);
+                    otherUrl += exp + "  ";
+                } else {
                     otherUrl += exp + "  ";
                 }
             }
@@ -336,6 +340,10 @@ public class HtmlUtils {
                         end = exp.indexOf("?");
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("twitpic")) {
+                    int start = exp.indexOf(".com/") + 6;
+                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start);
                     otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";

@@ -1,5 +1,4 @@
 - Features:
-    - Redo the Direct Messages to be conversation style with just a list of contacts on the main timeline
     - Retweet and favorite from multiple accounts
     - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles
@@ -13,12 +12,10 @@
     - pictures timeline on profiles
     - pick where the local trends are
     - user's favorites on profiles
-    -- Spannable String to main timelines (http://stackoverflow.com/questions/7570239/android-linkify-text-spannable-text-in-single-text-view-as-like-twitter-twee)
 
 
 - Bugs:
     - some people cant see profiles correctly
-    - Jumping around the timeline? might be fixed
 
 - Notification Center:
     - Combined pictures from Evolve
@@ -28,5 +25,4 @@
     -- share button on expansion
     -- option to open compose window when clicking an edit text
     -- search by real name or screenname
-    -- 7 in layout for phones in landscape
     -- change color to blue option
