@@ -169,6 +169,14 @@ public class HtmlUtils {
                     int start = exp.indexOf(".com/") + 6;
                     imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start);
                     otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("i.imgur")) {
+                    int start = exp.indexOf(".com/") + 5;
+                    imageUrl = "http://i.imgur.com/" + exp.replace("http://i.imgur.com/", "").replace(".jpg", "") + "t.jpg" ;
+                    otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("imgur")) {
+                    int start = exp.indexOf(".com/") + 6;
+                    imageUrl = "http://i.imgur.com/" + exp.replace("http://imgur.com/", "").replace(".jpg", "") + "t.jpg" ;
+                    otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
                 }
@@ -344,6 +352,10 @@ public class HtmlUtils {
                 } else if (exp.toLowerCase().contains("twitpic")) {
                     int start = exp.indexOf(".com/") + 6;
                     imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start);
+                    otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("imgur")) {
+                    int start = exp.indexOf(".com/") + 6;
+                    imageUrl = "http://i.imgur.com/" + exp.substring(start) + "m.jpg" ;
                     otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
