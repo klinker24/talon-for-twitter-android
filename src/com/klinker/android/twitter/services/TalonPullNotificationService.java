@@ -150,10 +150,6 @@ public class TalonPullNotificationService extends Service {
         filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
         registerReceiver(stopService, filter);
 
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.CLEAR_PULL_UNREAD");
-        registerReceiver(clearPullUnread, filter);
-
         if (settings.liveStreaming && settings.timelineNot) {
             filter = new IntentFilter();
             filter.addAction("com.klinker.android.twitter.UPDATE_NOTIF");
@@ -162,6 +158,10 @@ public class TalonPullNotificationService extends Service {
             filter = new IntentFilter();
             filter.addAction("com.klinker.android.twitter.NEW_TWEET");
             registerReceiver(updateNotification, filter);
+
+            filter = new IntentFilter();
+            filter.addAction("com.klinker.android.twitter.CLEAR_PULL_UNREAD");
+            registerReceiver(clearPullUnread, filter);
         }
 
         new Thread(new Runnable() {

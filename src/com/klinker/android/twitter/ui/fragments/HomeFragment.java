@@ -453,7 +453,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             dataSource.markAllRead(currentAccount);
-            context.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
