@@ -3,7 +3,6 @@
     - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles
     - scheduling tweets
-    - in line imgur and twitpic
     - different image uploading service
     - widget with just the unread numbers on it
     - tweetmarker

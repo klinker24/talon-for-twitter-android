@@ -259,11 +259,30 @@ public class Search extends Activity {
                 Twitter twitter = Utils.getTwitter(context, settings);
                 Query query = new Query(mQuery);
                 QueryResult result = twitter.search(query);
+                QueryResult result2 = null;
+                QueryResult result3 = null;
+
+                if (result.hasNext()) {
+                    result2 = twitter.search(result.nextQuery());
+                    if (result2.hasNext()) {
+                        result3 = twitter.search(result2.nextQuery());
+                    }
+                }
                 Log.v("inside_search", "got data");
 
                 ArrayList<twitter4j.Status> tweets = new ArrayList<twitter4j.Status>();
                 for (twitter4j.Status status : result.getTweets()) {
                     tweets.add(status);
+                }
+                if (result2 != null) {
+                    for (twitter4j.Status status : result2.getTweets()) {
+                        tweets.add(status);
+                    }
+                    if (result3 != null) {
+                        for (twitter4j.Status status : result3.getTweets()) {
+                            tweets.add(status);
+                        }
+                    }
                 }
 
                 return tweets;
