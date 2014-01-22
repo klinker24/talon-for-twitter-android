@@ -455,12 +455,15 @@ public class ImageUtils {
     }
 
     public static void loadCircleImage(Context context, ImageView iv, String url, BitmapLruCache mCache) {
-        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
+        BitmapDrawable wrapper = null;
+        if (url != null) {
+            wrapper = mCache.getFromMemoryCache(url);
+        }
 
         if (null != wrapper) {
             // The cache has it, so just display it
             iv.setImageDrawable(wrapper);
-        } else {
+        } else if (url != null) {
             // Memory Cache doesn't have the URL, do threaded request...
             iv.setImageDrawable(null);
 
