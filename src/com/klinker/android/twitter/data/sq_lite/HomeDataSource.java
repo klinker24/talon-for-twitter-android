@@ -336,6 +336,30 @@ public class HomeDataSource {
         cursor.close();
     }
 
+    public void markUnread(int account, long wantid) {
+        Cursor cursor = getCursor(account);
+
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
+
+        if (cursor.moveToFirst()) {
+            boolean mark = false;
+            do {
+                long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+
+                if (wantid == tweetId) {
+                    mark = true;
+                }
+                if (mark) {
+                    Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
+                    database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+    }
+
     public void markMultipleRead(int current, int account) {
 
         Cursor cursor = getUnreadCursor(account);

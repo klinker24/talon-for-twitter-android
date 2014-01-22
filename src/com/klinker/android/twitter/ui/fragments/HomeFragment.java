@@ -38,6 +38,7 @@ import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
@@ -121,7 +122,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             if (liveUnread > current) {
                 liveUnread = current;
             }
-            markReadForLoad();
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
             if (liveUnread != 0) {
                 showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
@@ -401,7 +401,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onClick(View view) {
                 newTweets = false;
-                markReadForLoad();
+                //markReadForLoad();
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
                 //int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                 listView.setSelectionFromTop(0, 0);
@@ -697,40 +697,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     }
 
-    @Override
-    public void onPause() {
-        int mUnread = listView.getFirstVisiblePosition();
-        sharedPrefs.edit().putInt("timeline_unread", mUnread).commit();
-
-        if (unread > 0) {
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
-            dataSource.markMultipleRead(mUnread, currentAccount);
-            context.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
-            unread = mUnread;
-        }
-
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (sharedPrefs.getBoolean("refresh_me", false)) {
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
-        }
-
-        sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
-        context.registerReceiver(pullReceiver, filter);
-
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
-        context.registerReceiver(jumpTopReceiver, filter);
-    }
-
     public boolean justStarted = false;
     public Handler waitOnRefresh = new Handler();
     public Runnable applyRefresh = new Runnable() {
@@ -749,6 +715,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         try {
             context.unregisterReceiver(jumpTopReceiver);
         } catch (Exception e) { }
+
+        markReadForLoad();
         super.onStop();
     }
 
@@ -770,6 +738,20 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 waitOnRefresh.postDelayed(applyRefresh, 30000);
             }
         }, 250);
+
+        if (sharedPrefs.getBoolean("refresh_me", false)) {
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+        }
+
+        sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
+        context.registerReceiver(pullReceiver, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
+        context.registerReceiver(jumpTopReceiver, filter);
     }
 
 
@@ -953,13 +935,30 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     public void markReadForLoad() {
         try {
+            Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
-            TextView tweetText = (TextView) listView.getChildAt(current).findViewById(R.id.tweet);
-            String text = tweetText.getText().toString();
+            if (current != 0) {
+                current--;
+            }
 
-            dataSource.markMultipleRead(text, DrawerActivity.settings.currentAccount);
+            dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+
+            if (cursor.moveToPosition(cursor.getCount() - current)) {
+                Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
+                long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                dataSource.markUnread(DrawerActivity.settings.currentAccount, id);
+            }
+
+            //Log.v("talon_marking_read", "first pos: " + current);
+
+            //TextView tweetText = (TextView) listView.getChildAt(current).findViewById(R.id.tweet);
+            //String text = tweetText.getText().toString();
+
+            //Log.v("talon_marking_read", "top tweet text: " + text);
+
+            //dataSource.markMultipleRead(text, DrawerActivity.settings.currentAccount);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }
