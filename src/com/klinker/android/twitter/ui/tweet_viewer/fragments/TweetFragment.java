@@ -545,7 +545,7 @@ public class TweetFragment extends Fragment {
 
         if (text.contains("@")) {
             for (String s : users) {
-                if (!s.equals(settings.myScreenName)) {
+                if (!s.equals(settings.myScreenName) && !extraNames.contains(s)) {
                     extraNames += "@" + s + " ";
                 }
             }

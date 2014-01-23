@@ -378,6 +378,7 @@ public class TweetPager extends YouTubeBaseActivity {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, text1);
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Tweet by @" + screenName);
         return intent;
     }
 

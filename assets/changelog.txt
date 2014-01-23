@@ -2,10 +2,10 @@
     &#8226; Color option for custom themes<br/>
     &#8226; In-line twitpic pictures<br/>
     &#8226; In-line imgur pictures<br/>
+    &#8226; No more jumping on the timeline<br/>
     &#8226; 7 in tablet layout also used in landscape on phones<br/>
     &#8226; Roboto Condensed font option<br/>
     &#8226; View users locations, websites, and following status on user profiles<br/>
-    &#8226; No more jumping on the timeline<br/>
     &#8226; Get more search results<br/>
     &#8226; Option to open to in app browser on tweets that contain websites<br/>
     &#8226; Use twitter's automatic link shortening<br/>
