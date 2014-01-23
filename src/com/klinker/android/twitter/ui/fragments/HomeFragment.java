@@ -410,12 +410,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     @Override
                     public void run() {
                         hideToastBar(400);
-                        dataSource.markAllRead(currentAccount);
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
                     }
                 }, 300);
 
                 context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
             }
         };
 
@@ -461,7 +460,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             User user = twitter.verifyCredentials();
             long[] lastId = dataSource.getLastIds(currentAccount);
-            long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
 
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 

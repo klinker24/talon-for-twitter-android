@@ -47,7 +47,9 @@ import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 
 import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
@@ -269,10 +271,15 @@ public abstract class Compose extends Activity implements
 
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
         if (sharedText != null) {
             if (!isDM) {
                 Log.v("username_for_noti", "shared text: " + sharedText);
-                reply.setText(sharedText);
+                if (subject != null) {
+                    reply.setText(subject + " - " + sharedText);
+                } else {
+                    reply.setText(sharedText);
+                }
                 reply.setSelection(reply.getText().toString().length());
             } else {
                 contactEntry.setText(sharedText);
@@ -483,7 +490,25 @@ public abstract class Compose extends Activity implements
                     return true;
 
                 } else {
-                    media.setMedia(new File(attachedFilePath));
+                    File f = new File(attachedFilePath);
+
+                    if (f.length() > 3000000) { // it is to big to upload
+                        Bitmap bitmap = BitmapFactory.decodeFile(attachedFilePath);
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+
+                        try {
+                            //write the bytes in file
+                            FileOutputStream fos = new FileOutputStream(f);
+                            fos.write(bitmapdata);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            // couldn't find file
+                        }
+                    }
+
+                    media.setMedia(f);
 
                     if(addLocation) {
                         int wait = 0;
