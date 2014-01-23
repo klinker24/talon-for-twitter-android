@@ -460,5 +460,9 @@
     <string name="alert_types">Alert Types</string>
     <string name="timeline_notifications">Timeline Notifications</string>
     <string name="interactions_notifications">Interactions Notifications</string>
+    <string name="timelines_settings">Timelines Settings</string>
+    <string name="tweet_look_options">Tweet Look Options</string>
+    <string name="limiting_options">Limiting Options</string>
+    <string name="browser_options">Browser Options</string>
 
 </resources>

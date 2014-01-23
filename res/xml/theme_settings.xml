@@ -31,6 +31,27 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/font_options" >
+
+        <ListPreference
+            android:key="text_size"
+            android:title="@string/text_size"
+            android:defaultValue="14"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size"
+            />
+
+        <ListPreference
+            android:key="font_type"
+            android:title="@string/font_type"
+            android:defaultValue="1"
+            android:entries="@array/font_type"
+            android:entryValues="@array/font_type_inserted"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/addon_themes" >
 
 
@@ -55,34 +76,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/font_options" >
-
-        <ListPreference
-            android:key="text_size"
-            android:title="@string/text_size"
-            android:defaultValue="14"
-            android:entries="@array/text_size"
-            android:entryValues="@array/text_size"
-            />
-
-        <ListPreference
-            android:key="font_type"
-            android:title="@string/font_type"
-            android:defaultValue="1"
-            android:entries="@array/font_type"
-            android:entryValues="@array/font_type_inserted"
-            />
-
-        <!--<CheckBoxPreference
-            android:key="device_font"
-            android:title="@string/device_font"
-            android:summary="@string/device_font_summary"
-            android:defaultValue="false"
-            />-->
-
-        </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/other_options" >
 
         <CheckBoxPreference
@@ -97,43 +90,6 @@
             android:title="@string/use_toast"
             android:defaultValue="true"
             android:dependency="ui_extras"
-            />
-
-        <CheckBoxPreference
-            android:key="inline_pics"
-            android:title="@string/inline_pics"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="both_handle_name"
-            android:title="@string/handle_and_name"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="display_screen_name"
-            android:title="@string/use_screen_name"
-            android:summary="@string/use_screen_name_summary"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="military_time"
-            android:title="@string/timestamp"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="absolute_date"
-            android:title="@string/absolute_date"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="use_emojis"
-            android:title="@string/enable_emojis"
-            android:defaultValue="false"
             />
 
         </PreferenceCategory>

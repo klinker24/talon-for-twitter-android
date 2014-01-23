@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/tweet_look_options" >
+
+        <CheckBoxPreference
+            android:key="inline_pics"
+            android:title="@string/inline_pics"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="both_handle_name"
+            android:title="@string/handle_and_name"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="display_screen_name"
+            android:title="@string/use_screen_name"
+            android:summary="@string/use_screen_name_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="military_time"
+            android:title="@string/timestamp"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="absolute_date"
+            android:title="@string/absolute_date"
+            android:defaultValue="false"
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/limiting_options" >
+
+        <Preference
+            android:key="manage_mutes"
+            android:title="@string/muted_users"
+            />
+
+        <Preference
+            android:key="manage_mutes_hashtags"
+            android:title="@string/muted_hashtags"
+            android:summary="@string/muted_hashtags_summary"
+            />
+
+        <CheckBoxPreference
+            android:key="ignore_retweets"
+            android:title="@string/ignore_retweets"
+            android:summary="@string/ignore_retweets_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="extra_pages"
+            android:title="@string/extra_pages"
+            android:summary="@string/extra_pages_summary"
+            android:defaultValue="true"
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/other_options" >
+
+        <CheckBoxPreference
+            android:key="reverse_click_option"
+            android:title="@string/reverse_click_actions"
+            android:summary="@string/reverse_click_actions_summary"
+            android:defaultValue="true"
+            />
+
+        </PreferenceCategory>
+
+</PreferenceScreen>

@@ -54,6 +54,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         DrawerArrayAdapter.current = 0;
 
         linkItems = new String[]{getResources().getString(R.string.theme_settings),
+                getResources().getString(R.string.timelines_settings),
                 getResources().getString(R.string.sync_settings),
                 getResources().getString(R.string.notification_settings),
                 getResources().getString(R.string.advanced_settings),

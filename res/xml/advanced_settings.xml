@@ -3,29 +3,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="app_feel_category"
-        android:title="@string/app_feel_category" >
-
-        <CheckBoxPreference
-            android:key="advance_windowed"
-            android:title="@string/advance_windowed"
-            android:summary="@string/advance_windowed_summary"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="reverse_click_option"
-            android:title="@string/reverse_click_actions"
-            android:summary="@string/reverse_click_actions_summary"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-                android:key="extra_pages"
-                android:title="@string/extra_pages"
-                android:summary="@string/extra_pages_summary"
-                android:defaultValue="true"
-                />
+        android:title="@string/browser_options" >
 
         <CheckBoxPreference
             android:key="inapp_browser"
@@ -39,6 +17,32 @@
             android:summary="@string/open_to_web_summary"
             android:defaultValue="true"
             android:dependency="inapp_browser"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="advanced_other"
+        android:title="@string/other_options" >
+
+        <CheckBoxPreference
+            android:key="use_emojis"
+            android:title="@string/enable_emojis"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="advance_windowed"
+            android:title="@string/advance_windowed"
+            android:summary="@string/advance_windowed_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="prefer_rt"
+            android:title="@string/rt_style_quotes"
+            android:summary="@string/rt_style_quotes_summary"
+            android:defaultValue="false"
             />
 
         <CheckBoxPreference
@@ -105,37 +109,6 @@
             />
 
         </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="advanced_other"
-        android:title="@string/other_options" >
-
-        <Preference
-            android:key="manage_mutes"
-            android:title="@string/muted_users"
-            />
-
-        <Preference
-            android:key="manage_mutes_hashtags"
-            android:title="@string/muted_hashtags"
-            android:summary="@string/muted_hashtags_summary"
-            />
-
-        <CheckBoxPreference
-            android:key="ignore_retweets"
-            android:title="@string/ignore_retweets"
-            android:summary="@string/ignore_retweets_summary"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="prefer_rt"
-            android:title="@string/rt_style_quotes"
-            android:summary="@string/rt_style_quotes_summary"
-            android:defaultValue="false"
-            />
-
-    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="backup_category"

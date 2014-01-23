@@ -84,6 +84,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         mDrawerList = drawerList;
 
         linkItems = new String[]{context.getResources().getString(R.string.theme_settings),
+                context.getResources().getString(R.string.timelines_settings),
                 context.getResources().getString(R.string.sync_settings),
                 context.getResources().getString(R.string.notification_settings),
                 context.getResources().getString(R.string.advanced_settings),
@@ -112,26 +113,120 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 setUpThemeSettings();
                 break;
             case 1:
+                addPreferencesFromResource(R.xml.timelines_settings);
+                setUpTimelinesSettings();
+                break;
+            case 2:
                 addPreferencesFromResource(R.xml.sync_settings);
                 setUpSyncSettings();
                 break;
-            case 2:
+            case 3:
                 addPreferencesFromResource(R.xml.notification_settings);
                 setUpNotificationSettings();
                 break;
-            case 3:
+            case 4:
                 addPreferencesFromResource(R.xml.advanced_settings);
                 setUpAdvancedSettings();
                 break;
-            case 4:
+            case 5:
                 addPreferencesFromResource(R.xml.get_help_settings);
                 setUpGetHelpSettings();
                 break;
-            case 5:
+            case 6:
                 addPreferencesFromResource(R.xml.other_apps_settings);
                 setUpOtherAppSettings();
                 break;
         }
+    }
+
+    public void setUpTimelinesSettings() {
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        final Preference showHandle = findPreference("display_screen_name");
+        if (sharedPrefs.getBoolean("both_handle_name", false)) {
+            showHandle.setEnabled(false);
+        }
+
+        final Preference both = findPreference("both_handle_name");
+        both.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (((CheckBoxPreference)both).isChecked()) {
+                    showHandle.setEnabled(true);
+                } else {
+                    showHandle.setEnabled(false);
+                }
+
+                return true;
+            }
+        });
+
+        Preference muted = findPreference("manage_mutes");
+        muted.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] users = sharedPrefs.getString("muted_users", "").split(" ");
+
+                if (users.length == 0 || (users.length == 1 && users[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_users), Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(users, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String touched = users[item];
+
+                            Intent user = new Intent(context, UserProfileActivity.class);
+                            user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
+                            user.putExtra("proPic", "");
+                            context.startActivity(user);
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                return false;
+            }
+        });
+
+        Preference hashtags = findPreference("manage_mutes_hashtags");
+        hashtags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] tags = sharedPrefs.getString("muted_hashtags", "").split(" ");
+
+                for (int i = 0; i < tags.length; i++) {
+                    tags[i] = "#" + tags[i];
+                }
+
+                if (tags.length == 0 || (tags.length == 1 && tags[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_hashtags), Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(tags, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String newTags = "";
+
+                            for (int i = 0; i < tags.length; i++) {
+                                if (i != item) {
+                                    newTags += tags[i].replace("#", "") + " ";
+                                }
+                            }
+
+                            sharedPrefs.edit().putString("muted_hashtags", newTags).commit();
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                return false;
+            }
+        });
     }
 
     public void setUpThemeSettings() {
@@ -214,35 +309,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             layout.setEnabled(true);
             theme.setEnabled(true);
         }
-
-        final Preference emojis = findPreference("use_emojis");
-        emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (!((CheckBoxPreference) emojis).isChecked() && !EmojiUtils.checkEmojisEnabled(context)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.enable_emojis) + ":")
-                            .setMessage(context.getResources().getString(R.string.emoji_dialog_summary))
-                            .setPositiveButton(R.string.get_android, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial")));
-                                }
-                            })
-                            .setNegativeButton(R.string.get_ios, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios")));
-                                }
-                            })
-                            .create()
-                            .show();
-                }
-
-                return true;
-            }
-
-        });
 
         final Preference addonTheme = findPreference("addon_themes");
 
@@ -329,25 +395,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 });
 
                 attachBuilder.create().show();
-                return true;
-            }
-        });
-
-        final Preference showHandle = findPreference("display_screen_name");
-        if (sharedPrefs.getBoolean("both_handle_name", false)) {
-            showHandle.setEnabled(false);
-        }
-
-        final Preference both = findPreference("both_handle_name");
-        both.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (((CheckBoxPreference)both).isChecked()) {
-                    showHandle.setEnabled(true);
-                } else {
-                    showHandle.setEnabled(false);
-                }
-
                 return true;
             }
         });
@@ -615,71 +662,33 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        Preference muted = findPreference("manage_mutes");
-        muted.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        final Preference emojis = findPreference("use_emojis");
+        emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
-                final String[] users = sharedPrefs.getString("muted_users", "").split(" ");
-
-                if (users.length == 0 || (users.length == 1 && users[0].equals(""))) {
-                    Toast.makeText(context, context.getResources().getString(R.string.no_users), Toast.LENGTH_SHORT).show();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(users, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            String touched = users[item];
-
-                            Intent user = new Intent(context, UserProfileActivity.class);
-                            user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
-                            user.putExtra("proPic", "");
-                            context.startActivity(user);
-
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
-
-                return false;
-            }
-        });
-
-        Preference hashtags = findPreference("manage_mutes_hashtags");
-        hashtags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                final String[] tags = sharedPrefs.getString("muted_hashtags", "").split(" ");
-
-                for (int i = 0; i < tags.length; i++) {
-                    tags[i] = "#" + tags[i];
-                }
-
-                if (tags.length == 0 || (tags.length == 1 && tags[0].equals(""))) {
-                    Toast.makeText(context, context.getResources().getString(R.string.no_hashtags), Toast.LENGTH_SHORT).show();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(tags, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            String newTags = "";
-
-                            for (int i = 0; i < tags.length; i++) {
-                                if (i != item) {
-                                    newTags += tags[i].replace("#", "") + " ";
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (!((CheckBoxPreference) emojis).isChecked() && !EmojiUtils.checkEmojisEnabled(context)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.enable_emojis) + ":")
+                            .setMessage(context.getResources().getString(R.string.emoji_dialog_summary))
+                            .setPositiveButton(R.string.get_android, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial")));
                                 }
-                            }
-
-                            sharedPrefs.edit().putString("muted_hashtags", newTags).commit();
-
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                            })
+                            .setNegativeButton(R.string.get_ios, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios")));
+                                }
+                            })
+                            .create()
+                            .show();
                 }
 
-                return false;
+                return true;
             }
+
         });
 
         Preference clearSearch = findPreference("clear_searches");

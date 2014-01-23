@@ -45,14 +45,16 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return context.getResources().getString(R.string.theme_settings);
             case 1:
-                return context.getResources().getString(R.string.sync_settings);
+                return context.getResources().getString(R.string.timelines_settings);
             case 2:
-                return context.getResources().getString(R.string.notification_settings);
+                return context.getResources().getString(R.string.sync_settings);
             case 3:
-                return context.getResources().getString(R.string.advanced_settings);
+                return context.getResources().getString(R.string.notification_settings);
             case 4:
-                return context.getResources().getString(R.string.get_help_settings);
+                return context.getResources().getString(R.string.advanced_settings);
             case 5:
+                return context.getResources().getString(R.string.get_help_settings);
+            case 6:
                 return context.getResources().getString(R.string.other_apps);
         }
         return null;
