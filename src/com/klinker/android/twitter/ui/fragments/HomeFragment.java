@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -849,7 +850,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         if (DrawerActivity.settings.addonTheme) {
             LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
-            toastBackground.setBackgroundColor(DrawerActivity.settings.accentInt);
+            toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
         }
     }
 
