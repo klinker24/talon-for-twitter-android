@@ -464,5 +464,6 @@
     <string name="tweet_look_options">Tweet Look Options</string>
     <string name="limiting_options">Limiting Options</string>
     <string name="browser_options">Browser Options</string>
+    <string name="custom_ringtone">Custom Ringtone</string>
 
 </resources>

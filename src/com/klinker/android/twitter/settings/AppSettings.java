@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
@@ -76,6 +77,7 @@ public class AppSettings {
     public boolean followersNot;
     public boolean favoritesNot;
     public boolean retweetNot;
+    public String ringtone;
 
     // theme stuff
     public boolean addonTheme;
@@ -164,6 +166,8 @@ public class AppSettings {
         absoluteDate = sharedPrefs.getBoolean("absolute_date", false);
         useToast = sharedPrefs.getBoolean("use_toast", true);
         autoInsertHashtags = sharedPrefs.getBoolean("auto_insert_hashtags", false);
+
+        ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
         if (pushNotifications) {
             //liveStreaming = false;

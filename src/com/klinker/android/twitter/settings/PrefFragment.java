@@ -1001,7 +1001,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             } else {
                 sharedPrefs.edit().putBoolean("timeline_notifications", false).commit();
             }
-            
+
             if (set.contains("2")) {
                 sharedPrefs.edit().putBoolean("mentions_notifications", true).commit();
             } else {

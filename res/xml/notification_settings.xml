@@ -24,6 +24,14 @@
         android:dependency="notifications"
         />
 
+    <RingtonePreference
+        android:key="ringtone"
+        android:title="@string/custom_ringtone"
+        android:dependency="notifications"
+        android:ringtoneType="notification"
+        android:defaultValue="content://settings/system/notification_sound"
+        />
+
     <PreferenceCategory
         android:title="@string/notification_types" >
 

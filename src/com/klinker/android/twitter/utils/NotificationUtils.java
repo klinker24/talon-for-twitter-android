@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -165,13 +167,6 @@ public class NotificationUtils {
                 context.sendBroadcast(pebble);
             }
 
-            int count = 0;
-
-            if (settings.vibrate)
-                count++;
-            if (settings.sound)
-                count++;
-
             int homeTweets = unreadCounts[0];
             int mentionsTweets = unreadCounts[1];
             int dmTweets = unreadCounts[2];
@@ -189,20 +184,17 @@ public class NotificationUtils {
             }
 
             if (settings.notifications && newC > 0) {
-                switch (count) {
-                    case 2:
-                        if (settings.vibrate && settings.sound)
-                            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                        break;
-                    case 1:
-                        if (settings.vibrate)
-                            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                        else if (settings.sound)
-                            mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                        break;
 
-                    default:
-                        break;
+                if (settings.vibrate) {
+                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                }
+
+                if (settings.sound) {
+                    try {
+                        mBuilder.setSound(Uri.parse(settings.ringtone));
+                    } catch (Exception e) {
+                        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                    }
                 }
 
                 if (settings.led)
@@ -517,37 +509,49 @@ public class NotificationUtils {
                     .setAutoCancel(true);
         }
 
-        int count = 0;
-
         AppSettings settings = new AppSettings(context);
 
-        if (settings.vibrate)
-            count++;
-        if (settings.sound)
-            count++;
+        if (settings.vibrate) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        }
 
-        switch (count) {
-            case 2:
-                if (settings.vibrate && settings.sound)
-                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                break;
-            case 1:
-                if (settings.vibrate)
-                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                else if (settings.sound)
-                    mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                break;
-
-            default:
-                break;
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
+                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            }
         }
 
         if (settings.led)
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(2, mBuilder.build());
+        if (settings.notifications) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(2, mBuilder.build());
+
+            // if we want to wake the screen on a new message
+            if (settings.wakeScreen) {
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+                wakeLock.acquire(5000);
+            }
+
+            // Pebble notification
+            if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
+                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+                Map pebbleData = new HashMap();
+                pebbleData.put("title", title);
+                pebbleData.put("body", Html.fromHtml(shortText));
+                JSONObject jsonData = new JSONObject(pebbleData);
+                String notificationData = new JSONArray().put(jsonData).toString();
+                pebble.putExtra("messageType", "PEBBLE_ALERT");
+                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+                pebble.putExtra("notificationData", notificationData);
+                context.sendBroadcast(pebble);
+            }
+        }
     }
 
     public static Bitmap getImage(Context context, String screenname) {
@@ -623,56 +627,50 @@ public class NotificationUtils {
 
         AppSettings settings = new AppSettings(context);
 
-        int count = 0;
+        if (settings.vibrate) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        }
 
-        if (settings.vibrate)
-            count++;
-        if (settings.sound)
-            count++;
-
-        switch (count) {
-            case 2:
-                if (settings.vibrate && settings.sound)
-                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                break;
-            case 1:
-                if (settings.vibrate)
-                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                else if (settings.sound)
-                    mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                break;
-
-            default:
-                break;
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
+                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            }
         }
 
         if (settings.led)
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(3, mBuilder.build());
+        if (settings.notifications) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(3, mBuilder.build());
 
-        // if we want to wake the screen on a new message
-        if (settings.wakeScreen) {
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-            wakeLock.acquire(5000);
+            // if we want to wake the screen on a new message
+            if (settings.wakeScreen) {
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+                wakeLock.acquire(5000);
+            }
+
+            // Pebble notification
+            if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
+                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+                Map pebbleData = new HashMap();
+                pebbleData.put("title", title);
+                pebbleData.put("body", Html.fromHtml(messageLong));
+                JSONObject jsonData = new JSONObject(pebbleData);
+                String notificationData = new JSONArray().put(jsonData).toString();
+                pebble.putExtra("messageType", "PEBBLE_ALERT");
+                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+                pebble.putExtra("notificationData", notificationData);
+                context.sendBroadcast(pebble);
+            }
+
         }
 
-        // Pebble notification
-        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
-            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-            Map pebbleData = new HashMap();
-            pebbleData.put("title", title);
-            pebbleData.put("body", Html.fromHtml(messageLong));
-            JSONObject jsonData = new JSONObject(pebbleData);
-            String notificationData = new JSONArray().put(jsonData).toString();
-            pebble.putExtra("messageType", "PEBBLE_ALERT");
-            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-            pebble.putExtra("notificationData", notificationData);
-            context.sendBroadcast(pebble);
-        }
+
 
         data.close();
     }
@@ -814,27 +812,16 @@ public class NotificationUtils {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(text)));
         }
 
-        int count = 0;
+        if (settings.vibrate) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        }
 
-        if (settings.vibrate)
-            count++;
-        if (settings.sound)
-            count++;
-
-        switch (count) {
-            case 2:
-                if (settings.vibrate && settings.sound)
-                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND);
-                break;
-            case 1:
-                if (settings.vibrate)
-                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-                else if (settings.sound)
-                    mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-                break;
-
-            default:
-                break;
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
+                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            }
         }
 
         if (settings.led)
@@ -844,27 +831,27 @@ public class NotificationUtils {
             NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(4, mBuilder.build());
-        }
 
-        // if we want to wake the screen on a new message
-        if (settings.wakeScreen) {
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-            wakeLock.acquire(5000);
-        }
+            // if we want to wake the screen on a new message
+            if (settings.wakeScreen) {
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+                wakeLock.acquire(5000);
+            }
 
-        // Pebble notification
-        if(sharedPrefs.getBoolean("pebble_notification", false)) {
-            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-            Map pebbleData = new HashMap();
-            pebbleData.put("title", title);
-            pebbleData.put("body", Html.fromHtml(text));
-            JSONObject jsonData = new JSONObject(pebbleData);
-            String notificationData = new JSONArray().put(jsonData).toString();
-            pebble.putExtra("messageType", "PEBBLE_ALERT");
-            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-            pebble.putExtra("notificationData", notificationData);
-            context.sendBroadcast(pebble);
+            // Pebble notification
+            if(sharedPrefs.getBoolean("pebble_notification", false)) {
+                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+                Map pebbleData = new HashMap();
+                pebbleData.put("title", title);
+                pebbleData.put("body", Html.fromHtml(text));
+                JSONObject jsonData = new JSONObject(pebbleData);
+                String notificationData = new JSONArray().put(jsonData).toString();
+                pebble.putExtra("messageType", "PEBBLE_ALERT");
+                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
+                pebble.putExtra("notificationData", notificationData);
+                context.sendBroadcast(pebble);
+            }
         }
     }
 }
