@@ -453,7 +453,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         try {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-            dataSource.markAllRead(currentAccount);
+            if (!sharedPrefs.getBoolean("refresh_me", false)) {
+                dataSource.markAllRead(currentAccount);
+            }
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
@@ -728,24 +730,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         justStarted = true;
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if((DrawerActivity.settings.refreshOnStart) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
-                    mPullToRefreshLayout.setRefreshing(true);
-                    onRefreshStarted(view);
-                }
-
-                waitOnRefresh.removeCallbacks(applyRefresh);
-                waitOnRefresh.postDelayed(applyRefresh, 30000);
-            }
-        }, 250);
-
-        if (sharedPrefs.getBoolean("refresh_me", false)) {
+        if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             getLoaderManager().restartLoader(0, null, HomeFragment.this);
-        }
+            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+        } else { // otherwise, if there are no new ones, it should start the refresh (this is what was causing the jumping before)
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if((DrawerActivity.settings.refreshOnStart) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
+                        mPullToRefreshLayout.setRefreshing(true);
+                        onRefreshStarted(view);
+                    }
 
-        sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+                    waitOnRefresh.removeCallbacks(applyRefresh);
+                    waitOnRefresh.postDelayed(applyRefresh, 30000);
+                }
+            }, 250);
+        }
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.NEW_TWEET");
