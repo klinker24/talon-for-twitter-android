@@ -960,55 +960,83 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             Log.v("notification_set", "alert being set");
             Set<String> set = sharedPrefs.getStringSet("alert_types", null);
 
-            for (String s : set) {
-                switch (Integer.parseInt(s)) {
-                    case 1:
-                        sharedPrefs.edit().putBoolean("vibrate", true).commit();
-                        break;
-                    case 2:
-                        sharedPrefs.edit().putBoolean("led", true).commit();
-                        break;
-                    case 3:
-                        sharedPrefs.edit().putBoolean("wake", true).commit();
-                        break;
-                    case 4:
-                        sharedPrefs.edit().putBoolean("sound", true).commit();
-                        break;
-                }
+            if (set == null) {
+                return;
             }
+
+            if (set.contains("1")) {
+                sharedPrefs.edit().putBoolean("vibrate", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("vibrate", false).commit();
+            }
+
+            if (set.contains("2")) {
+                sharedPrefs.edit().putBoolean("led", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("led", false).commit();
+            }
+
+            if (set.contains("3")) {
+                sharedPrefs.edit().putBoolean("wake", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("wake", false).commit();
+            }
+
+            if (set.contains("4")) {
+                sharedPrefs.edit().putBoolean("sound", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("sound", false).commit();
+            }
+
         } else if (key.equals("timeline_set")) {
             Log.v("notification_set", "timeline being set");
             Set<String> set = sharedPrefs.getStringSet("timeline_set", null);
 
-            for (String s : set) {
-                switch (Integer.parseInt(s)) {
-                    case 1:
-                        sharedPrefs.edit().putBoolean("timeline_notifications", true).commit();
-                        break;
-                    case 2:
-                        sharedPrefs.edit().putBoolean("mentions_notifications", true).commit();
-                        break;
-                    case 3:
-                        sharedPrefs.edit().putBoolean("direct_message_notifications", true).commit();
-                        break;
-                }
+            if (set == null) {
+                return;
+            }
+
+            if (set.contains("1")) {
+                sharedPrefs.edit().putBoolean("timeline_notifications", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("timeline_notifications", false).commit();
+            }
+            
+            if (set.contains("2")) {
+                sharedPrefs.edit().putBoolean("mentions_notifications", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("mentions_notifications", false).commit();
+            }
+
+            if (set.contains("3")) {
+                sharedPrefs.edit().putBoolean("direct_message_notifications", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("direct_message_notifications", false).commit();
             }
         } else if (key.equals("interactions_set")) {
             Log.v("notification_set", "interactions being set");
             Set<String> set = sharedPrefs.getStringSet("interactions_set", null);
 
-            for (String s : set) {
-                switch (Integer.parseInt(s)) {
-                    case 1:
-                        sharedPrefs.edit().putBoolean("favorite_notifications", true).commit();
-                        break;
-                    case 2:
-                        sharedPrefs.edit().putBoolean("retweet_notifications", true).commit();
-                        break;
-                    case 3:
-                        sharedPrefs.edit().putBoolean("follower_notifications", true).commit();
-                        break;
-                }
+            if (set == null) {
+                return;
+            }
+
+            if (set.contains("1")) {
+                sharedPrefs.edit().putBoolean("favorite_notifications", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("favorite_notifications", false).commit();
+            }
+
+            if (set.contains("2")) {
+                sharedPrefs.edit().putBoolean("retweet_notifications", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("retweet_notifications", false).commit();
+            }
+
+            if (set.contains("3")) {
+                sharedPrefs.edit().putBoolean("follower_notifications", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("follower_notifications", false).commit();
             }
         }
 
