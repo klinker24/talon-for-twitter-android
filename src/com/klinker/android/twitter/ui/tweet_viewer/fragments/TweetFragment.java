@@ -60,7 +60,9 @@ import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -929,7 +931,24 @@ public class TweetFragment extends Fragment {
                 reply.setInReplyToStatusId(tweetId);
 
                 if (!attachedFilePath.equals("")) {
-                    reply.setMedia(new File(attachedFilePath));
+                    File f = new File(attachedFilePath);
+                    if (f.length() > 3000000) { // it is to big to upload
+                        Bitmap bitmap = BitmapFactory.decodeFile(attachedFilePath);
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+
+                        try {
+                            //write the bytes in file
+                            FileOutputStream fos = new FileOutputStream(f);
+                            fos.write(bitmapdata);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            // couldn't find file
+                        }
+                    }
+                    
+                    reply.setMedia(f);
                 }
 
                 twitter.updateStatus(reply);
