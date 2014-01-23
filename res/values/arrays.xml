@@ -125,4 +125,37 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="alert_types">
+        <item>@string/vibrate</item>
+        <item>@string/led</item>
+        <item>@string/wake_screen</item>
+        <item>@string/sound</item>
+    </string-array>
+
+    <string-array name="alert_types_inserted">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="timeline_notifications">
+        <item>@string/timeline</item>
+        <item>@string/mentions</item>
+        <item>@string/direct_messages</item>
+    </string-array>
+
+    <string-array name="interactions_notifications">
+        <item>@string/favorited_tweet</item>
+        <item>@string/retweets</item>
+        <item>@string/new_followers</item>
+    </string-array>
+
+    <string-array name="interaction_notifications_inserted">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
 </resources>

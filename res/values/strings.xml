@@ -457,5 +457,8 @@
     <string name="roboto_condensed">Roboto Condensed</string>
     <string name="font_type">Font type</string>
     <string name="our_website">Website</string>
+    <string name="alert_types">Alert Types</string>
+    <string name="timeline_notifications">Timeline Notifications</string>
+    <string name="interactions_notifications">Interactions Notifications</string>
 
 </resources>

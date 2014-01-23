@@ -23,6 +23,7 @@ import com.klinker.android.twitter.ui.widgets.HoloTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 public class SettingsPagerActivity extends FragmentActivity {
 
@@ -62,6 +63,66 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.rate_it)};
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getBoolean("version_1.20_1", true)) {
+            // necessary because i didnt start out by using sets
+            boolean led = sharedPrefs.getBoolean("led", true);
+            boolean sound = sharedPrefs.getBoolean("sound", true);
+            boolean vibrate = sharedPrefs.getBoolean("vibrate", true);
+            boolean wakeScreen = sharedPrefs.getBoolean("wake", true);
+            boolean timelineNot = sharedPrefs.getBoolean("timeline_notifications", true);
+            boolean mentionsNot = sharedPrefs.getBoolean("mentions_notifications", true);
+            boolean dmsNot = sharedPrefs.getBoolean("direct_message_notifications", true);
+            boolean favoritesNot = sharedPrefs.getBoolean("favorite_notifications", true);
+            boolean retweetNot = sharedPrefs.getBoolean("retweet_notifications", true);
+            boolean followersNot = sharedPrefs.getBoolean("follower_notifications", true);
+
+            Set<String> alert = sharedPrefs.getStringSet("alert_types", null);
+            alert.clear();
+            if (vibrate) {
+                alert.add("1");
+            }
+            if (led) {
+                alert.add("2");
+            }
+            if (wakeScreen) {
+                alert.add("3");
+            }
+            if (sound) {
+                alert.add("4");
+            }
+            sharedPrefs.edit().putStringSet("alert_types", alert).commit();
+
+            Set<String> timeline = sharedPrefs.getStringSet("timeline_set", null);
+            timeline.clear();
+            if (timelineNot) {
+                timeline.add("1");
+            }
+            if (mentionsNot) {
+                timeline.add("2");
+            }
+            if (dmsNot) {
+                timeline.add("3");
+            }
+            sharedPrefs.edit().putStringSet("timeline_set", timeline).commit();
+
+            Set<String> interactions = sharedPrefs.getStringSet("interactions_set", null);
+            interactions.clear();
+            if (favoritesNot) {
+                interactions.add("1");
+            }
+            if (retweetNot) {
+                interactions.add("2");
+            }
+            if (followersNot) {
+                interactions.add("3");
+            }
+            sharedPrefs.edit().putStringSet("interactions_set", interactions).commit();
+
+            sharedPrefs.edit().putBoolean("version_1.20_1", false).commit();
+
+            recreate();
+        }
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(
                 getFragmentManager(), this, mDrawerList);
