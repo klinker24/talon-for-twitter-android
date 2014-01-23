@@ -24,4 +24,3 @@
     -- share button on expansion
     -- option to open compose window when clicking an edit text
     -- search by real name or screenname
-    -- change color to blue option

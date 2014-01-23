@@ -1,4 +1,5 @@
-<b>Version 1.14:</b><br/><br/>
+<b>Version 1.20 Beta 1:</b><br/><br/>
+    &#8226; Color option for custom themes<br/>
     &#8226; In-line twitpic pictures<br/>
     &#8226; In-line imgur pictures<br/>
     &#8226; 7 in tablet layout also used in landscape on phones<br/>
