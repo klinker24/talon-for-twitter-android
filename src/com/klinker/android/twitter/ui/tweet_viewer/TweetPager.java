@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Display;
@@ -172,6 +173,11 @@ public class TweetPager extends YouTubeBaseActivity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);
+
+        if (settings.addonTheme) {
+            PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+            strip.setBackgroundColor(settings.accentInt);
+        }
     }
 
     public void setUpWindow(boolean youtube) {

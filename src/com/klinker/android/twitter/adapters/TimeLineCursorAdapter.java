@@ -459,7 +459,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             Date date = new Date(longTime);
             holder.time.setText(timeFormatter.format(date) + ", " + dateFormatter.format(date));
         }
-        holder.tweet.setText(Html.fromHtml(tweetText));
+        if (settings.addonTheme) {
+            holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor)));
+        } else {
+            holder.tweet.setText(Html.fromHtml(tweetText));
+        }
 
         if(settings.inlinePics && picUrl != null) {
             if (picUrl.equals("")) {

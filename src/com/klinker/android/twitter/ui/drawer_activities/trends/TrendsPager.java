@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
 
@@ -51,6 +52,11 @@ public class TrendsPager extends DrawerActivity {
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
 
         mViewPager.setOffscreenPageLimit(3);
+
+        if (settings.addonTheme) {
+            PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+            strip.setBackgroundColor(settings.accentInt);
+        }
     }
 
     @Override

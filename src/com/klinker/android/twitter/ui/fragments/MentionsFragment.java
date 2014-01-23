@@ -543,6 +543,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         toastBar = view.findViewById(R.id.toastBar);
         toastDescription = (TextView) view.findViewById(R.id.toastDescription);
         toastButton = (TextView) view.findViewById(R.id.toastButton);
+        if (DrawerActivity.settings.addonTheme) {
+            LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
+            toastBackground.setBackgroundColor(DrawerActivity.settings.accentInt);
+        }
     }
 
     private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {

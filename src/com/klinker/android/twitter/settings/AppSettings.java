@@ -83,6 +83,8 @@ public class AppSettings {
     public boolean roundContactImages;
     public int backgroundColor;
     public boolean translateProfileHeader;
+    public String accentColor;
+    public int accentInt;
 
     public int theme;
     public int layout;
@@ -248,6 +250,11 @@ public class AppSettings {
                 roundContactImages = metaData.getBoolean("talon_theme_round_contact_pictures");
                 translateProfileHeader = metaData.getBoolean("talon_theme_contracting_user_backgrounds");
                 backgroundColor = Color.parseColor(metaData.getString("talon_theme_background_color"));
+                accentColor = metaData.getString("talon_theme_accent_color");
+                accentInt = Color.parseColor(accentColor);
+                accentColor = accentColor.replace("#", "");
+
+                Log.v("color_for_theme", accentColor);
 
                 String theme = metaData.getString("talon_theme_base");
                 if (theme.equals("dark")) {

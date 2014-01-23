@@ -502,9 +502,13 @@ public class UserProfileActivity extends Activity {
                     statement.setText(state);
                 }
 
-                statement.setLinkTextColor(getResources().getColor(R.color.app_color));
+                if (!settings.addonTheme) {
+                    statement.setLinkTextColor(getResources().getColor(R.color.app_color));
+                } else {
+                    statement.setLinkTextColor(settings.accentInt);
+                }
 
-                linkifyText(statement);
+                //linkifyText(statement);
 
                 tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
                 followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
@@ -1341,7 +1345,6 @@ public class UserProfileActivity extends Activity {
         }
 
         protected void onPreExecute() {
-
             pDialog = new ProgressDialog(context);
             pDialog.setMessage(getResources().getString(R.string.updating_banner_pic) + "...");
             pDialog.setIndeterminate(true);

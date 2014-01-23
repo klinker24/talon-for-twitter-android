@@ -363,7 +363,11 @@ public class TweetFragment extends Fragment {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        tweettv.setText(Html.fromHtml(tweet));
+        if (settings.addonTheme) {
+            tweettv.setText(Html.fromHtml(tweet.replaceAll("FF8800", settings.accentColor)));
+        } else {
+            tweettv.setText(Html.fromHtml(tweet));
+        }
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
