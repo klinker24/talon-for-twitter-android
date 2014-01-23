@@ -23,6 +23,7 @@ import com.klinker.android.twitter.ui.widgets.HoloTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 public class SettingsPagerActivity extends FragmentActivity {
@@ -78,7 +79,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             boolean retweetNot = sharedPrefs.getBoolean("retweet_notifications", true);
             boolean followersNot = sharedPrefs.getBoolean("follower_notifications", true);
 
-            Set<String> alert = sharedPrefs.getStringSet("alert_types", null);
+            Set<String> alert = sharedPrefs.getStringSet("alert_types", new HashSet<String>());
             alert.clear();
             if (vibrate) {
                 alert.add("1");
@@ -94,7 +95,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
             sharedPrefs.edit().putStringSet("alert_types", alert).commit();
 
-            Set<String> timeline = sharedPrefs.getStringSet("timeline_set", null);
+            Set<String> timeline = sharedPrefs.getStringSet("timeline_set", new HashSet<String>());
             timeline.clear();
             if (timelineNot) {
                 timeline.add("1");
@@ -107,7 +108,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
             sharedPrefs.edit().putStringSet("timeline_set", timeline).commit();
 
-            Set<String> interactions = sharedPrefs.getStringSet("interactions_set", null);
+            Set<String> interactions = sharedPrefs.getStringSet("interactions_set", new HashSet<String>());
             interactions.clear();
             if (favoritesNot) {
                 interactions.add("1");
