@@ -151,6 +151,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
                 .listener(this)
                         // Finally commit the setup to our PullToRefreshLayout
                 .setup(mPullToRefreshLayout);
+
         if (DrawerActivity.settings.addonTheme) {
             DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
             transformer.setProgressBarColor(DrawerActivity.settings.accentInt);

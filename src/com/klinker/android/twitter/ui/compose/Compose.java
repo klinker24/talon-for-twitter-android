@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -254,6 +255,16 @@ public abstract class Compose extends Activity implements
 
             }
         });
+
+        if (settings.addonTheme) {
+            try {
+                Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                int back = resourceAddon.getIdentifier("reply_entry_background", "drawable", settings.addonThemePackage);
+                reply.setBackgroundDrawable(resourceAddon.getDrawable(back));
+            } catch (Exception e) {
+                // theme does not include a reply entry box
+            }
+        }
     }
 
     void handleSendText(Intent intent) {

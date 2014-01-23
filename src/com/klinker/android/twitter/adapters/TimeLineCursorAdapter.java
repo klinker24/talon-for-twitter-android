@@ -760,6 +760,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             }
         });
+
+        if (settings.addonTheme) {
+            try {
+                Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                int back = resourceAddon.getIdentifier("reply_entry_background", "drawable", settings.addonThemePackage);
+                holder.reply.setBackgroundDrawable(resourceAddon.getDrawable(back));
+            } catch (Exception e) {
+                // theme does not include a reply entry box
+            }
+        }
     }
 
     public void removeKeyboard(ViewHolder holder) {

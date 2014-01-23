@@ -274,6 +274,16 @@ public class TweetFragment extends Fragment {
         retweetCount.setTextSize(settings.textSize + 1);
         reply.setTextSize(settings.textSize);
 
+        if (settings.addonTheme) {
+            try {
+                Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                int back = resourceAddon.getIdentifier("reply_entry_background", "drawable", settings.addonThemePackage);
+                reply.setBackgroundDrawable(resourceAddon.getDrawable(back));
+            } catch (Exception e) {
+                // theme does not include a reply entry box
+            }
+        }
+
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

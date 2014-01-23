@@ -508,7 +508,9 @@ public class UserProfileActivity extends Activity {
                     statement.setLinkTextColor(settings.accentInt);
                 }
 
-                //linkifyText(statement);
+                if (!settings.addonTheme) {
+                    linkifyText(statement);
+                }
 
                 tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
                 followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");

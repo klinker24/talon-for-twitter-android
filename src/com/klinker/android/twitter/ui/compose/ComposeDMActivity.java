@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.ui.compose;
 
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Handler;
 import android.text.Editable;
@@ -92,6 +93,16 @@ public class ComposeDMActivity extends Compose {
 
             }
         });
+
+        if (settings.addonTheme) {
+            try {
+                Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                int back = resourceAddon.getIdentifier("reply_entry_background", "drawable", settings.addonThemePackage);
+                contactEntry.setBackgroundDrawable(resourceAddon.getDrawable(back));
+            } catch (Exception e) {
+                // theme does not include a reply entry box
+            }
+        }
 
         ImageButton at = (ImageButton) findViewById(R.id.at_button);
         at.setOnClickListener(new View.OnClickListener() {
