@@ -64,6 +64,9 @@ import org.lucasr.smoothie.ItemManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -446,6 +449,7 @@ public class UserProfileActivity extends Activity {
         private AsyncListView listView;
         private TextView statement;
         private String followingStatus = "";
+        private String url;
 
         public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, AsyncListView listView) {
 
@@ -461,6 +465,25 @@ public class UserProfileActivity extends Activity {
                     User user = twitter.showUser(screenName);
                     followingStatus = Utils.getTwitter(context, settings).showFriendship(settings.myScreenName, user.getScreenName()).isTargetFollowingSource() ?
                             getResources().getString(R.string.follows_you) : getResources().getString(R.string.not_following_you);
+
+                    HttpURLConnection connection = null;
+                    try {
+                        URL address = new URL(user.getURL());
+                        connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
+                        connection.setConnectTimeout(1000);
+                        connection.setInstanceFollowRedirects(false);
+                        connection.setReadTimeout(1000);
+                        connection.connect();
+                        String expandedURL = connection.getHeaderField("Location");
+                        if(expandedURL != null) {
+                            url = expandedURL;
+                        } else {
+                            url = user.getURL();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        url = user.getURL();
+                    }
 
                     return user;
                 } else {
@@ -481,7 +504,6 @@ public class UserProfileActivity extends Activity {
 
                 String state = user.getDescription();
                 String loca = user.getLocation();
-                String url = user.getURL();
 
                 if (!loca.equals("")) {
                     state += "\n\n" + user.getLocation();
@@ -490,7 +512,7 @@ public class UserProfileActivity extends Activity {
                     if (loca.equals("")) {
                         state += "\n";
                     }
-                    state += "\n" + user.getURL();
+                    state += "\n" + url;
                 }
 
                 if (!followingStatus.equals("")) {
