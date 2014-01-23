@@ -461,9 +461,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
         if (tweetText.contains("<font")) {
             if (settings.addonTheme) {
-                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor)));
+                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
             } else {
-                holder.tweet.setText(Html.fromHtml(tweetText));
+                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("\n", "<br/>")));
             }
         } else {
             holder.tweet.setText(tweetText);

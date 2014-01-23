@@ -473,10 +473,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             Date date = new Date(time);
             holder.time.setText(timeFormatter.format(date) + ", " + dateFormatter.format(date));
         }
-        if (settings.addonTheme) {
-            holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor)));
+
+        if (tweetText.contains("<font")) {
+            if (settings.addonTheme) {
+                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
+            } else {
+                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("\n", "<br/>")));
+            }
         } else {
-            holder.tweet.setText(Html.fromHtml(tweetText));
+            holder.tweet.setText(tweetText);
         }
 
         if(settings.inlinePics) {

@@ -2,6 +2,7 @@
     &#8226; Real URL's on profiles<br/>
     &#8226; Fixed 7 in tablet mode<br/>
     &#8226; Attempted some fixes for uploading large images<br/>
+    &#8226; More jumping fixes on the timeline<br/>
 <br/><br/>
 
 <b>Version 1.20 Beta 1:</b><br/><br/>

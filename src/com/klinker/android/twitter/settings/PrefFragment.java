@@ -500,6 +500,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                if (((CheckBoxPreference) stream).isChecked()) {
+                    timeline.setEnabled(true);
+                } else {
+                    timeline.setEnabled(false);
+                }
                 return true;
             }
         });
