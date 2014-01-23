@@ -386,7 +386,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onClick(View view) {
                 toTop();
-                hideToastBar(400);
             }
         };
 
@@ -427,6 +426,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             try {
                 if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
                     listView.setSelection(0);
+                    hideToastBar(400);
                 } else {
                     listView.smoothScrollToPosition(0);
                 }
