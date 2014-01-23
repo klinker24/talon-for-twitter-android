@@ -298,11 +298,11 @@ NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat
     <string name="dm_sync_interval">Directe Berichten Vernieuw Interval</string>
     <string name="sync_friends">Sync Vriend\'s Gegevens</string>
     <string name="sync_friends_summary2">Her-sync vriend\'s gegevens bij het opstellen van tweets.</string>
-    <string name="sync_friends_summary">Vernieuw vriendenlijst handmatig.\n\n Dit is al gedaan voor u tijdens het inloggen en ze worden automatisch toegevoegd wanneer u iemand volgt vanuit Talon, maar deze optie zal al je laatste "volgers" ophalen.\n\n
+    <string name="sync_friends_summary">Vernieuw vriendenlijst handmatig.\n\n Dit is al gedaan voor u tijdens het inloggen en ze worden automatisch toegevoegd wanneer u iemand volgt vanuit Talon, maar deze optie zal al je laatste \"volgers\" ophalen.\n\n
 Deze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het opstellen van een tweet.</string>
     <string name="sync_success">Sync Succesvol</string>
     <string name="sync_failed">Sync Mislukt</string>
-    <string name="push_notification_options">\"\"Push Notificaties\" Opties\"</string>
+    <string name="push_notification_options">"\"Push Notificaties\" Opties"</string>
     <string name="push_notifications">Talon Pull</string>
     <string name="push_notifications_summary">Dit zal een service starten om notificaties weer te kunnen geven wanneer u nieuwe interacties ontvangt (vermeldingen, dm\'s, favorieten, retweets, of nieuwe volgers).</string>
     <string name="push_notification_warning">Tik hier om meer over deze optie te lezen.</string>
@@ -409,4 +409,14 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="no_hashtags">Geen hashtags</string>
     <string name="mute_hashtags">Demp Hashtags</string>
     <string name="muted">Gedempt</string>
+    <string name="auto_insert_hashtags">Hashtags Automatisch Invoegen</string>
+    <string name="to_replies">Voeg elke hashtag die de tweet bevatte in de reactie in.</string>
+    <string name="clean_now">Database Nu Opschonen</string>
+    <string name="clean_now_summary">Houdt ook het trimmen van de database in en het verwijderen van dubbele bestanden.</string>
+    <string name="delete_conversation">Conversatie Verwijderen?</string>
+    <string name="deleting_messages">Berichten aan het verwijderen</string>
+    <string name="type_message">Typ bericht...</string>
+    <string name="fill_gaps">Vul timeline gaten op</string>
+    <string name="fill_gaps_summary">Vul gaten die veroorzaakt worden door een slechte stream verbinding op wanneer live streaming is ingeschakeld.</string>
+    <string name="filling_timeline">Timeline gaten aan het opvullen</string>
 </resources>

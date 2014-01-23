@@ -302,7 +302,7 @@
  Dane te są używane podczas wyszukiwania oraz tworzenia nowych tweetów.</string>
     <string name="sync_success">Zsynchronizowano!</string>
     <string name="sync_failed">Niepowodzenie!</string>
-    <string name="push_notification_options">\"Opcje powiadomień typu Push\"</string>
+    <string name="push_notification_options">"Opcje powiadomień typu Push"</string>
     <string name="push_notifications">Aktywny Talon</string>
     <string name="push_notifications_summary">Aktywuj permanentne nasłuchiwanie, w celu powiadamiania o nowych postach oraz wszystkich interakcjach.</string>
     <string name="push_notification_warning">Aby przeczytaj więcej o tej funkcji, dotknij tutaj.</string>
@@ -409,4 +409,14 @@
     <string name="no_hashtags">Brak hashtagów</string>
     <string name="mute_hashtags">Wycisz hashtagi</string>
     <string name="muted">Wyciszono</string>
+    <string name="auto_insert_hashtags">Automatyczne wstawianie hashtagów</string>
+    <string name="to_replies">Umieszczaj w odpowiedziach hashtagi z tweetów, których one dotyczą.</string>
+    <string name="clean_now">Wyczyść bazy danych</string>
+    <string name="clean_now_summary">Zastosuj polecenie TRIM i usuń duplikaty z bazy danych</string>
+    <string name="delete_conversation">Usunąć konwersację?</string>
+    <string name="deleting_messages">Usuwanie wiadomości</string>
+    <string name="type_message">Wprowadź wiadomość...</string>
+    <string name="fill_gaps">Wypełnij luki na osi czasu</string>
+    <string name="fill_gaps_summary">Wypełniaj luki powstające w wyniku niestabilnego połączenia internetowego w trakcie aktywnego przekazywania na żywo.</string>
+    <string name="filling_timeline">Wypełnianie luk na osi czasu</string>
 </resources>

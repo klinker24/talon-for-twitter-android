@@ -23,7 +23,7 @@
     <string name="menu_favorite">Nutzer favorisieren</string>
     <string name="menu_unfavorite">Nutzer entfavorisieren</string>
     <string name="menu_create_list">Neue Liste erstellen</string>
-    <string name="menu_spam">Mark as Spam</string>
+    <string name="menu_spam">Als Spam markieren</string>
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
     <string name="just_now">jetzt</string>
@@ -36,7 +36,7 @@
     <!-- Muting -->
     <string name="mute">Stummschalten</string>
     <string name="unmute">Lautschalten</string>
-    <string name="muted_users">Stummgeschaltene Nutzer</string>
+    <string name="muted_users">Stummgeschaltete Nutzer</string>
     <string name="no_users">Keine Benutzer</string>
     <!-- Main Activity -->
     <string name="links">Links</string>
@@ -302,7 +302,7 @@
                    Diese Daten werden bei der Suche nach Nutzernamen verwendet, wenn du einen neuen Tweet verfasst.</string>
     <string name="sync_success">Synchronisierung abgeschlossen</string>
     <string name="sync_failed">Synchronisierung fehlgeschlagen</string>
-    <string name="push_notification_options">\"Push-Benachrichtigungen\"</string>
+    <string name="push_notification_options">"Push-Benachrichtigungen"</string>
     <string name="push_notifications">Talon Pull</string>
     <string name="push_notifications_summary">Startet einen Dienst, der Benachrichtigungen bei neuen Interaktionen anzeigt (Erwähnungen, Direktnachrichten, Favorisierungen, Retweets, neue Followers).</string>
     <string name="push_notification_warning">Hier berühren, um mehr über diese Option zu erfahren.</string>
@@ -409,4 +409,14 @@
     <string name="no_hashtags">Keine Hashtags</string>
     <string name="mute_hashtags">Hashtags stummschalten</string>
     <string name="muted">Stumm</string>
+    <string name="auto_insert_hashtags">Hashtags autom. einfügen</string>
+    <string name="to_replies">Jegliche im Tweet verwendeten Hashtags in die Antwort einfügen.</string>
+    <string name="clean_now">Datenbanken jetzt säubern</string>
+    <string name="clean_now_summary">Beinhaltet das Trimmen und Entfernen von Duplikaten in deiner Datenbank.</string>
+    <string name="delete_conversation">Unterhaltung löschen?</string>
+    <string name="deleting_messages">Nachrichten werden gelöscht</string>
+    <string name="type_message">Nachricht eingeben...</string>
+    <string name="fill_gaps">Timeline-Lücken füllen</string>
+    <string name="fill_gaps_summary">Lücken füllen, die durch eine schlechte Streaming-Verbindung bei aktiviertem Live-Streaming entstanden sind.</string>
+    <string name="filling_timeline">Timeline-Lücken werden gefüllt</string>
 </resources>

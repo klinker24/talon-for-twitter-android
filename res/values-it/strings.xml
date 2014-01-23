@@ -84,7 +84,7 @@
     <string name="popup">Popup</string>
     <string name="fav_user_tweets">Nuovi tweet dall\'utente preferito</string>
     <string name="sec_acc">Secondo Account</string>
-    <string name="talon_pull">Talon PUll</string>
+    <string name="talon_pull">Talon Pull</string>
     <string name="listening">In ascolto</string>
     <string name="listening_for_mentions">In ascolto di nuove interazioni</string>
     <string name="refreshing">Aggiornamento</string>
@@ -95,7 +95,7 @@
     <string name="new_interactions_lower">nuove interazioni</string>
     <string name="new_interactions">Nuove Interazioni</string>
     <string name="retweeted">ha retwittato il tuo stato</string>
-    <string name="favorited">ha favorito il tuo stato</string>
+    <string name="favorited">ha preferito il tuo stato</string>
     <string name="followed">ti sta seguendo</string>
     <string name="new_retweets">retweet</string>
     <string name="new_favorites">preferiti</string>
@@ -255,7 +255,7 @@
     <string name="night_mode_day">Seleziona l\'ora di inizio giorno</string>
     <string name="night_mode_theme">Seleziona il tema per la modalità notte</string>
     <string name="device_font">Usa il font di sistema</string>
-    <string name="device_font_summary">Regular \"Roboto\" nella maggior parte dei dispositivi. Il font di default di Talon è \"Roboto Light\".</string>
+    <string name="device_font_summary">\"Regular Roboto\" nella maggior parte dei dispositivi. Il font di default di Talon è \"Roboto Light\".</string>
     <string name="ui_extras">UI Extra</string>
     <string name="ui_extras_summary">Include:\n
  - Nascondi Action Bar\n
@@ -409,4 +409,14 @@ Queste informazioni vengono utilizzate durante una ricerca di utenti quando si s
     <string name="no_hashtags">Nessun Hashtag</string>
     <string name="mute_hashtags">Hashtag Nascosti</string>
     <string name="muted">Nascosto</string>
+    <string name="auto_insert_hashtags">Inserimento Automatico Hashtag</string>
+    <string name="to_replies">Inserisci nella risposta qualsiasi tag presente nel tweet.</string>
+    <string name="clean_now">Svuota ora il database</string>
+    <string name="clean_now_summary">Include la compressione e la rimozione di duplicati dal tuo database.</string>
+    <string name="delete_conversation">Eliminare Conversazione?</string>
+    <string name="deleting_messages">Eliminazione messaggi...</string>
+    <string name="type_message">Scrivi messaggio...</string>
+    <string name="fill_gaps">Riempire buchi della timeline</string>
+    <string name="fill_gaps_summary">Riempe eventuali buchi causati da una connessione errata mentre il live streaming è abilitato.</string>
+    <string name="filling_timeline">Riempimento buchi della timeline</string>
 </resources>

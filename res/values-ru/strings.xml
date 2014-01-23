@@ -30,7 +30,7 @@
     <string name="a_min_ago">минуту назад</string>
     <string name="minutes_ago">%s мин. назад</string>
     <string name="an_hour_ago">час назад</string>
-    <string name="hours_ago">%s ч назад</string>
+    <string name="hours_ago">%s ч. назад</string>
     <string name="yesterday">вчера</string>
     <string name="days_ago">%s дн. назад</string>
     <!-- Muting -->
@@ -42,7 +42,7 @@
     <string name="links">Ссылки</string>
     <string name="pictures">Изображения</string>
     <string name="timeline">Лента</string>
-    <string name="mentions">Упоминаний</string>
+    <string name="mentions">Упоминания</string>
     <string name="direct_messages">Сообщения</string>
     <string name="retweets">Ретвиты</string>
     <string name="favorite_tweets">Избранное</string>
@@ -210,7 +210,7 @@
     <string name="saved_picture">Изображение успешно сохранено</string>
     <string name="retweet_success">Ретвит выполнен</string>
     <string name="favorite_success">Твит добавлен в избранное</string>
-    <string name="success">Успех</string>
+    <string name="success">Выполнено</string>
     <!-- User Lists -->
     <string name="view_users">Просмотреть участников</string>
     <string name="delete_list">Удалить список</string>
@@ -302,7 +302,7 @@
 Эти данные используются для поиска по пользователям при составлении нового твита.</string>
     <string name="sync_success">Синхронизация завершена</string>
     <string name="sync_failed">Синхронизация не удалась</string>
-    <string name="push_notification_options">\"Настройки Push-уведомлений\"</string>
+    <string name="push_notification_options">"Настройки Push-уведомлений"</string>
     <string name="push_notifications">Talon Pull</string>
     <string name="push_notifications_summary">Эта опция позволит мгновенно получать уведомления о новых упоминаниях, сообщениях, ретвитах, читателях и т.д.</string>
     <string name="push_notification_warning">Нажмите сюда, чтобы узнать больше.</string>
@@ -362,7 +362,7 @@
     <string name="credits">О приложении</string>
     <string name="disclaimer">Внимание</string>
     <string name="other_apps">Другие приложения</string>
-    <string name="whats_new">Что нового</string>
+    <string name="whats_new">Что нового?</string>
     <string name="rate_it">Оценить Talon</string>
     <string name="talon_settings">Настройки Talon</string>
     <string name="feature_requests">Предложения новых функций</string>
@@ -408,5 +408,15 @@
     <string name="muted_hashtags_summary">Нажмите на хэштег, чтобы показывать его снова.</string>
     <string name="no_hashtags">Нет хэштегов</string>
     <string name="mute_hashtags">Скрыть хэштеги</string>
-    <string name="muted">Скрыт хэштег</string>
+    <string name="muted">Хэштэг скрыт</string>
+    <string name="auto_insert_hashtags">Вставка хэштегов</string>
+    <string name="to_replies">В ответ вставляются все хештеги, содержащиеся в исходном твите.</string>
+    <string name="clean_now">Очистить базу данных</string>
+    <string name="clean_now_summary">Включает оптимизацию и удаление дубликатов в базе данных.</string>
+    <string name="delete_conversation">Удалить диалоги?</string>
+    <string name="deleting_messages">Удаление сообщений</string>
+    <string name="type_message">Напишите сообщение...</string>
+    <string name="fill_gaps">Загрузить пропущенные твиты</string>
+    <string name="fill_gaps_summary">Загружает разрывы в ленте, произошедшие из-за плохого соединения при включенном Talon Pull.</string>
+    <string name="filling_timeline">Загрузка пропущенных твитов</string>
 </resources>

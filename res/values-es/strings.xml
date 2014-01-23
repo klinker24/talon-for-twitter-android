@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon para Twitter</string>
-    <string name="extension_description">Muestra la cantidad de tweets no leídos, menciones, y mensajes directos conforme son actualizados.</string>
+    <string name="extension_description">Muestra la cantidad de tweets no leídos, menciones y mensajes directos mientras son actualizados.</string>
     <!-- Action Bar -->
-    <string name="menu_refresh">Cargar timeline</string>
+    <string name="menu_refresh">Actualizar Timeline</string>
     <string name="menu_compose">Nuevo tweet</string>
     <string name="menu_logout">Salir</string>
     <string name="menu_settings">Ajustes</string>
@@ -36,7 +36,7 @@
     <!-- Muting -->
     <string name="mute">Silenciar</string>
     <string name="unmute">Mostrar en el timeline</string>
-    <string name="muted_users">Usuarios escondidos</string>
+    <string name="muted_users">Usuarios silenciados</string>
     <string name="no_users">No hay usuarios</string>
     <!-- Main Activity -->
     <string name="links">Enlaces</string>
@@ -65,7 +65,7 @@
     <string name="tap_to_setup">Tocar para configurar</string>
     <string name="new_account">Nueva cuenta</string>
     <string name="from_top">desde arriba</string>
-    <string name="jump_to_top">Ir al principio</string>
+    <string name="jump_to_top">Ir al inicio</string>
     <string name="all_read">¡Todo leído!</string>
     <string name="view_new">¿Cargar?</string>
     <string name="old_interactions">Todas las interacciones</string>
@@ -106,21 +106,21 @@
     <string name="first_welcome">¡Bienvenido a Talon!</string>
     <string name="second_welcome">Sincronizando datos</string>
     <string name="third_welcome">¡Listo!</string>
-    <string name="back_to_timeline">¡Lléveme a mi timeline!</string>
+    <string name="back_to_timeline">¡Llévame a mi timeline!</string>
     <string name="initial_sync">¡Sincronizar ahora!</string>
     <string name="first_info">Antes de comenzar, debes iniciar sesión. </string>
     <string name="second_info">¡Genial!\n\nAhora voy a obtener algunos datos iniciales.\n\nEsto puede tardar un poco dependiendo de tu conexión.</string>
-    <string name="third_info">¡Espero que disfrute Talon!\n\n-- Luke Klinker</string>
+    <string name="third_info">¡Espero que disfrutes de Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Sincronizando timeline...</string>
     <string name="syncing_mentions">Sincronizando menciones...</string>
     <string name="syncing_direct_messages">Sincronizando mensajes directos...</string>
     <string name="syncing_user">Sincronizando amigos...</string>
-    <string name="done_syncing">Sincronización lista.</string>
-    <string name="login_error">Algo salió mal... ¡Por favor reintente!</string>
-    <string name="no_network">No está conectado a Internet</string>
+    <string name="done_syncing">Sincronización completada.</string>
+    <string name="login_error">Algo ha salido mal... ¡Por favor reintenta!</string>
+    <string name="no_network">No estás conectado a Internet</string>
     <string name="no_thanks">Ahora no</string>
     <string name="follow_me">¡Seguir!</string>
-    <string name="follow_me_description">¡Siga a @TalonAndroid y @lukeklinker para novedades y soporte!</string>
+    <string name="follow_me_description">¡Sigue a @TalonAndroid y @lukeklinker para obtener novedades y soporte!</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Nuevo tweet</string>
     <string name="compose_tweet_hint">Escriba el tweet aquí...</string>
@@ -134,13 +134,13 @@
     <string name="draft_found">Borrador encontrado</string>
     <string name="apply">¿Aplicar?</string>
     <string name="tweet_failed">Error al enviar tweet</string>
-    <string name="tap_to_retry">Toque para reintentar</string>
+    <string name="tap_to_retry">Toca para reintentar</string>
     <string name="one_recepient">¡Solo se puede enviar mensajes directos a un usuario a la vez!</string>
     <!-- Actionbar Done-Discard -->
     <string name="discard">Descartar</string>
     <string name="send">Enviar</string>
     <!-- Other -->
-    <string name="placeholder">Posición en la que esta</string>
+    <string name="placeholder">Marcador de posición</string>
     <string name="reply">Responder...</string>
     <string name="error">Error</string>
     <string name="error_loading_page">Error al cargar la página web</string>
@@ -155,7 +155,7 @@
     <string name="no">No</string>
     <string name="changelog">Novedades</string>
     <string name="created_by">Creado por</string>
-    <string name="no_location">No se encontró la ubicación</string>
+    <string name="no_location">No se ha encontrado la ubicación</string>
     <string name="take_picture">Capturar imagen</string>
     <string name="from_file">Adjuntar imagen</string>
     <string name="via">vía</string>
@@ -229,10 +229,10 @@
     <string name="choose_list">Elige la lista</string>
     <string name="added_to_list">Añadido a la lista</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\n¡Acceda a las características\nal tocar ítems\nen el\npanel de\nnavegación!</string>
+    <string name="part_1_tablet">\n¡Accede a las características\nal tocar los ítems\nen el\npanel de\nnavegación!</string>
     <string name="part_1_phone">\n¡Abra el panel\nde navegación\ndeslizando\nhacia la izquierda!</string>
-    <string name="part_2">\n¡Cambie entre\ntimelines\ndeslizando en\nel centro de\nla pantalla!</string>
-    <string name="part_3">¡Eso es todo!\n\n¡Toque la\npantalla\npara iniciar!</string>
+    <string name="part_2">\n¡Cambia entre\ntimelines\ndeslizando en\nel centro de\nla pantalla!</string>
+    <string name="part_3">¡Eso es todo!\n\n¡Toca la\npantalla\npara iniciar!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Configuración de temas</string>
     <string name="theme_options">Opciones de temas</string>
@@ -240,14 +240,14 @@
     <string name="other_options">Otras opciones</string>
     <string name="theme">Tema</string>
     <string name="addon_themes">Temas complementarios</string>
-    <string name="addon_note">Toque aquí para buscar nuevos temas.\n\nNOTAS:\n- Esto deshabilitará el uso del teclado emoji integrado al responder a un tweet.\n- Por favor no reporte errores a menos que los confirme SIN USAR un tema personalizado.</string>
+    <string name="addon_note">Toca aquí para buscar nuevos temas.\n\nNOTAS:\n- Esto deshabilitará el uso del teclado emoji integrado al responder a un tweet.\n- Por favor no reporte errores a menos que los confirme SIN USAR un tema personalizado.</string>
     <string name="use_addon_themes">Usar tema de complemento</string>
     <string name="make_a_theme">Crear un tema</string>
     <string name="layout">Diseño del timeline</string>
     <string name="themeing_complete">Tema aplicado</string>
     <string name="themeing_complete_summary">\"Talon\" se cerrará ahora.\n\n
-                Tendrá que eliminar \"Talon\" de la lista de aplicaciones recientes para que los cambios tengan efecto en el timeline.\n\n
-                Si las fotos de perfil no aparecen como deberían (ej. en círculos o cuadrados), tendrá que eliminar y volver a agregar el widget.</string>
+                Tendrás que eliminar \"Talon\" de la lista de aplicaciones recientes para que los cambios tengan efecto en el timeline.\n\n
+                Si las fotos de perfil no aparecen como deberían (ej. en círculos o cuadrados), tendrás que eliminar y volver a agregar el widget.</string>
     <string name="layout_summary">Cambiar esta opción limpiará la caché de la aplicación.</string>
     <string name="text_size">Tamaño del texto</string>
     <string name="night_mode">Modo Nocturno</string>
@@ -256,7 +256,7 @@
     <string name="night_mode_theme">Seleccione el tema para el Modo Nocturno</string>
     <string name="device_font">Usar tipografía del dispositivo</string>
     <string name="device_font_summary">\"Roboto\" regular en la mayoría de los dispositivos. Talon utiliza \"Roboto Light\" por defecto.</string>
-    <string name="ui_extras">Extras de interfaz</string>
+    <string name="ui_extras">Extras de la interfaz</string>
     <string name="ui_extras_summary">Incluye:\n
                 - Esconder la barra de accion\n
                 - Barra flotante interactiva\n
@@ -270,8 +270,8 @@
     <string name="to_market">Ir a la tienda de aplicaciones</string>
     <string name="get_android">Bajar emoticonos de Android</string>
     <string name="get_ios">Bajar emoticonos de iOS</string>
-    <string name="emoji_dialog_summary">Para habilitar los emoticonos, debe instalar el paquete \"Sliding Emoji Keyboard\" o \"Sliding Emoji Keyboard - iOS\" desde Play Store.\n\n
-                Puede cambiar entre los dos tipos de emoticonos desinstalando uno de los paquetes e instalando el otro. Si ambos están instalados, Talon usará los emojis de Android.\n\n
+    <string name="emoji_dialog_summary">Para habilitar los emoticonos, debes instalar el paquete \"Sliding Emoji Keyboard\" o \"Sliding Emoji Keyboard - iOS\" desde Play Store.\n\n
+                Puedes cambiar entre los dos tipos de emoticonos desinstalando uno de los paquetes e instalando el otro. Si ambos están instalados, Talon usará los emojis de Android.\n\n
                 NOTA: ¡Los emoticonos continuarán funcionando en Talon después del periodo de prueba! Ese paquete es utilizado como una extensión además de como un teclado extra.</string>
     <string name="theme_light">Tema claro</string>
     <string name="theme_dark">Tema oscuro</string>
@@ -286,26 +286,26 @@
     <string name="wake_screen">Encender la pantalla</string>
     <string name="sound">Sonido de notificación</string>
     <string name="quiet_hours">No molestar</string>
-    <string name="max_number_on_refresh">Tweets máximos a cargar</string>
+    <string name="max_number_on_refresh">Tweets máximos al actualizar</string>
     <string name="fav_users_notifications">Notificaciones de usuarios favoritos</string>
     <string name="sync_second_mentions">Sincronizar menciones de la 2da cuenta</string>
     <string name="sync_second_mentions_summary">Automáticamente revisar y notificar nuevas menciones de la 2da cuenta junto con la principal.</string>
     <string name="max_number_summary">Un número alto implica una carga más lenta.</string>
-    <string name="auto_refresh_category">Opciones de autorefrescamiento</string>
+    <string name="auto_refresh_category">Opciones de actualización automática</string>
     <string name="refresh_on_startup">Cargar al inicio</string>
     <string name="timeline_sync_interval">Frec. de actualización del timeline</string>
     <string name="mentions_sync_interval">Frec. de actualización de menciones</string>
     <string name="dm_sync_interval">Frec. de actualización de mensajes directos</string>
     <string name="sync_friends">Sincronizar datos de amigos</string>
     <string name="sync_friends_summary2">Volver a sincronizar datos de amigos para usar al escribir tweets.</string>
-    <string name="sync_friends_summary">Sincronizar lista de amigos manualmente.\n\nEsto se realizó al inicio, también se actualiza la lista cuando le da seguir a alguien desde Talon, pero esta opción obtendrá los más recientes de su lista de \"siguiendo\".\n\n
-                    Estos datos son utilizados al buscar usuarios al escribir un tweet.</string>
+    <string name="sync_friends_summary">Sincronizar lista de amigos manualmente.\n\nEsto se realizó al inicio, también se actualiza la lista cuando le das a seguir a alguien desde Talon, pero esta opción obtendrás los más recientes de su lista de \\"siguiendo\\".\n\n
+                    Estos datos son utilizados al buscar usuarios mientras escribes un tweet.</string>
     <string name="sync_success">Sincronización exitosa</string>
     <string name="sync_failed">Sincronización fallida</string>
-    <string name="push_notification_options">Opciones para \"notificaciones push\"</string>
+    <string name="push_notification_options">"Opciones para \"notificaciones push\""</string>
     <string name="push_notifications">Talon Pull</string>
-    <string name="push_notifications_summary">Esto vigilará para mostrar notificaciones en cuanto hayan nuevas interacciones (menciones, mensajes directos, favoritos, retweets, o nuevos seguidores).\n\nTambién se bajarán tweets en tiempo real a su timeline principal.</string>
-    <string name="push_notification_warning">Para leer más acerca de esta opción (en inglés), toque este mensaje.</string>
+    <string name="push_notifications_summary">Esto vigilará para mostrarte notificaciones en cuanto haya nuevas interacciones (menciones, mensajes directos, favoritos, retweets, o nuevos seguidores).</string>
+    <string name="push_notification_warning">Para leer más acerca de esta opción (en inglés), toca este mensaje.</string>
     <string name="notification_settings">Ajustes de notificaciones</string>
     <string name="pebble_notifications">Notificaciones para Pebble</string>
     <string name="pebble_notifications_summary">Para utilizar con el reloj inteligente Pebble.</string>
@@ -323,11 +323,11 @@
     <string name="extra_pages">Usar páginas extra</string>
     <string name="extra_pages_summary">Añadir páginas de enlaces e imágenes a la izquierda del timeline.</string>
     <string name="live_streaming">Actualización en vivo</string>
-    <string name="memory_management">Opciones de manejo de memoria</string>
-    <string name="delete_cache">Borrar la caché ahora</string>
-    <string name="cache_dialog">¿Borrar la caché?</string>
-    <string name="not_cache">Esto no aplica para la caché de la aplicación.</string>
-    <string name="current_cache_size">Tamaño actual de la caché</string>
+    <string name="memory_management">Opciones de gestión de memoria</string>
+    <string name="delete_cache">Borrar caché ahora</string>
+    <string name="cache_dialog">¿Borrar caché?</string>
+    <string name="not_cache">Esto no se aplica para la caché de la aplicación.</string>
+    <string name="current_cache_size">Tamaño actual de caché</string>
     <string name="cache_dialog_summary">Esta acción no puede deshacerse.</string>
     <string name="timeline_size">Tamaño del timeline</string>
     <string name="timeline_size_summary">Número máximo de tweets guardados</string>
@@ -344,20 +344,20 @@
     <string name="backup_category">Opciones de copia de seguridad y restauración</string>
     <string name="backup_settings">Crear copia de seguridad de la configuración</string>
     <string name="backup_settings_dialog">¿Crear nueva copia de seguridad?</string>
-    <string name="backup_settings_dialog_summary">Esto reemplazará todos las copias anteriores.</string>
+    <string name="backup_settings_dialog_summary">Esto reemplazará todas las copias anteriores.</string>
     <string name="backup_success">Copia realizada con éxito</string>
     <string name="restore_success">Restauración exitosa</string>
     <string name="restore_settings">Restaurar configuración</string>
     <string name="restore_settings_summary">Se limpiará la caché para aplicar cualquier cambio de tema.</string>
     <string name="get_help_settings">Obtener ayuda</string>
-    <string name="rerun_tutorial">Lanzar guía inicial</string>
+    <string name="rerun_tutorial">Lanzar tutorial inicial</string>
     <string name="faq">Preguntas frecuentes (en inglés)</string>
     <string name="features_explained">Explicación de características (en inglés)</string>
     <string name="youtube">Video de YouTube</string>
     <string name="google_plus">Comunidad de Google+</string>
     <string name="xda_thread">Conversación en XDA (en inglés)</string>
     <string name="email_me">Envíame un email</string>
-    <string name="tweet_me">Tweetéame</string>
+    <string name="tweet_me">Envíame un tweet</string>
     <string name="follow_talon">Seguir a Talon en Twitter</string>
     <string name="credits">Créditos</string>
     <string name="disclaimer">Aviso legal</string>
@@ -365,7 +365,7 @@
     <string name="whats_new">Novedades</string>
     <string name="rate_it">Calificar Talon</string>
     <string name="talon_settings">Ajustes de Talon</string>
-    <string name="feature_requests">Solicitar nuevas funcionalidades</string>
+    <string name="feature_requests">Solicitar nuevas funciones</string>
     <!-- Emoji Keyboard -->
     <string name="recent">Recientes</string>
     <string name="people">Personas</string>
@@ -399,14 +399,24 @@
     <string name="rt_style_quotes_summary">Usar el estilo \"RT @usuario: ...\" para citar en lugar del método de Talon.\n\nDisponible desde la Barra de Acciones o el menú de cada tweet.</string>
     <string name="absolute_date">Usar fechas absolutas</string>
     <string name="clear_searches">Limpiar búsquedas</string>
-    <string name="compose_with_search">Escribir tweet con búsqueda</string>
-    <string name="use_toast">Mostrar botón \"Ir arriba\"</string>
+    <string name="compose_with_search">Escribir tweet incluyendo la búsqueda</string>
+    <string name="use_toast">Mostrar botón \"Ir al inicio\"</string>
     <string name="ignore_retweets">Ignorar retweets</string>
     <string name="ignore_retweets_summary">No mostrar ningún retweet en el timeline principal</string>
-    <string name="view">Vista</string>
+    <string name="view">Ver</string>
     <string name="muted_hashtags">Hashtags silenciados</string>
     <string name="muted_hashtags_summary">Toque el hashtag para volver a mostrarlo</string>
     <string name="no_hashtags">No hay hashtags</string>
     <string name="mute_hashtags">Silenciar hashtags</string>
     <string name="muted">Silenciado</string>
+    <string name="auto_insert_hashtags">Auto-insertar hashtags</string>
+    <string name="to_replies">Insertar en la respuesta cualquier hashtag del tweet</string>
+    <string name="clean_now">Limpiar bases de datos ahora</string>
+    <string name="clean_now_summary">Incluye ajustar la base de datos y eliminar duplicados</string>
+    <string name="delete_conversation">¿Eliminar conversación?</string>
+    <string name="deleting_messages">Eliminando mensajes</string>
+    <string name="type_message">Escribir mensaje...</string>
+    <string name="fill_gaps">Rellenar vacíos en la cronología</string>
+    <string name="fill_gaps_summary">Rellena los vacíos que ocurren cuando la actualización en vivo está habilitada pero falla por problemas de conexión</string>
+    <string name="filling_timeline">Rellenando vacíos en la cronología</string>
 </resources>

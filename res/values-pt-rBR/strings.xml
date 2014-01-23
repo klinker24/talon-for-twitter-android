@@ -302,9 +302,9 @@
                    Esses dados vão ser usados quando você for buscar usuários quando estiver escrevendo um tweet.</string>
     <string name="sync_success">Sincronia Concluída</string>
     <string name="sync_failed">Falha na Sincronização</string>
-    <string name="push_notification_options">\"Opções de \"Notificações Push\"\"</string>
+    <string name="push_notification_options">"Opções de \"Notificações Push\""</string>
     <string name="push_notifications">Talon Pull</string>
-    <string name="push_notifications_summary">Isso irá lhe notificar assim que você receber novas interações (menções, dm\'s, tweets favoritados, retweets, ou novos seguidores.</string>
+    <string name="push_notifications_summary">Isso irá lhe notificar assim que você receber novas interações (menções, dm\'s, tweets favoritados, retweets, ou novos seguidores.\n\nIsso também vai carregar automaticamente sua timeline.</string>
     <string name="push_notification_warning">Para ler mais sobre essa opção, toque aqui.</string>
     <string name="notification_settings">Notificações</string>
     <string name="pebble_notifications">Notificações no Pebble</string>

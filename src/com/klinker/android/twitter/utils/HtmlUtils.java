@@ -166,8 +166,8 @@ public class HtmlUtils {
                     }
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("twitpic")) {
-                    int start = exp.indexOf(".com/") + 6;
-                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start);
+                    int start = exp.indexOf(".com/") + 5;
+                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start).replace("/","");
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("i.imgur")) {
                     int start = exp.indexOf(".com/") + 5;
@@ -350,8 +350,8 @@ public class HtmlUtils {
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("twitpic")) {
-                    int start = exp.indexOf(".com/") + 6;
-                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start);
+                    int start = exp.indexOf(".com/") + 5;
+                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start).replace("/", "");
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("imgur")) {
                     int start = exp.indexOf(".com/") + 6;

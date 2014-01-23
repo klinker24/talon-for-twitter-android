@@ -947,7 +947,7 @@ public class TweetFragment extends Fragment {
                             // couldn't find file
                         }
                     }
-                    
+
                     reply.setMedia(f);
                 }
 
