@@ -12,7 +12,7 @@ import com.klinker.android.twitter.R;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public static final int NUM_PAGES = 6;
+    public static final int NUM_PAGES = 7;
     private Context context;
     private ListView mDrawerList;
 
