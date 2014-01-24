@@ -536,13 +536,27 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final Preference onStart = findPreference("refresh_on_start");
         final Preference mobileOnly = findPreference("sync_mobile_data");
 
+        int count = 0;
+        if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
+            count++;
+        }
+        if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
+            count++;
+        }
+
+        final boolean mentionsChanges = count == 2;
+
         if (sharedPrefs.getBoolean("push_notifications", true)) {
             if (sharedPrefs.getBoolean("live_streaming", true)) {
                 timeline.setEnabled(false);
+                onStart.setEnabled(false);
             }
             dms.setEnabled(false);
-            onStart.setEnabled(false);
             mobileOnly.setEnabled(false);
+
+            if (!mentionsChanges) {
+                mentions.setEnabled(false);
+            }
         }
 
         final Preference fillGaps = findPreference("fill_gaps");
@@ -561,8 +575,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                 if (((CheckBoxPreference) stream).isChecked()) {
                     timeline.setEnabled(true);
+                    onStart.setEnabled(true);
                 } else {
                     timeline.setEnabled(false);
+                    onStart.setEnabled(false);
                 }
                 return true;
             }
@@ -575,10 +591,14 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 if (!((CheckBoxPreference) pull).isChecked()) {
                     if (sharedPrefs.getBoolean("live_streaming", true)) {
                         timeline.setEnabled(false);
+                        onStart.setEnabled(false);
                     }
                     dms.setEnabled(false);
-                    onStart.setEnabled(false);
                     mobileOnly.setEnabled(false);
+
+                    if (!mentionsChanges) {
+                        mentions.setEnabled(false);
+                    }
 
                     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                     PendingIntent pendingIntent1 = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
@@ -598,6 +618,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     e.commit();
                 } else {
                     timeline.setEnabled(true);
+                    mentions.setEnabled(true);
                     dms.setEnabled(true);
                     onStart.setEnabled(true);
                     mobileOnly.setEnabled(true);
@@ -638,15 +659,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
         });
-        int count = 0;
-
-        if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
-            count++;
-        }
-
-        if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
-            count++;
-        }
 
         if(count != 2) {
             ((PreferenceGroup) findPreference("other_options")).removePreference(findPreference("sync_second_mentions"));

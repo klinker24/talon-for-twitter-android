@@ -169,8 +169,7 @@ public class AppSettings {
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
-        if (pushNotifications) {
-            //liveStreaming = false;
+        if (liveStreaming) {
             refreshOnStart = false;
         }
 

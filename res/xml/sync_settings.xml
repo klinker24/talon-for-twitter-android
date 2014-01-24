@@ -5,6 +5,12 @@
     <PreferenceCategory
         android:title="@string/push_notification_options" >
 
+        <Preference
+            android:summary="@string/push_notification_warning" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
+        </Preference>
+
         <CheckBoxPreference
             android:key="push_notifications"
             android:title="@string/push_notifications"
@@ -20,15 +26,10 @@
             />
 
         <Preference
-            android:summary="@string/push_notification_warning" >
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
-        </Preference>
-
-        <Preference
             android:key="fill_gaps"
             android:title="@string/fill_gaps"
             android:summary="@string/fill_gaps_summary"
+            android:dependency="push_notifications"
             />
 
     </PreferenceCategory>
