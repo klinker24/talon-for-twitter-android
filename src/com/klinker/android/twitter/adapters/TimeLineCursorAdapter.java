@@ -674,7 +674,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.name.getText().toString().contains(settings.myName)) {
             holder.reply.setVisibility(View.GONE);
         }
-        
+
         holder.replyButton.setVisibility(View.GONE);
         holder.charRemaining.setVisibility(View.GONE);
 
@@ -775,6 +775,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     Intent compose = new Intent(context, ComposeActivity.class);
                     compose.putExtra("user", holder.reply.getText().toString());
+                    compose.putExtra("id", holder.tweetId);
                     context.startActivity(compose);
                 }
             }

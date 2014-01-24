@@ -130,6 +130,8 @@ public abstract class Compose extends Activity implements
             reply.setText(from);
             reply.setSelection(reply.getText().toString().length());
             notiId = sharedPrefs.getLong("from_notification_id", 0);
+        } else {
+            notiId = getIntent().getLongExtra("id", 0);
         }
 
         sharedPrefs.edit().putLong("from_notification_id", 0).commit();
