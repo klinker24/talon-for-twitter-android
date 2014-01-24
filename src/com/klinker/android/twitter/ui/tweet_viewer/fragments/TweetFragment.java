@@ -15,6 +15,8 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -66,8 +68,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
+import twitter4j.GeoLocation;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -798,6 +802,7 @@ public class TweetFragment extends Fragment {
         private long tweetId;
         private TextView retweetCount;
         private String via = "";
+        private String location = "";
 
         public GetRetweetCount(TextView retweetCount, long tweetId) {
             this.retweetCount = retweetCount;
@@ -810,6 +815,20 @@ public class TweetFragment extends Fragment {
                 twitter4j.Status status = twitter.showStatus(tweetId);
 
                 via = android.text.Html.fromHtml(status.getSource()).toString();
+                GeoLocation loc = status.getGeoLocation();
+                try {
+                    Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+                    if (addresses.size() > 0) {
+                        Address address = addresses.get(0);
+                        location += address.getLocality() + ", " + address.getCountryName();
+                    } else {
+                        location = "";
+                    }
+                } catch (IOException e) {
+                    Log.e("tag", e.getMessage());
+                    location = "";
+                }
 
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
@@ -825,6 +844,10 @@ public class TweetFragment extends Fragment {
             try {
                 if (!timetv.getText().toString().contains(getResources().getString(R.string.via))) {
                     timetv.append(" " + getResources().getString(R.string.via) + " " + via);
+                }
+
+                if (!location.equals("")) {
+                    timetv.append("\n" + location);
                 }
             } catch (Exception e) {
 
