@@ -266,7 +266,6 @@ public class UserProfileActivity extends Activity {
         }
     }
 
-
     public void setUpUI(boolean fromAddon) {
         TextView mstatement;
         TextView mscreenname;

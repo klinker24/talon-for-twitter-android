@@ -39,6 +39,7 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
@@ -672,9 +673,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (holder.name.getText().toString().contains(settings.myName)) {
             holder.reply.setVisibility(View.GONE);
-            holder.replyButton.setVisibility(View.GONE);
-            holder.charRemaining.setVisibility(View.GONE);
         }
+        
+        holder.replyButton.setVisibility(View.GONE);
+        holder.charRemaining.setVisibility(View.GONE);
 
         holder.screenName = screenname;
 
@@ -762,6 +764,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    removeExpansionNoAnimation(holder);
+
+                    Intent compose = new Intent(context, ComposeActivity.class);
+                    compose.putExtra("user", holder.reply.getText().toString());
+                    context.startActivity(compose);
+                }
             }
         });
 

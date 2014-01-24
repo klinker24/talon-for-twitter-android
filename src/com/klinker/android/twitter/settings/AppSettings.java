@@ -69,6 +69,7 @@ public class AppSettings {
     public boolean absoluteDate;
     public boolean useToast;
     public boolean autoInsertHashtags;
+    public boolean alwaysCompose;
 
     // notifications
     public boolean timelineNot;
@@ -166,6 +167,7 @@ public class AppSettings {
         absoluteDate = sharedPrefs.getBoolean("absolute_date", false);
         useToast = sharedPrefs.getBoolean("use_toast", true);
         autoInsertHashtags = sharedPrefs.getBoolean("auto_insert_hashtags", false);
+        alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 

@@ -30,6 +30,7 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
@@ -645,7 +646,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.favCount.setVisibility(View.VISIBLE);
         holder.favorite.setVisibility(View.VISIBLE);
 
-        holder.reply.setVisibility(View.GONE);
+        //holder.reply.setVisibility(View.GONE);
         holder.replyButton.setVisibility(View.GONE);
 
         holder.screenName = screenname;
@@ -713,7 +714,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                hasKeyboard = b;
+                if (b) {
+                    removeExpansionNoAnimation(holder);
+
+                    Intent compose = new Intent(context, ComposeActivity.class);
+                    compose.putExtra("user", holder.reply.getText().toString());
+                    context.startActivity(compose);
+                }
             }
         });
     }
