@@ -3,6 +3,7 @@
     &#8226; Fixed 7 in tablet mode<br/>
     &#8226; Custom notification sound<br/>
     &#8226; Huge cleanup of settings<br/>
+    &#8226; See user's location when viewing a tweet (if it is provided)<br/>
     &#8226; Attempted some fixes for uploading large images<br/>
     &#8226; More jumping fixes on the timeline<br/>
     &#8226; Updated all the translations<br/>

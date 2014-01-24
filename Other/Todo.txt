@@ -1,6 +1,5 @@
 - Features:
     - Retweet and favorite from multiple accounts
-    - Add location to the tweet viewer
     - Get more tweets when you get to the bottom of profiles
     - scheduling tweets
     - different image uploading service
@@ -10,7 +9,6 @@
     - pictures timeline on profiles
     - pick where the local trends are
     - user's favorites on profiles
-
 
 - Bugs:
     - some people cant see profiles correctly
