@@ -257,7 +257,7 @@ Si votre image de profil ne montre pas ce que vous souhaitez (ex: cercle ou carr
     <string name="device_font">Utiliser la police de l\'appareil</string>
     <string name="device_font_summary">La plupart des polices utilisées sur les appareils est \"Roboto\". Talon utilise par défaut la police \"Roboto Light\".</string>
     <string name="ui_extras">UI Extras</string>
-    <string name="ui_extras_summary">Comprend:\n
+    <string name="ui_extras_summary">Comprend:\ n
 - Cacher la barre d\'action\n
 - Toast Barre Actionnable\n
 - Barre Système transparente (seulement pour Android 4.4)\n\n
