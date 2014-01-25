@@ -422,7 +422,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void toTop() {
-        if (unread < 200) {
+        sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
+        if (listView.getFirstVisiblePosition() < 200) {
             try {
                 if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
                     listView.setSelection(0);
@@ -808,15 +809,22 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         initial = false;
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
-        int numTweets = dataSource.getUnreadCount(currentAccount);
+        //int numTweets = dataSource.getUnreadCount(currentAccount);
+        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+        int numTweets;
+        if (id == 0) {
+            numTweets = 0;
+        } else {
+            numTweets = dataSource.getPosition(currentAccount, id);
+        }
 
-        if (numTweets != 0 && liveUnread == 0) {
+        if (liveUnread != 0) {
+            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
+        } else if (numTweets != 0) {
             unread = numTweets;
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
-        } else if (liveUnread != 0) {
-            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
         }
 
         liveUnread = 0;
@@ -947,21 +955,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         try {
             Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
-            if (current != 0) {
-                current--;
-            }
 
             dataSource.markAllRead(DrawerActivity.settings.currentAccount);
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dataSource.markUnread(DrawerActivity.settings.currentAccount, id);
-                    }
-                }).start();
+                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+            } else {
+                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
             }
         } catch (Exception e) {
             e.printStackTrace();

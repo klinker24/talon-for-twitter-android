@@ -175,6 +175,10 @@ public class AppSettings {
             refreshOnStart = false;
         }
 
+        if (!pushNotifications) {
+            liveStreaming = false;
+        }
+
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {
             useEmoji = sharedPrefs.getBoolean("use_emojis", false);

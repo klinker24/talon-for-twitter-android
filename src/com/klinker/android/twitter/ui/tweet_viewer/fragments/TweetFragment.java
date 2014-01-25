@@ -825,13 +825,14 @@ public class TweetFragment extends Fragment {
                     } else {
                         location = "";
                     }
-                } catch (IOException e) {
-                    Log.e("tag", e.getMessage());
+                } catch (Exception x) {
+                    Log.e("tag", x.getMessage());
                     location = "";
                 }
 
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
         }

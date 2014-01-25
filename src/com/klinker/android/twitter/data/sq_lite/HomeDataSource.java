@@ -477,4 +477,20 @@ public class HomeDataSource {
     public void deleteDups(int account) {
         database.execSQL("DELETE FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + HomeSQLiteHelper.TABLE_HOME + " GROUP BY " + HomeSQLiteHelper.COLUMN_TWEET_ID + ") AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
     }
+
+    public int getPosition(int account, long id) {
+        int pos = 0;
+
+        Cursor cursor = getCursor(account);
+        if (cursor.moveToLast()) {
+            do {
+                if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
+                    break;
+                } else {
+                    pos++;
+                }
+            } while (cursor.moveToPrevious());
+        }
+        return pos;
+    }
 }
