@@ -3,6 +3,7 @@
     &#8226; Fix for 24 hour clock<br/>
     &#8226; Fixed refresh on startup<br/>
     &#8226; Pull to refresh on search<br/>
+    &#8226; Pull to refresh on lists<br/>
     &#8226; Issues with direct message and mentions notifications replaying<br/>
 <br/><br/>
 

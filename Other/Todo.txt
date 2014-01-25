@@ -23,4 +23,3 @@
 
     -- share button on expansion
     -- search by real name or screenname
-    -- pull to refresh on search and lists
