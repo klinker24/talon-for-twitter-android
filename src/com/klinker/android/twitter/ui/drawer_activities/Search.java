@@ -2,7 +2,6 @@ package com.klinker.android.twitter.ui.drawer_activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.IntentService;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -34,8 +33,6 @@ import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.SettingsPagerActivity;
 import com.klinker.android.twitter.ui.LoginActivity;
-import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.compose.Compose;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -47,9 +44,14 @@ import java.util.ArrayList;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Twitter;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class Search extends Activity {
+public class Search extends Activity implements OnRefreshListener {
 
     private AsyncListView listView;
     private LinearLayout spinner;
@@ -60,6 +62,8 @@ public class Search extends Activity {
     private ActionBar actionBar;
 
     private boolean translucent;
+
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +98,25 @@ public class Search extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        setContentView(R.layout.list_view_activity);
+        setContentView(R.layout.ptr_list_layout);
+
+        mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(this)
+                // set up the scroll distance
+                .options(Options.create().scrollDistance(.3f).build())
+                        // Mark All Children as pullable
+                .allChildrenArePullable()
+                        // Set the OnRefreshListener
+                .listener(this)
+                        // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
+
+        if (DrawerActivity.settings.addonTheme) {
+            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
+            transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
+        }
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -236,6 +258,65 @@ public class Search extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        new AsyncTask<Void, Void, ArrayList<twitter4j.Status>>() {
+
+            @Override
+            protected ArrayList<twitter4j.Status> doInBackground(Void... params) {
+                try {
+                    Log.v("inside_search", searchQuery);
+
+                    Twitter twitter = Utils.getTwitter(context, settings);
+                    Query query = new Query(searchQuery.replace("@", "from:"));
+                    QueryResult result = twitter.search(query);
+                    QueryResult result2 = null;
+                    QueryResult result3 = null;
+
+                    if (result.hasNext()) {
+                        result2 = twitter.search(result.nextQuery());
+                        if (result2.hasNext()) {
+                            result3 = twitter.search(result2.nextQuery());
+                        }
+                    }
+                    Log.v("inside_search", "got data");
+
+                    ArrayList<twitter4j.Status> tweets = new ArrayList<twitter4j.Status>();
+                    for (twitter4j.Status status : result.getTweets()) {
+                        tweets.add(status);
+                    }
+                    if (result2 != null) {
+                        for (twitter4j.Status status : result2.getTweets()) {
+                            tweets.add(status);
+                        }
+                        if (result3 != null) {
+                            for (twitter4j.Status status : result3.getTweets()) {
+                                tweets.add(status);
+                            }
+                        }
+                    }
+
+                    return tweets;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            protected void onPostExecute(ArrayList<twitter4j.Status> searches) {
+
+                if (searches != null) {
+                    listView.setAdapter(new TimelineArrayAdapter(context, searches));
+                    listView.setVisibility(View.VISIBLE);
+                }
+
+                spinner.setVisibility(View.GONE);
+
+                mPullToRefreshLayout.setRefreshComplete();
+            }
+        }.execute();
     }
 
     class DoSearch extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {

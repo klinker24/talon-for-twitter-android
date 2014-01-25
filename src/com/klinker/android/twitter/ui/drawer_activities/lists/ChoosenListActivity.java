@@ -70,7 +70,7 @@ public class ChoosenListActivity extends Activity {
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        setContentView(R.layout.list_view_activity);
+        setContentView(R.layout.ptr_list_layout);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
