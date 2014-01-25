@@ -10,11 +10,11 @@
     - pick where the local trends are
     - user's favorites on profiles
     - picture searching
+    - translation
 
 - Bugs:
     - some people cant see profiles correctly
     - time on retweets
-    - accessibility stuff
     - doesn't display pictures full screen when clicking on tweet
 
 - Notification Center:
