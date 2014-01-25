@@ -101,7 +101,7 @@
             <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
                        android:id="@+id/image"
                        android:layout_below="@id/retweeter"
-                       android:layout_height="96dp"
+                       android:layout_height="124dp"
                        android:layout_width="match_parent"
                        android:scaleType="centerCrop"
                        android:layout_marginLeft="8dp"
