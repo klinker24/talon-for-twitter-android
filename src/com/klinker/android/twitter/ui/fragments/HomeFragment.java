@@ -638,7 +638,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 MentionsDataSource mentions = new MentionsDataSource(context);
                 mentions.open();
                 long[] lastId = mentions.getLastIds(currentAccount);
-                mentions.close();
                 Paging paging;
                 paging = new Paging(1, 50);
 
@@ -660,7 +659,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 if (!broken) {
                     Log.v("updating_timeline", "not broken");
                     Paging paging2 = new Paging(1, 150);
-                    List<twitter4j.Status> statuses2 = twitter.getHomeTimeline(paging2);
+                    List<twitter4j.Status> statuses2 = twitter.getMentionsTimeline(paging2);
 
                     for (int i = 0; i < statuses2.size(); i++) {
                         long id = statuses2.get(i).getId();
@@ -682,12 +681,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     numberNew = 0;
                 }
 
-                MentionsDataSource mentions2 = new MentionsDataSource(context);
-                mentions2.open();
-
                 for (twitter4j.Status status : statuses) {
                     try {
-                        mentions2.createTweet(status, currentAccount);
+                        mentions.createTweet(status, currentAccount);
                     } catch (Exception e) {
                         break;
                     }
@@ -695,7 +691,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-                mentions2.close();
+                mentions.close();
 
             } catch (TwitterException e) {
                 // Error in updating status
@@ -735,6 +731,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     };
 
     @Override
+    public void onPause() {
+        markReadForLoad();
+        super.onPause();
+    }
+
+    @Override
     public void onStop() {
         Log.v("talon_stopping", "stopping here");
         try {
@@ -749,7 +751,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-        markReadForLoad();
         super.onStop();
     }
 

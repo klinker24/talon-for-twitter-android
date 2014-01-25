@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.klinker.android.twitter.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import twitter4j.Query;
@@ -202,17 +204,18 @@ public class Search extends Activity implements OnRefreshListener {
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
             suggestions.saveRecentQuery(searchQuery, null);
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Log.v("searching_twitter", "" + intent.getStringExtra(SearchManager.QUERY));
-            Log.v("searching_twitter", "" + intent.getStringExtra(Intent.EXTRA_SUBJECT));
-            Log.v("searching_twitter", "" + intent.getStringExtra(Intent.EXTRA_TITLE));
+            Uri uri = intent.getData();
 
-            /*searchQuery = intent.getStringExtra(Intent.EXTRA_TEXT);
+            String search = uri.getQueryParameter("q");
+            Log.v("searching_twitter", "" + search);
+
+            searchQuery = search;
             String query = searchQuery.replace("@", "from:");
             new DoSearch(query).execute();
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            suggestions.saveRecentQuery(searchQuery, null);*/
+            suggestions.saveRecentQuery(searchQuery, null);
         }
     }
 
