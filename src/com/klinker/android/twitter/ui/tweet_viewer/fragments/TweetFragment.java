@@ -826,7 +826,6 @@ public class TweetFragment extends Fragment {
                         location = "";
                     }
                 } catch (Exception x) {
-                    Log.e("tag", x.getMessage());
                     location = "";
                 }
 
