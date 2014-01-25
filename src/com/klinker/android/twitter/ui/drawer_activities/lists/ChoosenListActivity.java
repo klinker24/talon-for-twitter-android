@@ -23,6 +23,7 @@ import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -31,15 +32,19 @@ import org.lucasr.smoothie.ItemManager;
 import java.util.ArrayList;
 
 import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-/**
- * Created by luke on 11/27/13.
- */
-public class ChoosenListActivity extends Activity {
+public class ChoosenListActivity extends Activity implements OnRefreshListener {
 
     public AppSettings settings;
     private Context context;
@@ -49,9 +54,10 @@ public class ChoosenListActivity extends Activity {
 
     private AsyncListView listView;
 
-
     private int listId;
     private String listName;
+
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,24 @@ public class ChoosenListActivity extends Activity {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
             finish();
+        }
+
+        mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(this)
+                // set up the scroll distance
+                .options(Options.create().scrollDistance(.3f).build())
+                        // Mark All Children as pullable
+                .allChildrenArePullable()
+                        // Set the OnRefreshListener
+                .listener(this)
+                        // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
+
+        if (DrawerActivity.settings.addonTheme) {
+            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
+            transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
@@ -129,6 +153,46 @@ public class ChoosenListActivity extends Activity {
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        new AsyncTask<Void, Void, ResponseList<twitter4j.Status>>() {
+
+            @Override
+            protected ResponseList<twitter4j.Status> doInBackground(Void... voids) {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+
+                    Log.v("list_id", listId + "");
+                    Paging paging = new Paging(1, 100);
+                    ResponseList<twitter4j.Status> statuses = twitter.getUserListStatuses(listId, new Paging(1, 100));
+
+                    return statuses;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            protected void onPostExecute(ResponseList<twitter4j.Status> statuses) {
+
+                if (statuses != null) {
+                    ArrayList<twitter4j.Status> arrayList = new ArrayList<twitter4j.Status>();
+                    for (twitter4j.Status s : statuses) {
+                        arrayList.add(s);
+                    }
+
+                    listView.setAdapter(new TimelineArrayAdapter(context, arrayList));
+                    listView.setVisibility(View.VISIBLE);
+                }
+
+                LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                spinner.setVisibility(View.GONE);
+
+                mPullToRefreshLayout.setRefreshComplete();
+            }
+        }.execute();
     }
 
     class GetList extends AsyncTask<String, Void, ResponseList<Status>> {
