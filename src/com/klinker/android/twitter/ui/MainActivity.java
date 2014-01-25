@@ -203,7 +203,10 @@ public class MainActivity extends DrawerActivity {
             mDrawerToggle.onConfigurationChanged(newConfig);
         } catch (Exception e) { }
 
-        overridePendingTransition(0,0);
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
+        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+
+        overridePendingTransition(0, 0);
         finish();
         Intent restart = new Intent(context, MainActivity.class);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

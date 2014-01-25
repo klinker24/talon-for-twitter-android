@@ -15,6 +15,7 @@
     - some people cant see profiles correctly
     - time on retweets
     - accessibility stuff
+    - doesn't display pictures full screen when clicking on tweet
 
 - Notification Center:
     - Combined pictures from Evolve
