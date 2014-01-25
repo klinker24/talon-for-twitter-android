@@ -88,7 +88,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         try {
             Log.v("talon_widget", "starting getviewat");
             card.setTextViewText(R.id.contactName, settings.displayScreenName ? "@" + mWidgetItems.get(arg0).getScreenName() : mWidgetItems.get(arg0).getName());
-            card.setTextViewText(R.id.contactText, Html.fromHtml(mWidgetItems.get(arg0).getTweet()));
+            card.setTextViewText(R.id.contactText, Html.fromHtml(settings.addonTheme ? mWidgetItems.get(arg0).getTweet().replaceAll("FF8800", settings.accentColor) : mWidgetItems.get(arg0).getTweet()));
             if (settings.theme > 0) {
                 card.setTextColor(R.id.contactName, mContext.getResources().getColor(android.R.color.white));
                 card.setTextColor(R.id.contactName, mContext.getResources().getColor(android.R.color.white));

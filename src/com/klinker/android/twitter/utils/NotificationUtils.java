@@ -108,7 +108,7 @@ public class NotificationUtils {
                         .setContentIntent(resultPendingIntent)
                         .setAutoCancel(true)
                         .setTicker(HtmlUtils.removeColorHtml(shortText))
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(longText)));
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
                 if (addButton) { // the reply and read button should be shown
                     Intent reply;
@@ -158,7 +158,7 @@ public class NotificationUtils {
                 Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
                 Map pebbleData = new HashMap();
                 pebbleData.put("title", title[0]);
-                pebbleData.put("body", Html.fromHtml(longText));
+                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
                 JSONObject jsonData = new JSONObject(pebbleData);
                 String notificationData = new JSONArray().put(jsonData).toString();
                 pebble.putExtra("messageType", "PEBBLE_ALERT");
@@ -490,6 +490,8 @@ public class NotificationUtils {
 
         NotificationCompat.Builder mBuilder;
 
+        AppSettings settings = new AppSettings(context);
+
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
@@ -498,7 +500,7 @@ public class NotificationUtils {
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(longText)));
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
@@ -508,8 +510,6 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true);
         }
-
-        AppSettings settings = new AppSettings(context);
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -543,7 +543,7 @@ public class NotificationUtils {
                 Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
                 Map pebbleData = new HashMap();
                 pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(shortText));
+                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? shortText.replaceAll("FF8800", settings.accentColor) : shortText));
                 JSONObject jsonData = new JSONObject(pebbleData);
                 String notificationData = new JSONArray().put(jsonData).toString();
                 pebble.putExtra("messageType", "PEBBLE_ALERT");
@@ -606,6 +606,8 @@ public class NotificationUtils {
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
         }
 
+        AppSettings settings = new AppSettings(context);
+
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
@@ -614,7 +616,7 @@ public class NotificationUtils {
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(messageLong)));
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
@@ -624,8 +626,6 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true);
         }
-
-        AppSettings settings = new AppSettings(context);
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -659,7 +659,7 @@ public class NotificationUtils {
                 Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
                 Map pebbleData = new HashMap();
                 pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(messageLong));
+                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong));
                 JSONObject jsonData = new JSONObject(pebbleData);
                 String notificationData = new JSONArray().put(jsonData).toString();
                 pebble.putExtra("messageType", "PEBBLE_ALERT");
@@ -801,7 +801,7 @@ public class NotificationUtils {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
-                .setContentText(Html.fromHtml(smallText))
+                .setContentText(Html.fromHtml(settings.addonTheme ? smallText.replaceAll("FF8800", settings.accentColor) : smallText))
                 .setSmallIcon(R.drawable.ic_stat_icon)
                 .setLargeIcon(icon)
                 .setContentIntent(resultPendingIntent)
@@ -809,7 +809,7 @@ public class NotificationUtils {
                 .setAutoCancel(true);
 
         if(context.getResources().getBoolean(R.bool.expNotifications)) {
-            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(text)));
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text)));
         }
 
         if (settings.vibrate) {
@@ -844,7 +844,7 @@ public class NotificationUtils {
                 Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
                 Map pebbleData = new HashMap();
                 pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(text));
+                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text));
                 JSONObject jsonData = new JSONObject(pebbleData);
                 String notificationData = new JSONArray().put(jsonData).toString();
                 pebble.putExtra("messageType", "PEBBLE_ALERT");
