@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Html;
@@ -72,6 +73,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public Resources res;
     public boolean talonLayout;
     public BitmapLruCache mCache;
+
+    public ColorDrawable transparent;
 
     public int type;
     public String username;
@@ -179,6 +182,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         b.recycle();
 
         mCache = App.getInstance(context).getBitmapCache();
+
+        transparent = new ColorDrawable(android.R.color.transparent);
     }
 
     @Override
@@ -496,8 +501,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 }
             } else {
                 if (picUrl.contains("youtube")) {
-                    //holder.image.loadImage(picUrl, false, null);
-                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
+
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
@@ -534,9 +538,50 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             context.startActivity(viewTweet);
                         }
                     });
+
+                    holder.image.setImageDrawable(transparent);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(300);
+                            } catch (Exception e) {
+                            }
+
+                            if (holder.tweetId == id) {
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
+                                    }
+                                });
+                            }
+                        }
+                    }).start();
+
                 } else {
-                    //holder.image.loadImage(picUrl, false, null);
-                    ImageUtils.loadImage(context, holder.image, picUrl, mCache);
+                    holder.image.setImageDrawable(transparent);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(350);
+                            } catch (Exception e) {
+                            }
+
+                            if (holder.tweetId == id) {
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
+                                    }
+                                });
+                            }
+                        }
+                    }).start();
+
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
                     }

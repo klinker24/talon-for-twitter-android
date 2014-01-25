@@ -80,6 +80,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private boolean talonLayout;
     private BitmapLruCache mCache;
 
+    private ColorDrawable transparent;
+
     public java.text.DateFormat dateFormatter;
     public java.text.DateFormat timeFormatter;
 
@@ -154,6 +156,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (settings.militaryTime) {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
+
+        transparent = new ColorDrawable(android.R.color.transparent);
     }
 
     @Override
@@ -522,13 +526,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     });
 
-                    holder.image.setImageDrawable(new ColorDrawable(android.R.color.transparent));
+                    holder.image.setImageDrawable(transparent);
 
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(300);
+                                Thread.sleep(350);
                             } catch (Exception e) {
                             }
                             if (holder.tweetId == id) {
@@ -555,13 +559,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     });
 
-                    holder.image.setImageDrawable(new ColorDrawable(android.R.color.transparent));
+                    holder.image.setImageDrawable(transparent);
 
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(300);
+                                Thread.sleep(350);
                             } catch (Exception e) {
                             }
 
