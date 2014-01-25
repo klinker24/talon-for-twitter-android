@@ -50,9 +50,11 @@ import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.IOUtils;
@@ -914,6 +916,11 @@ public class UserProfileActivity extends Activity {
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+
+            if(settings.liveStreaming) {
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                context.startService(new Intent(context, TalonPullNotificationService.class));
             }
 
             new GetActionBarInfo(thisUser).execute();
