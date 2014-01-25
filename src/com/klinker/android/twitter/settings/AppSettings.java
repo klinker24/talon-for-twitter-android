@@ -171,12 +171,12 @@ public class AppSettings {
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
-        if (liveStreaming) {
-            refreshOnStart = false;
-        }
-
         if (!pushNotifications) {
             liveStreaming = false;
+        }
+
+        if (liveStreaming) {
+            refreshOnStart = false;
         }
 
         // if they have the keyboard trial installed, then go from their preference

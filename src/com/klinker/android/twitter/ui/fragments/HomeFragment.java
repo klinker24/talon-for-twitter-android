@@ -460,7 +460,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public int doRefresh() {
         int numberNew = 0;
 
-        markReadForLoad();
+        try {
+            Cursor cursor = cursorAdapter.getCursor();
+            if (cursor.moveToLast()) {
+                long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+            }
+        } catch (Exception e) {
+
+        }
 
         try {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
