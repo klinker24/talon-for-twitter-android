@@ -221,8 +221,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         CursorListLoader loader = new CursorListLoader(cache, context);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
+        builder.setThreadPoolSize(2);
 
         listView.setItemManager(builder.build());
         listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
@@ -433,9 +433,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         if (cursor.moveToLast()) {
             long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
             sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
-        } else {
-            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
         }
+
         int pos = listView.getFirstVisiblePosition();
         if (pos < 200) {
             try {
@@ -999,8 +998,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
-                } else {
-                    sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
                 }
             }
         } catch (Exception e) {
