@@ -150,6 +150,10 @@ public abstract class Compose extends Activity implements
                 handleSendImage(intent); // Handle single image being sent
             }
         }
+
+        if (reply.getText().toString().contains(" RT @")) {
+            reply.setSelection(0);
+        }
     }
 
     public void setUpWindow() {
