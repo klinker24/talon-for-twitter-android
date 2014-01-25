@@ -1,3 +1,10 @@
+<b>Version 1.20 Beta 3:</b><br/><br/>
+    &#8226; More saving position on timeline<br/>
+    &#8226; Fix for 24 hour clock<br/>
+    &#8226; Fixed refresh on startup<br/>
+    &#8226; Issues with direct message and mentions notifications replaying<br/>
+<br/><br/>
+
 <b>Version 1.20 Beta 2:</b><br/><br/>
     &#8226; Real URL's on profiles<br/>
     &#8226; Fixed 7 in tablet mode<br/>

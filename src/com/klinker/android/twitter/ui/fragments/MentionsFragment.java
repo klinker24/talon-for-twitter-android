@@ -443,6 +443,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
     }
 
+    @Override
+    public void onStop() {
+        dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+        super.onStop();
+    }
+
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
