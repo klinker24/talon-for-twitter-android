@@ -458,7 +458,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.time.setText(Utils.getTimeAgo(longTime, context));
         } else {
             Date date = new Date(longTime);
-            holder.time.setText(timeFormatter.format(date) + ", " + dateFormatter.format(date));
+            holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
         if (tweetText.contains("<font")) {
             if (settings.addonTheme) {
