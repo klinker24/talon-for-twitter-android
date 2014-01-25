@@ -138,6 +138,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
     };
 
+    public BroadcastReceiver markRead = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            markReadForLoad();
+        }
+    };
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -451,6 +458,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public int doRefresh() {
         int numberNew = 0;
 
+        markReadForLoad();
+
         try {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -718,6 +727,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         try {
             context.unregisterReceiver(jumpTopReceiver);
         } catch (Exception e) { }
+        try {
+            context.unregisterReceiver(markRead);
+        } catch (Exception e) { }
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
@@ -756,6 +768,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
         context.registerReceiver(jumpTopReceiver, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.MARK_POSITION");
+        context.registerReceiver(markRead, filter);
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
     }

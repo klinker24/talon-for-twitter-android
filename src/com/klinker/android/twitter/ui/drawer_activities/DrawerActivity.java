@@ -383,6 +383,7 @@ public abstract class DrawerActivity extends Activity {
 
         final int current = sharedPrefs.getInt("current_account", 1);
 
+        // make a second account
         if(count == 1){
             name2.setText(getResources().getString(R.string.new_account));
             screenname2.setText(getResources().getString(R.string.tap_to_setup));
@@ -396,6 +397,7 @@ public abstract class DrawerActivity extends Activity {
                             sharedPrefs.edit().putInt("current_account", 1).commit();
                         }
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
 
                         Intent login = new Intent(context, LoginActivity.class);
                         finish();
@@ -403,7 +405,7 @@ public abstract class DrawerActivity extends Activity {
                     }
                 }
             });
-        } else { // count is 2
+        } else { // switch accounts
             if (current == 1) {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
@@ -422,6 +424,7 @@ public abstract class DrawerActivity extends Activity {
                     public void onClick(View view) {
                         if (canSwitch) {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
 
                             sharedPrefs.edit().putInt("current_account", 2).commit();
                             sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
@@ -448,6 +451,7 @@ public abstract class DrawerActivity extends Activity {
                     public void onClick(View view) {
                         if (canSwitch) {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
 
                             sharedPrefs.edit().putInt("current_account", 1).commit();
                             sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
@@ -642,6 +646,7 @@ public abstract class DrawerActivity extends Activity {
         e.remove("new_retweets");
         e.remove("new_favorites");
         e.remove("new_follows");
+        e.remove("current_position_" + currentAccount);
         e.commit();
 
         HomeDataSource homeSources = new HomeDataSource(context);
@@ -827,6 +832,7 @@ public abstract class DrawerActivity extends Activity {
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_settings:
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 finish();
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();

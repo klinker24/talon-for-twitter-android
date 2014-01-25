@@ -714,7 +714,11 @@ public class UserProfileActivity extends Activity {
                     Log.v("friends_list", friendsPaging.get(i).getName());
                 }
 
-                currentFollowing = friendsPaging.getNextCursor();
+                if (friendsPaging != null) {
+                    currentFollowing = friendsPaging.getNextCursor();
+                } else {
+                    return null;
+                }
 
                 Log.v("friends_list", friends.size() + "");
 

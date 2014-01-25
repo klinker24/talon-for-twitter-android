@@ -46,6 +46,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         if (i < 3) {
             if (MainDrawerArrayAdapter.current < 3) {
                 new Handler().postDelayed(new Runnable() {
