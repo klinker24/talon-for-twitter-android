@@ -391,6 +391,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             new GetCursorAdapter().execute();
         }
 
+        sharedPrefs.edit().putInt("dm_unread_" + DrawerActivity.settings.currentAccount, 0).commit();
+
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
         context.registerReceiver(jumpTopReceiver, filter);
