@@ -201,6 +201,18 @@ public class Search extends Activity implements OnRefreshListener {
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
             suggestions.saveRecentQuery(searchQuery, null);
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Log.v("searching_twitter", "" + intent.getStringExtra(SearchManager.QUERY));
+            Log.v("searching_twitter", "" + intent.getStringExtra(Intent.EXTRA_SUBJECT));
+            Log.v("searching_twitter", "" + intent.getStringExtra(Intent.EXTRA_TITLE));
+
+            /*searchQuery = intent.getStringExtra(Intent.EXTRA_TEXT);
+            String query = searchQuery.replace("@", "from:");
+            new DoSearch(query).execute();
+
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+            suggestions.saveRecentQuery(searchQuery, null);*/
         }
     }
 

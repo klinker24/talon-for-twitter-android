@@ -429,7 +429,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void toTop() {
-        sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
+        Cursor cursor = cursorAdapter.getCursor();
+        if (cursor.moveToLast()) {
+            long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+        } else {
+            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
+        }
         int pos = listView.getFirstVisiblePosition();
         if (pos < 200) {
             try {
@@ -989,7 +995,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
             } else {
-                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
+                if (cursor.moveToLast()) {
+                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+                } else {
+                    sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
