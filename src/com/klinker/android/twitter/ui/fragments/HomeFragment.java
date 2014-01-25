@@ -430,9 +430,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     public void toTop() {
         sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, 0).commit();
-        if (listView.getFirstVisiblePosition() < 200) {
+        int pos = listView.getFirstVisiblePosition();
+        if (pos < 200) {
             try {
-                if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
+                if (pos > 100) {
                     listView.setSelection(0);
                     hideToastBar(400);
                 } else {
@@ -442,6 +443,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 listView.smoothScrollToPosition(0);
             }
         } else {
+            hideToastBar(400);
             dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
             getLoaderManager().restartLoader(0, null, HomeFragment.this);
         }
