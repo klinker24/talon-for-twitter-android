@@ -170,7 +170,16 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.name.setText(settings.displayScreenName ? "@" + dm.getScreenname() : dm.getName());
-        holder.text.setText(Html.fromHtml(dm.getMessage()));
+        String tweetText = dm.getMessage();
+        if (tweetText.contains("<font")) {
+            if (settings.addonTheme) {
+                holder.text.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
+            } else {
+                holder.text.setText(Html.fromHtml(tweetText.replaceAll("\n", "<br/>")));
+            }
+        } else {
+            holder.text.setText(tweetText);
+        }
 
         //holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
         if(settings.roundContactImages) {
