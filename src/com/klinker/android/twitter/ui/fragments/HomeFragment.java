@@ -477,7 +477,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         try {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
-         
+
             if (!sharedPrefs.getBoolean("refresh_me", false)) {
                 dataSource.markAllRead(currentAccount);
             }

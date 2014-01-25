@@ -534,6 +534,12 @@ public abstract class DrawerActivity extends Activity {
             oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
             readButton = (ImageView) findViewById(R.id.read_button);
 
+            if (Build.VERSION.SDK_INT < 18 && DrawerActivity.settings.uiExtras) {
+                View viewHeader2 = ((Activity)context).getLayoutInflater().inflate(R.layout.ab_header, null);
+                notificationList.addHeaderView(viewHeader2, null, false);
+                notificationList.setHeaderDividersEnabled(false);
+            }
+
             LinearLayout footer = (LinearLayout) viewHeader.findViewById(R.id.footer);
             footer.setOnClickListener(new View.OnClickListener() {
                 @Override
