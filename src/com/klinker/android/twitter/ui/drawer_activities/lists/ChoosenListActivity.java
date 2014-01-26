@@ -99,7 +99,7 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
 
         if (settings.addonTheme) {
             DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-            transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
+            transformer.setProgressBarColor(settings.accentInt);
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);

@@ -117,7 +117,7 @@ public class Search extends Activity implements OnRefreshListener {
 
         if (settings.addonTheme) {
             DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-            transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
+            transformer.setProgressBarColor(settings.accentInt);
         }
 
         if (!settings.isTwitterLoggedIn) {
