@@ -539,7 +539,6 @@ public class TweetFragment extends Fragment {
         } else {
             //profilePic.loadImage(proPic, false, null);
             ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
-
         }
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
@@ -644,7 +643,11 @@ public class TweetFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                try {
+                    charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                } catch (Exception e) {
+                    charRemaining.setText("0");
+                }
             }
 
             @Override

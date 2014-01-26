@@ -1487,23 +1487,27 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(final ResponseList<UserList> lists) {
 
-            ArrayList<String> names = new ArrayList<String>();
-            for(UserList l : lists) {
-                names.add(l.getName());
-            }
-
-            pDialog.dismiss();
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setItems(names.toArray(new CharSequence[lists.size()]), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
+            if (lists != null) {
+                ArrayList<String> names = new ArrayList<String>();
+                for(UserList l : lists) {
+                    names.add(l.getName());
                 }
-            });
-            builder.setTitle(getResources().getString(R.string.choose_list) + ":");
-            builder.create();
-            builder.show();
+
+                pDialog.dismiss();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(names.toArray(new CharSequence[lists.size()]), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
+                    }
+                });
+                builder.setTitle(getResources().getString(R.string.choose_list) + ":");
+                builder.create();
+                builder.show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

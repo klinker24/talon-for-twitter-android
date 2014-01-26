@@ -120,11 +120,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
             if (liveUnread != 0) {
-                showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                        getResources().getString(R.string.view),
-                        400,
-                        !DrawerActivity.settings.useToast,
-                        liveStreamRefresh);
+                try {
+                    showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                            getResources().getString(R.string.view),
+                            400,
+                            !DrawerActivity.settings.useToast,
+                            liveStreamRefresh);
+                } catch (Exception e) {
+                    // fragment not attached to activity
+                }
             }
 
             newTweets = true;

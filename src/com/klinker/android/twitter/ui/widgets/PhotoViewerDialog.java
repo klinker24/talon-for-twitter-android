@@ -64,6 +64,11 @@ public class PhotoViewerDialog extends Activity {
 
         url = getIntent().getStringExtra("url");
 
+        if (url == null) {
+            finish();
+            return;
+        }
+
         // get higher quality twitpic and imgur pictures
         if (url.contains("twitpic")) {
             url = url.replace("thumb", "full");

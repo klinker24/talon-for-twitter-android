@@ -97,7 +97,7 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
                         // Finally commit the setup to our PullToRefreshLayout
                 .setup(mPullToRefreshLayout);
 
-        if (DrawerActivity.settings.addonTheme) {
+        if (settings.addonTheme) {
             DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
             transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
         }

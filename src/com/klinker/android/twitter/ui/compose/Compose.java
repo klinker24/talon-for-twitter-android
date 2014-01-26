@@ -241,7 +241,7 @@ public abstract class Compose extends Activity implements
                     try {
                         charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
                     } catch (Exception e) {
-                        charRemaining.setText("");
+                        charRemaining.setText("0");
                     }
                 } else {
                     int count = 0;
@@ -542,7 +542,7 @@ public abstract class Compose extends Activity implements
                     return true;
                 }
 
-            } catch (TwitterException e) {
+            } catch (Exception e) {
                 // Error in updating status
             }
             return false;
