@@ -488,7 +488,27 @@ public class UserProfileActivity extends Activity {
 
                     return user;
                 } else {
-                    return twitter.showUser(settings.myScreenName);
+                    User user = twitter.showUser(settings.myScreenName);
+                    HttpURLConnection connection = null;
+                    try {
+                        URL address = new URL(user.getURL());
+                        connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
+                        connection.setConnectTimeout(1000);
+                        connection.setInstanceFollowRedirects(false);
+                        connection.setReadTimeout(1000);
+                        connection.connect();
+                        String expandedURL = connection.getHeaderField("Location");
+                        if(expandedURL != null) {
+                            url = expandedURL;
+                        } else {
+                            url = user.getURL();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        url = user.getURL();
+                    }
+
+                    return user;
                 }
             } catch (Exception e) {
                 return null;
@@ -503,21 +523,18 @@ public class UserProfileActivity extends Activity {
                 new GetTimeline(user, listView).execute();
                 new GetActionBarInfo(user).execute();
 
-                String state = user.getDescription();
+                String state = user.getDescription() + "\n";
                 String loca = user.getLocation();
 
                 if (!loca.equals("")) {
-                    state += "\n\n" + user.getLocation();
+                    state += "\n" + user.getLocation();
                 }
                 if (url != null) {
-                    if (loca.equals("")) {
-                        state += "\n";
-                    }
                     state += "\n" + url;
                 }
 
                 if (!followingStatus.equals("")) {
-                    state += "\n\n" + followingStatus;
+                    state += "\n" + followingStatus;
                 }
                 if (state.equals("")) {
                     statement.setText(getResources().getString(R.string.no_description));
