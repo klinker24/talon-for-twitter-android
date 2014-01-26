@@ -24,3 +24,4 @@
 
     -- share button on expansion
     -- search by real name or screenname
+    -- compose button on the talon pull notification
