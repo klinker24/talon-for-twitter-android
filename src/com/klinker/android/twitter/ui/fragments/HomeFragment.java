@@ -413,6 +413,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             public void onClick(View view) {
                 newTweets = false;
+                viewPressed = true;
                 //markReadForLoad();
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
                 //int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
@@ -837,6 +838,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         return cursorLoader;
     }
 
+    public boolean viewPressed = false;
+
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
@@ -854,7 +857,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             numTweets = dataSource.getPosition(currentAccount, id);
         }
 
-        if (liveUnread != 0) {
+        if (viewPressed) {
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
         } else if (numTweets != 0) {
@@ -864,6 +867,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         liveUnread = 0;
+        viewPressed = false;
 
         new Handler().postDelayed(new Runnable() {
             @Override
