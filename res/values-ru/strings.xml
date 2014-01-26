@@ -419,4 +419,21 @@
     <string name="fill_gaps">Загрузить пропущенные твиты</string>
     <string name="fill_gaps_summary">Загружает разрывы в ленте, произошедшие из-за плохого соединения при включенном Talon Pull.</string>
     <string name="filling_timeline">Загрузка пропущенных твитов</string>
+    <string name="follows_you">Читает вас</string>
+    <string name="not_following_you">Не читает вас</string>
+    <string name="open_to_web">Открывать ссылки в твитах</string>
+    <string name="open_to_web_summary">Если твит содержит ссылку, будет открываться страница с ней, а не сам твит.</string>
+    <string name="device">Стандартный шрифт</string>
+    <string name="roboto_light">Roboto Light</string>
+    <string name="roboto_condensed">Roboto Condensed</string>
+    <string name="font_type">Шрифт</string>
+    <string name="our_website">Вебсайт</string>
+    <string name="alert_types">Типы оповещений</string>
+    <string name="timeline_notifications">Основные уведомления</string>
+    <string name="interactions_notifications">Уведомления откликов</string>
+    <string name="timelines_settings">Ленты</string>
+    <string name="tweet_look_options">Содержимое твитов</string>
+    <string name="limiting_options">Настройки фильтрации</string>
+    <string name="browser_options">Настройки браузера</string>
+    <string name="custom_ringtone">Собственный сигнал</string>
 </resources>

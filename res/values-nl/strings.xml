@@ -419,4 +419,21 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="fill_gaps">Vul timeline gaten op</string>
     <string name="fill_gaps_summary">Vul gaten die veroorzaakt worden door een slechte stream verbinding op wanneer live streaming is ingeschakeld.</string>
     <string name="filling_timeline">Timeline gaten aan het opvullen</string>
+    <string name="follows_you">Volgt u</string>
+    <string name="not_following_you">Volgt u niet</string>
+    <string name="open_to_web">Open tweet naar webpagina</string>
+    <string name="open_to_web_summary">Wanneer een tweet een web url bevat, zal direct die url geopend worden i.p.v. de tweet zelf.</string>
+    <string name="device">Apparaat Lettertype</string>
+    <string name="roboto_light">Roboto Light (Standaard)</string>
+    <string name="roboto_condensed">Roboto Condensed</string>
+    <string name="font_type">Lettertype type</string>
+    <string name="our_website">Website</string>
+    <string name="alert_types">Waarschuwings Types</string>
+    <string name="timeline_notifications">Timeline Notificaties</string>
+    <string name="interactions_notifications">Interacties Notificaties</string>
+    <string name="timelines_settings">Timelines Instellingen</string>
+    <string name="tweet_look_options">Tweet Uiterlijk Opties</string>
+    <string name="limiting_options">Limiet Opties</string>
+    <string name="browser_options">Browser Opties</string>
+    <string name="custom_ringtone">Aangepaste Ringtone</string>
 </resources>

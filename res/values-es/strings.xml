@@ -419,4 +419,21 @@
     <string name="fill_gaps">Rellenar vacíos en la cronología</string>
     <string name="fill_gaps_summary">Rellena los vacíos que ocurren cuando la actualización en vivo está habilitada pero falla por problemas de conexión</string>
     <string name="filling_timeline">Rellenando vacíos en la cronología</string>
+    <string name="follows_you">Te sigue</string>
+    <string name="not_following_you">No te sigue</string>
+    <string name="open_to_web">Abrir enlaces web en el tweet</string>
+    <string name="open_to_web_summary">Si el tweet contiene un enlace web, este se abrirá directamente en lugar de abrir el tweet.</string>
+    <string name="device">Letra del dispositivo</string>
+    <string name="roboto_light">Roboto Light (Predeterminada)</string>
+    <string name="roboto_condensed">Roboto Condensed</string>
+    <string name="font_type">Tipo de letra</string>
+    <string name="our_website">Sitio web</string>
+    <string name="alert_types">Tipos de alertas</string>
+    <string name="timeline_notifications">Notificaciones del timeline</string>
+    <string name="interactions_notifications">Notificaciones de interacciones</string>
+    <string name="timelines_settings">Ajustes del timeline</string>
+    <string name="tweet_look_options">Opciones de apariencia del tweet</string>
+    <string name="limiting_options">Opciones de límite</string>
+    <string name="browser_options">Opciones de navegador</string>
+    <string name="custom_ringtone">Tono personalizado</string>
 </resources>

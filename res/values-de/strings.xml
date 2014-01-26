@@ -419,4 +419,21 @@
     <string name="fill_gaps">Timeline-Lücken füllen</string>
     <string name="fill_gaps_summary">Lücken füllen, die durch eine schlechte Streaming-Verbindung bei aktiviertem Live-Streaming entstanden sind.</string>
     <string name="filling_timeline">Timeline-Lücken werden gefüllt</string>
+    <string name="follows_you">Folgt dir</string>
+    <string name="not_following_you">Folgt dir nicht</string>
+    <string name="open_to_web">Webseite in Tweet öffnen</string>
+    <string name="open_to_web_summary">Falls ein Tweet eine Webseiten-URL beinhaltet, wird direkt diese URL anstatt des Tweets geöffnet.</string>
+    <string name="device">Geräteschriftart</string>
+    <string name="roboto_light">Roboto Light (Standard)</string>
+    <string name="roboto_condensed">Roboto Condensed</string>
+    <string name="font_type">Schriftart</string>
+    <string name="our_website">Webseite</string>
+    <string name="alert_types">Benachrichtigungsarten</string>
+    <string name="timeline_notifications">Timeline-Benachrichtigungen</string>
+    <string name="interactions_notifications">Interaktionen-Benachrichtigungen</string>
+    <string name="timelines_settings">Timeline-Einstellungen</string>
+    <string name="tweet_look_options">Tweet-Aussehen</string>
+    <string name="limiting_options">Limitierungen</string>
+    <string name="browser_options">Browser</string>
+    <string name="custom_ringtone">Eigener Klingelton</string>
 </resources>

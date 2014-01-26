@@ -419,4 +419,21 @@
     <string name="fill_gaps">Wypełnij luki na osi czasu</string>
     <string name="fill_gaps_summary">Wypełniaj luki powstające w wyniku niestabilnego połączenia internetowego w trakcie aktywnego przekazywania na żywo.</string>
     <string name="filling_timeline">Wypełnianie luk na osi czasu</string>
+    <string name="follows_you">Obserwuje Cię</string>
+    <string name="not_following_you">Nie obserwuje Cię</string>
+    <string name="open_to_web">Otwieraj Tweety z linkami w przeglądarce</string>
+    <string name="open_to_web_summary">Jeżeli Tweet zawiera link, otwarcie go przeniesie od razu pod wskazany adres</string>
+    <string name="device">Czcionka systemowa</string>
+    <string name="roboto_light">Roboto Light (domyślna)</string>
+    <string name="roboto_condensed">Roboto zagęszczona</string>
+    <string name="font_type">Typ czcionki</string>
+    <string name="our_website">Strona www</string>
+    <string name="alert_types">Typy powiadomień</string>
+    <string name="timeline_notifications">Powiadomienia z osi czasu</string>
+    <string name="interactions_notifications">Powiadomienia o interakcjach</string>
+    <string name="timelines_settings">Ustawienia osi czasu</string>
+    <string name="tweet_look_options">Opcje wyglądu Tweetów</string>
+    <string name="limiting_options">Opcje ograniczania</string>
+    <string name="browser_options">Opcje przeglądarki</string>
+    <string name="custom_ringtone">Własny dzwonek</string>
 </resources>

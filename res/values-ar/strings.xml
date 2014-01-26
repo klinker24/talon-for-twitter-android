@@ -419,4 +419,21 @@
     <string name="fill_gaps">عبئ الفراغات في الخط الزمني</string>
     <string name="fill_gaps_summary">عبئ الفراغات التي حصلت نتيجة أتصال مباشر سيء  وتشغيل البث المباشر.</string>
     <string name="filling_timeline">يعبئ الفراغات في الخط الزمني</string>
+    <string name="follows_you">يتابعك</string>
+    <string name="not_following_you">لا يتابعك</string>
+    <string name="open_to_web">أفتح التغريدة إلى صفحة الويب</string>
+    <string name="open_to_web_summary">إذا كانت التغريدة تحتوي على رابط ويب، ستفتح رابط الويب مباشرة بدلا من التغريدة نفسها.</string>
+    <string name="device">خط الجهاز</string>
+    <string name="roboto_light">روبوتو فاتح (أفتراضي)</string>
+    <string name="roboto_condensed">روبوتو كثيف</string>
+    <string name="font_type">نوع الخط</string>
+    <string name="our_website">الموقع</string>
+    <string name="alert_types">نوع التنبيه</string>
+    <string name="timeline_notifications">تنبيهات الخط الزمني</string>
+    <string name="interactions_notifications">تنبيهات التداخلات</string>
+    <string name="timelines_settings">أعدادات الخط الزمني</string>
+    <string name="tweet_look_options">خيارات مظهر التغريدة</string>
+    <string name="limiting_options">خيارات محدودة</string>
+    <string name="browser_options">خيارات المتصفح</string>
+    <string name="custom_ringtone">النغمة المخصصة</string>
 </resources>
