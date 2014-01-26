@@ -412,7 +412,11 @@ public class HomeDataSource {
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+        try {
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+        } catch (Exception e) {
+
+        }
     }
 
     public void markUnreadFilling(int account) {

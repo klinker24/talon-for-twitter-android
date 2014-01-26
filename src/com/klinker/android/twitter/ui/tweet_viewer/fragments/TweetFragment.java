@@ -571,10 +571,14 @@ public class TweetFragment extends Fragment {
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
-                    new ReplyToStatus(reply, tweetId).execute();
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                try {
+                    if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
+                        new ReplyToStatus(reply, tweetId).execute();
+                    } else {
+                        Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
