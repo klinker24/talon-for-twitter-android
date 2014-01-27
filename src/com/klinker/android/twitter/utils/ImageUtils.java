@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -397,7 +398,21 @@ public class ImageUtils {
 
                     HttpURLConnection conn2 = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is2 = new BufferedInputStream(conn2.getInputStream());
-                    Bitmap b = BitmapFactory.decodeStream(is2, null, options);
+                    Bitmap b;
+                    try {
+                        b = BitmapFactory.decodeStream(is2, null, options);
+                    } catch (OutOfMemoryError e) {
+                        size = calculateInSampleSize(options, 100, 100);
+                        Log.v("caching_images", size +"");
+
+                        options = new BitmapFactory.Options();
+                        options.inJustDecodeBounds = false;
+                        options.inSampleSize = size;
+
+                        conn2 = (HttpURLConnection) new URL(url).openConnection();
+                        is2 = new BufferedInputStream(conn2.getInputStream());
+                        b = BitmapFactory.decodeStream(is2, null, options);
+                    }
 
                     // Add to cache
                     result = mCache.put(url, b);

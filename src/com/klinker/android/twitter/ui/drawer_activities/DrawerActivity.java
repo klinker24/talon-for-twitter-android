@@ -866,10 +866,14 @@ public abstract class DrawerActivity extends Activity {
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_dismiss:
-                data.markAllRead(DrawerActivity.settings.currentAccount);
-                mDrawerLayout.closeDrawer(Gravity.END);
-                notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
-                notificationList.setAdapter(notificationAdapter);
+                try {
+                    data.markAllRead(DrawerActivity.settings.currentAccount);
+                    mDrawerLayout.closeDrawer(Gravity.END);
+                    notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                    notificationList.setAdapter(notificationAdapter);
+                } catch (Exception e) {
+
+                }
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_to_first:

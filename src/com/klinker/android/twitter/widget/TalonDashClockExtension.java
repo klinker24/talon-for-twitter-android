@@ -30,7 +30,12 @@ public class TalonDashClockExtension extends DashClockExtension {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        int[] unreads = NotificationUtils.getUnreads(this);
+        int[] unreads;
+        try {
+            unreads = NotificationUtils.getUnreads(this);
+        }  catch (Exception e) {
+            unreads = new int[] {0, 0, 0};
+        }
         int homeTweets = unreads[0];
         int mentionsTweets = unreads[1];
         int dmTweets = unreads[2];

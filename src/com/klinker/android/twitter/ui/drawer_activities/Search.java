@@ -210,9 +210,11 @@ public class Search extends Activity implements OnRefreshListener {
                 String search = uri.getQueryParameter("q");
                 Log.v("searching_twitter", "" + search);
 
-                searchQuery = search;
-                String query = searchQuery.replace("@", "from:");
-                new DoSearch(query).execute();
+                if (search != null) {
+                    searchQuery = search;
+                    String query = searchQuery.replace("@", "from:");
+                    new DoSearch(query).execute();
+                }
 
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                         MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);

@@ -105,7 +105,12 @@ public class DiscussionFragment extends Fragment {
             Twitter twitter = Utils.getTwitter(context, settings);
             try {
                 Query query = new Query("@" + screenname + " since_id:" + tweetId);
-                query.setCount(100);
+                try {
+                    query.setCount(100);
+                } catch ( Exception e) {
+                    // enlarge buffer error?
+                    query.setCount(30);
+                }
                 QueryResult result=twitter.search(query);
 
                 ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
