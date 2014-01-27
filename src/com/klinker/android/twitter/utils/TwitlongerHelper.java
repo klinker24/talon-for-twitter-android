@@ -1,11 +1,7 @@
 package com.klinker.android.twitter.utils;
 
-
-import android.content.Context;
 import android.util.Log;
-
 import com.klinker.android.twitter.settings.AppSettings;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -14,7 +10,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.InvalidKeyException;
@@ -22,10 +17,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -102,16 +95,20 @@ public class TwitlongerHelper {
         try {
             Status postedStatus = twitter.updateStatus(status.getText());
             statusId = postedStatus.getId();
+            updateTwitlonger(status, statusId);
         } catch (TwitterException e) {
             e.printStackTrace();
             statusId = 0;
         }
 
-        updateTwitlonger(status, statusId);
-
+        // if zero, then it failed
         return statusId;
     }
 
+    /**
+     * Posts the status to twitlonger
+     * @return returns an object containing the shortened text and the id for the twitlonger url
+     */
     public TwitLongerStatus postToTwitLonger() {
         try {
             HttpClient client = new DefaultHttpClient();
@@ -154,6 +151,13 @@ public class TwitlongerHelper {
         return null;
     }
 
+    /**
+     * Updates the status on twitlonger to include the tweet id from Twitter.
+     * Helpful for threading.
+     * @param status Object with the shortened text and the id
+     * @param tweetId tweet id of the status posted to twitter
+     * @return true if the update is sucessful
+     */
     public boolean updateTwitlonger(TwitLongerStatus status, long tweetId) {
         try {
             HttpClient client = new DefaultHttpClient();
