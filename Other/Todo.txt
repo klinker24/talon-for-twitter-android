@@ -28,3 +28,4 @@
     -- delete retweets (maybe use searching to find the id of the tweet i need to delete?)
     -- widget adds duplicates
     -- finish up with twitlonger by putting it in the compose and the reply windows
+    -- redo the compose windows to seperate out different things
