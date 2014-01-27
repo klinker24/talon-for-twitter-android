@@ -46,9 +46,6 @@ public class Utils {
                 .setOAuthConsumerSecret(settings.TWITTER_CONSUMER_SECRET)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
-
-        Log.v("logging_in", "auth token: " + settings.authenticationToken);
-        Log.v("logging_in", "auth token secret: " + settings.authenticationTokenSecret);
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }
