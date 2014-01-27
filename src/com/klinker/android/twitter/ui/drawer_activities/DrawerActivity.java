@@ -731,13 +731,14 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        if (sharedPrefs.getBoolean("test_twitlong_21", true)) {
-            sharedPrefs.edit().putBoolean("test_twitlong_21", false).commit();
+        if (sharedPrefs.getBoolean("test_twitlong_22", true)) {
+            sharedPrefs.edit().putBoolean("test_twitlong_22", false).commit();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    TwitlongerHelper helper = new TwitlongerHelper("Hey! finally got this working and it is working well! Some problems, mostly because I had no clue what i was doing, but all is worked out now, and Twitlonger will be coming to Talon very soon :)", context, settings);
-                    Log.v("Twitlonger", helper.createPost());
+                    TwitlongerHelper helper = new TwitlongerHelper("@TalonAndroid Hey! finally got this working and it is working well! Some problems, mostly because I had no clue what i was doing, but all is worked out now, and Twitlonger will be coming to Talon very soon :)", Utils.getTwitter(context, settings));
+                    long id = helper.createPost();
+                    Log.v("twitlonger", id + "");
                 }
             }).start();
         }
