@@ -64,9 +64,11 @@ public class WidgetRefreshService  extends IntentService {
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
+            HomeDataSource dataSource = new HomeDataSource(context);
+            dataSource.open();
+
             User user = twitter.verifyCredentials();
-            long lastId = sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0);
-            long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
+            long[] lastId = dataSource.getLastIds(currentAccount);
             List<Status> statuses = new ArrayList<Status>();
 
             boolean foundStatus = false;
@@ -82,7 +84,7 @@ public class WidgetRefreshService  extends IntentService {
                 try {
                     for (int j = lastJ; j < statuses.size(); j++) {
                         long id = statuses.get(j).getId();
-                        if (id == lastId || id == secondToLastId) {
+                        if (id == lastId[0] || id == lastId[1] || id == lastId[2] || id == lastId[3] || id == lastId[4]) {
                             statuses = statuses.subList(0, j);
                             foundStatus = true;
                             break;
@@ -103,9 +105,6 @@ public class WidgetRefreshService  extends IntentService {
                 }
                 sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
             }
-
-            HomeDataSource dataSource = new HomeDataSource(context);
-            dataSource.open();
 
             for (twitter4j.Status status : statuses) {
                 try {
