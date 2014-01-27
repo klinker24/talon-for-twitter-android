@@ -731,7 +731,7 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        if (sharedPrefs.getBoolean("test_twitlong_22", true)) {
+        /*if (sharedPrefs.getBoolean("test_twitlong_22", true)) {
             sharedPrefs.edit().putBoolean("test_twitlong_22", false).commit();
             new Thread(new Runnable() {
                 @Override
@@ -741,7 +741,7 @@ public abstract class DrawerActivity extends Activity {
                     Log.v("twitlonger", id + "");
                 }
             }).start();
-        }
+        }*/
 
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("new_followers", 0);
