@@ -25,4 +25,6 @@
     -- share button on expansion
     -- search by real name or screenname
     -- compose button on the talon pull notification
-    -- delete retweets
+    -- delete retweets (maybe use searching to find the id of the tweet i need to delete?)
+    -- widget adds duplicates
+    -- finish up with twitlonger by putting it in the compose and the reply windows
