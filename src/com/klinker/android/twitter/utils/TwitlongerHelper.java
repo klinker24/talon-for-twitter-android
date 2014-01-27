@@ -11,6 +11,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -25,35 +26,42 @@ import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.internal.http.BASE64Encoder;
 import twitter4j.internal.http.HttpParameter;
 
+/**
+ * This is just a simple helper class to facilitate things with TwitLonger's 2.0 APIs
+ * It is based off the assertion that you use Twitter4j, but could be easily adapted if you don't
+ *
+ * @author Luke Klinker (along with help from Twitter4j)
+ */
 public class TwitlongerHelper {
 
     public static final String TWITLONGER_API_KEY = "rU5qsRgK23glt5dcUQ55b4hsN8F5rak0";
     public static final String SERVICE_PROVIDER = "https://api.twitter.com/1.1/account/verify_credentials.json";
     public static final String POST_URL = "http://api.twitlonger.com/2/posts";
+    public static final String PUT_URL = "http://api.twitlonger.com/2/posts/"; // will add the id to the end of this later
 
     public String tweetText;
     public long replyToId;
     public String replyToScreenname;
 
-    public Context context;
-    public AppSettings settings;
+    public Twitter twitter;
 
     /**
      * Used for a normal tweet, not a reply
      * @param tweetText the text of the tweet that you want to post
      */
-	public TwitlongerHelper(String tweetText, Context context, AppSettings settings) {
+	public TwitlongerHelper(String tweetText, Twitter twitter) {
         this.tweetText = tweetText;
         this.replyToId = 0;
         this.replyToScreenname = null;
 
-        this.context = context;
-        this.settings = settings;
+        this.twitter = twitter;
     }
 
     /**
@@ -61,13 +69,12 @@ public class TwitlongerHelper {
      * @param tweetText the text of the tweet that you want to post
      * @param replyToId the id of the user your tweet is replying to
      */
-    public TwitlongerHelper(String tweetText, long replyToId, Context context, AppSettings settings) {
+    public TwitlongerHelper(String tweetText, long replyToId, Twitter twitter) {
         this.tweetText = tweetText;
         this.replyToId = replyToId;
         this.replyToScreenname = null;
 
-        this.context = context;
-        this.settings = settings;
+        this.twitter = twitter;
     }
 
     /**
@@ -75,30 +82,43 @@ public class TwitlongerHelper {
      * @param tweetText the text of the tweet that you want to post
      * @param replyToScreenname the screenname of the user you are replying to
      */
-    public TwitlongerHelper(String tweetText, String replyToScreenname, Context context, AppSettings settings) {
+    public TwitlongerHelper(String tweetText, String replyToScreenname, Twitter twitter) {
         this.tweetText = tweetText;
         this.replyToScreenname = replyToScreenname;
         this.replyToId = 0;
 
-        this.context = context;
-        this.settings = settings;
+        this.twitter = twitter;
     }
 
     /**
-     * posts the status onto Twitlonger
-     * @return string of the tweet you need to post to twitter. Twitlonger does not automatically do this for you.
+     * posts the status onto Twitlonger, it then posts the shortened status (with link) to the user's twitter and updates the status on twitlonger
+     * to include the posted status's id.
+     *
+     * @return id of the status that was posted to twitter
      */
-    public String createPost() {
+    public long createPost() {
+        TwitLongerStatus status = postToTwitLonger();
+        long statusId;
+        try {
+            Status postedStatus = twitter.updateStatus(status.getText());
+            statusId = postedStatus.getId();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            statusId = 0;
+        }
+
+        updateTwitlonger(status, statusId);
+
+        return statusId;
+    }
+
+    public TwitLongerStatus postToTwitLonger() {
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(POST_URL);
             post.addHeader("X-API-KEY", TWITLONGER_API_KEY);
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-
-            Twitter twitter = Utils.getTwitter(context, settings);
-            String authHeader = getAuthrityHeader(twitter);
-
-            post.addHeader("X-Verify-Credentials-Authorization", authHeader);
+            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
 
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             nvps.add(new BasicNameValuePair("content", tweetText));
@@ -120,7 +140,11 @@ public class TwitlongerHelper {
                 content = content.substring(3);
                 content = content.replace("http:\\/\\/tl.gd\\/", "http://tl.gd/");
                 Log.v("TwitLonger_Talon", "Status: " + content);
-                return content;
+
+                String id = line.substring(7, line.indexOf(",") - 1);
+                Log.v("TwitLonger_Talon", "ID: " + id);
+
+                return new TwitLongerStatus(content, id);
             }
 
         } catch (Exception e) {
@@ -128,6 +152,33 @@ public class TwitlongerHelper {
         }
 
         return null;
+    }
+
+    public boolean updateTwitlonger(TwitLongerStatus status, long tweetId) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpPut put = new HttpPut(PUT_URL + status.getId());
+            put.addHeader("X-API-KEY", TWITLONGER_API_KEY);
+            put.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
+            put.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
+
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+            nvps.add(new BasicNameValuePair("twitter_status_id", tweetId + ""));
+
+            put.setEntity(new UrlEncodedFormEntity(nvps));
+            HttpResponse response = client.execute(put);
+            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+            if (rd.readLine() != null) {
+                Log.v("twitlonger", "updated the status successfully");
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     /**
@@ -261,6 +312,24 @@ public class TwitlongerHelper {
         url = baseURL + url.substring(slashIndex);
 
         return url;
+    }
+
+    class TwitLongerStatus {
+        private String text;
+        private String id;
+
+        public TwitLongerStatus(String text, String id) {
+            this.text = text;
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getText() {
+            return text;
+        }
     }
 
 }
