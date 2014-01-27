@@ -1,164 +1,266 @@
 package com.klinker.android.twitter.utils;
 
-import java.io.StringReader;
-import java.util.ArrayList;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import android.content.Context;
+import android.util.Log;
+
+import com.klinker.android.twitter.settings.AppSettings;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
-/**
- * A helper class for using the Twitlonger API.
- * @author Aidan Follestad
- */
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import twitter4j.Twitter;
+import twitter4j.auth.AccessToken;
+import twitter4j.internal.http.BASE64Encoder;
+import twitter4j.internal.http.HttpParameter;
+
 public class TwitlongerHelper {
 
-	private TwitlongerHelper(String application, String apiKey, String username) {
-		_app = application;
-		_key = apiKey;
-		_user = username;
-	}
-	
-	private String _app;
-	private String _key;
-	private String _user;
-	
-	/**
-	 * Creates a new TwitlongerHelper instance.
-	 * @param application The application identifier given to you by Twitlonger.
-	 * @param apiKey The API key given to you by Twitlonger.
-	 * @param username The screenname of the user that will be posting long tweets.
-	 * @return A new TwitlongerHelper instance ready for posting and reading Twitlonger tweets.
-	 */
-	public static TwitlongerHelper create(String application, String apiKey, String username) { return new TwitlongerHelper(application, apiKey, username); }
-	
-	/**
-	 * Makes a post to Twitlonger, returning the text that should be posted in a tweet on Twitter.
-	 * @param message The full content of the tweet, should be over 140 characters since you're using Twitlonger.
-	 * @param inReplyTo The optional ID of the tweet this post is in reply to.
-	 * @param inReplyToName The optional username of the user that posted the tweet that this post is in reply to.
-	 * @return The text that should be posted on Twitter.
-	 * @throws Exception
-	 */
-	public TwitlongerPostResponse post(String message, long inReplyTo, String inReplyToName) throws Exception {
-		ArrayList<NameValuePair> args = new ArrayList<NameValuePair>(2);
-	    args.add(new BasicNameValuePair("application", _app));
-	    args.add(new BasicNameValuePair("api_key", _key));
-	    args.add(new BasicNameValuePair("username", _user));
-	    args.add(new BasicNameValuePair("message", message));
-	    if(inReplyTo > 0) {
-	    	args.add(new BasicNameValuePair("in_reply", Long.toString(inReplyTo)));
-	    	if(inReplyToName != null && !inReplyToName.trim().isEmpty()) args.add(new BasicNameValuePair("in_reply_user", inReplyToName));
-	    }
-	    Element xml = makeXmlPost("http://www.twitlonger.com/api_post", args);
-	    return new TwitlongerPostResponse(xml);
-	}
-	
-	/**
-	 * Performs the Twitlonger callback, should be done after successfully using the 'post' method.
-	 * @param twitterId The ID of the tweet posted directly to Twitter by you using the results of 'post'. 
-	 * @param response The TwitlongerPostResponse instance returned from your previous use of 'post'.
-	 * @return True if successful.
-	 * @throws Exception 
-	 */
-	public boolean callback(long twitterId, TwitlongerPostResponse response) throws Exception {
-		ArrayList<NameValuePair> args = new ArrayList<NameValuePair>(2);
-	    args.add(new BasicNameValuePair("application", _app));
-	    args.add(new BasicNameValuePair("api_key", _key));
-	    args.add(new BasicNameValuePair("message_id", response.getId()));
-	    args.add(new BasicNameValuePair("twitter_id ", Long.toString(twitterId)));
-	    return makePost("http://www.twitlonger.com/api_set_id", args);
-	}
-	
-	/**
-	 * Retrieves the full expanded content of a tweet longer post.
-	 * @param id The ID (at the end of a shortened URL such as tl.gd/id).
-	 * @return The full expanded content.
-	 * @throws Exception
-	 */
-	public String readPost(String id) throws Exception {
-		return makeGet("http://www.twitlonger.com/api_read/" + id).getElementsByTagName("content").item(0).getTextContent();
-	}
-	
-	private Element makeXmlPost(String url, ArrayList<NameValuePair> entities) throws Exception {
-		HttpClient httpclient = new DefaultHttpClient();
-	    HttpPost httppost = new HttpPost(url);
-	    httppost.setEntity(new UrlEncodedFormEntity(entities));
-	    HttpResponse response = httpclient.execute(httppost);
-	    String responseStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-	    Element toReturn = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(responseStr))).getDocumentElement();
-	    if(toReturn.getElementsByTagName("error") != null && toReturn.getElementsByTagName("error").getLength() > 0) {
-	    	throw new Exception(toReturn.getElementsByTagName("error").item(0).getTextContent());
-	    }
-	    return toReturn;
-	}
-	private boolean makePost(String url, ArrayList<NameValuePair> entities) throws Exception {
-		HttpClient httpclient = new DefaultHttpClient();
-	    HttpPost httppost = new HttpPost(url);
-	    httppost.setEntity(new UrlEncodedFormEntity(entities));
-	    HttpResponse response = httpclient.execute(httppost);
-	    String responseStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-	    try { 
-	    	Element toReturn = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(responseStr))).getDocumentElement();
-	    	if(toReturn.getElementsByTagName("error") != null && toReturn.getElementsByTagName("error").getLength() > 0) {
-	    		throw new Exception(toReturn.getElementsByTagName("error").item(0).getTextContent());
-	    	}
-	    } catch(Exception e) { return (response.getStatusLine().getStatusCode() == 200); }
-	    return true;
-	}
-	private Element makeGet(String url) throws Exception {
-		HttpClient httpclient = new DefaultHttpClient();
-	    HttpGet httpget = new HttpGet(url);
-	    HttpResponse response = httpclient.execute(httpget);
-	    String responseStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-	    try { 
-	    	Element toReturn = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(responseStr))).getDocumentElement();
-	    	if(toReturn.getElementsByTagName("error") != null && toReturn.getElementsByTagName("error").getLength() > 0) {
-	    		throw new Exception(toReturn.getElementsByTagName("error").item(0).getTextContent());
-	    	}
-	    	return toReturn;
-	    } catch(Exception e) { e.printStackTrace(); }
-	    return null;
-	}
+    public static final String TWITLONGER_API_KEY = "rU5qsRgK23glt5dcUQ55b4hsN8F5rak0";
+    public static final String SERVICE_PROVIDER = "https://api.twitter.com/1.1/account/verify_credentials.json";
+    public static final String POST_URL = "http://api.twitlonger.com/2/posts";
 
-	/**
-	 * Contains a response returned from posting to Twitlonger.
-	 * @author Aidan Follestad
-	 */
-	public static class TwitlongerPostResponse {
-		
-		/**
-		 * Initializes a new TwitlongerResponse instance by parsing returned XML.
-		 * @param xml The XML returned from a Twitlonger request.
-		 */
-		public TwitlongerPostResponse(Element xml) {
-			Element post = (Element)xml.getElementsByTagName("post").item(0);			
-			content = post.getElementsByTagName("content").item(0).getTextContent();
-			id = post.getElementsByTagName("id").item(0).getTextContent();
-		}
-		
-		private String content;
-		private String id;
-		
-		/**
-		 * Gets the content of the Twitlonge post, which is the shortened version of your over-140-character tweet.
-		 * @return Twitlonger post content
-		 */
-		public String getContent() { return content; }
-		/**
-		 * Gets the ID of the Twitlonger post.
-		 * @return The Twitlonger post ID.
-		 */
-		public String getId() { return id; }
-	}
+    public String tweetText;
+    public long replyToId;
+    public String replyToScreenname;
+
+    public Context context;
+    public AppSettings settings;
+
+    /**
+     * Used for a normal tweet, not a reply
+     * @param tweetText the text of the tweet that you want to post
+     */
+	public TwitlongerHelper(String tweetText, Context context, AppSettings settings) {
+        this.tweetText = tweetText;
+        this.replyToId = 0;
+        this.replyToScreenname = null;
+
+        this.context = context;
+        this.settings = settings;
+    }
+
+    /**
+     * Used when repling to a user and you have their id number
+     * @param tweetText the text of the tweet that you want to post
+     * @param replyToId the id of the user your tweet is replying to
+     */
+    public TwitlongerHelper(String tweetText, long replyToId, Context context, AppSettings settings) {
+        this.tweetText = tweetText;
+        this.replyToId = replyToId;
+        this.replyToScreenname = null;
+
+        this.context = context;
+        this.settings = settings;
+    }
+
+    /**
+     * Used when repling to a user and you have their id number
+     * @param tweetText the text of the tweet that you want to post
+     * @param replyToScreenname the screenname of the user you are replying to
+     */
+    public TwitlongerHelper(String tweetText, String replyToScreenname, Context context, AppSettings settings) {
+        this.tweetText = tweetText;
+        this.replyToScreenname = replyToScreenname;
+        this.replyToId = 0;
+
+        this.context = context;
+        this.settings = settings;
+    }
+
+    /**
+     * posts the status onto Twitlonger
+     * @return string of the tweet you need to post to twitter. Twitlonger does not automatically do this for you.
+     */
+    public String createPost() {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost(POST_URL);
+            post.addHeader("X-API-KEY", TWITLONGER_API_KEY);
+            post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
+
+            Twitter twitter = Utils.getTwitter(context, settings);
+            String authHeader = getAuthrityHeader(twitter);
+
+            post.addHeader("X-Verify-Credentials-Authorization", authHeader);
+
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+            nvps.add(new BasicNameValuePair("content", tweetText));
+
+            if (replyToId != 0) {
+                nvps.add(new BasicNameValuePair("reply_to_id", String.valueOf(replyToId)));
+            } else if (replyToScreenname != null) {
+                nvps.add(new BasicNameValuePair("reply_to_screen_name", replyToScreenname));
+            }
+
+            post.setEntity(new UrlEncodedFormEntity(nvps));
+            HttpResponse response = client.execute(post);
+            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+            String line;
+            if ((line = rd.readLine()) != null) {
+                String content = line.substring(line.indexOf("tweet_content"), line.length() - 2);
+                content = content.replace("tweet_content", "");
+                content = content.substring(3);
+                content = content.replace("http:\\/\\/tl.gd\\/", "http://tl.gd/");
+                Log.v("TwitLonger_Talon", "Status: " + content);
+                return content;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets the header to verify the user on Twitter
+     * @param twitter Coming from Twitter.getInstance()
+     * @return String of the header to be used with X-Verify-Credentials-Authorization
+     */
+    public String getAuthrityHeader(Twitter twitter) {
+        try {
+            // gets the system time for the header
+            long time = System.currentTimeMillis() / 1000;
+            long millis = time + 12;
+
+            // set the necessary parameters
+            List<HttpParameter> oauthHeaderParams = new ArrayList<HttpParameter>(5);
+            oauthHeaderParams.add(new HttpParameter("oauth_consumer_key", AppSettings.TWITTER_CONSUMER_KEY));
+            oauthHeaderParams.add(new HttpParameter("oauth_signature_method", "HMAC-SHA1"));
+            oauthHeaderParams.add(new HttpParameter("oauth_timestamp", time + ""));
+            oauthHeaderParams.add(new HttpParameter("oauth_nonce", millis + ""));
+            oauthHeaderParams.add(new HttpParameter("oauth_version", "1.0"));
+            oauthHeaderParams.add(new HttpParameter("oauth_token", twitter.getOAuthAccessToken().getToken()));
+            List<HttpParameter> signatureBaseParams = new ArrayList<HttpParameter>(oauthHeaderParams.size());
+            signatureBaseParams.addAll(oauthHeaderParams);
+
+            // create the signature
+            StringBuilder base = new StringBuilder("GET").append("&")
+                    .append(HttpParameter.encode(constructRequestURL(SERVICE_PROVIDER))).append("&");
+            base.append(HttpParameter.encode(normalizeRequestParameters(signatureBaseParams)));
+
+            String oauthBaseString = base.toString();
+            String signature = generateSignature(oauthBaseString, twitter.getOAuthAccessToken());
+
+            oauthHeaderParams.add(new HttpParameter("oauth_signature", signature));
+
+            // create the header to post
+            return "OAuth " + encodeParameters(oauthHeaderParams, ",", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    /**
+     * Generates the signature to use with the header
+     * @param data base signature data
+     * @param token the user's access token
+     * @return String of the signature to use in your header
+     */
+    public String generateSignature(String data, AccessToken token) {
+        byte[] byteHMAC = null;
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            SecretKeySpec spec;
+            String oauthSignature = HttpParameter.encode(AppSettings.TWITTER_CONSUMER_SECRET) + "&" + HttpParameter.encode(token.getTokenSecret());
+            spec = new SecretKeySpec(oauthSignature.getBytes(), "HmacSHA1");
+            mac.init(spec);
+            byteHMAC = mac.doFinal(data.getBytes());
+        } catch (InvalidKeyException ike) {
+            throw new AssertionError(ike);
+        } catch (NoSuchAlgorithmException nsae) {
+            throw new AssertionError(nsae);
+        }
+        return BASE64Encoder.encode(byteHMAC);
+    }
+
+    /**
+     * Sorts and prepares the parameters
+     * @param params Your parameters to post
+     * @return String of the encoded parameters
+     */
+    static String normalizeRequestParameters(List<HttpParameter> params) {
+        Collections.sort(params);
+        return encodeParameters(params, "&", false);
+    }
+
+    /**
+     * Encodes the parameters
+     * @param httpParams parameters you want to send
+     * @param splitter character used to split the parameters
+     * @param quot whether you should use quotations or not
+     * @return string of the desired encoding
+     */
+    public static String encodeParameters(List<HttpParameter> httpParams, String splitter, boolean quot) {
+        StringBuilder buf = new StringBuilder();
+        for (HttpParameter param : httpParams) {
+            if (!param.isFile()) {
+                if (buf.length() != 0) {
+                    if (quot) {
+                        buf.append("\"");
+                    }
+                    buf.append(splitter);
+                }
+                buf.append(HttpParameter.encode(param.getName())).append("=");
+                if (quot) {
+                    buf.append("\"");
+                }
+                buf.append(HttpParameter.encode(param.getValue()));
+            }
+        }
+        if (buf.length() != 0) {
+            if (quot) {
+                buf.append("\"");
+            }
+        }
+        return buf.toString();
+    }
+
+    /**
+     * Used to create the base signature text
+     * @param url url of the post
+     * @return string of the base signature
+     */
+    static String constructRequestURL(String url) {
+        int index = url.indexOf("?");
+        if (-1 != index) {
+            url = url.substring(0, index);
+        }
+        int slashIndex = url.indexOf("/", 8);
+        String baseURL = url.substring(0, slashIndex).toLowerCase();
+        int colonIndex = baseURL.indexOf(":", 8);
+        if (-1 != colonIndex) {
+            // url contains port number
+            if (baseURL.startsWith("http://") && baseURL.endsWith(":80")) {
+                // http default port 80 MUST be excluded
+                baseURL = baseURL.substring(0, colonIndex);
+            } else if (baseURL.startsWith("https://") && baseURL.endsWith(":443")) {
+                // http default port 443 MUST be excluded
+                baseURL = baseURL.substring(0, colonIndex);
+            }
+        }
+        url = baseURL + url.substring(slashIndex);
+
+        return url;
+    }
+
 }
