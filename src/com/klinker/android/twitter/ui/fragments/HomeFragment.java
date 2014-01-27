@@ -434,11 +434,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void toTop() {
-        Cursor cursor = cursorAdapter.getCursor();
-        if (cursor.moveToLast()) {
-            long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+        if (cursorAdapter != null) {
+            Cursor cursor = cursorAdapter.getCursor();
+            if (cursor != null && cursor.moveToLast()) {
+                long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+            }
         }
+
 
         int pos = listView.getFirstVisiblePosition();
         if (pos < 200) {

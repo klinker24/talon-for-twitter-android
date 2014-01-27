@@ -22,6 +22,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
@@ -976,9 +978,13 @@ public class EmojiUtils {
     }
 
     public static Spannable getSmiledText(Context context, CharSequence text) {
-        Spannable spannable = spannableFactory.newSpannable(text);
-        addSmiles(context, spannable);
-        return spannable;
+        try {
+            Spannable spannable = spannableFactory.newSpannable(text);
+            addSmiles(context, spannable);
+            return spannable;
+        } catch (Exception e) {
+            return new SpannableString("");
+        }
     }
 
     public static boolean checkEmojisEnabled(Context context) {
