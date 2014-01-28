@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,14 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.compose.Compose;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
+import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -103,6 +106,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public LinearLayout background;
         public TextView charRemaining;
         public ImageView playButton;
+        public ImageButton quoteButton;
+        public ImageButton shareButton;
         //public Bitmap tweetPic;
 
         public long tweetId;
@@ -201,6 +206,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
                     holder.charRemaining = (TextView) v.findViewById(res.getIdentifier("char_remaining", "id", settings.addonThemePackage));
                     holder.playButton = (ImageView) v.findViewById(res.getIdentifier("play_button", "id", settings.addonThemePackage));
+                    try {
+                        holder.quoteButton = (ImageButton) v.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
+                        holder.shareButton = (ImageButton) v.findViewById(res.getIdentifier("share_button", "id", settings.addonThemePackage));
+                    } catch (Exception e) {
+                        // they don't exist because the theme was made before they were added
+                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -223,6 +235,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.background = (LinearLayout) v.findViewById(R.id.background);
                 holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
                 holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+                try {
+                    holder.quoteButton = (ImageButton) v.findViewById(R.id.quote_button);
+                    holder.shareButton = (ImageButton) v.findViewById(R.id.share_button);
+                } catch (Exception x) {
+                    // theme was made before they were added
+                }
+
             }
         } else {
             v = inflater.inflate(layout, viewGroup, false);
@@ -244,6 +263,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.background = (LinearLayout) v.findViewById(R.id.background);
             holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            try {
+                holder.quoteButton = (ImageButton) v.findViewById(R.id.quote_button);
+                holder.shareButton = (ImageButton) v.findViewById(R.id.share_button);
+            } catch (Exception x) {
+                // theme was made before they were added
+            }
         }
 
         // sets up the font sizes
@@ -327,7 +352,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public void onClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname, users);
+                            addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl);
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -374,7 +399,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname, users);
+                            addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl);
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -662,7 +687,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.expandArea.startAnimation(expandAni);
     }
 
-    public void addExpansion(final ViewHolder holder, String screenname, String users) {
+    public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage) {
         if (isDM) {
             holder.retweet.setVisibility(View.GONE);
             holder.retweetCount.setVisibility(View.GONE);
@@ -780,6 +805,178 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
+        final String name = screenname;
+
+        holder.shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String text = holder.tweet.getText().toString();
+
+                text = HtmlUtils.removeColorHtml(text);
+                text = restoreLinks(text);
+
+                if (!settings.preferRT) {
+                    text = "\"@" + name + ": " + text + "\" ";
+                } else {
+                    text = " RT @" + name + ": " + text;
+                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                intent.putExtra(Intent.EXTRA_TEXT, text);
+                context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
+            }
+
+            public String restoreLinks(String text) {
+                String full = text;
+
+                String[] split = text.split(" ");
+
+                boolean changed = false;
+
+                if (otherLinks.length > 0) {
+                    for (int i = 0; i < split.length; i++) {
+                        String s = split[i];
+
+                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                            String f = s.replace("...", "").replace("http", "");
+
+                            for (int x = 0; x < otherLinks.length; x++) {
+                                Log.v("recreating_links", "other link first: " + otherLinks[x]);
+                                if (otherLinks[x].contains(f)) {
+                                    changed = true;
+                                    f = otherLinks[x];
+                                    break;
+                                }
+                            }
+
+                            if (changed) {
+                                split[i] = f;
+                            } else {
+                                split[i] = s;
+                            }
+                        } else {
+                            split[i] = s;
+                        }
+
+                    }
+                }
+
+                Log.v("talon_picture", ":" + webpage + ":");
+
+                if (!webpage.equals("")) {
+                    for (int i = 0; i < split.length; i++) {
+                        String s = split[i];
+
+                        Log.v("talon_picture_", s);
+
+                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                            split[i] = webpage;
+                            changed = true;
+                            Log.v("talon_picture", split[i]);
+                        }
+                    }
+                }
+
+
+
+                if(changed) {
+                    full = "";
+                    for (String p : split) {
+                        full += p + " ";
+                    }
+
+                    full = full.substring(0, full.length() - 1);
+                }
+
+                return full;
+            }
+        });
+
+        holder.quoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, ComposeActivity.class);
+                intent.setType("text/plain");
+                String text = holder.tweet.getText().toString();
+
+                text = HtmlUtils.removeColorHtml(text);
+                text = restoreLinks(text);
+
+                if (!settings.preferRT) {
+                    text = "\"@" + name + ": " + text + "\" ";
+                } else {
+                    text = " RT @" + name + ": " + text;
+                }
+                intent.putExtra("user", text);
+                context.startActivity(intent);
+            }
+
+            public String restoreLinks(String text) {
+                String full = text;
+
+                String[] split = text.split(" ");
+
+                boolean changed = false;
+
+                if (otherLinks.length > 0) {
+                    for (int i = 0; i < split.length; i++) {
+                        String s = split[i];
+
+                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                            String f = s.replace("...", "").replace("http", "");
+
+                            for (int x = 0; x < otherLinks.length; x++) {
+                                Log.v("recreating_links", "other link first: " + otherLinks[x]);
+                                if (otherLinks[x].contains(f)) {
+                                    changed = true;
+                                    f = otherLinks[x];
+                                    break;
+                                }
+                            }
+
+                            if (changed) {
+                                split[i] = f;
+                            } else {
+                                split[i] = s;
+                            }
+                        } else {
+                            split[i] = s;
+                        }
+
+                    }
+                }
+
+                Log.v("talon_picture", ":" + webpage + ":");
+
+                if (!webpage.equals("")) {
+                    for (int i = 0; i < split.length; i++) {
+                        String s = split[i];
+
+                        Log.v("talon_picture_", s);
+
+                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                            split[i] = webpage;
+                            changed = true;
+                            Log.v("talon_picture", split[i]);
+                        }
+                    }
+                }
+
+
+
+                if(changed) {
+                    full = "";
+                    for (String p : split) {
+                        full += p + " ";
+                    }
+
+                    full = full.substring(0, full.length() - 1);
+                }
+
+                return full;
+            }
+        });
         if (settings.addonTheme) {
             try {
                 Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
