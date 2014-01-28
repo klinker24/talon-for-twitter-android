@@ -84,6 +84,7 @@ limitations under the License.
         <item name="picturePlaceholder">@drawable/ic_action_picture_dark</item>
         <item name="read_button">@drawable/ic_action_read_dark</item>
         <item name="unread_button">@drawable/ic_action_unread_dark</item>
+        <item name="quote_button">@drawable/ic_action_reply_all_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>
