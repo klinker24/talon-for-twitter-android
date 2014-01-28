@@ -11,6 +11,7 @@
     - user's favorites on profiles
     - picture searching
     - translation
+    - pictures on direct messages
 
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
