@@ -47,25 +47,6 @@ public class ComposeActivity extends Compose {
         setUpSimilar();
         setUpToastBar();
 
-        if (!sharedPrefs.getString("draft", "").equals("") && !getIntent().getBooleanExtra("failed_notification", false)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showToastBar(getResources().getString(R.string.draft_found), getResources().getString(R.string.apply), 300, true, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            reply.setText(sharedPrefs.getString("draft", ""));
-                            reply.setSelection(reply.getText().length());
-                            hideToastBar(300);
-                        }
-                    });
-                }
-            }, 300);
-        } else if (getIntent().getBooleanExtra("failed_notification", false)) {
-            reply.setText(sharedPrefs.getString("draft", ""));
-            reply.setSelection(reply.getText().length());
-        }
-
         autocomplete = new ListPopupWindow(context);
         autocomplete.setAnchorView(findViewById(R.id.prompt_pos));
         autocomplete.setHeight(toDP(110));
@@ -296,6 +277,56 @@ public class ComposeActivity extends Compose {
                     }
                 }
             });
+        }
+    }
+
+    public void setUpReplyText() {
+        // for drafts
+        if (!sharedPrefs.getString("draft", "").equals("") && !getIntent().getBooleanExtra("failed_notification", false)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showToastBar(getResources().getString(R.string.draft_found), getResources().getString(R.string.apply), 300, true, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            reply.setText(sharedPrefs.getString("draft", ""));
+                            reply.setSelection(reply.getText().length());
+                            hideToastBar(300);
+                        }
+                    });
+                }
+            }, 300);
+        } else if (getIntent().getBooleanExtra("failed_notification", false)) {
+            reply.setText(sharedPrefs.getString("draft", ""));
+            reply.setSelection(reply.getText().length());
+        }
+
+        String to = getIntent().getStringExtra("user") + (isDM ? "" : " ");
+
+        if ((!to.equals("null ") && !isDM) || (isDM && !to.equals("null"))) {
+            if(!isDM) {
+                Log.v("username_for_noti", "to place: " + to);
+                reply.setText(to);
+                reply.setSelection(reply.getText().toString().length());
+            } else {
+                contactEntry.setText(to);
+                reply.requestFocus();
+            }
+
+            sharedPrefs.edit().putString("draft", "").commit();
+        }
+
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent
+            } else if (type.startsWith("image/")) {
+                handleSendImage(intent); // Handle single image being sent
+            }
         }
     }
 

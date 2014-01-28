@@ -24,6 +24,7 @@ import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.compose.WidgetCompose;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.RedirectToPopup;
 import com.klinker.android.twitter.utils.Utils;
@@ -95,6 +96,10 @@ public class TalonPullNotificationService extends Service {
         popup.putExtra("from_notification", true);
         PendingIntent popupPending = PendingIntent.getActivity(this, 0, popup, 0);
 
+        Intent compose = new Intent(this, WidgetCompose.class);
+        popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent composePending = PendingIntent.getActivity(this, 0, compose, 0);
+
 
         /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
         remoteView.setOnClickPendingIntent(R.id.popup_button, stopPending);
@@ -120,6 +125,7 @@ public class TalonPullNotificationService extends Service {
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
             mBuilder.addAction(R.drawable.ic_popup, getResources().getString(R.string.popup), popupPending);
+            mBuilder.addAction(R.drawable.ic_send_dark, getResources().getString(R.string.menu_compose), composePending);
         }
 
         try {

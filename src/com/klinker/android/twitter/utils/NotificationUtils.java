@@ -120,7 +120,6 @@ public class NotificationUtils {
 
                     Log.v("username_for_noti", title[1]);
                     sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
-                    sharedPrefs.edit().putBoolean("from_notification_bool", true).commit();
                     MentionsDataSource data = new MentionsDataSource(context);
                     data.open();
                     long id = data.getLastIds(currentAccount)[0];
