@@ -66,6 +66,7 @@ limitations under the License.
     <attr name="picturePlaceholder" format="reference"/>
     <attr name="read_button" format="reference"/>
     <attr name="unread_button" format="reference"/>
+    <attr name="quote_button" format="reference"/>
 
     <!-- Drawer Icons -->
     <attr name="drawerIcon" format="reference"/>
