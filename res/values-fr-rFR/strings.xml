@@ -419,4 +419,21 @@ Défaut (quand c\'est désactivé) \n
     <string name="fill_gaps">Combler les problèmes de chronologie</string>
     <string name="fill_gaps_summary">Combler les lacunes qui se produisent lors d\'une mauvaise connexion quand le live streaming est activé.</string>
     <string name="filling_timeline">Les problèmes de chronologies sont en cours de résolution</string>
+    <string name="follows_you">Vous suit</string>
+    <string name="not_following_you">Ne vous suit pas</string>
+    <string name="open_to_web">Ouvrir le tweet dans une pag web</string>
+    <string name="open_to_web_summary">Si un tweet contient un lien, il ouvrira directement ce lien à la place du tweet.</string>
+    <string name="device">Police de l'appareil</string>
+    <string name="roboto_light">Roboto Light (Défaut)</string>
+    <string name="roboto_condensed">Roboto Condensed</string>
+    <string name="font_type">Type de police</string>
+    <string name="our_website">Site web</string>
+    <string name="alert_types">Types d'alerte</string>
+    <string name="timeline_notifications">Notifications de la Timeline</string>
+    <string name="interactions_notifications">Notifications pour les interactions</string>
+    <string name="timelines_settings">Paramètres de la Timeline</string>
+    <string name="tweet_look_options">Options des tweets</string>
+    <string name="limiting_options">Options limitées</string>
+    <string name="browser_options">Options du navigateur</string>
+    <string name="custom_ringtone">Sonnerie personnalisée </string>
 </resources>
