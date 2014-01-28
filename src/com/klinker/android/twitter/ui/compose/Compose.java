@@ -370,7 +370,7 @@ public abstract class Compose extends Activity implements
             return;
         }
 
-        super.onBackPressed();
+        finish();
     }
 
     public boolean doneClicked = false;
