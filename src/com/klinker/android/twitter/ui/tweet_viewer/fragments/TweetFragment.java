@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
@@ -810,6 +811,7 @@ public class TweetFragment extends Fragment {
         private TextView retweetCount;
         private String via = "";
         private String location = "";
+        private long realTime = 0;
 
         public GetRetweetCount(TextView retweetCount, long tweetId) {
             this.retweetCount = retweetCount;
@@ -821,7 +823,7 @@ public class TweetFragment extends Fragment {
                 Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
 
-                via = android.text.Html.fromHtml(status.getSource()).toString();
+
                 GeoLocation loc = status.getGeoLocation();
                 try {
                     Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -836,6 +838,12 @@ public class TweetFragment extends Fragment {
                     location = "";
                 }
 
+                if (status.isRetweet()) {
+                    status = status.getRetweetedStatus();
+                    via = android.text.Html.fromHtml(status.getSource()).toString();
+                    realTime = status.getCreatedAt().getTime();
+                }
+
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -846,6 +854,18 @@ public class TweetFragment extends Fragment {
         protected void onPostExecute(String count) {
             if (count != null) {
                 retweetCount.setText(" " + count);
+            }
+
+            if (realTime != 0) {
+                String timeDisplay;
+
+                if (!settings.militaryTime) {
+                    timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(realTime) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(realTime);
+                } else {
+                    timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(realTime) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(realTime);
+                }
+
+                timetv.setText(timeDisplay);
             }
 
             try {
