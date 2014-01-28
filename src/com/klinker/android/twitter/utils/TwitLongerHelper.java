@@ -20,6 +20,7 @@ import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
@@ -41,6 +42,7 @@ public class TwitLongerHelper {
 
     public String tweetText;
     public long replyToId;
+    public long replyToStatusId = 0;
     public String replyToScreenname;
 
     public Twitter twitter;
@@ -49,7 +51,7 @@ public class TwitLongerHelper {
      * Used for a normal tweet, not a reply
      * @param tweetText the text of the tweet that you want to post
      */
-	public TwitLongerHelper(String tweetText, Twitter twitter, long inReplyToStatusId) {
+	public TwitLongerHelper(String tweetText, Twitter twitter) {
         this.tweetText = tweetText;
         this.replyToId = 0;
         this.replyToScreenname = null;
@@ -84,6 +86,15 @@ public class TwitLongerHelper {
     }
 
     /**
+     * Sets the tweet id if it is replying to another users tweet
+     * @param replyToStatusId 
+     */
+    public void setInReplyToStatusId(long replyToStatusId) {
+        this.replyToStatusId = replyToStatusId;
+    }
+
+
+    /**
      * posts the status onto Twitlonger, it then posts the shortened status (with link) to the user's twitter and updates the status on twitlonger
      * to include the posted status's id.
      *
@@ -93,7 +104,15 @@ public class TwitLongerHelper {
         TwitLongerStatus status = postToTwitLonger();
         long statusId;
         try {
-            Status postedStatus = twitter.updateStatus(status.getText());
+            Status postedStatus;
+            if (replyToStatusId != 0) {
+                StatusUpdate update = new StatusUpdate(status.getText());
+                update.setInReplyToStatusId(replyToStatusId);
+                postedStatus = twitter.updateStatus(update);
+            } else {
+                postedStatus = twitter.updateStatus(status.getText());
+            }
+
             statusId = postedStatus.getId();
             updateTwitlonger(status, statusId);
         } catch (TwitterException e) {
