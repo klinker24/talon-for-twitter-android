@@ -194,6 +194,10 @@ public class ComposeDMActivity extends Compose {
 
     }
 
+    public void setUpReplyText() {
+
+    }
+
     public boolean doneClick() {
         EditText editText = (EditText) findViewById(R.id.tweet_content);
         String status = editText.getText().toString();

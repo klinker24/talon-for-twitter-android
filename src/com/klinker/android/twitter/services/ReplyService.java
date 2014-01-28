@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.ui.compose.NotificationCompose;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 
 /**
@@ -34,7 +35,7 @@ public class ReplyService extends IntentService {
 
         // we can just mark everything as read because it isnt taxing at all and won't do anything in the mentions if there isn't one
         // and the shared prefs are easy.
-        // this is only called from the notification and there will only ever be one thing that is unread when this button is availible
+        // this is only called from the notification and there will only ever be one thing that is unread when this button is available
         MentionsDataSource data = new MentionsDataSource(context);
         data.open();
         data.markAllRead(currentAccount);
@@ -42,7 +43,7 @@ public class ReplyService extends IntentService {
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
 
-        Intent compose = new Intent(context, RetryCompose.class);
+        Intent compose = new Intent(context, NotificationCompose.class);
         compose.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(compose);
     }

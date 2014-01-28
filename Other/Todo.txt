@@ -13,7 +13,6 @@
     - translation
 
 - Bugs:
-    - some people cant see profiles correctly
     - doesn't display pictures full screen when clicking on tweet
 
 - Notification Center:
@@ -26,7 +25,6 @@
     -- compose button on the talon pull notification
     -- delete retweets (maybe use searching to find the id of the tweet i need to delete?)
     -- finish up with twitlonger by putting it in the compose and the reply windows
-    -- redo the compose windows to seperate out different things
     -- usernames on in line replies
     -- be able to put lists on the extra pages
     -- feed jumps down one after refresh

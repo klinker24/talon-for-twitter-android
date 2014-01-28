@@ -108,48 +108,7 @@ public abstract class Compose extends Activity implements
         setUpWindow();
         setUpLayout();
         setUpDoneDiscard();
-
-        String to = getIntent().getStringExtra("user") + (isDM ? "" : " ");
-
-        if ((!to.equals("null ") && !isDM) || (isDM && !to.equals("null"))) {
-            if(!isDM) {
-                Log.v("username_for_noti", "to place: " + to);
-                reply.setText(to);
-                reply.setSelection(reply.getText().toString().length());
-            } else {
-                contactEntry.setText(to);
-                reply.requestFocus();
-            }
-
-            sharedPrefs.edit().putString("draft", "").commit();
-        }
-
-        String from = sharedPrefs.getString("from_notification", "");
-        boolean noti = sharedPrefs.getBoolean("from_notification_bool", false);
-        if (!from.equals("") && noti) {
-            reply.setText(from);
-            reply.setSelection(reply.getText().toString().length());
-            notiId = sharedPrefs.getLong("from_notification_id", 0);
-        } else {
-            notiId = getIntent().getLongExtra("id", 0);
-        }
-
-        sharedPrefs.edit().putLong("from_notification_id", 0).commit();
-        sharedPrefs.edit().putString("from_notification", "").commit();
-        sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
-
-        // Get intent, action and MIME type
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                handleSendText(intent); // Handle text being sent
-            } else if (type.startsWith("image/")) {
-                handleSendImage(intent); // Handle single image being sent
-            }
-        }
+        setUpReplyText();
 
         if (reply.getText().toString().contains(" RT @")) {
             reply.setSelection(0);
@@ -565,6 +524,7 @@ public abstract class Compose extends Activity implements
 
     public abstract boolean doneClick();
     public abstract void setUpLayout();
+    public abstract void setUpReplyText();
 
     public int toDP(int px) {
         try {
