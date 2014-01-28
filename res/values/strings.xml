@@ -463,5 +463,6 @@
     <string name="browser_options">Browser Options</string>
     <string name="custom_ringtone">Custom Ringtone</string>
     <string name="use_twitlonger">Enable TwitLonger</string>
+    <string name="remove_retweet">Remove Retweet</string>
 
 </resources>

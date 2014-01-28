@@ -74,6 +74,7 @@ import java.util.List;
 import java.util.Locale;
 
 import twitter4j.GeoLocation;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -526,6 +527,29 @@ public class TweetFragment extends Fragment {
             }
         });
 
+        retweetButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.remove_retweet))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                new RemoveRetweet(tweetId).execute();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .create()
+                        .show();
+                return false;
+            }
+        });
+
         if(settings.roundContactImages) {
             //profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
             ImageUtils.loadCircleImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
@@ -796,6 +820,38 @@ public class TweetFragment extends Fragment {
         }
     }
 
+    class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
+
+        private long tweetId;
+
+        public RemoveRetweet(long tweetId) {
+            this.tweetId = tweetId;
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context, settings);
+                ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
+                for (twitter4j.Status retweet : retweets) {
+                    if(retweet.getUser().getId() == settings.myId)
+                        twitter.destroyStatus(retweet.getId());
+                }
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            if (deleted) {
+                Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     class GetRetweetCount extends AsyncTask<String, Void, String> {
 
         private long tweetId;
@@ -814,7 +870,6 @@ public class TweetFragment extends Fragment {
                 Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
 
-
                 GeoLocation loc = status.getGeoLocation();
                 try {
                     Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -832,9 +887,9 @@ public class TweetFragment extends Fragment {
                 via = android.text.Html.fromHtml(status.getSource()).toString();
 
                 if (status.isRetweet()) {
-                    status = status.getRetweetedStatus();
-                    via = android.text.Html.fromHtml(status.getSource()).toString();
-                    realTime = status.getCreatedAt().getTime();
+                    twitter4j.Status status2 = status.getRetweetedStatus();
+                    via = android.text.Html.fromHtml(status2.getSource()).toString();
+                    realTime = status2.getCreatedAt().getTime();
                 }
 
                 return "" + status.getRetweetCount();
