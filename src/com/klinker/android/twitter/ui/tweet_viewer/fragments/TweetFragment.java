@@ -319,15 +319,6 @@ public class TweetFragment extends Fragment {
             screennametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
         }
 
-        if (screenName.equals(settings.myScreenName)) {
-            reply.setVisibility(View.GONE);
-            replyButton.setVisibility(View.GONE);
-            attachButton.setVisibility(View.GONE);
-            attachButton.setEnabled(false);
-            favoriteButton.setEnabled(false);
-            retweetButton.setEnabled(false);
-        }
-
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
