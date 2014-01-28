@@ -1,6 +1,8 @@
 <b>Version 1.3.0:</b><br/><br/>
     &#8226; Added size 30 font<br/>
     &#8226; Better handling of retweets when viewing the tweet<br/>
+    &#8226; Reply to your own tweets<br/>
+    &#8226; Added share and quote button to the in-line expansions on tweets<br/>
 <br/><br/>
 
 <b>Version 1.2.0 Beta 3:</b><br/><br/>
