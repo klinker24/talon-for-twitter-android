@@ -45,6 +45,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
@@ -425,9 +426,11 @@ public abstract class Compose extends Activity implements
     class updateTwitterStatus extends AsyncTask<String, String, Boolean> {
 
         String text;
+        private int remaining;
 
-        public updateTwitterStatus(String text) {
+        public updateTwitterStatus(String text, int length) {
             this.text = text;
+            this.remaining = length;
         }
 
         protected Boolean doInBackground(String... args) {
@@ -435,69 +438,79 @@ public abstract class Compose extends Activity implements
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
 
-                StatusUpdate media = new StatusUpdate(status);
-
-                if (notiId != 0) {
-                    media.setInReplyToStatusId(notiId);
-                }
-
-                if (attachedFilePath.equals("")) {
-                    // Update status
-                    if(addLocation) {
-                        Location location = mLocationClient.getLastLocation();
-                        GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-                        media.setLocation(geolocation);
+                if (remaining < 0) {
+                    // twitlonger goes here
+                    TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
+                    if (notiId != 0) {
+                        helper.setInReplyToStatusId(notiId);
                     }
 
-                    twitter.updateStatus(media);
-
-                    return true;
-
+                    return helper.createPost() != 0;
                 } else {
-                    File f = new File(attachedFilePath);
+                    StatusUpdate media = new StatusUpdate(status);
 
-                    if (f.length() > 3000000) { // it is to big to upload
-                        Bitmap bitmap = BitmapFactory.decodeFile(attachedFilePath);
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-
-                        try {
-                            //write the bytes in file
-                            FileOutputStream fos = new FileOutputStream(f);
-                            fos.write(bitmapdata);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            // couldn't find file
-                        }
+                    if (notiId != 0) {
+                        media.setInReplyToStatusId(notiId);
                     }
 
-                    media.setMedia(f);
+                    if (attachedFilePath.equals("")) {
+                        // Update status
+                        if(addLocation) {
+                            Location location = mLocationClient.getLastLocation();
+                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+                            media.setLocation(geolocation);
+                        }
 
-                    if(addLocation) {
-                        int wait = 0;
-                        while (!mLocationClient.isConnected() && wait < 4) {
+                        twitter.updateStatus(media);
+
+                        return true;
+
+                    } else {
+                        File f = new File(attachedFilePath);
+
+                        if (f.length() > 3000000) { // it is to big to upload
+                            Bitmap bitmap = BitmapFactory.decodeFile(attachedFilePath);
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bos);
+                            byte[] bitmapdata = bos.toByteArray();
+
                             try {
-                                Thread.sleep(1500);
+                                //write the bytes in file
+                                FileOutputStream fos = new FileOutputStream(f);
+                                fos.write(bitmapdata);
                             } catch (Exception e) {
+                                e.printStackTrace();
+                                // couldn't find file
+                            }
+                        }
+
+                        media.setMedia(f);
+
+                        if(addLocation) {
+                            int wait = 0;
+                            while (!mLocationClient.isConnected() && wait < 4) {
+                                try {
+                                    Thread.sleep(1500);
+                                } catch (Exception e) {
+                                    return false;
+                                }
+
+                                wait++;
+                            }
+
+                            if (wait == 4) {
                                 return false;
                             }
 
-                            wait++;
+                            Location location = mLocationClient.getLastLocation();
+                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+                            media.setLocation(geolocation);
                         }
 
-                        if (wait == 4) {
-                            return false;
-                        }
+                        twitter.updateStatus(media);
 
-                        Location location = mLocationClient.getLastLocation();
-                        GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-                        media.setLocation(geolocation);
+                        return true;
                     }
-
-                    twitter.updateStatus(media);
-
-                    return true;
                 }
 
             } catch (Exception e) {

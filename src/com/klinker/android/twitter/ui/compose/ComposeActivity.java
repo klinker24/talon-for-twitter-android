@@ -337,10 +337,10 @@ public class ComposeActivity extends Compose {
         String status = editText.getText().toString();
 
         // Check for blank text
-        if (Integer.parseInt(charRemaining.getText().toString()) >= 0) {
+        if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
             // update status
             doneClicked = true;
-            sendStatus(status);
+            sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
             return true;
         } else {
             if (editText.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
@@ -353,8 +353,8 @@ public class ComposeActivity extends Compose {
         }
     }
 
-    public void sendStatus(String status) {
-        new updateTwitterStatus(reply.getText().toString()).execute(status);
+    public void sendStatus(String status, int length) {
+        new updateTwitterStatus(reply.getText().toString(), length).execute(status);
     }
 
     @Override
