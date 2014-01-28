@@ -828,6 +828,8 @@ public class TweetFragment extends Fragment {
                     location = "";
                 }
 
+                via = android.text.Html.fromHtml(status.getSource()).toString();
+
                 if (status.isRetweet()) {
                     status = status.getRetweetedStatus();
                     via = android.text.Html.fromHtml(status.getSource()).toString();

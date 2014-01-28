@@ -20,7 +20,6 @@ import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import twitter4j.Status;
-import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
@@ -50,7 +49,7 @@ public class TwitLongerHelper {
      * Used for a normal tweet, not a reply
      * @param tweetText the text of the tweet that you want to post
      */
-	public TwitLongerHelper(StatusUpdate update, Twitter twitter) {
+	public TwitLongerHelper(String tweetText, Twitter twitter, long inReplyToStatusId) {
         this.tweetText = tweetText;
         this.replyToId = 0;
         this.replyToScreenname = null;

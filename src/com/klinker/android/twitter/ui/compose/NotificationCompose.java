@@ -6,7 +6,7 @@ public class NotificationCompose extends ComposeActivity {
     public void setUpReplyText() {
         reply.setText(sharedPrefs.getString("from_notification", ""));
         reply.setSelection(reply.getText().toString().length());
-        notiId = sharedPrefs.getLong("from_notification_id", 0);
+        notiId = sharedPrefs.getLong("from_notification_long", 0);
 
         sharedPrefs.edit().putLong("from_notification_id", 0).commit();
         sharedPrefs.edit().putString("from_notification", "").commit();
