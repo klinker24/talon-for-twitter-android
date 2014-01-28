@@ -58,6 +58,7 @@ import java.util.regex.Pattern;
 
 import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -755,6 +756,65 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View view) {
                 new RetweetStatus(holder, holder.tweetId).execute();
+            }
+        });
+
+        holder.retweet.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.remove_retweet))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                new RemoveRetweet(holder.tweetId).execute();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .create()
+                        .show();
+                return false;
+            }
+
+            class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
+
+                private long tweetId;
+
+                public RemoveRetweet(long tweetId) {
+                    this.tweetId = tweetId;
+                }
+
+                protected Boolean doInBackground(String... urls) {
+                    try {
+                        Twitter twitter =  Utils.getTwitter(context, settings);
+                        ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
+                        for (twitter4j.Status retweet : retweets) {
+                            if(retweet.getUser().getId() == settings.myId)
+                                twitter.destroyStatus(retweet.getId());
+                        }
+                        return true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+
+                protected void onPostExecute(Boolean deleted) {
+                    try {
+                        if (deleted) {
+                            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        // user has gone away from the window
+                    }
+                }
             }
         });
 

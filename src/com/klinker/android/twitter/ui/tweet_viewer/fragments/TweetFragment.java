@@ -844,10 +844,14 @@ public class TweetFragment extends Fragment {
         }
 
         protected void onPostExecute(Boolean deleted) {
-            if (deleted) {
-                Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            try {
+                if (deleted) {
+                    Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // user has gone away from the window
             }
         }
     }
