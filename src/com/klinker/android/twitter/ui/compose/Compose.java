@@ -438,7 +438,7 @@ public abstract class Compose extends Activity implements
                 StatusUpdate media = new StatusUpdate(status);
 
                 if (notiId != 0) {
-                    media.inReplyToStatusId(notiId);
+                    media.setInReplyToStatusId(notiId);
                 }
 
                 if (attachedFilePath.equals("")) {
