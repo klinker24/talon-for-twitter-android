@@ -4,6 +4,7 @@
     &#8226; Reply to your own tweets<br/>
     &#8226; Added share and quote button to the in-line expansions on tweets<br/>
     &#8226; TwitLonger support<br/>
+    &#8226; Remove retweets by long pressing the retweet button<br/>
 <br/><br/>
 
 <b>Version 1.2.0 Beta 3:</b><br/><br/>
