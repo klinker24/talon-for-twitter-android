@@ -3,9 +3,11 @@ package com.klinker.android.twitter.ui.drawer_activities;
 import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -630,7 +633,41 @@ public abstract class DrawerActivity extends Activity {
 
         if (settings.addonTheme) {
             getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
+        } else {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+
+            getWindow().getDecorView().setBackgroundResource(resource);
         }
+
+        int actionBarTitleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        TextView title = null;
+        if (actionBarTitleId > 0) {
+            title = (TextView) findViewById(actionBarTitleId);
+        }
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_light_holo));
+                if (title != null) {
+                    title.setTextColor(Color.BLACK);
+                }
+                break;
+            case AppSettings.THEME_DARK:
+                getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_dark));
+                if (title != null) {
+                    title.setTextColor(Color.WHITE);
+                }
+                break;
+            case AppSettings.THEME_BLACK:
+                getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_black));
+                if (title != null) {
+                    title.setTextColor(Color.WHITE);
+                }
+                break;
+        }
+
     }
 
     @Override
@@ -730,6 +767,11 @@ public abstract class DrawerActivity extends Activity {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
+
+        if (sharedPrefs.getBoolean("check_overlay", false) && !getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
+            sharedPrefs.edit().putBoolean("check_overlay", false).commit();
+            recreate();
+        }
 
         /*if (sharedPrefs.getBoolean("test_twitlong_22", true)) {
             sharedPrefs.edit().putBoolean("test_twitlong_22", false).commit();

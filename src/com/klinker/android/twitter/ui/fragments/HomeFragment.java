@@ -436,7 +436,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void toTop() {
         if (cursorAdapter != null) {
             Cursor cursor = cursorAdapter.getCursor();
-            if (cursor != null && cursor.moveToLast()) {
+            if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
             }
