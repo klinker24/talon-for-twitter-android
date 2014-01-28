@@ -641,8 +641,15 @@ public abstract class DrawerActivity extends Activity {
             getWindow().getDecorView().setBackgroundResource(resource);
         }
 
-        int actionBarTitleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        // this is a super hacky workaround for the theme problems that some people were having... but it works ok
+        int actionBarTitleId = 0;
         TextView title = null;
+        try {
+            actionBarTitleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        } catch (Exception e) {
+            // just in case
+        }
+
         if (actionBarTitleId > 0) {
             title = (TextView) findViewById(actionBarTitleId);
         }
@@ -768,10 +775,10 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        if (sharedPrefs.getBoolean("check_overlay", false) && !getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
+        /*if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
             sharedPrefs.edit().putBoolean("check_overlay", false).commit();
             recreate();
-        }
+        }*/
 
         /*if (sharedPrefs.getBoolean("test_twitlong_22", true)) {
             sharedPrefs.edit().putBoolean("test_twitlong_22", false).commit();
