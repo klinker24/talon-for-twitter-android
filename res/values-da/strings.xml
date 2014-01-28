@@ -293,8 +293,8 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="max_number_summary">Højere max. grænse betyder langsommere opdatering.</string>
     <string name="auto_refresh_category">Auto-opdater indstillinger</string>
     <string name="refresh_on_startup">Opdatér ved start app</string>
-    <string name="timeline_sync_interval">Tidslinjen's opdaterings interval</string>
-    <string name="mentions_sync_interval">Meninger's opdaterings interval</string>
+    <string name="timeline_sync_interval">Tidslinjen\'s opdaterings interval</string>
+    <string name="mentions_sync_interval">Meninger\'s opdaterings interval</string>
     <string name="dm_sync_interval">Direkte beskeder\'s opdaterings interval</string>
     <string name="sync_friends">Synkr. venners data</string>
     <string name="sync_friends_summary2">Synkronisér venners data til brug ved skrivning af tweets.</string>
@@ -344,14 +344,14 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="backup_category">Backup og gendan indstillinger</string>
     <string name="backup_settings">Backup indstillinger</string>
     <string name="backup_settings_dialog">Tilføj ny backup?</string>
-    <string name="backup_settings_dialog_summary">Dette vil overskrive alle tidligere backup's.</string>
+    <string name="backup_settings_dialog_summary">Dette vil overskrive alle tidligere backup\'s.</string>
     <string name="backup_success">Backup lykkedes</string>
     <string name="restore_success">Gendannelse lykkedes</string>
     <string name="restore_settings">Gendan indstillinger</string>
     <string name="restore_settings_summary">Sletter hukommelsen for at tilføje ændringer i tema.</string>
     <string name="get_help_settings">Hjælp</string>
     <string name="rerun_tutorial">Kør opstarts introduktion</string>
-    <string name="faq">FAQ's</string>
+    <string name="faq">FAQ\'s</string>
     <string name="features_explained">Funktioner beskrevet</string>
     <string name="youtube">YouTube Video</string>
     <string name="google_plus">Google+ forum</string>
@@ -361,7 +361,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="follow_talon">Følg Talon på Twitter</string>
     <string name="credits">Credits</string>
     <string name="disclaimer">Ansvarsfraskrivelse</string>
-    <string name="other_apps">Vores andre app's</string>
+    <string name="other_apps">Vores andre app\'s</string>
     <string name="whats_new">Hvad er nyt</string>
     <string name="rate_it">Bedøm Talon</string>
     <string name="talon_settings">Talon indstillinger</string>
@@ -405,7 +405,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="ignore_retweets_summary">Vis ikke retweets når du scroller igennem din Tidslinje</string>
     <string name="view">Se</string>
     <string name="muted_hashtags">Muted hash tags</string>
-    <string name="muted_hashtags_summary">Tap på hash tag'et for at fjerne mute.</string>
+    <string name="muted_hashtags_summary">Tap på hash tag\'et for at fjerne mute.</string>
     <string name="no_hashtags">Ingen hash tags</string>
     <string name="mute_hashtags">Mute hash tags</string>
     <string name="muted">Muted</string>

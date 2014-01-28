@@ -109,7 +109,7 @@
     <string name="back_to_timeline">Покажіть мені стрічку!</string>
     <string name="initial_sync">Синхронізувати!</string>
     <string name="first_info">Перш ніж почати, давайте увійдемо в Твіттер.</string>
-    <string name="second_info">Чудово!\n\nЗараз нам потрібно зібрати деякі дані.\n\nЦе займе деякий час, залежно від швидкості вашого інтернет-з'єднання</string>
+    <string name="second_info">Чудово!\n\nЗараз нам потрібно зібрати деякі дані.\n\nЦе займе деякий час, залежно від швидкості вашого інтернет-з\'єднання</string>
     <string name="third_info">Сподіваюся, вам сподобається Talon!\n\n-- Люк Клінкер</string>
     <string name="syncing_timeline">Синхронізація стрічки...</string>
     <string name="syncing_mentions">Синхронізація згадок...</string>
@@ -179,12 +179,12 @@
     <string name="uploaded">Файл завантажений</string>
     <string name="change_profile_info">Змінити інформацію профілю</string>
     <string name="update">Оновити</string>
-    <string name="optional_name">Ім'я (не обов'язково)</string>
-    <string name="optional_url">Посилання (не обов'язково)</string>
-    <string name="optional_location">Розташування (не обов'язково)</string>
-    <string name="optional_description">Опис (не обов'язково)</string>
+    <string name="optional_name">Ім\'я (не обов\'язково)</string>
+    <string name="optional_url">Посилання (не обов\'язково)</string>
+    <string name="optional_location">Розташування (не обов\'язково)</string>
+    <string name="optional_description">Опис (не обов\'язково)</string>
     <string name="updated_profile">Профіль оновлено</string>
-    <string name="name_char_length">Ім'я: максимум 20 символів</string>
+    <string name="name_char_length">Ім\'я: максимум 20 символів</string>
     <string name="url_char_length">Посилання: максимум 100 символів</string>
     <string name="location_char_length">Розташування: максимум 30 символів</string>
     <string name="description_char_length">Опис: максимум 160 символів</string>
@@ -220,7 +220,7 @@
     <string name="removed_user">Користувач прибраний</string>
     <string name="create_new_list">Новий список</string>
     <string name="list_name">Назва списку...</string>
-    <string name="list_description">Опис (не обов'язково)</string>
+    <string name="list_description">Опис (не обов\'язково)</string>
     <string name="deleted_list">Список видалений</string>
     <string name="back_to_refresh">Вийдіть для оновлення списків</string>
     <string name="sPrivate">Приватний</string>
@@ -262,7 +262,7 @@
 - Інтерактивний Toast Bar\n
 = Прозорі системні елементи (тільки в Android 4.4 +)\n\n
 Включення цієї опції може вплинути на плавність прокрутки.</string>
-    <string name="inline_pics">Прев'ю зображень в стрічці</string>
+    <string name="inline_pics">Прев\'ю зображень в стрічці</string>
     <string name="use_screen_name">Показувати @нікнейм</string>
     <string name="use_screen_name_summary">Замість імені користувача вгорі твітів і повідомлень буде відображатися @нікнейм.</string>
     <string name="timestamp">24-годинна мітка часу</string>
@@ -323,7 +323,7 @@
     <string name="extra_pages">Додаткові вкладки</string>
     <string name="extra_pages_summary">Додати вкладки посилань і зображень зліва від основної стрічки.</string>
     <string name="live_streaming">Стрімінг</string>
-    <string name="memory_management">Налаштування використання пам'яті</string>
+    <string name="memory_management">Налаштування використання пам\'яті</string>
     <string name="delete_cache">Очистити кеш</string>
     <string name="cache_dialog">Очистити кеш?</string>
     <string name="not_cache">Це не впливає на кеш самого додатку.</string>
@@ -388,7 +388,7 @@
     <!-- added after release -->
     <string name="use_inapp_browser">Використовувати вбудований браузер</string>
     <string name="dismiss_all">Відхилити всі</string>
-    <string name="handle_and_name">Відображати ім'я та @нікнейм</string>
+    <string name="handle_and_name">Відображати ім\'я та @нікнейм</string>
     <string name="notification_types">Типи сповіщень</string>
     <string name="with_talon_pull">Доступно через \"Talon Pull\"</string>
     <string name="favorited_tweet">Ваші твіти, додані в обране</string>
@@ -417,7 +417,7 @@
     <string name="deleting_messages">Видалення повідомлень</string>
     <string name="type_message">Напишіть повідомлення...</string>
     <string name="fill_gaps">Завантажити припущення твіти</string>
-    <string name="fill_gaps_summary">Завантажує розриви в стрічці, що відбулися через погане з'єднання при включеному Talon Pull.</string>
+    <string name="fill_gaps_summary">Завантажує розриви в стрічці, що відбулися через погане з\'єднання при включеному Talon Pull.</string>
     <string name="filling_timeline">Завантаження пропущених твітів</string>
     <string name="follows_you">Читає вас</string>
     <string name="not_following_you">Не читає вас</string>
