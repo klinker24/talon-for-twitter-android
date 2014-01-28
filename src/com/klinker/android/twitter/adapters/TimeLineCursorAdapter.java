@@ -327,7 +327,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public void onClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname);
+                            addExpansion(holder, screenname, users);
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -374,7 +374,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname);
+                            addExpansion(holder, screenname, users);
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -662,7 +662,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.expandArea.startAnimation(expandAni);
     }
 
-    public void addExpansion(final ViewHolder holder, String screenname) {
+    public void addExpansion(final ViewHolder holder, String screenname, String users) {
         if (isDM) {
             holder.retweet.setVisibility(View.GONE);
             holder.retweetCount.setVisibility(View.GONE);
@@ -691,18 +691,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             String extraNames = "";
 
             if (text.contains("@")) {
-                String[] split = text.split(" ");
-
-                for (String s : split) {
-                    if (s.endsWith(":")) {
-                        s = s.substring(0, s.length() - 1);
-                    }
-
-                    if (s.contains("@") && !s.contains(settings.myScreenName) && !s.contains(screenname) && s.length() > 1) {
-                        extraNames += s.substring(s.indexOf("@")) + " ";
+                for (String s : users.split("  ")) {
+                    if (!s.equals(settings.myScreenName) && !extraNames.contains(s)) {
+                        extraNames += "@" + s + " ";
                     }
                 }
             }
+
             holder.reply.setText("@" + screenname + " " + extraNames);
         }
 
