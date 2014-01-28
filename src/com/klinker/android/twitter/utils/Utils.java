@@ -193,6 +193,7 @@ public class Utils {
 
     public static void setUpTheme(Context context, AppSettings settings) {
         if (settings.layout == AppSettings.LAYOUT_TALON) {
+            Log.v("talon_theme", "setting talon theme");
             switch (settings.theme) {
                 case AppSettings.THEME_LIGHT:
                     context.setTheme(R.style.Theme_TalonLight);
@@ -205,6 +206,7 @@ public class Utils {
                     break;
             }
         } else {
+            Log.v("talon_theme", "setting talon theme");
             switch (settings.theme) {
                 case AppSettings.THEME_LIGHT:
                     context.setTheme(R.style.Theme_TalonLight_Hangouts);

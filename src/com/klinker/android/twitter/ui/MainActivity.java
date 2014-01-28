@@ -41,8 +41,8 @@ public class MainActivity extends DrawerActivity {
 
         sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
 
-        setUpWindow();
         setUpTheme();
+        setUpWindow();
         setContentView(R.layout.main_activity);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         setUpDrawer(0, getResources().getString(R.string.timeline));
