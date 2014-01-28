@@ -548,7 +548,11 @@ public class TweetFragment extends Fragment {
             }
         }
 
-        reply.setText("@" + screenName + " " + extraNames);
+        if (!screenName.equals(settings.myScreenName)) {
+            reply.setText("@" + screenName + " " + extraNames);
+        } else {
+            reply.setText(extraNames);
+        }
 
         if (settings.autoInsertHashtags && hashtags != null) {
             for (String s : hashtags) {
@@ -624,11 +628,6 @@ public class TweetFragment extends Fragment {
         });
 
         charRemaining.setText(140 - reply.getText().length() + "");
-
-        if (isMyTweet) {
-            charRemaining.setVisibility(View.GONE);
-            overflow.setVisibility(View.GONE);
-        }
 
         reply.setHint(context.getResources().getString(R.string.reply));
         reply.addTextChangedListener(new TextWatcher() {

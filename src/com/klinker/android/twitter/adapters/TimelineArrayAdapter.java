@@ -728,7 +728,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        holder.reply.setText("@" + screenname + " " + extraNames);
+        if (!screenname.equals(settings.myScreenName)) {
+            holder.reply.setText("@" + screenname + " " + extraNames);
+        } else {
+            holder.reply.setText(extraNames);
+        }
 
         holder.reply.setSelection(holder.reply.getText().length());
 
