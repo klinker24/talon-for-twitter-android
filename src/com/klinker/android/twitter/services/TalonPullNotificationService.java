@@ -125,7 +125,7 @@ public class TalonPullNotificationService extends Service {
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
             mBuilder.addAction(R.drawable.ic_popup, getResources().getString(R.string.popup), popupPending);
-            mBuilder.addAction(R.drawable.ic_send_dark, getResources().getString(R.string.menu_compose), composePending);
+            mBuilder.addAction(R.drawable.ic_send_dark, getResources().getString(R.string.tweet), composePending);
         }
 
         try {
@@ -138,8 +138,6 @@ public class TalonPullNotificationService extends Service {
         if (getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.setPriority(Notification.PRIORITY_MIN);
         }
-
-        startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
 
         mContext = getApplicationContext();
         interactions = new InteractionsDataSource(mContext);
@@ -197,9 +195,13 @@ public class TalonPullNotificationService extends Service {
                     ids.add(settings.myId);
 
                     idsLoaded = true;
+
+                    startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    stopSelf();
                 }
+
             }
         }).start();
 
