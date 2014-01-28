@@ -26,6 +26,12 @@
         android:title="@string/other_options" >
 
         <CheckBoxPreference
+            android:key="twitlonger"
+            android:title="@string/use_twitlonger"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
             android:key="use_emojis"
             android:title="@string/enable_emojis"
             android:defaultValue="false"

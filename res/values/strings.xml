@@ -95,7 +95,6 @@
     <string name="refreshing">Refreshing</string>
     <string name="refreshing_widget">Refreshing widget</string>
     <string name="downloading">Downloading</string>
-    <string name="saving_picture">Saving picture</string>
     <string name="new_interaction_upper">New Interaction</string>
     <string name="new_interactions_lower">new interactions</string>
     <string name="new_interactions">New Interactions</string>
@@ -177,7 +176,6 @@
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
     <string name="following">Following</string>
-    <string name="tweets">Tweets</string>
     <string name="blocked_user">Blocked User</string>
     <string name="unblocked_user">Unblocked User</string>
     <string name="followed_user">Followed User</string>
@@ -437,7 +435,6 @@
     <string name="no_hashtags">No hashtags</string>
     <string name="mute_hashtags">Mute Hashtags</string>
     <string name="muted">Muted</string>
-    <string name="view">View</string>
     <string name="auto_insert_hashtags">Auto-Insert Hashtags</string>
     <string name="to_replies">Insert any hashtags contained in the tweet into the reply.</string>
     <string name="clean_now">Clean Databases Now</string>
@@ -465,5 +462,6 @@
     <string name="limiting_options">Limiting Options</string>
     <string name="browser_options">Browser Options</string>
     <string name="custom_ringtone">Custom Ringtone</string>
+    <string name="use_twitlonger">Enable TwitLonger</string>
 
 </resources>

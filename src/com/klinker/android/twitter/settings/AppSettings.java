@@ -70,6 +70,7 @@ public class AppSettings {
     public boolean useToast;
     public boolean autoInsertHashtags;
     public boolean alwaysCompose;
+    public boolean twitlonger;
 
     // notifications
     public boolean timelineNot;
@@ -168,6 +169,7 @@ public class AppSettings {
         useToast = sharedPrefs.getBoolean("use_toast", true);
         autoInsertHashtags = sharedPrefs.getBoolean("auto_insert_hashtags", false);
         alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
+        twitlonger = sharedPrefs.getBoolean("twitlonger", true);
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 

@@ -87,7 +87,7 @@ public class TwitLongerHelper {
 
     /**
      * Sets the tweet id if it is replying to another users tweet
-     * @param replyToStatusId 
+     * @param replyToStatusId
      */
     public void setInReplyToStatusId(long replyToStatusId) {
         this.replyToStatusId = replyToStatusId;
