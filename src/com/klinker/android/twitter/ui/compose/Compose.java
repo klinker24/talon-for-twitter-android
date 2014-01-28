@@ -431,7 +431,6 @@ public abstract class Compose extends Activity implements
         }
 
         protected Boolean doInBackground(String... args) {
-            Log.d("Tweet Text", "> " + args[0]);
             String status = args[0];
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);

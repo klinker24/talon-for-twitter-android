@@ -316,6 +316,8 @@ public class ComposeActivity extends Compose {
             sharedPrefs.edit().putString("draft", "").commit();
         }
 
+        notiId = getIntent().getLongExtra("id", 0);
+
         // Get intent, action and MIME type
         Intent intent = getIntent();
         String action = intent.getAction();
