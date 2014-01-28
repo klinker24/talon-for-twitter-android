@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -49,13 +48,9 @@ import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.ImageUtils;
-import com.klinker.android.twitter.utils.NotificationUtils;
-import com.klinker.android.twitter.utils.TwitlongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 
 import de.timroes.android.listview.EnhancedListView;
-import twitter4j.Twitter;
-import twitter4j.internal.http.HttpRequest;
 
 import org.lucasr.smoothie.AsyncListView;
 
@@ -785,7 +780,7 @@ public abstract class DrawerActivity extends Activity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    TwitlongerHelper helper = new TwitlongerHelper("@TalonAndroid Hey! finally got this working and it is working well! Some problems, mostly because I had no clue what i was doing, but all is worked out now, and Twitlonger will be coming to Talon very soon :)", Utils.getTwitter(context, settings));
+                    TwitLongerHelper helper = new TwitLongerHelper("@TalonAndroid Hey! finally got this working and it is working well! Some problems, mostly because I had no clue what i was doing, but all is worked out now, and Twitlonger will be coming to Talon very soon :)", Utils.getTwitter(context, settings));
                     long id = helper.createPost();
                     Log.v("twitlonger", id + "");
                 }
