@@ -61,6 +61,7 @@ import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
@@ -568,8 +569,8 @@ public class TweetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
-                        new ReplyToStatus(reply, tweetId).execute();
+                    if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
+                        new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
                     } else {
                         Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
                     }
@@ -951,12 +952,14 @@ public class TweetFragment extends Fragment {
         private long tweetId;
         private String text;
         private EditText message;
+        private int remainingChars;
         private boolean messageToLong = false;
 
-        public ReplyToStatus(EditText message, long tweetId) {
+        public ReplyToStatus(EditText message, long tweetId, int remainingChars) {
             this.text = message.getText().toString();
             this.message = message;
             this.tweetId = tweetId;
+            this.remainingChars = remainingChars;
         }
 
         protected void onPreExecute() {
@@ -969,32 +972,40 @@ public class TweetFragment extends Fragment {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
-                twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(text);
-                reply.setInReplyToStatusId(tweetId);
+                if (remainingChars < 0) {
+                    // twitlonger goes here
+                    TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
+                    helper.setInReplyToStatusId(tweetId);
 
-                if (!attachedFilePath.equals("")) {
-                    File f = new File(attachedFilePath);
-                    if (f.length() > 3000000) { // it is to big to upload
-                        Bitmap bitmap = BitmapFactory.decodeFile(attachedFilePath);
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bos);
-                        byte[] bitmapdata = bos.toByteArray();
+                    return helper.createPost() != 0;
+                } else {
+                    twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(text);
+                    reply.setInReplyToStatusId(tweetId);
 
-                        try {
-                            //write the bytes in file
-                            FileOutputStream fos = new FileOutputStream(f);
-                            fos.write(bitmapdata);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            // couldn't find file
+                    if (!attachedFilePath.equals("")) {
+                        File f = new File(attachedFilePath);
+                        if (f.length() > 3000000) { // it is to big to upload
+                            Bitmap bitmap = BitmapFactory.decodeFile(attachedFilePath);
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bos);
+                            byte[] bitmapdata = bos.toByteArray();
+
+                            try {
+                                //write the bytes in file
+                                FileOutputStream fos = new FileOutputStream(f);
+                                fos.write(bitmapdata);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                // couldn't find file
+                            }
                         }
+
+                        reply.setMedia(f);
                     }
 
-                    reply.setMedia(f);
+                    twitter.updateStatus(reply);
+                    return true;
                 }
-
-                twitter.updateStatus(reply);
-                return true;
             } catch (Exception e) {
                 return false;
             }
