@@ -1180,9 +1180,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         protected void onPostExecute(Boolean deleted) {
 
-            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-
-            pDialog.dismiss();
+            try {
+                Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                pDialog.dismiss();
+            } catch (Exception e) {
+                // user closed the window
+            }
 
         }
     }
