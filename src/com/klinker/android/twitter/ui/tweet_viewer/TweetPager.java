@@ -372,7 +372,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private Intent getShareIntent() {
         String text1 = tweet;
-        text1 = HtmlUtils.removeColorHtml(text1);
+        text1 = HtmlUtils.removeColorHtml(text1, settings);
         text1 = restoreLinks(text1);
         text1 = "@" + screenName + ": " + text1;
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -425,7 +425,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_share:
                 String text1 = tweet;
-                text1 = HtmlUtils.removeColorHtml(text1);
+                text1 = HtmlUtils.removeColorHtml(text1, settings);
                 text1 = restoreLinks(text1);
                 text1 = "@" + screenName + ": " + text1;
                 Log.v("my_text_on_share", text1);
@@ -438,7 +438,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_copy_text:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("tweet_text", restoreLinks(HtmlUtils.removeColorHtml(tweet)));
+                ClipData clip = ClipData.newPlainText("tweet_text", restoreLinks(HtmlUtils.removeColorHtml(tweet, settings)));
                 clipboard.setPrimaryClip(clip);
                 return true;
 
@@ -518,7 +518,7 @@ public class TweetPager extends YouTubeBaseActivity {
             case R.id.menu_quote:
                 String text = tweet;
 
-                text = HtmlUtils.removeColorHtml(text);
+                text = HtmlUtils.removeColorHtml(text, settings);
                 text = restoreLinks(text);
 
                 if (!settings.preferRT) {

@@ -102,12 +102,12 @@ public class NotificationUtils {
             if (useExpanded) {
                 mBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle(title[0])
-                        .setContentText(HtmlUtils.removeColorHtml(shortText))
+                        .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                         .setContentIntent(resultPendingIntent)
                         .setAutoCancel(true)
-                        .setTicker(HtmlUtils.removeColorHtml(shortText))
+                        .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
                 if (addButton) { // the reply and read button should be shown
@@ -144,11 +144,11 @@ public class NotificationUtils {
             } else {
                 mBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle(title[0])
-                        .setContentText(HtmlUtils.removeColorHtml(shortText))
+                        .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                         .setContentIntent(resultPendingIntent)
-                        .setTicker(HtmlUtils.removeColorHtml(shortText))
+                        .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
                         .setAutoCancel(true);
             }
 
@@ -494,7 +494,7 @@ public class NotificationUtils {
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(shortText))
+                    .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -503,7 +503,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(shortText))
+                    .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -610,7 +610,7 @@ public class NotificationUtils {
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(message))
+                    .setContentText(HtmlUtils.removeColorHtml(message, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -619,7 +619,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(messageLong))
+                    .setContentText(HtmlUtils.removeColorHtml(messageLong, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)

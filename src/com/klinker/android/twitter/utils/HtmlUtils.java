@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.utils;
 
+import com.klinker.android.twitter.settings.AppSettings;
+
 import twitter4j.DirectMessage;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
@@ -386,9 +388,13 @@ public class HtmlUtils {
         return new String[] { tweetTexts, imageUrl, otherUrl, mHashtags, mUsers };
     }
 
-    public static String removeColorHtml(String text) {
+    public static String removeColorHtml(String text, AppSettings settings) {
         text = text.replaceAll("<font color='#FF8800'>", "");
         text = text.replaceAll("</font>", "");
+        if (settings.addonTheme) {
+            text = text.replaceAll("<font color='" + settings.accentColor + "'>", "");
+            text = text.replaceAll("</font>", "");
+        }
         return text;
     }
 }
