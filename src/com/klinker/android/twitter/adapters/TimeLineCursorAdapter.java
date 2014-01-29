@@ -867,176 +867,181 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String name = screenname;
 
-        holder.shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(android.content.Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                String text = holder.tweet.getText().toString();
+        try {
+            holder.shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    String text = holder.tweet.getText().toString();
 
-                text = HtmlUtils.removeColorHtml(text);
-                text = restoreLinks(text);
+                    text = HtmlUtils.removeColorHtml(text);
+                    text = restoreLinks(text);
 
-                if (!settings.preferRT) {
-                    text = "\"@" + name + ": " + text + "\" ";
-                } else {
-                    text = " RT @" + name + ": " + text;
+                    if (!settings.preferRT) {
+                        text = "\"@" + name + ": " + text + "\" ";
+                    } else {
+                        text = " RT @" + name + ": " + text;
+                    }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                    intent.putExtra(Intent.EXTRA_TEXT, text);
+                    context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
                 }
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                intent.putExtra(Intent.EXTRA_TEXT, text);
-                context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
-            }
 
-            public String restoreLinks(String text) {
-                String full = text;
+                public String restoreLinks(String text) {
+                    String full = text;
 
-                String[] split = text.split(" ");
+                    String[] split = text.split(" ");
 
-                boolean changed = false;
+                    boolean changed = false;
 
-                if (otherLinks.length > 0) {
-                    for (int i = 0; i < split.length; i++) {
-                        String s = split[i];
+                    if (otherLinks.length > 0) {
+                        for (int i = 0; i < split.length; i++) {
+                            String s = split[i];
 
-                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                            String f = s.replace("...", "").replace("http", "");
+                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                                String f = s.replace("...", "").replace("http", "");
 
-                            for (int x = 0; x < otherLinks.length; x++) {
-                                Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                                if (otherLinks[x].contains(f)) {
-                                    changed = true;
-                                    f = otherLinks[x];
-                                    break;
+                                for (int x = 0; x < otherLinks.length; x++) {
+                                    Log.v("recreating_links", "other link first: " + otherLinks[x]);
+                                    if (otherLinks[x].contains(f)) {
+                                        changed = true;
+                                        f = otherLinks[x];
+                                        break;
+                                    }
                                 }
-                            }
 
-                            if (changed) {
-                                split[i] = f;
+                                if (changed) {
+                                    split[i] = f;
+                                } else {
+                                    split[i] = s;
+                                }
                             } else {
                                 split[i] = s;
                             }
-                        } else {
-                            split[i] = s;
-                        }
 
-                    }
-                }
-
-                Log.v("talon_picture", ":" + webpage + ":");
-
-                if (!webpage.equals("")) {
-                    for (int i = 0; i < split.length; i++) {
-                        String s = split[i];
-
-                        Log.v("talon_picture_", s);
-
-                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                            split[i] = webpage;
-                            changed = true;
-                            Log.v("talon_picture", split[i]);
                         }
                     }
-                }
 
+                    Log.v("talon_picture", ":" + webpage + ":");
 
+                    if (!webpage.equals("")) {
+                        for (int i = 0; i < split.length; i++) {
+                            String s = split[i];
 
-                if(changed) {
-                    full = "";
-                    for (String p : split) {
-                        full += p + " ";
-                    }
+                            Log.v("talon_picture_", s);
 
-                    full = full.substring(0, full.length() - 1);
-                }
-
-                return full;
-            }
-        });
-
-        holder.quoteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, ComposeActivity.class);
-                intent.setType("text/plain");
-                String text = holder.tweet.getText().toString();
-
-                text = HtmlUtils.removeColorHtml(text);
-                text = restoreLinks(text);
-
-                if (!settings.preferRT) {
-                    text = "\"@" + name + ": " + text + "\" ";
-                } else {
-                    text = " RT @" + name + ": " + text;
-                }
-                intent.putExtra("user", text);
-                context.startActivity(intent);
-            }
-
-            public String restoreLinks(String text) {
-                String full = text;
-
-                String[] split = text.split(" ");
-
-                boolean changed = false;
-
-                if (otherLinks.length > 0) {
-                    for (int i = 0; i < split.length; i++) {
-                        String s = split[i];
-
-                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                            String f = s.replace("...", "").replace("http", "");
-
-                            for (int x = 0; x < otherLinks.length; x++) {
-                                Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                                if (otherLinks[x].contains(f)) {
-                                    changed = true;
-                                    f = otherLinks[x];
-                                    break;
-                                }
+                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                                split[i] = webpage;
+                                changed = true;
+                                Log.v("talon_picture", split[i]);
                             }
+                        }
+                    }
 
-                            if (changed) {
-                                split[i] = f;
+
+
+                    if(changed) {
+                        full = "";
+                        for (String p : split) {
+                            full += p + " ";
+                        }
+
+                        full = full.substring(0, full.length() - 1);
+                    }
+
+                    return full;
+                }
+            });
+
+
+            holder.quoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, ComposeActivity.class);
+                    intent.setType("text/plain");
+                    String text = holder.tweet.getText().toString();
+
+                    text = HtmlUtils.removeColorHtml(text);
+                    text = restoreLinks(text);
+
+                    if (!settings.preferRT) {
+                        text = "\"@" + name + ": " + text + "\" ";
+                    } else {
+                        text = " RT @" + name + ": " + text;
+                    }
+                    intent.putExtra("user", text);
+                    context.startActivity(intent);
+                }
+
+                public String restoreLinks(String text) {
+                    String full = text;
+
+                    String[] split = text.split(" ");
+
+                    boolean changed = false;
+
+                    if (otherLinks.length > 0) {
+                        for (int i = 0; i < split.length; i++) {
+                            String s = split[i];
+
+                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                                String f = s.replace("...", "").replace("http", "");
+
+                                for (int x = 0; x < otherLinks.length; x++) {
+                                    Log.v("recreating_links", "other link first: " + otherLinks[x]);
+                                    if (otherLinks[x].contains(f)) {
+                                        changed = true;
+                                        f = otherLinks[x];
+                                        break;
+                                    }
+                                }
+
+                                if (changed) {
+                                    split[i] = f;
+                                } else {
+                                    split[i] = s;
+                                }
                             } else {
                                 split[i] = s;
                             }
-                        } else {
-                            split[i] = s;
-                        }
 
-                    }
-                }
-
-                Log.v("talon_picture", ":" + webpage + ":");
-
-                if (!webpage.equals("")) {
-                    for (int i = 0; i < split.length; i++) {
-                        String s = split[i];
-
-                        Log.v("talon_picture_", s);
-
-                        if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                            split[i] = webpage;
-                            changed = true;
-                            Log.v("talon_picture", split[i]);
                         }
                     }
-                }
 
+                    Log.v("talon_picture", ":" + webpage + ":");
 
+                    if (!webpage.equals("")) {
+                        for (int i = 0; i < split.length; i++) {
+                            String s = split[i];
 
-                if(changed) {
-                    full = "";
-                    for (String p : split) {
-                        full += p + " ";
+                            Log.v("talon_picture_", s);
+
+                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                                split[i] = webpage;
+                                changed = true;
+                                Log.v("talon_picture", split[i]);
+                            }
+                        }
                     }
 
-                    full = full.substring(0, full.length() - 1);
-                }
 
-                return full;
-            }
-        });
+
+                    if(changed) {
+                        full = "";
+                        for (String p : split) {
+                            full += p + " ";
+                        }
+
+                        full = full.substring(0, full.length() - 1);
+                    }
+
+                    return full;
+                }
+            });
+        } catch (Exception e) {
+            // theme made before these were implemented
+        }
         if (settings.addonTheme) {
             try {
                 Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
