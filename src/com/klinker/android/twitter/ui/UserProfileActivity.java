@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -56,6 +57,7 @@ import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
+import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
@@ -517,6 +519,11 @@ public class UserProfileActivity extends Activity {
 
         protected void onPostExecute(twitter4j.User user) {
             if (user != null) {
+
+                if (user.isVerified()) {
+                    HoloTextView verified = (HoloTextView) findViewById(R.id.verified_text);
+                    verified.setVisibility(View.VISIBLE);
+                }
 
                 thisUser = user;
 
