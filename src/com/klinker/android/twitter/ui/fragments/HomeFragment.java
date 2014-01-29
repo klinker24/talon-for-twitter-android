@@ -41,8 +41,10 @@ import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
+import com.klinker.android.twitter.settings.DrawerArrayAdapter;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
@@ -112,26 +114,34 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
-            liveUnread++;
-            int current = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
-            if (liveUnread > current) {
-                liveUnread = current;
-            }
-            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-            if (liveUnread != 0) {
-                try {
-                    showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                            getResources().getString(R.string.view),
-                            400,
-                            !DrawerActivity.settings.useToast,
-                            liveStreamRefresh);
-                } catch (Exception e) {
-                    // fragment not attached to activity
-                }
-            }
+            if (listView.getFirstVisiblePosition() == 0 && DrawerArrayAdapter.current == 0) {
+                sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
 
-            newTweets = true;
+                getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            } else {
+                //unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+                liveUnread++;
+                int current = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
+                if (liveUnread > current) {
+                    liveUnread = current;
+                }
+                sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+                if (liveUnread != 0) {
+                    try {
+                        showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                getResources().getString(R.string.view),
+                                400,
+                                !DrawerActivity.settings.useToast,
+                                liveStreamRefresh);
+                    } catch (Exception e) {
+                        // fragment not attached to activity
+                    }
+                }
+
+                newTweets = true;
+            }
         }
     };
 
