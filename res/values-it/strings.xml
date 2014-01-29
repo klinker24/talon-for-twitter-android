@@ -393,7 +393,7 @@ Queste informazioni vengono utilizzate durante una ricerca di utenti quando si s
     <string name="with_talon_pull">Accessibili attraverso \"Talon Pull\"</string>
     <string name="favorited_tweet">Preferiti sui tuoi tweet</string>
     <string name="new_followers">Nuovi Followers</string>
-    <string name="discussion">Conversazione</string>
+    <string name="discussion">Risposte</string>
     <string name="no_replies">Nessuna Risposta</string>
     <string name="rt_style_quotes">Usa \"RT\" per le citazioni</string>
     <string name="rt_style_quotes_summary">Usa il vecchio \" RT @username: ...\" per citare invece che le citazioni utilizzate da Talon\n\nAccessibile dalla Action Bar o dal menu presente su ogni tweet.</string>
