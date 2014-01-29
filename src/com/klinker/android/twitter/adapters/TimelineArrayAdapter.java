@@ -725,7 +725,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if (text.contains("@")) {
             for (String s : users.split("  ")) {
-                if (!s.equals(settings.myScreenName) && !extraNames.contains(s)) {
+                if (!s.equals(settings.myScreenName) && !extraNames.contains(s) && !s.equals(screenname)) {
                     extraNames += "@" + s + " ";
                 }
             }
