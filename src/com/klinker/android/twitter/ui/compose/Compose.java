@@ -2,9 +2,11 @@ package com.klinker.android.twitter.ui.compose;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -152,9 +154,28 @@ public abstract class Compose extends Activity implements
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean close = doneClick();
-                        if (close) {
-                            finish();
+                        if (Integer.parseInt(charRemaining.getText().toString()) < 0 && settings.twitlonger) {
+                            new AlertDialog.Builder(context)
+                                    .setTitle(context.getResources().getString(R.string.twitlonger))
+                                    .setMessage(context.getResources().getString(R.string.post_with_twitlonger))
+                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            doneClick();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        } else {
+                            boolean close = doneClick();
+                            if (close) {
+                                finish();
+                            }
                         }
                     }
                 });

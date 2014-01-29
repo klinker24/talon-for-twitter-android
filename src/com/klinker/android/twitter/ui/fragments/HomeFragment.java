@@ -452,6 +452,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         }
 
+        // used so the content observer doesn't change the shared pref we just put in
+        trueLive = true;
 
         int pos = listView.getFirstVisiblePosition();
         if (pos < 200) {
