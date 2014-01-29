@@ -594,7 +594,27 @@ public class TweetFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
-                        new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
+                        if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) > 140) {
+                            new AlertDialog.Builder(context)
+                                    .setTitle(context.getResources().getString(R.string.twitlonger))
+                                    .setMessage(context.getResources().getString(R.string.post_with_twitlonger))
+                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        } else {
+                            new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
+                        }
                     } else {
                         Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
                     }

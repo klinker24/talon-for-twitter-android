@@ -463,6 +463,9 @@
     <string name="browser_options">Browser Options</string>
     <string name="custom_ringtone">Custom Ringtone</string>
     <string name="use_twitlonger">Enable TwitLonger</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Tweet is greater than 140 characters.\n\nWould you like to post using TwitLonger?</string>
     <string name="remove_retweet">Remove Retweet</string>
+    <string name="edit">Edit</string>
 
 </resources>
