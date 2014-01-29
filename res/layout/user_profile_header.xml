@@ -104,6 +104,21 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="-70dp" />
 
+    <com.klinker.android.twitter.ui.widgets.HoloTextView
+        android:id="@+id/verified_text"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-30dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/profile_pic"
+        android:layout_alignLeft="@+id/profile_pic"
+        android:shadowColor="?textShadowColor"
+        android:shadowDy="1"
+        android:shadowRadius="3"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <ProgressBar
         android:layout_width="96dp"
         android:layout_height="96dp"
