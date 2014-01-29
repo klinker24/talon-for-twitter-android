@@ -118,6 +118,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                trueLive = true;
 
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
             } else {
@@ -424,9 +425,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             public void onClick(View view) {
                 newTweets = false;
                 viewPressed = true;
-                //markReadForLoad();
+                trueLive = true;
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                //int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                 listView.setSelectionFromTop(0, 0);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -755,7 +755,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 markReadForLoad();
             }
         }, 1000);
-        
+
         super.onPause();
     }
 
@@ -843,10 +843,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }, 000); // 200 would be better
     }
 
-
+    public boolean trueLive = false;
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        markReadForLoad();
+        if (!trueLive) {
+            markReadForLoad();
+        }
+
         String[] projection = HomeDataSource.allColumns;
         CursorLoader cursorLoader = new CursorLoader(
                 context,
