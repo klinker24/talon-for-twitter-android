@@ -875,7 +875,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
-                    text = HtmlUtils.removeColorHtml(text);
+                    text = HtmlUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
                     if (!settings.preferRT) {
@@ -962,7 +962,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
-                    text = HtmlUtils.removeColorHtml(text);
+                    text = HtmlUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
                     if (!settings.preferRT) {

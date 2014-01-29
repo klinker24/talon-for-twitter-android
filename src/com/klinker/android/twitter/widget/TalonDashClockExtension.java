@@ -9,6 +9,7 @@ import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.NotificationUtils;
@@ -64,7 +65,7 @@ public class TalonDashClockExtension extends DashClockExtension {
                     .icon(R.drawable.ic_stat_icon)
                     .status(homeTweets + mentionsTweets + dmTweets + "")
                     .expandedTitle(NotificationUtils.getTitle(unreads, this, currentAccount)[0])
-                    .expandedBody(HtmlUtils.removeColorHtml(NotificationUtils.getLongTextNoHtml(unreads, this, currentAccount)))
+                    .expandedBody(HtmlUtils.removeColorHtml(NotificationUtils.getLongTextNoHtml(unreads, this, currentAccount), new AppSettings(this)))
                     .clickIntent(intent));
         } else {
             publishUpdate(new ExtensionData()
