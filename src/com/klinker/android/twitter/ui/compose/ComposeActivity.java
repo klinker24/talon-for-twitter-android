@@ -340,29 +340,15 @@ public class ComposeActivity extends Compose {
         if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
             // update status
             if (Integer.parseInt(charRemaining.getText().toString()) < 0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.twitlonger))
-                        .setMessage(context.getResources().getString(R.string.post_with_twitlonger))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                doneClicked = true;
-                                sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
-                            }
-                        })
-                        .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .create()
-                        .show();
+                finish();
+                doneClicked = true;
+                sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
+                return true;
             } else {
                 doneClicked = true;
                 sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
+                return true;
             }
-            return true;
         } else {
             if (editText.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
                 // EditText is empty
