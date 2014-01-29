@@ -749,7 +749,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onPause() {
-        markReadForLoad();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                markReadForLoad();
+            }
+        }, 1000);
+        
         super.onPause();
     }
 
@@ -792,7 +798,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     waitOnRefresh.removeCallbacks(applyRefresh);
                     waitOnRefresh.postDelayed(applyRefresh, 30000);
                 }
-            }, 250);
+            }, 400);
         }
 
         IntentFilter filter = new IntentFilter();
@@ -840,6 +846,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        markReadForLoad();
         String[] projection = HomeDataSource.allColumns;
         CursorLoader cursorLoader = new CursorLoader(
                 context,
