@@ -39,6 +39,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.compose.Compose;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
@@ -438,6 +439,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     return true;
                 }
             });
+
+            if (!otherUrl.equals("")) {
+                holder.background.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browser = new Intent(context, BrowserActivity.class);
+                        browser.putExtra("url", otherUrl);
+                        context.startActivity(browser);
+                    }
+                });
+            }
         }
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {

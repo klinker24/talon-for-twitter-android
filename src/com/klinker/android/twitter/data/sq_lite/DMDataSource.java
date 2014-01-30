@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.klinker.android.twitter.utils.HtmlUtils;
 
 import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
+import twitter4j.URLEntity;
 
 public class DMDataSource {
 
@@ -53,6 +55,13 @@ public class DMDataSource {
         if (entities.length > 0) {
             values.put(DMSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
         }
+
+        URLEntity[] urls = status.getURLEntities();
+        for (URLEntity url : urls) {
+            Log.v("inserting_dm", "url here: " + url.getExpandedURL());
+            values.put(DMSQLiteHelper.COLUMN_URL, url.getExpandedURL());
+        }
+
         database.insert(DMSQLiteHelper.TABLE_DM, null, values);
     }
 
