@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -60,6 +61,7 @@ import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -1076,11 +1078,20 @@ public class TweetFragment extends Fragment {
                             }
                         }
 
-                        reply.setMedia(f);
+                        if (!settings.twitpic) {
+                            reply.setMedia(f);
+                            twitter.updateStatus(reply);
+                            return true;
+                        } else {
+                            TwitPicHelper helper = new TwitPicHelper(twitter, text, f);
+                            helper.setInReplyToStatusId(tweetId);
+                            return helper.createPost() != 0;
+                        }
+                    } else {
+                        // no picture
+                        twitter.updateStatus(reply);
+                        return true;
                     }
-
-                    twitter.updateStatus(reply);
-                    return true;
                 }
             } catch (Exception e) {
                 return false;
