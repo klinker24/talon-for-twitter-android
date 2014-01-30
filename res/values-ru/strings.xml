@@ -46,7 +46,7 @@
     <string name="direct_messages">Сообщения</string>
     <string name="retweets">Ретвиты</string>
     <string name="favorite_tweets">Избранное</string>
-    <string name="favorite_users">Избранные пользователи</string>
+    <string name="favorite_users">Избр. пользователи</string>
     <string name="trends">Тренды</string>
     <string name="local_trends">Местные тренды</string>
     <string name="world_trends">Мировые тренды</string>
@@ -64,14 +64,14 @@
     <string name="no_new_direct_messages">Новых сообщений нет</string>
     <string name="tap_to_setup">Настроить</string>
     <string name="new_account">Новый аккаунт</string>
-    <string name="from_top">твитов</string>
+    <string name="from_top">ввeрху</string>
     <string name="jump_to_top">К первому</string>
     <string name="all_read">ОК!</string>
     <string name="view_new">Загрузить?</string>
     <string name="old_interactions">Все отклики</string>
     <!-- Notifications -->
     <string name="tweet">Твит</string>
-    <string name="tweets">Твитов</string>
+    <string name="tweets">Tвиты</string>
     <string name="mention">Упоминание</string>
     <string name="message">Сообщение</string>
     <string name="messages">Сообщения</string>
@@ -88,7 +88,7 @@
     <string name="listening">Проверка</string>
     <string name="listening_for_mentions">Проверка новых уведомлений</string>
     <string name="refreshing">Обновление</string>
-    <string name="refreshing_widget">Обновление виджета...</string>
+    <string name="refreshing_widget">Обновление виджета</string>
     <string name="downloading">Загрузка</string>
     <string name="saving_picture">Сохранение изображения</string>
     <string name="new_interaction_upper">Новый отклик</string>
@@ -395,8 +395,8 @@
     <string name="new_followers">Новые читатели</string>
     <string name="discussion">Ответы</string>
     <string name="no_replies">Новых ответов нет</string>
-    <string name="rt_style_quotes">Использовать цитирование с \"RT\"</string>
-    <string name="rt_style_quotes_summary">Использует старый стиль цитирования (\"RT @никнейм: ...\") вместо метода Talon (\"@никнейм: ...\").\n\nЦитирование доступно из панели заголовка или меню любого твита.</string>
+    <string name="rt_style_quotes">Цитировать с RT</string>
+    <string name="rt_style_quotes_summary">При цитировании используется RT вместо кавычек.\n\nЦитирование находится в дополнительном меню твита.</string>
     <string name="absolute_date">Альтернативный стиль дат</string>
     <string name="clear_searches">Очистить истрию поиска</string>
     <string name="compose_with_search">Написать твит</string>

@@ -34,9 +34,9 @@
     <string name="yesterday">1 dag siden</string>
     <string name="days_ago">%s dage siden</string>
     <!-- Muting -->
-    <string name="mute">Mute</string>
+    <string name="mute">Muting</string>
     <string name="unmute">Fjern mute</string>
-    <string name="muted_users">Brugere der er mute</string>
+    <string name="muted_users">Brugere der er muted</string>
     <string name="no_users">Ingen brugere</string>
     <!-- Main Activity -->
     <string name="links">Links</string>
@@ -89,7 +89,7 @@
     <string name="listening_for_mentions">Overvåger for interaktioner</string>
     <string name="refreshing">Opdatérer</string>
     <string name="refreshing_widget">Opdatérer widget</string>
-    <string name="downloading">Downloader</string>
+    <string name="downloading">Downloader...</string>
     <string name="saving_picture">Gemmer billede</string>
     <string name="new_interaction_upper">Ny interaktion</string>
     <string name="new_interactions_lower">nye interaktioner</string>
@@ -104,7 +104,7 @@
     <string name="setup_talon">Konfigurér Talon</string>
     <string name="login_to_twitter">Log ind på Twitter</string>
     <string name="first_welcome">Velkommen til Talon!</string>
-    <string name="second_welcome">Synkroniserer data</string>
+    <string name="second_welcome">Synkronisérer data</string>
     <string name="third_welcome">Færdig!</string>
     <string name="back_to_timeline">Vis mig min tidslinje!</string>
     <string name="initial_sync">Synkronisér nu!</string>
@@ -137,15 +137,15 @@
     <string name="tap_to_retry">Tap for at forsøge igen</string>
     <string name="one_recepient">Du kan kun sende direkte beskeder til én bruger!</string>
     <!-- Actionbar Done-Discard -->
-    <string name="discard">Annuller</string>
+    <string name="discard">Annullér</string>
     <string name="send">Send</string>
     <!-- Other -->
-    <string name="placeholder">Fyldeord</string>
+    <string name="placeholder">Afstand</string>
     <string name="reply">Svar...</string>
     <string name="error">Fejl</string>
     <string name="error_loading_page">Fejl ved åbning af webside</string>
     <string name="delete">Slet</string>
-    <string name="cancel">Annuller</string>
+    <string name="cancel">Annullér</string>
     <string name="delete_direct_message">Slet besked?</string>
     <string name="save_image">Billede gemt</string>
     <string name="tweet_success">Tweet sendt</string>
@@ -197,7 +197,7 @@
     <string name="menu_copy_text">Kopiér tweet tekst</string>
     <string name="menu_share">Del tweet</string>
     <string name="menu_delete_tweet">Slet tweet</string>
-    <string name="conversation">Samtale</string>
+    <string name="conversation">Samtaler</string>
     <string name="webpage">Web side</string>
     <string name="tweet_youtube">YouTube</string>
     <string name="menu_quote">Retweet redigeret</string>
@@ -231,7 +231,7 @@
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\nTilgå indstillinger\nved tap på enheder\ni\nnavigations\nlisten!</string>
     <string name="part_1_phone">\nTilgå\nnavigations listen\nved at swipe fra venstre\nkant mod højre!</string>
-    <string name="part_2">\nFor at skifte\nside i forhold til\nTidslinjen\nswipe til enten højre\neller venstre!</string>
+    <string name="part_2">\nFor at skifte\nside i forhold til\nTidslinjen, skal du \nswipe til enten højre\neller venstre!</string>
     <string name="part_3">Færdig!\n\nTap på\nskærmen for\nat starte!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Tema indstillinger</string>
@@ -240,28 +240,28 @@
     <string name="other_options">Andre indstillinger</string>
     <string name="theme">Tema</string>
     <string name="addon_themes">Add-on temaer</string>
-    <string name="addon_note">Tap her for at finde nye temaer.\n\nBEMÆRK:\n- Dette vil déaktivere brugen af det medfølgende emoji tastatur ved besvarelser på tweets.\n- Rapportér venligst ikke fejl med mindre du kan genskabe dem UDEN at have et add-on tema i brug.</string>
+    <string name="addon_note">Tap her for at finde nye temaer.\n\nBEMÆRK:\n- Dette vil déaktivere brugen af det medfølgende emoji tastatur.\n- Rapportér venligst ikke fejl med mindre du kan genskabe dem UDEN at have et add-on tema i brug.</string>
     <string name="use_addon_themes">Brug add-on tema</string>
-    <string name="make_a_theme">Lav et tema</string>
+    <string name="make_a_theme">Lav dit eget tema</string>
     <string name="layout">Layout</string>
     <string name="themeing_complete">Nuværende tema</string>
     <string name="themeing_complete_summary">\"Talon\" lukker nu ned.\n\n
 Du skal swipe \"Talon\" ud af dine senest brugte apps for at dine ændringer slår fuldt igennem på din Tidslinje. \n\n
 Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant, skal du fjerne widget\'en og tilføje den igen.</string>
-    <string name="layout_summary">Ændrer du dette vil det slette applikationens hukommelse.</string>
+    <string name="layout_summary">Dette vil slette applikationens hukommelse.</string>
     <string name="text_size">Tekst størrelse</string>
     <string name="night_mode">Nat tilstand</string>
-    <string name="night_mode_night">Vælg starttidspunkt for nat</string>
-    <string name="night_mode_day">Vælg starttidspunkt for dag</string>
+    <string name="night_mode_night">Vælg starttidspunkt for nat tilstand</string>
+    <string name="night_mode_day">Vælg starttidspunkt for dag tilstand</string>
     <string name="night_mode_theme">Vælg tema for nat tilstand</string>
     <string name="device_font">Brug enhedens skrifttype</string>
     <string name="device_font_summary">Regular \"Roboto\" på de fleste enheder. Talon\'s standard skrifttype er \"Roboto light\".</string>
-    <string name="ui_extras">Ekstra UI indst.</string>
+    <string name="ui_extras">Ekstra UI indstillinger</string>
     <string name="ui_extras_summary">Inkluderer:\n
                 - Gemmer funktions linje\n
                 - Aktiv info linje\n
                 - Transparente system linjer (kun Android 4.4)\n\n
-Aktivéring af denne indstilling vil have indflydelse på scrolling ydelsen.</string>
+ Aktivéring af denne indstilling vil have indflydelse på scrolling oplevelsen.</string>
     <string name="inline_pics">Vis in-line billeder</string>
     <string name="use_screen_name">Vis Twitter kaldenavn</string>
     <string name="use_screen_name_summary">Vis brugernes Twitter kaldenavn i stedet for deres eget navn, i Tidslinjen.</string>
@@ -292,7 +292,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="sync_second_mentions_summary">Tjek og informer automatisk for nye meninger, både for din primære og sekundære konto.</string>
     <string name="max_number_summary">Højere max. grænse betyder langsommere opdatering.</string>
     <string name="auto_refresh_category">Auto-opdater indstillinger</string>
-    <string name="refresh_on_startup">Opdatér ved start app</string>
+    <string name="refresh_on_startup">Opdatér når app\'en åbnes</string>
     <string name="timeline_sync_interval">Tidslinjen\'s opdaterings interval</string>
     <string name="mentions_sync_interval">Meninger\'s opdaterings interval</string>
     <string name="dm_sync_interval">Direkte beskeder\'s opdaterings interval</string>
@@ -305,7 +305,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="push_notification_options">"\"Push notifikationer\" indstillinger"</string>
     <string name="push_notifications">Talon Pull</string>
     <string name="push_notifications_summary">Dette aktivérer en overvågning for nye interaktioner såsom direkte beskeder, meninger, favoritter, retweets eller nye følgere.</string>
-    <string name="push_notification_warning">For at læse mere om denne indstilling, tap her.</string>
+    <string name="push_notification_warning">Tap her for at læse mere om denne indstilling.</string>
     <string name="notification_settings">Notifikations indstillinger</string>
     <string name="pebble_notifications">Pebble notifikationer</string>
     <string name="pebble_notifications_summary">Bruges sammen med Pebble smart watch.</string>
@@ -313,9 +313,9 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="app_feel_category">Indstillinger af app oplevelsen</string>
     <string name="advance_windowed">Avanceret visning</string>
     <string name="advance_windowed_summary">Åbn profiler og tweets i et \"vindue\" der lægges ovenover Tidslinjen.</string>
-    <string name="full_screen_browsers">Fuld skærm browser</string>
-    <string name="full_screen_browsers_summary">Åbn tweets der indeholder links til websider, med fuld skærm visning.</string>
-    <string name="reverse_click_actions">Spejlvend klik funktioner</string>
+    <string name="full_screen_browsers">Fuld skærms browser</string>
+    <string name="full_screen_browsers_summary">Åbn tweets der indeholder links til websider, med fuld skærms visning.</string>
+    <string name="reverse_click_actions">Spejlvend tap funktioner</string>
     <string name="reverse_click_actions_summary">Spejlvend funktioner ved tap på tweets.\n\n
  Standard (når déaktiveret):\n
  - Tap og hold for at åbne tweet\n
@@ -323,13 +323,13 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="extra_pages">Brug ekstra sider</string>
     <string name="extra_pages_summary">Tilføj links og billede sider til venstre for Tidslinjen.</string>
     <string name="live_streaming">Live Streaming</string>
-    <string name="memory_management">Hukommelse indstillinger</string>
-    <string name="delete_cache">Slet hukommelse</string>
-    <string name="cache_dialog">Slet hukommelse?</string>
-    <string name="not_cache">Dette passer ikke sammen med app hukommelsen.</string>
+    <string name="memory_management">Hukommelses indstillinger</string>
+    <string name="delete_cache">Slet hukommelsen</string>
+    <string name="cache_dialog">Slet hukommelsen?</string>
+    <string name="not_cache">Dette er ikke kompatibelt med app\'ens hukommelse.</string>
     <string name="current_cache_size">Nuværende størrelse på hukommelse</string>
     <string name="cache_dialog_summary">Dette kan ikke fortrydes.</string>
-    <string name="timeline_size">Størrelse på Tidslinje</string>
+    <string name="timeline_size">Størrelse for Tidslinje</string>
     <string name="timeline_size_summary">Maksimale antal af tweets der gemmes i databasen </string>
     <string name="mentions_size">Størrelse for Meninger </string>
     <string name="mentions_size_summary">Maksimale antal af Meninger der gemmes i databasen </string>
@@ -362,7 +362,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="credits">Credits</string>
     <string name="disclaimer">Ansvarsfraskrivelse</string>
     <string name="other_apps">Vores andre app\'s</string>
-    <string name="whats_new">Hvad er nyt</string>
+    <string name="whats_new">Hvad er nyt?</string>
     <string name="rate_it">Bedøm Talon</string>
     <string name="talon_settings">Talon indstillinger</string>
     <string name="feature_requests">Fremtidige ønsker</string>
@@ -393,17 +393,17 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="with_talon_pull">Adgang via \"Talon Pull\"</string>
     <string name="favorited_tweet">Favorit af dine tweets</string>
     <string name="new_followers">Nye følgere</string>
-    <string name="discussion">Samtale(r)</string>
+    <string name="discussion">Kommentarer</string>
     <string name="no_replies">Ingen svar</string>
     <string name="rt_style_quotes">Vælg \"RT\" som type for redigeret tweets</string>
-    <string name="rt_style_quotes_summary">Bruger original \"RT @brugernavn: ...\" for redigeret tweets i stedet for Talon\'s måde.\n\nTilgåes via funktions linjen eller menuen ved ethvert tweet.</string>
-    <string name="absolute_date">Brug absolut dato</string>
+    <string name="rt_style_quotes_summary">Bruger original \"RT @brugernavn: ...\" for redigeret tweets i stedet for Talon\'s måde.\n\nTilgåes via funktions linjen eller menuen.</string>
+    <string name="absolute_date">Vis absolut dato</string>
     <string name="clear_searches">Slet gemte søgninger</string>
-    <string name="compose_with_search">Skriv tweet via Søg</string>
-    <string name="use_toast">Vis \"Til top\" linje</string>
+    <string name="compose_with_search">Skriv tweet via søge funktion</string>
+    <string name="use_toast">Vis \"Til top\" aktiv linje</string>
     <string name="ignore_retweets">Ignorér retweets</string>
     <string name="ignore_retweets_summary">Vis ikke retweets når du scroller igennem din Tidslinje</string>
-    <string name="view">Se</string>
+    <string name="view">Vis</string>
     <string name="muted_hashtags">Muted hash tags</string>
     <string name="muted_hashtags_summary">Tap på hash tag\'et for at fjerne mute.</string>
     <string name="no_hashtags">Ingen hash tags</string>
@@ -422,9 +422,18 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="follows_you">Følger dig</string>
     <string name="not_following_you">Følger ikke dig</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
+    <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for tweetet.</string>
+    <string name="device">Enhedens tekst type</string>
+    <string name="roboto_light">Roboto Lyst (Standard)</string>
+    <string name="roboto_condensed">Roboto Fortættet</string>
+    <string name="font_type">Tekst type</string>
+    <string name="our_website">Webside</string>
+    <string name="alert_types">Advarsels typer</string>
+    <string name="timeline_notifications">Tidslinje notifikationer</string>
+    <string name="interactions_notifications">Interaktioner notifikationer</string>
     <string name="timelines_settings">Tidslinje indstillinger</string>
     <string name="tweet_look_options">Tweet indstillinger</string>
-    <string name="limiting_options">Begrænsning indstillinger</string>
+    <string name="limiting_options">Begrænsnings indstillinger</string>
     <string name="browser_options">Browser indstillinger</string>
     <string name="custom_ringtone">Vælg notifikations lyd</string>
 </resources>
