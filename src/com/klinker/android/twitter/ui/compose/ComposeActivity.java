@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -30,6 +31,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.adapters.SearchedPeopleCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 
@@ -391,6 +393,11 @@ public class ComposeActivity extends Compose {
         toastBar = findViewById(R.id.toastBar);
         toastDescription = (TextView) findViewById(R.id.toastDescription);
         toastButton = (TextView) findViewById(R.id.toastButton);
+
+        if (settings.addonTheme) {
+            LinearLayout toastBackground = (LinearLayout) findViewById(R.id.toast_background);
+            toastBackground.setBackgroundColor(Color.parseColor("#DD" + settings.accentColor));
+        }
     }
 
     private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
