@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListPopupWindow;
@@ -47,7 +46,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
-import com.klinker.android.twitter.utils.TwitLongerHelper;
+import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
