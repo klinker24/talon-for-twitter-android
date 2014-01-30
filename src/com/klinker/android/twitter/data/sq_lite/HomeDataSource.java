@@ -477,6 +477,8 @@ public class HomeDataSource {
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
+        cursor.close();
+
         return cursor.getCount() > 0;
     }
 
@@ -497,6 +499,9 @@ public class HomeDataSource {
                 }
             } while (cursor.moveToPrevious());
         }
+
+        cursor.close();
+
         return pos;
     }
 }

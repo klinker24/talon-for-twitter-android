@@ -776,12 +776,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
+        dataSource.close();
+
         super.onStop();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        dataSource = new HomeDataSource(context);
+        dataSource.open();
 
         justStarted = true;
 

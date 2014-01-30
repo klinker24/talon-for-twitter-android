@@ -243,8 +243,9 @@ public class MentionsDataSource {
     public boolean tweetExists(long tweetId, int account) {
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                 allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + MentionsSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
-
-        return cursor.getCount() > 0;
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
     }
 
     public void deleteDups(int account) {
