@@ -1,4 +1,5 @@
 <b>Version 1.3.0:</b><br/><br/>
+    &#8226; TweetMarker support<br/>
     &#8226; TwitLonger support<br/>
     &#8226; Upload with TwitPic<br/>
     &#8226; Added share and quote button to the in-line expansions on tweets<br/>
