@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.utils.api_helper;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
@@ -86,7 +87,7 @@ public class TweetMarkerHelper extends APIHelper {
         }
     }
 
-    public long sendCurrentId(String collection, long id) {
+    public void sendCurrentId(String collection, long id) {
         try {
             HttpPost post = new HttpPost(postURL);
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
@@ -102,36 +103,17 @@ public class TweetMarkerHelper extends APIHelper {
             Log.v("talon_tweetmarker", "sending");
 
             post.setEntity(new ByteArrayEntity(base.toString().getBytes("UTF8")));
-            DefaultHttpClient client = new DefaultHttpClient();//forceVerification(new DefaultHttpClient());
+            DefaultHttpClient client = new DefaultHttpClient();
 
             HttpResponse response = client.execute(post);
-            Log.v("talon_tweetmarker", "response code: " + response.getStatusLine().getStatusCode());
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-
-            String line;
-            StringBuilder builder = new StringBuilder();
-            while ((line = rd.readLine()) != null) {
-                Log.v("talon_tweetmarker", line);
-                builder.append(line);
-            }
-
-            JSONObject jsonObject = new JSONObject(builder.toString());
-            JSONObject timeline = jsonObject.getJSONObject(collection);
-            if (timeline != null) {
-                long val = timeline.getLong("id");
-                Log.v("talon_tweetmarker", "id: " + val);
-                return val;
-            } else {
-                return 0;
-            }
+            Log.v("talon_tweetmarker", "sending response code: " + response.getStatusLine().getStatusCode());
 
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
         }
     }
 
-    public long getLastStatus(String collection, int lastVersion) {
+    public long getLastStatus(String collection, int lastVersion, SharedPreferences sharedPrefs) {
         try {
             HttpGet get = new HttpGet(postURL + "&" + collection);
             get.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
@@ -142,15 +124,16 @@ public class TweetMarkerHelper extends APIHelper {
             HttpClient client = new DefaultHttpClient();
 
             HttpResponse response = client.execute(get);
-            Log.v("talon_tweetmarker", "response code: " + response.getStatusLine().getStatusCode());
+            Log.v("talon_tweetmarker", "getting id response code: " + response.getStatusLine().getStatusCode());
+
             StatusLine statusLine = response.getStatusLine();
             if (statusLine.getStatusCode() == 200) { // request ok
+                Log.v("talon_tweetmarker", "response code = 200. Response ok");
                 BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
                 String line;
                 StringBuilder builder = new StringBuilder();
                 while ((line = rd.readLine()) != null) {
-                    Log.v("talon_tweetmarker", line);
                     builder.append(line);
                 }
 
@@ -166,8 +149,13 @@ public class TweetMarkerHelper extends APIHelper {
 
                     if (version != lastVersion) {
                         // don't want to move the timeline if the version is the same
-                        return val;
+
+                        // this increments the version from shared prefs
+                        sharedPrefs.edit().putInt("last_version_account_" + sharedPrefs.getInt("current_account", 1), version).commit();
+                        return val; // returns the long id from tweetmarker
                     }
+                } else {
+                    Log.v("talon_tweetmarker", "timeline is null for the response");
                 }
             }
 
@@ -176,29 +164,5 @@ public class TweetMarkerHelper extends APIHelper {
         }
 
         return 0;
-    }
-
-    public DefaultHttpClient forceVerification(HttpClient httpclient) {
-        try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            trustStore.load(null, null);
-
-            SSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-            sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-            HttpParams params = new BasicHttpParams();
-            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-            HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
-
-            SchemeRegistry registry = new SchemeRegistry();
-            registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-            registry.register(new Scheme("https", sf, 443));
-
-            ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
-
-            return new DefaultHttpClient(ccm, params);
-        } catch (Exception e) {
-            return new DefaultHttpClient();
-        }
     }
 }

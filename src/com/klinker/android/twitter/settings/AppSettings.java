@@ -72,6 +72,7 @@ public class AppSettings {
     public boolean alwaysCompose;
     public boolean twitlonger;
     public boolean twitpic;
+    public boolean tweetmarker;
 
     // notifications
     public boolean timelineNot;
@@ -172,6 +173,7 @@ public class AppSettings {
         alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
         twitlonger = sharedPrefs.getBoolean("twitlonger", true);
         twitpic = sharedPrefs.getBoolean("twitpic", false);
+        tweetmarker = sharedPrefs.getBoolean("tweetmarker", false);
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
