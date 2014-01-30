@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -624,12 +625,31 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     if (unread > 0) {
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);
 
-                        CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                        final CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Looper.prepare();
+                                } catch (Exception e) {
+                                    // just in case
+                                }
+                                showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                            }
+                        }, 500);
                     } else {
-                        CharSequence text = context.getResources().getString(R.string.no_new_tweets);
-
-                        showToastBar(text + "", allRead, 400, true, toTopListener);
+                        final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Looper.prepare();
+                                } catch (Exception e) {
+                                    // just in case
+                                }
+                                showToastBar(text + "", allRead, 400, true, toTopListener);
+                            }
+                        }, 500);
                     }
 
                     DrawerActivity.canSwitch = true;
