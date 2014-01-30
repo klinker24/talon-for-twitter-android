@@ -48,6 +48,7 @@ import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -504,32 +505,59 @@ public abstract class Compose extends Activity implements
                             }
                         }
 
-                        media.setMedia(f);
+                        if (settings.twitpic) {
+                            TwitPicHelper helper = new TwitPicHelper(twitter, text, attachedFilePath);
+                            if (addLocation) {
+                                int wait = 0;
+                                while (!mLocationClient.isConnected() && wait < 4) {
+                                    try {
+                                        Thread.sleep(1500);
+                                    } catch (Exception e) {
+                                        return false;
+                                    }
 
-                        if(addLocation) {
-                            int wait = 0;
-                            while (!mLocationClient.isConnected() && wait < 4) {
-                                try {
-                                    Thread.sleep(1500);
-                                } catch (Exception e) {
+                                    wait++;
+                                }
+
+                                if (wait == 4) {
                                     return false;
                                 }
 
-                                wait++;
+                                Location location = mLocationClient.getLastLocation();
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+                                
+                                helper.setLocation(geolocation);
+                            }
+                            return helper.createPost() != 0;
+                        } else {
+                            media.setMedia(f);
+
+                            if(addLocation) {
+                                int wait = 0;
+                                while (!mLocationClient.isConnected() && wait < 4) {
+                                    try {
+                                        Thread.sleep(1500);
+                                    } catch (Exception e) {
+                                        return false;
+                                    }
+
+                                    wait++;
+                                }
+
+                                if (wait == 4) {
+                                    return false;
+                                }
+
+                                Location location = mLocationClient.getLastLocation();
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+                                media.setLocation(geolocation);
                             }
 
-                            if (wait == 4) {
-                                return false;
-                            }
+                            twitter.updateStatus(media);
 
-                            Location location = mLocationClient.getLastLocation();
-                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-                            media.setLocation(geolocation);
+                            return true;
                         }
 
-                        twitter.updateStatus(media);
-
-                        return true;
                     }
                 }
 

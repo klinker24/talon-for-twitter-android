@@ -467,5 +467,7 @@
     <string name="post_with_twitlonger">Tweet is greater than 140 characters.\n\nWould you like to post using TwitLonger?</string>
     <string name="remove_retweet">Remove Retweet</string>
     <string name="edit">Edit</string>
+    <string name="use_twitpic">Use TwitPic</string>
+    <string name="twitpic_summary">Use TwitPic to attach images to tweets instead of Twitter\'s image upload service.</string>
 
 </resources>
