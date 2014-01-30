@@ -209,16 +209,6 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                /*if (firstVisibleItem == 0 && unread > 0) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dataSource.markAllRead(currentAccount);
-                            unread = 0;
-                        }
-                    }).start();
-                }*/
-
                 if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
@@ -320,7 +310,13 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
             }
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+            try {
+                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+            }
 
             return null;
         }
@@ -341,7 +337,13 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     }
 
     public static void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
+        try {
+            cursorAdapter.swapCursor(dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
+        } catch (Exception e) {
+            dataSource = new HomeDataSource(context);
+            dataSource.open();
+            cursorAdapter.swapCursor(dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
+        }
         cursorAdapter.notifyDataSetChanged();
     }
 
@@ -453,5 +455,22 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
     public void updateToastText(String text) {
         toastDescription.setText(text);
+    }
+
+    @Override
+    public void onStop() {
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dataSource = new HomeDataSource(context);
+        dataSource.open();
     }
 }

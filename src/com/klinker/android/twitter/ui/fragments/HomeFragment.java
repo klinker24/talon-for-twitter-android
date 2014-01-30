@@ -105,8 +105,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private View.OnClickListener toMentionsListener;
     private View.OnClickListener liveStreamRefresh;
 
-    public TwitterStream twitterStream;
-
     public View view;
 
     public int liveUnread = 0;
@@ -115,19 +113,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         @Override
         public void onReceive(Context context, Intent intent) {
             if (listView.getFirstVisiblePosition() == 0 && DrawerArrayAdapter.current == 0) {
+                // we want to automatically show the new one if the user is at the top of the list
+                // so we set the current position to the id of the top tweet
+
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                try {
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                } catch (Exception e) {
+                    dataSource = new HomeDataSource(context);
+                    dataSource.open();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                }
                 trueLive = true;
 
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
             } else {
-                //unread = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
                 liveUnread++;
-                int current = dataSource.getUnreadCount(DrawerActivity.settings.currentAccount);
-                if (liveUnread > current) {
-                    liveUnread = current;
-                }
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 if (liveUnread != 0) {
                     try {
@@ -268,7 +270,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         }
 
-        final int currentAccount = sharedPrefs.getInt("current_account", 1);
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
         if (DrawerActivity.settings.useToast) {
@@ -285,7 +286,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                     if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
-                        //unread = dataSource.getUnreadCount(currentAccount);
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                     getResources().getString(R.string.view),
@@ -355,7 +355,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                     if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
-                        //unread = dataSource.getUnreadCount(currentAccount);
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                     getResources().getString(R.string.view),
@@ -469,7 +468,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         } else {
             hideToastBar(400);
-            dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+            try {
+                dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+            }
             getLoaderManager().restartLoader(0, null, HomeFragment.this);
         }
     }
@@ -499,14 +504,27 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             if (!sharedPrefs.getBoolean("refresh_me", false)) {
-                dataSource.markAllRead(currentAccount);
+                try {
+                    dataSource.markAllRead(currentAccount);
+                } catch (Exception e) {
+                    dataSource = new HomeDataSource(context);
+                    dataSource.open();
+                    dataSource.markAllRead(currentAccount);
+                }
             }
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
             User user = twitter.verifyCredentials();
-            long[] lastId = dataSource.getLastIds(currentAccount);
+            long[] lastId;
+            try {
+                lastId = dataSource.getLastIds(currentAccount);
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                lastId = dataSource.getLastIds(currentAccount);
+            }
 
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -549,7 +567,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             for (twitter4j.Status status : statuses) {
                 try {
                     HomeContentProvider.insertTweet(status, currentAccount, context);
-                    //dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
                     e.printStackTrace();
                     break;
@@ -751,12 +768,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onPause() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                markReadForLoad();
-            }
-        }, 1000);
+        markReadForLoad();
 
         super.onPause();
     }
@@ -776,7 +788,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-        dataSource.close();
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
 
         super.onStop();
     }
@@ -878,13 +894,18 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         initial = false;
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
-        //int numTweets = dataSource.getUnreadCount(currentAccount);
         long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
         int numTweets;
         if (id == 0) {
             numTweets = 0;
         } else {
-            numTweets = dataSource.getPosition(currentAccount, id);
+            try {
+                numTweets = dataSource.getPosition(currentAccount, id);
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                numTweets = dataSource.getPosition(currentAccount, id);
+            }
         }
 
         if (viewPressed) {
@@ -1026,7 +1047,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
 
-            dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+            try {
+                dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+            }
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));

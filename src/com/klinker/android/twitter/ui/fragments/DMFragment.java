@@ -322,7 +322,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                         try {
                             dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
-                            break;
+                            dataSource = new DMDataSource(context);
+                            dataSource.open();
+                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         }
                     }
 
@@ -330,7 +332,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                         try {
                             dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
-                            break;
+                            dataSource = new DMDataSource(context);
+                            dataSource.open();
+                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         }
                     }
 
@@ -432,7 +436,14 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         protected String doInBackground(Void... args) {
 
-            Cursor cursor = dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
+            Cursor cursor;
+            try {
+                cursor = dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
+            } catch (Exception e) {
+                dataSource = new DMDataSource(context);
+                dataSource.open();
+                cursor = dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
+            }
 
             ArrayList<com.klinker.android.twitter.data.DirectMessage> messageList = new ArrayList<com.klinker.android.twitter.data.DirectMessage>();
             ArrayList<String> names = new ArrayList<String>();
@@ -465,7 +476,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             }
 
             cursorAdapter = new DirectMessageListArrayAdapter(context, messageList);
-            //cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), true);
 
             return null;
         }
@@ -481,24 +491,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             //attachCursor();
         }
 
-    }
-
-    public void swapCursors() {
-        //cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
-        cursorAdapter.notifyDataSetChanged();
-    }
-
-    public void refreshCursor() {
-        listView.setAdapter(cursorAdapter);
-
-        swapCursors();
-    }
-
-    @SuppressWarnings("deprecation")
-    public void attachCursor() {
-        listView.setAdapter(cursorAdapter);
-
-        swapCursors();
     }
 
     public int toDP(int px) {
@@ -613,5 +605,22 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
     public void updateToastText(String text) {
         toastDescription.setText(text);
+    }
+
+    @Override
+    public void onStop() {
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dataSource = new DMDataSource(context);
+        dataSource.open();
     }
 }

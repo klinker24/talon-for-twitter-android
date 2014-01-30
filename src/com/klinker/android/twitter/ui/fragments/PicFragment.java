@@ -32,6 +32,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -311,7 +312,13 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
             }
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
+            try {
+                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
+            }
 
             return null;
         }
@@ -444,5 +451,22 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
     public void updateToastText(String text) {
         toastDescription.setText(text);
+    }
+
+    @Override
+    public void onStop() {
+        try {
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dataSource = new HomeDataSource(context);
+        dataSource.open();
     }
 }
