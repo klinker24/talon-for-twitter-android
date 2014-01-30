@@ -32,6 +32,13 @@
             />
 
         <CheckBoxPreference
+            android:key="twitpic"
+            android:title="@string/use_twitpic"
+            android:summary="@string/twitpic_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
             android:key="use_emojis"
             android:title="@string/enable_emojis"
             android:defaultValue="false"

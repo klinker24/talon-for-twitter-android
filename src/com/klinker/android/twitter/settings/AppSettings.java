@@ -71,6 +71,7 @@ public class AppSettings {
     public boolean autoInsertHashtags;
     public boolean alwaysCompose;
     public boolean twitlonger;
+    public boolean twitpic;
 
     // notifications
     public boolean timelineNot;
@@ -170,6 +171,7 @@ public class AppSettings {
         autoInsertHashtags = sharedPrefs.getBoolean("auto_insert_hashtags", false);
         alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
         twitlonger = sharedPrefs.getBoolean("twitlonger", true);
+        twitpic = sharedPrefs.getBoolean("twitpic", false);
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
