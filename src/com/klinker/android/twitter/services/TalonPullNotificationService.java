@@ -19,6 +19,7 @@ import android.util.Log;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
@@ -313,6 +314,22 @@ public class TalonPullNotificationService extends Service {
                 }
             }).start();
 
+            try {
+                home.close();
+            } catch (Exception e) {
+
+            }
+            try {
+                interactions.close();
+            } catch (Exception e) {
+
+            }
+            try {
+                mentions.close();
+            } catch (Exception e) {
+
+            }
+
             stopSelf();
         }
     };
@@ -394,9 +411,17 @@ public class TalonPullNotificationService extends Service {
 
             if (settings.liveStreaming && idsLoaded) {
                 Long mId = status.getUser().getId();
-                if (!(status.isRetweet() && home.tweetExists(status.getRetweetedStatus().getId(), sharedPreferences.getInt("current_account", 1))) &&
+                if (!(status.isRetweet()) &&
                         ids.contains(mId)) {
-                    home.createTweet(status, sharedPreferences.getInt("current_account", 1));
+                    try {
+                        HomeContentProvider.insertTweet(status, sharedPreferences.getInt("current_account", 1), mContext);
+                        //home.createTweet(status, sharedPreferences.getInt("current_account", 1));
+                    } catch (Exception e) {
+                        // illegal state
+                        home = new HomeDataSource(mContext);
+                        home.open();
+                        HomeContentProvider.insertTweet(status, sharedPreferences.getInt("current_account", 1), mContext);
+                    }
 
                     pullUnread++;
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
@@ -420,7 +445,12 @@ public class TalonPullNotificationService extends Service {
             try {
                 home.deleteTweet(statusDeletionNotice.getStatusId());
                 sharedPreferences.edit().putBoolean("refresh_me", true).commit();
-            } catch (Exception e) { }
+            } catch (Exception e) {
+                home = new HomeDataSource(mContext);
+                home.open();
+                home.deleteTweet(statusDeletionNotice.getStatusId());
+                sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+            }
         }
 
         @Override
