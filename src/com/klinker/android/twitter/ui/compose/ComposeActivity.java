@@ -149,7 +149,7 @@ public class ComposeActivity extends Compose {
                             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                             startActivityForResult(captureIntent, CAPTURE_IMAGE);
                         } else { // attach picture
-                            if (attachedFilePath.equals("")) {
+                            if (attachedFilePath == null || attachedFilePath.equals("")) {
                                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                                 photoPickerIntent.setType("image/*");
                                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
