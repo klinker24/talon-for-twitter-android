@@ -417,11 +417,16 @@ public class ImageUtils {
                     Log.v("caching_images", "bitmap: " + b);
                     Log.v("caching_images", "url: " + url);
                     // Add to cache
-                    if (mCache != null) {
-                        result = mCache.put(url, b);
-                    } else {
-                        mCache = App.getInstance(context).getBitmapCache();
-                        result = mCache.put(url, b);
+                    try {
+                        if (mCache != null) {
+                            result = mCache.put(url, b);
+                        } else {
+                            mCache = App.getInstance(context).getBitmapCache();
+                            result = mCache.put(url, b);
+                        }
+                    } catch (Exception e) {
+                        // what the hell is going wrong...
+                        e.printStackTrace();
                     }
 
                 } else {
