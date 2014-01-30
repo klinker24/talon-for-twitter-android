@@ -8,6 +8,7 @@
 
     <style name="Widget.Custom.PtrHeader" parent="android:Widget">
         <item name="ptrProgressBarColor">@color/app_color</item>
+        <item name="ptrPullText">@string/pull_to_refresh</item>
     </style>
 
     <style name="Theme.Tutorial" parent="@style/Theme.TalonDark">

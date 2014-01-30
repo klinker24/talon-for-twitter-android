@@ -473,5 +473,6 @@
     <string name="use_tweetmarker">Enable TweetMarker</string>
     <string name="finding_tweetmarker">Finding TweetMarker</string>
     <string name="loading">Loading</string>
+    <string name="pull_to_refresh">Pull to Refresh</string>
 
 </resources>
