@@ -28,11 +28,11 @@ public class TwitPicHelper extends APIHelper {
 
     private Twitter twitter;
     private String message;
-    private String file;
+    private File file;
     private long replyToStatusId = 0;
     private GeoLocation location = null;
 
-    public TwitPicHelper(Twitter twitter, String message, String picture) {
+    public TwitPicHelper(Twitter twitter, String message, File picture) {
         this.twitter = twitter;
         this.message = message;
         this.file = picture;
@@ -92,7 +92,7 @@ public class TwitPicHelper extends APIHelper {
 
             MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
             entity.addPart("key", new StringBody(TWITPIC_API_KEY));
-            entity.addPart("media", new FileBody(new File (file)));
+            entity.addPart("media", new FileBody(file));
             entity.addPart("message", new StringBody(message));
 
 

@@ -528,7 +528,7 @@ public abstract class Compose extends Activity implements
                         }
 
                         if (settings.twitpic) {
-                            TwitPicHelper helper = new TwitPicHelper(twitter, text, attachedFilePath);
+                            TwitPicHelper helper = new TwitPicHelper(twitter, text, f);
                             if (addLocation) {
                                 int wait = 0;
                                 while (!mLocationClient.isConnected() && wait < 4) {
