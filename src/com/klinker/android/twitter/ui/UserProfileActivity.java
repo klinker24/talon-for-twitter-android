@@ -522,9 +522,16 @@ public class UserProfileActivity extends Activity {
 
                 try {
                     if (user.isVerified()) {
-                        HoloTextView verified = (HoloTextView) findViewById(R.id.verified_text);
-                        verified.setVisibility(View.VISIBLE);
-                        verified.setText(getResources().getString(R.string.verified));
+                        if (settings.addonTheme) {
+                            Resources res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                            TextView verified = (TextView) findViewById(res.getIdentifier("verified_text", "id", settings.addonThemePackage));
+                            verified.setVisibility(View.VISIBLE);
+                            verified.setText(getResources().getString(R.string.verified));
+                        } else {
+                            HoloTextView verified = (HoloTextView) findViewById(R.id.verified_text);
+                            verified.setVisibility(View.VISIBLE);
+                            verified.setText(getResources().getString(R.string.verified));
+                        }
                     }
                 } catch (Exception e) {
                     // their theme was created before this was implemented
