@@ -26,3 +26,4 @@
     -- be able to put lists on the extra pages
     -- TweetMarker
     -- users favorites and pictures on profile... this will mean turning that into a view pager as well
+    -- twitpic on replies, test it too
