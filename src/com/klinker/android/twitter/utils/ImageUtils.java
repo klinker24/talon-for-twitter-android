@@ -404,7 +404,7 @@ public class ImageUtils {
                         b = BitmapFactory.decodeStream(is2, null, options);
                     } catch (OutOfMemoryError e) {
                         size = calculateInSampleSize(options, 100, 100);
-                        Log.v("caching_images", size +"");
+                        Log.v("caching_images", "in catch: " + size +"");
 
                         options = new BitmapFactory.Options();
                         options.inJustDecodeBounds = false;
@@ -413,6 +413,9 @@ public class ImageUtils {
                         b = BitmapFactory.decodeStream(is2, null, options);
                     }
 
+                    Log.v("caching_images", "mcache: " + mCache);
+                    Log.v("caching_images", "bitmap: " + b);
+                    Log.v("caching_images", "url: " + url);
                     // Add to cache
                     if (mCache != null) {
                         result = mCache.put(url, b);
