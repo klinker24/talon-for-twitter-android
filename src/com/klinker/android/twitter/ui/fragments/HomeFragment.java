@@ -50,6 +50,7 @@ import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -819,6 +820,25 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         } catch (Exception e) {
 
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+                TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
+                        DrawerActivity.settings.myScreenName,
+                        Utils.getTwitter(context, DrawerActivity.settings));
+
+                if (sharedPrefs.getBoolean("no_tweetmarker_2", true)) {
+                    sharedPrefs.edit().putBoolean("no_tweetmarker_2", false).commit();
+                    helper.authorize();
+                }
+
+                //helper.sendCurrentId("timeline", sharedPrefs.getLong("current_position_" + currentAccount, 0));
+                helper.getLastStatus("timeline", sharedPrefs.getInt("last_version", 0));
+            }
+        }).start();
 
         super.onStop();
     }
