@@ -378,7 +378,6 @@ public class ImageUtils {
                 result = mCache.get(url, null);
 
                 if (null == result) {
-                    Log.d("ImageUrlAsyncTask", "Downloading: " + url);
 
                     // The bitmap isn't cached so download from the web
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -391,7 +390,6 @@ public class ImageUtils {
                     BitmapFactory.decodeStream(is, null, options);
 
                     int size = calculateInSampleSize(options, 300, 300);
-                    Log.v("caching_images", size +"");
 
                     options = new BitmapFactory.Options();
                     options.inJustDecodeBounds = false;
@@ -404,7 +402,6 @@ public class ImageUtils {
                         b = BitmapFactory.decodeStream(is2, null, options);
                     } catch (OutOfMemoryError e) {
                         size = calculateInSampleSize(options, 100, 100);
-                        Log.v("caching_images", "in catch: " + size +"");
 
                         options = new BitmapFactory.Options();
                         options.inJustDecodeBounds = false;
@@ -413,24 +410,11 @@ public class ImageUtils {
                         b = BitmapFactory.decodeStream(is2, null, options);
                     }
 
-                    Log.v("caching_images", "mcache: " + mCache);
-                    Log.v("caching_images", "bitmap: " + b);
-                    Log.v("caching_images", "url: " + url);
                     // Add to cache
-                    try {
-                        if (mCache != null) {
-                            result = mCache.put(url, b);
-                        } else {
-                            mCache = App.getInstance(context).getBitmapCache();
-                            result = mCache.put(url, b);
-                        }
-                    } catch (Exception e) {
-                        // what the hell is going wrong...
-                        e.printStackTrace();
+                    if (b != null) {
+                        result = mCache.put(url, b);
                     }
 
-                } else {
-                    Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
                 }
 
                 return result;
