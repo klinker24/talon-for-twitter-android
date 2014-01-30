@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.List;
 
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -200,7 +201,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         new GetCursorAdapter().execute();
 
-        final int currentAccount = sharedPrefs.getInt("current_account", 1);
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -214,16 +214,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                /*if (firstVisibleItem == 0 && unread > 0) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dataSource.markAllRead(currentAccount);
-                            unread = 0;
-                        }
-                    }).start();
-                }*/
 
                 if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
@@ -313,12 +303,17 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 try {
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-                    //dataSource.markAllRead(currentAccount);
-
                     twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
                     User user = twitter.verifyCredentials();
-                    long[] lastId = dataSource.getLastIds(currentAccount);
+                    long[] lastId;
+                    try {
+                        lastId = dataSource.getLastIds(currentAccount);
+                    } catch (Exception e) {
+                        dataSource = new MentionsDataSource(context);
+                        dataSource.open();
+                        lastId = dataSource.getLastIds(currentAccount);
+                    }
                     Paging paging;
                     paging = new Paging(1, 50);
 
@@ -400,14 +395,26 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                 try {
                     if (update) {
-                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        try {
+                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        } catch (Exception e) {
+                            dataSource = new MentionsDataSource(context);
+                            dataSource.open();
+                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        }
                         refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape ? 1 : 2), size);
                     } else {
-                        cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        try {
+                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        } catch (Exception e) {
+                            dataSource = new MentionsDataSource(context);
+                            dataSource.open();
+                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                        }
                         refreshCursor();
 
                         CharSequence text = getResources().getString(R.string.no_new_mentions);
@@ -444,8 +451,21 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        dataSource = new MentionsDataSource(context);
+        dataSource.open();
+    }
+
+    @Override
     public void onStop() {
-        dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+        try {
+            dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+            dataSource.close();
+        } catch (Exception e) {
+
+        }
+
         super.onStop();
     }
 
@@ -460,7 +480,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         protected String doInBackground(Void... args) {
 
-            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+            try {
+                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+            } catch (Exception e) {
+                dataSource = new MentionsDataSource(context);
+                dataSource.open();
+                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+            }
+
 
             return null;
         }
@@ -484,7 +511,13 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         if (unread > 0) {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
-            dataSource.markMultipleRead(mUnread, currentAccount);
+            try {
+                dataSource.markMultipleRead(mUnread, currentAccount);
+            } catch (Exception e) {
+                dataSource = new MentionsDataSource(context);
+                dataSource.open();
+                dataSource.markMultipleRead(mUnread, currentAccount);
+            }
             unread = mUnread;
         }
 
@@ -502,7 +535,13 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     }
 
     public static void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
+        try {
+            cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
+        } catch (Exception e) {
+            dataSource = new MentionsDataSource(context);
+            dataSource.open();
+            cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
+        }
         cursorAdapter.notifyDataSetChanged();
     }
 
@@ -519,7 +558,13 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         swapCursors();
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
-        int newTweets = dataSource.getUnreadCount(currentAccount);
+        int newTweets;
+
+        try {
+            newTweets = dataSource.getUnreadCount(currentAccount);
+        } catch (Exception e) {
+            newTweets = 0;
+        }
 
         if (newTweets > 0) {
             unread = newTweets;
