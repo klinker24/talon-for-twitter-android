@@ -8,6 +8,7 @@
     &#8226; Better handling of retweets when viewing the tweet<br/>
     &#8226; Reply to your own tweets<br/>
     &#8226; Hopefully much more stability<br/>
+    &#8226; Updated translations<br/>
 <br/><br/>
 
 <b>Version 1.2.0 Beta 3:</b><br/><br/>
