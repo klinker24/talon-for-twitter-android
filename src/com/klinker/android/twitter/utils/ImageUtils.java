@@ -19,6 +19,7 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.SDK11;
 
 import java.io.BufferedInputStream;
@@ -348,7 +349,7 @@ public class ImageUtils {
     private static class ImageUrlAsyncTask
             extends AsyncTask<String, Void, CacheableBitmapDrawable> {
 
-        private final BitmapLruCache mCache;
+        private BitmapLruCache mCache;
         private Context context;
         private final WeakReference<ImageView> mImageViewRef;
         private ImageView iv;
@@ -413,7 +414,12 @@ public class ImageUtils {
                     }
 
                     // Add to cache
-                    result = mCache.put(url, b);
+                    if (mCache != null) {
+                        result = mCache.put(url, b);
+                    } else {
+                        mCache = App.getInstance(context).getBitmapCache();
+                        result = mCache.put(url, b);
+                    }
 
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
