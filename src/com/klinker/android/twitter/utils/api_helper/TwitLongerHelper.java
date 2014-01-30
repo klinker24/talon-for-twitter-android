@@ -22,6 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import twitter4j.GeoLocation;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -46,6 +48,7 @@ public class TwitLongerHelper extends APIHelper {
     public long replyToId;
     public long replyToStatusId = 0;
     public String replyToScreenname;
+    public GeoLocation location;
 
     public Twitter twitter;
 
@@ -95,6 +98,10 @@ public class TwitLongerHelper extends APIHelper {
         this.replyToStatusId = replyToStatusId;
     }
 
+    public void setLocation(GeoLocation location) {
+        this.location = location;
+    }
+
 
     /**
      * posts the status onto Twitlonger, it then posts the shortened status (with link) to the user's twitter and updates the status on twitlonger
@@ -107,13 +114,17 @@ public class TwitLongerHelper extends APIHelper {
         long statusId;
         try {
             Status postedStatus;
+            StatusUpdate update = new StatusUpdate(status.getText());
             if (replyToStatusId != 0) {
-                StatusUpdate update = new StatusUpdate(status.getText());
                 update.setInReplyToStatusId(replyToStatusId);
-                postedStatus = twitter.updateStatus(update);
-            } else {
-                postedStatus = twitter.updateStatus(status.getText());
             }
+
+            if (location != null) {
+                update.setLocation(location);
+            }
+
+            postedStatus = twitter.updateStatus(update);
+
 
             statusId = postedStatus.getId();
             updateTwitlonger(status, statusId);
