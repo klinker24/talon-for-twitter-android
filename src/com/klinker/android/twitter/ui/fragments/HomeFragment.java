@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private SharedPreferences sharedPrefs;
 
     private PullToRefreshLayout mPullToRefreshLayout;
+    public DefaultHeaderTransformer transformer;
 
     private HomeDataSource dataSource;
 
@@ -231,8 +232,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         // Finally commit the setup to our PullToRefreshLayout
                 .setup(mPullToRefreshLayout);
 
+        transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
+
         if (DrawerActivity.settings.addonTheme) {
-            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
             transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
         }
 
@@ -605,58 +607,130 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         return numberNew;
     }
 
-    @Override
-    public void onRefreshStarted(final View view) {
-        new AsyncTask<Void, Void, Void>() {
+    public boolean getTweet() {
+        int currentAccount = DrawerActivity.settings.currentAccount;
+        int lastVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+        TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
+                DrawerActivity.settings.myScreenName,
+                Utils.getTwitter(context, DrawerActivity.settings));
 
-            private int numberNew;
+        long tweetmarkerStatus = helper.getLastStatus("timeline", lastVersion, sharedPrefs);
+
+        Log.v("talon_tweetmarker", "tweetmarker status: " + tweetmarkerStatus);
+
+        if (tweetmarkerStatus != 0) {
+            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, tweetmarkerStatus).commit();
+            Log.v("talon_tweetmarker", "updating with tweetmarker");
+            trueLive = true;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void fetchTweetMarker() {
+        new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected void onPreExecute() {
+                if (!actionBar.isShowing()) {
+                    showStatusBar();
+                    actionBar.show();
+                }
+                transformer.setRefreshingText(getResources().getString(R.string.finding_tweetmarker));
+                mPullToRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+
+                }
+
+                return getTweet();
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                hideToastBar(400);
+                if (result) {
+                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                }
+
+                mPullToRefreshLayout.setRefreshComplete();
+            }
+        }.execute();
+    }
+
+    @Override
+    public void onRefreshStarted(final View view) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            private int numberNew;
+            private boolean tweetMarkerUpdate;
+
+            @Override
+            protected void onPreExecute() {
+                transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
                 DrawerActivity.canSwitch = false;
             }
 
             @Override
-            protected Void doInBackground(Void... params) {
+            protected Boolean doInBackground(Void... params) {
 
                 numberNew = doRefresh();
 
-                return null;
+                tweetMarkerUpdate = false;
+
+                if (DrawerActivity.settings.tweetmarker) {
+                    tweetMarkerUpdate = getTweet();
+                }
+
+                return numberNew > 0 || tweetMarkerUpdate;
             }
 
             @Override
-            protected void onPostExecute(Void result) {
+            protected void onPostExecute(Boolean result) {
                 try {
                     super.onPostExecute(result);
 
-                    if (unread > 0) {
+                    if (result) {
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);
 
-                        final CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Looper.prepare();
-                                } catch (Exception e) {
-                                    // just in case
-                                }
-                                showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                        if (unread > 0) {
+                            final CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                            if (!tweetMarkerUpdate) {
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Looper.prepare();
+                                        } catch (Exception e) {
+                                            // just in case
+                                        }
+                                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                                    }
+                                }, 500);
                             }
-                        }, 500);
+                        }
                     } else {
                         final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Looper.prepare();
-                                } catch (Exception e) {
-                                    // just in case
+                        if (!DrawerActivity.settings.tweetmarker) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Looper.prepare();
+                                    } catch (Exception e) {
+                                        // just in case
+                                    }
+                                    showToastBar(text + "", allRead, 400, true, toTopListener);
                                 }
-                                showToastBar(text + "", allRead, 400, true, toTopListener);
-                            }
-                        }, 500);
+                            }, 500);
+                        }
                     }
 
                     DrawerActivity.canSwitch = true;
@@ -821,24 +895,28 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int currentAccount = sharedPrefs.getInt("current_account", 1);
+        if (DrawerActivity.settings.tweetmarker) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-                TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                        DrawerActivity.settings.myScreenName,
-                        Utils.getTwitter(context, DrawerActivity.settings));
+                    TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
+                            DrawerActivity.settings.myScreenName,
+                            Utils.getTwitter(context, DrawerActivity.settings));
 
-                if (sharedPrefs.getBoolean("no_tweetmarker_2", true)) {
-                    sharedPrefs.edit().putBoolean("no_tweetmarker_2", false).commit();
-                    helper.authorize();
+                    long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+
+                    Log.v("talon_tweetmarker", "sending " + currentId + " to tweetmarker");
+
+                    helper.sendCurrentId("timeline", currentId);
+
+                    // then want to write the new version into shared prefs
+                    int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
                 }
-
-                //helper.sendCurrentId("timeline", sharedPrefs.getLong("current_position_" + currentAccount, 0));
-                helper.getLastStatus("timeline", sharedPrefs.getInt("last_version", 0));
-            }
-        }).start();
+            }).start();
+        }
 
         super.onStop();
     }
@@ -859,7 +937,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if((DrawerActivity.settings.refreshOnStart) && listView.getFirstVisiblePosition() == 0 && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
+                    if((DrawerActivity.settings.refreshOnStart) && (listView.getFirstVisiblePosition() == 0 || DrawerActivity.settings.tweetmarker) && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
                         mPullToRefreshLayout.setRefreshing(true);
                         onRefreshStarted(view);
                     }
@@ -868,6 +946,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     waitOnRefresh.postDelayed(applyRefresh, 30000);
                 }
             }, 400);
+        }
+
+        if ((DrawerActivity.settings.liveStreaming || !DrawerActivity.settings.refreshOnStart) && DrawerActivity.settings.tweetmarker) {
+            fetchTweetMarker();
         }
 
         IntentFilter filter = new IntentFilter();
