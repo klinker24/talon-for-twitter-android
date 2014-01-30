@@ -1,5 +1,6 @@
 <b>Version 1.3.0:</b><br/><br/>
     &#8226; TwitLonger support<br/>
+    &#8226; Upload with TwitPic<br/>
     &#8226; Added share and quote button to the in-line expansions on tweets<br/>
     &#8226; Live streamed tweets will be automatically loaded when you are at the top of the timeline<br/>
     &#8226; Remove retweets by long pressing the retweet button<br/>
