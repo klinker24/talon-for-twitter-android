@@ -339,7 +339,13 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     }
 
     public static void swapCursors() {
-        cursorAdapter.swapCursor(dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)));
+        try {
+            cursorAdapter.swapCursor(dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)));
+        } catch (Exception e) {
+            dataSource = new HomeDataSource(context);
+            dataSource.open();
+            cursorAdapter.swapCursor(dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)));
+        }
         cursorAdapter.notifyDataSetChanged();
     }
 

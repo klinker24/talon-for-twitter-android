@@ -469,5 +469,6 @@
     <string name="edit">Edit</string>
     <string name="use_twitpic">Use TwitPic</string>
     <string name="twitpic_summary">Use TwitPic to attach images to tweets instead of Twitter\'s image upload service.</string>
+    <string name="verified">Verified</string>
 
 </resources>

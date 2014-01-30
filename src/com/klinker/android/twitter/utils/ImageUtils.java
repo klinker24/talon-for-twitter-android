@@ -409,8 +409,6 @@ public class ImageUtils {
                         options.inJustDecodeBounds = false;
                         options.inSampleSize = size;
 
-                        conn2 = (HttpURLConnection) new URL(url).openConnection();
-                        is2 = new BufferedInputStream(conn2.getInputStream());
                         b = BitmapFactory.decodeStream(is2, null, options);
                     }
 

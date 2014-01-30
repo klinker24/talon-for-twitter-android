@@ -520,9 +520,14 @@ public class UserProfileActivity extends Activity {
         protected void onPostExecute(twitter4j.User user) {
             if (user != null) {
 
-                if (user.isVerified()) {
-                    HoloTextView verified = (HoloTextView) findViewById(R.id.verified_text);
-                    verified.setVisibility(View.VISIBLE);
+                try {
+                    if (user.isVerified()) {
+                        HoloTextView verified = (HoloTextView) findViewById(R.id.verified_text);
+                        verified.setVisibility(View.VISIBLE);
+                        verified.setText(getResources().getString(R.string.verified));
+                    }
+                } catch (Exception e) {
+                    // their theme was created before this was implemented
                 }
 
                 thisUser = user;

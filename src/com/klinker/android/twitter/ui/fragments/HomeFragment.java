@@ -574,7 +574,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }
 
-            numberNew = dataSource.getUnreadCount(currentAccount);
+            try {
+                numberNew = dataSource.getUnreadCount(currentAccount);
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                numberNew = dataSource.getUnreadCount(currentAccount);
+            }
             unread = numberNew;
 
         } catch (TwitterException e) {
