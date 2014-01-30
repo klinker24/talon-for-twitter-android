@@ -36,7 +36,11 @@ public class HomeDataSource {
     }
 
     public void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (Exception e) {
+
+        }
     }
 
     public void close() {
@@ -75,6 +79,9 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
+        if (database == null) {
+            open();
+        }
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
     }
 
@@ -110,17 +117,29 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
+        if (database == null) {
+            open();
+        }
+
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
     }
 
     public void deleteTweet(long tweetId) {
         long id = tweetId;
 
+        if (database == null) {
+            open();
+        }
+
         database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
     }
 
     public void deleteAllTweets(int account) {
+        if (database == null) {
+            open();
+        }
+
         database.delete(HomeSQLiteHelper.TABLE_HOME,
                 HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
@@ -151,6 +170,10 @@ public class HomeDataSource {
 
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        }
+
+        if (database == null) {
+            open();
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -192,6 +215,10 @@ public class HomeDataSource {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC");
 
@@ -224,6 +251,10 @@ public class HomeDataSource {
 
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        }
+
+        if (database == null) {
+            open();
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -261,6 +292,10 @@ public class HomeDataSource {
         }
 
         where += " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " NOT LIKE " + "'%youtu%'";
+
+        if (database == null) {
+            open();
+        }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -301,6 +336,10 @@ public class HomeDataSource {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
@@ -323,97 +362,14 @@ public class HomeDataSource {
         return count;
     }
 
-    public void markRead(int account, int position) {
-        Cursor cursor = getUnreadCursor(account);
-
-        if (cursor.moveToPosition(position)) {
-            long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-
-            ContentValues cv = new ContentValues();
-            cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
-
-            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-        }
-
-        cursor.close();
-    }
-
-    public void markUnread(int account, long wantid) {
-        Cursor cursor = getCursor(account);
-
-        ContentValues cv = new ContentValues();
-        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
-
-        if (cursor.moveToFirst()) {
-            boolean mark = false;
-            do {
-                long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-
-                if (wantid == tweetId) {
-                    mark = true;
-                }
-                if (mark) {
-                    database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-                }
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-    }
-
-    public void markMultipleRead(int current, int account) {
-
-        Cursor cursor = getUnreadCursor(account);
-
-        try {
-            if (cursor.moveToPosition(current)) {
-                do {
-                    long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-
-                    ContentValues cv = new ContentValues();
-                    cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
-
-                    database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-
-                } while (cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            // there is nothing in the unread array
-        }
-
-        cursor.close();
-    }
-
-    public void markMultipleRead(String text, int account) {
-
-        Cursor c = getUnreadCursor(account); // first is the oldest
-
-        ContentValues cv = new ContentValues();
-        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
-
-        boolean dontMark = true;
-        if (c.moveToLast()) {
-            do {
-                String thisText = c.getString(c.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-                if (text.equals(thisText)) {
-                    dontMark = false;
-                }
-
-                if (!dontMark) {
-                    long tweetId = c.getLong(c.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                    database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-                }
-            } while (c.moveToPrevious());
-        }
-
-        c.close();
-    }
-
     public void markAllRead(int account) {
 
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
+        if (database == null) {
+            open();
+        }
         try {
             database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
         } catch (Exception e) {
@@ -443,6 +399,7 @@ public class HomeDataSource {
                     }
 
                     if (startUnreads) {
+
                         database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {thisId + ""});
                     }
                 } while (full.moveToNext());
@@ -474,6 +431,10 @@ public class HomeDataSource {
     }
 
     public boolean tweetExists(long tweetId, int account) {
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
@@ -483,7 +444,13 @@ public class HomeDataSource {
     }
 
     public void deleteDups(int account) {
-        database.execSQL("DELETE FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + HomeSQLiteHelper.TABLE_HOME + " GROUP BY " + HomeSQLiteHelper.COLUMN_TWEET_ID + ") AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+        if (database == null) {
+            open();
+        }
+
+        database.execSQL("DELETE FROM " + HomeSQLiteHelper.TABLE_HOME +
+                " WHERE _id NOT IN (SELECT MIN(_id) FROM " + HomeSQLiteHelper.TABLE_HOME +
+                " GROUP BY " + HomeSQLiteHelper.COLUMN_TWEET_ID + ") AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
     }
 
     public int getPosition(int account, long id) {

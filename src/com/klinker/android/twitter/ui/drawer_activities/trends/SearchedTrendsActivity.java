@@ -162,7 +162,11 @@ public class SearchedTrendsActivity extends Activity {
     public void removeKeyboard() {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+        try {
+            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+        } catch (Exception e) {
+            // they closed i guess
+        }
     }
 
     public String searchQuery = "";
