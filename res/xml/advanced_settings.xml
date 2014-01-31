@@ -28,6 +28,7 @@
         <CheckBoxPreference
             android:key="tweetmarker"
             android:title="@string/use_tweetmarker"
+            android:summary="@string/tweetmarker_summary"
             android:defaultValue="false"
             />
 

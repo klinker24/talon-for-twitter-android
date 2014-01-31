@@ -471,8 +471,10 @@
     <string name="twitpic_summary">Use TwitPic to attach images to tweets instead of Twitter\'s image upload service.</string>
     <string name="verified">Verified</string>
     <string name="use_tweetmarker">Enable TweetMarker</string>
+    <string name="tweetmarker_summary">Still a little bit experimental for now.</string>
     <string name="finding_tweetmarker">Finding TweetMarker</string>
     <string name="loading">Loading</string>
+    <string name="loading_tweets">Loading Tweets...</string>
     <string name="pull_to_refresh">Pull to Refresh</string>
 
 </resources>
