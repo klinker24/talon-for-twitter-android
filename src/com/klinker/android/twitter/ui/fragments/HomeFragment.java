@@ -1034,6 +1034,26 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 dataSource.open();
                 numTweets = dataSource.getPosition(currentAccount, id);
             }
+
+            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                try {
+                    numTweets = dataSource.getPosition(currentAccount, id + 1);
+                } catch (Exception e) {
+                    dataSource = new HomeDataSource(context);
+                    dataSource.open();
+                    numTweets = dataSource.getPosition(currentAccount, id + 1);
+                }
+
+                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                    try {
+                        numTweets = dataSource.getPosition(currentAccount, id - 1);
+                    } catch (Exception e) {
+                        dataSource = new HomeDataSource(context);
+                        dataSource.open();
+                        numTweets = dataSource.getPosition(currentAccount, id - 1);
+                    }
+                }
+            }
         }
 
         if (viewPressed) {
@@ -1043,6 +1063,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             unread = numTweets;
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
+        } else {
+            listView.setSelectionFromTop(0, 0);
         }
 
         liveUnread = 0;
