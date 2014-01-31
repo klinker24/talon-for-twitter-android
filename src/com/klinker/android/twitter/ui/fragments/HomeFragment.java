@@ -1035,6 +1035,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 numTweets = dataSource.getPosition(currentAccount, id);
             }
 
+            int oriNum = numTweets;
+
             if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
                 try {
                     numTweets = dataSource.getPosition(currentAccount, id + 1);
@@ -1051,6 +1053,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         dataSource = new HomeDataSource(context);
                         dataSource.open();
                         numTweets = dataSource.getPosition(currentAccount, id - 1);
+                    }
+
+                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                        numTweets = oriNum;
                     }
                 }
             }
