@@ -1019,75 +1019,102 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public boolean viewPressed = false;
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-        listView.setAdapter(cursorAdapter);
+    public void onLoadFinished(Loader<Cursor> cursorLoader, final Cursor cursor) {
+        new AsyncTask<Void, Void, Integer>() {
 
-        initial = false;
+            boolean appliedCursorAbove = false;
 
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
-        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
-        int numTweets;
-        if (id == 0) {
-            numTweets = 0;
-        } else {
-            try {
-                numTweets = dataSource.getPosition(currentAccount, id);
-            } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                numTweets = dataSource.getPosition(currentAccount, id);
+            @Override
+            protected void onPreExecute() {
+                if (initial) {
+                    cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                    listView.setAdapter(cursorAdapter);
+                    appliedCursorAbove = true;
+                }
             }
 
-            int oriNum = numTweets;
+            @Override
+            protected Integer doInBackground(Void... params) {
 
-            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
-            // so this is to error trap that
-            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                try {
-                    numTweets = dataSource.getPosition(currentAccount, id + 1);
-                } catch (Exception e) {
-                    dataSource = new HomeDataSource(context);
-                    dataSource.open();
-                    numTweets = dataSource.getPosition(currentAccount, id + 1);
-                }
+                initial = false;
 
-                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
+                long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                int numTweets;
+                if (id == 0) {
+                    numTweets = 0;
+                } else {
                     try {
-                        numTweets = dataSource.getPosition(currentAccount, id - 1);
+                        numTweets = dataSource.getPosition(currentAccount, id);
                     } catch (Exception e) {
                         dataSource = new HomeDataSource(context);
                         dataSource.open();
-                        numTweets = dataSource.getPosition(currentAccount, id - 1);
+                        numTweets = dataSource.getPosition(currentAccount, id);
                     }
 
+                    int oriNum = numTweets;
+
+                    // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+                    // so this is to error trap that
                     if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                        numTweets = oriNum;
+                        try {
+                            numTweets = dataSource.getPosition(currentAccount, id + 1);
+                        } catch (Exception e) {
+                            dataSource = new HomeDataSource(context);
+                            dataSource.open();
+                            numTweets = dataSource.getPosition(currentAccount, id + 1);
+                        }
+
+                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                            try {
+                                numTweets = dataSource.getPosition(currentAccount, id - 1);
+                            } catch (Exception e) {
+                                dataSource = new HomeDataSource(context);
+                                dataSource.open();
+                                numTweets = dataSource.getPosition(currentAccount, id - 1);
+                            }
+
+                            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                numTweets = oriNum;
+                            }
+                        }
                     }
                 }
+
+                return numTweets;
             }
-        }
 
-        if (viewPressed) {
-            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
-        } else if (numTweets != 0) {
-            unread = numTweets;
-            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
-        } else {
-            listView.setSelectionFromTop(0, 0);
-        }
-
-        liveUnread = 0;
-        viewPressed = false;
-
-        new Handler().postDelayed(new Runnable() {
             @Override
-            public void run() {
-                newTweets = false;
+            protected void onPostExecute(Integer numTweets) {
+
+                if (!appliedCursorAbove) {
+                    cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                    listView.setAdapter(cursorAdapter);
+                }
+
+                if (viewPressed) {
+                    int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                    listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
+                } else if (numTweets != 0) {
+                    unread = numTweets;
+                    int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                    listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
+                } else {
+                    listView.setSelectionFromTop(0, 0);
+                }
+
+                liveUnread = 0;
+                viewPressed = false;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        newTweets = false;
+                    }
+                }, 500);
             }
-        }, 500);
+        }.execute();
+
     }
 
     @Override
