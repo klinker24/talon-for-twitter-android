@@ -440,7 +440,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             });
 
-            if (!otherUrl.equals("")) {
+            if (otherUrl != null && !otherUrl.equals("")) {
                 holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
