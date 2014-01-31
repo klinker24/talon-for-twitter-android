@@ -106,7 +106,14 @@ public class TweetMarkerHelper extends APIHelper {
             DefaultHttpClient client = new DefaultHttpClient();
 
             HttpResponse response = client.execute(post);
-            Log.v("talon_tweetmarker", "sending response code: " + response.getStatusLine().getStatusCode());
+            int responseCode = response.getStatusLine().getStatusCode();
+            Log.v("talon_tweetmarker", "sending response code: " + responseCode);
+
+            if (responseCode != 200) { // there was an error, we will retry once
+                response = client.execute(post);
+                responseCode = response.getStatusLine().getStatusCode();
+                Log.v("talon_tweetmarker", "sending response code: " + responseCode);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,6 +163,40 @@ public class TweetMarkerHelper extends APIHelper {
                     }
                 } else {
                     Log.v("talon_tweetmarker", "timeline is null for the response");
+                }
+            } else { // there was an error, we will retry once
+                response = client.execute(get);
+                Log.v("talon_tweetmarker", "getting id response code on retry: " + response.getStatusLine().getStatusCode());
+
+                statusLine = response.getStatusLine();
+                if (statusLine.getStatusCode() == 200) { // request ok
+                    Log.v("talon_tweetmarker", "response code = 200. Response ok");
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+                    String line;
+                    StringBuilder builder = new StringBuilder();
+                    while ((line = rd.readLine()) != null) {
+                        builder.append(line);
+                    }
+
+                    JSONObject jsonObject = new JSONObject(builder.toString());
+                    JSONObject timeline = jsonObject.getJSONObject(collection);
+
+                    if (timeline != null) {
+
+                        long val = timeline.getLong("id");
+                        int version = timeline.getInt("version");
+                        Log.v("talon_tweetmarker", "version: " + version);
+                        Log.v("talon_tweetmarker", "id: " + val);
+
+                        if (version != lastVersion) {
+                            // don't want to move the timeline if the version is the same
+
+                            // this increments the version from shared prefs
+                            sharedPrefs.edit().putInt("last_version_account_" + sharedPrefs.getInt("current_account", 1), version).commit();
+                            return val; // returns the long id from tweetmarker
+                        }
+                    }
                 }
             }
 

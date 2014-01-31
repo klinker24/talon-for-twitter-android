@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     private PullToRefreshLayout mPullToRefreshLayout;
     public DefaultHeaderTransformer transformer;
+    private LinearLayout spinner;
 
     private HomeDataSource dataSource;
 
@@ -210,11 +211,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         dataSource = new HomeDataSource(context);
         dataSource.open();
 
-        LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.spinner);
-        spinner.setVisibility(View.GONE);
-
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         listView.setVisibility(View.VISIBLE);
+
+        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+        spinner.setVisibility(View.VISIBLE);
 
         getLoaderManager().initLoader(0, null, this);
 
@@ -461,25 +462,26 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         int pos = listView.getFirstVisiblePosition();
         if (pos < 200) {
             try {
-                if (pos > 100) {
-                    listView.setSelection(0);
+                if (pos > 50) {
+                    listView.setSelectionFromTop(0, 0);
                     hideToastBar(400);
                 } else {
                     listView.smoothScrollToPosition(0);
                 }
             } catch (Exception e) {
-                listView.smoothScrollToPosition(0);
+                listView.setSelectionFromTop(0, 0);
             }
         } else {
-            hideToastBar(400);
-            try {
+            /*try {
                 dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
             } catch (Exception e) {
                 dataSource = new HomeDataSource(context);
                 dataSource.open();
                 dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
             }
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);*/
+            listView.setSelectionFromTop(0,0);
+            hideToastBar(400);
         }
     }
 
@@ -661,10 +663,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);
                     } catch (IllegalStateException e) {
                         // fragment not attached?
+                        mPullToRefreshLayout.setRefreshComplete();
                     }
+                } else {
+                    mPullToRefreshLayout.setRefreshComplete();
                 }
 
-                mPullToRefreshLayout.setRefreshComplete();
             }
         }.execute();
     }
@@ -735,11 +739,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                 }
                             }, 500);
                         }
+
+                        mPullToRefreshLayout.setRefreshComplete();
                     }
 
                     DrawerActivity.canSwitch = true;
 
-                    mPullToRefreshLayout.setRefreshComplete();
                     newTweets = false;
 
                     new RefreshMentions().execute();
@@ -1020,18 +1025,102 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, final Cursor cursor) {
-        new AsyncTask<Void, Void, Integer>() {
-
-            boolean appliedCursorAbove = false;
-
+        new Thread(new Runnable() {
             @Override
-            protected void onPreExecute() {
-                if (initial) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-                    listView.setAdapter(cursorAdapter);
-                    appliedCursorAbove = true;
+            public void run() {
+                initial = false;
+
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
+                long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                int numTweets;
+                if (id == 0) {
+                    numTweets = 0;
+                } else {
+                    try {
+                        numTweets = dataSource.getPosition(currentAccount, id);
+                    } catch (Exception e) {
+                        dataSource = new HomeDataSource(context);
+                        dataSource.open();
+                        numTweets = dataSource.getPosition(currentAccount, id);
+                    }
+
+                    int oriNum = numTweets;
+
+                    // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+                    // so this is to error trap that
+                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                        try {
+                            numTweets = dataSource.getPosition(currentAccount, id + 1);
+                        } catch (Exception e) {
+                            dataSource = new HomeDataSource(context);
+                            dataSource.open();
+                            numTweets = dataSource.getPosition(currentAccount, id + 1);
+                        }
+
+                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                            try {
+                                numTweets = dataSource.getPosition(currentAccount, id - 1);
+                            } catch (Exception e) {
+                                dataSource = new HomeDataSource(context);
+                                dataSource.open();
+                                numTweets = dataSource.getPosition(currentAccount, id - 1);
+                            }
+
+                            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                numTweets = oriNum;
+                            }
+                        }
+                    }
                 }
+                if (cursor.getCount() == 0) {
+                    // restart loader i guess?
+                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                    return;
+                }
+
+                final int tweets = numTweets;
+                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(cursorAdapter);
+                        if (spinner.getVisibility() == View.VISIBLE) {
+                            spinner.setVisibility(View.GONE);
+                        }
+
+                        if (viewPressed) {
+                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
+                        } else if (tweets != 0) {
+                            unread = tweets;
+                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
+                        } else {
+                            listView.setSelectionFromTop(0, 0);
+                        }
+
+                        liveUnread = 0;
+                        viewPressed = false;
+
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
+                });
+
+                try {
+                    Looper.prepare();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            newTweets = false;
+                        }
+                    }, 500);
+                } catch (Exception e) {
+                    newTweets = false;
+                }
+
             }
+        }).start();
+        /*new AsyncTask<Void, Void, Integer>() {
 
             @Override
             protected Integer doInBackground(Void... params) {
@@ -1087,9 +1176,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             protected void onPostExecute(Integer numTweets) {
 
-                if (!appliedCursorAbove) {
-                    cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-                    listView.setAdapter(cursorAdapter);
+                if (cursor.getCount() == 0) {
+                    // restart loader i guess?
+                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                    return;
+                }
+
+                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                listView.setAdapter(cursorAdapter);
+
+                if (spinner.getVisibility() == View.VISIBLE) {
+                    spinner.setVisibility(View.GONE);
                 }
 
                 if (viewPressed) {
@@ -1106,6 +1203,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 liveUnread = 0;
                 viewPressed = false;
 
+                mPullToRefreshLayout.setRefreshComplete();
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1113,14 +1212,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 }, 500);
             }
-        }.execute();
+        }.execute();*/
 
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         // data is not available anymore, delete reference
+        Log.v("talon_timeline", "had to restart the loader for some reason, it was reset");
         cursorAdapter.swapCursor(null);
+        getLoaderManager().restartLoader(0, null, HomeFragment.this);
     }
 
     private boolean isToastShowing = false;
