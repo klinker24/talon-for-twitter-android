@@ -542,6 +542,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             dataSource.open();
             cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         }
+
         cursorAdapter.notifyDataSetChanged();
     }
 
