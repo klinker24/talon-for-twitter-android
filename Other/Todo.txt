@@ -2,13 +2,10 @@
     - Retweet and favorite from multiple accounts
     - Get more tweets when you get to the bottom of profiles
     - scheduling tweets
-    - different image uploading service
     - widget with just the unread numbers on it
     - instapaper mobilizer
     - nearby tweets
-    - pictures timeline on profiles
     - pick where the local trends are
-    - user's favorites on profiles
     - picture searching
     - translation
     - pictures on direct messages
@@ -23,7 +20,6 @@
 -- For Release --
 
     -- search by real name or screenname
+    -- get higher quality instagram/twitpic/imgur
     -- be able to put lists on the extra pages
-    -- test tweetmarker
     -- users favorites and pictures on profile... this will mean turning that into a view pager as well
-    -- test twitpic on compose and on reply
