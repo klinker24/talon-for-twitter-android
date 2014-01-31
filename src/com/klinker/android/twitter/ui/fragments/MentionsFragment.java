@@ -546,14 +546,22 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     }
 
     public static void refreshCursor() {
-        listView.setAdapter(cursorAdapter);
+        try {
+            listView.setAdapter(cursorAdapter);
+        } catch (Exception e) {
+
+        }
 
         swapCursors();
     }
 
     @SuppressWarnings("deprecation")
     public void attachCursor() {
-        listView.setAdapter(cursorAdapter);
+        try {
+            listView.setAdapter(cursorAdapter);
+        } catch (Exception e) {
+
+        }
 
         swapCursors();
 
