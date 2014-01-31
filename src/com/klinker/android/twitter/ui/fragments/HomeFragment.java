@@ -657,7 +657,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             protected void onPostExecute(Boolean result) {
                 hideToastBar(400);
                 if (result) {
-                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                    try {
+                        getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                    } catch (IllegalStateException e) {
+                        // fragment not attached?
+                    }
                 }
 
                 mPullToRefreshLayout.setRefreshComplete();
@@ -1037,6 +1041,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             int oriNum = numTweets;
 
+            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+            // so this is to error trap that
             if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
                 try {
                     numTweets = dataSource.getPosition(currentAccount, id + 1);
