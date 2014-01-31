@@ -23,3 +23,6 @@
     -- get higher quality instagram/twitpic/imgur
     -- be able to put lists on the extra pages
     -- users favorites and pictures on profile... this will mean turning that into a view pager as well
+    -- async loading for all cursors
+    -- if error code returned isn't 200 for tweetmarker, try again
+    -- share link option
