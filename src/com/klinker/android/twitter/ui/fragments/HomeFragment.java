@@ -637,7 +637,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     showStatusBar();
                     actionBar.show();
                 }
-                transformer.setRefreshingText(getResources().getString(R.string.finding_tweetmarker));
+                transformer.setRefreshingText(getResources().getString(R.string.finding_tweetmarker) + "...");
                 mPullToRefreshLayout.setRefreshing(true);
             }
 
