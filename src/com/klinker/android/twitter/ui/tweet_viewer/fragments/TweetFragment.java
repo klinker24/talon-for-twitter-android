@@ -206,7 +206,7 @@ public class TweetFragment extends Fragment {
         TextView tweettv;
         ImageButton attachButton;
         ImageButton at;
-        ImageButton quote;
+        ImageButton quote = null;
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
@@ -262,7 +262,11 @@ public class TweetFragment extends Fragment {
             expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
             profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
             favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-            quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
+            try {
+                quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
+            } catch (Exception e) {
+                // didn't exist when the theme was created.
+            }
             retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
             favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
             retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
@@ -299,25 +303,27 @@ public class TweetFragment extends Fragment {
             }
         }
 
-        quote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String text = tweet;
+        if (quote != null) {
+            quote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String text = tweet;
 
-                text = HtmlUtils.removeColorHtml(text, settings);
-                text = restoreLinks(text);
+                    text = HtmlUtils.removeColorHtml(text, settings);
+                    text = restoreLinks(text);
 
-                if (!settings.preferRT) {
-                    text = "\"@" + screenName + ": " + text + "\" ";
-                } else {
-                    text = " RT @" + screenName + ": " + text;
+                    if (!settings.preferRT) {
+                        text = "\"@" + screenName + ": " + text + "\" ";
+                    } else {
+                        text = " RT @" + screenName + ": " + text;
+                    }
+
+                    Intent intent = new Intent(context, ComposeActivity.class);
+                    intent.putExtra("user", text);
+                    startActivity(intent);
                 }
-
-                Intent quote = new Intent(context, ComposeActivity.class);
-                quote.putExtra("user", text);
-                startActivity(quote);
-            }
-        });
+            });
+        }
 
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
