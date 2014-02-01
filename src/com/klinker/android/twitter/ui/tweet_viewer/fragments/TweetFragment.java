@@ -53,6 +53,7 @@ import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
@@ -548,7 +549,7 @@ public class TweetFragment extends Fragment {
         retweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RetweetStatus(retweetCount, tweetId).execute();
+                new RetweetStatus(retweetCount, tweetId, retweetButton).execute();
             }
         });
 
@@ -560,7 +561,7 @@ public class TweetFragment extends Fragment {
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                new RemoveRetweet(tweetId).execute();
+                                new RemoveRetweet(tweetId, retweetButton).execute();
                             }
                         })
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -584,7 +585,7 @@ public class TweetFragment extends Fragment {
         }
 
         new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
-        new GetRetweetCount(retweetCount, tweetId).execute();
+        new GetRetweetCount(retweetCount, tweetId, retweetButton).execute();
 
 
         String text = tweet;
@@ -868,9 +869,11 @@ public class TweetFragment extends Fragment {
     class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
+        private ImageButton retweetButton;
 
-        public RemoveRetweet(long tweetId) {
+        public RemoveRetweet(long tweetId, ImageButton retweetButton) {
             this.tweetId = tweetId;
+            this.retweetButton = retweetButton;
         }
 
         protected Boolean doInBackground(String... urls) {
@@ -889,6 +892,12 @@ public class TweetFragment extends Fragment {
         }
 
         protected void onPostExecute(Boolean deleted) {
+
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+            int resource = a.getResourceId(0, 0);
+
+            retweetButton.setColorFilter(context.getResources().getColor(resource));
+
             try {
                 if (deleted) {
                     Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
@@ -908,10 +917,13 @@ public class TweetFragment extends Fragment {
         private String via = "";
         private String location = "";
         private long realTime = 0;
+        private boolean retweetedByMe = false;
+        private ImageButton retweetButton;
 
-        public GetRetweetCount(TextView retweetCount, long tweetId) {
+        public GetRetweetCount(TextView retweetCount, long tweetId, ImageButton retweetButton) {
             this.retweetCount = retweetCount;
             this.tweetId = tweetId;
+            this.retweetButton = retweetButton;
         }
 
         protected String doInBackground(String... urls) {
@@ -941,6 +953,8 @@ public class TweetFragment extends Fragment {
                     realTime = status2.getCreatedAt().getTime();
                 }
 
+                retweetedByMe = status.isRetweetedByMe();
+
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -951,6 +965,19 @@ public class TweetFragment extends Fragment {
         protected void onPostExecute(String count) {
             if (count != null) {
                 retweetCount.setText(" " + count);
+            }
+
+            if (retweetedByMe) {
+                if (!settings.addonTheme) {
+                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                } else {
+                    retweetButton.setColorFilter(settings.accentInt);
+                }
+            } else {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                int resource = a.getResourceId(0, 0);
+
+                retweetButton.setColorFilter(context.getResources().getColor(resource));
             }
 
             if (realTime != 0) {
@@ -1019,10 +1046,12 @@ public class TweetFragment extends Fragment {
 
         private long tweetId;
         private TextView retweetCount;
+        private ImageButton retweetButton;
 
-        public RetweetStatus(TextView retweetCount, long tweetId) {
+        public RetweetStatus(TextView retweetCount, long tweetId, ImageButton retweetButton) {
             this.retweetCount = retweetCount;
             this.tweetId = tweetId;
+            this.retweetButton = retweetButton;
         }
 
         protected String doInBackground(String... urls) {
@@ -1038,7 +1067,7 @@ public class TweetFragment extends Fragment {
         protected void onPostExecute(String count) {
             try {
                 Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
-                new GetRetweetCount(retweetCount, tweetId).execute();
+                new GetRetweetCount(retweetCount, tweetId, retweetButton).execute();
             } catch (Exception e) {
 
             }
