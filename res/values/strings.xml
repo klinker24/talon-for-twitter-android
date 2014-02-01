@@ -476,5 +476,9 @@
     <string name="loading">Loading</string>
     <string name="loading_tweets">Loading Tweets...</string>
     <string name="pull_to_refresh">Pull to Refresh</string>
+    <string name="removing_retweet">Removing Retweet</string>
+    <string name="retweeting_status">Retweeting Status</string>
+    <string name="removing_favorite">Removing Favorite</string>
+    <string name="favoriting_status">Favoriting Status</string>
 
 </resources>
