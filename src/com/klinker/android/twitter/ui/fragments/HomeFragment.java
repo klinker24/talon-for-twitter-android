@@ -45,6 +45,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.DrawerArrayAdapter;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -162,7 +163,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public BroadcastReceiver markRead = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            markReadForLoad();
+            int account = intent.getIntExtra("current_account", 0);
+            Log.v("talon_tweetmarker", "received intent to mark read, account = " + account);
+            markReadForLoad(account);
         }
     };
 
@@ -188,6 +191,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        currentAccount = sharedPrefs.getInt("current_account", 1);
 
         sharedPrefs.edit().putBoolean("refresh_me", false).commit();
 
@@ -604,18 +609,18 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public boolean getTweet() {
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        int currentAccount = DrawerActivity.settings.currentAccount;
         int lastVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
         TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                DrawerActivity.settings.myScreenName,
-                Utils.getTwitter(context, DrawerActivity.settings));
+                sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
+                Utils.getTwitter(context, new AppSettings(context)));
 
         long tweetmarkerStatus = helper.getLastStatus("timeline", lastVersion, sharedPrefs);
 
         Log.v("talon_tweetmarker", "tweetmarker status: " + tweetmarkerStatus);
 
         if (tweetmarkerStatus != 0) {
-            sharedPrefs.edit().putLong("current_position_" + currentAccount, tweetmarkerStatus).commit();
+            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, tweetmarkerStatus).commit();
             Log.v("talon_tweetmarker", "updating with tweetmarker");
             trueLive = true;
             return true;
@@ -879,9 +884,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         super.onPause();
     }
 
+    int currentAccount;
+
     @Override
     public void onStop() {
         Log.v("talon_stopping", "stopping here");
+
         try {
             context.unregisterReceiver(pullReceiver);
         } catch (Exception e) { }
@@ -904,15 +912,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int currentAccount = sharedPrefs.getInt("current_account", 1);
-
                     TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                            DrawerActivity.settings.myScreenName,
-                            Utils.getTwitter(context, DrawerActivity.settings));
+                            sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
+                            Utils.getTwitter(context, new AppSettings(context)));
 
                     long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
-
-                    Log.v("talon_tweetmarker", "sending " + currentId + " to tweetmarker");
 
                     helper.sendCurrentId("timeline", currentId);
 
@@ -1003,7 +1007,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        if (!trueLive) {
+        if (!trueLive && !initial) {
+            Log.v("talon_tweetmarker", "true live");
             markReadForLoad();
         }
 
@@ -1019,7 +1024,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 HomeContentProvider.CONTENT_URI,
                 projection,
                 null,
-                new String[] { sharedPrefs.getInt("current_account", 1) + "" },
+                new String[] { currentAccount + "" },
                 null );
         return cursorLoader;
     }
@@ -1039,7 +1044,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         initial = false;
 
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
         long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
         int numTweets;
         if (id == 0) {
@@ -1061,6 +1065,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         numTweets = 0;
                     }
                 }
+            }
+
+            Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
+
+            switch (currentAccount) {
+                case 1:
+                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 2, 0) + " for account " + 2);
+                    break;
+                case 2:
+                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 1, 0) + " for account " + 1);
+                    break;
             }
         }
 
@@ -1332,10 +1347,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void markReadForLoad() {
+        Log.v("talon_tweetmarker", "marking read for account " + currentAccount);
+
         try {
             Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             try {
                 dataSource.markAllRead(currentAccount);
@@ -1360,4 +1376,41 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             e.printStackTrace();
         }
     }
+    public void markReadForLoad(int currentAccount) {
+
+        Log.v("talon_tweetmarker", "marking read for account " + currentAccount + " from the intent");
+
+        if (currentAccount == 0) {
+            markReadForLoad();
+            return;
+        }
+
+        try {
+            Cursor cursor = cursorAdapter.getCursor();
+            int current = listView.getFirstVisiblePosition();
+
+            try {
+                dataSource.markAllRead(currentAccount);
+            } catch (Exception e) {
+                dataSource = new HomeDataSource(context);
+                dataSource.open();
+                dataSource.markAllRead(currentAccount);
+            }
+
+            if (cursor.moveToPosition(cursor.getCount() - current)) {
+                Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
+                final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+            } else {
+                if (cursor.moveToLast()) {
+                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                }
+            }
+        } catch (Exception e) {
+            // cursor adapter is null because the loader was reset for some reason
+            e.printStackTrace();
+        }
+    }
+
 }
