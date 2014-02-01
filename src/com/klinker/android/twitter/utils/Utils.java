@@ -1,10 +1,13 @@
 package com.klinker.android.twitter.utils;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.Date;
@@ -292,6 +296,35 @@ public class Utils {
                 .show();
     }
 
+    public static void needCleanTimeline(final Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle("Tip: Speed up the timeline")
+                .setMessage("Never slow down. Cleaning and speeding up Talon is easy! Check out the \"Clean Databases\" option under advanced settings to get all the speed you want!\n\n" +
+                        "Click the \"Clean Now!\" option to preform this action now!")
+                .setPositiveButton("Clean Now!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        new RefreshDM(context).execute();
+                        dialogInterface.dismiss();
+
+                        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_trim", true)) {
+                            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+                            long now = new Date().getTime();
+                            long alarm = now + AlarmManager.INTERVAL_DAY;
+
+                            Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
+
+                            PendingIntent pendingIntent = PendingIntent.getService(context, 161, new Intent(context, TrimDataService.class), 0);
+
+                            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+                        }
+                    }
+                })
+                .create()
+                .show();
+    }
+
     static class RefreshDM extends AsyncTask<String, Void, Boolean> {
 
         ProgressDialog pDialog;
@@ -306,7 +339,7 @@ public class Utils {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(context);
-            pDialog.setMessage("Setting up direct messages");
+            pDialog.setMessage("Getting direct messages...");
             pDialog.setIndeterminate(true);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -384,6 +417,50 @@ public class Utils {
             }
 
             sharedPrefs.edit().putBoolean("need_new_dm", false).commit();
+        }
+    }
+
+    static class CleanDatabases extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog pDialog;
+        Context context;
+        SharedPreferences sharedPrefs;
+
+        public CleanDatabases(Context context) {
+            this.context = context;
+            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage("Cleaning up...");
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        protected Boolean doInBackground(String... urls) {
+
+            try {
+                IOUtils.trimDatabase(context, sharedPrefs.getInt("current_account", 1));
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            try {
+                pDialog.dismiss();
+                Toast.makeText(context, "Done!", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                // they closed it so the dialog wasn't attached
+            }
+
+            sharedPrefs.edit().putBoolean("need_clean_databases", false).commit();
         }
     }
 }

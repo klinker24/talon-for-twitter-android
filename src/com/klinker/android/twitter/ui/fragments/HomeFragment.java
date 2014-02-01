@@ -1004,10 +1004,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public boolean trueLive = false;
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         if (!trueLive) {
             markReadForLoad();
+        }
+
+        try {
+            Looper.prepare();
+        } catch (Exception e) {
+
         }
 
         String[] projection = HomeDataSource.allColumns;
@@ -1120,100 +1127,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             }
         }).start();
-        /*new AsyncTask<Void, Void, Integer>() {
-
-            @Override
-            protected Integer doInBackground(Void... params) {
-
-                initial = false;
-
-                int currentAccount = sharedPrefs.getInt("current_account", 1);
-                long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
-                int numTweets;
-                if (id == 0) {
-                    numTweets = 0;
-                } else {
-                    try {
-                        numTweets = dataSource.getPosition(currentAccount, id);
-                    } catch (Exception e) {
-                        dataSource = new HomeDataSource(context);
-                        dataSource.open();
-                        numTweets = dataSource.getPosition(currentAccount, id);
-                    }
-
-                    int oriNum = numTweets;
-
-                    // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
-                    // so this is to error trap that
-                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                        try {
-                            numTweets = dataSource.getPosition(currentAccount, id + 1);
-                        } catch (Exception e) {
-                            dataSource = new HomeDataSource(context);
-                            dataSource.open();
-                            numTweets = dataSource.getPosition(currentAccount, id + 1);
-                        }
-
-                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                            try {
-                                numTweets = dataSource.getPosition(currentAccount, id - 1);
-                            } catch (Exception e) {
-                                dataSource = new HomeDataSource(context);
-                                dataSource.open();
-                                numTweets = dataSource.getPosition(currentAccount, id - 1);
-                            }
-
-                            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                                numTweets = oriNum;
-                            }
-                        }
-                    }
-                }
-
-                return numTweets;
-            }
-
-            @Override
-            protected void onPostExecute(Integer numTweets) {
-
-                if (cursor.getCount() == 0) {
-                    // restart loader i guess?
-                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                    return;
-                }
-
-                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-                listView.setAdapter(cursorAdapter);
-
-                if (spinner.getVisibility() == View.VISIBLE) {
-                    spinner.setVisibility(View.GONE);
-                }
-
-                if (viewPressed) {
-                    int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
-                } else if (numTweets != 0) {
-                    unread = numTweets;
-                    int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(numTweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
-                } else {
-                    listView.setSelectionFromTop(0, 0);
-                }
-
-                liveUnread = 0;
-                viewPressed = false;
-
-                mPullToRefreshLayout.setRefreshComplete();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        newTweets = false;
-                    }
-                }, 500);
-            }
-        }.execute();*/
-
     }
 
     @Override

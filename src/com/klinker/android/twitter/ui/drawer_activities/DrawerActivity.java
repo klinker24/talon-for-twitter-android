@@ -800,6 +800,10 @@ public abstract class DrawerActivity extends Activity {
             Utils.newDMRefresh(context);
         }
 
+        /*if (sharedPrefs.getBoolean("need_clean_databases", true)) {
+            Utils.needCleanTimeline(context);
+        }*/
+
         // for testing
         /*new Thread(new Runnable() {
             @Override
