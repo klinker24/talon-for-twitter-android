@@ -1028,6 +1028,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, final Cursor cursor) {
+
+        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1082,7 +1085,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
 
                 final int tweets = numTweets;
-                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
