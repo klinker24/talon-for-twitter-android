@@ -439,7 +439,9 @@ public class LoginActivity extends Activity {
                 paging = new Paging(1, 100);
                 statuses = twitter.getHomeTimeline(paging);
 
-                sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                if (statuses.size() > 0) {
+                    sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                }
 
                 for (twitter4j.Status status : statuses) {
                     try {
