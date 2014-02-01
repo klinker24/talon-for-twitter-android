@@ -135,7 +135,7 @@ public class HtmlUtils {
                     tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
                 }
                 if(exp.toLowerCase().contains("instag")) {
-                    imageUrl = exp + "media/?size=t";
+                    imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) {
                     // first get the youtube video code
@@ -169,17 +169,17 @@ public class HtmlUtils {
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("twitpic")) {
                     int start = exp.indexOf(".com/") + 5;
-                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start).replace("/","");
+                    imageUrl = "http://twitpic.com/show/full/" + exp.substring(start).replace("/","");
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("i.imgur")) {
                     int start = exp.indexOf(".com/") + 5;
-                    imageUrl = "http://i.imgur.com/" + exp.replace("http://i.imgur.com/", "").replace(".jpg", "") + "t.jpg" ;
+                    imageUrl = "http://i.imgur.com/" + exp.replace("http://i.imgur.com/", "").replace(".jpg", "") + "m.jpg" ;
                     imageUrl = imageUrl.replace("gallery/", "");
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("imgur")) {
                     int start = exp.indexOf(".com/") + 6;
-                    imageUrl = "http://i.imgur.com/" + exp.replace("http://imgur.com/", "").replace(".jpg", "") + "t.jpg" ;
-                    imageUrl = imageUrl.replace("gallery", "");
+                    imageUrl = "http://i.imgur.com/" + exp.replace("http://imgur.com/", "").replace(".jpg", "") + "m.jpg" ;
+                    imageUrl = imageUrl.replace("gallery/", "");
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("pbs.twimg.com")) {
                     imageUrl = exp;
@@ -332,7 +332,7 @@ public class HtmlUtils {
                     tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
                 }
                 if(exp.toLowerCase().contains("instag")) {
-                    imageUrl = exp + "media/?size=t";
+                    imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) { // normal youtube link
                     // first get the youtube video code
@@ -358,7 +358,7 @@ public class HtmlUtils {
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("twitpic")) {
                     int start = exp.indexOf(".com/") + 5;
-                    imageUrl = "http://twitpic.com/show/thumb/" + exp.substring(start).replace("/", "");
+                    imageUrl = "http://twitpic.com/show/full/" + exp.substring(start).replace("/", "");
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("imgur")) {
                     int start = exp.indexOf(".com/") + 6;
