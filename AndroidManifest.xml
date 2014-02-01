@@ -337,9 +337,6 @@
         <service android:name="com.klinker.android.twitter.services.MarkReadService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.ReplyService">
-        </service>
-
         <service android:name="com.klinker.android.twitter.services.TimelineRefreshService">
         </service>
 

@@ -31,6 +31,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
@@ -57,6 +59,7 @@ import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
+import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
@@ -202,6 +205,7 @@ public class TweetFragment extends Fragment {
         TextView tweettv;
         ImageButton attachButton;
         ImageButton at;
+        ImageButton quote;
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
@@ -225,6 +229,7 @@ public class TweetFragment extends Fragment {
             expand = (ImageButton) layout.findViewById(R.id.expand);
             profilePic = (ImageView) layout.findViewById(R.id.profile_pic);
             favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
+            quote = (ImageButton) layout.findViewById(R.id.quote_button);
             retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
             favoriteCount = (TextView) layout.findViewById(R.id.fav_count);
             retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
@@ -256,6 +261,7 @@ public class TweetFragment extends Fragment {
             expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
             profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
             favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
+            quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
             retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
             favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
             retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
@@ -291,6 +297,26 @@ public class TweetFragment extends Fragment {
                 // theme does not include a reply entry box
             }
         }
+
+        quote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = tweet;
+
+                text = HtmlUtils.removeColorHtml(text, settings);
+                text = restoreLinks(text);
+
+                if (!settings.preferRT) {
+                    text = "\"@" + screenName + ": " + text + "\" ";
+                } else {
+                    text = " RT @" + screenName + ": " + text;
+                }
+
+                Intent quote = new Intent(context, ComposeActivity.class);
+                quote.putExtra("user", text);
+                startActivity(quote);
+            }
+        });
 
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1179,5 +1205,70 @@ public class TweetFragment extends Fragment {
                 }
                 break;
         }
+    }
+
+    public String restoreLinks(String text) {
+        String full = text;
+
+        String[] split = text.split(" ");
+
+        boolean changed = false;
+
+        if (otherLinks.length > 0) {
+            for (int i = 0; i < split.length; i++) {
+                String s = split[i];
+
+                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                    String f = s.replace("...", "").replace("http", "");
+
+                    for (int x = 0; x < otherLinks.length; x++) {
+                        Log.v("recreating_links", "other link first: " + otherLinks[x]);
+                        if (otherLinks[x].contains(f)) {
+                            changed = true;
+                            f = otherLinks[x];
+                            break;
+                        }
+                    }
+
+                    if (changed) {
+                        split[i] = f;
+                    } else {
+                        split[i] = s;
+                    }
+                } else {
+                    split[i] = s;
+                }
+
+            }
+        }
+
+        Log.v("talon_picture", ":" + webpage + ":");
+
+        if (!webpage.equals("")) {
+            for (int i = 0; i < split.length; i++) {
+                String s = split[i];
+
+                Log.v("talon_picture_", s);
+
+                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                    split[i] = webpage;
+                    changed = true;
+                    Log.v("talon_picture", split[i]);
+                }
+            }
+        }
+
+
+
+        if(changed) {
+            full = "";
+            for (String p : split) {
+                full += p + " ";
+            }
+
+            full = full.substring(0, full.length() - 1);
+        }
+
+        return full;
     }
 }

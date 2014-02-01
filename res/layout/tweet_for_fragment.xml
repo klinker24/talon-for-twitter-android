@@ -68,6 +68,18 @@
                     android:layout_gravity="center_vertical">
 
                 <ImageButton
+                    android:id="@+id/quote_button"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="?quote_button"
+                    android:contentDescription="Quote Tweet"
+                    android:minHeight="32dp" android:minWidth="32dp"
+                    android:scaleType="fitCenter" android:adjustViewBounds="true"
+                    android:maxWidth="32dp" android:maxHeight="32dp"
+                    android:background="@drawable/pressed_button"
+                    android:layout_marginLeft="5dp" />
+
+                <ImageButton
                         android:id="@+id/favorite"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
