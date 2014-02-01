@@ -874,10 +874,7 @@ public class TweetFragment extends Fragment {
                     favButton.setImageDrawable(context.getResources().getDrawable(resource));
                     isFavorited = false;
 
-                    a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                    resource = a.getResourceId(0, 0);
-
-                    favButton.setColorFilter(context.getResources().getColor(resource));
+                    favButton.clearColorFilter();
                 }
             }
         }
@@ -914,10 +911,7 @@ public class TweetFragment extends Fragment {
 
         protected void onPostExecute(Boolean deleted) {
 
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-            int resource = a.getResourceId(0, 0);
-
-            retweetButton.setColorFilter(context.getResources().getColor(resource));
+            retweetButton.clearColorFilter();
 
             try {
                 if (deleted) {
