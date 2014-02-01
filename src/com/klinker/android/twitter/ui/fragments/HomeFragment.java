@@ -934,6 +934,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onStart() {
         super.onStart();
 
+        initial = true;
+
         dataSource = new HomeDataSource(context);
         dataSource.open();
 

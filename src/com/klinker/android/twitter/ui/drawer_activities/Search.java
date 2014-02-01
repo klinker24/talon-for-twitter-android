@@ -311,6 +311,11 @@ public class Search extends Activity implements OnRefreshListener {
                 try {
                     Log.v("inside_search", searchQuery);
 
+                    if (searchQuery.contains("@")) {
+                        new DoUserSearch(searchQuery).execute();
+                        return null;
+                    }
+
                     Twitter twitter = Utils.getTwitter(context, settings);
                     Query query = new Query(searchQuery.replace("@", "from:"));
                     QueryResult result = twitter.search(query);
