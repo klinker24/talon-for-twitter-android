@@ -349,7 +349,11 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
     @SuppressWarnings("deprecation")
     public void attachCursor() {
-        listView.setAdapter(cursorAdapter);
+        try {
+            listView.setAdapter(cursorAdapter);
+        } catch (Exception e) {
+
+        }
 
         swapCursors();
     }
