@@ -4,10 +4,11 @@
     &#8226; Upload with TwitPic<br/>
     &#8226; Much better handling of user searches<br/>
     &#8226; Added share and quote button to the in-line expansions on tweets<br/>
-    &38226; Add color to the retweet and favorite buttons so you can better distinguish your actions on a tweet<br/>
+    &#8226; Add color to the retweet and favorite buttons so you can better distinguish your actions on a tweet<br/>
     &#8226; Live streamed tweets will be automatically loaded when you are at the top of the timeline<br/>
     &#8226; Higher quality Instagram, TwitPic, and Imgur pictures<br/>
     &#8226; Remove retweets by long pressing the retweet button<br/>
+    &#8226; Pull to refresh on searched trends<br/>
     &#8226; Don't show youtube in pictures timeline<br/>
     &#8226; Better feedback for when you retweet or favorite a status<br/>
     &#8226; Better support for auto-trimming the databases<br/>
