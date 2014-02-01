@@ -28,6 +28,7 @@ import android.widget.SearchView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
+import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
@@ -45,7 +46,9 @@ import java.util.ArrayList;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
+import twitter4j.ResponseList;
 import twitter4j.Twitter;
+import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
@@ -126,16 +129,24 @@ public class Search extends Activity implements OnRefreshListener {
             finish();
         }
 
+        try {
+            searchQuery = getIntent().getStringExtra(SearchManager.QUERY);
+        } catch (Exception e) {
+            searchQuery = "";
+        }
+
         listView = (AsyncListView) findViewById(R.id.listView);
 
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
+        if (searchQuery != null && !searchQuery.equals("") && !searchQuery.contains("@")) {
+            BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+            ArrayListLoader loader = new ArrayListLoader(cache, context);
 
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
+            ItemManager.Builder builder = new ItemManager.Builder(loader);
+            builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
+            builder.setThreadPoolSize(4);
 
-        listView.setItemManager(builder.build());
+            listView.setItemManager(builder.build());
+        }
 
         View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
@@ -197,8 +208,13 @@ public class Search extends Activity implements OnRefreshListener {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
-            String query = searchQuery.replace("@", "from:");
-            new DoSearch(query).execute();
+            if (searchQuery.contains("@")) {
+                String query = searchQuery.replace("@", "");
+                new DoUserSearch(query).execute();
+            } else {
+                String query = searchQuery;
+                new DoSearch(query).execute();
+            }
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
@@ -212,8 +228,13 @@ public class Search extends Activity implements OnRefreshListener {
 
                 if (search != null) {
                     searchQuery = search;
-                    String query = searchQuery.replace("@", "from:");
-                    new DoSearch(query).execute();
+                    if (searchQuery.contains("@")) {
+                        String query = searchQuery.replace("@", "");
+                        new DoUserSearch(query).execute();
+                    } else {
+                        String query = searchQuery;
+                        new DoSearch(query).execute();
+                    }
                 }
 
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
@@ -398,6 +419,59 @@ public class Search extends Activity implements OnRefreshListener {
 
             if (searches != null) {
                 listView.setAdapter(new TimelineArrayAdapter(context, searches));
+                listView.setVisibility(View.VISIBLE);
+            }
+
+            spinner.setVisibility(View.GONE);
+        }
+    }
+
+    class DoUserSearch extends AsyncTask<String, Void, ArrayList<User>> {
+
+        String mQuery;
+
+        public DoUserSearch(String query) {
+            this.mQuery = query;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            listView.setVisibility(View.GONE);
+            spinner.setVisibility(View.VISIBLE);
+        }
+
+        protected ArrayList<User> doInBackground(String... urls) {
+            try {
+                Log.v("inside_user_search", mQuery);
+
+                Twitter twitter = Utils.getTwitter(context, settings);
+                ResponseList<User> result = twitter.searchUsers(mQuery, 1);
+
+                if (result.size() == 20) {
+                    result.addAll(twitter.searchUsers(mQuery, 2));
+
+                    if (result.size() == 40) {
+                        result.addAll(twitter.searchUsers(mQuery, 3));
+                    }
+                }
+
+                ArrayList<User> users = new ArrayList<User>();
+
+                for (User u : result) {
+                    users.add(u);
+                }
+
+                return users;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(ArrayList<User> searches) {
+
+            if (searches != null) {
+                listView.setAdapter(new PeopleArrayAdapter(context, searches));
                 listView.setVisibility(View.VISIBLE);
             }
 
