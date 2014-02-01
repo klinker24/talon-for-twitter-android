@@ -852,6 +852,12 @@ public class TweetFragment extends Fragment {
                     int resource = a.getResourceId(0, 0);
                     a.recycle();
 
+                    if (!settings.addonTheme) {
+                        favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                    } else {
+                        favButton.setColorFilter(settings.accentInt);
+                    }
+
                     favButton.setImageDrawable(context.getResources().getDrawable(resource));
                     isFavorited = true;
                 } else {
@@ -861,6 +867,11 @@ public class TweetFragment extends Fragment {
 
                     favButton.setImageDrawable(context.getResources().getDrawable(resource));
                     isFavorited = false;
+
+                    a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                    resource = a.getResourceId(0, 0);
+
+                    favButton.setColorFilter(context.getResources().getColor(resource));
                 }
             }
         }
