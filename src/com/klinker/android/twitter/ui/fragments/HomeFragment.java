@@ -448,13 +448,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public void toTop() {
-        if (cursorAdapter != null) {
-            Cursor cursor = cursorAdapter.getCursor();
-            if (cursor.moveToLast()) {
-                long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
-            }
-        }
 
         // used so the content observer doesn't change the shared pref we just put in
         trueLive = true;
@@ -496,18 +489,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public int doRefresh() {
         int numberNew = 0;
 
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+
         try {
             Cursor cursor = cursorAdapter.getCursor();
             if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
             }
         } catch (Exception e) {
 
         }
 
         try {
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             if (!sharedPrefs.getBoolean("refresh_me", false)) {
                 try {
@@ -610,7 +604,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public boolean getTweet() {
-        int currentAccount = DrawerActivity.settings.currentAccount;
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
         int lastVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
         TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                 DrawerActivity.settings.myScreenName,
@@ -621,7 +615,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         Log.v("talon_tweetmarker", "tweetmarker status: " + tweetmarkerStatus);
 
         if (tweetmarkerStatus != 0) {
-            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, tweetmarkerStatus).commit();
+            sharedPrefs.edit().putLong("current_position_" + currentAccount, tweetmarkerStatus).commit();
             Log.v("talon_tweetmarker", "updating with tweetmarker");
             trueLive = true;
             return true;
@@ -1249,23 +1243,24 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         try {
             Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             try {
-                dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+                dataSource.markAllRead(currentAccount);
             } catch (Exception e) {
                 dataSource = new HomeDataSource(context);
                 dataSource.open();
-                dataSource.markAllRead(DrawerActivity.settings.currentAccount);
+                dataSource.markAllRead(currentAccount);
             }
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
             } else {
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                    sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, id).commit();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
                 }
             }
         } catch (Exception e) {
