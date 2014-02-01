@@ -876,6 +876,10 @@ public class TweetFragment extends Fragment {
             this.retweetButton = retweetButton;
         }
 
+        protected void onPreExecute() {
+            Toast.makeText(context, getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
+        }
+
         protected Boolean doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
@@ -1018,6 +1022,14 @@ public class TweetFragment extends Fragment {
             this.favs = favs;
         }
 
+        protected void onPreExecute() {
+            if (!isFavorited) {
+                Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
+            }
+        }
+
         protected String doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
@@ -1052,6 +1064,10 @@ public class TweetFragment extends Fragment {
             this.retweetCount = retweetCount;
             this.tweetId = tweetId;
             this.retweetButton = retweetButton;
+        }
+
+        protected void onPreExecute() {
+            Toast.makeText(context, getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
         }
 
         protected String doInBackground(String... urls) {
