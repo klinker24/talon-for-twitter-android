@@ -82,7 +82,7 @@
             android:key="timeline_size"
             android:title="@string/timeline_size"
             android:summary="@string/timeline_size_summary"
-            android:defaultValue="1000"
+            android:defaultValue="500"
             android:entries="@array/timeline_size"
             android:entryValues="@array/timeline_size"
             />
@@ -103,13 +103,6 @@
             android:defaultValue="100"
             android:entries="@array/mentions_size"
             android:entryValues="@array/mentions_size"
-            />
-
-        <CheckBoxPreference
-            android:key="auto_trim"
-            android:title="@string/auto_trim"
-            android:summary="@string/not_cache"
-            android:defaultValue="true"
             />
 
         <Preference

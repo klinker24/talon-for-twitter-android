@@ -98,9 +98,7 @@ public class TweetMarkerHelper extends APIHelper {
             JSONObject base = new JSONObject();
             base.put(collection, json);
 
-            Log.v("talon_tweetmarker", base.toString());
-
-            Log.v("talon_tweetmarker", "sending");
+            Log.v("talon_tweetmarker", "sending " + id + " to " + screenname);
 
             post.setEntity(new ByteArrayEntity(base.toString().getBytes("UTF8")));
             DefaultHttpClient client = new DefaultHttpClient();
@@ -133,16 +131,13 @@ public class TweetMarkerHelper extends APIHelper {
             get.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
             get.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
 
-            Log.v("talon_tweetmarker", "getting tweetmarker");
-
             HttpClient client = new DefaultHttpClient();
 
             HttpResponse response = client.execute(get);
-            Log.v("talon_tweetmarker", "getting id response code: " + response.getStatusLine().getStatusCode());
+            Log.v("talon_tweetmarker", "getting id response code: " + response.getStatusLine().getStatusCode() + " for " + screenname);
 
             StatusLine statusLine = response.getStatusLine();
             if (statusLine.getStatusCode() == 200) { // request ok
-                Log.v("talon_tweetmarker", "response code = 200. Response ok");
                 BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
                 String line;
@@ -158,14 +153,13 @@ public class TweetMarkerHelper extends APIHelper {
 
                     long val = timeline.getLong("id");
                     int version = timeline.getInt("version");
-                    Log.v("talon_tweetmarker", "version: " + version);
-                    Log.v("talon_tweetmarker", "id: " + val);
+                    Log.v("talon_tweetmarker", "getting tweetmarker, version: " + version + " id: " + val + " screename: " + screenname);
 
                     if (version != lastVersion) {
                         // don't want to move the timeline if the version is the same
 
                         // this increments the version from shared prefs
-                        sharedPrefs.edit().putInt("last_version_account_" + sharedPrefs.getInt("current_account", 1), version).commit();
+                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
                         return val; // returns the long id from tweetmarker
                     }
                 } else {
@@ -180,11 +174,9 @@ public class TweetMarkerHelper extends APIHelper {
                 }
 
                 response = client.execute(get);
-                Log.v("talon_tweetmarker", "getting id response code on retry: " + response.getStatusLine().getStatusCode());
 
                 statusLine = response.getStatusLine();
                 if (statusLine.getStatusCode() == 200) { // request ok
-                    Log.v("talon_tweetmarker", "response code = 200. Response ok");
                     BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
                     String line;
@@ -200,14 +192,13 @@ public class TweetMarkerHelper extends APIHelper {
 
                         long val = timeline.getLong("id");
                         int version = timeline.getInt("version");
-                        Log.v("talon_tweetmarker", "version: " + version);
-                        Log.v("talon_tweetmarker", "id: " + val);
+                        Log.v("talon_tweetmarker", "getting tweetmarker, version: " + version + " id: " + val + " screename: " + screenname);
 
                         if (version != lastVersion) {
                             // don't want to move the timeline if the version is the same
 
                             // this increments the version from shared prefs
-                            sharedPrefs.edit().putInt("last_version_account_" + sharedPrefs.getInt("current_account", 1), version).commit();
+                            sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
                             return val; // returns the long id from tweetmarker
                         }
                     }

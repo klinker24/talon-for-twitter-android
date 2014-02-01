@@ -55,6 +55,7 @@ import de.timroes.android.listview.EnhancedListView;
 import org.lucasr.smoothie.AsyncListView;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public abstract class DrawerActivity extends Activity {
 
@@ -426,13 +427,27 @@ public abstract class DrawerActivity extends Activity {
                     public void onClick(View view) {
                         if (canSwitch) {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
-                            sharedPrefs.edit().putInt("current_account", 2).commit();
-                            sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
-                            finish();
-                            Intent next = new Intent(context, MainActivity.class);
-                            startActivity(next);
+                            Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
+
+                            // we want to wait a second so that the mark position broadcast will work
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (Exception e) {
+
+                                    }
+                                    sharedPrefs.edit().putInt("current_account", 2).commit();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    finish();
+                                    Intent next = new Intent(context, MainActivity.class);
+                                    startActivity(next);
+                                }
+                            }).start();
+
                         }
                     }
                 });
@@ -453,13 +468,25 @@ public abstract class DrawerActivity extends Activity {
                     public void onClick(View view) {
                         if (canSwitch) {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
-                            sharedPrefs.edit().putInt("current_account", 1).commit();
-                            sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
-                            finish();
-                            Intent next = new Intent(context, MainActivity.class);
-                            startActivity(next);
+                            Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (Exception e) {
+
+                                    }
+
+                                    sharedPrefs.edit().putInt("current_account", 1).commit();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    finish();
+                                    Intent next = new Intent(context, MainActivity.class);
+                                    startActivity(next);
+                                }
+                            }).start();
                         }
                     }
                 });
@@ -801,6 +828,7 @@ public abstract class DrawerActivity extends Activity {
         }
 
         /*if (sharedPrefs.getBoolean("need_clean_databases", true)) {
+            sharedPrefs.edit().putBoolean("auto_trim", true).commit();
             Utils.needCleanTimeline(context);
         }*/
 
