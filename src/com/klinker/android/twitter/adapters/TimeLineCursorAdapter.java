@@ -801,6 +801,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     this.tweetId = tweetId;
                 }
 
+                protected void onPreExecute() {
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                    int resource = a.getResourceId(0, 0);
+
+                    holder.retweet.setColorFilter(context.getResources().getColor(resource));
+                    
+                    Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
+                }
+
                 protected Boolean doInBackground(String... urls) {
                     try {
                         Twitter twitter =  Utils.getTwitter(context, settings);
@@ -1152,6 +1161,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         private ViewHolder holder;
         private long tweetId;
+        private boolean retweetedByMe = false;
 
         public GetRetweetCount(ViewHolder holder, long tweetId) {
             this.holder = holder;
@@ -1162,6 +1172,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
+                retweetedByMe = status.isRetweetedByMe();
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
                 return null;
@@ -1169,6 +1180,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         protected void onPostExecute(String count) {
+            if (retweetedByMe) {
+                if (!settings.addonTheme) {
+                    holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                } else {
+                    holder.retweet.setColorFilter(settings.accentInt);
+                }
+            } else {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                int resource = a.getResourceId(0, 0);
+
+                holder.retweet.setColorFilter(context.getResources().getColor(resource));
+            }
             if (count != null) {
                 holder.retweetCount.setText(" " + count);
             }
@@ -1183,6 +1206,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public FavoriteStatus(ViewHolder holder, long tweetId) {
             this.holder = holder;
             this.tweetId = tweetId;
+        }
+
+        protected void onPreExecute() {
+            if (!holder.isFavorited) {
+                Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
+            }
         }
 
         protected String doInBackground(String... urls) {
@@ -1213,6 +1244,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public RetweetStatus(ViewHolder holder, long tweetId) {
             this.holder = holder;
             this.tweetId = tweetId;
+        }
+
+        protected void onPreExecute() {
+            Toast.makeText(context, context.getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
         }
 
         protected String doInBackground(String... urls) {
