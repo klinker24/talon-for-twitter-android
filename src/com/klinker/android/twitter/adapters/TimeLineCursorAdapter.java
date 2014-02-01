@@ -802,10 +802,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
 
                 protected void onPreExecute() {
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                    int resource = a.getResourceId(0, 0);
-
-                    holder.retweet.setColorFilter(context.getResources().getColor(resource));
+                    holder.retweet.clearColorFilter();
 
                     Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
                 }
@@ -1159,10 +1156,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                     holder.isFavorited = false;
 
-                    a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                    resource = a.getResourceId(0, 0);
-
-                    holder.favorite.setColorFilter(context.getResources().getColor(resource));
+                    holder.favorite.clearColorFilter();
                 }
             }
         }
@@ -1198,10 +1192,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.retweet.setColorFilter(settings.accentInt);
                 }
             } else {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                int resource = a.getResourceId(0, 0);
-
-                holder.retweet.setColorFilter(context.getResources().getColor(resource));
+                holder.retweet.clearColorFilter();
             }
             if (count != null) {
                 holder.retweetCount.setText(" " + count);
