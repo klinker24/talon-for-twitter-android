@@ -1027,11 +1027,79 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public boolean viewPressed = false;
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, final Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+
+        if (cursor.getCount() == 0) {
+            // restart loader i guess?
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            return;
+        }
 
         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
 
-        new Thread(new Runnable() {
+        initial = false;
+
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+        int numTweets;
+        if (id == 0) {
+            numTweets = 0;
+        } else {
+            numTweets = getPosition(cursor, id);
+
+            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+            // so this is to error trap that
+            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+
+                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
+                numTweets = getPosition(cursor, id + 1);
+
+                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                    numTweets = getPosition(cursor, id - 1);
+
+                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                        numTweets = 0;
+                    }
+                }
+            }
+        }
+
+        final int tweets = numTweets;
+
+        listView.setAdapter(cursorAdapter);
+        if (spinner.getVisibility() == View.VISIBLE) {
+            spinner.setVisibility(View.GONE);
+        }
+
+        if (viewPressed) {
+            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
+        } else if (tweets != 0) {
+            unread = tweets;
+            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
+        } else {
+            listView.setSelectionFromTop(0, 0);
+        }
+
+        liveUnread = 0;
+        viewPressed = false;
+
+        mPullToRefreshLayout.setRefreshComplete();
+
+
+        try {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    newTweets = false;
+                }
+            }, 500);
+        } catch (Exception e) {
+            newTweets = false;
+        }
+
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 initial = false;
@@ -1124,7 +1192,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
 
             }
-        }).start();
+        }).start();*/
+    }
+
+    public int getPosition(Cursor cursor, long id) {
+        int pos = 0;
+
+        if (cursor.moveToLast()) {
+            do {
+                if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
+                    break;
+                } else {
+                    pos++;
+                }
+            } while (cursor.moveToPrevious());
+        }
+
+        return pos;
     }
 
     @Override
@@ -1272,6 +1356,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }
         } catch (Exception e) {
+            // cursor adapter is null because the loader was reset for some reason
             e.printStackTrace();
         }
     }
