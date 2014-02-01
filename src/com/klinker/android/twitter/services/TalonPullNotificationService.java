@@ -411,8 +411,7 @@ public class TalonPullNotificationService extends Service {
 
             if (settings.liveStreaming && idsLoaded) {
                 Long mId = status.getUser().getId();
-                if (!(status.isRetweet()) &&
-                        ids.contains(mId)) {
+                if (ids.contains(mId)) {
                     try {
                         HomeContentProvider.insertTweet(status, sharedPreferences.getInt("current_account", 1), mContext);
                         //home.createTweet(status, sharedPreferences.getInt("current_account", 1));

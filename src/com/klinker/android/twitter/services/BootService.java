@@ -78,7 +78,7 @@ public class BootService  extends BroadcastReceiver {
 
             PendingIntent pendingIntent = PendingIntent.getService(context, TRIM_ID, new Intent(context, TrimDataService.class), 0);
 
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, AlarmManager.INTERVAL_DAY, pendingIntent);
+            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
         }
 
         if (settings.pushNotifications) {
