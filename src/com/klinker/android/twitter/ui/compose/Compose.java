@@ -174,7 +174,7 @@ public abstract class Compose extends Activity implements
                         } else {
                             boolean close = doneClick();
                             if (close) {
-                                finish();
+                                onBackPressed();
                             }
                         }
                     }
@@ -185,7 +185,7 @@ public abstract class Compose extends Activity implements
                     public void onClick(View v) {
                         discardClicked = true;
                         sharedPrefs.edit().putString("draft", "").commit();
-                        finish();
+                        onBackPressed();
                     }
                 });
 
@@ -392,7 +392,7 @@ public abstract class Compose extends Activity implements
             return;
         }
 
-        finish();
+        super.onBackPressed();
     }
 
     public boolean doneClicked = false;

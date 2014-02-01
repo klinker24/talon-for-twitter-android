@@ -342,7 +342,7 @@ public class ComposeActivity extends Compose {
         if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
             // update status
             if (Integer.parseInt(charRemaining.getText().toString()) < 0) {
-                finish();
+                onBackPressed();
                 doneClicked = true;
                 sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
                 return true;
