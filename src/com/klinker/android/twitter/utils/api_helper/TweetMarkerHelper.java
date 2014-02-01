@@ -110,6 +110,13 @@ public class TweetMarkerHelper extends APIHelper {
             Log.v("talon_tweetmarker", "sending response code: " + responseCode);
 
             if (responseCode != 200) { // there was an error, we will retry once
+                // wait first
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+
+                }
+
                 response = client.execute(post);
                 responseCode = response.getStatusLine().getStatusCode();
                 Log.v("talon_tweetmarker", "sending response code: " + responseCode);
@@ -165,6 +172,13 @@ public class TweetMarkerHelper extends APIHelper {
                     Log.v("talon_tweetmarker", "timeline is null for the response");
                 }
             } else { // there was an error, we will retry once
+                // wait first
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+
+                }
+
                 response = client.execute(get);
                 Log.v("talon_tweetmarker", "getting id response code on retry: " + response.getStatusLine().getStatusCode());
 

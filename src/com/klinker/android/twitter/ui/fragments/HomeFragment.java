@@ -635,6 +635,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
                 transformer.setRefreshingText(getResources().getString(R.string.finding_tweetmarker) + "...");
                 mPullToRefreshLayout.setRefreshing(true);
+                MainActivity.canSwitch = false;
             }
 
             @Override
@@ -652,6 +653,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             protected void onPostExecute(Boolean result) {
                 hideToastBar(400);
+                MainActivity.canSwitch = true;
                 if (result) {
                     try {
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);

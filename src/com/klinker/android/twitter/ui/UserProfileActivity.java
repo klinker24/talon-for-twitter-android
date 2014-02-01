@@ -510,6 +510,14 @@ public class UserProfileActivity extends Activity {
                         url = user.getURL();
                     }
 
+                    // update the profile picture url and the background url in shared prefs
+                    int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+                    SharedPreferences.Editor e = sharedPrefs.edit();
+                    e.putString("profile_pic_url_" + currentAccount, user.getBiggerProfileImageURL());
+                    e.putString("twitter_background_url_" + currentAccount, user.getProfileBannerURL());
+                    e.commit();
+
                     return user;
                 }
             } catch (Exception e) {
