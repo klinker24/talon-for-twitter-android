@@ -1131,7 +1131,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         // data is not available anymore, delete reference
         Log.v("talon_timeline", "had to restart the loader for some reason, it was reset");
-        cursorAdapter.swapCursor(null);
+        try {
+            cursorAdapter.swapCursor(null);
+        } catch (Exception e) {
+
+        }
         getLoaderManager().restartLoader(0, null, HomeFragment.this);
     }
 
