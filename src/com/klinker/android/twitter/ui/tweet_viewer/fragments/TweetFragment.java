@@ -728,6 +728,7 @@ public class TweetFragment extends Fragment {
             }
         });
 
+
         if (!settings.useEmoji || emojiButton == null) {
             try {
                 emojiButton.setVisibility(View.GONE);
