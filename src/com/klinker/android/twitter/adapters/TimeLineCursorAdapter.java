@@ -806,7 +806,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     int resource = a.getResourceId(0, 0);
 
                     holder.retweet.setColorFilter(context.getResources().getColor(resource));
-                    
+
                     Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
                 }
 
@@ -1143,6 +1143,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     int resource = a.getResourceId(0, 0);
                     a.recycle();
 
+                    if (!settings.addonTheme) {
+                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                    } else {
+                        holder.favorite.setColorFilter(settings.accentInt);
+                    }
+
                     holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                     holder.isFavorited = true;
                 } else {
@@ -1152,6 +1158,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                     holder.isFavorited = false;
+
+                    a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                    resource = a.getResourceId(0, 0);
+
+                    holder.favorite.setColorFilter(context.getResources().getColor(resource));
                 }
             }
         }

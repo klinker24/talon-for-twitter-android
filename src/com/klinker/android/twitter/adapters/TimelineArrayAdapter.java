@@ -799,6 +799,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     this.tweetId = tweetId;
                 }
 
+                protected void onPreExecute() {
+                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                    int resource = a.getResourceId(0, 0);
+
+                    holder.retweet.setColorFilter(context.getResources().getColor(resource));
+
+                    Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
+                }
+
                 protected Boolean doInBackground(String... urls) {
                     try {
                         Twitter twitter =  Utils.getTwitter(context, settings);
@@ -1066,6 +1075,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     int resource = a.getResourceId(0, 0);
                     a.recycle();
 
+                    if (!settings.addonTheme) {
+                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                    } else {
+                        holder.favorite.setColorFilter(settings.accentInt);
+                    }
+
                     holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                     holder.isFavorited = true;
                 } else {
@@ -1075,6 +1090,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                     holder.isFavorited = false;
+
+                    a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                    resource = a.getResourceId(0, 0);
+
+                    holder.favorite.setColorFilter(context.getResources().getColor(resource));
                 }
             }
         }
@@ -1084,6 +1104,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         private ViewHolder holder;
         private long tweetId;
+        private boolean retweetedByMe = false;
 
         public GetRetweetCount(ViewHolder holder, long tweetId) {
             this.holder = holder;
@@ -1094,6 +1115,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
                 twitter4j.Status status = twitter.showStatus(tweetId);
+                retweetedByMe = status.isRetweetedByMe();
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
                 return null;
@@ -1101,6 +1123,19 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         protected void onPostExecute(String count) {
+            if (retweetedByMe) {
+                if (!settings.addonTheme) {
+                    holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                } else {
+                    holder.retweet.setColorFilter(settings.accentInt);
+                }
+            } else {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                int resource = a.getResourceId(0, 0);
+
+                holder.retweet.setColorFilter(context.getResources().getColor(resource));
+            }
+
             if (count != null) {
                 holder.retweetCount.setText(" " + count);
             }
@@ -1115,6 +1150,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public FavoriteStatus(ViewHolder holder, long tweetId) {
             this.holder = holder;
             this.tweetId = tweetId;
+        }
+
+        protected void onPreExecute() {
+            if (!holder.isFavorited) {
+                Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
+            }
         }
 
         protected String doInBackground(String... urls) {
