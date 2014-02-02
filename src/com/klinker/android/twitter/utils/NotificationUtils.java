@@ -85,6 +85,9 @@ public class NotificationUtils {
         if (unreadCounts[0] == 0 && unreadCounts[1] == 0 && unreadCounts[2] == 0) {
 
         } else {
+            Intent markRead = new Intent(context, MarkReadService.class);
+            PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+
             String shortText = getShortText(unreadCounts, context, currentAccount);
             String longText = getLongText(unreadCounts, context, currentAccount);
             // [0] is the full title and [1] is the screenname
@@ -108,6 +111,7 @@ public class NotificationUtils {
                         .setContentIntent(resultPendingIntent)
                         .setAutoCancel(true)
                         .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setDeleteIntent(readPending)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
                 if (addButton) { // the reply and read button should be shown
@@ -128,9 +132,6 @@ public class NotificationUtils {
 
                     mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);
 
-                    Intent markRead = new Intent(context, MarkReadService.class);
-                    PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
-
                     mBuilder.addAction(R.drawable.ic_action_read_dark, context.getResources().getString(R.string.mark_read), readPending);
                 } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
                     Intent popup = new Intent(context, RedirectToPopup.class);
@@ -149,6 +150,7 @@ public class NotificationUtils {
                         .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                         .setContentIntent(resultPendingIntent)
                         .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setDeleteIntent(readPending)
                         .setAutoCancel(true);
             }
 
