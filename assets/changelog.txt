@@ -16,6 +16,7 @@
     &#8226; Mark direct messages and mentions as read when the notification is dismissed<br/>
     &#8226; Better handling of retweets when viewing the tweet<br/>
     &#8226; Reply to your own tweets<br/>
+    &#8226; Share individual links in a tweet using the "Share Link" button in the overflow menu when viewing a tweet<br/>
     &#8226; View your current account on the talon pull notification if you have more than one<br/>
     &#8226; Workaround under advanced settings for if your timeline jumped down a spot after a refresh<br/>
     &#8226; Better stability<br/>
