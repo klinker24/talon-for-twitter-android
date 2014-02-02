@@ -98,7 +98,11 @@ public class ComposeActivity extends Compose {
                     }
                 } catch (Exception e) {
                     // there is no text
-                    autocomplete.dismiss();
+                    try {
+                        autocomplete.dismiss();
+                    } catch (Exception x) {
+                        // something went really wrong i guess haha
+                    }
                 }
 
             }

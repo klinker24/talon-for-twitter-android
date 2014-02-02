@@ -683,7 +683,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);
                     } catch (IllegalStateException e) {
                         // fragment not attached?
-                        mPullToRefreshLayout.setRefreshComplete();
+                        try {
+                            mPullToRefreshLayout.setRefreshComplete();
+                        } catch (Exception x) {
+                            // something went very wrong,but they closed the app i think
+                        }
                     }
                 } else {
                     mPullToRefreshLayout.setRefreshComplete();
