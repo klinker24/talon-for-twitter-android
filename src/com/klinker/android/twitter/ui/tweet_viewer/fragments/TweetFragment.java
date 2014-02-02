@@ -840,8 +840,9 @@ public class TweetFragment extends Fragment {
         protected twitter4j.Status doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
-                if (isRetweet) {
-                    twitter4j.Status retweeted = twitter.showStatus(tweetId).getRetweetedStatus();
+                twitter4j.Status status = twitter.showStatus(tweetId);
+                if (status.isRetweet()) {
+                    twitter4j.Status retweeted = status.getRetweetedStatus();
                     return retweeted;
                 }
                 return twitter.showStatus(tweetId);

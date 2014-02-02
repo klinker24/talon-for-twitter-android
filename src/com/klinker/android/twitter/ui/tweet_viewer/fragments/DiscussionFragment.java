@@ -104,7 +104,10 @@ public class DiscussionFragment extends Fragment {
         protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
             Twitter twitter = Utils.getTwitter(context, settings);
             try {
-                Query query = new Query("@" + screenname + " since_id:" + tweetId);
+                twitter4j.Status status = twitter.showStatus(tweetId);
+                boolean isRetweet = status.isRetweet();
+
+                Query query = new Query("@" + screenname + " since_id:" + (isRetweet ? status.getRetweetedStatus().getId() : tweetId));
                 try {
                     query.setCount(100);
                 } catch ( Exception e) {
