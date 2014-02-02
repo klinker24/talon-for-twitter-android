@@ -823,14 +823,14 @@ public abstract class DrawerActivity extends Activity {
 
         DrawerActivity.settings = new AppSettings(context);
 
-        if (sharedPrefs.getBoolean("need_new_dm", true)) {
+        /*if (sharedPrefs.getBoolean("need_new_dm", true)) {
             Utils.newDMRefresh(context);
-        }
+        }*/
 
-        /*if (sharedPrefs.getBoolean("need_clean_databases", true)) {
+        if (sharedPrefs.getBoolean("need_clean_databases_version_1_3_0", true)) {
             sharedPrefs.edit().putBoolean("auto_trim", true).commit();
             Utils.needCleanTimeline(context);
-        }*/
+        }
 
         // for testing
         /*new Thread(new Runnable() {

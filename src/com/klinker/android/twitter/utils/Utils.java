@@ -297,6 +297,7 @@ public class Utils {
     }
 
     public static void needCleanTimeline(final Context context) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("need_clean_databases_version_1_3_0", false).commit();
         new AlertDialog.Builder(context)
                 .setTitle("Tip: Speed up the timeline")
                 .setMessage("Never slow down. Cleaning and speeding up Talon is easy! Check out the \"Clean Databases\" option under advanced settings to get all the speed you want!\n\n" +
@@ -304,21 +305,9 @@ public class Utils {
                 .setPositiveButton("Clean Now!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        new RefreshDM(context).execute();
+                        new CleanDatabases(context).execute();
                         dialogInterface.dismiss();
 
-                        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_trim", true)) {
-                            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-                            long now = new Date().getTime();
-                            long alarm = now + AlarmManager.INTERVAL_DAY;
-
-                            Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
-
-                            PendingIntent pendingIntent = PendingIntent.getService(context, 161, new Intent(context, TrimDataService.class), 0);
-
-                            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
-                        }
                     }
                 })
                 .create()
