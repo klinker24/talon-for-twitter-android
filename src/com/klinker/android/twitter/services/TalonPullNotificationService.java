@@ -108,6 +108,20 @@ public class TalonPullNotificationService extends Service {
 
         String text;
 
+        int count = 0;
+
+        if (sharedPreferences.getBoolean("is_logged_in_1", false)) {
+            count++;
+        }
+        if (sharedPreferences.getBoolean("is_logged_in_2", false)) {
+            count++;
+        }
+
+        boolean multAcc = false;
+        if (count == 2) {
+            multAcc = true;
+        }
+
         if (settings.liveStreaming && settings.timelineNot) {
             text = getResources().getString(R.string.new_tweets_upper) + ": " + pullUnread;
         } else {
@@ -117,7 +131,7 @@ public class TalonPullNotificationService extends Service {
         mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.color.transparent)
-                        .setContentTitle(getResources().getString(R.string.talon_pull))
+                        .setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? "(@" + settings.myScreenName + ")" : ""))
                         .setContentText(text)
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
