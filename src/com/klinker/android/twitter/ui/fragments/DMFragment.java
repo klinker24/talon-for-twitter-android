@@ -372,7 +372,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                     showToastBar(text + "", jumpToTop, 400, true, toTopListener);
 
                     int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape ? 1 : 2), size);
+                    listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                 } else {
                     new GetCursorAdapter().execute();
 

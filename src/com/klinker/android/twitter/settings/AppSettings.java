@@ -73,6 +73,7 @@ public class AppSettings {
     public boolean twitlonger;
     public boolean twitpic;
     public boolean tweetmarker;
+    public boolean jumpingWorkaround;
 
     // notifications
     public boolean timelineNot;
@@ -174,6 +175,7 @@ public class AppSettings {
         twitlonger = sharedPrefs.getBoolean("twitlonger", true);
         twitpic = sharedPrefs.getBoolean("twitpic", false);
         tweetmarker = sharedPrefs.getBoolean("tweetmarker", false);
+        jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
