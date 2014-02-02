@@ -436,11 +436,22 @@ public class HomeDataSource {
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns,
+                HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId,
+                null,
+                null,
+                null,
+                HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC",
+                "1"
+        );
 
-        cursor.close();
-
-        return cursor.getCount() > 0;
+        if (cursor.moveToFirst()) {
+            cursor.close();
+            return true;
+        } else {
+            cursor.close();
+            return false;
+        }
     }
 
     public void deleteDups(int account) {
