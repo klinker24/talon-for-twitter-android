@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (listView.getFirstVisiblePosition() == 0 && DrawerArrayAdapter.current == 0) {
+            if (listView.getFirstVisiblePosition() == 0) {
                 // we want to automatically show the new one if the user is at the top of the list
                 // so we set the current position to the id of the top tweet
 
