@@ -122,6 +122,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 // we want to automatically show the new one if the user is at the top of the list
                 // so we set the current position to the id of the top tweet
 
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 try {
