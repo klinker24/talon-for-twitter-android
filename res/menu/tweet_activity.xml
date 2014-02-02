@@ -44,4 +44,9 @@
           android:orderInCategory="8"
           android:showAsAction="never" />
 
+    <item android:id="@+id/menu_share_links"
+          android:title="@string/menu_share_link"
+          android:orderInCategory="9"
+          android:showAsAction="never" />
+
 </menu>

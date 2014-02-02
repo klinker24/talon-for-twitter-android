@@ -588,6 +588,54 @@ public class TweetPager extends YouTubeBaseActivity {
                 }
                 return super.onOptionsItemSelected(item);
 
+            case R.id.menu_share_links:
+                if (!otherLinks[0].equals("")) {
+                    ArrayList<String> urls = new ArrayList<String>();
+                    if (otherLinks != null) {
+                        for (String s : otherLinks) {
+                            if (!s.equals("")) {
+                                urls.add(s);
+                            }
+                        }
+                    }
+
+                    final CharSequence[] fItems = new CharSequence[urls.size()];
+
+                    for (int i = 0; i < urls.size(); i++) {
+                        fItems[i] = urls.get(i);
+                    }
+
+                    final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+                    if (fItems.length > 1) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setItems(fItems, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                String touched = fItems[item] + "";
+
+                                Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+                                intent.setType("text/plain");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                                intent.putExtra(Intent.EXTRA_TEXT, touched);
+                                context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
+
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    } else {
+                        String touched = fItems[0] + "";
+
+                        Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        intent.putExtra(Intent.EXTRA_TEXT, touched);
+                        context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
+                    }
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.no_links), Toast.LENGTH_SHORT).show();
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
