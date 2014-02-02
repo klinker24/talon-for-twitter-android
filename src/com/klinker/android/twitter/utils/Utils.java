@@ -323,6 +323,17 @@ public class Utils {
                 })
                 .create()
                 .show();
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        long now = new Date().getTime();
+        long alarm = now + AlarmManager.INTERVAL_DAY;
+
+        Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
+
+        PendingIntent pendingIntent = PendingIntent.getService(context, 161, new Intent(context, TrimDataService.class), 0);
+
+        am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
     }
 
     static class RefreshDM extends AsyncTask<String, Void, Boolean> {

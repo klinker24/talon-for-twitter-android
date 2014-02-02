@@ -36,6 +36,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
+import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
@@ -229,6 +230,14 @@ public class LoginActivity extends Activity {
                         PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
                         am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent3);
                     }
+
+                    // set up the autotrim
+                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    long now = new Date().getTime();
+                    long alarm = now + AlarmManager.INTERVAL_DAY;
+                    Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
+                    PendingIntent pendingIntent = PendingIntent.getService(context, 161, new Intent(context, TrimDataService.class), 0);
+                    am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
 
                     finish();
 
