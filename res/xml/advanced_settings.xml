@@ -72,6 +72,13 @@
             android:defaultValue="false"
             />
 
+        <CheckBoxPreference
+            android:key="jumping_workaround"
+            android:title="@string/jumping_workaround"
+            android:summary="@string/jumping_workaround_summary"
+            android:defaultValue="false"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory

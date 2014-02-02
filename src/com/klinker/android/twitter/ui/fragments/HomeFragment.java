@@ -1080,10 +1080,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 numTweets = getPosition(cursor, id + 1);
 
                 if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                    numTweets = getPosition(cursor, id - 1);
+                    numTweets = getPosition(cursor, id + 2);
 
                     if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                        numTweets = 0;
+                        numTweets = getPosition(cursor, id - 1);
+
+                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                            numTweets = 0;
+                        }
                     }
                 }
             }
@@ -1109,11 +1113,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         if (viewPressed) {
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape ? 1 : 2), size);
+            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
         } else if (tweets != 0) {
             unread = tweets;
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape ? 1 : 2), size);
+            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
         } else {
             listView.setSelectionFromTop(0, 0);
         }

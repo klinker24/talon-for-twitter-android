@@ -406,7 +406,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                        listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape ? 1 : 2), size);
+                        listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                     } else {
                         try {
                             cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
