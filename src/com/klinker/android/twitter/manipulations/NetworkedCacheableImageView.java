@@ -126,10 +126,14 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     }
 
                     // Add to cache
-                    if(fromCache) {
-                        result = mCache.put(url, b);
-                    } else {
-                        result = mCache.put("no_cache", b);
+                    try {
+                        if(fromCache) {
+                            result = mCache.put(url, b);
+                        } else {
+                            result = mCache.put("no_cache", b);
+                        }
+                    } catch (NullPointerException e) {
+                        // the bitmap couldn't be found
                     }
 
                 } else {
