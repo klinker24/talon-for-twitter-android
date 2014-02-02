@@ -280,7 +280,6 @@ public class IOUtils {
             Log.v("trimming", "dm settings size: " + settings.dmSize);
 
             if (timeline.getCount() > settings.dmSize) {
-
                 if(timeline.moveToPosition(timeline.getCount() - settings.dmSize)) {
                     do {
                         dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
