@@ -17,6 +17,7 @@
     &#8226; Better handling of retweets when viewing the tweet<br/>
     &#8226; Reply to your own tweets<br/>
     &#8226; View your current account on the talon pull notification if you have more than one<br/>
+    &#8226; Workaround under advanced settings for if your timeline jumped down a spot after a refresh<br/>
     &#8226; Better stability<br/>
     &#8226; Tons of bug fixes<br/>
     &#8226; Updated translations<br/>
