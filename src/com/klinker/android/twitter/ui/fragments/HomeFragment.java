@@ -61,6 +61,7 @@ import java.util.Date;
 import java.util.List;
 
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
@@ -536,7 +537,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             boolean foundStatus = false;
             int lastJ = 0;
 
+            Paging paging = new Paging(1, 200);
+            paging.setSinceId(lastId[0]);
+
             for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+                /* Old way to do it
+
                 if (foundStatus) {
                     break;
                 } else {
@@ -556,18 +562,35 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     foundStatus = true;
                 }
 
-                lastJ = statuses.size();
+                lastJ = statuses.size();*/
+
+                try {
+                    if (!foundStatus) {
+                        paging.setPage(i + 1);
+                        List<Status> list = twitter.getHomeTimeline(paging);
+
+                        if (list.size() > 185) {
+                            foundStatus = false;
+                        } else {
+                            foundStatus = true;
+                        }
+
+                        statuses.addAll(list);
+                    }
+                } catch (Exception e) {
+                    // the page doesn't exist
+                    foundStatus = true;
+                }
             }
 
-            if (statuses.size() != 0) {
+            /*if (statuses.size() != 0) {
                 try {
                     sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
                 } catch (Exception e) {
                     sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
                 }
                 sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
-
-            }
+            }*/
 
             for (twitter4j.Status status : statuses) {
                 try {
@@ -578,13 +601,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }
 
-            try {
-                numberNew = dataSource.getUnreadCount(currentAccount);
-            } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                numberNew = dataSource.getUnreadCount(currentAccount);
-            }
+            numberNew = statuses.size();
             unread = numberNew;
 
         } catch (TwitterException e) {
