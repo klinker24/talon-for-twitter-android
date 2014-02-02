@@ -12,7 +12,6 @@
 
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
-    - feed jumps down one after refresh
 
 - Notification Center:
     - Combined pictures from Evolve
