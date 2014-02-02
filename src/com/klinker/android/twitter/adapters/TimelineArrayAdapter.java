@@ -841,17 +841,17 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         });
 
-        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        holder.reply.requestFocus();
+        removeKeyboard(holder);
+        holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    removeExpansionNoAnimation(holder);
+            public void onClick(View view) {
+                removeExpansionWithAnimation(holder);
 
-                    Intent compose = new Intent(context, ComposeActivity.class);
-                    compose.putExtra("user", holder.reply.getText().toString());
-                    compose.putExtra("id", holder.tweetId);
-                    context.startActivity(compose);
-                }
+                Intent compose = new Intent(context, ComposeActivity.class);
+                compose.putExtra("user", holder.reply.getText().toString());
+                compose.putExtra("id", holder.tweetId);
+                context.startActivity(compose);
             }
         });
 
