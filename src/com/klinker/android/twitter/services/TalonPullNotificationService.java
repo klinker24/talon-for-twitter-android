@@ -413,13 +413,12 @@ public class TalonPullNotificationService extends Service {
                 Long mId = status.getUser().getId();
                 if (ids.contains(mId)) {
                     try {
-                        HomeContentProvider.insertTweet(status, sharedPreferences.getInt("current_account", 1), mContext);
-                        //home.createTweet(status, sharedPreferences.getInt("current_account", 1));
+                        home.createTweet(status, sharedPreferences.getInt("current_account", 1));
                     } catch (Exception e) {
                         // illegal state
                         home = new HomeDataSource(mContext);
                         home.open();
-                        HomeContentProvider.insertTweet(status, sharedPreferences.getInt("current_account", 1), mContext);
+                        home.createTweet(status, sharedPreferences.getInt("current_account", 1));
                     }
 
                     pullUnread++;
