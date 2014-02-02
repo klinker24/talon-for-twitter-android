@@ -11,11 +11,14 @@
     &#8226; Pull to refresh on searched trends<br/>
     &#8226; Don't show youtube in pictures timeline<br/>
     &#8226; Better feedback for when you retweet or favorite a status<br/>
-    &#8226; Better support for auto-trimming the databases<br/>
+    &#8226; Much better support for auto-trimming the databases<br/>
     &#8226; Added size 30 font<br/>
+    &#8226; Mark direct messages and mentions as read when the notification is dismissed<br/>
     &#8226; Better handling of retweets when viewing the tweet<br/>
     &#8226; Reply to your own tweets<br/>
-    &#8226; Hopefully much more stability<br/>
+    &#8226; View your current account on the talon pull notification if you have more than one<br/>
+    &#8226; Better stability<br/>
+    &#8226; Tons of bug fixes<br/>
     &#8226; Updated translations<br/>
 <br/><br/>
 
