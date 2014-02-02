@@ -131,7 +131,7 @@ public class TalonPullNotificationService extends Service {
         mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.color.transparent)
-                        .setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? "(@" + settings.myScreenName + ")" : ""))
+                        .setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " (@" + settings.myScreenName + ")" : ""))
                         .setContentText(text)
                         .setOngoing(true)
                         .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
