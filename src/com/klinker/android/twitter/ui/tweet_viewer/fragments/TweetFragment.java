@@ -990,10 +990,7 @@ public class TweetFragment extends Fragment {
                     retweetButton.setColorFilter(settings.accentInt);
                 }
             } else {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                int resource = a.getResourceId(0, 0);
-
-                retweetButton.setColorFilter(context.getResources().getColor(resource));
+                retweetButton.clearColorFilter();
             }
 
             if (realTime != 0) {
