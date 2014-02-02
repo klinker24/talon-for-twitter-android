@@ -201,7 +201,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     tags[i] = "#" + tags[i];
                 }
 
-                if (tags.length == 0 || (tags.length == 1 && tags[0].equals(""))) {
+                if (tags.length == 0 || (tags.length == 1 && tags[0].equals("#"))) {
                     Toast.makeText(context, context.getResources().getString(R.string.no_hashtags), Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
