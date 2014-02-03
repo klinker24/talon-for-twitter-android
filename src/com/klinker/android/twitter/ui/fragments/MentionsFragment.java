@@ -450,18 +450,18 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
         dataSource = new MentionsDataSource(context);
         dataSource.open();
-    }
+    }*/
 
     @Override
     public void onStop() {
         try {
             dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
-            dataSource.close();
+            //dataSource.close();
         } catch (Exception e) {
 
         }

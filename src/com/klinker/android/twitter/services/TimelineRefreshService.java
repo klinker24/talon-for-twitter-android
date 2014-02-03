@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -55,46 +56,33 @@ public class TimelineRefreshService extends IntentService {
 
                 User user = twitter.verifyCredentials();
                 long[] lastId = dataSource.getLastIds(currentAccount);
-                long secondToLastId = sharedPrefs.getLong("second_last_tweet_id_" + currentAccount, 0);
                 List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
                 boolean foundStatus = false;
-                int lastJ = 0;
+
+                Paging paging = new Paging(1, 200);
+                paging.setSinceId(lastId[0]);
 
                 for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                    if (foundStatus) {
-                        break;
-                    } else {
-                        statuses.addAll(getList(i + 1, twitter));
-                    }
-
                     try {
-                        for (int j = lastJ; j < statuses.size(); j++) {
-                            long id = statuses.get(j).getId();
-                            if (id == lastId[0] || id == lastId[1] || id == lastId[2] || id == lastId[3] || id == lastId[4]) {
-                                statuses = statuses.subList(0, j);
+                        if (!foundStatus) {
+                            paging.setPage(i + 1);
+                            List<Status> list = twitter.getHomeTimeline(paging);
+
+                            if (list.size() > 185) {
+                                foundStatus = false;
+                            } else {
                                 foundStatus = true;
-                                break;
                             }
+
+                            statuses.addAll(list);
                         }
                     } catch (Exception e) {
+                        // the page doesn't exist
                         foundStatus = true;
+                    } catch (OutOfMemoryError o) {
+                        // don't know why...
                     }
-
-                    lastJ = statuses.size();
-                }
-
-                if (statuses.size() != 0) {
-                    try {
-                        sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
-                    } catch (Exception e) {
-                        sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
-                    }
-                    sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
-
-                    numberNew = statuses.size();
-                } else {
-                    numberNew = 0;
                 }
 
                 for (twitter4j.Status status : statuses) {
@@ -119,15 +107,6 @@ public class TimelineRefreshService extends IntentService {
             }
 
             context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
-        }
-    }
-
-    public List<twitter4j.Status> getList(int page, Twitter twitter) {
-        try {
-            return twitter.getHomeTimeline(new Paging(page, 200));
-        } catch (Exception e) {
-            Log.v("timeline_refreshing", "caught: " + e.getMessage());
-            return new ArrayList<twitter4j.Status>();
         }
     }
 }

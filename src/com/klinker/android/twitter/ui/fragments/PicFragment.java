@@ -351,7 +351,11 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
     @SuppressWarnings("deprecation")
     public void attachCursor() {
-        listView.setAdapter(cursorAdapter);
+        try {
+            listView.setAdapter(cursorAdapter);
+        } catch (Exception e) {
+            
+        }
 
         swapCursors();
     }
@@ -459,7 +463,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         toastDescription.setText(text);
     }
 
-    @Override
+    /*@Override
     public void onStop() {
         try {
             dataSource.close();
@@ -474,5 +478,5 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         super.onStart();
         dataSource = new HomeDataSource(context);
         dataSource.open();
-    }
+    }*/
 }

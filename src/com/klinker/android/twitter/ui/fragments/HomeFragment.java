@@ -582,6 +582,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 } catch (Exception e) {
                     // the page doesn't exist
                     foundStatus = true;
+                } catch (OutOfMemoryError o) {
+                    // don't know why...
                 }
             }
 
@@ -925,11 +927,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-        try {
+        /*try {
             dataSource.close();
         } catch (Exception e) {
 
-        }
+        }*/
 
         if (DrawerActivity.settings.tweetmarker) {
             new Thread(new Runnable() {
@@ -959,8 +961,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         initial = true;
 
-        dataSource = new HomeDataSource(context);
-        dataSource.open();
+        /*dataSource = new HomeDataSource(context);
+        dataSource.open();*/
 
         justStarted = true;
 

@@ -887,7 +887,11 @@ public class NotificationDrawerLayout extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        mLeftDragger.processTouchEvent(ev);
+        try {
+            mLeftDragger.processTouchEvent(ev);
+        } catch (Exception e) {
+
+        }
 
         try {
             mRightDragger.processTouchEvent(ev);
