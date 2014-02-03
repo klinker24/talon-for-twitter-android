@@ -365,7 +365,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         }
                     }
 
-                    numberNew = dataSource.getUnreadCount(currentAccount);
+                    numberNew = statuses.size();
                     unread = numberNew;
 
                 } catch (TwitterException e) {

@@ -383,19 +383,19 @@ public class ImageUtils {
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    //Bitmap b = BitmapFactory.decodeStream(is);
-
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    BitmapFactory.decodeStream(is, null, options);
+                    options.inJustDecodeBounds = false; //true
+                    //BitmapFactory.decodeStream(is, null, options);
 
-                    int size = calculateInSampleSize(options, 300, 300);
+                    //int size = calculateInSampleSize(options, 300, 300);
 
-                    options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = false;
-                    options.inSampleSize = size;
+                    //options = new BitmapFactory.Options();
+                    //options.inJustDecodeBounds = false;
+                    options.inSampleSize = 2;//size;
 
-                    HttpURLConnection conn2 = (HttpURLConnection) new URL(url).openConnection();
+                    Bitmap b = BitmapFactory.decodeStream(is, null, options);
+
+                    /*HttpURLConnection conn2 = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is2 = new BufferedInputStream(conn2.getInputStream());
                     Bitmap b;
                     try {
@@ -408,7 +408,7 @@ public class ImageUtils {
                         options.inSampleSize = size;
 
                         b = BitmapFactory.decodeStream(is2, null, options);
-                    }
+                    }*/
 
                     // Add to cache
                     if (b != null) {
@@ -421,6 +421,8 @@ public class ImageUtils {
 
             } catch (IOException e) {
                 Log.e("ImageUrlAsyncTask", e.toString());
+            } catch (OutOfMemoryError e) {
+                Log.v("ImageUrlAsyncTask", "Out of memory error here");
             }
 
             return null;
