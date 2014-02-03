@@ -69,7 +69,7 @@ public class TimelineRefreshService extends IntentService {
                             paging.setPage(i + 1);
                             List<Status> list = twitter.getHomeTimeline(paging);
 
-                            if (list.size() > 185) {
+                            if (list.size() > 185) { // close to the 200 lol
                                 foundStatus = false;
                             } else {
                                 foundStatus = true;
