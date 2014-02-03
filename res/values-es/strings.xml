@@ -90,7 +90,6 @@
     <string name="refreshing">Cargando</string>
     <string name="refreshing_widget">Cargando widget</string>
     <string name="downloading">Descargando</string>
-    <string name="saving_picture">Guardando imagen</string>
     <string name="new_interaction_upper">Nueva interacción</string>
     <string name="new_interactions_lower">nuevas interacciones</string>
     <string name="new_interactions">Nuevas interacciones</string>
@@ -163,7 +162,7 @@
     <string name="from">De</string>
     <string name="save">Guardar</string>
     <string name="stop">Detener</string>
-    <string name="tweeted">tweeteado</string>
+    <string name="tweeted">tweeteó</string>
     <!-- User Profile Activity -->
     <string name="followers">Seguidores</string>
     <string name="following">Siguiendo</string>
@@ -207,8 +206,9 @@
     <string name="open_what">Qué abrir</string>
     <string name="youtube_error">Error al reproducir video</string>
     <string name="no_conversation">No hay tweets anteriores</string>
+    <string name="saving_picture">Guardando la imagen</string>
     <string name="saved_picture">Imagen guardada correctamente</string>
-    <string name="retweet_success">Retweeteeado con éxito</string>
+    <string name="retweet_success">Retweeteado con éxito</string>
     <string name="favorite_success">Marcado como favorito</string>
     <string name="success">Éxito</string>
     <!-- User Lists -->
@@ -436,4 +436,26 @@
     <string name="limiting_options">Opciones de límite</string>
     <string name="browser_options">Opciones de navegador</string>
     <string name="custom_ringtone">Tono personalizado</string>
+    <string name="use_twitlonger">Habilitar TwitLonger</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">El tweet excede los 140 caracteres.\n\n¿Te gustaría publicarlo mediante TwitLonger?</string>
+    <string name="remove_retweet">Eliminar retweet</string>
+    <string name="edit">Editar</string>
+    <string name="use_twitpic">Usar TwitPic</string>
+    <string name="twitpic_summary">Usa TwitPic para adjuntar imágenes en lugar del servicio de imágenes de Twitter.</string>
+    <string name="verified">Verificado</string>
+    <string name="use_tweetmarker">Habilitar TweetMarker</string>
+    <string name="tweetmarker_summary">Un poco experimental. Podrías tener problemas saltando al final.</string>
+    <string name="finding_tweetmarker">Buscando TweetMarker</string>
+    <string name="loading">Cargando</string>
+    <string name="loading_tweets">Cargando tweets...</string>
+    <string name="pull_to_refresh">Tirar para refrescar</string>
+    <string name="removing_retweet">Eliminando retweet</string>
+    <string name="retweeting_status">Retweeteando estado</string>
+    <string name="removing_favorite">Eliminando de favoritos</string>
+    <string name="favoriting_status">Marcando estado como favorito</string>
+    <string name="jumping_workaround">Solución alternativa para los saltos</string>
+    <string name="jumping_workaround_summary">Habilita esta opción si tu cronología salta un lugar hacia abajo después de cargar.</string>
+    <string name="menu_share_link">Compartir enlace</string>
+    <string name="no_links">No hay enlaces</string>
 </resources>

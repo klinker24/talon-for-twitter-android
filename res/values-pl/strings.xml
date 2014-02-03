@@ -90,7 +90,6 @@
     <string name="refreshing">Odświeżanie</string>
     <string name="refreshing_widget">Odświeżanie widżetu</string>
     <string name="downloading">Pobieranie</string>
-    <string name="saving_picture">Zapisywanie obrazka</string>
     <string name="new_interaction_upper">Nowa Interakcja</string>
     <string name="new_interactions_lower">nowe interakcje</string>
     <string name="new_interactions">Nowe interakcje</string>
@@ -207,6 +206,7 @@
     <string name="open_what">Otworzyć co</string>
     <string name="youtube_error">Błąd podczas odtwarzania wideo</string>
     <string name="no_conversation">Brak poprzednich tweetów</string>
+    <string name="saving_picture">Zapisywanie grafiki</string>
     <string name="saved_picture">Obrazek zapisany poprawnie</string>
     <string name="retweet_success">Podano dalej</string>
     <string name="favorite_success">Dodano do ulubionych</string>
@@ -391,7 +391,7 @@
     <string name="handle_and_name">Wyświetlaj login i nazwę</string>
     <string name="notification_types">Rodzaje powiadomień</string>
     <string name="with_talon_pull">Dostęp poprzez funkcję \"Aktywny Talon\"</string>
-    <string name="favorited_tweet">Twoje tweety dodane do ulubionych</string>
+    <string name="favorited_tweet">Twoje tweety dodane przez innych do ulubionych</string>
     <string name="new_followers">Nowy obserwujący</string>
     <string name="discussion">Odpowiedzi</string>
     <string name="no_replies">Brak odpowiedzi</string>
@@ -409,7 +409,7 @@
     <string name="no_hashtags">Brak hashtagów</string>
     <string name="mute_hashtags">Wycisz hashtagi</string>
     <string name="muted">Wyciszono</string>
-    <string name="auto_insert_hashtags">Automatyczne wstawianie hashtagów</string>
+    <string name="auto_insert_hashtags">Automatyczne hashtagi</string>
     <string name="to_replies">Umieszczaj w odpowiedziach hashtagi z tweetów, których one dotyczą.</string>
     <string name="clean_now">Wyczyść bazy danych</string>
     <string name="clean_now_summary">Zastosuj polecenie TRIM i usuń duplikaty z bazy danych</string>
@@ -435,5 +435,27 @@
     <string name="tweet_look_options">Opcje wyglądu Tweetów</string>
     <string name="limiting_options">Opcje ograniczania</string>
     <string name="browser_options">Opcje przeglądarki</string>
-    <string name="custom_ringtone">Własny dzwonek</string>
+    <string name="custom_ringtone">Własny dźwięk powiadomień</string>
+    <string name="use_twitlonger">Aktywuj TwitLonger</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Tweet może mieć więcej niż 140 znaków\n\nCzy chcesz używać funkcji TwitLonger?</string>
+    <string name="remove_retweet">Usuń Retweet</string>
+    <string name="edit">Edytuj</string>
+    <string name="use_twitpic">Używaj TwitPic</string>
+    <string name="twitpic_summary">Używaj usługi TwitPic zamiast natywnej funkcji Twittera do załączania obrazków do tweetów.</string>
+    <string name="verified">Zweryfikowano</string>
+    <string name="use_tweetmarker">Aktywuj TweetMarker</string>
+    <string name="tweetmarker_summary">Ciągle w fazie eksperymentalnej. Możesz doświadczyć pewnych problemów podczas korzystania z tej funkcji.</string>
+    <string name="finding_tweetmarker">Wyszukiwanie TweetMarkera</string>
+    <string name="loading">Wczytywanie</string>
+    <string name="loading_tweets">Wczytywanie Tweetów...</string>
+    <string name="pull_to_refresh">Przeciągnij, aby odświeżyć</string>
+    <string name="removing_retweet">Usuwanie Retweeta</string>
+    <string name="retweeting_status">Tworzenie Retweeta</string>
+    <string name="removing_favorite">Usuwanie z ulubionych</string>
+    <string name="favoriting_status">Dodawanie do ulubionych</string>
+    <string name="jumping_workaround">Obejście przeskakiwania</string>
+    <string name="jumping_workaround_summary">Aktywuj tę opcję, jeżeli oś czasu po odświeżeniu listy tweetów przeskakuje w dół o jedną pozycję.</string>
+    <string name="menu_share_link">Udostępnij link</string>
+    <string name="no_links">Brak linków</string>
 </resources>

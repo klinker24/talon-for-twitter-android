@@ -436,4 +436,22 @@
     <string name="limiting_options">Limitierungen</string>
     <string name="browser_options">Browser</string>
     <string name="custom_ringtone">Eigener Klingelton</string>
+    <string name="use_twitlonger">TwitLonger aktivieren</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Tweet ist länger als 140 Zeichen.\n\nSoll dieser mithilfe von TwitLonger veröffentlicht werden?</string>
+    <string name="remove_retweet">Retweet entfernen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="use_twitpic">TwitPic verwenden</string>
+    <string name="twitpic_summary">TwitPic anstelle von Twitters eigenem Upload-Dienst zum Anhängen von Bildern verwenden.</string>
+    <string name="verified">Bestätigt</string>
+    <string name="use_tweetmarker">TweetMarker aktivieren</string>
+    <string name="tweetmarker_summary">Noch experimentell, es können Probleme beim nach unten Springen auftreten</string>
+    <string name="finding_tweetmarker">TweetMarker wird gesucht</string>
+    <string name="loading">Wird geladen</string>
+    <string name="loading_tweets">Tweets werden geladen...</string>
+    <string name="pull_to_refresh">Zum Aktualisieren nach unten wischen</string>
+    <string name="removing_retweet">Retweet wird entfernt</string>
+    <string name="retweeting_status">Status wird retweetet</string>
+    <string name="removing_favorite">Favorit wird gelöscht</string>
+    <string name="favoriting_status">Status wird favorisiert</string>
 </resources>
