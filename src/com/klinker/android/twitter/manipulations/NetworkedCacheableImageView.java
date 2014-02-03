@@ -117,8 +117,12 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
                     Bitmap b;
 
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = false;
+                    options.inSampleSize = 2;
+
                     try {
-                        b = BitmapFactory.decodeStream(is);
+                        b = BitmapFactory.decodeStream(is, null, options);
                     } catch (Exception e) {
                         b = null;
                     }
@@ -155,6 +159,8 @@ public class NetworkedCacheableImageView extends CacheableImageView {
 
             } catch (IOException e) {
                 Log.e("ImageUrlAsyncTask", e.toString());
+            } catch (OutOfMemoryError e) {
+                Log.v("ImageUrlAsyncTask", "Out of memory error here");
             }
 
             return null;

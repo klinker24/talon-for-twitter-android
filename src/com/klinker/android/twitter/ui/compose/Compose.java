@@ -350,14 +350,30 @@ public abstract class Compose extends Activity implements
         switch(requestCode) {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    String filePath = IOUtils.getPath(selectedImage, context);
+                    try {
+                        Uri selectedImage = imageReturnedIntent.getData();
 
-                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+                        String filePath = IOUtils.getPath(selectedImage, context);
 
-                    attachImage.setImageBitmap(yourSelectedImage);
+                        Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
 
-                    attachedFilePath = filePath;
+                        Bitmap yourSelectedImage;
+                        try {
+                            yourSelectedImage = BitmapFactory.decodeFile(filePath);
+                        } catch (OutOfMemoryError e) {
+                            yourSelectedImage = null;
+                        }
+
+                        if (yourSelectedImage != null) {
+                            attachImage.setImageBitmap(yourSelectedImage);
+                            attachedFilePath = filePath;
+                        } else {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case CAPTURE_IMAGE:
@@ -366,11 +382,22 @@ public abstract class Compose extends Activity implements
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
                         String filePath = selectedImage.getPath();
                         //String filePath = IOUtils.getPath(selectedImage, context);
-                        Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+                        Bitmap yourSelectedImage;
 
-                        attachImage.setImageBitmap(yourSelectedImage);
+                        try {
+                            yourSelectedImage = BitmapFactory.decodeFile(filePath);
+                        } catch (OutOfMemoryError e) {
+                            yourSelectedImage = null;
+                        }
 
-                        attachedFilePath = filePath;
+                        Log.v("talon_compose_pic", "file path, taken from camera: " + filePath);
+
+                        if (yourSelectedImage != null) {
+                            attachImage.setImageBitmap(yourSelectedImage);
+                            attachedFilePath = filePath;
+                        } else {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
