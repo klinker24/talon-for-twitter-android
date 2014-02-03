@@ -849,7 +849,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 removeExpansionWithAnimation(holder);
 
                 Intent compose = new Intent(context, ComposeActivity.class);
-                compose.putExtra("user", holder.reply.getText().toString());
+                String string = holder.reply.getText().toString();
+                compose.putExtra("user", string.substring(0, string.length() - 1));
                 compose.putExtra("id", holder.tweetId);
                 context.startActivity(compose);
             }
