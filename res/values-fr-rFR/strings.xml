@@ -90,7 +90,6 @@
     <string name="refreshing">Rafraîchir</string>
     <string name="refreshing_widget">Rafraîchir le widget</string>
     <string name="downloading">Téléchargement</string>
-    <string name="saving_picture">Sauvegarder l\'image</string>
     <string name="new_interaction_upper">Nouvelle Interaction</string>
     <string name="new_interactions_lower">nouvelles interactions</string>
     <string name="new_interactions">Nouvelles Interactions</string>
@@ -124,7 +123,7 @@
     <!-- Compose New Activity -->
     <string name="compose_activity">Nouveau Tweet</string>
     <string name="compose_tweet_hint">Tapez votre tweet ici... </string>
-    <string name="send_to">Entrez votre nom d\'utilisateur</string>
+    <string name="send_to">Entrez un nom d\'utilisateur</string>
     <string name="direct_message_sent">Message privé envoyé</string>
     <string name="type_user">Pseudo de l\'utilisateur</string>
     <string name="add_user">Ajouter l\'utilisateur</string>
@@ -169,8 +168,8 @@
     <string name="following">Following</string>
     <string name="blocked_user">Utilisateur bloqué</string>
     <string name="unblocked_user">Débloquer l\'utilisateur</string>
-    <string name="followed_user">Suivre l\'utilisateur</string>
-    <string name="unfollowed_user">Ne plus suivre l\'utilisateur</string>
+    <string name="followed_user"> Utilisateur ajouté</string>
+    <string name="unfollowed_user">Utilisateur supprimé </string>
     <string name="no_description">Aucune description disponible pour l\'utilisateur.</string>
     <string name="favorite_user">Ajouter comme utilisateur favoris</string>
     <string name="unfavorite_user">Supprimer des utilisateurs favoris</string>
@@ -207,6 +206,7 @@
     <string name="open_what">Ouvrez ce</string>
     <string name="youtube_error">Erreur lors de la lecteur de la vidéo</string>
     <string name="no_conversation">Pas de tweet précédent</string>
+    <string name="saving_picture">Sauvegarde de l\'image</string>
     <string name="saved_picture">Sauvegarde de l\'image réussie</string>
     <string name="retweet_success">Retweet réussi</string>
     <string name="favorite_success">Ajout aux favoris réussi</string>
@@ -279,7 +279,7 @@ NOTE: Les Emojis continuerons de fonctionner dans cette application même si la 
     <string name="sync_settings">Synchroniser les réglages</string>
     <string name="sync_mobile_data">Utiliser les données mobiles</string>
     <string name="sync_mobile_data_summary">Délais d\'actualisation automatique en data et en WiFi.</string>
-    <string name="auto_sync_notifications">Délais d\'actualisation automatique sur les options de notifications</string>
+    <string name="auto_sync_notifications">Options des notifications pour l\'actualisation automatique.</string>
     <string name="notifications">Notifications</string>
     <string name="vibrate">Vibration</string>
     <string name="led">Flash LED</string>
@@ -297,7 +297,7 @@ NOTE: Les Emojis continuerons de fonctionner dans cette application même si la 
     <string name="mentions_sync_interval">Taux de rafraichissement des Mentions</string>
     <string name="dm_sync_interval">Taux de rafraichissement des Messages Privés</string>
     <string name="sync_friends">Synchroniser les données des amis</string>
-    <string name="sync_friends_summary2">Re-synchroniser les données des amis lors de la composition de tweets.</string>
+    <string name="sync_friends_summary2">Re-synchroniser les données des amis lors de la composition d\'un tweet.</string>
     <string name="sync_friends_summary">Synchroniser manuellement la liste d\'amis.\n\n Ceci a été fait pour vous à votre login et ils sont ajoutés automatiquement quand vous suivez quelqu\'un depuis Talon, mais cette option va rréactualiser votre liste d\'amis. \n\n
 Ces données sont utilisées lors de la recherche pour les utilisateurs lors de la composition d\'un tweet</string>
     <string name="sync_success">Synchronisation réussie</string>
@@ -314,7 +314,7 @@ Ces données sont utilisées lors de la recherche pour les utilisateurs lors de 
     <string name="advance_windowed">Fenêtre avancée</string>
     <string name="advance_windowed_summary">Ouvrir les profils et les tweets dans une \"fenêtre\" au dessus de la timeline.</string>
     <string name="full_screen_browsers">Navigateur en plein écran</string>
-    <string name="full_screen_browsers_summary">Ouvrir le tweet contenant une page Web en mode plein écran.</string>
+    <string name="full_screen_browsers_summary">Ouvrir le tweet contenant une page web en mode plein écran.</string>
     <string name="reverse_click_actions">Inverse les actions d\'un clic</string>
     <string name="reverse_click_actions_summary">Inverser les actions lorsque vous appuyiez sur un tweet.\n\n
 Défaut (quand c\'est désactivé) \n
@@ -360,7 +360,7 @@ Défaut (quand c\'est désactivé) \n
     <string name="tweet_me">Envoyez moi un tweet</string>
     <string name="follow_talon">Suivre Talon sur Twitter</string>
     <string name="credits">Crédits</string>
-    <string name="disclaimer">Désistement</string>
+    <string name="disclaimer">Disclaimer</string>
     <string name="other_apps">Nos autres applications</string>
     <string name="whats_new">Quoi de neuf</string>
     <string name="rate_it">Evaluer Talon</string>
@@ -399,8 +399,8 @@ Défaut (quand c\'est désactivé) \n
     <string name="rt_style_quotes_summary">Utiliser l\'ancienne façon pour le retweet \"RT @username.....\"\n\nAccessible à partir de la barre d\'action ou du menu sur n\'importe quel tweet</string>
     <string name="absolute_date">Utiliser les dates absolues</string>
     <string name="clear_searches">Effacer les recherches</string>
-    <string name="compose_with_search">Composer le tweet avec recherche</string>
-    <string name="use_toast">Utiliser le toast \"Revenir en haut\"</string>
+    <string name="compose_with_search">Composer un tweet avec le mot-clé </string>
+    <string name="use_toast">Utiliser le toast \"Revenir au premier\"</string>
     <string name="ignore_retweets">Ignorer les retweets</string>
     <string name="ignore_retweets_summary">Ne pas afficher les retweets dans votre timeline</string>
     <string name="view">Vue</string>
@@ -417,7 +417,7 @@ Défaut (quand c\'est désactivé) \n
     <string name="deleting_messages">Effacement des messages</string>
     <string name="type_message">Type de message...</string>
     <string name="fill_gaps">Combler les problèmes de chronologie</string>
-    <string name="fill_gaps_summary">Combler les lacunes qui se produisent lors d\'une mauvaise connexion quand le live streaming est activé.</string>
+    <string name="fill_gaps_summary">Combler les lacunes qui se produisent pendant une mauvaise connexion quand le live streaming est activé.</string>
     <string name="filling_timeline">Les problèmes de chronologies sont en cours de résolution</string>
     <string name="follows_you">Vous suit</string>
     <string name="not_following_you">Ne vous suit pas</string>
@@ -433,7 +433,29 @@ Défaut (quand c\'est désactivé) \n
     <string name="interactions_notifications">Notifications pour les interactions</string>
     <string name="timelines_settings">Paramètres de la Timeline</string>
     <string name="tweet_look_options">Options des tweets</string>
-    <string name="limiting_options">Options limitées</string>
+    <string name="limiting_options">Limiter vos Options</string>
     <string name="browser_options">Options du navigateur</string>
     <string name="custom_ringtone">Sonnerie personnalisée </string>
+    <string name="use_twitlonger">Activer TwitLonger</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Ce Tweet fait plus de 140 caractères.\n\nVoulez-vous le poster en utilisant TwitLonger ?</string>
+    <string name="remove_retweet">Retirer le Retweet</string>
+    <string name="edit">Modifier</string>
+    <string name="use_twitpic">Utiliser TwitPic</string>
+    <string name="twitpic_summary">Utilise TwitPic pour envoyer les images au lieu du service d\'image de Twitter.</string>
+    <string name="verified">Vérifié</string>
+    <string name="use_tweetmarker">Activer TweetMarker</string>
+    <string name="tweetmarker_summary">Encore un peu expérimental. Vous pouvez avoir des problèmes avec des sauts vers le bas.</string>
+    <string name="finding_tweetmarker">Recherche TweetMarker</string>
+    <string name="loading">Chargement</string>
+    <string name="loading_tweets">Chargement des Tweets</string>
+    <string name="pull_to_refresh">Tirez pour rafraîchir</string>
+    <string name="removing_retweet">Suppression du Retweet</string>
+    <string name="retweeting_status">Retweet du Statut</string>
+    <string name="removing_favorite">Retrait des Favoris</string>
+    <string name="favoriting_status">Ajout aux Favoris</string>
+    <string name="jumping_workaround">Solution pour éviter les sauts</string>
+    <string name="jumping_workaround_summary">Activer si votre timeline saute vers le bas lorsque que vous rafraîchissez vos actualités</string>
+    <string name="menu_share_link">Partager le lien</string>
+    <string name="no_links">Aucun lien</string>
 </resources>

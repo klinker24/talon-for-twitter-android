@@ -90,7 +90,6 @@
     <string name="refreshing">Opdatérer...</string>
     <string name="refreshing_widget">Opdatérer widget...</string>
     <string name="downloading">Downloader...</string>
-    <string name="saving_picture">Gemmer billede...</string>
     <string name="new_interaction_upper">Ny interaktion</string>
     <string name="new_interactions_lower">nye interaktioner</string>
     <string name="new_interactions">Nye interaktioner</string>
@@ -141,7 +140,7 @@
     <string name="send">Send</string>
     <!-- Other -->
     <string name="placeholder">Afstand</string>
-    <string name="reply">Svar...</string>
+    <string name="reply">Svar</string>
     <string name="error">Fejl</string>
     <string name="error_loading_page">Fejl ved åbning af webside</string>
     <string name="delete">Slet</string>
@@ -151,7 +150,7 @@
     <string name="tweet_success">Tweet sendt</string>
     <string name="error_sending_tweet">Fejl, tweet ikke sendt</string>
     <string name="tweet_to_long">For langt tweet!</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ja</string>
     <string name="no">Nej</string>
     <string name="changelog">Hvad er nyt?</string>
     <string name="created_by">Udviklet af</string>
@@ -203,14 +202,15 @@
     <string name="menu_quote">Retweet redigeret</string>
     <string name="deleted_tweet">Tweet slettet</string>
     <string name="error_deleting">Fejl, tweet ikke slettet</string>
-    <string name="sending">Sender...</string>
+    <string name="sending">Sender</string>
     <string name="open_what">Åbn hvad</string>
     <string name="youtube_error">Fejl ved afspilning af video</string>
-    <string name="no_conversation">Ingen tidligere tweets</string>
+    <string name="no_conversation">Ingen samtaler</string>
+    <string name="saving_picture">Gemmer billede...</string>
     <string name="saved_picture">Billede gemt</string>
     <string name="retweet_success">Retweetet</string>
     <string name="favorite_success">Favorit</string>
-    <string name="success">Succes</string>
+    <string name="success">Lykkedes</string>
     <!-- User Lists -->
     <string name="view_users">Vis brugere</string>
     <string name="delete_list">Slet lister</string>
@@ -240,14 +240,14 @@
     <string name="other_options">Andre indstillinger</string>
     <string name="theme">Tema</string>
     <string name="addon_themes">Add-on temaer</string>
-    <string name="addon_note">Tap her for at finde nye temaer.\n\nBEMÆRK:\n- Dette vil déaktivere brugen af det medfølgende emoji tastatur.\n- Rapportér venligst ikke fejl med mindre du kan genskabe dem UDEN at have et add-on tema i brug.</string>
+    <string name="addon_note">Tap her for at finde nye temaer\n\nBEMÆRK:\n- Dette vil déaktivere brugen af det medfølgende emoji tastatur\n- Rapportér venligst ikke fejl med mindre du kan genskabe dem UDEN at have et add-on tema i brug</string>
     <string name="use_addon_themes">Brug add-on tema</string>
     <string name="make_a_theme">Lav dit eget tema</string>
     <string name="layout">Layout</string>
     <string name="themeing_complete">Nuværende tema</string>
     <string name="themeing_complete_summary">\"Talon\" lukker nu ned.\n\n
-Du skal swipe \"Talon\" ud af dine senest brugte apps for at dine ændringer slår fuldt igennem på din Tidslinje. \n\n
-Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant, skal du fjerne widget\'en og tilføje den igen.</string>
+Du skal swipe \"Talon\" ud af dine senest brugte apps for at dine ændringer slår fuldt igennem på din Tidslinje \n\n
+Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant, skal du fjerne widget\'en og tilføje den igen</string>
     <string name="layout_summary">Ændring af dette vil slette app´ens cache</string>
     <string name="text_size">Tekst størrelse</string>
     <string name="night_mode">Nat tilstand</string>
@@ -255,24 +255,24 @@ Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant
     <string name="night_mode_day">Vælg starttidspunkt for dag tilstand</string>
     <string name="night_mode_theme">Vælg tema for nat tilstand</string>
     <string name="device_font">Brug enhedens skrifttype</string>
-    <string name="device_font_summary">Regular \"Roboto\" på de fleste enheder. Talon\'s standard skrifttype er \"Roboto light\".</string>
+    <string name="device_font_summary">Regular \"Roboto\" på de fleste enheder. Talon\'s standard skrifttype er \"Roboto light\"</string>
     <string name="ui_extras">Ekstra UI indstillinger</string>
     <string name="ui_extras_summary">Inkluderer:\n
                 - Gemmer funktions linje\n
                 - Aktiv info linje\n
                 - Transparente system linjer (kun Android 4.4)\n\n
- Aktivéring af denne indstilling vil have indflydelse på scrolling oplevelsen.</string>
+ Aktivéring af denne indstilling vil have indflydelse på scrolling oplevelsen</string>
     <string name="inline_pics">Vis in-line billeder</string>
     <string name="use_screen_name">Vis Twitter kaldenavn</string>
-    <string name="use_screen_name_summary">Vis brugernes Twitter kaldenavn i stedet for deres eget navn, i Tidslinjen.</string>
+    <string name="use_screen_name_summary">Vis brugernes Twitter kaldenavn i stedet for deres eget navn, i Tidslinjen</string>
     <string name="timestamp">24 timers tidsvisning</string>
     <string name="enable_emojis">Aktivér emojis</string>
     <string name="to_market">Til Play Store</string>
     <string name="get_android">Hent Android Emojis</string>
     <string name="get_ios">Hent IOS Emojis</string>
-    <string name="emoji_dialog_summary">For at aktivére emojis i denne app, skal du have \"Sliding Emoji Keyboard\" eller \"Sliding Emoji Keyboard - iOS\" pakken installeret fra Play Store.\n\n
-Du kan skifte mellem de to typer emojis ved at afinstallere den ene og installerer den anden. Hvis begge pakker er installeret, vil Talon automatisk vælge pakken med Android emojis.\n\n  
-BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveperioden er udløbet! Pakken vil bruges både som en tilføjelse, såvel som en uafhængig tastatur applikation.</string>
+    <string name="emoji_dialog_summary">For at aktivére emojis i denne app, skal du have \"Sliding Emoji Keyboard\" eller \"Sliding Emoji Keyboard - iOS\" pakken installeret fra Play Store\n\n
+Du kan skifte mellem de to typer emojis ved at afinstallere den ene og installerer den anden. Hvis begge pakker er installeret, vil Talon automatisk vælge pakken med Android emojis\n\n  
+BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveperioden er udløbet! Pakken vil bruges både som en tilføjelse, såvel som en uafhængig tastatur applikation</string>
     <string name="theme_light">Lyst tema</string>
     <string name="theme_dark">Mørkt tema</string>
     <string name="theme_black">Sort tema</string>
@@ -289,17 +289,17 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="max_number_on_refresh">Max. antal tweets som opdateres</string>
     <string name="fav_users_notifications">Notifikation for favorit</string>
     <string name="sync_second_mentions">Synkr. sekundær konto, Meninger</string>
-    <string name="sync_second_mentions_summary">Tjek og informer automatisk for nye meninger, både for din primære og sekundære konto.</string>
-    <string name="max_number_summary">Højere max. grænse betyder langsommere opdatering.</string>
+    <string name="sync_second_mentions_summary">Tjek og informer automatisk for nye meninger, både for din primære og sekundære konto</string>
+    <string name="max_number_summary">Højere max. grænse betyder langsommere opdatering</string>
     <string name="auto_refresh_category">Auto-opdater indstillinger</string>
     <string name="refresh_on_startup">Opdatér når app\'en åbnes</string>
     <string name="timeline_sync_interval">Tidslinjen\'s opdaterings interval</string>
     <string name="mentions_sync_interval">Meninger\'s opdaterings interval</string>
     <string name="dm_sync_interval">Direkte beskeder\'s opdaterings interval</string>
     <string name="sync_friends">Synkr. venners data</string>
-    <string name="sync_friends_summary2">Synkronisér venners data til brug ved skrivning af tweets.</string>
-    <string name="sync_friends_summary">Synkronisérer manuelt venne liste.\n\nDette blev gjort for dig ved log ind og de bliver automatisk tilføjet når du følger nogen fra Talon, men denne funktion vil hente alle dine seneste \"Følger\".\n\n
-Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et tweet.</string>
+    <string name="sync_friends_summary2">Synkronisér venners data til brug ved skrivning af tweets</string>
+    <string name="sync_friends_summary">Synkronisérer manuelt venne liste\n\nDette blev gjort for dig ved log ind og de bliver automatisk tilføjet når du følger nogen fra Talon, men denne funktion vil hente alle dine seneste \"Følger\"\n\n
+Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et tweet</string>
     <string name="sync_success">Synkroniséret</string>
     <string name="sync_failed">Synkroniserings fejl</string>
     <string name="push_notification_options">"\"Push notifikationer\" indstillinger"</string>
@@ -344,7 +344,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="backup_category">Backup og gendan indstillinger</string>
     <string name="backup_settings">Backup indstillinger</string>
     <string name="backup_settings_dialog">Tilføj ny backup?</string>
-    <string name="backup_settings_dialog_summary">Dette vil overskrive din tidligere backup</string>
+    <string name="backup_settings_dialog_summary">Dette vil overskrive tidligere backup\'s</string>
     <string name="backup_success">Backup lykkedes</string>
     <string name="restore_success">Gendannelse lykkedes</string>
     <string name="restore_settings">Gendan indstillinger</string>
@@ -394,9 +394,9 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="favorited_tweet">Favorit af dine tweets</string>
     <string name="new_followers">Nye følgere</string>
     <string name="discussion">Kommentarer</string>
-    <string name="no_replies">Ingen svar</string>
+    <string name="no_replies">Ingen kommentarer</string>
     <string name="rt_style_quotes">Vælg \"RT\" som type for redigeret tweets</string>
-    <string name="rt_style_quotes_summary">Bruger original \"RT @brugernavn: ...\" for redigeret tweets i stedet for Talon\'s måde.\n\nTilgåes via funktions linjen eller menuen.</string>
+    <string name="rt_style_quotes_summary">Bruger original \"RT @brugernavn: ...\" for redigeret tweets i stedet for Talon\'s måde\n\nTilgåes via funktions linjen eller menuen</string>
     <string name="absolute_date">Vis absolut dato</string>
     <string name="clear_searches">Slet gemte søgninger</string>
     <string name="compose_with_search">Skriv tweet via søge funktion</string>
@@ -416,9 +416,9 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="delete_conversation">Slet samtale?</string>
     <string name="deleting_messages">Sletter beskeder</string>
     <string name="type_message">Skriv besked...</string>
-    <string name="fill_gaps">Luk "hul" i Tidslinje</string>
-    <string name="fill_gaps_summary">Luk "hul" der opstår grundet dårlig streaming forbindelse, når live-streaming er aktiveret.</string>
-    <string name="filling_timeline">Lukker "hullet" i Tidslinje</string>
+    <string name="fill_gaps">Luk hul i Tidslinje</string>
+    <string name="fill_gaps_summary">Lukker "hul" der kan opstå i Tidslinjen grundet dårlig streaming forbindelse, når live-streaming er aktiveret</string>
+    <string name="filling_timeline">Lukker hullet i Tidslinje</string>
     <string name="follows_you">Følger dig</string>
     <string name="not_following_you">Følger ikke dig</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
@@ -429,11 +429,33 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="font_type">Tekst type</string>
     <string name="our_website">Webside</string>
     <string name="alert_types">Notifikations typer</string>
-    <string name="timeline_notifications">Tidslinje notifikationer</string>
+    <string name="timeline_notifications">Tidslinje, Meninger, DM\'s</string>
     <string name="interactions_notifications">Interaktioner notifikationer</string>
     <string name="timelines_settings">Tidslinje indstillinger</string>
     <string name="tweet_look_options">Tweet indstillinger</string>
     <string name="limiting_options">Begrænsnings indstillinger</string>
     <string name="browser_options">Browser indstillinger</string>
     <string name="custom_ringtone">Vælg notifikations lyd</string>
+    <string name="use_twitlonger">Aktivér TwitLonger</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Tweet er længere end 140 tegn\n\nVil du bruge TwitLonger?</string>
+    <string name="remove_retweet">Fjern retweet status</string>
+    <string name="edit">Redigér</string>
+    <string name="use_twitpic">Brug TwitPic</string>
+    <string name="twitpic_summary">Brug Twitpic som service udbyder ved upload af billeder, i stedet for Twitter\'s egen</string>
+    <string name="verified">Bekræftet</string>
+    <string name="use_tweetmarker">Aktivér TweetMarker</string>
+    <string name="tweetmarker_summary">Stadig under udvikling. Du kan opleve det får Tidslinjen til at hoppe til bunden.</string>
+    <string name="finding_tweetmarker">Synkronisérer TweetMarker</string>
+    <string name="loading">Opdatérer...</string>
+    <string name="loading_tweets">Opdatérer tweets...</string>
+    <string name="pull_to_refresh">Stryg ned for at opdatérer...</string>
+    <string name="removing_retweet">Fjerner retweet status</string>
+    <string name="retweeting_status">Retweet\'er...</string>
+    <string name="removing_favorite">Fjerner favorit status</string>
+    <string name="favoriting_status">Favorit</string>
+    <string name="jumping_workaround">Løsning for hop i Tidslinjen</string>
+    <string name="jumping_workaround_summary">Aktivér dette hvis din Tidslinje hopper et tweet ned ved opdatering</string>
+    <string name="menu_share_link">Del link</string>
+    <string name="no_links">Ingen links</string>
 </resources>

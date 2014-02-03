@@ -90,7 +90,6 @@
     <string name="refreshing">Оновлення</string>
     <string name="refreshing_widget">Оновлення віджету</string>
     <string name="downloading">Завантаження</string>
-    <string name="saving_picture">Збереження зображення</string>
     <string name="new_interaction_upper">Нова згадка</string>
     <string name="new_interactions_lower">нові згадки</string>
     <string name="new_interactions">Нові згадки</string>
@@ -207,6 +206,7 @@
     <string name="open_what">Що відкрити</string>
     <string name="youtube_error">Помилка відтворення</string>
     <string name="no_conversation">Немає попередніх твітів</string>
+    <string name="saving_picture">Збереження зображення</string>
     <string name="saved_picture">Зображення успішно збережено</string>
     <string name="retweet_success">Ретвіт виконаний</string>
     <string name="favorite_success">Твіт доданий в обране</string>
@@ -436,4 +436,22 @@
     <string name="limiting_options">Налаштування фільтрації</string>
     <string name="browser_options">Налаштування браузера</string>
     <string name="custom_ringtone">Власний сигнал</string>
+    <string name="use_twitlonger">Включити TwitLonger</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Довжина твіту перевищує 140 символів.\n\nВідправити його за допомогою TwitLonger?</string>
+    <string name="remove_retweet">Скасувати ретвіт</string>
+    <string name="edit">Редагувати</string>
+    <string name="use_twitpic">Використовувати TwitPic</string>
+    <string name="twitpic_summary">Використовувати TwitPic для завантаження зображень замість хостингу Твіттера.</string>
+    <string name="verified">Підтверджено</string>
+    <string name="use_tweetmarker">Використовувати TweetMarker</string>
+    <string name="tweetmarker_summary">Функція не цілком стабільна. Іноді можуть виникати проблеми з відновленням позиції.</string>
+    <string name="finding_tweetmarker">Синхронізація TweetMarker</string>
+    <string name="loading">Завантаження</string>
+    <string name="loading_tweets">Завантаження твітів ...</string>
+    <string name="pull_to_refresh">Потягніть, щоб оновити</string>
+    <string name="removing_retweet">Відміна ретвіту...</string>
+    <string name="retweeting_status">Ретвіт...</string>
+    <string name="removing_favorite">Видалення з обраного...</string>
+    <string name="favoriting_status">Додавання в обране...</string>
 </resources>

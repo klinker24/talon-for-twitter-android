@@ -436,4 +436,26 @@
     <string name="limiting_options">Настройки фильтрации</string>
     <string name="browser_options">Настройки браузера</string>
     <string name="custom_ringtone">Собственный сигнал</string>
+    <string name="use_twitlonger">Включить TwitLonger</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Длина твита превышает 140 символов.\n\nОтправить его с помощью TwitLonger?</string>
+    <string name="remove_retweet">Отменить ретвит</string>
+    <string name="edit">Редактировать</string>
+    <string name="use_twitpic">Использовать TwitPic</string>
+    <string name="twitpic_summary">Использовать TwitPic для загрузки изображений вместо хостинга Твиттера.</string>
+    <string name="verified">Подтверждён</string>
+    <string name="use_tweetmarker">Использовать TweetMarker</string>
+    <string name="tweetmarker_summary">Функция не вполне стабильна. Иногда могут возникать проблемы с восстановлением позиции.</string>
+    <string name="finding_tweetmarker">Синхронизация TweetMarker</string>
+    <string name="loading">Загрузка</string>
+    <string name="loading_tweets">Загрузка твитов...</string>
+    <string name="pull_to_refresh">Потяните, чтобы обновить</string>
+    <string name="removing_retweet">Отмена ретвита...</string>
+    <string name="retweeting_status">Ретвит...</string>
+    <string name="removing_favorite">Удаление из избранных...</string>
+    <string name="favoriting_status">Добавление в избранное...</string>
+    <string name="jumping_workaround">Фикс скачков ленты</string>
+    <string name="jumping_workaround_summary">Включите, если лента перескакивает вниз после обновления ленты.</string>
+    <string name="menu_share_link">Поделиться ссылкой</string>
+    <string name="no_links">Нет ссылок</string>
 </resources>

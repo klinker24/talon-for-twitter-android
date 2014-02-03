@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 
 import com.klinker.android.twitter.utils.HtmlUtils;
 
@@ -24,6 +25,7 @@ public class MentionsDataSource {
 
     public MentionsDataSource(Context context) {
         dbHelper = new MentionsSQLiteHelper(context);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public void open() throws SQLException {

@@ -436,4 +436,26 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="limiting_options">Limiet Opties</string>
     <string name="browser_options">Browser Opties</string>
     <string name="custom_ringtone">Aangepaste Ringtone</string>
+    <string name="use_twitlonger">Schakel TwitLonger in</string>
+    <string name="twitlonger">TwitLonger</string>
+    <string name="post_with_twitlonger">Tweet is groter dan 140 tekens.\n\nWilt u gebruikmaken van TwitLonger?</string>
+    <string name="remove_retweet">Wis Retweet</string>
+    <string name="edit">Wijzigen</string>
+    <string name="use_twitpic">Gebruik TwitPic</string>
+    <string name="twitpic_summary">Gebruik TwitPic om afbeelding aan tweets toe te voegen in plaats van Twitter\'s afbeelding upload service.</string>
+    <string name="verified">Gecontroleerd</string>
+    <string name="use_tweetmarker">Schakel TweetMarker in</string>
+    <string name="tweetmarker_summary">Nog een beetje experimenteel. U kunt hiermee problemen ondervinden tijdens het springen naar de onderkant.</string>
+    <string name="finding_tweetmarker">TweetMarker aan het vinden</string>
+    <string name="loading">Aan het laden</string>
+    <string name="loading_tweets">Tweets aan het laden...</string>
+    <string name="pull_to_refresh">Trek om te Vernieuwen</string>
+    <string name="removing_retweet">Retweet aan het verwijderen</string>
+    <string name="retweeting_status">Status aan het retweeten</string>
+    <string name="removing_favorite">Favoriet aan het verwijderen</string>
+    <string name="favoriting_status">Status aan favorieten aan het toevoegen</string>
+    <string name="jumping_workaround">Springen Alternatief</string>
+    <string name="jumping_workaround_summary">Schakel dit in als uw timeline één plek naar beneden springt nadat u uw feed vernieuwt. </string>
+    <string name="menu_share_link">Deel Link</string>
+    <string name="no_links">Geen Links</string>
 </resources>
