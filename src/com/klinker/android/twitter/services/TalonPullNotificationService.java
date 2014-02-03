@@ -401,7 +401,7 @@ public class TalonPullNotificationService extends Service {
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
                     sharedPreferences.edit().putBoolean("refresh_me_mentions", true).commit();
 
-                    if(settings.notifications && settings.mentionsNot) {
+                    if(settings.notifications && settings.mentionsNot && !sharedPreferences.getString("muted_users", "").contains(status.getUser().getScreenName())) {
                         NotificationUtils.refreshNotification(mContext);
                     }
 
