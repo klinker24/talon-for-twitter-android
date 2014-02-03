@@ -132,7 +132,7 @@ public class DiscussionFragment extends Fragment {
 
                 return all;
 
-            } catch (TwitterException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
