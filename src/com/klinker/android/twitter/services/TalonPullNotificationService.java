@@ -459,7 +459,7 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-            try {
+            /*try {
                 home.deleteTweet(statusDeletionNotice.getStatusId());
                 sharedPreferences.edit().putBoolean("refresh_me", true).commit();
             } catch (Exception e) {
@@ -467,7 +467,7 @@ public class TalonPullNotificationService extends Service {
                 home.open();
                 home.deleteTweet(statusDeletionNotice.getStatusId());
                 sharedPreferences.edit().putBoolean("refresh_me", true).commit();
-            }
+            }*/
         }
 
         @Override

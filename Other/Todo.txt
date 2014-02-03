@@ -21,4 +21,3 @@
     -- search by real name or screenname
     -- be able to put lists on the extra pages
     -- users favorites and pictures on profile... this will mean turning that into a view pager as well
-    -- share link option

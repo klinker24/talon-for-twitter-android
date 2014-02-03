@@ -44,7 +44,7 @@ public class ComposeDMActivity extends Compose {
         autocomplete.setAnchorView(contactEntry);
         autocomplete.setHeight(toDP(110));
         autocomplete.setWidth(toDP(275));
-        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, contactEntry.getText().toString()), contactEntry));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
         autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
         autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,7 +84,7 @@ public class ComposeDMActivity extends Compose {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, adapterText), contactEntry));
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, adapterText), contactEntry, false));
                     }
                 } catch (Exception e) {
                     // there is no text
@@ -105,6 +105,7 @@ public class ComposeDMActivity extends Compose {
         }
 
         ImageButton at = (ImageButton) findViewById(R.id.at_button);
+        at.setVisibility(View.GONE);
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -10,8 +10,16 @@ import com.klinker.android.twitter.utils.ImageUtils;
 
 public class AutoCompetePeopleAdapter extends SearchedPeopleCursorAdapter {
 
+    private boolean insertSpace;
+
     public AutoCompetePeopleAdapter(Context context, Cursor cursor, HoloEditText text) {
         super(context, cursor, text);
+        this.insertSpace = true;
+    }
+
+    public AutoCompetePeopleAdapter(Context context, Cursor cursor, HoloEditText text, boolean insertSpace) {
+        super(context, cursor, text);
+        this.insertSpace = insertSpace;
     }
 
     @Override
@@ -46,6 +54,10 @@ public class AutoCompetePeopleAdapter extends SearchedPeopleCursorAdapter {
 
                 for (String s : split) {
                     newText += s + " ";
+                }
+
+                if (!insertSpace) {
+                    newText = newText.substring(0, newText.length() - 1);
                 }
 
                 text.setText(newText);
