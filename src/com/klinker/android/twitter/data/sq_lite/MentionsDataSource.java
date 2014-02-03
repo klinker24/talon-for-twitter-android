@@ -2,6 +2,7 @@ package com.klinker.android.twitter.data.sq_lite;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +16,7 @@ public class MentionsDataSource {
     // Database fields
     private SQLiteDatabase database;
     private MentionsSQLiteHelper dbHelper;
+    private SharedPreferences sharedPrefs;
     public String[] allColumns = {MentionsSQLiteHelper.COLUMN_ID, MentionsSQLiteHelper.COLUMN_UNREAD, MentionsSQLiteHelper.COLUMN_TWEET_ID, MentionsSQLiteHelper.COLUMN_ACCOUNT, MentionsSQLiteHelper.COLUMN_TYPE,
             MentionsSQLiteHelper.COLUMN_TEXT, MentionsSQLiteHelper.COLUMN_NAME, MentionsSQLiteHelper.COLUMN_PRO_PIC,
             MentionsSQLiteHelper.COLUMN_SCREEN_NAME, MentionsSQLiteHelper.COLUMN_TIME, MentionsSQLiteHelper.COLUMN_PIC_URL,
@@ -108,16 +110,37 @@ public class MentionsDataSource {
         if (database == null) {
             open();
         }
+
+        String users = sharedPrefs.getString("muted_users", "");
+        String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
-                allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }
 
     public Cursor getUnreadCursor(int account) {
 
+        String users = sharedPrefs.getString("muted_users", "");
+        String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?";
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
-                allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                allColumns, where, new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }
