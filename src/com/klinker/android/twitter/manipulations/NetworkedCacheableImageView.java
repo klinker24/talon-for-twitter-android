@@ -115,25 +115,36 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    Bitmap b = BitmapFactory.decodeStream(is);
+                    Bitmap b;
 
-                    if (transform == CIRCLE) {
-                        b = ImageUtils.getCircle(b, context);
-                    } else if (transform == BLUR) {
-                        b = ImageUtils.blur(b);
-                    } else if (transform == THUMBNAIL) {
-                        b = ImageUtils.overlayPlay(b, context);
+                    try {
+                        b = BitmapFactory.decodeStream(is);
+                    } catch (Exception e) {
+                        b = null;
                     }
 
-                    // Add to cache
-                    try {
-                        if(fromCache) {
-                            result = mCache.put(url, b);
-                        } else {
-                            result = mCache.put("no_cache", b);
+
+                    if (b != null) {
+                        if (transform == CIRCLE) {
+                            b = ImageUtils.getCircle(b, context);
+                        } else if (transform == BLUR) {
+                            b = ImageUtils.blur(b);
+                        } else if (transform == THUMBNAIL) {
+                            b = ImageUtils.overlayPlay(b, context);
                         }
-                    } catch (NullPointerException e) {
-                        // the bitmap couldn't be found
+
+                        // Add to cache
+                        try {
+                            if(fromCache) {
+                                result = mCache.put(url, b);
+                            } else {
+                                result = mCache.put("no_cache", b);
+                            }
+                        } catch (NullPointerException e) {
+                            // the bitmap couldn't be found
+                        }
+                    } else {
+                        return null;
                     }
 
                 } else {

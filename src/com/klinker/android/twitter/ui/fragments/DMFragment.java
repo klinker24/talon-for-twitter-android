@@ -365,22 +365,27 @@ public class DMFragment extends Fragment implements OnRefreshListener {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-                if (update) {
-                    new GetCursorAdapter().execute();
+                try {
+                    if (update) {
+                        new GetCursorAdapter().execute();
 
-                    CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
-                    showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                        CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
+                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
 
-                    int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                    listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-                } else {
-                    new GetCursorAdapter().execute();
+                        int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                        listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                    } else {
+                        new GetCursorAdapter().execute();
 
-                    CharSequence text = getResources().getString(R.string.no_new_direct_messages);
-                    showToastBar(text + "", allRead, 400, true, toTopListener);
+                        CharSequence text = getResources().getString(R.string.no_new_direct_messages);
+                        showToastBar(text + "", allRead, 400, true, toTopListener);
+                    }
+                    mPullToRefreshLayout.setRefreshComplete();
+                } catch (IllegalStateException e) {
+                    // fragment not attached to activity
                 }
 
-                mPullToRefreshLayout.setRefreshComplete();
+
 
                 DrawerActivity.canSwitch = true;
             }
@@ -607,7 +612,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         toastDescription.setText(text);
     }
 
-    @Override
+    /*@Override
     public void onStop() {
         try {
             dataSource.close();
@@ -622,5 +627,5 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         super.onStart();
         dataSource = new DMDataSource(context);
         dataSource.open();
-    }
+    }*/
 }

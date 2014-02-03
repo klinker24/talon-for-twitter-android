@@ -461,7 +461,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
         toastDescription.setText(text);
     }
 
-    @Override
+    /*@Override
     public void onStop() {
         try {
             dataSource.close();
@@ -476,5 +476,5 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
         super.onStart();
         dataSource = new HomeDataSource(context);
         dataSource.open();
-    }
+    }*/
 }
