@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.utils;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -384,31 +385,9 @@ public class ImageUtils {
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
                     BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = false; //true
-                    //BitmapFactory.decodeStream(is, null, options);
+                    options.inJustDecodeBounds = false;
 
-                    //int size = calculateInSampleSize(options, 300, 300);
-
-                    //options = new BitmapFactory.Options();
-                    //options.inJustDecodeBounds = false;
-                    options.inSampleSize = 2;//size;
-
-                    Bitmap b = BitmapFactory.decodeStream(is, null, options);
-
-                    /*HttpURLConnection conn2 = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is2 = new BufferedInputStream(conn2.getInputStream());
-                    Bitmap b;
-                    try {
-                        b = BitmapFactory.decodeStream(is2, null, options);
-                    } catch (OutOfMemoryError e) {
-                        size = calculateInSampleSize(options, 100, 100);
-
-                        options = new BitmapFactory.Options();
-                        options.inJustDecodeBounds = false;
-                        options.inSampleSize = size;
-
-                        b = BitmapFactory.decodeStream(is2, null, options);
-                    }*/
+                    Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
 
                     // Add to cache
                     if (b != null) {
@@ -426,6 +405,48 @@ public class ImageUtils {
             }
 
             return null;
+        }
+
+        public Bitmap decodeSampledBitmapFromResourceMemOpt(
+                InputStream inputStream, int reqWidth, int reqHeight) {
+
+            byte[] byteArr = new byte[0];
+            byte[] buffer = new byte[1024];
+            int len;
+            int count = 0;
+
+            try {
+                while ((len = inputStream.read(buffer)) > -1) {
+                    if (len != 0) {
+                        if (count + len > byteArr.length) {
+                            byte[] newbuf = new byte[(count + len) * 2];
+                            System.arraycopy(byteArr, 0, newbuf, 0, count);
+                            byteArr = newbuf;
+                        }
+
+                        System.arraycopy(buffer, 0, byteArr, count, len);
+                        count += len;
+                    }
+                }
+
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+                options.inSampleSize = calculateInSampleSize(options, reqWidth,
+                        reqHeight);
+                options.inPurgeable = true;
+                options.inInputShareable = true;
+                options.inJustDecodeBounds = false;
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                return null;
+            }
         }
 
         @Override

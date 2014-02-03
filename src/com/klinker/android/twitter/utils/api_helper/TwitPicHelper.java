@@ -95,7 +95,6 @@ public class TwitPicHelper extends APIHelper {
             entity.addPart("media", new FileBody(file));
             entity.addPart("message", new StringBody(message));
 
-
             Log.v("talon_twitpic", "uploading now");
 
             post.setEntity(entity);
