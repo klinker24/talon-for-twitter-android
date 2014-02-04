@@ -393,7 +393,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 @Override
                 public void onClick(View view) {
                     if (holder.expandArea.getVisibility() == View.GONE) {
-                        addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl);
+                        addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl, id);
                     } else {
                         removeExpansionWithAnimation(holder);
                         removeKeyboard(holder);
@@ -439,7 +439,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 @Override
                 public boolean onLongClick(View view) {
                     if (holder.expandArea.getVisibility() == View.GONE) {
-                        addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl);
+                        addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl, id);
                     } else {
                         removeExpansionWithAnimation(holder);
                         removeKeyboard(holder);
@@ -683,7 +683,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            if (holder.expandArea.getVisibility() == View.VISIBLE && !hasKeyboard) {
+            if (holder.expandArea.getVisibility() == View.VISIBLE) {
                 removeExpansionNoAnimation(holder);
             }
 
@@ -707,7 +707,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.expandArea.startAnimation(expandAni);
     }
 
-    public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage) {
+    public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage, final long id) {
 
         holder.retweet.setVisibility(View.VISIBLE);
         holder.retweetCount.setVisibility(View.VISIBLE);
@@ -748,11 +748,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.expandArea.startAnimation(expandAni);
 
         if (holder.favCount.getText().toString().equals(" ")) {
-            new GetFavoriteCount(holder, holder.tweetId).execute();
+            new GetFavoriteCount(holder, id).execute();
         }
 
         if (holder.retweetCount.getText().toString().equals(" ")) {
-            new GetRetweetCount(holder, holder.tweetId).execute();
+            new GetRetweetCount(holder, id).execute();
         }
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
@@ -1055,7 +1055,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
                 if (holder.retweeter.getVisibility() != View.GONE) {
-                    twitter4j.Status retweeted = twitter.showStatus(tweetId).getRetweetedStatus();
+                    twitter4j.Status retweeted = twitter.showStatus(holder.tweetId).getRetweetedStatus();
                     return retweeted;
                 }
                 return twitter.showStatus(tweetId);
@@ -1065,7 +1065,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         protected void onPostExecute(twitter4j.Status status) {
-            if (status != null) {
+            if (status != null && holder.tweetId == tweetId) {
                 holder.favCount.setText(" " + status.getFavoriteCount());
 
                 if (status.isFavorited()) {
@@ -1109,7 +1109,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         protected String doInBackground(String... urls) {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter4j.Status status = twitter.showStatus(tweetId);
+                twitter4j.Status status = twitter.showStatus(holder.tweetId);
                 retweetedByMe = status.isRetweetedByMe();
                 return "" + status.getRetweetCount();
             } catch (Exception e) {
@@ -1118,19 +1118,21 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         protected void onPostExecute(String count) {
-            if (retweetedByMe) {
-                if (!settings.addonTheme) {
-                    holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+            if (tweetId == holder.tweetId) {
+                if (retweetedByMe) {
+                    if (!settings.addonTheme) {
+                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                    } else {
+                        holder.retweet.setColorFilter(settings.accentInt);
+                    }
                 } else {
-                    holder.retweet.setColorFilter(settings.accentInt);
+
+                    holder.retweet.clearColorFilter();
                 }
-            } else {
 
-                holder.retweet.clearColorFilter();
-            }
-
-            if (count != null) {
-                holder.retweetCount.setText(" " + count);
+                if (count != null) {
+                    holder.retweetCount.setText(" " + count);
+                }
             }
         }
     }
