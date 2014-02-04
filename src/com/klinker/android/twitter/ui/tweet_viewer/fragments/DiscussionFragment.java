@@ -135,6 +135,10 @@ public class DiscussionFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                // i don't have a clue why this would happen
+                return null;
             }
         }
 

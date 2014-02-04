@@ -315,11 +315,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         lastId = dataSource.getLastIds(currentAccount);
                     }
                     Paging paging;
-                    paging = new Paging(1, 50);
+                    paging = new Paging(1, 200).sinceId(lastId[0]);
 
                     List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
-                    boolean broken = false;
+                    /*boolean broken = false;
 
                     // first try to get the top 50 tweets
                     for (int i = 0; i < statuses.size(); i++) {
@@ -345,7 +345,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         }
 
                         statuses = statuses2;
-                    }
+                    }*/
 
                     if (statuses.size() != 0) {
                         update = true;
@@ -357,9 +357,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            if (!dataSource.tweetExists(status.getId(), currentAccount)) {
-                                dataSource.createTweet(status, currentAccount);
-                            }
+                            dataSource.createTweet(status, currentAccount);
                         } catch (Exception e) {
                             break;
                         }
