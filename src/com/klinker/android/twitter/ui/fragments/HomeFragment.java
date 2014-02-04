@@ -815,11 +815,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 mentions.open();
                 long[] lastId = mentions.getLastIds(currentAccount);
                 Paging paging;
-                paging = new Paging(1, 50);
+                paging = new Paging(1, 200).sinceId(lastId[0]);
 
                 List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
-                boolean broken = false;
+                /*boolean broken = false;
 
                 // first try to get the top 50 tweets
                 for (int i = 0; i < statuses.size(); i++) {
@@ -846,10 +846,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
 
                     statuses = statuses2;
-                }
+                }*/
 
                 if (statuses.size() != 0) {
-                    sharedPrefs.edit().putLong("last_mention_id_" + currentAccount, statuses.get(0).getId()).commit();
                     update = true;
                     numberNew = statuses.size();
                 } else {
