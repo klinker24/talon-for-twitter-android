@@ -135,7 +135,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
                 trueLive = true;
 
-                getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                try {
+                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                } catch (Exception e) {
+                    // fragment not attached to activity?
+                }
             } else {
                 liveUnread++;
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
