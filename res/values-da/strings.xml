@@ -350,7 +350,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="restore_settings">Gendan indstillinger</string>
     <string name="restore_settings_summary">Sletter hukommelsen for at tilføje ændringer i tema</string>
     <string name="get_help_settings">Hjælp</string>
-    <string name="rerun_tutorial">Kør opstarts introduktion</string>
+    <string name="rerun_tutorial">Vis opstarts introduktion</string>
     <string name="faq">FAQ\'s</string>
     <string name="features_explained">Funktioner beskrevet</string>
     <string name="youtube">YouTube Video</string>
@@ -449,7 +449,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="finding_tweetmarker">Synkronisérer TweetMarker</string>
     <string name="loading">Opdatérer...</string>
     <string name="loading_tweets">Opdatérer tweets...</string>
-    <string name="pull_to_refresh">Stryg ned for at opdatérer...</string>
+    <string name="pull_to_refresh">Stryg ned for at opdaterer...</string>
     <string name="removing_retweet">Fjerner retweet status</string>
     <string name="retweeting_status">Retweet\'er...</string>
     <string name="removing_favorite">Fjerner favorit status</string>

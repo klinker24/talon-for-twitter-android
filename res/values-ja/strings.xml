@@ -454,4 +454,8 @@
     <string name="retweeting_status">リツイート中</string>
     <string name="removing_favorite">お気に入りを解除中</string>
     <string name="favoriting_status">お気に入りに登録中</string>
+    <string name="jumping_workaround">TL移動バグ修正</string>
+    <string name="jumping_workaround_summary">更新した後にTLが下に移動してしまう場合これを有効にしてください。</string>
+    <string name="menu_share_link">リンクの共有</string>
+    <string name="no_links">リンクなし</string>
 </resources>
