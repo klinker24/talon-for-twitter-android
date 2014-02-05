@@ -81,13 +81,18 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
 
     @Override
     public void displayItem(View itemView, CacheableBitmapDrawable result, boolean fromMemory) {
-        TimelineArrayAdapter.ViewHolder holder = (TimelineArrayAdapter.ViewHolder) itemView.getTag();
+        try {
 
-        if (result == null) {
-            return;
+            TimelineArrayAdapter.ViewHolder holder = (TimelineArrayAdapter.ViewHolder) itemView.getTag();
+
+            if (result == null) {
+                return;
+            }
+
+            holder.profilePic.setImageBitmap(result.getBitmap());
+        } catch (Exception e) {
+            // happens sometimes when searching for users i guess
         }
-
-        holder.profilePic.setImageBitmap(result.getBitmap());
     }
 
 }

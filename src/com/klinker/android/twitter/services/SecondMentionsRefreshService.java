@@ -62,7 +62,10 @@ public class SecondMentionsRefreshService extends IntentService {
             dataSource.open();
             long lastId = dataSource.getLastIds(currentAccount)[0];
             Paging paging;
-            paging = new Paging(1, 200).sinceId(lastId);
+            paging = new Paging(1, 200);
+            if (lastId != 0) {
+                paging.sinceId(lastId);
+            }
 
             List<Status> statuses = twitter.getMentionsTimeline(paging);
 
