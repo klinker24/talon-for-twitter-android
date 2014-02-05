@@ -436,4 +436,26 @@
     <string name="limiting_options">خيارات محدودة</string>
     <string name="browser_options">خيارات المتصفح</string>
     <string name="custom_ringtone">النغمة المخصصة</string>
+    <string name="use_twitlonger">تفعيل تويت لونجر</string>
+    <string name="twitlonger">تويت لونجر</string>
+    <string name="post_with_twitlonger">التغريدة أطول من 140 رمز.\n\nهل تريد نشرها عن طريق إستخدام تويت لونجر؟</string>
+    <string name="remove_retweet">إزالة إعادة التغريد</string>
+    <string name="edit">تعديل</string>
+    <string name="use_twitpic">أستخدم تويت بيك</string>
+    <string name="twitpic_summary">أستخدم تويت بيك لإضافة الصور إلى التغريدات بدلا من خدمة رفع الصور الخاصة ب تويتر.</string>
+    <string name="verified">موثق</string>
+    <string name="use_tweetmarker">تفعيل تويت ماركر</string>
+    <string name="tweetmarker_summary">لايزال في الطور التجريبي.  قد يكون لديك مشاكل معها تؤدي إلى القفز إلى أسفل.</string>
+    <string name="finding_tweetmarker">العثور على تويت ماركر</string>
+    <string name="loading">تحميل</string>
+    <string name="loading_tweets">تحميل التغريدات...</string>
+    <string name="pull_to_refresh">أسحب للتحديث</string>
+    <string name="removing_retweet">إزالة إعادة التغريد</string>
+    <string name="retweeting_status">إعادة تغريد الحالة</string>
+    <string name="removing_favorite">إزالة التفضيل</string>
+    <string name="favoriting_status">تفضيل الحالة</string>
+    <string name="jumping_workaround">الحل البديل للقفز</string>
+    <string name="jumping_workaround_summary">تفعيل هذا إذا الخط الزمني الخاص بك يقفز أسفل نقطة واحدة بعد تحديث خلاصتك.</string>
+    <string name="menu_share_link">شارك رابط</string>
+    <string name="no_links">لاتوجد روابط</string>
 </resources>
