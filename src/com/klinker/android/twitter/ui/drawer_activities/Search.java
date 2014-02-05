@@ -198,9 +198,13 @@ public class Search extends Activity implements OnRefreshListener {
     }
 
     public void removeKeyboard() {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+        try {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+        } catch (Exception e) {
+
+        }
     }
 
     String searchQuery = "";

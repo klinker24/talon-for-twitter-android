@@ -541,34 +541,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
             boolean foundStatus = false;
-            int lastJ = 0;
 
             Paging paging = new Paging(1, 200);
-            paging.setSinceId(lastId[0]);
+
+            if (lastId[0] != 0) {
+                paging.setSinceId(lastId[0]);
+            }
 
             for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
-                /* Old way to do it
-
-                if (foundStatus) {
-                    break;
-                } else {
-                    statuses.addAll(getList(i + 1, twitter));
-                }
-
-                try {
-                    for (int j = lastJ; j < statuses.size(); j++) {
-                        long id = statuses.get(j).getId();
-                        if (id == lastId[0] || id == lastId[1] || id == lastId[2] || id == lastId[3] || id == lastId[4]) {
-                            statuses = statuses.subList(0, j);
-                            foundStatus = true;
-                            break;
-                        }
-                    }
-                } catch (Exception e) {
-                    foundStatus = true;
-                }
-
-                lastJ = statuses.size();*/
 
                 try {
                     if (!foundStatus) {
@@ -590,15 +570,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     // don't know why...
                 }
             }
-
-            /*if (statuses.size() != 0) {
-                try {
-                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
-                } catch (Exception e) {
-                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
-                }
-                sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
-            }*/
 
             for (twitter4j.Status status : statuses) {
                 try {
@@ -810,43 +781,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-                User user = twitter.verifyCredentials();
+                twitter.verifyCredentials();
                 MentionsDataSource mentions = new MentionsDataSource(context);
                 mentions.open();
                 long[] lastId = mentions.getLastIds(currentAccount);
                 Paging paging;
-                paging = new Paging(1, 200).sinceId(lastId[0]);
-
-                List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
-
-                /*boolean broken = false;
-
-                // first try to get the top 50 tweets
-                for (int i = 0; i < statuses.size(); i++) {
-                    long id = statuses.get(i).getId();
-                    if (id == lastId[0] || id == lastId[1]) {
-                        statuses = statuses.subList(0, i);
-                        broken = true;
-                        break;
-                    }
+                paging = new Paging(1, 200);
+                if (lastId[0] != 0) {
+                    paging.sinceId(lastId[0]);
                 }
 
-                // if that doesn't work, then go for the top 150
-                if (!broken) {
-                    Log.v("updating_timeline", "not broken");
-                    Paging paging2 = new Paging(1, 150);
-                    List<twitter4j.Status> statuses2 = twitter.getMentionsTimeline(paging2);
-
-                    for (int i = 0; i < statuses2.size(); i++) {
-                        long id = statuses2.get(i).getId();
-                        if (id == lastId[0] || id == lastId[1]) {
-                            statuses2 = statuses2.subList(0, i);
-                            break;
-                        }
-                    }
-
-                    statuses = statuses2;
-                }*/
+                List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
                 if (statuses.size() != 0) {
                     update = true;
@@ -871,6 +816,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             } catch (TwitterException e) {
                 // Error in updating status
                 Log.d("Twitter Update Error", e.getMessage());
+            } catch (OutOfMemoryError e) {
+                // why do you do this?!?!
+                update = false;
             }
 
             return update;

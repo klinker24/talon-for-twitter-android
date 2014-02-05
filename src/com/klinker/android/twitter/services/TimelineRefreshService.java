@@ -61,7 +61,9 @@ public class TimelineRefreshService extends IntentService {
                 boolean foundStatus = false;
 
                 Paging paging = new Paging(1, 200);
-                paging.setSinceId(lastId[0]);
+                if (lastId[0] != 0) {
+                    paging.setSinceId(lastId[0]);
+                }
 
                 for (int i = 0; i < settings.maxTweetsRefresh; i++) {
                     try {
