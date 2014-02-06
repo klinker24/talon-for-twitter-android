@@ -26,8 +26,12 @@ import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
+import twitter4j.User;
 import twitter4j.UserList;
 
 public class ListsActivity extends DrawerActivity {
@@ -156,6 +160,12 @@ public class ListsActivity extends DrawerActivity {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
                 ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
+
+                Collections.sort(lists, new Comparator<UserList>() {
+                    public int compare(UserList result1, UserList result2) {
+                        return result1.getName().compareTo(result2.getName());
+                    }
+                });
 
                 return lists;
             } catch (Exception e) {
