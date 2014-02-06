@@ -162,10 +162,11 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                         // Finally commit the setup to our PullToRefreshLayout
                 .setup(mPullToRefreshLayout);
 
+        DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
         if (DrawerActivity.settings.addonTheme) {
-            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
             transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
         }
+        transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
 
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
