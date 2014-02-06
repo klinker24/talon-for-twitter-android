@@ -408,10 +408,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     public void onResume() {
         super.onResume();
 
-        if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
-            new GetCursorAdapter().execute();
-        }
-
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
         context.registerReceiver(refrehshMentions, filter);
@@ -423,12 +419,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
     }
 
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
-        dataSource = new MentionsDataSource(context);
-        dataSource.open();
-    }*/
+
+        if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
+            new GetCursorAdapter().execute();
+        }
+    }
 
     @Override
     public void onStop() {
