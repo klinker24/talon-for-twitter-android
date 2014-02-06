@@ -25,6 +25,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.MarkReadService;
+import com.klinker.android.twitter.services.ReadInteractionsService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -607,6 +608,9 @@ public class NotificationUtils {
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
         }
 
+        Intent markRead = new Intent(context, MarkReadService.class);
+        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+
         AppSettings settings = new AppSettings(context);
 
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
@@ -616,6 +620,7 @@ public class NotificationUtils {
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
+                    .setDeleteIntent(readPending)
                     .setAutoCancel(true)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
         } else {
@@ -674,63 +679,6 @@ public class NotificationUtils {
 
 
         data.close();
-    }
-
-    public static void newFollower(User newFollower, Context context) {
-
-        Intent resultIntent = new Intent(context, MainActivity.class);
-
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle("New Interaction")
-                .setContentText("@" + newFollower.getScreenName() + " now follows you")
-                .setSmallIcon(R.drawable.ic_stat_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark))
-                .setContentIntent(resultPendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(4, mBuilder.build());
-    }
-
-    public static void newFavorite(User favoriter, Context context) {
-
-        Intent resultIntent = new Intent(context, MainActivity.class);
-
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle("New Interaction")
-                .setContentText("@" + favoriter.getScreenName() + " favorited your status")
-                .setSmallIcon(R.drawable.ic_stat_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_important_dark))
-                .setContentIntent(resultPendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(4, mBuilder.build());
-    }
-
-    public static void newRetweet(User favoriter, Context context) {
-
-        Intent resultIntent = new Intent(context, MainActivity.class);
-
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle("New Interaction")
-                .setContentText("@" + favoriter.getScreenName() + " retweeted your status")
-                .setSmallIcon(R.drawable.ic_stat_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_repeat_dark))
-                .setContentIntent(resultPendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(4, mBuilder.build());
     }
 
     // type is either " retweeted your status", " favorited your status", or " followed you"
@@ -800,6 +748,9 @@ public class NotificationUtils {
             smallText = text;
         }
 
+        Intent markRead = new Intent(context, ReadInteractionsService.class);
+        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
                 .setContentText(Html.fromHtml(settings.addonTheme ? smallText.replaceAll("FF8800", settings.accentColor) : smallText))
@@ -807,6 +758,7 @@ public class NotificationUtils {
                 .setLargeIcon(icon)
                 .setContentIntent(resultPendingIntent)
                 .setTicker(title)
+                .setDeleteIntent(readPending)
                 .setAutoCancel(true);
 
         if(context.getResources().getBoolean(R.bool.expNotifications)) {
