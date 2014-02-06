@@ -192,7 +192,8 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
             }
         }
 
-        new GetCursorAdapter(true).execute(); // display spinner
+        //new GetCursorAdapter(true).execute(); // display spinner
+        getCursorAdapter(true);
 
         final int currentAccount = sharedPrefs.getInt("current_account", 1);
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
@@ -283,7 +284,53 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     @Override
     public void onRefreshStarted(View view) {
         mPullToRefreshLayout.setRefreshing(true);
-        new GetCursorAdapter(false).execute();
+        //new GetCursorAdapter(false).execute();
+        getCursorAdapter(false);
+    }
+
+    public void getCursorAdapter(final boolean bSpinner) {
+        if (bSpinner) {
+            try {
+                spinner.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            } catch (Exception e) { }
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!bSpinner) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+
+                    }
+                }
+
+                try {
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+                } catch (Exception e) {
+                    dataSource = new HomeDataSource(context);
+                    dataSource.open();
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+                }
+
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (bSpinner) {
+                            try {
+                                spinner.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            } catch (Exception e) { }
+                        }
+
+                        attachCursor();
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
+                });
+            }
+        }).start();
     }
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {

@@ -125,7 +125,7 @@ public class MainActivity extends DrawerActivity {
         });
 
         mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", settings.extraPages ? 2 : 0), false);
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(4);
 
         if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
             getIntent().putExtra("tutorial", false);
