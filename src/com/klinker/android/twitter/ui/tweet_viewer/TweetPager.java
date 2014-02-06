@@ -374,7 +374,7 @@ public class TweetPager extends YouTubeBaseActivity {
         String text1 = tweet;
         text1 = HtmlUtils.removeColorHtml(text1, settings);
         text1 = restoreLinks(text1);
-        text1 = "@" + screenName + ": " + text1;
+        text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, text1);
@@ -427,7 +427,7 @@ public class TweetPager extends YouTubeBaseActivity {
                 String text1 = tweet;
                 text1 = HtmlUtils.removeColorHtml(text1, settings);
                 text1 = restoreLinks(text1);
-                text1 = "@" + screenName + ": " + text1;
+                text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
                 Log.v("my_text_on_share", text1);
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
