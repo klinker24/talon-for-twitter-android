@@ -406,14 +406,14 @@ public class TweetFragment extends Fragment {
         nametv.setText(name);
         screennametv.setText("@" + screenName);
         if (settings.addonTheme) {
-            tweettv.setText(Html.fromHtml(tweet.replaceAll("FF8800", settings.accentColor)));
+            tweettv.setText(Html.fromHtml(tweet.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
         } else {
-            tweettv.setText(Html.fromHtml(tweet));
+            tweettv.setText(Html.fromHtml(tweet.replaceAll("\n", "<br/>")));
         }
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
-                final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet));
+                final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet.replaceAll("\n", "<br/>")));
                 tweettv.setText(span);
             }
         }
