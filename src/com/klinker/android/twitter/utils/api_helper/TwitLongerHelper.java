@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -158,7 +159,7 @@ public class TwitLongerHelper extends APIHelper {
                 nvps.add(new BasicNameValuePair("reply_to_screen_name", replyToScreenname));
             }
 
-            post.setEntity(new UrlEncodedFormEntity(nvps));
+            post.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
             HttpResponse response = client.execute(post);
             BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
