@@ -94,7 +94,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     public BroadcastReceiver refrehshMentions = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            new GetCursorAdapter().execute();
+            //new GetCursorAdapter().execute();
+            getCursorAdapter();
         }
     };
 
@@ -199,7 +200,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             }
         }
 
-        new GetCursorAdapter().execute();
+        //new GetCursorAdapter().execute();
+        getCursorAdapter();
 
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
@@ -424,7 +426,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onStart();
 
         if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
-            new GetCursorAdapter().execute();
+            //new GetCursorAdapter().execute();
+            getCursorAdapter();
         }
     }
 
@@ -440,6 +443,37 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onStop();
     }
 
+    public void getCursorAdapter() {
+        try {
+            spinner.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        } catch (Exception e) { }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                } catch (Exception e) {
+                    dataSource = new MentionsDataSource(context);
+                    dataSource.open();
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                }
+
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            spinner.setVisibility(View.GONE);
+                            listView.setVisibility(View.VISIBLE);
+                        } catch (Exception e) { }
+
+                        attachCursor();
+                    }
+                });
+            }
+        }).start();
+    }
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
