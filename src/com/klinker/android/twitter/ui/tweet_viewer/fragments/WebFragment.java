@@ -1,16 +1,23 @@
 package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.VideoView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -24,6 +31,8 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     private WebView webView;
 
+    public Context context;
+
     public WebFragment(AppSettings settings, ArrayList<String> webpages) {
         this.webpages = webpages;
     }
@@ -36,6 +45,8 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        context = getActivity();
+
         layout = inflater.inflate(R.layout.web_fragment, null);
         webView = (WebView) layout.findViewById(R.id.webview);
 
@@ -47,6 +58,21 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setSupportZoom(true);
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                super.onShowCustomView(view, callback);
+                if (view instanceof FrameLayout){
+                    FrameLayout frame = (FrameLayout) view;
+                    if (frame.getFocusedChild() instanceof VideoView){
+                        VideoView video = (VideoView) frame.getFocusedChild();
+                        frame.removeView(video);
+                        getActivity().setContentView(video);
+                        video.start();
+                    }
+                }
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= 17) {
             webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
