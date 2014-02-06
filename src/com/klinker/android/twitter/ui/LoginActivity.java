@@ -161,6 +161,7 @@ public class LoginActivity extends Activity {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setAppCacheEnabled(false);
         mWebView.getSettings().setSavePassword(false);
+        mWebView.getSettings().setSaveFormData(false);
         mWebView.setWebViewClient(new WebViewClient()
         {
             @Override
