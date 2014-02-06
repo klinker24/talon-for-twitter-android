@@ -338,6 +338,9 @@
         <service android:name="com.klinker.android.twitter.services.MarkReadService">
         </service>
 
+        <service android:name="com.klinker.android.twitter.services.ReadInteractionsService">
+        </service>
+
         <service android:name="com.klinker.android.twitter.services.TimelineRefreshService">
         </service>
 
