@@ -147,9 +147,9 @@ public class HtmlUtils {
                         end = exp.indexOf("?");
                     }
                     try {
-                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg";
                     } catch (Exception e) {
-                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/2.jpg";
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/hqdefault.jpg";
                     }
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtu.be")) {
@@ -162,9 +162,9 @@ public class HtmlUtils {
                         end = exp.indexOf("?");
                     }
                     try {
-                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg";
                     } catch (Exception e) {
-                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/2.jpg";
+                        imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/mqefault.jpg";
                     }
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("twitpic")) {
@@ -343,7 +343,7 @@ public class HtmlUtils {
                     } else if (exp.substring(start).contains("?")) {
                         end = exp.indexOf("?");
                     }
-                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtu.be")) { // shortened youtube link
                     // first get the youtube video code
@@ -354,7 +354,7 @@ public class HtmlUtils {
                     } else if (exp.substring(start).contains("?")) {
                         end = exp.indexOf("?");
                     }
-                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/2.jpg";
+                    imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("twitpic")) {
                     int start = exp.indexOf(".com/") + 5;
