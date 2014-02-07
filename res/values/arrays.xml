@@ -93,8 +93,6 @@
         <item>750</item>
         <item>1000</item>
         <item>2000</item>
-        <item>3000</item>
-        <item>5000</item>
     </string-array>
 
     <string-array name="mentions_size">

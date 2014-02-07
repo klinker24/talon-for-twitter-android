@@ -832,6 +832,13 @@ public abstract class DrawerActivity extends Activity {
             Utils.needCleanTimeline(context);
         }
 
+        if (sharedPrefs.getBoolean("version_1_3_2", true)) {
+            sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
+            if (Integer.parseInt(sharedPrefs.getString("timeline_size", "500")) > 2000) {
+                sharedPrefs.edit().putString("timeline_size", "2000").commit();
+            }
+        }
+
         // for testing
         /*new Thread(new Runnable() {
             @Override
