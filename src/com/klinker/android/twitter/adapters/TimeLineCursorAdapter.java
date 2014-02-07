@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
@@ -115,6 +116,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public long tweetId;
         public boolean isFavorited;
         public String screenName;
+        public String picUrl;
 
     }
 
@@ -299,6 +301,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         final String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+        holder.picUrl = picUrl;
         final long longTime = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
         final String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
         final String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
@@ -321,9 +324,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public boolean onLongClick(View view) {
                         String link;
 
-                        boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                        boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
                         if (displayPic) {
-                            link = picUrl;
+                            link = holder.picUrl;
                         } else {
                             link = otherUrl.split("  ")[0];
                         }
@@ -354,7 +357,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public void onClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl, id);
+                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -370,9 +373,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public void onClick(View view) {
                         String link = "";
 
-                        boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                        boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
                         if (displayPic) {
-                            link = picUrl;
+                            link = holder.picUrl;
                         } else {
                             link = otherUrl.split("  ")[0];
                         }
@@ -401,7 +404,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl, id);
+                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -512,8 +515,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.tweet.setText(tweetText);
         }
 
-        if(settings.inlinePics && picUrl != null) {
-            if (picUrl.equals("")) {
+        if(settings.inlinePics && holder.picUrl != null) {
+            if (holder.picUrl.equals("")) {
                 if (holder.image.getVisibility() == View.VISIBLE) {
                     holder.image.setVisibility(View.GONE);
                 }
@@ -526,7 +529,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.image.setVisibility(View.VISIBLE);
                 }
 
-                if (picUrl.contains("youtube")) {
+                if (holder.picUrl.contains("youtube")) {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
@@ -538,9 +541,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         public void onClick(View view) {
                             String link;
 
-                            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                            boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
                             if (displayPic) {
-                                link = picUrl;
+                                link = holder.picUrl;
                             } else {
                                 link = otherUrl.split("  ")[0];
                             }
@@ -566,23 +569,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     holder.image.setImageDrawable(transparent);
 
-                    new Thread(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Thread.sleep(350);
-                            } catch (Exception e) {
-                            }
                             if (holder.tweetId == id) {
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
-                                    }
-                                });
+                                ImageUtils.loadImage(context, holder.image, holder.picUrl, mCache);
                             }
                         }
-                    }).start();
+                    }, 350);
 
 
                 } else {
@@ -593,30 +587,20 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", picUrl));
+                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
                         }
                     });
 
                     holder.image.setImageDrawable(transparent);
 
-                    new Thread(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Thread.sleep(350);
-                            } catch (Exception e) {
-                            }
-
                             if (holder.tweetId == id) {
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
-                                    }
-                                });
+                                ImageUtils.loadImage(context, holder.image, holder.picUrl, mCache);
                             }
                         }
-                    }).start();
+                    }, 350);
                 }
             }
         }
@@ -634,26 +618,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             String text = holder.tweet.getText().toString();
             if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                new Thread(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Thread.sleep(500);
-                        } catch (Exception e) {
-                        }
-
                         if (holder.tweetId == id) {
                             final Spannable span = EmojiUtils.getSmiledText(context, holder.tweet.getText());
-
-                            ((Activity)context).findViewById(android.R.id.content).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.tweet.setText(span);
-                                }
-                            });
+                            holder.tweet.setText(span);
                         }
                     }
-                }).start();
+                }, 500);
             }
         }
 

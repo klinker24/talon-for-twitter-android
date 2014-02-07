@@ -12,6 +12,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
@@ -108,6 +109,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public long tweetId;
         public boolean isFavorited;
         public String screenName;
+        public String picUrl;
 
     }
 
@@ -349,6 +351,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         String[] html = HtmlUtils.getHtmlStatus(thisStatus);
         final String tweetText = html[0];
         final String picUrl = html[1];
+        holder.picUrl = picUrl;
         final String otherUrl = html[2];
         final String hashtags = html[3];
         final String users = html[4];
@@ -361,9 +364,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     String link;
 
-                    boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
                     if (displayPic) {
-                        link = picUrl;
+                        link = holder.picUrl;
                     } else {
                         link = otherUrl.split("  ")[0];
                     }
@@ -393,7 +396,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 @Override
                 public void onClick(View view) {
                     if (holder.expandArea.getVisibility() == View.GONE) {
-                        addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl, id);
+                        addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                     } else {
                         removeExpansionWithAnimation(holder);
                         removeKeyboard(holder);
@@ -409,9 +412,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     String link;
 
-                    boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
                     if (displayPic) {
-                        link = picUrl;
+                        link = holder.picUrl;
                     } else {
                         link = otherUrl.split("  ")[0];
                     }
@@ -439,7 +442,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 @Override
                 public boolean onLongClick(View view) {
                     if (holder.expandArea.getVisibility() == View.GONE) {
-                        addExpansion(holder, screenname, users, otherUrl.split("  "), picUrl, id);
+                        addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                     } else {
                         removeExpansionWithAnimation(holder);
                         removeKeyboard(holder);
@@ -514,7 +517,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         if(settings.inlinePics) {
-            if (picUrl.equals("")) {
+            if (holder.picUrl.equals("")) {
                 if (holder.image.getVisibility() == View.VISIBLE) {
                     holder.image.setVisibility(View.GONE);
                 }
@@ -523,7 +526,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.playButton.setVisibility(View.GONE);
                 }
             } else {
-                if (picUrl.contains("youtube")) {
+                if (holder.picUrl.contains("youtube")) {
 
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
@@ -536,9 +539,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         public void onClick(View view) {
                             String link;
 
-                            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                            boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
                             if (displayPic) {
-                                link = picUrl;
+                                link = holder.picUrl;
                             } else {
                                 link = otherUrl.split("  ")[0];
                             }
@@ -564,46 +567,26 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     holder.image.setImageDrawable(transparent);
 
-                    new Thread(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Thread.sleep(300);
-                            } catch (Exception e) {
-                            }
-
                             if (holder.tweetId == id) {
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
-                                    }
-                                });
+                                ImageUtils.loadImage(context, holder.image, holder.picUrl, mCache);
                             }
                         }
-                    }).start();
+                    }, 350);
 
                 } else {
                     holder.image.setImageDrawable(transparent);
 
-                    new Thread(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Thread.sleep(350);
-                            } catch (Exception e) {
-                            }
-
                             if (holder.tweetId == id) {
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ImageUtils.loadImage(context, holder.image, picUrl, mCache);
-                                    }
-                                });
+                                ImageUtils.loadImage(context, holder.image, holder.picUrl, mCache);
                             }
                         }
-                    }).start();
+                    }, 350);
 
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
@@ -612,7 +595,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", picUrl));
+                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
                         }
                     });
                 }
@@ -646,26 +629,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             String text = holder.tweet.getText().toString();
             if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                new Thread(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Thread.sleep(500);
-                        } catch (Exception e) {
-                        }
-
                         if (holder.tweetId == id) {
                             final Spannable span = EmojiUtils.getSmiledText(context, holder.tweet.getText());
-
-                            ((Activity)context).findViewById(android.R.id.content).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    holder.tweet.setText(span);
-                                }
-                            });
+                            holder.tweet.setText(span);
                         }
                     }
-                }).start();
+                }, 500);
             }
         }
     }
