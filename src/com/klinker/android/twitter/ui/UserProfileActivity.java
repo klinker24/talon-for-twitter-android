@@ -67,7 +67,10 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
@@ -872,6 +875,9 @@ public class UserProfileActivity extends Activity {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            } catch (OutOfMemoryError x) {
+                x.printStackTrace();
+                return null;
             }
         }
 
@@ -1363,26 +1369,31 @@ public class UserProfileActivity extends Activity {
         switch(requestCode) {
             case SELECT_PRO_PIC:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    String filePath = IOUtils.getPath(selectedImage, context);
-
-                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
-
-                    String root = Environment.getExternalStorageDirectory().toString();
-                    File myDir = new File(root + "/Talon");
-                    myDir.mkdirs();
-
-                    File file = new File(myDir, "profile.jpg");
-                    if (file.exists()) file.delete();
                     try {
-                        FileOutputStream out = new FileOutputStream(file);
-                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 35, out);
-                        out.flush();
-                        out.close();
+                        Uri selectedImage = imageReturnedIntent.getData();
+                        String filePath = IOUtils.getPath(selectedImage, context);
 
-                        new UpdateProPic(file).execute();
+                        Bitmap yourSelectedImage = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 500, 500);
 
-                    } catch (Exception e) {
+                        String root = Environment.getExternalStorageDirectory().toString();
+                        File myDir = new File(root + "/Talon");
+                        myDir.mkdirs();
+
+                        File file = new File(myDir, "profile.jpg");
+                        if (file.exists()) file.delete();
+                        try {
+                            FileOutputStream out = new FileOutputStream(file);
+                            yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 35, out);
+                            out.flush();
+                            out.close();
+
+                            new UpdateProPic(file).execute();
+
+                        } catch (Exception e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    } catch (FileNotFoundException e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
@@ -1390,31 +1401,99 @@ public class UserProfileActivity extends Activity {
                 break;
             case SELECT_BANNER:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    String filePath = IOUtils.getPath(selectedImage, context);
-
-                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
-
-                    String root = Environment.getExternalStorageDirectory().toString();
-                    File myDir = new File(root + "/Talon");
-                    myDir.mkdirs();
-
-                    File file = new File(myDir, "banner.jpg");
-                    if (file.exists()) file.delete();
                     try {
-                        FileOutputStream out = new FileOutputStream(file);
-                        yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 40, out);
-                        out.flush();
-                        out.close();
+                        Uri selectedImage = imageReturnedIntent.getData();
+                        String filePath = IOUtils.getPath(selectedImage, context);
 
-                        new UpdateBanner(file).execute();
+                        Bitmap yourSelectedImage = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 500, 500);
 
-                    } catch (Exception e) {
+                        String root = Environment.getExternalStorageDirectory().toString();
+                        File myDir = new File(root + "/Talon");
+                        myDir.mkdirs();
+
+                        File file = new File(myDir, "banner.jpg");
+                        if (file.exists()) file.delete();
+                        try {
+                            FileOutputStream out = new FileOutputStream(file);
+                            yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 40, out);
+                            out.flush();
+                            out.close();
+
+                            new UpdateBanner(file).execute();
+
+                        } catch (Exception e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    } catch (FileNotFoundException e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
                     }
                 }
         }
+    }
+
+    public Bitmap decodeSampledBitmapFromResourceMemOpt(
+            InputStream inputStream, int reqWidth, int reqHeight) {
+
+        byte[] byteArr = new byte[0];
+        byte[] buffer = new byte[1024];
+        int len;
+        int count = 0;
+
+        try {
+            while ((len = inputStream.read(buffer)) > -1) {
+                if (len != 0) {
+                    if (count + len > byteArr.length) {
+                        byte[] newbuf = new byte[(count + len) * 2];
+                        System.arraycopy(byteArr, 0, newbuf, 0, count);
+                        byteArr = newbuf;
+                    }
+
+                    System.arraycopy(buffer, 0, byteArr, count, len);
+                    count += len;
+                }
+            }
+
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            options.inSampleSize = calculateInSampleSize(options, reqWidth,
+                    reqHeight);
+            options.inPurgeable = true;
+            options.inInputShareable = true;
+            options.inJustDecodeBounds = false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = opt.outHeight;
+        final int width = opt.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     class UpdateBanner extends AsyncTask<String, Void, Boolean> {

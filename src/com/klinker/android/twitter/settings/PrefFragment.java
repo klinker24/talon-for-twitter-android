@@ -1174,6 +1174,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             } catch (TwitterException e) {
                 // Error in updating status
                 Log.d("Twitter Update Error", e.getMessage());
+                return false;
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                return false;
             }
             return true;
         }
@@ -1181,8 +1185,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         protected void onPostExecute(Boolean deleted) {
 
             try {
-                Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-                pDialog.dismiss();
+                if (deleted) {
+                    Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                    pDialog.dismiss();
+                } else {
+                    Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    pDialog.dismiss();
+                }
             } catch (Exception e) {
                 // user closed the window
             }
