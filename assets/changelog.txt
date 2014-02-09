@@ -1,6 +1,6 @@
 <b>Version 1.3.2:</b><br/><br/>
-    &#8226; Higher quality YouTube thumbnails</br>
-    &#8226; Better stability
+    &#8226; A little bit higher quality YouTube thumbnails<br/>
+    &#8226; Better stability<br/>
 </br>
 
 <b>Version 1.3.0:</b><br/><br/>
