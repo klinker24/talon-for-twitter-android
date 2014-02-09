@@ -146,6 +146,10 @@ public class HomeDataSource {
 
     public Cursor getCursor(int account) {
 
+        if (database == null) {
+            open();
+        }
+
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
@@ -189,6 +193,10 @@ public class HomeDataSource {
 
     public Cursor getWidgetCursor(int account) {
 
+        if (database == null) {
+            open();
+        }
+
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
@@ -227,6 +235,10 @@ public class HomeDataSource {
 
     public Cursor getUnreadCursor(int account) {
 
+        if (database == null) {
+            open();
+        }
+
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?";
@@ -264,6 +276,10 @@ public class HomeDataSource {
     }
 
     public Cursor getPicsCursor(int account) {
+
+        if (database == null) {
+            open();
+        }
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");

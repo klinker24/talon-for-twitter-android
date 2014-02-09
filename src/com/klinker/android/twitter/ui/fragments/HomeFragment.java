@@ -683,8 +683,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             @Override
             protected void onPreExecute() {
-                transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
-                DrawerActivity.canSwitch = false;
+                try {
+                    transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
+                    DrawerActivity.canSwitch = false;
+                } catch (Exception e) {
+                    
+                }
+
             }
 
             @Override
