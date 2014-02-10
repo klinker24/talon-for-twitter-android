@@ -371,7 +371,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
+                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming || manualRefresh)) {
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                     getResources().getString(R.string.view),
@@ -442,6 +442,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 newTweets = false;
                 viewPressed = true;
                 trueLive = true;
+                manualRefresh = false;
                 getLoaderManager().restartLoader(0, null, HomeFragment.this);
                 listView.setSelectionFromTop(0, 0);
                 new Handler().postDelayed(new Runnable() {
@@ -483,6 +484,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public boolean only50 = false;
+    public boolean manualRefresh = false;
 
     public int doRefresh() {
         int numberNew = 0;
@@ -594,11 +596,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }).start();
 
                 only50 = true;
+                manualRefresh = true;
 
                 return 50;
             }
 
             only50 = false;
+            manualRefresh = false;
 
             for (twitter4j.Status status : statuses) {
                 try {
