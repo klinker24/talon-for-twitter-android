@@ -1,4 +1,8 @@
 <b>Version 1.3.2:</b><br/><br/>
+    &#8226; Few fixes for attaching images to tweets<br/>
+</br>
+
+<b>Version 1.3.2:</b><br/><br/>
     &#8226; A little bit higher quality YouTube thumbnails<br/>
     &#8226; Better stability<br/>
 </br>
