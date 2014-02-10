@@ -477,14 +477,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 listView.setSelectionFromTop(0, 0);
             }
         } else {
-            /*try {
-                dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
-            } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
-            }
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);*/
             listView.setSelectionFromTop(0,0);
             hideToastBar(400);
         }
@@ -498,10 +490,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
     }
 
+    public boolean only50 = false;
+
     public int doRefresh() {
         int numberNew = 0;
 
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        final int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         try {
             Cursor cursor = cursorAdapter.getCursor();
@@ -570,6 +564,49 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     // don't know why...
                 }
             }
+
+            if (statuses.size() > 50) {
+                // insert the last 50 tweets
+                for (int i = statuses.size() - 1; i >= 0; i--) {
+                    try {
+                        HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                    statuses.remove(i);
+                }
+
+                // insert the rest inside this thread so the user can start viewing the others
+                final List<Status> remaining = statuses;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // sleep so that the cursor loader has time to do everything
+                        try {
+                            Thread.sleep(1500);
+                        } catch (InterruptedException e) { }
+
+                        for (twitter4j.Status status : remaining) {
+                            try {
+                                HomeContentProvider.insertTweet(status, currentAccount, context);
+                                liveUnread++;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                break;
+                            }
+                        }
+
+                        only50 = false;
+                    }
+                }).start();
+
+                only50 = true;
+
+                return 50;
+            }
+
+            only50 = false;
 
             for (twitter4j.Status status : statuses) {
                 try {
@@ -715,7 +752,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);
 
                         if (unread > 0) {
-                            final CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                            final CharSequence text;
+
+                            // append a plus on the end if it is 50
+                            if (unread != 50) {
+                                text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                            } else {
+                                text = numberNew + "+ " + getResources().getString(R.string.new_tweet);
+                            }
+
                             if (!tweetMarkerUpdate) {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -883,12 +928,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-        /*try {
-            dataSource.close();
-        } catch (Exception e) {
-
-        }*/
-
         if (DrawerActivity.settings.tweetmarker) {
             new Thread(new Runnable() {
                 @Override
@@ -916,9 +955,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         super.onStart();
 
         initial = true;
-
-        /*dataSource = new HomeDataSource(context);
-        dataSource.open();*/
 
         justStarted = true;
 
@@ -1087,8 +1123,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         liveUnread = 0;
         viewPressed = false;
 
-        mPullToRefreshLayout.setRefreshComplete();
-
+        if (!only50) {
+            mPullToRefreshLayout.setRefreshComplete();
+        }
 
         try {
             new Handler().postDelayed(new Runnable() {
