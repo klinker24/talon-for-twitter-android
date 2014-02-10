@@ -482,14 +482,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
     }
 
-    public List<twitter4j.Status> getList(int page, Twitter twitter) {
-        try {
-            return twitter.getHomeTimeline(new Paging(page, 200));
-        } catch (Exception e) {
-            return new ArrayList<twitter4j.Status>();
-        }
-    }
-
     public boolean only50 = false;
 
     public int doRefresh() {
