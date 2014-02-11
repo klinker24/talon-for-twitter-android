@@ -70,6 +70,7 @@ import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -681,7 +682,7 @@ public class TweetFragment extends Fragment {
                             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                             startActivityForResult(captureIntent, CAPTURE_IMAGE);
                         } else { // attach picture
-                            if (attachedFilePath.equals("")) {
+                            if (attachedFilePath == null || attachedFilePath.equals("")) {
                                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                                 photoPickerIntent.setType("image/*");
                                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
@@ -1298,12 +1299,16 @@ public class TweetFragment extends Fragment {
                     Uri selectedImage = imageReturnedIntent.getData();
                     String filePath = IOUtils.getPath(selectedImage, context);
 
-                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+                    try {
+                        Bitmap yourSelectedImage = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 200, 200);
 
-                    attachImage.setImageBitmap(yourSelectedImage);
-                    attachImage.setVisibility(View.VISIBLE);
+                        attachImage.setImageBitmap(yourSelectedImage);
+                        attachImage.setVisibility(View.VISIBLE);
 
-                    attachedFilePath = filePath;
+                        attachedFilePath = filePath;
+                    } catch (FileNotFoundException e) {
+
+                    }
                 }
                 break;
             case CAPTURE_IMAGE:
@@ -1326,6 +1331,70 @@ public class TweetFragment extends Fragment {
                 }
                 break;
         }
+    }
+
+    public Bitmap decodeSampledBitmapFromResourceMemOpt(
+            InputStream inputStream, int reqWidth, int reqHeight) {
+
+        byte[] byteArr = new byte[0];
+        byte[] buffer = new byte[1024];
+        int len;
+        int count = 0;
+
+        try {
+            while ((len = inputStream.read(buffer)) > -1) {
+                if (len != 0) {
+                    if (count + len > byteArr.length) {
+                        byte[] newbuf = new byte[(count + len) * 2];
+                        System.arraycopy(byteArr, 0, newbuf, 0, count);
+                        byteArr = newbuf;
+                    }
+
+                    System.arraycopy(buffer, 0, byteArr, count, len);
+                    count += len;
+                }
+            }
+
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            options.inSampleSize = calculateInSampleSize(options, reqWidth,
+                    reqHeight);
+            options.inPurgeable = true;
+            options.inInputShareable = true;
+            options.inJustDecodeBounds = false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    public int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = opt.outHeight;
+        final int width = opt.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     public String restoreLinks(String text) {
