@@ -4,19 +4,23 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
 import com.klinker.android.twitter.ui.fragments.LinksFragment;
+import com.klinker.android.twitter.ui.fragments.ListFragment;
 import com.klinker.android.twitter.ui.fragments.MentionsFragment;
 import com.klinker.android.twitter.ui.fragments.PicFragment;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     private boolean extraPages;
+    private AppSettings settings;
 
-    public TimelinePagerAdapter(FragmentManager fm, boolean extraPages) {
+    public TimelinePagerAdapter(FragmentManager fm, boolean extraPages, AppSettings settings) {
         super(fm);
         this.extraPages = extraPages;
+        this.settings = settings;
     }
     @Override
     public Fragment getItem(int i) {
@@ -26,6 +30,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     LinksFragment links = new LinksFragment();
                     return links;
                 case 1:
+                    //ListFragment pics = new ListFragment(settings.account1List2); //97751740
                     PicFragment pics = new PicFragment();
                     return pics;
                 case 2:

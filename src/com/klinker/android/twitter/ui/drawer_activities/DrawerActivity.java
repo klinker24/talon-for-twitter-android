@@ -32,6 +32,7 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
@@ -754,6 +755,11 @@ public abstract class DrawerActivity extends Activity {
         inters.open();
         inters.deleteAllInteractions(currentAccount);
         inters.close();
+
+        ListDataSource list = new ListDataSource(context);
+        list.open();
+        list.deleteAllTweets(currentAccount);
+        list.close();
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
