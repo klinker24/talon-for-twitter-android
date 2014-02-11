@@ -134,7 +134,7 @@ public class HtmlUtils {
                 } catch (Exception e) {
                     tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
                 }
-                if(exp.toLowerCase().contains("instag")) {
+                if(exp.toLowerCase().contains("instag") && !exp.contains("blog.insta")) {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) {
@@ -331,7 +331,7 @@ public class HtmlUtils {
                 } catch (Exception e) {
                     tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
                 }
-                if(exp.toLowerCase().contains("instag")) {
+                if(exp.toLowerCase().contains("instag") && !exp.contains("blog.instag")) {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) { // normal youtube link
