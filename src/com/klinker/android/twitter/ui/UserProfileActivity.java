@@ -464,9 +464,8 @@ public class UserProfileActivity extends Activity {
         }
 
         protected twitter4j.User doInBackground(String... urls) {
+            Twitter twitter =  Utils.getTwitter(context, settings);
             try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-
                 if (!isMyProfile) {
                     User user = twitter.showUser(screenName);
                     followingStatus = Utils.getTwitter(context, settings).showFriendship(settings.myScreenName, user.getScreenName()).isTargetFollowingSource() ?
@@ -524,7 +523,12 @@ public class UserProfileActivity extends Activity {
                     return user;
                 }
             } catch (Exception e) {
-                return null;
+                try {
+                    thisUser = twitter.showUser(screenName);
+                    return thisUser;
+                } catch (Exception x) {
+                    return null;
+                }
             }
         }
 
@@ -814,12 +818,16 @@ public class UserProfileActivity extends Activity {
 
             }
 
-            if(settings.roundContactImages) {
-                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
-                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-            } else {
-                //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
-                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+            try {
+                if(settings.roundContactImages) {
+                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                } else {
+                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
+                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                }
+            } catch (Exception e) {
+
             }
 
             String url;
@@ -917,7 +925,9 @@ public class UserProfileActivity extends Activity {
                 ImageUtils.loadImage(context, background, url, mCache);
             }
 
-            actionBar.setTitle(thisUser.getName());
+            if (thisUser != null) {
+                actionBar.setTitle(thisUser.getName());
+            }
 
             spinner.setVisibility(View.GONE);
         }
