@@ -2,18 +2,25 @@ package com.klinker.android.twitter.ui.fragments;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.LoaderManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -23,7 +30,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
-import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,49 +38,76 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter.data.sq_lite.ListDataSource;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.listeners.MainDrawerClickListener;
+import com.klinker.android.twitter.services.TalonPullNotificationService;
+import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.settings.DrawerArrayAdapter;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import twitter4j.Paging;
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterStream;
+import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class ListFragment extends Fragment implements OnRefreshListener {
 
-    private static AsyncListView listView;
-    private static CursorAdapter cursorAdapter;
+    private static Twitter twitter;
 
-    private static SharedPreferences sharedPrefs;
+    public static AsyncListView listView;
+    private TimeLineCursorAdapter cursorAdapter;
 
-    private static HomeDataSource dataSource;
+    private SharedPreferences sharedPrefs;
 
     private PullToRefreshLayout mPullToRefreshLayout;
+    public DefaultHeaderTransformer transformer;
     private LinearLayout spinner;
 
-    private boolean landscape;
+    private ListDataSource dataSource;
+
+    private static int unread;
 
     static Activity context;
 
     private ActionBar actionBar;
     private int mActionBarSize;
 
-    private String fromTop;
+    private boolean initial = true;
+    private boolean landscape;
+    public boolean newTweets = false;
+
     private String jumpToTop;
+    private String fromTop;
     private String allRead;
 
     private View.OnClickListener toTopListener;
+    private View.OnClickListener over50Refresh;
+
+    public View view;
 
     public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
         @Override
@@ -82,26 +115,6 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             toTop();
         }
     };
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
-        context.registerReceiver(jumpTopReceiver, filter);
-    }
-
-    @Override
-    public void onPause() {
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) {
-            // not registered
-        }
-
-        super.onPause();
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -114,14 +127,14 @@ public class ListFragment extends Fragment implements OnRefreshListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Log.v("setting_fragments", "pic fragment");
-
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        fromTop = getResources().getString(R.string.from_top);
+        currentAccount = sharedPrefs.getInt("current_account", 1);
+
         jumpToTop = getResources().getString(R.string.jump_to_top);
+        fromTop = getResources().getString(R.string.from_top);
         allRead = getResources().getString(R.string.all_read);
 
         try{
@@ -136,11 +149,18 @@ public class ListFragment extends Fragment implements OnRefreshListener {
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
 
-        dataSource = new HomeDataSource(context);
+        dataSource = new ListDataSource(context);
         dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView.setVisibility(View.VISIBLE);
+
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+        spinner.setVisibility(View.VISIBLE);
+
+        getCursorAdapter(true);
+
+        // Now find the PullToRefreshLayout to setup
         mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
 
         // Now setup the PullToRefreshLayout
@@ -154,11 +174,11 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                         // Finally commit the setup to our PullToRefreshLayout
                 .setup(mPullToRefreshLayout);
 
-        DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
+        transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
+
         if (DrawerActivity.settings.addonTheme) {
             transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
         }
-        transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         CursorListLoader loader = new CursorListLoader(cache, context);
@@ -168,6 +188,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
         builder.setThreadPoolSize(2);
 
         listView.setItemManager(builder.build());
+        listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
@@ -195,10 +216,6 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             }
         }
 
-        //new GetCursorAdapter(true).execute();
-        getCursorAdapter(true);
-
-        final int currentAccount = sharedPrefs.getInt("current_account", 1);
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -248,7 +265,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                     }
 
                     if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
-                        updateToastText(firstVisibleItem + " " + fromTop);
+                        updateToastText(firstVisibleItem + " " + fromTop, jumpToTop);
                     }
 
                     if (MainActivity.translucent && actionBar.isShowing()) {
@@ -259,6 +276,8 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                 }
             }
         });
+
+        view = layout;
 
         setUpToastBar(layout);
 
@@ -273,140 +292,282 @@ public class ListFragment extends Fragment implements OnRefreshListener {
     }
 
     public void toTop() {
-        try {
-            if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
-                listView.setSelection(0);
-            } else {
-                listView.smoothScrollToPosition(0);
+
+        // used so the content observer doesn't change the shared pref we just put in
+        trueLive = true;
+
+        int pos = listView.getFirstVisiblePosition();
+        if (pos < 200) {
+            try {
+                if (pos > 50) {
+                    listView.setSelectionFromTop(0, 0);
+                    hideToastBar(400);
+                } else {
+                    listView.smoothScrollToPosition(0);
+                }
+            } catch (Exception e) {
+                listView.setSelectionFromTop(0, 0);
             }
-        } catch (Exception e) {
-            listView.smoothScrollToPosition(0);
+        } else {
+            listView.setSelectionFromTop(0,0);
+            hideToastBar(400);
         }
+    }
+
+    public boolean only50 = false;
+    public boolean manualRefresh = false;
+    public int over50Unread = 0;
+
+    public int doRefresh() {
+        int numberNew = 0;
+
+        final int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+        try {
+
+            twitter = Utils.getTwitter(context, DrawerActivity.settings);
+
+            User user = twitter.verifyCredentials();
+            long[] lastId;
+            try {
+                lastId = dataSource.getLastIds(currentAccount);
+            } catch (Exception e) {
+                dataSource = new ListDataSource(context);
+                dataSource.open();
+                lastId = dataSource.getLastIds(currentAccount);
+            }
+
+            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+
+            boolean foundStatus = false;
+
+            Paging paging = new Paging(1, 200);
+
+            if (lastId[0] != 0) {
+                paging.setSinceId(lastId[0]);
+            }
+
+            for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+
+                try {
+                    if (!foundStatus) {
+                        paging.setPage(i + 1);
+                        List<Status> list = twitter.getHomeTimeline(paging);
+
+                        if (list.size() > 185) {
+                            foundStatus = false;
+                        } else {
+                            foundStatus = true;
+                        }
+
+                        statuses.addAll(list);
+                    }
+                } catch (Exception e) {
+                    // the page doesn't exist
+                    foundStatus = true;
+                } catch (OutOfMemoryError o) {
+                    // don't know why...
+                }
+            }
+
+            if (statuses.size() > 50) {
+
+                // insert the last 50 tweets
+                for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
+                    try {
+                        HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                }
+
+                statuses = statuses.subList(0, statuses.size() - 51);
+
+                // insert the rest inside this thread so the user can start viewing the others
+                final List<Status> remaining = statuses;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // sleep so that the cursor loader has time to do everything
+                        try {
+                            Thread.sleep(1500);
+                        } catch (InterruptedException e) { }
+
+                        for (Status status : remaining) {
+                            try {
+                                HomeContentProvider.insertTweet(status, currentAccount, context);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                break;
+                            }
+                        }
+
+                        over50Unread = remaining.size();
+                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                        only50 = false;
+                        MainActivity.canSwitch = true;
+                        context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPullToRefreshLayout.setRefreshComplete();
+                            }
+                        });
+                    }
+                }).start();
+
+                only50 = true;
+                manualRefresh = true;
+
+                return 50;
+            } else {
+
+                only50 = false;
+                manualRefresh = false;
+
+                for (twitter4j.Status status : statuses) {
+                    try {
+                        HomeContentProvider.insertTweet(status, currentAccount, context);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                }
+
+                numberNew = statuses.size();
+
+                return numberNew;
+            }
+
+        } catch (TwitterException e) {
+            // Error in updating status
+            Log.d("Twitter Update Error", e.getMessage());
+        }
+
+        return 0;
     }
 
     @Override
-    public void onRefreshStarted(View view) {
-        mPullToRefreshLayout.setRefreshing(true);
-        //new GetCursorAdapter(false).execute();
-        getCursorAdapter(false);
-    }
+    public void onRefreshStarted(final View view) {
+        new AsyncTask<Void, Void, Boolean>() {
 
-    public void getCursorAdapter(final boolean bspinner) {
-        if (bspinner) {
-            try {
-                spinner.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-            } catch (Exception e) { }
-        }
+            private int numberNew;
 
-        new Thread(new Runnable() {
             @Override
-            public void run() {
-                if (!bspinner) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-
-                    }
-                }
-
+            protected void onPreExecute() {
                 try {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
+                    transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
+                    DrawerActivity.canSwitch = false;
                 } catch (Exception e) {
-                    dataSource = new HomeDataSource(context);
-                    dataSource.open();
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
+
                 }
 
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (bspinner) {
-                            try {
-                                spinner.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
-                            } catch (Exception e) { }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+
+                numberNew = doRefresh();
+
+                return numberNew > 0;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                try {
+                    super.onPostExecute(result);
+
+                    if (result) {
+                        getCursorAdapter(false);
+
+                        if (numberNew > 0) {
+                            final CharSequence text;
+
+                            // append a plus on the end if it is 50
+                            if (numberNew != 50) {
+                                text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                            } else {
+                                text = numberNew + "+ " + getResources().getString(R.string.new_tweets);
+                            }
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Looper.prepare();
+                                    } catch (Exception e) {
+                                        // just in case
+                                    }
+                                    showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                                }
+                            }, 500);
+                        }
+                    } else {
+                        final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
+                        if (!DrawerActivity.settings.tweetmarker) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Looper.prepare();
+                                    } catch (Exception e) {
+                                        // just in case
+                                    }
+                                    showToastBar(text + "", allRead, 400, true, toTopListener);
+                                }
+                            }, 500);
                         }
 
-                        attachCursor();
                         mPullToRefreshLayout.setRefreshComplete();
                     }
-                });
+
+                    if (!only50) {
+                        DrawerActivity.canSwitch = true;
+                    }
+
+                    newTweets = false;
+                } catch (Exception e) {
+                    DrawerActivity.canSwitch = true;
+
+                    try {
+                        mPullToRefreshLayout.setRefreshComplete();
+                    } catch (Exception x) {
+                        // not attached to the activity i guess, don't know how or why that would be though
+                    }
+                }
             }
-        }).start();
+        }.execute();
     }
 
-    class GetCursorAdapter extends AsyncTask<Void, Void, String> {
-        private boolean bspinner;
+    @Override
+    public void onPause() {
+        markReadForLoad();
 
-        public GetCursorAdapter(boolean spinner) {
-            this.bspinner = spinner;
-        }
-
-        protected void onPreExecute() {
-            if (bspinner) {
-                try {
-                    spinner.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                } catch (Exception e) { }
-            }
-        }
-
-        protected String doInBackground(Void... args) {
-
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-
-            }
-
-            try {
-                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
-            } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)), false);
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(String file_url) {
-
-            if (bspinner) {
-                try {
-                    spinner.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                } catch (Exception e) { }
-            }
-
-            attachCursor();
-            mPullToRefreshLayout.setRefreshComplete();
-        }
-
+        super.onPause();
     }
 
-    public static void swapCursors() {
+    public int currentAccount;
+    public long listId;
+
+    @Override
+    public void onStop() {
+
         try {
-            cursorAdapter.swapCursor(dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)));
-        } catch (Exception e) {
-            dataSource = new HomeDataSource(context);
-            dataSource.open();
-            cursorAdapter.swapCursor(dataSource.getPicsCursor(sharedPrefs.getInt("current_account", 1)));
-        }
-        cursorAdapter.notifyDataSetChanged();
+            context.unregisterReceiver(jumpTopReceiver);
+        } catch (Exception e) { }
+
+        super.onStop();
     }
 
-    @SuppressWarnings("deprecation")
-    public void attachCursor() {
-        try {
-            listView.setAdapter(cursorAdapter);
-        } catch (Exception e) {
+    @Override
+    public void onStart() {
+        super.onStart();
 
-        }
-
-        swapCursors();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
+        context.registerReceiver(jumpTopReceiver, filter);
     }
+
 
     public int toDP(int px) {
         try {
@@ -417,11 +578,82 @@ public class ListFragment extends Fragment implements OnRefreshListener {
     }
 
     public void showStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+            }
+        }, 000);
     }
 
     public void hideStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DrawerActivity.statusBar.setVisibility(View.GONE);
+            }
+        }, 000); // 200 would be better
+    }
+
+    public boolean trueLive = false;
+
+    public void getCursorAdapter(final boolean bSpinner) {
+
+        markReadForLoad();
+
+        if (bSpinner) {
+            try {
+                spinner.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            } catch (Exception e) { }
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                } catch (Exception e) {
+                    dataSource = new ListDataSource(context);
+                    dataSource.open();
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                }
+
+                final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
+
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (bSpinner) {
+                            try {
+                                spinner.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            } catch (Exception e) { }
+                        }
+
+                        listView.setAdapter(cursorAdapter);
+                        listView.setSelection(position);
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    public int getPosition(Cursor cursor, long id) {
+        int pos = 0;
+
+        if (cursor.moveToLast()) {
+            do {
+                if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
+                    break;
+                } else {
+                    pos++;
+                }
+            } while (cursor.moveToPrevious());
+        }
+
+        return pos;
     }
 
     private boolean isToastShowing = false;
@@ -435,62 +667,78 @@ public class ListFragment extends Fragment implements OnRefreshListener {
         toastBar = view.findViewById(R.id.toastBar);
         toastDescription = (TextView) view.findViewById(R.id.toastDescription);
         toastButton = (TextView) view.findViewById(R.id.toastButton);
+
         if (DrawerActivity.settings.addonTheme) {
             LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
             toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
         }
     }
 
+    public Handler handler = new Handler();
+    public Runnable hideToast = new Runnable() {
+        @Override
+        public void run() {
+            hideToastBar(mLength);
+            infoBar = false;
+        }
+    };
+    public long mLength;
+
     private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        if (quit) {
+            infoBar = true;
+        } else {
+            infoBar = false;
+        }
+
+        mLength = length;
+
         toastDescription.setText(description);
         toastButton.setText(buttonText);
         toastButton.setOnClickListener(listener);
 
-        toastBar.setVisibility(View.VISIBLE);
+        if(!isToastShowing) {
+            handler.removeCallbacks(hideToast);
+            isToastShowing = true;
+            toastBar.setVisibility(View.VISIBLE);
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                isToastShowing = true;
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-                if (quit) {
-                    infoBar = true;
                 }
-            }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (quit) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideToastBar(length);
-                            infoBar = false;
-                        }
-                    }, 3000);
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (quit) {
+                        handler.postDelayed(hideToast, 3000);
+                    }
                 }
-            }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
+                }
+            });
+            anim.setDuration(length);
+            toastBar.startAnimation(anim);
+        }
     }
 
     private void hideToastBar(long length) {
+        mLength = length;
+
         if (!isToastShowing) {
             return;
         }
+
+        isToastShowing = false;
 
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                isToastShowing = false;
             }
 
             @Override
@@ -507,24 +755,35 @@ public class ListFragment extends Fragment implements OnRefreshListener {
         toastBar.startAnimation(anim);
     }
 
-    public void updateToastText(String text) {
-        toastDescription.setText(text);
-    }
-
-    /*@Override
-    public void onStop() {
-        try {
-            dataSource.close();
-        } catch (Exception e) {
-
+    public void updateToastText(String text, String button) {
+        if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
+            toastDescription.setText(text);
+            toastButton.setText(button);
+        } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
+            hideToastBar(400);
         }
-        super.onStop();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        dataSource = new HomeDataSource(context);
-        dataSource.open();
-    }*/
+    public void markReadForLoad() {
+
+        try {
+            Cursor cursor = cursorAdapter.getCursor();
+            int current = listView.getFirstVisiblePosition();
+
+            if (cursor.moveToPosition(cursor.getCount() - current)) {
+
+                final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).commit();
+            } else {
+                if (cursor.moveToLast()) {
+                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).commit();
+                }
+            }
+        } catch (Exception e) {
+            // cursor adapter is null because the loader was reset for some reason
+            e.printStackTrace();
+        }
+    }
+
 }
