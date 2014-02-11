@@ -110,6 +110,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private View.OnClickListener toTopListener;
     private View.OnClickListener toMentionsListener;
     private View.OnClickListener liveStreamRefresh;
+    private View.OnClickListener over50Refresh;
 
     public View view;
 
@@ -312,6 +313,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         }
                     }
 
+                    if (over50Unread > 0 && firstVisibleItem == 0) {
+                        showToastBar(over50Unread + " " + (over50Unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                getResources().getString(R.string.view),
+                                400,
+                                true,
+                                over50Refresh);
+                    }
+
                     if (DrawerActivity.settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
@@ -371,7 +380,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming || manualRefresh)) {
+                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                     getResources().getString(R.string.view),
@@ -379,6 +388,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                     true,
                                     liveStreamRefresh);
                         }
+                    }
+
+                    if (over50Unread > 0 && firstVisibleItem == 0) {
+                        showToastBar(over50Unread + " " + (over50Unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                getResources().getString(R.string.view),
+                                400,
+                                true,
+                                over50Refresh);
                     }
 
                     if (DrawerActivity.settings.uiExtras) {
@@ -457,6 +474,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
         };
 
+        over50Refresh = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                over50Unread = 0;
+                getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideToastBar(400);
+                    }
+                }, 300);
+
+                context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+            }
+        };
+
         return layout;
     }
 
@@ -485,6 +519,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     public boolean only50 = false;
     public boolean manualRefresh = false;
+    public int over50Unread = 0;
 
     public int doRefresh() {
         int numberNew = 0;
@@ -533,7 +568,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             Paging paging = new Paging(1, 200);
 
             if (lastId[0] != 0) {
-                paging.setSinceId(lastId[0]);
+                paging.setSinceId(lastId[0]);//432907111891091456l
             }
 
             for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
@@ -560,16 +595,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
 
             if (statuses.size() > 50) {
+                Log.v("talon_updating", "more than 50 tweets");
                 // insert the last 50 tweets
-                for (int i = statuses.size() - 1; i >= 0; i--) {
+                for (int i = statuses.size() - 1; i >= statuses.size() - 51; i--) {
                     try {
+                        Log.v("talon_updating", statuses.get(i).getText());
                         HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
                     }
-                    statuses.remove(i);
                 }
+
+                statuses = statuses.subList(0, statuses.size() - 51);
 
                 // insert the rest inside this thread so the user can start viewing the others
                 final List<Status> remaining = statuses;
@@ -581,22 +619,32 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             Thread.sleep(1500);
                         } catch (InterruptedException e) { }
 
-                        for (twitter4j.Status status : remaining) {
+                        for (Status status : remaining) {
                             try {
                                 HomeContentProvider.insertTweet(status, currentAccount, context);
-                                liveUnread++;
+                                over50Unread++;
+                                Log.v("talon_updating_after", status.getText());
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 break;
                             }
                         }
 
+                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                         only50 = false;
+                        MainActivity.canSwitch = true;
+                        context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPullToRefreshLayout.setRefreshComplete();
+                            }
+                        });
                     }
                 }).start();
 
                 only50 = true;
                 manualRefresh = true;
+                unread = 50;
 
                 return 50;
             }
@@ -687,7 +735,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             protected void onPostExecute(Boolean result) {
                 hideToastBar(400);
-                MainActivity.canSwitch = true;
+                if (!only50) {
+                    MainActivity.canSwitch = true;
+                }
                 if (result) {
                     try {
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);
@@ -754,7 +804,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             if (unread != 50) {
                                 text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
                             } else {
-                                text = numberNew + "+ " + getResources().getString(R.string.new_tweet);
+                                text = numberNew + "+ " + getResources().getString(R.string.new_tweets);
                             }
 
                             if (!tweetMarkerUpdate) {

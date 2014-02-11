@@ -1,5 +1,5 @@
 <b>Version 1.3.4:</b><br/><br/>
-    &#8226; Faster refresh times<br/>
+    &#8226; New/Faster refresh times<br/>
 </br>
 
 <b>Version 1.3.3:</b><br/><br/>
