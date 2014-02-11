@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -79,6 +80,11 @@ public class PhotoViewerDialog extends Activity {
 
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
         boolean doRestart = getIntent().getBooleanExtra("restart", true);
+
+        if (!doRestart) {
+            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+            spinner.setVisibility(View.GONE);
+        }
 
         AppSettings settings = new AppSettings(context);
 
@@ -255,38 +261,6 @@ public class PhotoViewerDialog extends Activity {
         }
 
         return inSampleSize;
-    }
-
-    private class DownloadPic extends AsyncTask<String, Void, Bitmap> {
-
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            try {
-                Log.d("ImageUrlAsyncTask", "Downloading: " + url);
-
-                // The bitmap isn't cached so download from the web
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                Bitmap b = BitmapFactory.decodeStream(is);
-
-                return b;
-
-            } catch (IOException e) {
-                Log.e("ImageUrlAsyncTask", e.toString());
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-
-            if (result != null) {
-
-            }
-        }
     }
 
     public boolean isRunning = true;
