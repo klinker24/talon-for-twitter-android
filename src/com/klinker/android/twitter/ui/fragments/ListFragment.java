@@ -116,6 +116,14 @@ public class ListFragment extends Fragment implements OnRefreshListener {
         }
     };
 
+    public ListFragment() {
+        this.listId = 0;
+    }
+
+    public ListFragment(int listId) {
+        this.listId = listId;
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -230,6 +238,14 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+                if (over50Unread > 0 && firstVisibleItem == 0) {
+                    showToastBar(over50Unread + " " + (over50Unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                            getResources().getString(R.string.view),
+                            400,
+                            true,
+                            over50Refresh);
+                }
+
                 if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
@@ -288,6 +304,20 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             }
         };
 
+        over50Refresh = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                over50Unread = 0;
+                getCursorAdapter(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideToastBar(400);
+                    }
+                }, 300);
+            }
+        };
+
         return layout;
     }
 
@@ -330,11 +360,11 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             User user = twitter.verifyCredentials();
             long[] lastId;
             try {
-                lastId = dataSource.getLastIds(currentAccount);
+                lastId = dataSource.getLastIds(listId);
             } catch (Exception e) {
                 dataSource = new ListDataSource(context);
                 dataSource.open();
-                lastId = dataSource.getLastIds(currentAccount);
+                lastId = dataSource.getLastIds(listId);
             }
 
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
@@ -352,7 +382,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                 try {
                     if (!foundStatus) {
                         paging.setPage(i + 1);
-                        List<Status> list = twitter.getHomeTimeline(paging);
+                        List<Status> list = twitter.getUserListStatuses(listId, paging);
 
                         if (list.size() > 185) {
                             foundStatus = false;
@@ -370,12 +400,12 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                 }
             }
 
-            if (statuses.size() > 50) {
+            if (false) {//statuses.size() > 50) {
 
                 // insert the last 50 tweets
                 for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
                     try {
-                        HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
+                        dataSource.createTweet(statuses.get(i), listId);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
@@ -396,7 +426,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
 
                         for (Status status : remaining) {
                             try {
-                                HomeContentProvider.insertTweet(status, currentAccount, context);
+                                dataSource.createTweet(status, listId);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 break;
@@ -427,7 +457,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        HomeContentProvider.insertTweet(status, currentAccount, context);
+                        dataSource.createTweet(status, listId);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
@@ -442,6 +472,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
         } catch (TwitterException e) {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
+            e.printStackTrace();
         }
 
         return 0;
@@ -547,7 +578,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
     }
 
     public int currentAccount;
-    public long listId;
+    public int listId;
 
     @Override
     public void onStop() {
@@ -612,11 +643,11 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             @Override
             public void run() {
                 try {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(listId), false);
                 } catch (Exception e) {
                     dataSource = new ListDataSource(context);
                     dataSource.open();
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(listId), false);
                 }
 
                 final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));

@@ -19,6 +19,8 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
+import com.klinker.android.twitter.data.sq_lite.ListDataSource;
+import com.klinker.android.twitter.data.sq_lite.ListSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 
@@ -248,6 +250,70 @@ public class IOUtils {
             }
 
             home.close();
+
+            // trimming the lists
+            ListDataSource lists = new ListDataSource(context);
+            lists.open();
+
+            lists.deleteDups(settings.account1List1);
+            lists.deleteDups(settings.account1List2);
+            lists.deleteDups(settings.account2List1);
+            lists.deleteDups(settings.account2List2);
+
+            Cursor list1 = lists.getCursor(settings.account1List1);
+
+            Log.v("trimming", "lists size: " + list1.getCount());
+            Log.v("trimming", "lists settings size: " + settings.timelineSize);
+            if (list1.getCount() > settings.timelineSize) {
+
+                if(list1.moveToPosition(list1.getCount() - settings.timelineSize)) {
+                    Log.v("trimming", "in the trim section");
+                    do {
+                        lists.deleteTweet(list1.getLong(list1.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
+                    } while (list1.moveToPrevious());
+                }
+            }
+            Cursor list2 = lists.getCursor(settings.account1List2);
+
+            Log.v("trimming", "lists size: " + list2.getCount());
+            Log.v("trimming", "lists settings size: " + settings.timelineSize);
+            if (list2.getCount() > settings.timelineSize) {
+
+                if(list2.moveToPosition(list2.getCount() - settings.timelineSize)) {
+                    Log.v("trimming", "in the trim section");
+                    do {
+                        lists.deleteTweet(list2.getLong(list2.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
+                    } while (list2.moveToPrevious());
+                }
+            }
+            Cursor list3 = lists.getCursor(settings.account2List1);
+
+            Log.v("trimming", "lists size: " + list3.getCount());
+            Log.v("trimming", "lists settings size: " + settings.timelineSize);
+            if (list3.getCount() > settings.timelineSize) {
+
+                if(list3.moveToPosition(list3.getCount() - settings.timelineSize)) {
+                    Log.v("trimming", "in the trim section");
+                    do {
+                        lists.deleteTweet(list3.getLong(list3.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
+                    } while (list3.moveToPrevious());
+                }
+            }
+            Cursor list4 = lists.getCursor(settings.account2List2);
+
+            Log.v("trimming", "lists size: " + list4.getCount());
+            Log.v("trimming", "lists settings size: " + settings.timelineSize);
+            if (list4.getCount() > settings.timelineSize) {
+
+                if(list4.moveToPosition(list4.getCount() - settings.timelineSize)) {
+                    Log.v("trimming", "in the trim section");
+                    do {
+                        lists.deleteTweet(list4.getLong(list4.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
+                    } while (list4.moveToPrevious());
+                }
+            }
+
+            lists.close();
 
             MentionsDataSource mentions = new MentionsDataSource(context);
             mentions.open();

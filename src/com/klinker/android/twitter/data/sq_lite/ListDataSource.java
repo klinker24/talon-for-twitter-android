@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.klinker.android.twitter.utils.HtmlUtils;
 
@@ -17,28 +18,27 @@ public class ListDataSource {
 
     // Database fields
     private SQLiteDatabase database;
-    private HomeSQLiteHelper dbHelper;
+    private ListSQLiteHelper dbHelper;
     private Context context;
     private int timelineSize;
     private boolean noRetweets;
     private SharedPreferences sharedPreferences;
-    public static String[] allColumns = { HomeSQLiteHelper.COLUMN_ID,
-            HomeSQLiteHelper.COLUMN_TWEET_ID,
-            HomeSQLiteHelper.COLUMN_ACCOUNT,
-            HomeSQLiteHelper.COLUMN_TYPE,
-            HomeSQLiteHelper.COLUMN_TEXT,
-            HomeSQLiteHelper.COLUMN_NAME,
-            HomeSQLiteHelper.COLUMN_PRO_PIC,
-            HomeSQLiteHelper.COLUMN_SCREEN_NAME,
-            HomeSQLiteHelper.COLUMN_TIME,
-            HomeSQLiteHelper.COLUMN_PIC_URL,
-            HomeSQLiteHelper.COLUMN_RETWEETER,
-            HomeSQLiteHelper.COLUMN_URL,
-            HomeSQLiteHelper.COLUMN_USERS,
-            HomeSQLiteHelper.COLUMN_HASHTAGS };
+    public static String[] allColumns = { ListSQLiteHelper.COLUMN_ID,
+            ListSQLiteHelper.COLUMN_TWEET_ID,
+            ListSQLiteHelper.COLUMN_ACCOUNT,
+            ListSQLiteHelper.COLUMN_TEXT,
+            ListSQLiteHelper.COLUMN_NAME,
+            ListSQLiteHelper.COLUMN_PRO_PIC,
+            ListSQLiteHelper.COLUMN_SCREEN_NAME,
+            ListSQLiteHelper.COLUMN_TIME,
+            ListSQLiteHelper.COLUMN_PIC_URL,
+            ListSQLiteHelper.COLUMN_RETWEETER,
+            ListSQLiteHelper.COLUMN_URL,
+            ListSQLiteHelper.COLUMN_USERS,
+            ListSQLiteHelper.COLUMN_HASHTAGS };
 
     public ListDataSource(Context context) {
-        dbHelper = new HomeSQLiteHelper(context);
+        dbHelper = new ListSQLiteHelper(context);
         this.context = context;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         timelineSize = Integer.parseInt(sharedPreferences.getString("timeline_size", "1000"));
@@ -57,7 +57,7 @@ public class ListDataSource {
         dbHelper.close();
     }
 
-    public void createTweet(Status status, int account) {
+    public void createTweet(Status status, int listId) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long time = status.getCreatedAt().getTime();
@@ -75,64 +75,25 @@ public class ListDataSource {
         String hashtags = html[3];
         String users = html[4];
 
-        values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
-        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
-        values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
-        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
-        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
-        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
-        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
-        values.put(HomeSQLiteHelper.COLUMN_URL, url);
-        values.put(HomeSQLiteHelper.COLUMN_USERS, users);
-        values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+        values.put(ListSQLiteHelper.COLUMN_TEXT, text);
+        values.put(ListSQLiteHelper.COLUMN_TWEET_ID, id);
+        values.put(ListSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+        values.put(ListSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(ListSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+        values.put(ListSQLiteHelper.COLUMN_TIME, time);
+        values.put(ListSQLiteHelper.COLUMN_RETWEETER, originalName);
+        values.put(ListSQLiteHelper.COLUMN_PIC_URL, media);
+        values.put(ListSQLiteHelper.COLUMN_URL, url);
+        values.put(ListSQLiteHelper.COLUMN_USERS, users);
+        values.put(ListSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+        values.put(ListSQLiteHelper.COLUMN_LIST_ID, listId);
 
         if (database == null) {
             open();
         }
 
-        database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-    }
-
-    public void createTweet(Status status, int account, boolean initial) {
-        ContentValues values = new ContentValues();
-        String originalName = "";
-        long time = status.getCreatedAt().getTime();
-        long id = status.getId();
-
-        if(status.isRetweet()) {
-            originalName = status.getUser().getScreenName();
-            status = status.getRetweetedStatus();
-        }
-
-        String[] html = HtmlUtils.getHtmlStatus(status);
-        String text = html[0];
-        String media = html[1];
-        String url = html[2];
-        String hashtags = html[3];
-        String users = html[4];
-
-        values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
-        values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
-        values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
-        values.put(HomeSQLiteHelper.COLUMN_TIME, time);
-        values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
-        values.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
-        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
-        values.put(HomeSQLiteHelper.COLUMN_URL, url);
-        values.put(HomeSQLiteHelper.COLUMN_USERS, users);
-        values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-
-        if (database == null) {
-            open();
-        }
-
-        database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+        database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
+        Log.v("talon_lists", "inserting into list: " + text);
     }
 
     public void deleteTweet(long tweetId) {
@@ -142,7 +103,7 @@ public class ListDataSource {
             open();
         }
 
-        database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
+        database.delete(ListSQLiteHelper.TABLE_HOME, ListSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
     }
 
@@ -151,11 +112,11 @@ public class ListDataSource {
             open();
         }
 
-        database.delete(HomeSQLiteHelper.TABLE_HOME,
-                HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        database.delete(ListSQLiteHelper.TABLE_HOME,
+                ListSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
-    public Cursor getCursor(int account) {
+    public Cursor getCursor(int listId) {
 
         if (database == null) {
             open();
@@ -163,49 +124,53 @@ public class ListDataSource {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
-        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+        String where = ListSQLiteHelper.COLUMN_LIST_ID + " = ?";
 
         if (!users.equals("")) {
             String[] split = users.split(" ");
             for (String s : split) {
-                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+                where += " AND " + ListSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
             }
 
             for (String s : split) {
-                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+                where += " AND " + ListSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
             }
         }
 
         if (!hashtags.equals("")) {
             String[] split = hashtags.split(" ");
             for (String s : split) {
-                where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+                where += " AND " + ListSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
         if (noRetweets) {
-            where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+            where += " AND " + ListSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + ListSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
         if (database == null) {
             open();
         }
 
-        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        Cursor cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         if (cursor.getCount() > timelineSize) {
-            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
+            cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                    allColumns,
+                    where,
+                    new String[] {"" + listId},
+                    null,
+                    null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
         }
 
         return cursor;
     }
 
-    public long[] getLastIds(int account) {
+    public long[] getLastIds(int listId) {
         long id[] = new long[5];
 
-        Cursor cursor = getCursor(account);
+        Cursor cursor = getCursor(listId);
 
         try {
             if (cursor.moveToFirst()) {
@@ -222,23 +187,13 @@ public class ListDataSource {
         return id;
     }
 
-    public int getPosition(int account, long id) {
-        int pos = 0;
-
-        Cursor cursor = getCursor(account);
-        if (cursor.moveToLast()) {
-            do {
-                if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
-                    break;
-                } else {
-                    pos++;
-                }
-            } while (cursor.moveToPrevious());
+    public void deleteDups(int list) {
+        if (database == null) {
+            open();
         }
 
-        cursor.close();
-
-        return pos;
+        database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +
+                " WHERE _id NOT IN (SELECT MIN(_id) FROM " + ListSQLiteHelper.TABLE_HOME +
+                " GROUP BY " + ListSQLiteHelper.COLUMN_TWEET_ID + ") AND " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + list);
     }
-
 }
