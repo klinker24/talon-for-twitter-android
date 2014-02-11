@@ -595,11 +595,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }
 
             if (statuses.size() > 50) {
-                Log.v("talon_updating", "more than 50 tweets");
+
                 // insert the last 50 tweets
-                for (int i = statuses.size() - 1; i >= statuses.size() - 51; i--) {
+                for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
                     try {
-                        Log.v("talon_updating", statuses.get(i).getText());
                         HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -622,14 +621,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         for (Status status : remaining) {
                             try {
                                 HomeContentProvider.insertTweet(status, currentAccount, context);
-                                over50Unread++;
-                                Log.v("talon_updating_after", status.getText());
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 break;
                             }
                         }
 
+                        over50Unread = remaining.size();
                         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                         only50 = false;
                         MainActivity.canSwitch = true;
@@ -646,43 +644,57 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 manualRefresh = true;
                 unread = 50;
 
+                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+                long now = new Date().getTime();
+                long alarm = now + DrawerActivity.settings.timelineRefresh;
+
+                PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+                if (DrawerActivity.settings.timelineRefresh != 0)
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
+                else
+                    am.cancel(pendingIntent);
+
                 return 50;
-            }
+            } else {
 
-            only50 = false;
-            manualRefresh = false;
+                only50 = false;
+                manualRefresh = false;
 
-            for (twitter4j.Status status : statuses) {
-                try {
-                    HomeContentProvider.insertTweet(status, currentAccount, context);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
+                for (twitter4j.Status status : statuses) {
+                    try {
+                        HomeContentProvider.insertTweet(status, currentAccount, context);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        break;
+                    }
                 }
-            }
 
-            numberNew = statuses.size();
-            unread = numberNew;
+                numberNew = statuses.size();
+                unread = numberNew;
+
+                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+                long now = new Date().getTime();
+                long alarm = now + DrawerActivity.settings.timelineRefresh;
+
+                PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+                if (DrawerActivity.settings.timelineRefresh != 0)
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
+                else
+                    am.cancel(pendingIntent);
+
+                return numberNew;
+            }
 
         } catch (TwitterException e) {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
 
-
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        long now = new Date().getTime();
-        long alarm = now + DrawerActivity.settings.timelineRefresh;
-
-        PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-        if (DrawerActivity.settings.timelineRefresh != 0)
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
-        else
-            am.cancel(pendingIntent);
-
-        return numberNew;
+        return 0;
     }
 
     public boolean getTweet() {
@@ -840,7 +852,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         mPullToRefreshLayout.setRefreshComplete();
                     }
 
-                    DrawerActivity.canSwitch = true;
+                    if (!only50) {
+                        DrawerActivity.canSwitch = true;
+                    }
 
                     newTweets = false;
 
