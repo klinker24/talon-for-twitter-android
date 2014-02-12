@@ -56,11 +56,11 @@ public class MainActivity extends DrawerActivity {
             startActivity(login);
         }
 
-        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), settings.extraPages, sharedPrefs);
+        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        mViewPager.setCurrentItem(settings.extraPages ? 2 : 0);
+        mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
@@ -90,41 +90,10 @@ public class MainActivity extends DrawerActivity {
 
                 drawerList.invalidateViews();
 
-                if(settings.extraPages) {
-                    switch (position) {
-                        case 0:
-                            actionBar.setTitle(getResources().getString(R.string.links));
-                            break;
-                        case 1:
-                            actionBar.setTitle(getResources().getString(R.string.pictures));
-                            break;
-                        case 2:
-                            actionBar.setTitle(getResources().getString(R.string.timeline));
-                            break;
-                        case 3:
-                            actionBar.setTitle(getResources().getString(R.string.mentions));
-                            break;
-                        case 4:
-                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                            break;
-                    }
-                } else {
-                    switch (position) {
-                        case 0:
-                            actionBar.setTitle(getResources().getString(R.string.timeline));
-                            break;
-                        case 1:
-                            actionBar.setTitle(getResources().getString(R.string.mentions));
-                            break;
-                        case 2:
-                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                            break;
-                    }
-                }
+                actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(position));
             }
         });
 
-        mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", settings.extraPages ? 2 : 0), false);
         mViewPager.setOffscreenPageLimit(4);
 
         if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {

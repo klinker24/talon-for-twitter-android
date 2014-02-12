@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -135,6 +136,8 @@ public class ListFragment extends Fragment implements OnRefreshListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        Log.v("talon_lists", "loaded list page");
+
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -155,7 +158,10 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             mActionBarSize = toDP(48);
         }
 
-        View layout = inflater.inflate(R.layout.main_fragments, null);
+        layout = inflater.inflate(R.layout.list_fragment, null);
+
+        loadAll = (LinearLayout) layout.findViewById(R.id.load_tweets);
+        loadButton = (Button) layout.findViewById(R.id.load_tweets_button);
 
         dataSource = new ListDataSource(context);
         dataSource.open();
@@ -627,6 +633,9 @@ public class ListFragment extends Fragment implements OnRefreshListener {
     }
 
     public boolean trueLive = false;
+    public LinearLayout loadAll;
+    public Button loadButton;
+    public View layout;
 
     public void getCursorAdapter(final boolean bSpinner) {
 
@@ -660,6 +669,24 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                                 spinner.setVisibility(View.GONE);
                                 listView.setVisibility(View.VISIBLE);
                             } catch (Exception e) { }
+                        }
+
+                        Log.v("talon_lists", "getting list: " + cursorAdapter.getCount());
+
+                        if (cursorAdapter.getCount() == 0) {
+                            if (loadAll.getVisibility() == View.GONE) {
+                                loadAll.setVisibility(View.VISIBLE);
+                            }
+                            loadButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    onRefreshStarted(layout);
+                                }
+                            });
+                        } else {
+                            if (loadAll.getVisibility() == View.VISIBLE) {
+                                loadAll.setVisibility(View.GONE);
+                            }
                         }
 
                         listView.setAdapter(cursorAdapter);
