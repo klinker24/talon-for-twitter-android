@@ -606,7 +606,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 }
 
-                statuses = statuses.subList(0, statuses.size() - 51);
+                for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
+                    statuses.remove(i);
+                }
 
                 // insert the rest inside this thread so the user can start viewing the others
                 final List<Status> remaining = statuses;
