@@ -663,7 +663,8 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                         }
 
                         listView.setAdapter(cursorAdapter);
-                        listView.setSelection(position);
+                        int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                        listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                         mPullToRefreshLayout.setRefreshComplete();
                     }
                 });

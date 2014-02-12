@@ -93,7 +93,6 @@ public class ListDataSource {
         }
 
         database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
-        Log.v("talon_lists", "inserting into list: " + text);
     }
 
     public void deleteTweet(long tweetId) {
