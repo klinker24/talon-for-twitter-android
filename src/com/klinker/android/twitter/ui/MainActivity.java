@@ -16,13 +16,15 @@ import android.view.Window;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
+import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 
 public class MainActivity extends DrawerActivity {
 
-
     public static boolean isPopup;
+
+    public static ListDataSource listDataSource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class MainActivity extends DrawerActivity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = new AppSettings(context);
+
+        listDataSource = new ListDataSource(context);
+        listDataSource.open();
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
