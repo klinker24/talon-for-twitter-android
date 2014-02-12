@@ -21,7 +21,6 @@ import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 
 public class MainActivity extends DrawerActivity {
 
-    private TimelinePagerAdapter mSectionsPagerAdapter;
 
     public static boolean isPopup;
 
@@ -62,6 +61,10 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
 
+        if (getIntent().getBooleanExtra("from_drawer", false)) {
+            mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 0));
+        }
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
             }
@@ -84,13 +87,15 @@ public class MainActivity extends DrawerActivity {
                     MainDrawerArrayAdapter.current = 1;
                 } else if (title.equals(getResources().getString(R.string.direct_messages))) {
                     MainDrawerArrayAdapter.current = 2;
-                } else {
+                } else if (title.equals(getResources().getString(R.string.timeline))) {
                     MainDrawerArrayAdapter.current = 0;
+                } else {
+                    MainDrawerArrayAdapter.current = -1;
                 }
 
                 drawerList.invalidateViews();
 
-                actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(position));
+                actionBar.setTitle(title);
             }
         });
 
