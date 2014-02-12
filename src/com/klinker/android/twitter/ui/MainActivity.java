@@ -78,14 +78,14 @@ public class MainActivity extends DrawerActivity {
 
             public void onPageSelected(int position) {
 
-                if(settings.extraPages) {
-                    if (position > 1) {
-                        MainDrawerArrayAdapter.current = position - 2;
-                    } else {
-                        MainDrawerArrayAdapter.current = 0;
-                    }
+                String title = "" + mSectionsPagerAdapter.getPageTitle(position);
+
+                if (title.equals(getResources().getString(R.string.mentions))) {
+                    MainDrawerArrayAdapter.current = 1;
+                } else if (title.equals(getResources().getString(R.string.direct_messages))) {
+                    MainDrawerArrayAdapter.current = 2;
                 } else {
-                    MainDrawerArrayAdapter.current = position;
+                    MainDrawerArrayAdapter.current = 0;
                 }
 
                 drawerList.invalidateViews();
