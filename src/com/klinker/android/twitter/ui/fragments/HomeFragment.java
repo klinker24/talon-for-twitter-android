@@ -687,7 +687,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
                     DrawerActivity.canSwitch = false;
                 } catch (Exception e) {
-                    
+
                 }
 
             }
