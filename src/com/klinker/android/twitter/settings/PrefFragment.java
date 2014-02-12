@@ -163,6 +163,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent configurePages = new Intent(context, ConfigurePagerActivity.class);
+                startActivity(configurePages);
                 return false;
             }
         });

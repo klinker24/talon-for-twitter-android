@@ -56,7 +56,7 @@ public class MainActivity extends DrawerActivity {
             startActivity(login);
         }
 
-        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), settings.extraPages, settings);
+        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), settings.extraPages, sharedPrefs);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);

@@ -50,8 +50,6 @@ public class ConfigurePagerActivity extends Activity {
         setUpDoneDiscard();
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.trends));
-
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);

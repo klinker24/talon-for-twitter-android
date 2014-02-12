@@ -255,12 +255,13 @@ public class IOUtils {
             ListDataSource lists = new ListDataSource(context);
             lists.open();
 
-            lists.deleteDups(settings.account1List1);
-            lists.deleteDups(settings.account1List2);
-            lists.deleteDups(settings.account2List1);
-            lists.deleteDups(settings.account2List2);
+            int account1List1 = sharedPrefs.getInt("account_" + account + "_list_1", 0);
+            int account1List2 = sharedPrefs.getInt("account_" + account + "_list_2", 0);
 
-            Cursor list1 = lists.getCursor(settings.account1List1);
+            lists.deleteDups(account1List1);
+            lists.deleteDups(account1List2);
+
+            Cursor list1 = lists.getCursor(account1List1);
 
             Log.v("trimming", "lists size: " + list1.getCount());
             Log.v("trimming", "lists settings size: " + settings.timelineSize);
@@ -273,7 +274,7 @@ public class IOUtils {
                     } while (list1.moveToPrevious());
                 }
             }
-            Cursor list2 = lists.getCursor(settings.account1List2);
+            Cursor list2 = lists.getCursor(account1List2);
 
             Log.v("trimming", "lists size: " + list2.getCount());
             Log.v("trimming", "lists settings size: " + settings.timelineSize);
@@ -284,32 +285,6 @@ public class IOUtils {
                     do {
                         lists.deleteTweet(list2.getLong(list2.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
                     } while (list2.moveToPrevious());
-                }
-            }
-            Cursor list3 = lists.getCursor(settings.account2List1);
-
-            Log.v("trimming", "lists size: " + list3.getCount());
-            Log.v("trimming", "lists settings size: " + settings.timelineSize);
-            if (list3.getCount() > settings.timelineSize) {
-
-                if(list3.moveToPosition(list3.getCount() - settings.timelineSize)) {
-                    Log.v("trimming", "in the trim section");
-                    do {
-                        lists.deleteTweet(list3.getLong(list3.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
-                    } while (list3.moveToPrevious());
-                }
-            }
-            Cursor list4 = lists.getCursor(settings.account2List2);
-
-            Log.v("trimming", "lists size: " + list4.getCount());
-            Log.v("trimming", "lists settings size: " + settings.timelineSize);
-            if (list4.getCount() > settings.timelineSize) {
-
-                if(list4.moveToPosition(list4.getCount() - settings.timelineSize)) {
-                    Log.v("trimming", "in the trim section");
-                    do {
-                        lists.deleteTweet(list4.getLong(list4.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
-                    } while (list4.moveToPrevious());
                 }
             }
 
