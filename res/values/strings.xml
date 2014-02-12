@@ -484,5 +484,12 @@
     <string name="jumping_workaround_summary">Enable this if your timeline jumps down one spot after you refresh your feed.</string>
     <string name="menu_share_link">Share Link</string>
     <string name="no_links">No Links</string>
+    <string name="configure_pages">Configure Extra Pages</string>
+    <string name="picture_page">Picture Timeline</string>
+    <string name="link_page">Link Timeline</string>
+    <string name="list_page">List Timeline</string>
+    <string name="current">Current</string>
+    <string name="here_is_home">Here is your home timeline!</string>
+    <string name="dont_use">Don/'t use this page</string>
 
 </resources>

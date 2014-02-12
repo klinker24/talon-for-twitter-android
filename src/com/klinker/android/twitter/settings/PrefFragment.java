@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -44,6 +43,7 @@ import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
+import com.klinker.android.twitter.settings.configure_pages.ConfigurePagerActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
@@ -59,15 +59,12 @@ import com.klinker.android.twitter.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -158,6 +155,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 }
 
                 return true;
+            }
+        });
+
+        Preference pages = findPreference("pages");
+        pages.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent configurePages = new Intent(context, ConfigurePagerActivity.class);
+                return false;
             }
         });
 
