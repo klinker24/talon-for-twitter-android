@@ -17,7 +17,7 @@ public class ConfigurationPagerAdapter extends FragmentPagerAdapter {
 
     public ConfigurationPagerAdapter(FragmentManager manager, Context context) {
         super(manager);
-        context = context;
+        this.context = context;
     }
 
     @Override

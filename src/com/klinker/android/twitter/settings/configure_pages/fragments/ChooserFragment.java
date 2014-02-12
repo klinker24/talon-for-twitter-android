@@ -37,7 +37,7 @@ public abstract class ChooserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View layout = inflater.inflate(R.layout.main_fragments, null);
+        View layout = inflater.inflate(R.layout.configuration_page, null);
 
         current = (HoloTextView) layout.findViewById(R.id.current);
         current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.dont_use));
