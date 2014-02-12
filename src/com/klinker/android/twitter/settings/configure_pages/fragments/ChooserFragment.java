@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.settings.configure_pages.ListChooser;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 
 
@@ -74,6 +75,8 @@ public abstract class ChooserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.list_page));
+                Intent chooser = new Intent(context, ListChooser.class);
+                startActivityForResult(chooser, REQUEST_LIST);
             }
         });
 
@@ -81,20 +84,18 @@ public abstract class ChooserFragment extends Fragment {
         return layout;
     }
 
-    public static int RESULT_OK = 2;
-    public static int RESULT_CANCELED = 3;
     public static int REQUEST_LIST = 1;
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_LIST) {
 
-            if(resultCode == RESULT_OK) {
+            if(resultCode == Activity.RESULT_OK) {
                 listId = data.getIntExtra("listId", 0);
                 listName = data.getStringExtra("listName");
                 current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.list_page));
             }
-            if (resultCode == RESULT_CANCELED) {
+            if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.dont_use));
             }

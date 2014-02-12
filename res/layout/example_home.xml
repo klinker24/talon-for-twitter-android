@@ -9,6 +9,7 @@
     <com.klinker.android.twitter.ui.widgets.HoloTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/here_is_home"/>
+        android:text="@string/here_is_home"
+        android:textSize="18dp"/>
 
 </LinearLayout>
