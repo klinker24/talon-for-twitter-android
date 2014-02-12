@@ -89,6 +89,8 @@ public class ConfigurePagerActivity extends Activity {
                         editor.putInt("account_" + currentAccount + "_list_2", PageTwoFragment.listId);
 
                         editor.commit();
+
+                        onBackPressed();
                     }
                 });
         customActionBarView.findViewById(R.id.actionbar_discard).setOnClickListener(

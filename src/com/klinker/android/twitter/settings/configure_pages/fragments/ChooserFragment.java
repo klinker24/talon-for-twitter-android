@@ -93,7 +93,7 @@ public abstract class ChooserFragment extends Fragment {
             if(resultCode == Activity.RESULT_OK) {
                 listId = data.getIntExtra("listId", 0);
                 listName = data.getStringExtra("listName");
-                current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.list_page));
+                current.setText(getResources().getString(R.string.current) + ": \n" + listName);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
