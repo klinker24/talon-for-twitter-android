@@ -62,9 +62,10 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
 
         if (getIntent().getBooleanExtra("from_drawer", false)) {
-            String title = "" + mSectionsPagerAdapter.getPageTitle(mViewPager.getCurrentItem());
+            int page = getIntent().getIntExtra("page_to_open", 0);
+            String title = "" + mSectionsPagerAdapter.getPageTitle(page);
             actionBar.setTitle(title);
-            mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 0));
+            mViewPager.setCurrentItem(page);
         }
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
