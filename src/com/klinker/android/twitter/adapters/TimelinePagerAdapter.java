@@ -30,7 +30,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     LinksFragment links = new LinksFragment();
                     return links;
                 case 1:
-                    //ListFragment pics = new ListFragment(settings.account1List2); //97751740
+                    //ListFragment pics = new ListFragment(settings.account1List2);
                     PicFragment pics = new PicFragment();
                     return pics;
                 case 2:
