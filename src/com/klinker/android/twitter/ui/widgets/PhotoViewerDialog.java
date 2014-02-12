@@ -81,10 +81,10 @@ public class PhotoViewerDialog extends Activity {
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
         boolean doRestart = getIntent().getBooleanExtra("restart", true);
 
-        if (!doRestart) {
+        /*if (!doRestart) {
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
-        }
+        }*/
 
         AppSettings settings = new AppSettings(context);
 
