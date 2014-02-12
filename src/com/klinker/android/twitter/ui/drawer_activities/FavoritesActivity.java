@@ -167,6 +167,8 @@ public class FavoritesActivity extends DrawerActivity {
                 return statuses;
             } catch (Exception e) {
                 return null;
+            } catch (OutOfMemoryError e) {
+                return null;
             }
         }
 
