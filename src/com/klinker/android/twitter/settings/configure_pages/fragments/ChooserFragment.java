@@ -23,10 +23,6 @@ public abstract class ChooserFragment extends Fragment {
     protected ActionBar actionBar;
     protected HoloTextView current;
 
-    public static int type = AppSettings.PAGE_TYPE_NONE;
-    public static int listId = 0;
-    public static String listName = "";
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -48,7 +44,7 @@ public abstract class ChooserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.dont_use));
-                type = AppSettings.PAGE_TYPE_NONE;
+                setType(AppSettings.PAGE_TYPE_NONE);
             }
         });
 
@@ -57,7 +53,7 @@ public abstract class ChooserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.picture_page));
-                type = AppSettings.PAGE_TYPE_PICS;
+                setType(AppSettings.PAGE_TYPE_PICS);
             }
         });
 
@@ -66,7 +62,7 @@ public abstract class ChooserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.link_page));
-                type = AppSettings.PAGE_TYPE_LINKS;
+                setType(AppSettings.PAGE_TYPE_LINKS);
             }
         });
 
@@ -91,16 +87,23 @@ public abstract class ChooserFragment extends Fragment {
         if (requestCode == REQUEST_LIST) {
 
             if(resultCode == Activity.RESULT_OK) {
-                listId = data.getIntExtra("listId", 0);
-                listName = data.getStringExtra("listName");
+                setId(data.getIntExtra("listId", 0));
+                String listName = data.getStringExtra("listName");
+                setListName(listName);
                 current.setText(getResources().getString(R.string.current) + ": \n" + listName);
+                setType(AppSettings.PAGE_TYPE_LIST);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.dont_use));
+                setType(AppSettings.PAGE_TYPE_NONE);
+                setListName("");
+                setId(0);
             }
         }
     }
 
-    protected abstract int getPage();
+    protected abstract void setType(int type);
+    protected abstract void setId(int id);
+    protected abstract void setListName(String name);
 }

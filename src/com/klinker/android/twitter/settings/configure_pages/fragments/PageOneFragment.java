@@ -1,11 +1,21 @@
 package com.klinker.android.twitter.settings.configure_pages.fragments;
 
-/**
- * Created by luke on 2/11/14.
- */
+import com.klinker.android.twitter.settings.AppSettings;
+
+
 public class PageOneFragment extends ChooserFragment {
 
-    protected int getPage() {
-        return 1;
+    public static int type = AppSettings.PAGE_TYPE_NONE;
+    public static int listId = 0;
+    public static String listName = "";
+
+    protected void setType(int type) {
+        this.type = type;
+    }
+    protected void setId(int id) {
+        this.listId = id;
+    }
+    protected void setListName(String listName) {
+        this.listName = listName;
     }
 }

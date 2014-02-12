@@ -493,5 +493,6 @@
     <string name="dont_use">Don\'t use this page</string>
     <string name="page_1">Page 1</string>
     <string name="page_2">Page 2</string>
+    <string name="load_tweets">Load Tweets</string>
 
 </resources>

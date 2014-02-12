@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,9 @@ public class ConfigurePagerActivity extends Activity {
 
                         editor.putInt("account_" + currentAccount + "_list_1", PageOneFragment.listId);
                         editor.putInt("account_" + currentAccount + "_list_2", PageTwoFragment.listId);
+
+                        editor.putString("account_" + currentAccount + "_name_1", PageOneFragment.listName);
+                        editor.putString("account_" + currentAccount + "_name_2", PageTwoFragment.listName);
 
                         editor.commit();
 
