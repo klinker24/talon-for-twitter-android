@@ -9,12 +9,14 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.twitter.ui.drawer_activities.FavoritesActivity;
@@ -30,19 +32,33 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
     private NotificationDrawerLayout drawer;
     private ViewPager viewPager;
     private boolean noWait;
-    private boolean extraPages;
+    private int extraPages = 0;
 
     private SharedPreferences sharedPreferences;
 
-    public MainDrawerClickListener(Context context, NotificationDrawerLayout drawer, ViewPager viewPager, boolean extraPages) {
+    public MainDrawerClickListener(Context context, NotificationDrawerLayout drawer, ViewPager viewPager) {
         this.context = context;
         this.drawer = drawer;
         this.viewPager = viewPager;
         this.noWait = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
                 context.getResources().getBoolean(R.bool.isTablet);
-        this.extraPages = extraPages;
-
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        int currentAccount = sharedPreferences.getInt("current_account", 1);
+
+        int page1Type = sharedPreferences.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
+        int page2Type = sharedPreferences.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
+
+        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
+            extraPages++;
+        }
+
+        if (page2Type != AppSettings.PAGE_TYPE_NONE) {
+            extraPages++;
+        }
+
+        Log.v("talon_lists", extraPages + " extra pages");
+
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -60,7 +76,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     }
                 }, noWait ? 0 : 300);
 
-                viewPager.setCurrentItem(i + (extraPages ? 2 : 0), true);
+                viewPager.setCurrentItem(i + extraPages, true);
             } else {
                 final int pos = i;
                 try {
@@ -73,7 +89,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     public void run() {
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        intent.putExtra("page_to_open", pos + (extraPages ? 2 : 0));
+                        intent.putExtra("page_to_open", pos + extraPages);
                         intent.putExtra("from_drawer", true);
 
                         sharedPreferences.edit().putBoolean("should_refresh", false).commit();
