@@ -14,7 +14,6 @@ import com.klinker.android.twitter.ui.fragments.HomeFragment;
 import com.klinker.android.twitter.ui.fragments.LinksFragment;
 import com.klinker.android.twitter.ui.fragments.lists.List1Fragment;
 import com.klinker.android.twitter.ui.fragments.lists.List2Fragment;
-import com.klinker.android.twitter.ui.fragments.lists.ListFragment;
 import com.klinker.android.twitter.ui.fragments.MentionsFragment;
 import com.klinker.android.twitter.ui.fragments.PicFragment;
 
