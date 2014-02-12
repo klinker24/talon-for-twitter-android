@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.fragments;
+package com.klinker.android.twitter.ui.fragments.lists;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -39,21 +39,12 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
-import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter.listeners.MainDrawerClickListener;
-import com.klinker.android.twitter.services.TalonPullNotificationService;
-import com.klinker.android.twitter.services.TimelineRefreshService;
-import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.settings.DrawerArrayAdapter;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
-import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -75,7 +66,7 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class ListFragment extends Fragment implements OnRefreshListener {
+public class List2Fragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
 
@@ -87,8 +78,6 @@ public class ListFragment extends Fragment implements OnRefreshListener {
     private PullToRefreshLayout mPullToRefreshLayout;
     public DefaultHeaderTransformer transformer;
     private LinearLayout spinner;
-
-    private ListDataSource dataSource;
 
     private static int unread;
 
@@ -117,11 +106,11 @@ public class ListFragment extends Fragment implements OnRefreshListener {
         }
     };
 
-    public ListFragment() {
+    public List2Fragment() {
         this.listId = 0;
     }
 
-    public ListFragment(int listId) {
+    public List2Fragment(int listId) {
         this.listId = listId;
     }
 
@@ -162,9 +151,6 @@ public class ListFragment extends Fragment implements OnRefreshListener {
 
         loadAll = (LinearLayout) layout.findViewById(R.id.load_tweets);
         loadButton = (Button) layout.findViewById(R.id.load_tweets_button);
-
-        dataSource = new ListDataSource(context);
-        dataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         listView.setVisibility(View.VISIBLE);
@@ -366,11 +352,11 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             User user = twitter.verifyCredentials();
             long[] lastId;
             try {
-                lastId = dataSource.getLastIds(listId);
+                lastId = MainActivity.listDataSource.getLastIds(listId);
             } catch (Exception e) {
-                dataSource = new ListDataSource(context);
-                dataSource.open();
-                lastId = dataSource.getLastIds(listId);
+                MainActivity.listDataSource = new ListDataSource(context);
+                MainActivity.listDataSource.open();
+                lastId = MainActivity.listDataSource.getLastIds(listId);
             }
 
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
@@ -411,7 +397,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                 // insert the last 50 tweets
                 for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
                     try {
-                        dataSource.createTweet(statuses.get(i), listId);
+                        MainActivity.listDataSource.createTweet(statuses.get(i), listId);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
@@ -432,7 +418,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
 
                         for (Status status : remaining) {
                             try {
-                                dataSource.createTweet(status, listId);
+                                MainActivity.listDataSource.createTweet(status, listId);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 break;
@@ -463,7 +449,7 @@ public class ListFragment extends Fragment implements OnRefreshListener {
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        dataSource.createTweet(status, listId);
+                        MainActivity.listDataSource.createTweet(status, listId);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
@@ -652,11 +638,11 @@ public class ListFragment extends Fragment implements OnRefreshListener {
             @Override
             public void run() {
                 try {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(listId), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.listDataSource.getCursor(listId), false);
                 } catch (Exception e) {
-                    dataSource = new ListDataSource(context);
-                    dataSource.open();
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(listId), false);
+                    MainActivity.listDataSource = new ListDataSource(context);
+                    MainActivity.listDataSource.open();
+                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.listDataSource.getCursor(listId), false);
                 }
 
                 final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
@@ -672,22 +658,6 @@ public class ListFragment extends Fragment implements OnRefreshListener {
                         }
 
                         Log.v("talon_lists", "getting list: " + cursorAdapter.getCount());
-
-                        if (cursorAdapter.getCount() == 0) {
-                            if (loadAll.getVisibility() == View.GONE) {
-                                loadAll.setVisibility(View.VISIBLE);
-                            }
-                            loadButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    onRefreshStarted(layout);
-                                }
-                            });
-                        } else {
-                            if (loadAll.getVisibility() == View.VISIBLE) {
-                                loadAll.setVisibility(View.GONE);
-                            }
-                        }
 
                         listView.setAdapter(cursorAdapter);
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
