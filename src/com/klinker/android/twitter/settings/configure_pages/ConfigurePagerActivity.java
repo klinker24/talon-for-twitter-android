@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TrendsPagerAdapter;
@@ -71,6 +72,8 @@ public class ConfigurePagerActivity extends Activity {
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
                 R.layout.actionbar_done_discard, null);
+        TextView doneButton = (TextView) customActionBarView.findViewById(R.id.done);
+        doneButton.setText(getResources().getString(R.string.done_label));
         customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
                 new View.OnClickListener() {
                     @Override

@@ -23,7 +23,7 @@ import twitter4j.Twitter;
 import twitter4j.User;
 import twitter4j.UserList;
 
-public class ListsArrayAdapter extends ArrayAdapter<User> {
+public class ListsArrayAdapter extends ArrayAdapter<UserList> {
 
     private Context context;
 
@@ -45,6 +45,11 @@ public class ListsArrayAdapter extends ArrayAdapter<User> {
         settings = new AppSettings(context);
         inflater = LayoutInflater.from(context);
 
+    }
+
+    @Override
+    public UserList getItem(int i) {
+        return lists.get(i);
     }
 
     @Override
