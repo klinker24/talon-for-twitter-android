@@ -83,6 +83,11 @@ public class ConfigurePagerActivity extends Activity {
 
                         editor.putInt("account_" + currentAccount + "_page_1", PageOneFragment.type);
                         editor.putInt("account_" + currentAccount + "_page_2", PageTwoFragment.type);
+
+                        editor.putInt("account_" + currentAccount + "_list_1", PageOneFragment.listId);
+                        editor.putInt("account_" + currentAccount + "_list_2", PageTwoFragment.listId);
+
+                        editor.commit();
                     }
                 });
         customActionBarView.findViewById(R.id.actionbar_discard).setOnClickListener(
