@@ -27,6 +27,11 @@ public class AppSettings {
     public static final int THEME_DARK = 1;
     public static final int THEME_BLACK = 2;
 
+    public static final int PAGE_TYPE_NONE = 0;
+    public static final int PAGE_TYPE_PICS = 1;
+    public static final int PAGE_TYPE_LINKS = 2;
+    public static final int PAGE_TYPE_LIST = 3;
+
     public static final int LAYOUT_TALON = 0;
     public static final int LAYOUT_HANGOUT = 1;
 
@@ -101,12 +106,6 @@ public class AppSettings {
     public int timelineSize;
     public int mentionsSize;
     public int dmSize;
-
-    // list stuff
-    public int account1List1; // furthest left list
-    public int account1List2; // list next to the timeline
-    public int account2List1;
-    public int account2List2;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -209,12 +208,6 @@ public class AppSettings {
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "500"));
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
-
-        // List ID's
-        account1List1 = sharedPrefs.getInt("account_1_list_1", 0);
-        account1List2 = sharedPrefs.getInt("account_1_list_2", 0);
-        account2List1 = sharedPrefs.getInt("account_2_list_1", 0);
-        account2List2 = sharedPrefs.getInt("account_2_list_2", 0);
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));
