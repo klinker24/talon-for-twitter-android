@@ -597,7 +597,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             if (statuses.size() > 50) {
 
                 // insert the last 50 tweets
-                for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
+                int originalSize = statuses.size();
+                for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
                     try {
                         HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
                     } catch (Exception e) {
@@ -606,7 +607,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 }
 
-                for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
+                for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
                     statuses.remove(i);
                 }
 
@@ -784,7 +785,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
                     DrawerActivity.canSwitch = false;
                 } catch (Exception e) {
-                    
+
                 }
 
             }
