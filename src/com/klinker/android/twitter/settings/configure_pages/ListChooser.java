@@ -86,13 +86,6 @@ public class ListChooser extends Activity {
         new GetLists().execute();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_activity, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     class GetLists extends AsyncTask<String, Void, ResponseList<UserList>> {
 
         protected ResponseList<UserList> doInBackground(String... urls) {
