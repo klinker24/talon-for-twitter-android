@@ -42,7 +42,7 @@ public class ConfigurePagerActivity extends Activity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         Utils.setUpTheme(context, settings);
-        setContentView(R.layout.trends_activity);
+        setContentView(R.layout.configuration_activity);
 
         setUpDoneDiscard();
 
