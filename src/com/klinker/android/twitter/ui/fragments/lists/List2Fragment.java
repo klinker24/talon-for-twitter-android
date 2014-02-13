@@ -527,19 +527,17 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                         }
                     } else {
                         final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
-                        if (!DrawerActivity.settings.tweetmarker) {
-                            new Handler().postDelayed(new Runnable() {
+                        new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        Looper.prepare();
-                                    } catch (Exception e) {
-                                        // just in case
-                                    }
-                                    showToastBar(text + "", allRead, 400, true, toTopListener);
+                                try {
+                                    Looper.prepare();
+                                } catch (Exception e) {
+                                    // just in case
                                 }
-                            }, 500);
-                        }
+                                showToastBar(text + "", allRead, 400, true, toTopListener);
+                            }
+                        }, 500);
 
                         mPullToRefreshLayout.setRefreshComplete();
                     }
