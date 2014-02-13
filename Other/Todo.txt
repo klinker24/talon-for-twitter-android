@@ -12,12 +12,18 @@
 
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
+    - vines on lower version of android
+    - replies to retweets
+    - make sure tweet marker fires when switch accounts
+    - compose not always shutting?
+    - small images have the spinner behind them..
+
 
 - Notification Center:
     - Combined pictures from Evolve
 
 -- For Release --
 
-    -- search by real name or screenname
-    -- be able to put lists on the extra pages
     -- users favorites and pictures on profile... this will mean turning that into a view pager as well
+    -- update languages
+    -- post from different accounts on compose window

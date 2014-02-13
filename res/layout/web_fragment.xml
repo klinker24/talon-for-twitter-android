@@ -4,6 +4,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ProgressBarTwitter"
+        android:visibility="gone"
+        android:layout_marginTop="-3dp" />
+
     <WebView android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="0dp"

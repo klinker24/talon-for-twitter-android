@@ -57,6 +57,7 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -87,8 +88,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     private PullToRefreshLayout mPullToRefreshLayout;
     public DefaultHeaderTransformer transformer;
     private LinearLayout spinner;
-
-    private HomeDataSource dataSource;
 
     private static int unread;
 
@@ -128,11 +127,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 try {
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, MainActivity.homeDataSource.getLastIds(currentAccount)[0]).commit();
                 } catch (Exception e) {
-                    dataSource = new HomeDataSource(context);
-                    dataSource.open();
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                    MainActivity.homeDataSource = new HomeDataSource(context);
+                    MainActivity.homeDataSource.open();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, MainActivity.homeDataSource.getLastIds(currentAccount)[0]).commit();
                 }
                 trueLive = true;
 
@@ -221,8 +220,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
 
-        dataSource = new HomeDataSource(context);
-        dataSource.open();
+        MainActivity.homeDataSource = new HomeDataSource(context);
+        MainActivity.homeDataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         listView.setVisibility(View.VISIBLE);
@@ -540,11 +539,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             if (!sharedPrefs.getBoolean("refresh_me", false)) {
                 try {
-                    dataSource.markAllRead(currentAccount);
+                    MainActivity.homeDataSource.markAllRead(currentAccount);
                 } catch (Exception e) {
-                    dataSource = new HomeDataSource(context);
-                    dataSource.open();
-                    dataSource.markAllRead(currentAccount);
+                    MainActivity.homeDataSource = new HomeDataSource(context);
+                    MainActivity.homeDataSource.open();
+                    MainActivity.homeDataSource.markAllRead(currentAccount);
                 }
             }
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
@@ -553,36 +552,32 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             User user = twitter.verifyCredentials();
             long[] lastId;
+
             try {
-                lastId = dataSource.getLastIds(currentAccount);
+                lastId = MainActivity.homeDataSource.getLastIds(currentAccount);
             } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                lastId = dataSource.getLastIds(currentAccount);
+                MainActivity.homeDataSource = new HomeDataSource(context);
+                MainActivity.homeDataSource.open();
+                lastId = MainActivity.homeDataSource.getLastIds(currentAccount);
             }
 
-            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+            final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
             boolean foundStatus = false;
 
             Paging paging = new Paging(1, 200);
 
             if (lastId[0] != 0) {
-                paging.setSinceId(lastId[0]);//432907111891091456l
+                paging.setSinceId(lastId[0]);
             }
 
-            for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+            long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
+            for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
                 try {
                     if (!foundStatus) {
                         paging.setPage(i + 1);
                         List<Status> list = twitter.getHomeTimeline(paging);
-
-                        if (list.size() > 185) {
-                            foundStatus = false;
-                        } else {
-                            foundStatus = true;
-                        }
 
                         statuses.addAll(list);
                     }
@@ -594,103 +589,34 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }
 
-            if (statuses.size() > 50) {
+            long afterDownload = Calendar.getInstance().getTimeInMillis();
+            Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
 
-                // insert the last 50 tweets
-                int originalSize = statuses.size();
-                for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
-                    try {
-                        HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        break;
-                    }
-                }
+            only50 = false;
+            manualRefresh = false;
 
-                for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
-                    statuses.remove(i);
-                }
+            HomeContentProvider.insertTweets(statuses, currentAccount, context);
 
-                // insert the rest inside this thread so the user can start viewing the others
-                final List<Status> remaining = statuses;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // sleep so that the cursor loader has time to do everything
-                        try {
-                            Thread.sleep(1500);
-                        } catch (InterruptedException e) { }
+            Log.v("talon_inserting", "inserted tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
 
-                        for (Status status : remaining) {
-                            try {
-                                HomeContentProvider.insertTweet(status, currentAccount, context);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                break;
-                            }
-                        }
+            numberNew = statuses.size();
+            unread = numberNew;
 
-                        over50Unread = remaining.size();
-                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                        only50 = false;
-                        MainActivity.canSwitch = true;
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mPullToRefreshLayout.setRefreshComplete();
-                            }
-                        });
-                    }
-                }).start();
+            statuses.clear();
 
-                only50 = true;
-                manualRefresh = true;
-                unread = 50;
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            long now = new Date().getTime();
+            long alarm = now + DrawerActivity.settings.timelineRefresh;
 
-                long now = new Date().getTime();
-                long alarm = now + DrawerActivity.settings.timelineRefresh;
+            PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
 
-                PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+            if (DrawerActivity.settings.timelineRefresh != 0)
+                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
+            else
+                am.cancel(pendingIntent);
 
-                if (DrawerActivity.settings.timelineRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
-                else
-                    am.cancel(pendingIntent);
-
-                return 50;
-            } else {
-
-                only50 = false;
-                manualRefresh = false;
-
-                for (twitter4j.Status status : statuses) {
-                    try {
-                        HomeContentProvider.insertTweet(status, currentAccount, context);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        break;
-                    }
-                }
-
-                numberNew = statuses.size();
-                unread = numberNew;
-
-                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-                long now = new Date().getTime();
-                long alarm = now + DrawerActivity.settings.timelineRefresh;
-
-                PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-                if (DrawerActivity.settings.timelineRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
-                else
-                    am.cancel(pendingIntent);
-
-                return numberNew;
-            }
+            return numberNew;
 
         } catch (TwitterException e) {
             // Error in updating status
@@ -772,27 +698,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }.execute();
     }
 
+
+    int numberNew;
+    boolean tweetMarkerUpdate;
+
     @Override
     public void onRefreshStarted(final View view) {
-        new AsyncTask<Void, Void, Boolean>() {
 
-            private int numberNew;
-            private boolean tweetMarkerUpdate;
+        try {
+            transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
+            DrawerActivity.canSwitch = false;
+        } catch (Exception e) {
 
+        }
+
+        new Thread(new Runnable() {
             @Override
-            protected void onPreExecute() {
-                try {
-                    transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
-                    DrawerActivity.canSwitch = false;
-                } catch (Exception e) {
-
-                }
-
-            }
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-
+            public void run() {
                 numberNew = doRefresh();
 
                 tweetMarkerUpdate = false;
@@ -801,80 +723,80 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     tweetMarkerUpdate = getTweet();
                 }
 
-                return numberNew > 0 || tweetMarkerUpdate;
-            }
+                final boolean result = numberNew > 0 || tweetMarkerUpdate;
 
-            @Override
-            protected void onPostExecute(Boolean result) {
-                try {
-                    super.onPostExecute(result);
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (result) {
+                                getLoaderManager().restartLoader(0, null, HomeFragment.this);
 
-                    if (result) {
-                        getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                                if (unread > 0) {
+                                    final CharSequence text;
 
-                        if (unread > 0) {
-                            final CharSequence text;
-
-                            // append a plus on the end if it is 50
-                            if (unread != 50) {
-                                text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                            } else {
-                                text = numberNew + "+ " + getResources().getString(R.string.new_tweets);
-                            }
-
-                            if (!tweetMarkerUpdate) {
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Looper.prepare();
-                                        } catch (Exception e) {
-                                            // just in case
-                                        }
-                                        showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                                    // append a plus on the end if it is 50
+                                    if (unread != 50) {
+                                        text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                                    } else {
+                                        text = numberNew + "+ " + getResources().getString(R.string.new_tweets);
                                     }
-                                }, 500);
-                            }
-                        }
-                    } else {
-                        final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
-                        if (!DrawerActivity.settings.tweetmarker) {
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        Looper.prepare();
-                                    } catch (Exception e) {
-                                        // just in case
+
+                                    if (!tweetMarkerUpdate) {
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Looper.prepare();
+                                                } catch (Exception e) {
+                                                    // just in case
+                                                }
+                                                showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                                            }
+                                        }, 500);
                                     }
-                                    showToastBar(text + "", allRead, 400, true, toTopListener);
                                 }
-                            }, 500);
+                            } else {
+                                final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
+                                if (!DrawerActivity.settings.tweetmarker) {
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Looper.prepare();
+                                            } catch (Exception e) {
+                                                // just in case
+                                            }
+                                            showToastBar(text + "", allRead, 400, true, toTopListener);
+                                        }
+                                    }, 500);
+                                }
+
+                                mPullToRefreshLayout.setRefreshComplete();
+                            }
+
+                            if (!only50) {
+                                DrawerActivity.canSwitch = true;
+                            }
+
+                            newTweets = false;
+
+                            new RefreshMentions().execute();
+                        } catch (Exception e) {
+                            DrawerActivity.canSwitch = true;
+
+                            try {
+                                mPullToRefreshLayout.setRefreshComplete();
+                            } catch (Exception x) {
+                                // not attached to the activity i guess, don't know how or why that would be though
+                            }
                         }
 
-                        mPullToRefreshLayout.setRefreshComplete();
+                    context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
                     }
-
-                    if (!only50) {
-                        DrawerActivity.canSwitch = true;
-                    }
-
-                    newTweets = false;
-
-                    new RefreshMentions().execute();
-                } catch (Exception e) {
-                    DrawerActivity.canSwitch = true;
-
-                    try {
-                        mPullToRefreshLayout.setRefreshComplete();
-                    } catch (Exception x) {
-                        // not attached to the activity i guess, don't know how or why that would be though
-                    }
-                }
-
-                context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+                });
             }
-        }.execute();
+        }).start();
     }
 
     class RefreshMentions extends AsyncTask<Void, Void, Boolean> {
@@ -1346,11 +1268,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int current = listView.getFirstVisiblePosition();
 
             try {
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource = new HomeDataSource(context);
+                MainActivity.homeDataSource.open();
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             }
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
@@ -1382,11 +1304,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int current = listView.getFirstVisiblePosition();
 
             try {
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource = new HomeDataSource(context);
+                MainActivity.homeDataSource.open();
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             }
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {

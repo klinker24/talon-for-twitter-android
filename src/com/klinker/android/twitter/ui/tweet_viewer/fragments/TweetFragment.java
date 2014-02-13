@@ -78,6 +78,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import twitter4j.GeoLocation;
 import twitter4j.ResponseList;
@@ -710,6 +712,8 @@ public class TweetFragment extends Fragment {
         charRemaining.setText(140 - reply.getText().length() + "");
 
         reply.setHint(context.getResources().getString(R.string.reply));
+        String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
+        final Pattern p = Pattern.compile(regex);
         reply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -718,16 +722,34 @@ public class TweetFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                try {
-                    charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
-                } catch (Exception e) {
-                    charRemaining.setText("0");
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                String text = reply.getText().toString();
 
+                if (!text.contains("http")) { // no links, normal tweet
+                    try {
+                        charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                    } catch (Exception e) {
+                        charRemaining.setText("0");
+                    }
+                } else {
+                    int count = text.length();
+                    Matcher m = p.matcher(text);
+                    while(m.find()) {
+                        String url = m.group();
+                        count -= url.length(); // take out the length of the url
+                        count += 22; // add 22 for the shortened url
+                    }
+
+                    if (!attachedFilePath.equals("")) {
+                        count += 22;
+                    }
+
+                    charRemaining.setText(140 - count + "");
+                }
             }
         });
 

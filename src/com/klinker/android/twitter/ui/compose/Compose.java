@@ -55,6 +55,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
@@ -151,7 +153,7 @@ public abstract class Compose extends Activity implements
         LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
-                R.layout.actionbar_done_discard, null);
+                R.layout.actionbar_send_discard, null);
         customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -211,6 +213,8 @@ public abstract class Compose extends Activity implements
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
         charRemaining.setText(140 - reply.getText().length() + "");
+        String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
+        final Pattern p = Pattern.compile(regex);
         reply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -219,7 +223,13 @@ public abstract class Compose extends Activity implements
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
                 String text = reply.getText().toString();
+
                 if (!text.contains("http")) { // no links, normal tweet
                     try {
                         charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
@@ -227,23 +237,20 @@ public abstract class Compose extends Activity implements
                         charRemaining.setText("0");
                     }
                 } else {
-                    int count = 0;
-                    String[] split = text.split(" ");
-                    for (String s : split) {
-                        if (!s.contains("http")) {
-                            count += s.length() + 1;
-                        } else {
-                            count += 22;
-                        }
+                    int count = text.length();
+                    Matcher m = p.matcher(text);
+                    while(m.find()) {
+                        String url = m.group();
+                        count -= url.length(); // take out the length of the url
+                        count += 22; // add 22 for the shortened url
+                    }
+
+                    if (!attachedFilePath.equals("")) {
+                        count += 22;
                     }
 
                     charRemaining.setText(140 - count + "");
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
             }
         });
 

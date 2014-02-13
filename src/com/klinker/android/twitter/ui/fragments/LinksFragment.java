@@ -56,8 +56,6 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
     private static SharedPreferences sharedPrefs;
 
-    private static HomeDataSource dataSource;
-
     private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
 
@@ -134,8 +132,8 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
 
-        dataSource = new HomeDataSource(context);
-        dataSource.open();
+        MainActivity.homeDataSource = new HomeDataSource(context);
+        MainActivity.homeDataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
@@ -309,11 +307,11 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
                 }
 
                 try {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
                 } catch (Exception e) {
-                    dataSource = new HomeDataSource(context);
-                    dataSource.open();
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+                    MainActivity.homeDataSource = new HomeDataSource(context);
+                    MainActivity.homeDataSource.open();
+                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
                 }
 
                 context.runOnUiThread(new Runnable() {
@@ -359,11 +357,11 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
             }
 
             try {
-                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+                cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
             } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
+                MainActivity.homeDataSource = new HomeDataSource(context);
+                MainActivity.homeDataSource.open();
+                cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
             }
 
             return null;
@@ -386,11 +384,11 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
     public static void swapCursors() {
         try {
-            cursorAdapter.swapCursor(dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
+            cursorAdapter.swapCursor(MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
         } catch (Exception e) {
-            dataSource = new HomeDataSource(context);
-            dataSource.open();
-            cursorAdapter.swapCursor(dataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
+            MainActivity.homeDataSource = new HomeDataSource(context);
+            MainActivity.homeDataSource.open();
+            cursorAdapter.swapCursor(MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
         }
         cursorAdapter.notifyDataSetChanged();
     }
@@ -508,21 +506,4 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     public void updateToastText(String text) {
         toastDescription.setText(text);
     }
-
-    /*@Override
-    public void onStop() {
-        try {
-            dataSource.close();
-        } catch (Exception e) {
-
-        }
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        dataSource = new HomeDataSource(context);
-        dataSource.open();
-    }*/
 }

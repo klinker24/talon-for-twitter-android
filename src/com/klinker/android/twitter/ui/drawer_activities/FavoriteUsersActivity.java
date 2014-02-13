@@ -1,6 +1,10 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -10,23 +14,31 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.FavoriteUsersCursorAdapter;
 import com.klinker.android.twitter.adapters.PeopleCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
 
 public class FavoriteUsersActivity extends DrawerActivity {
 
-    FavoriteUsersDataSource dataSource;
+    private static FavoriteUsersDataSource dataSource;
     private boolean landscape;
+    private static AsyncListView list;
+    private static Context sContext;
+    private static SharedPreferences sSharedPrefs;
+    private static LinearLayout spinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +47,9 @@ public class FavoriteUsersActivity extends DrawerActivity {
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         context = this;
+        sContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sSharedPrefs = sharedPrefs;
         settings = new AppSettings(this);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -54,7 +68,10 @@ public class FavoriteUsersActivity extends DrawerActivity {
             finish();
         }
 
+        spinner = (LinearLayout) findViewById(R.id.list_progress);
+
         listView = (AsyncListView) findViewById(R.id.listView);
+        list = listView;
 
         View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
@@ -138,23 +155,24 @@ public class FavoriteUsersActivity extends DrawerActivity {
     @Override
     public void onResume() {
         super.onResume();
-        /*try {
-            dataSource.open();
-        } catch (Exception e) {
-            // not initialized
-        }*/
 
         new GetFavUsers().execute();
     }
 
-    class GetFavUsers extends AsyncTask<String, Void, Cursor> {
+    private static FavoriteUsersCursorAdapter people;
+
+    public static void refreshFavs() {
+        new GetFavUsers().execute();
+    }
+
+    static class GetFavUsers extends AsyncTask<String, Void, Cursor> {
 
         protected Cursor doInBackground(String... urls) {
             try {
-                dataSource = new FavoriteUsersDataSource(context);
+                dataSource = new FavoriteUsersDataSource(sContext);
                 dataSource.open();
 
-                return dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
+                return dataSource.getCursor(sSharedPrefs.getInt("current_account", 1));
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -165,10 +183,10 @@ public class FavoriteUsersActivity extends DrawerActivity {
 
             Log.v("fav_users", cursor.getCount() + "");
 
-            listView.setAdapter(new PeopleCursorAdapter(context, cursor));
-            listView.setVisibility(View.VISIBLE);
+            people = new FavoriteUsersCursorAdapter(sContext, cursor);
+            list.setAdapter(people);
+            list.setVisibility(View.VISIBLE);
 
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
     }

@@ -16,14 +16,21 @@ import android.view.Window;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
+import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.ListDataSource;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 
 public class MainActivity extends DrawerActivity {
 
-    private TimelinePagerAdapter mSectionsPagerAdapter;
-
     public static boolean isPopup;
+
+    public static ListDataSource listDataSource;
+    public static HomeDataSource homeDataSource;
+    public static MentionsDataSource mentionsDataSource;
+    public static DMDataSource dmDataSource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,15 @@ public class MainActivity extends DrawerActivity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = new AppSettings(context);
+
+        listDataSource = new ListDataSource(context);
+        listDataSource.open();
+        homeDataSource = new HomeDataSource(context);
+        homeDataSource.open();
+        mentionsDataSource = new MentionsDataSource(context);
+        mentionsDataSource.open();
+        dmDataSource = new DMDataSource(context);
+        dmDataSource.open();
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -56,11 +72,18 @@ public class MainActivity extends DrawerActivity {
             startActivity(login);
         }
 
-        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), settings.extraPages);
+        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        mViewPager.setCurrentItem(settings.extraPages ? 2 : 0);
+        mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
+
+        if (getIntent().getBooleanExtra("from_drawer", false)) {
+            int page = getIntent().getIntExtra("page_to_open", 0);
+            String title = "" + mSectionsPagerAdapter.getPageTitle(page);
+            actionBar.setTitle(title);
+            mViewPager.setCurrentItem(page);
+        }
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
@@ -78,53 +101,24 @@ public class MainActivity extends DrawerActivity {
 
             public void onPageSelected(int position) {
 
-                if(settings.extraPages) {
-                    if (position > 1) {
-                        MainDrawerArrayAdapter.current = position - 2;
-                    } else {
-                        MainDrawerArrayAdapter.current = 0;
-                    }
+                String title = "" + mSectionsPagerAdapter.getPageTitle(position);
+
+                if (title.equals(getResources().getString(R.string.mentions))) {
+                    MainDrawerArrayAdapter.current = 1;
+                } else if (title.equals(getResources().getString(R.string.direct_messages))) {
+                    MainDrawerArrayAdapter.current = 2;
+                } else if (title.equals(getResources().getString(R.string.timeline))) {
+                    MainDrawerArrayAdapter.current = 0;
                 } else {
-                    MainDrawerArrayAdapter.current = position;
+                    MainDrawerArrayAdapter.current = -1;
                 }
 
                 drawerList.invalidateViews();
 
-                if(settings.extraPages) {
-                    switch (position) {
-                        case 0:
-                            actionBar.setTitle(getResources().getString(R.string.links));
-                            break;
-                        case 1:
-                            actionBar.setTitle(getResources().getString(R.string.pictures));
-                            break;
-                        case 2:
-                            actionBar.setTitle(getResources().getString(R.string.timeline));
-                            break;
-                        case 3:
-                            actionBar.setTitle(getResources().getString(R.string.mentions));
-                            break;
-                        case 4:
-                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                            break;
-                    }
-                } else {
-                    switch (position) {
-                        case 0:
-                            actionBar.setTitle(getResources().getString(R.string.timeline));
-                            break;
-                        case 1:
-                            actionBar.setTitle(getResources().getString(R.string.mentions));
-                            break;
-                        case 2:
-                            actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                            break;
-                    }
-                }
+                actionBar.setTitle(title);
             }
         });
 
-        mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", settings.extraPages ? 2 : 0), false);
         mViewPager.setOffscreenPageLimit(4);
 
         if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
@@ -214,5 +208,23 @@ public class MainActivity extends DrawerActivity {
         overridePendingTransition(0, 0);
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         startActivity(restart);
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            MainActivity.homeDataSource.close();
+        } catch (Exception e) { }
+        try {
+            MainActivity.mentionsDataSource.close();
+        } catch (Exception e) { }
+        try {
+            MainActivity.dmDataSource.close();
+        } catch (Exception e) { }
+        try {
+            MainActivity.listDataSource.close();
+        } catch (Exception e) { }
+
+        super.onDestroy();
     }
 }
