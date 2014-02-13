@@ -155,11 +155,6 @@ public class FavoriteUsersActivity extends DrawerActivity {
     @Override
     public void onResume() {
         super.onResume();
-        /*try {
-            dataSource.open();
-        } catch (Exception e) {
-            // not initialized
-        }*/
 
         new GetFavUsers().execute();
     }

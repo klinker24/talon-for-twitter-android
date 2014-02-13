@@ -553,6 +553,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             User user = twitter.verifyCredentials();
             long[] lastId;
+
             try {
                 lastId = dataSource.getLastIds(currentAccount);
             } catch (Exception e) {
@@ -561,14 +562,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 lastId = dataSource.getLastIds(currentAccount);
             }
 
-            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+            final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
             boolean foundStatus = false;
 
-            Paging paging = new Paging(1, 200);
+            Paging paging = new Paging(1, 199);
 
             if (lastId[0] != 0) {
-                paging.setSinceId(lastId[0]);//432907111891091456l
+                paging.setSinceId(lastId[0]);
             }
 
             for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
@@ -596,23 +597,23 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             if (statuses.size() > 50) {
 
+                List<Status> smaller = new ArrayList<Status>();
                 // insert the last 50 tweets
                 int originalSize = statuses.size();
+
                 for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
                     try {
-                        HomeContentProvider.insertTweet(statuses.get(i), currentAccount, context);
+                        smaller.add(statuses.get(i));
+                        statuses.remove(i);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
                     }
                 }
 
-                for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
-                    statuses.remove(i);
-                }
+                HomeContentProvider.insertTweets(smaller, currentAccount, context);
 
                 // insert the rest inside this thread so the user can start viewing the others
-                final List<Status> remaining = statuses;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -621,16 +622,18 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             Thread.sleep(1500);
                         } catch (InterruptedException e) { }
 
-                        for (Status status : remaining) {
+                        /*for (Status status : statuses) {
                             try {
                                 HomeContentProvider.insertTweet(status, currentAccount, context);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 break;
                             }
-                        }
+                        }*/
 
-                        over50Unread = remaining.size();
+                        HomeContentProvider.insertTweets(statuses, currentAccount, context);
+
+                        over50Unread = statuses.size();
                         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                         only50 = false;
                         MainActivity.canSwitch = true;
@@ -646,6 +649,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 only50 = true;
                 manualRefresh = true;
                 unread = 50;
+                trueLive = false;
+                initial = false;
 
                 AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -665,14 +670,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 only50 = false;
                 manualRefresh = false;
 
-                for (twitter4j.Status status : statuses) {
+                /*for (twitter4j.Status status : statuses) {
                     try {
                         HomeContentProvider.insertTweet(status, currentAccount, context);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
                     }
-                }
+                }*/
+
+                HomeContentProvider.insertTweets(statuses, currentAccount, context);
 
                 numberNew = statuses.size();
                 unread = numberNew;

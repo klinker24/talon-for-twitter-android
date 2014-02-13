@@ -13,6 +13,9 @@ import android.util.Log;
 
 import com.klinker.android.twitter.utils.HtmlUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import twitter4j.Status;
 
 public class HomeContentProvider extends ContentProvider {
@@ -61,6 +64,34 @@ public class HomeContentProvider extends ContentProvider {
         db.close();
 
         return Uri.parse(BASE_PATH + "/" + rowID);
+    }
+
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] allValues) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        return insertMultiple(db, allValues);
+    }
+
+    private int insertMultiple(SQLiteDatabase db, ContentValues[] allValues) {
+        int rowsAdded = 0;
+        long rowId;
+        ContentValues values;
+        try {
+            db.beginTransaction();
+
+            for (ContentValues initialValues : allValues) {
+                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
+                rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                if (rowId > 0)
+                    rowsAdded++;
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        return rowsAdded;
     }
 
     // arg[0] is the account
@@ -167,6 +198,49 @@ public class HomeContentProvider extends ContentProvider {
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
         context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
+    }
+
+    public static void insertTweets(List<Status> statuses, int currentAccount, Context context) {
+
+        ContentValues[] valueses = new ContentValues[statuses.size()];
+
+        for (int i = 0; i < statuses.size(); i++) {
+            Status status = statuses.get(i);
+            ContentValues values = new ContentValues();
+            String originalName = "";
+            long id = status.getId();
+            long time = status.getCreatedAt().getTime();
+
+            if(status.isRetweet()) {
+                originalName = status.getUser().getScreenName();
+                status = status.getRetweetedStatus();
+            }
+
+            String[] html = HtmlUtils.getHtmlStatus(status);
+            String text = html[0];
+            String media = html[1];
+            String url = html[2];
+            String hashtags = html[3];
+            String users = html[4];
+
+            values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
+            values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
+            values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
+            values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+            values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+            values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+            values.put(HomeSQLiteHelper.COLUMN_TIME, time);
+            values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
+            values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
+            values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
+            values.put(HomeSQLiteHelper.COLUMN_URL, url);
+            values.put(HomeSQLiteHelper.COLUMN_USERS, users);
+            values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+
+            valueses[i] = values;
+        }
+
+        context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
     }
 
 }
