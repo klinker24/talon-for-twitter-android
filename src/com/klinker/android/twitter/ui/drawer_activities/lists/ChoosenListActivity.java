@@ -209,6 +209,9 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                return null;
             }
         }
 
