@@ -1,7 +1,9 @@
 <b>Version 1.4.0:</b><br/><br/>
     &#8226; Customize the two pages on the left of the main timeline<br/>
     &#8226; Long click to remove favorite users<br/>
-    &#8226; Faster refresh times again<br/>
+    &#8226; Progress bar for in-app browser<br/>
+    &#8226; Better calculation of tweet lengths<br/>
+    &#8226; MUCH refresh times again<br/>
     &#8226; More stability fixes<br/>
     &#8226; Better memory management again<br/>
 </br>
