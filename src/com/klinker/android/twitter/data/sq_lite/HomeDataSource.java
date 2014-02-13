@@ -47,6 +47,10 @@ public class HomeDataSource {
         dbHelper.close();
     }
 
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
     public void createTweet(Status status, int account) {
         ContentValues values = new ContentValues();
         String originalName = "";
