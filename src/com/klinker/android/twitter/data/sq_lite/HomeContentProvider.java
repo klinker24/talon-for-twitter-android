@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.provider.Settings.System;
 import android.util.Log;
 
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.HtmlUtils;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class HomeContentProvider extends ContentProvider {
 
     @Override
     public int bulkInsert(Uri uri, ContentValues[] allValues) {
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = MainActivity.homeDataSource.getDatabase();
         return insertMultiple(db, allValues);
     }
 
