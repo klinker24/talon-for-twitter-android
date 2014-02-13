@@ -407,7 +407,11 @@ public class UserProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (spinner.getVisibility() == View.GONE) {
-                    startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getOriginalProfileImageURL()));
+                    try {
+                        startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getOriginalProfileImageURL()));
+                    } catch (Exception e) {
+                        // this user doesn't exist...
+                    }
                 } else {
                     // it isn't ready to be opened just yet
                 }
