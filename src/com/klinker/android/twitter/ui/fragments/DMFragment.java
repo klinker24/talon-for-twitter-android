@@ -79,8 +79,6 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
 
-    private DMDataSource dataSource;
-
     static Activity context;
 
     private boolean landscape;
@@ -142,8 +140,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
         sharedPrefs.edit().putInt("dm_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();
 
-        dataSource = new DMDataSource(context);
-        dataSource.open();
+        MainActivity.dmDataSource = new DMDataSource(context);
+        MainActivity.dmDataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
@@ -321,21 +319,21 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
                     for (DirectMessage directMessage : dm) {
                         try {
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            MainActivity.dmDataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
-                            dataSource = new DMDataSource(context);
-                            dataSource.open();
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            MainActivity.dmDataSource = new DMDataSource(context);
+                            MainActivity.dmDataSource.open();
+                            MainActivity.dmDataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         }
                     }
 
                     for (DirectMessage directMessage : sent) {
                         try {
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            MainActivity.dmDataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
-                            dataSource = new DMDataSource(context);
-                            dataSource.open();
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            MainActivity.dmDataSource = new DMDataSource(context);
+                            MainActivity.dmDataSource.open();
+                            MainActivity.dmDataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         }
                     }
 
@@ -444,11 +442,11 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
             Cursor cursor;
             try {
-                cursor = dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
+                cursor = MainActivity.dmDataSource.getCursor(sharedPrefs.getInt("current_account", 1));
             } catch (Exception e) {
-                dataSource = new DMDataSource(context);
-                dataSource.open();
-                cursor = dataSource.getCursor(sharedPrefs.getInt("current_account", 1));
+                MainActivity.dmDataSource = new DMDataSource(context);
+                MainActivity.dmDataSource.open();
+                cursor = MainActivity.dmDataSource.getCursor(sharedPrefs.getInt("current_account", 1));
             }
 
             ArrayList<com.klinker.android.twitter.data.DirectMessage> messageList = new ArrayList<com.klinker.android.twitter.data.DirectMessage>();
@@ -616,7 +614,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     /*@Override
     public void onStop() {
         try {
-            dataSource.close();
+            MainActivity.dmDataSource.close();
         } catch (Exception e) {
 
         }
@@ -626,7 +624,7 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onStart() {
         super.onStart();
-        dataSource = new DMDataSource(context);
-        dataSource.open();
+        MainActivity.dmDataSource = new DMDataSource(context);
+        MainActivity.dmDataSource.open();
     }*/
 }

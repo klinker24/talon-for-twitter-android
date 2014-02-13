@@ -28,10 +28,12 @@ import android.widget.*;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
@@ -66,6 +68,7 @@ public abstract class DrawerActivity extends Activity {
     public ActionBar actionBar;
 
     public static ViewPager mViewPager;
+    public TimelinePagerAdapter mSectionsPagerAdapter;
 
     public NotificationDrawerLayout mDrawerLayout;
     public InteractionsCursorAdapter notificationAdapter;
@@ -152,38 +155,8 @@ public abstract class DrawerActivity extends Activity {
                         actionBar.setTitle(actName);
                     } else {
                         int position = mViewPager.getCurrentItem();
-
-                        if (settings.extraPages) {
-                            switch (position) {
-                                case 0:
-                                    actionBar.setTitle(getResources().getString(R.string.links));
-                                    break;
-                                case 1:
-                                    actionBar.setTitle(getResources().getString(R.string.pictures));
-                                    break;
-                                case 2:
-                                    actionBar.setTitle(getResources().getString(R.string.timeline));
-                                    break;
-                                case 3:
-                                    actionBar.setTitle(getResources().getString(R.string.mentions));
-                                    break;
-                                case 4:
-                                    actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                                    break;
-                            }
-                        } else {
-                            switch (position) {
-                                case 0:
-                                    actionBar.setTitle(getResources().getString(R.string.timeline));
-                                    break;
-                                case 1:
-                                    actionBar.setTitle(getResources().getString(R.string.mentions));
-                                    break;
-                                case 2:
-                                    actionBar.setTitle(getResources().getString(R.string.direct_messages));
-                                    break;
-                            }
-                        }
+                        String title = "" + mSectionsPagerAdapter.getPageTitle(position);
+                        actionBar.setTitle(title);
                     }
 
                     try {
@@ -363,7 +336,7 @@ public abstract class DrawerActivity extends Activity {
         MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
         drawerList.setAdapter(adapter);
 
-        drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager, settings.extraPages));
+        drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager));
 
         // set up for the second account
         int count = 0; // number of accounts logged in
@@ -754,6 +727,11 @@ public abstract class DrawerActivity extends Activity {
         inters.open();
         inters.deleteAllInteractions(currentAccount);
         inters.close();
+
+        ListDataSource list = new ListDataSource(context);
+        list.open();
+        list.deleteAllTweets(currentAccount);
+        list.close();
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);

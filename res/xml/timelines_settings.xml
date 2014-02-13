@@ -58,11 +58,16 @@
             android:defaultValue="false"
             />
 
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="extra_pages"
             android:title="@string/extra_pages"
             android:summary="@string/extra_pages_summary"
             android:defaultValue="true"
+            />-->
+
+        <Preference
+            android:key="pages"
+            android:title="@string/configure_pages"
             />
 
         </PreferenceCategory>

@@ -74,8 +74,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
 
-    private static MentionsDataSource dataSource;
-
     private static int unread;
 
     private boolean landscape;
@@ -141,8 +139,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         sharedPrefs.edit().putInt("mentions_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();
 
-        dataSource = new MentionsDataSource(context);
-        dataSource.open();
+        MainActivity.mentionsDataSource = new MentionsDataSource(context);
+        MainActivity.mentionsDataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
@@ -311,11 +309,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     User user = twitter.verifyCredentials();
                     long[] lastId;
                     try {
-                        lastId = dataSource.getLastIds(currentAccount);
+                        lastId = MainActivity.mentionsDataSource.getLastIds(currentAccount);
                     } catch (Exception e) {
-                        dataSource = new MentionsDataSource(context);
-                        dataSource.open();
-                        lastId = dataSource.getLastIds(currentAccount);
+                        MainActivity.mentionsDataSource = new MentionsDataSource(context);
+                        MainActivity.mentionsDataSource.open();
+                        lastId = MainActivity.mentionsDataSource.getLastIds(currentAccount);
                     }
                     Paging paging;
                     paging = new Paging(1, 200);
@@ -335,7 +333,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                     for (twitter4j.Status status : statuses) {
                         try {
-                            dataSource.createTweet(status, currentAccount);
+                            MainActivity.mentionsDataSource.createTweet(status, currentAccount);
                         } catch (Exception e) {
                             break;
                         }
@@ -372,11 +370,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 try {
                     if (update) {
                         try {
-                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                            cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         } catch (Exception e) {
-                            dataSource = new MentionsDataSource(context);
-                            dataSource.open();
-                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                            MainActivity.mentionsDataSource = new MentionsDataSource(context);
+                            MainActivity.mentionsDataSource.open();
+                            cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         }
                         refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
@@ -385,11 +383,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                     } else {
                         try {
-                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                            cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         } catch (Exception e) {
-                            dataSource = new MentionsDataSource(context);
-                            dataSource.open();
-                            cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                            MainActivity.mentionsDataSource = new MentionsDataSource(context);
+                            MainActivity.mentionsDataSource.open();
+                            cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                         }
                         refreshCursor();
 
@@ -435,8 +433,8 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onStop() {
         try {
-            dataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
-            //dataSource.close();
+            MainActivity.mentionsDataSource.markAllRead(sharedPrefs.getInt("current_account", 1));
+            //MainActivity.mentionsDataSource.close();
         } catch (Exception e) {
 
         }
@@ -454,11 +452,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             @Override
             public void run() {
                 try {
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                 } catch (Exception e) {
-                    dataSource = new MentionsDataSource(context);
-                    dataSource.open();
-                    cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                    MainActivity.mentionsDataSource = new MentionsDataSource(context);
+                    MainActivity.mentionsDataSource.open();
+                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
                 }
 
                 context.runOnUiThread(new Runnable() {
@@ -487,11 +485,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         protected String doInBackground(Void... args) {
 
             try {
-                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
             } catch (Exception e) {
-                dataSource = new MentionsDataSource(context);
-                dataSource.open();
-                cursorAdapter = new TimeLineCursorAdapter(context, dataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
+                MainActivity.mentionsDataSource = new MentionsDataSource(context);
+                MainActivity.mentionsDataSource.open();
+                cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)), false);
             }
 
 
@@ -518,11 +516,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         if (unread > 0) {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
             try {
-                dataSource.markMultipleRead(mUnread, currentAccount);
+                MainActivity.mentionsDataSource.markMultipleRead(mUnread, currentAccount);
             } catch (Exception e) {
-                dataSource = new MentionsDataSource(context);
-                dataSource.open();
-                dataSource.markMultipleRead(mUnread, currentAccount);
+                MainActivity.mentionsDataSource = new MentionsDataSource(context);
+                MainActivity.mentionsDataSource.open();
+                MainActivity.mentionsDataSource.markMultipleRead(mUnread, currentAccount);
             }
             unread = mUnread;
         }
@@ -542,11 +540,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     public static void swapCursors() {
         try {
-            cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
+            cursorAdapter.swapCursor(MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         } catch (Exception e) {
-            dataSource = new MentionsDataSource(context);
-            dataSource.open();
-            cursorAdapter.swapCursor(dataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
+            MainActivity.mentionsDataSource = new MentionsDataSource(context);
+            MainActivity.mentionsDataSource.open();
+            cursorAdapter.swapCursor(MainActivity.mentionsDataSource.getCursor(sharedPrefs.getInt("current_account", 1)));
         }
 
         cursorAdapter.notifyDataSetChanged();
@@ -576,7 +574,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         int newTweets;
 
         try {
-            newTweets = dataSource.getUnreadCount(currentAccount);
+            newTweets = MainActivity.mentionsDataSource.getUnreadCount(currentAccount);
         } catch (Exception e) {
             newTweets = 0;
         }
