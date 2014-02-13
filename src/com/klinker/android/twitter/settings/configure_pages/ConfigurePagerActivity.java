@@ -2,16 +2,12 @@ package com.klinker.android.twitter.settings.configure_pages;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +15,6 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.TrendsPagerAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.configure_pages.fragments.PageOneFragment;
 import com.klinker.android.twitter.settings.configure_pages.fragments.PageTwoFragment;
