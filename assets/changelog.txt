@@ -1,6 +1,8 @@
 <b>Version 1.4.0:</b><br/><br/>
     &#8226; Customize the two pages on the left of the main timeline<br/>
     &#8226; Long click to remove favorite users<br/>
+    &#8226; Faster refresh times again<br/>
+    &#8226; Stability fixes<br/>
 </br>
 
 <b>Version 1.3.4:</b><br/><br/>

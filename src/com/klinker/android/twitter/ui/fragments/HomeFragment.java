@@ -88,8 +88,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public DefaultHeaderTransformer transformer;
     private LinearLayout spinner;
 
-    private HomeDataSource dataSource;
-
     private static int unread;
 
     static Activity context;
@@ -128,11 +126,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 try {
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, MainActivity.homeDataSource.getLastIds(currentAccount)[0]).commit();
                 } catch (Exception e) {
-                    dataSource = new HomeDataSource(context);
-                    dataSource.open();
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                    MainActivity.homeDataSource = new HomeDataSource(context);
+                    MainActivity.homeDataSource.open();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, MainActivity.homeDataSource.getLastIds(currentAccount)[0]).commit();
                 }
                 trueLive = true;
 
@@ -221,8 +219,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
 
-        dataSource = new HomeDataSource(context);
-        dataSource.open();
+        MainActivity.homeDataSource = new HomeDataSource(context);
+        MainActivity.homeDataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         listView.setVisibility(View.VISIBLE);
@@ -540,11 +538,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             if (!sharedPrefs.getBoolean("refresh_me", false)) {
                 try {
-                    dataSource.markAllRead(currentAccount);
+                    MainActivity.homeDataSource.markAllRead(currentAccount);
                 } catch (Exception e) {
-                    dataSource = new HomeDataSource(context);
-                    dataSource.open();
-                    dataSource.markAllRead(currentAccount);
+                    MainActivity.homeDataSource = new HomeDataSource(context);
+                    MainActivity.homeDataSource.open();
+                    MainActivity.homeDataSource.markAllRead(currentAccount);
                 }
             }
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
@@ -555,11 +553,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             long[] lastId;
 
             try {
-                lastId = dataSource.getLastIds(currentAccount);
+                lastId = MainActivity.homeDataSource.getLastIds(currentAccount);
             } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                lastId = dataSource.getLastIds(currentAccount);
+                MainActivity.homeDataSource = new HomeDataSource(context);
+                MainActivity.homeDataSource.open();
+                lastId = MainActivity.homeDataSource.getLastIds(currentAccount);
             }
 
             final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
@@ -598,6 +596,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             if (statuses.size() > 50) {
 
                 List<Status> smaller = new ArrayList<Status>();
+                
                 // insert the last 50 tweets
                 int originalSize = statuses.size();
 
@@ -631,6 +630,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             }
                         }*/
 
+                        // insert the rest of the statuses
                         HomeContentProvider.insertTweets(statuses, currentAccount, context);
 
                         over50Unread = statuses.size();
@@ -1353,11 +1353,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int current = listView.getFirstVisiblePosition();
 
             try {
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource = new HomeDataSource(context);
+                MainActivity.homeDataSource.open();
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             }
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
@@ -1389,11 +1389,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             int current = listView.getFirstVisiblePosition();
 
             try {
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             } catch (Exception e) {
-                dataSource = new HomeDataSource(context);
-                dataSource.open();
-                dataSource.markAllRead(currentAccount);
+                MainActivity.homeDataSource = new HomeDataSource(context);
+                MainActivity.homeDataSource.open();
+                MainActivity.homeDataSource.markAllRead(currentAccount);
             }
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
