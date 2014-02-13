@@ -6,7 +6,8 @@
     &#8226; MUCH refresh times again<br/>
     &#8226; More stability fixes<br/>
     &#8226; Better memory management again<br/>
-</br>
+    &#8226; Download the Portal app for themes and news from "Theme Settings"<br/>
+</br><br/>
 
 <b>Version 1.3.4:</b><br/><br/>
     &#8226; New method for faster refresh times<br/>
