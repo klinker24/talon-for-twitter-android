@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingRight="20dp"
-        android:drawableLeft="?done"
+        android:drawableLeft="?acceptButton"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="@string/send"/>
