@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.VideoView;
 
@@ -30,6 +31,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
     private String[] pages;
 
     private WebView webView;
+    private ProgressBar progressBar;
 
     public Context context;
 
@@ -49,6 +51,8 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         layout = inflater.inflate(R.layout.web_fragment, null);
         webView = (WebView) layout.findViewById(R.id.webview);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progress_bar);
+        progressBar.setProgress(0);
 
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -70,6 +74,18 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
                         getActivity().setContentView(video);
                         video.start();
                     }
+                }
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient() {
+            public void onProgressChanged(WebView view, int progress)
+            {
+                if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
+                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                }
+                progressBar.setProgress(progress);
+                if(progress == 100) {
+                    progressBar.setVisibility(ProgressBar.GONE);
                 }
             }
         });
