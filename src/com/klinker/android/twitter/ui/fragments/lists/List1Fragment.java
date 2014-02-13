@@ -359,7 +359,7 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                 lastId = MainActivity.listDataSource.getLastIds(listId);
             }
 
-            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+            final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
             boolean foundStatus = false;
 
@@ -395,19 +395,18 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
             if (false) {//statuses.size() > 50) {
 
                 // insert the last 50 tweets
-                for (int i = statuses.size() - 1; i > statuses.size() - 51; i--) {
+                int originalSize = statuses.size();
+                for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
                     try {
                         MainActivity.listDataSource.createTweet(statuses.get(i), listId);
+                        statuses.remove(i);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;
                     }
                 }
 
-                statuses = statuses.subList(0, statuses.size() - 51);
-
                 // insert the rest inside this thread so the user can start viewing the others
-                final List<Status> remaining = statuses;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -416,7 +415,7 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                             Thread.sleep(1500);
                         } catch (InterruptedException e) { }
 
-                        for (Status status : remaining) {
+                        for (Status status : statuses) {
                             try {
                                 MainActivity.listDataSource.createTweet(status, listId);
                             } catch (Exception e) {
@@ -425,7 +424,7 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                             }
                         }
 
-                        over50Unread = remaining.size();
+                        over50Unread = statuses.size();
                         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                         only50 = false;
                         MainActivity.canSwitch = true;

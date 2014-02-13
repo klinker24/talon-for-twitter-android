@@ -209,4 +209,22 @@ public class MainActivity extends DrawerActivity {
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         startActivity(restart);
     }
+
+    @Override
+    public void onDestroy() {
+        try {
+            MainActivity.homeDataSource.close();
+        } catch (Exception e) { }
+        try {
+            MainActivity.mentionsDataSource.close();
+        } catch (Exception e) { }
+        try {
+            MainActivity.dmDataSource.close();
+        } catch (Exception e) { }
+        try {
+            MainActivity.listDataSource.close();
+        } catch (Exception e) { }
+
+        super.onDestroy();
+    }
 }
