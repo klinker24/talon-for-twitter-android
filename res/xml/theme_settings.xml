@@ -68,6 +68,12 @@
         </Preference>
 
         <Preference
+            android:key="download_portal"
+            android:title="@string/download_portal"
+            android:summary="@string/download_portal_summary" >
+        </Preference>
+
+        <Preference
             android:summary="@string/addon_note">
             <intent android:action="android.intent.action.VIEW"
                 android:data="https://plus.google.com/u/0/communities/112468199526946242218/stream/c2f77fd2-23f2-4cb5-923e-6bb748fbcb69" />
