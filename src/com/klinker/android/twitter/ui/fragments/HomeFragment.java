@@ -574,7 +574,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
             for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
-
                 try {
                     if (!foundStatus) {
                         paging.setPage(i + 1);

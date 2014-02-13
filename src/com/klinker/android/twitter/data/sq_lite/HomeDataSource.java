@@ -365,7 +365,7 @@ public class HomeDataSource {
 
         if (cursor.getCount() > timelineSize) {
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", (cursor.getCount() - timelineSize) + "," + timelineSize);
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
         }
 
         return cursor;

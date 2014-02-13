@@ -506,21 +506,4 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     public void updateToastText(String text) {
         toastDescription.setText(text);
     }
-
-    /*@Override
-    public void onStop() {
-        try {
-            MainActivity.homeDataSource.close();
-        } catch (Exception e) {
-
-        }
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        MainActivity.homeDataSource = new HomeDataSource(context);
-        MainActivity.homeDataSource.open();
-    }*/
 }
