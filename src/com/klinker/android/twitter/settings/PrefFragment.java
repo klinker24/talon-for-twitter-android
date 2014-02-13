@@ -3,14 +3,18 @@ package com.klinker.android.twitter.settings;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +31,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -302,6 +307,55 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return true;
             }
 
+        });
+
+        Preference download = findPreference("download_portal");
+        download.setSummary(context.getResources().getString(R.string.download_portal_summary) + "\n\nCurrently in BETA.");
+        download.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Download/" + "klinker-apps-portal.apk");
+                    f.delete();
+                } catch (Exception e) {
+
+                }
+                final DownloadManager dm = (DownloadManager) context.getSystemService(Activity.DOWNLOAD_SERVICE);
+                DownloadManager.Request request = new DownloadManager.Request(
+                        Uri.parse("http://klinkerapps.com/dev-upload/repository/lklinker/klinker-apps-portal.apk"));
+                final long enqueue = dm.enqueue(request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI|DownloadManager.Request.NETWORK_MOBILE)
+                        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "klinker-apps-portal.apk"));
+
+                BroadcastReceiver receiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String action = intent.getAction();
+                        if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                            long downloadId = intent.getLongExtra(
+                                    DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                            DownloadManager.Query query = new DownloadManager.Query();
+                            query.setFilterById(enqueue);
+                            Cursor c = dm.query(query);
+                            if (c.moveToFirst()) {
+                                int columnIndex = c
+                                        .getColumnIndex(DownloadManager.COLUMN_STATUS);
+                                if (DownloadManager.STATUS_SUCCESSFUL == c
+                                        .getInt(columnIndex)) {
+
+                                    Intent install = new Intent(Intent.ACTION_VIEW);
+                                    install.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Download/" + "klinker-apps-portal.apk")), "application/vnd.android.package-archive");
+                                    startActivity(install);
+                                }
+                            }
+
+                        }
+                    }
+                };
+
+                context.registerReceiver(receiver, new IntentFilter(
+                        DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                return false;
+            }
         });
 
         final Preference layout = findPreference("layout");
