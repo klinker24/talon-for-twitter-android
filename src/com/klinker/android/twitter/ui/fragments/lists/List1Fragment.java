@@ -376,12 +376,6 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                         paging.setPage(i + 1);
                         List<Status> list = twitter.getUserListStatuses(listId, paging);
 
-                        if (list.size() > 185) {
-                            foundStatus = false;
-                        } else {
-                            foundStatus = true;
-                        }
-
                         statuses.addAll(list);
                     }
                 } catch (Exception e) {
@@ -392,73 +386,21 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                 }
             }
 
-            if (false) {//statuses.size() > 50) {
+            only50 = false;
+            manualRefresh = false;
 
-                // insert the last 50 tweets
-                int originalSize = statuses.size();
-                for (int i = statuses.size() - 1; i > originalSize - 51; i--) {
-                    try {
-                        MainActivity.listDataSource.createTweet(statuses.get(i), listId);
-                        statuses.remove(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        break;
-                    }
+            for (twitter4j.Status status : statuses) {
+                try {
+                    MainActivity.listDataSource.createTweet(status, listId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    break;
                 }
-
-                // insert the rest inside this thread so the user can start viewing the others
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // sleep so that the cursor loader has time to do everything
-                        try {
-                            Thread.sleep(1500);
-                        } catch (InterruptedException e) { }
-
-                        for (Status status : statuses) {
-                            try {
-                                MainActivity.listDataSource.createTweet(status, listId);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                break;
-                            }
-                        }
-
-                        over50Unread = statuses.size();
-                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                        only50 = false;
-                        MainActivity.canSwitch = true;
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mPullToRefreshLayout.setRefreshComplete();
-                            }
-                        });
-                    }
-                }).start();
-
-                only50 = true;
-                manualRefresh = true;
-
-                return 50;
-            } else {
-
-                only50 = false;
-                manualRefresh = false;
-
-                for (twitter4j.Status status : statuses) {
-                    try {
-                        MainActivity.listDataSource.createTweet(status, listId);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        break;
-                    }
-                }
-
-                numberNew = statuses.size();
-
-                return numberNew;
             }
+
+            numberNew = statuses.size();
+
+            return numberNew;
 
         } catch (TwitterException e) {
             // Error in updating status
