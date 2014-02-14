@@ -164,8 +164,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        HomeDataSource data = new HomeDataSource(mContext);
-        data.open();
+        HomeDataSource data = HomeDataSource.getInstance(mContext);
         Cursor query = data.getWidgetCursor(sharedPrefs.getInt("current_account", 1));
 
         try {

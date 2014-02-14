@@ -48,8 +48,8 @@ public class MentionsRefreshService extends IntentService {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             User user = twitter.verifyCredentials();
-            MentionsDataSource dataSource = new MentionsDataSource(context);
-            dataSource.open();
+            MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
+
             long[] lastId = dataSource.getLastIds(currentAccount);
             Paging paging;
             paging = new Paging(1, 200);
@@ -63,7 +63,8 @@ public class MentionsRefreshService extends IntentService {
                 try {
                     dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
-                    break;
+                    dataSource = MentionsDataSource.getInstance(context);
+                    dataSource.createTweet(status, currentAccount);
                 }
             }
 
@@ -77,8 +78,6 @@ public class MentionsRefreshService extends IntentService {
             if (settings.syncSecondMentions) {
                 startService(new Intent(context, SecondMentionsRefreshService.class));
             }
-
-            dataSource.close();
 
         } catch (TwitterException e) {
             // Error in updating status

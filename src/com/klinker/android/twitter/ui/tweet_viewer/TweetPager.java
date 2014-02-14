@@ -261,23 +261,8 @@ public class TweetPager extends YouTubeBaseActivity {
 
             try {
 
-                try {
-                    HomeDataSource source = new HomeDataSource(context);
-                    source.open();
-                    source.deleteTweet(tweetId);
-                    source.close();
-                } catch (Exception f) {
-
-                }
-
-                try {
-                    MentionsDataSource source = new MentionsDataSource(context);
-                    source.open();
-                    source.deleteTweet(tweetId);
-                    source.close();
-                } catch (Exception p) {
-
-                }
+                HomeDataSource.getInstance(context).deleteTweet(tweetId);
+                MentionsDataSource.getInstance(context).deleteTweet(tweetId);
 
                 try {
                     twitter.destroyStatus(tweetId);
@@ -313,24 +298,8 @@ public class TweetPager extends YouTubeBaseActivity {
             Twitter twitter = Utils.getTwitter(context, settings);
 
             try {
-
-                try {
-                    HomeDataSource source = new HomeDataSource(context);
-                    source.open();
-                    source.deleteTweet(tweetId);
-                    source.close();
-                } catch (Exception f) {
-
-                }
-
-                try {
-                    MentionsDataSource source = new MentionsDataSource(context);
-                    source.open();
-                    source.deleteTweet(tweetId);
-                    source.close();
-                } catch (Exception p) {
-
-                }
+                HomeDataSource.getInstance(context).deleteTweet(tweetId);
+                MentionsDataSource.getInstance(context).deleteTweet(tweetId);
 
                 try {
                     twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));

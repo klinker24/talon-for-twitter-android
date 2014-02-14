@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 
@@ -44,7 +45,8 @@ public class ComposeDMActivity extends Compose {
         autocomplete.setAnchorView(contactEntry);
         autocomplete.setHeight(toDP(110));
         autocomplete.setWidth(toDP(275));
-        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                FollowersDataSource.getInstance(context).getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
         autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
         autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,7 +86,8 @@ public class ComposeDMActivity extends Compose {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, adapterText), contactEntry, false));
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                                FollowersDataSource.getInstance(context).getCursor(currentAccount, adapterText), contactEntry, false));
                     }
                 } catch (Exception e) {
                     // there is no text

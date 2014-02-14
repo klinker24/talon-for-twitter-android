@@ -22,10 +22,8 @@ public class NotificationCompose extends ComposeActivity {
         // we can just mark everything as read because it isnt taxing at all and won't do anything in the mentions if there isn't one
         // and the shared prefs are easy.
         // this is only called from the notification and there will only ever be one thing that is unread when this button is available
-        MentionsDataSource data = new MentionsDataSource(context);
-        data.open();
-        data.markAllRead(currentAccount);
-        data.close();
+
+        MentionsDataSource.getInstance(context).markAllRead(currentAccount);
 
         // set up the reply box
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();

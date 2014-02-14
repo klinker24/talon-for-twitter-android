@@ -64,8 +64,7 @@ public class WidgetRefreshService  extends IntentService {
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-            HomeDataSource dataSource = new HomeDataSource(context);
-            dataSource.open();
+            HomeDataSource dataSource = HomeDataSource.getInstance(context);
 
             User user = twitter.verifyCredentials();
             long[] lastId = dataSource.getLastIds(currentAccount);
