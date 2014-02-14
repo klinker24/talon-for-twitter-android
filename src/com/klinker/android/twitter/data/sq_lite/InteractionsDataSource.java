@@ -16,6 +16,26 @@ import twitter4j.User;
 
 public class InteractionsDataSource {
 
+    // provides access to the database
+    public static InteractionsDataSource dataSource = null;
+
+    /*
+
+    This is used so that we don't have to open and close the database on different threads or fragments
+    every time. This will facilitate it between all of them to avoid Illegal State Exceptions.
+
+     */
+    public static InteractionsDataSource getInstance(Context context) {
+
+        // if the datasource isn't open or it the object is null
+        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+            dataSource = new InteractionsDataSource(context); // create the database
+            dataSource.open(); // open the database
+        }
+
+        return dataSource;
+    }
+
     // Database fields
     private SQLiteDatabase database;
     private InteractionsSQLiteHelper dbHelper;
@@ -39,6 +59,14 @@ public class InteractionsDataSource {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
+    public InteractionsSQLiteHelper getHelper() {
+        return dbHelper;
     }
 
     public void createMention(Context context, Status status, int account) {

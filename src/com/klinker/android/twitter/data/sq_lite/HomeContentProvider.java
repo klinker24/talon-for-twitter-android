@@ -28,12 +28,15 @@ public class HomeContentProvider extends ContentProvider {
 
     private Context context;
     private HomeSQLiteHelper helper;
+    private SQLiteDatabase database;
 
     @Override
     public boolean onCreate() {
         Log.d(TAG, "onCreate");
         context = getContext();
-        helper = new HomeSQLiteHelper(context);
+        HomeDataSource data = HomeDataSource.getInstance(context);
+        database = data.getDatabase();
+        helper = data.getHelper();
 
         return (helper == null) ? false : true;
     }
@@ -51,8 +54,15 @@ public class HomeContentProvider extends ContentProvider {
 
         Uri result = null;
 
-        SQLiteDatabase db = helper.getWritableDatabase();
-        long rowID = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+        SQLiteDatabase db = database;
+        long rowID;
+        try {
+            rowID = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+        } catch (IllegalStateException e) {
+            // shouldn't happen here, but might i guess
+            db = HomeDataSource.getInstance(context).getDatabase();
+            rowID = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+        }
 
         if (rowID > 0) {
             // Return a URI to the newly created row on success
@@ -69,27 +79,42 @@ public class HomeContentProvider extends ContentProvider {
 
     @Override
     public int bulkInsert(Uri uri, ContentValues[] allValues) {
-        SQLiteDatabase db = MainActivity.homeDataSource.getDatabase();
-        return insertMultiple(db, allValues);
+        return insertMultiple(allValues);
     }
 
-    private int insertMultiple(SQLiteDatabase db, ContentValues[] allValues) {
+    private int insertMultiple(ContentValues[] allValues) {
         int rowsAdded = 0;
         long rowId;
         ContentValues values;
+
+        SQLiteDatabase db = HomeDataSource.getInstance(context).getDatabase();
+
         try {
             db.beginTransaction();
 
             for (ContentValues initialValues : allValues) {
                 values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
-                rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                try {
+                    rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                } catch (IllegalStateException e) {
+                    db = HomeDataSource.getInstance(context).getDatabase();
+                    rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                }
                 if (rowId > 0)
                     rowsAdded++;
             }
 
             db.setTransactionSuccessful();
+        } catch (IllegalStateException e) {
+            // caught setting up the transaction I guess, shouldn't ever happen now.
+            e.printStackTrace();
+            return rowsAdded;
         } finally {
-            db.endTransaction();
+            try {
+                db.endTransaction();
+            } catch (Exception e) {
+                // shouldn't happen unless it gets caught above from an illegal state
+            }
         }
 
         return rowsAdded;
@@ -101,10 +126,10 @@ public class HomeContentProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         Log.d(TAG, "update uri: " + uri.toString());
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = database;
 
-        HomeDataSource database = new HomeDataSource(context);
-        Cursor cursor = database.getUnreadCursor(Integer.parseInt(selectionArgs[0]));
+        HomeDataSource dataSource = HomeDataSource.getInstance(context);
+        Cursor cursor = dataSource.getUnreadCursor(Integer.parseInt(selectionArgs[0]));
 
         if (cursor.moveToPosition(Integer.parseInt(selectionArgs[1]))) {
             long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
@@ -125,7 +150,7 @@ public class HomeContentProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String id, String[] selectionArgs) {
         Log.d(TAG, "delete uri: " + uri.toString());
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = database;
         int count;
 
         String segment = uri.getLastPathSegment();
@@ -147,7 +172,8 @@ public class HomeContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         Log.d(TAG, "query with uri: " + uri.toString());
 
-        SQLiteDatabase db = helper.getWritableDatabase();
+        HomeDataSource data = HomeDataSource.getInstance(context);
+        SQLiteDatabase db = data.getDatabase();
 
         // A convenience class to help build the query
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -156,8 +182,6 @@ public class HomeContentProvider extends ContentProvider {
         qb.appendWhere(helper.COLUMN_ID + "=" + uri.getLastPathSegment());
         String orderBy = HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC";
 
-        HomeDataSource data = new HomeDataSource(context);
-        data.open();
         Cursor c = data.getCursor(Integer.parseInt(selectionArgs[0]));//qb.query(db,
                 //projection, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + selectionArgs[0], null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         c.setNotificationUri(context.getContentResolver(), uri);
@@ -239,11 +263,6 @@ public class HomeContentProvider extends ContentProvider {
             values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
             valueses[i] = values;
-        }
-
-        if (!MainActivity.homeDataSource.getDatabase().isOpen()) {
-            MainActivity.homeDataSource = new HomeDataSource(context);
-            MainActivity.homeDataSource.open();
         }
 
         context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);

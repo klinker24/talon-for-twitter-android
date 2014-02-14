@@ -27,12 +27,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.data.DirectMessage;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
@@ -42,11 +39,6 @@ import com.klinker.android.twitter.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
-import java.util.ArrayList;
-
-import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -185,9 +177,8 @@ public class DirectMessageConversation extends Activity {
 
         protected Cursor doInBackground(String... urls) {
             try {
-                DMDataSource data = new DMDataSource(context);
-                data.open();
-                Cursor cursor = data.getConvCursor(listName, settings.currentAccount);
+                Cursor cursor = DMDataSource.getInstance(context)
+                        .getConvCursor(listName, settings.currentAccount);
                 return cursor;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -225,10 +216,7 @@ public class DirectMessageConversation extends Activity {
 
                 twitter4j.DirectMessage message = twitter.sendDirectMessage(sendTo, status);
 
-                DMDataSource data = new DMDataSource(context);
-                data.open();
-                data.createDirectMessage(message, settings.currentAccount);
-                data.close();
+                DMDataSource.getInstance(context).createDirectMessage(message, settings.currentAccount);
 
                 sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), message.getId()).commit();
                 sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();

@@ -49,8 +49,7 @@ public class TimelineRefreshService extends IntentService {
             try {
                 Twitter twitter = Utils.getTwitter(context, settings);
 
-                HomeDataSource dataSource = new HomeDataSource(context);
-                dataSource.open();
+                HomeDataSource dataSource = HomeDataSource.getInstance(context);
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -87,22 +86,13 @@ public class TimelineRefreshService extends IntentService {
                     }
                 }
 
-                for (twitter4j.Status status : statuses) {
-                    try {
-                        HomeContentProvider.insertTweet(status, currentAccount, context);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        break;
-                    }
-                }
+                HomeContentProvider.insertTweets(statuses, currentAccount, context);
 
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
                 if (settings.notifications) {
                     NotificationUtils.refreshNotification(context);
                 }
-
-                dataSource.close();
 
             } catch (TwitterException e) {
                 Log.d("Twitter Update Error", e.getMessage());

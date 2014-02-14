@@ -10,6 +10,26 @@ import twitter4j.User;
 
 public class FavoriteUsersDataSource {
 
+    // provides access to the database
+    public static FavoriteUsersDataSource dataSource = null;
+
+    /*
+
+    This is used so that we don't have to open and close the database on different threads or fragments
+    every time. This will facilitate it between all of them to avoid Illegal State Exceptions.
+
+     */
+    public static FavoriteUsersDataSource getInstance(Context context) {
+
+        // if the datasource isn't open or it the object is null
+        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+            dataSource = new FavoriteUsersDataSource(context); // create the database
+            dataSource.open(); // open the database
+        }
+
+        return dataSource;
+    }
+
     private SQLiteDatabase database;
     private FavoriteUsersSQLiteHelper dbHelper;
     public String[] allColumns = { FavoriteUsersSQLiteHelper.COLUMN_ID, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT,
@@ -26,6 +46,14 @@ public class FavoriteUsersDataSource {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
+    public FavoriteUsersSQLiteHelper getHelper() {
+        return dbHelper;
     }
 
     public void createUser(User user, int account) {
