@@ -31,6 +31,7 @@ import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
@@ -92,7 +93,6 @@ public abstract class DrawerActivity extends Activity {
     public int closedMailResource;
     public static HoloTextView oldInteractions;
     public ImageView readButton;
-    public InteractionsDataSource data;
 
     public void setUpDrawer(int number, final String actName) {
 
@@ -164,7 +164,7 @@ public abstract class DrawerActivity extends Activity {
                             oldInteractions.setText(getResources().getString(R.string.old_interactions));
                             readButton.setImageResource(openMailResource);
                             notificationList.enableSwipeToDismiss();
-                            notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                            notificationAdapter = new InteractionsCursorAdapter(context, InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount));
                             notificationList.setAdapter(notificationAdapter);
                         }
                     } catch (Exception e) {
@@ -179,7 +179,8 @@ public abstract class DrawerActivity extends Activity {
 
                     try {
                         if(sharedPrefs.getBoolean("new_notification", false)) {
-                            notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(settings.currentAccount));
+                            notificationAdapter = new InteractionsCursorAdapter(context,
+                                    InteractionsDataSource.getInstance(context).getUnreadCursor(settings.currentAccount));
                             notificationList.setAdapter(notificationAdapter);
                             notificationList.enableSwipeToDismiss();
                             oldInteractions.setText(getResources().getString(R.string.old_interactions));
@@ -522,9 +523,6 @@ public abstract class DrawerActivity extends Activity {
                 // no drawer?
             }
         } else {
-            data = new InteractionsDataSource(context);
-            data.open();
-
             try {
                 if (Build.VERSION.SDK_INT < 18 && DrawerActivity.settings.uiExtras) {
                     View viewHeader2 = ((Activity)context).getLayoutInflater().inflate(R.layout.ab_header, null);
@@ -535,7 +533,8 @@ public abstract class DrawerActivity extends Activity {
                 // i don't know why it does this to be honest...
             }
 
-            notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+            notificationAdapter = new InteractionsCursorAdapter(context,
+                    InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount));
             try {
                 notificationList.setAdapter(notificationAdapter);
             } catch (Exception e) {
@@ -558,14 +557,16 @@ public abstract class DrawerActivity extends Activity {
 
                         notificationList.disableSwipeToDismiss();
 
-                        notificationAdapter = new InteractionsCursorAdapter(context, data.getCursor(DrawerActivity.settings.currentAccount));
+                        notificationAdapter = new InteractionsCursorAdapter(context,
+                                InteractionsDataSource.getInstance(context).getCursor(DrawerActivity.settings.currentAccount));
                     } else {
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
                         readButton.setImageResource(openMailResource);
 
                         notificationList.enableSwipeToDismiss();
 
-                        notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                        notificationAdapter = new InteractionsCursorAdapter(context,
+                                InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount));
                     }
 
                     notificationList.setAdapter(notificationAdapter);
@@ -588,6 +589,7 @@ public abstract class DrawerActivity extends Activity {
                 @Override
                 public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
                     Log.v("talon_interactions_delete", "position to delete: " + position);
+                    InteractionsDataSource data = InteractionsDataSource.getInstance(context);
                     data.markRead(settings.currentAccount, position);
                     notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                     notificationList.setAdapter(notificationAdapter);
@@ -927,14 +929,12 @@ public abstract class DrawerActivity extends Activity {
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_dismiss:
-                try {
-                    data.markAllRead(DrawerActivity.settings.currentAccount);
-                    mDrawerLayout.closeDrawer(Gravity.END);
-                    notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
-                    notificationList.setAdapter(notificationAdapter);
-                } catch (Exception e) {
+                InteractionsDataSource data = InteractionsDataSource.getInstance(context);
+                data.markAllRead(DrawerActivity.settings.currentAccount);
+                mDrawerLayout.closeDrawer(Gravity.END);
+                notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                notificationList.setAdapter(notificationAdapter);
 
-                }
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_to_first:

@@ -59,10 +59,6 @@ public class TalonPullNotificationService extends Service {
     public Context mContext;
     public AppSettings settings;
     public SharedPreferences sharedPreferences;
-    public InteractionsDataSource interactions;
-    public HomeDataSource home;
-    public MentionsDataSource mentions;
-    public FavoriteUsersDataSource favs;
 
     public NotificationCompat.Builder mBuilder;
 
@@ -75,14 +71,6 @@ public class TalonPullNotificationService extends Service {
         super.onCreate();
 
         settings = new AppSettings(this);
-        home = new HomeDataSource(this);
-        home.open();
-
-        favs = new FavoriteUsersDataSource(this);
-        favs.open();
-
-        mentions = new MentionsDataSource(this);
-        mentions.open();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -155,8 +143,6 @@ public class TalonPullNotificationService extends Service {
         }
 
         mContext = getApplicationContext();
-        interactions = new InteractionsDataSource(mContext);
-        interactions.open();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.STOP_PUSH");
@@ -245,18 +231,6 @@ public class TalonPullNotificationService extends Service {
             unregisterReceiver(clearPullUnread);
         } catch (Exception e) { }
 
-        try {
-            interactions.close();
-        } catch (Exception e) { }
-
-        try {
-            home.close();
-        } catch (Exception e) { }
-
-        try {
-            favs.close();
-        } catch (Exception e) { }
-
         super.onDestroy();
     }
 
@@ -275,10 +249,6 @@ public class TalonPullNotificationService extends Service {
                     }
                 }
             });
-
-            try {
-                interactions.close();
-            } catch (Exception e) { }
         }
     };
 
@@ -328,22 +298,6 @@ public class TalonPullNotificationService extends Service {
                 }
             }).start();
 
-            try {
-                home.close();
-            } catch (Exception e) {
-
-            }
-            try {
-                interactions.close();
-            } catch (Exception e) {
-
-            }
-            try {
-                mentions.close();
-            } catch (Exception e) {
-
-            }
-
             stopSelf();
         }
     };
@@ -361,10 +315,6 @@ public class TalonPullNotificationService extends Service {
 
                         }
                     }
-
-                    try {
-                        interactions.open();
-                    } catch (Exception e) { }
 
                     settings = new AppSettings(mContext);
                     pushStream = Utils.getStreamingTwitter(mContext, settings);
@@ -394,10 +344,12 @@ public class TalonPullNotificationService extends Service {
                 Log.v("twitter_stream_push", "onStatus @" + status.getUser().getScreenName() + " - " + status.getText());
 
                 if (!status.isRetweet()) { // it is a normal mention
+                    MentionsDataSource mentions = MentionsDataSource.getInstance(mContext);
+
                     if (!mentions.tweetExists(status.getId(), sharedPreferences.getInt("current_account", 1))) {
                         mentions.createTweet(status, sharedPreferences.getInt("current_account", 1));
                     }
-                    interactions.createMention(mContext, status, sharedPreferences.getInt("current_account", 1));
+                    InteractionsDataSource.getInstance(mContext).createMention(mContext, status, sharedPreferences.getInt("current_account", 1));
                     sharedPreferences.edit().putBoolean("new_notification", true).commit();
                     sharedPreferences.edit().putBoolean("refresh_me_mentions", true).commit();
 
@@ -413,7 +365,7 @@ public class TalonPullNotificationService extends Service {
                             sharedPreferences.edit().putInt("new_retweets", newRetweets).commit();
                         }
 
-                        interactions.updateInteraction(mContext, status.getUser(), status, sharedPreferences.getInt("current_account", 1), InteractionsDataSource.TYPE_RETWEET);
+                        InteractionsDataSource.getInstance(mContext).updateInteraction(mContext, status.getUser(), status, sharedPreferences.getInt("current_account", 1), InteractionsDataSource.TYPE_RETWEET);
                         sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
                         if(settings.notifications && settings.retweetNot) {
@@ -427,18 +379,11 @@ public class TalonPullNotificationService extends Service {
                 Long mId = status.getUser().getId();
                 if (ids.contains(mId)) {
                     int currentAccount = sharedPreferences.getInt("current_account", 1);
-                    try {
-                        if (!home.tweetExists(status.getId(), currentAccount)) {
-                            home.createTweet(status, currentAccount);
-                        }
-                    } catch (Exception e) {
-                        // illegal state
-                        home = new HomeDataSource(mContext);
-                        home.open();
-                        if (!home.tweetExists(status.getId(), currentAccount)) {
-                            home.createTweet(status, currentAccount);
-                        }
+                    HomeDataSource home = HomeDataSource.getInstance(mContext);
+                    if (!home.tweetExists(status.getId(), currentAccount)) {
+                        HomeContentProvider.insertTweet(status, currentAccount, mContext);
                     }
+
 
                     pullUnread++;
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
@@ -448,9 +393,9 @@ public class TalonPullNotificationService extends Service {
                     sharedPreferences.edit().putBoolean("refresh_me", true).commit();
                     sharedPreferences.edit().putLong("second_last_tweet_id_" + sharedPreferences.getInt("current_account", 1), home.getLastIds(sharedPreferences.getInt("current_account", 1))[0]);
 
-                    if (favs.isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName()) && settings.favoriteUserNotifications && settings.notifications) {
+                    if (FavoriteUsersDataSource.getInstance(mContext).isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName()) && settings.favoriteUserNotifications && settings.notifications) {
                         NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
-                        interactions.createFavoriteUserInter(mContext, status, sharedPreferences.getInt("current_account", 1));
+                        InteractionsDataSource.getInstance(mContext).createFavoriteUserInter(mContext, status, sharedPreferences.getInt("current_account", 1));
                         sharedPreferences.edit().putBoolean("new_notification", true).commit();
                     }
                 }
@@ -459,15 +404,11 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-            /*try {
-                home.deleteTweet(statusDeletionNotice.getStatusId());
-                sharedPreferences.edit().putBoolean("refresh_me", true).commit();
-            } catch (Exception e) {
-                home = new HomeDataSource(mContext);
-                home.open();
-                home.deleteTweet(statusDeletionNotice.getStatusId());
-                sharedPreferences.edit().putBoolean("refresh_me", true).commit();
-            }*/
+
+            HomeDataSource.getInstance(mContext)
+                    .deleteTweet(statusDeletionNotice.getStatusId());
+            sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+
         }
 
         @Override
@@ -506,7 +447,11 @@ public class TalonPullNotificationService extends Service {
                         + favoritedStatus.getUser().getScreenName() + " - "
                         + favoritedStatus.getText());
 
-                interactions.updateInteraction(mContext, source, favoritedStatus, sharedPreferences.getInt("current_account", 1), InteractionsDataSource.TYPE_FAVORITE);
+                InteractionsDataSource.getInstance(mContext).updateInteraction(mContext,                        source,
+                        favoritedStatus,
+                        sharedPreferences.getInt("current_account", 1),
+                        InteractionsDataSource.TYPE_FAVORITE);
+
                 sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
                 if (settings.favoritesNot) {
@@ -536,7 +481,12 @@ public class TalonPullNotificationService extends Service {
 
                 AppSettings settings = new AppSettings(mContext);
 
-                interactions.createInteraction(mContext, source, null, sharedPreferences.getInt("current_account", 1), InteractionsDataSource.TYPE_FOLLOWER);
+                InteractionsDataSource.getInstance(mContext).createInteraction(mContext,
+                        source,
+                        null,
+                        sharedPreferences.getInt("current_account", 1),
+                        InteractionsDataSource.TYPE_FOLLOWER);
+
                 sharedPreferences.edit().putBoolean("new_notification", true).commit();
 
                 if (settings.followersNot) {
@@ -559,9 +509,7 @@ public class TalonPullNotificationService extends Service {
 
                 AppSettings settings = new AppSettings(mContext);
 
-                DMDataSource dataSource = new DMDataSource(mContext);
-                dataSource.open();
-                dataSource.createDirectMessage(directMessage, sharedPreferences.getInt("current_account", 1));
+                DMDataSource.getInstance(mContext).createDirectMessage(directMessage, sharedPreferences.getInt("current_account", 1));
 
                 int numUnread = sharedPreferences.getInt("dm_unread_" + sharedPreferences.getInt("current_account", 1), 0);
                 numUnread++;
@@ -574,8 +522,6 @@ public class TalonPullNotificationService extends Service {
                 if (settings.notifications && settings.dmsNot) {
                     NotificationUtils.refreshNotification(mContext);
                 }
-
-                dataSource.close();
             }
         }
 

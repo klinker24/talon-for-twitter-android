@@ -15,7 +15,6 @@ import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 public class QustomDialogBuilder extends AlertDialog.Builder{
 
     public Context context;
-    private FollowersDataSource data;
     private View mDialogView;
     private TextView mTitle;
     public HoloEditText text;
@@ -36,11 +35,9 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
         mDivider = mDialogView.findViewById(R.id.titleDivider);
         text = (HoloEditText) mDialogView.findViewById(R.id.content);
 
-        data = new FollowersDataSource(context);
-        data.open();
-
         list = (ListView) mDialogView.findViewById(R.id.contact_list);
-        list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, text.getText().toString()), text));
+        list.setAdapter(new SearchedPeopleCursorAdapter(context,
+                FollowersDataSource.getInstance(context).getCursor(currentAccount, text.getText().toString()), text));
     }
 
     /** 
@@ -85,17 +82,20 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
 
                 try {
                     if(searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, ""), text));
+                        list.setAdapter(new SearchedPeopleCursorAdapter(context,
+                                FollowersDataSource.getInstance(context).getCursor(currentAccount, ""), text));
                     } else {
                         if (searchText.contains(" ")) {
                             String[] split = searchText.split(" ");
                             searchText = split[split.length - 1];
                         }
 
-                        list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, searchText), text));
+                        list.setAdapter(new SearchedPeopleCursorAdapter(context,
+                                FollowersDataSource.getInstance(context).getCursor(currentAccount, searchText), text));
                     }
                 } catch (Exception e) {
-                    list.setAdapter(new SearchedPeopleCursorAdapter(context, data.getCursor(currentAccount, searchText), text));
+                    list.setAdapter(new SearchedPeopleCursorAdapter(context,
+                            FollowersDataSource.getInstance(context).getCursor(currentAccount, searchText), text));
                 }
             }
         });

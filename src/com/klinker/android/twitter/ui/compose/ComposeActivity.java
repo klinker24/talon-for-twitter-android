@@ -53,7 +53,8 @@ public class ComposeActivity extends Compose {
         autocomplete.setAnchorView(findViewById(R.id.prompt_pos));
         autocomplete.setHeight(toDP(110));
         autocomplete.setWidth(toDP(275));
-        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, reply.getText().toString()), reply));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                FollowersDataSource.getInstance(context).getCursor(currentAccount, reply.getText().toString()), reply));
         autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
         autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,7 +95,8 @@ public class ComposeActivity extends Compose {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context, data.getCursor(currentAccount, adapterText), reply));
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                                FollowersDataSource.getInstance(context).getCursor(currentAccount, adapterText), reply));
                     }
                 } catch (Exception e) {
                     // there is no text

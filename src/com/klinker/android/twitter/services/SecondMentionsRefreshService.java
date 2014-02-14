@@ -58,8 +58,8 @@ public class SecondMentionsRefreshService extends IntentService {
             }
 
             User user = twitter.verifyCredentials();
-            MentionsDataSource dataSource = new MentionsDataSource(context);
-            dataSource.open();
+            MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
+
             long lastId = dataSource.getLastIds(currentAccount)[0];
             Paging paging;
             paging = new Paging(1, 200);
@@ -69,42 +69,14 @@ public class SecondMentionsRefreshService extends IntentService {
 
             List<Status> statuses = twitter.getMentionsTimeline(paging);
 
-            /*boolean broken = false;
-
-            // first try to get the top 50 tweets
-            for (int i = 0; i < statuses.size(); i++) {
-                if (statuses.get(i).getId() == lastId) {
-                    statuses = statuses.subList(0, i);
-                    broken = true;
-                    break;
-                }
-            }
-
-            // if that doesn't work, then go for the top 150
-            if (!broken) {
-                Paging paging2 = new Paging(1, 150);
-                List<twitter4j.Status> statuses2 = twitter.getMentionsTimeline(paging2);
-
-                for (int i = 0; i < statuses2.size(); i++) {
-                    if (statuses2.get(i).getId() == lastId) {
-                        statuses2 = statuses2.subList(0, i);
-                        break;
-                    }
-                }
-
-                statuses = statuses2;
-            }*/
-
-
             for (twitter4j.Status status : statuses) {
                 try {
                     dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
-                    break;
+                    dataSource = MentionsDataSource.getInstance(context);
+                    dataSource.createTweet(status, currentAccount);
                 }
             }
-
-            dataSource.close();
 
             if (numberNew > 0) {
                 NotificationUtils.notifySecondMentions(context, currentAccount);

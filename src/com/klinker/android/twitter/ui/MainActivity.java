@@ -17,7 +17,10 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -27,11 +30,6 @@ public class MainActivity extends DrawerActivity {
 
     public static boolean isPopup;
 
-    public static ListDataSource listDataSource;
-    public static HomeDataSource homeDataSource;
-    public static MentionsDataSource mentionsDataSource;
-    public static DMDataSource dmDataSource;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +37,6 @@ public class MainActivity extends DrawerActivity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = new AppSettings(context);
-
-        listDataSource = new ListDataSource(context);
-        listDataSource.open();
-        homeDataSource = new HomeDataSource(context);
-        homeDataSource.open();
-        mentionsDataSource = new MentionsDataSource(context);
-        mentionsDataSource.open();
-        dmDataSource = new DMDataSource(context);
-        dmDataSource.open();
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -212,17 +201,28 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     public void onDestroy() {
+        // close everything down because they aren't needed.
+
         try {
-            MainActivity.homeDataSource.close();
+            HomeDataSource.getInstance(context).close();
         } catch (Exception e) { }
         try {
-            MainActivity.mentionsDataSource.close();
+            MentionsDataSource.getInstance(context).close();
         } catch (Exception e) { }
         try {
-            MainActivity.dmDataSource.close();
+            DMDataSource.getInstance(context).close();
         } catch (Exception e) { }
         try {
-            MainActivity.listDataSource.close();
+            ListDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            FollowersDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            FavoriteUsersDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            InteractionsDataSource.getInstance(context).close();
         } catch (Exception e) { }
 
         super.onDestroy();

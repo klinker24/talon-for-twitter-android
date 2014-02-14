@@ -84,8 +84,6 @@ public abstract class Compose extends Activity implements
     public TextView charRemaining;
     public ListPopupWindow autocomplete;
 
-    public FollowersDataSource data;
-
     public String attachedFilePath = "";
 
     public PhotoViewAttacher mAttacher;
@@ -103,9 +101,6 @@ public abstract class Compose extends Activity implements
         settings = new AppSettings(this);
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        data = new FollowersDataSource(context);
-        data.open();
 
         currentAccount = sharedPrefs.getInt("current_account", 1);
 
