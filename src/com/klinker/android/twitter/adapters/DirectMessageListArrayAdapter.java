@@ -273,8 +273,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
 
         protected Boolean doInBackground(String... urls) {
 
-            DMDataSource data = new DMDataSource(context);
-            data.open();
+            DMDataSource data = DMDataSource.getInstance(context);
 
             try {
                 Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
@@ -285,17 +284,19 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
                     do {
                         long id = cursor.getLong(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TWEET_ID));
                         data.deleteTweet(id);
-                        twitter.destroyDirectMessage(id);
+                        try {
+                            twitter.destroyDirectMessage(id);
+                        } catch (Exception x) {
+                            // it doesn't actually exist on the twitter side
+                        }
                     } while (cursor.moveToNext());
                 }
 
                 data.deleteDups(settings.currentAccount);
 
-                data.close();
                 return true;
 
             } catch (Exception e) {
-                data.close();
                 // they have no direct messages
                 return true;
             }
