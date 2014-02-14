@@ -553,14 +553,14 @@ public class TweetFragment extends Fragment {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FavoriteStatus(favoriteCount, favoriteButton, tweetId).execute();
+                favoriteStatus(favoriteCount, favoriteButton, tweetId);
             }
         });
 
         retweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RetweetStatus(retweetCount, tweetId, retweetButton).execute();
+                retweetStatus(retweetCount, tweetId, retweetButton);
             }
         });
 
@@ -595,8 +595,8 @@ public class TweetFragment extends Fragment {
             ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
         }
 
-        new GetFavoriteCount(favoriteCount, favoriteButton, tweetId).execute();
-        new GetRetweetCount(retweetCount, tweetId, retweetButton).execute();
+        getFavoriteCount(favoriteCount, favoriteButton, tweetId);
+        getRetweetCount(retweetCount, tweetId, retweetButton);
 
 
         String text = tweet;
@@ -850,61 +850,54 @@ public class TweetFragment extends Fragment {
     private boolean isFavorited = false;
     private boolean isRetweet = false;
 
-    class GetFavoriteCount extends AsyncTask<String, Void, Status> {
-
-        private long tweetId;
-        private TextView favs;
-        private ImageButton favButton;
-
-        public GetFavoriteCount(TextView favs, ImageButton favButton, long tweetId) {
-            this.tweetId = tweetId;
-            this.favButton = favButton;
-            this.favs = favs;
-        }
-
-        protected twitter4j.Status doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter4j.Status status = twitter.showStatus(tweetId);
-                if (status.isRetweet()) {
-                    twitter4j.Status retweeted = status.getRetweetedStatus();
-                    return retweeted;
-                }
-                return twitter.showStatus(tweetId);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(twitter4j.Status status) {
-            if (status != null) {
-                favs.setText(" " + status.getFavoriteCount());
-
-                if (status.isFavorited()) {
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                    int resource = a.getResourceId(0, 0);
-                    a.recycle();
-
-                    if (!settings.addonTheme) {
-                        favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                    } else {
-                        favButton.setColorFilter(settings.accentInt);
+    public void getFavoriteCount(final TextView favs, final ImageButton favButton, final long tweetId) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    twitter4j.Status status = twitter.showStatus(tweetId);
+                    if (status.isRetweet()) {
+                        twitter4j.Status retweeted = status.getRetweetedStatus();
+                        status = retweeted;
                     }
 
-                    favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                    isFavorited = true;
-                } else {
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                    int resource = a.getResourceId(0, 0);
-                    a.recycle();
+                    final twitter4j.Status fStatus = status;
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            favs.setText(" " + fStatus.getFavoriteCount());
 
-                    favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                    isFavorited = false;
+                            if (fStatus.isFavorited()) {
+                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                int resource = a.getResourceId(0, 0);
+                                a.recycle();
 
-                    favButton.clearColorFilter();
+                                if (!settings.addonTheme) {
+                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                } else {
+                                    favButton.setColorFilter(settings.accentInt);
+                                }
+
+                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                isFavorited = true;
+                            } else {
+                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
+                                int resource = a.getResourceId(0, 0);
+                                a.recycle();
+
+                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                isFavorited = false;
+
+                                favButton.clearColorFilter();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+
                 }
             }
-        }
+        }).start();
     }
 
     class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
@@ -952,177 +945,148 @@ public class TweetFragment extends Fragment {
         }
     }
 
-    class GetRetweetCount extends AsyncTask<String, Void, String> {
+    public void getRetweetCount(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
 
-        private long tweetId;
-        private TextView retweetCount;
-        private String via = "";
-        private String location = "";
-        private long realTime = 0;
-        private boolean retweetedByMe = false;
-        private ImageButton retweetButton;
-
-        public GetRetweetCount(TextView retweetCount, long tweetId, ImageButton retweetButton) {
-            this.retweetCount = retweetCount;
-            this.tweetId = tweetId;
-            this.retweetButton = retweetButton;
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter4j.Status status = twitter.showStatus(tweetId);
-
-                GeoLocation loc = status.getGeoLocation();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String location = "";
+                String via = "";
+                long realTime = 0;
+                boolean retweetedByMe = false;
                 try {
-                    Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-                    List<Address> addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
-                    if (addresses.size() > 0) {
-                        Address address = addresses.get(0);
-                        location += address.getLocality() + ", " + address.getCountryName();
-                    } else {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    twitter4j.Status status = twitter.showStatus(tweetId);
+
+                    GeoLocation loc = status.getGeoLocation();
+                    try {
+                        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                        List<Address> addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+                        if (addresses.size() > 0) {
+                            Address address = addresses.get(0);
+                            location += address.getLocality() + ", " + address.getCountryName();
+                        } else {
+                            location = "";
+                        }
+                    } catch (Exception x) {
                         location = "";
                     }
-                } catch (Exception x) {
-                    location = "";
+
+                    via = android.text.Html.fromHtml(status.getSource()).toString();
+
+                    if (status.isRetweet()) {
+                        twitter4j.Status status2 = status.getRetweetedStatus();
+                        via = android.text.Html.fromHtml(status2.getSource()).toString();
+                        realTime = status2.getCreatedAt().getTime();
+                    } else {
+                        realTime = status.getCreatedAt().getTime();
+                    }
+
+                    retweetedByMe = status.isRetweetedByMe();
+                    final String count = "" + status.getRetweetCount();
+
+                    final String timeDisplay;
+
+                    if (!settings.militaryTime) {
+                        timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(realTime) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(realTime);
+                    } else {
+                        timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(realTime) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(realTime);
+                    }
+                    final String fVia = " " + getResources().getString(R.string.via) + " " + via;
+                    final String fLoc = location.equals("") ? "" : "\n" + location;
+
+                    final boolean fRet = retweetedByMe;
+                    final long fTime = realTime;
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            retweetCount.setText(" " + count);
+
+                            if (fRet) {
+                                if (!settings.addonTheme) {
+                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                } else {
+                                    retweetButton.setColorFilter(settings.accentInt);
+                                }
+                            } else {
+                                retweetButton.clearColorFilter();
+                            }
+
+                            timetv.setText(timeDisplay + fVia);
+                            timetv.append(fLoc);
+                        }
+                    });
+                } catch (Exception e) {
+
                 }
-
-                via = android.text.Html.fromHtml(status.getSource()).toString();
-
-                if (status.isRetweet()) {
-                    twitter4j.Status status2 = status.getRetweetedStatus();
-                    via = android.text.Html.fromHtml(status2.getSource()).toString();
-                    realTime = status2.getCreatedAt().getTime();
-                }
-
-                retweetedByMe = status.isRetweetedByMe();
-
-                return "" + status.getRetweetCount();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
             }
-        }
-
-        protected void onPostExecute(String count) {
-            if (count != null) {
-                retweetCount.setText(" " + count);
-            }
-
-            if (retweetedByMe) {
-                if (!settings.addonTheme) {
-                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                } else {
-                    retweetButton.setColorFilter(settings.accentInt);
-                }
-            } else {
-                retweetButton.clearColorFilter();
-            }
-
-            if (realTime != 0) {
-                String timeDisplay;
-
-                if (!settings.militaryTime) {
-                    timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(realTime) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(realTime);
-                } else {
-                    timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(realTime) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(realTime);
-                }
-
-                timetv.setText(timeDisplay);
-            }
-
-            try {
-                if (!timetv.getText().toString().contains(getResources().getString(R.string.via))) {
-                    timetv.append(" " + getResources().getString(R.string.via) + " " + via);
-                }
-
-                if (!location.equals("")) {
-                    timetv.append("\n" + location);
-                }
-            } catch (Exception e) {
-
-            }
-        }
+        }).start();
     }
 
-    class FavoriteStatus extends AsyncTask<String, Void, String> {
-
-        private long tweetId;
-        private TextView favs;
-        private ImageButton favButton;
-
-        public FavoriteStatus(TextView favs, ImageButton favButton, long tweetId) {
-            this.tweetId = tweetId;
-            this.favButton = favButton;
-            this.favs = favs;
+    public void favoriteStatus(final TextView favs, final ImageButton favButton, final long tweetId) {
+        if (!isFavorited) {
+            Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
         }
 
-        protected void onPreExecute() {
-            if (!isFavorited) {
-                Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
-            }
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                if (isFavorited) {
-                    twitter.destroyFavorite(tweetId);
-                } else {
-                    twitter.createFavorite(tweetId);
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    if (isFavorited) {
+                        twitter.destroyFavorite(tweetId);
+                    } else {
+                        twitter.createFavorite(tweetId);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                                getFavoriteCount(favs, favButton, tweetId);
+                            } catch (Exception e) {
+                                // they quit out of the activity
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+
                 }
-                return null;
-            } catch (Exception e) {
-                return null;
             }
-        }
-
-        protected void onPostExecute(String count) {
-            try {
-                Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-                new GetFavoriteCount(favs, favButton, tweetId).execute();
-            } catch (Exception e) {
-                // they quit out of the activity
-            }
-        }
+        }).start();
     }
 
-    class RetweetStatus extends AsyncTask<String, Void, String> {
+    public void retweetStatus(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+        Toast.makeText(context, getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
 
-        private long tweetId;
-        private TextView retweetCount;
-        private ImageButton retweetButton;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    twitter.retweetStatus(tweetId);
 
-        public RetweetStatus(TextView retweetCount, long tweetId, ImageButton retweetButton) {
-            this.retweetCount = retweetCount;
-            this.tweetId = tweetId;
-            this.retweetButton = retweetButton;
-        }
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
+                                getRetweetCount(retweetCount, tweetId, retweetButton);
+                            } catch (Exception e) {
 
-        protected void onPreExecute() {
-            Toast.makeText(context, getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
-        }
+                            }
+                        }
+                    });
+                } catch (Exception e) {
 
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter.retweetStatus(tweetId);
-                return null;
-            } catch (Exception e) {
-                return null;
+                }
             }
-        }
-
-        protected void onPostExecute(String count) {
-            try {
-                Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
-                new GetRetweetCount(retweetCount, tweetId, retweetButton).execute();
-            } catch (Exception e) {
-
-            }
-        }
+        }).start();
     }
 
     public void removeKeyboard(EditText reply) {
