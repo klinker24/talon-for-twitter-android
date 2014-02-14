@@ -222,7 +222,7 @@ public class MainActivity extends DrawerActivity {
         try {
             InteractionsDataSource.getInstance(context).close();
         } catch (Exception e) { }
-        
+
         super.onDestroy();
     }
 
