@@ -32,6 +32,7 @@ import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
@@ -766,6 +767,33 @@ public abstract class DrawerActivity extends Activity {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        try {
+            HomeDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            MentionsDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            DMDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            ListDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            FollowersDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            FavoriteUsersDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            InteractionsDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+
+        super.onStop();
     }
 
     @Override

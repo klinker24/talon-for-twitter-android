@@ -23,6 +23,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
@@ -55,7 +56,12 @@ public class PeopleEmojiAdapter extends BaseEmojiAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageDrawable(res.getDrawable(sIconIds[position]));
+        try {
+            imageView.setImageDrawable(res.getDrawable(sIconIds[position]));
+        } catch (Resources.NotFoundException e) {
+            // don't know why this would happen I guess
+            Toast.makeText(context, "Missing an emoji! Is everything installed correctly?", Toast.LENGTH_SHORT).show();
+        }
         imageView.setBackgroundResource(R.drawable.pressed_button);
 
         imageView.setOnClickListener(new View.OnClickListener() {
