@@ -405,13 +405,9 @@ public class LoginActivity extends Activity {
         protected String doInBackground(Void... args) {
 
             try {
-                Log.v("logging_in", "before get twitter");
-
                 settings = new AppSettings(context);
 
                 twitter = Utils.getTwitter(context, settings);
-
-                Log.v("logging_in", "before verify");
 
                 User user = twitter.verifyCredentials();
                 if (sharedPrefs.getInt("current_account", 1) == 1) {
@@ -428,22 +424,19 @@ public class LoginActivity extends Activity {
                     sharedPrefs.edit().putLong("twitter_id_2", user.getId()).commit();
                 }
 
-                Log.v("logging_in", "after verify");
-
                 // syncs 200 timeline tweets with 2 pages
                 Paging paging;
                 paging = new Paging(2, 100);
                 List<twitter4j.Status> statuses = twitter.getHomeTimeline(paging);
-                Log.v("logging_in", "got timeline");
 
-                HomeDataSource dataSource = new HomeDataSource(context);
-                dataSource.open();
+                HomeDataSource dataSource = HomeDataSource.getInstance(context);
 
                 for (twitter4j.Status status : statuses) {
                     try {
                         dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     } catch (Exception e) {
-                        break;
+                        dataSource = HomeDataSource.getInstance(context);
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     }
                 }
                 paging = new Paging(1, 100);
@@ -457,11 +450,10 @@ public class LoginActivity extends Activity {
                     try {
                         dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     } catch (Exception e) {
-                        break;
+                        dataSource = HomeDataSource.getInstance(context);
+                        dataSource.createTweet(status, sharedPrefs.getInt("current_account", 1), true);
                     }
                 }
-
-                dataSource.close();
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -470,26 +462,18 @@ public class LoginActivity extends Activity {
                     }
                 });
 
-                MentionsDataSource mentionsSource = new MentionsDataSource(context);
-                mentionsSource.open();
+                MentionsDataSource mentionsSource = MentionsDataSource.getInstance(context);
 
                 // syncs 100 mentions
                 paging = new Paging(1, 100);
                 statuses = twitter.getMentionsTimeline(paging);
 
-                try {
-                    sharedPrefs.edit().putLong("last_mention_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
-                } catch (Exception e) {
-
-                }
-
-
                 for (twitter4j.Status status : statuses) {
                     try {
                         mentionsSource.createTweet(status, sharedPrefs.getInt("current_account", 1), false);
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        break;
+                        mentionsSource = MentionsDataSource.getInstance(context);
+                        mentionsSource.createTweet(status, sharedPrefs.getInt("current_account", 1), false);
                     }
                 }
 
@@ -503,8 +487,8 @@ public class LoginActivity extends Activity {
                 });
 
                 // syncs 100 Direct Messages
-                DMDataSource dmSource = new DMDataSource(context);
-                dmSource.open();
+                DMDataSource dmSource = DMDataSource.getInstance(context);
+
                 try {
                     paging = new Paging(1, 100);
 
@@ -516,7 +500,8 @@ public class LoginActivity extends Activity {
                         try {
                             dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
-                            break;
+                            dmSource = DMDataSource.getInstance(context);
+                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         }
                     }
 
@@ -526,11 +511,10 @@ public class LoginActivity extends Activity {
                         try {
                             dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         } catch (Exception e) {
-                            break;
+                            dmSource = DMDataSource.getInstance(context);
+                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
                         }
                     }
-
-                    dmSource.close();
 
                 } catch (Exception e) {
                     // they have no direct messages
@@ -543,8 +527,7 @@ public class LoginActivity extends Activity {
                     }
                 });
 
-                FollowersDataSource followers = new FollowersDataSource(context);
-                followers.open();
+                FollowersDataSource followers = FollowersDataSource.getInstance(context);
 
                 try {
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
@@ -569,10 +552,6 @@ public class LoginActivity extends Activity {
                 } catch (Exception e) {
 
                 }
-
-                followers.close();
-
-                dataSource.close();
 
             } catch (TwitterException e) {
                 // Error in updating status

@@ -33,7 +33,6 @@ import org.lucasr.smoothie.AsyncListView;
 
 public class FavoriteUsersActivity extends DrawerActivity {
 
-    private static FavoriteUsersDataSource dataSource;
     private boolean landscape;
     private static AsyncListView list;
     private static Context sContext;
@@ -169,10 +168,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
 
         protected Cursor doInBackground(String... urls) {
             try {
-                dataSource = new FavoriteUsersDataSource(sContext);
-                dataSource.open();
-
-                return dataSource.getCursor(sSharedPrefs.getInt("current_account", 1));
+                return FavoriteUsersDataSource.getInstance(sContext).getCursor(sSharedPrefs.getInt("current_account", 1));
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

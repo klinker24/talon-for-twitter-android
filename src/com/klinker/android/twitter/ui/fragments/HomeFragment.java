@@ -126,13 +126,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
-                try {
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, MainActivity.homeDataSource.getLastIds(currentAccount)[0]).commit();
-                } catch (Exception e) {
-                    MainActivity.homeDataSource = new HomeDataSource(context);
-                    MainActivity.homeDataSource.open();
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, MainActivity.homeDataSource.getLastIds(currentAccount)[0]).commit();
-                }
+
+                HomeDataSource dataSource = HomeDataSource.getInstance(context);
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+
                 trueLive = true;
 
                 try {
@@ -219,9 +216,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
-
-        MainActivity.homeDataSource = new HomeDataSource(context);
-        MainActivity.homeDataSource.open();
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         listView.setVisibility(View.VISIBLE);
@@ -538,13 +532,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         try {
 
             if (!sharedPrefs.getBoolean("refresh_me", false)) {
-                try {
-                    MainActivity.homeDataSource.markAllRead(currentAccount);
-                } catch (Exception e) {
-                    MainActivity.homeDataSource = new HomeDataSource(context);
-                    MainActivity.homeDataSource.open();
-                    MainActivity.homeDataSource.markAllRead(currentAccount);
-                }
+                HomeDataSource.getInstance(context).markAllRead(currentAccount);
             }
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
@@ -553,13 +541,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             User user = twitter.verifyCredentials();
             long[] lastId;
 
-            try {
-                lastId = MainActivity.homeDataSource.getLastIds(currentAccount);
-            } catch (Exception e) {
-                MainActivity.homeDataSource = new HomeDataSource(context);
-                MainActivity.homeDataSource.open();
-                lastId = MainActivity.homeDataSource.getLastIds(currentAccount);
-            }
+            lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
 
             final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -1267,13 +1249,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
 
-            try {
-                MainActivity.homeDataSource.markAllRead(currentAccount);
-            } catch (Exception e) {
-                MainActivity.homeDataSource = new HomeDataSource(context);
-                MainActivity.homeDataSource.open();
-                MainActivity.homeDataSource.markAllRead(currentAccount);
-            }
+            HomeDataSource.getInstance(context).markAllRead(currentAccount);
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
@@ -1303,13 +1279,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
 
-            try {
-                MainActivity.homeDataSource.markAllRead(currentAccount);
-            } catch (Exception e) {
-                MainActivity.homeDataSource = new HomeDataSource(context);
-                MainActivity.homeDataSource.open();
-                MainActivity.homeDataSource.markAllRead(currentAccount);
-            }
+            HomeDataSource.getInstance(context).markAllRead(currentAccount);
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));

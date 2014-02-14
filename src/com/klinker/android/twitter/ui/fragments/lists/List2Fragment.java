@@ -351,13 +351,7 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
 
             User user = twitter.verifyCredentials();
             long[] lastId;
-            try {
-                lastId = MainActivity.listDataSource.getLastIds(listId);
-            } catch (Exception e) {
-                MainActivity.listDataSource = new ListDataSource(context);
-                MainActivity.listDataSource.open();
-                lastId = MainActivity.listDataSource.getLastIds(listId);
-            }
+            lastId = ListDataSource.getInstance(context).getLastIds(listId);
 
             final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -395,13 +389,9 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
             only50 = false;
             manualRefresh = false;
 
+            ListDataSource dataSource = ListDataSource.getInstance(context);
             for (twitter4j.Status status : statuses) {
-                try {
-                    MainActivity.listDataSource.createTweet(status, listId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
-                }
+                dataSource.createTweet(status, listId);
             }
 
             numberNew = statuses.size();
@@ -582,13 +572,7 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.listDataSource.getCursor(listId), false);
-                } catch (Exception e) {
-                    MainActivity.listDataSource = new ListDataSource(context);
-                    MainActivity.listDataSource.open();
-                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.listDataSource.getCursor(listId), false);
-                }
+                cursorAdapter = new TimeLineCursorAdapter(context, ListDataSource.getInstance(context).getCursor(listId), false);
 
                 final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
 

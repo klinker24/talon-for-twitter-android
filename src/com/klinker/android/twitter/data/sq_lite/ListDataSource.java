@@ -16,6 +16,26 @@ import twitter4j.Status;
 
 public class ListDataSource {
 
+    // provides access to the database
+    public static ListDataSource dataSource = null;
+
+    /*
+
+    This is used so that we don't have to open and close the database on different threads or fragments
+    every time. This will facilitate it between all of them to avoid Illegal State Exceptions.
+
+     */
+    public static ListDataSource getInstance(Context context) {
+
+        // if the datasource isn't open or it the object is null
+        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+            dataSource = new ListDataSource(context); // create the database
+            dataSource.open(); // open the database
+        }
+
+        return dataSource;
+    }
+
     // Database fields
     private SQLiteDatabase database;
     private ListSQLiteHelper dbHelper;
@@ -55,6 +75,14 @@ public class ListDataSource {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
+    public ListSQLiteHelper getHelper() {
+        return dbHelper;
     }
 
     public void createTweet(Status status, int listId) {

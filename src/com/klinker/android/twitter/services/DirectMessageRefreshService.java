@@ -67,14 +67,14 @@ public class DirectMessageRefreshService extends IntentService {
                 numberNew = 0;
             }
 
-            DMDataSource dataSource = new DMDataSource(context);
-            dataSource.open();
+            DMDataSource dataSource = DMDataSource.getInstance(context);
 
             for (DirectMessage directMessage : dm) {
                 try {
                     dataSource.createDirectMessage(directMessage, currentAccount);
                 } catch (Exception e) {
-                    break;
+                    dataSource = DMDataSource.getInstance(context);
+                    dataSource.createDirectMessage(directMessage, currentAccount);
                 }
             }
 
@@ -82,11 +82,10 @@ public class DirectMessageRefreshService extends IntentService {
                 try {
                     dataSource.createDirectMessage(directMessage, currentAccount);
                 } catch (Exception e) {
-                    break;
+                    dataSource = DMDataSource.getInstance(context);
+                    dataSource.createDirectMessage(directMessage, currentAccount);
                 }
             }
-
-            dataSource.close();
 
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();

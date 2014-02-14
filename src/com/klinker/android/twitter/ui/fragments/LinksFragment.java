@@ -132,9 +132,6 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
         View layout = inflater.inflate(R.layout.main_fragments, null);
 
-        MainActivity.homeDataSource = new HomeDataSource(context);
-        MainActivity.homeDataSource.open();
-
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
         mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
@@ -306,13 +303,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
                     }
                 }
 
-                try {
-                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
-                } catch (Exception e) {
-                    MainActivity.homeDataSource = new HomeDataSource(context);
-                    MainActivity.homeDataSource.open();
-                    cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
-                }
+                cursorAdapter = new TimeLineCursorAdapter(context, HomeDataSource.getInstance(context).getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
 
                 context.runOnUiThread(new Runnable() {
                     @Override
@@ -356,13 +347,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
             }
 
-            try {
-                cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
-            } catch (Exception e) {
-                MainActivity.homeDataSource = new HomeDataSource(context);
-                MainActivity.homeDataSource.open();
-                cursorAdapter = new TimeLineCursorAdapter(context, MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
-            }
+            cursorAdapter = new TimeLineCursorAdapter(context, HomeDataSource.getInstance(context).getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
 
             return null;
         }
@@ -383,13 +368,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     }
 
     public static void swapCursors() {
-        try {
-            cursorAdapter.swapCursor(MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
-        } catch (Exception e) {
-            MainActivity.homeDataSource = new HomeDataSource(context);
-            MainActivity.homeDataSource.open();
-            cursorAdapter.swapCursor(MainActivity.homeDataSource.getLinksCursor(sharedPrefs.getInt("current_account", 1)));
-        }
+        cursorAdapter.swapCursor(HomeDataSource.getInstance(context).getLinksCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
     }
 

@@ -617,11 +617,7 @@ public class UserProfileActivity extends Activity {
                 isFollowing = friendship.isSourceFollowingTarget();
                 isBlocking = friendship.isSourceBlockingTarget();
                 isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
-
-                FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
-                data.open();
-                isFavorite = data.isFavUser(currentAccount, otherUserName);
-                data.close();
+                isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(currentAccount, otherUserName);
                 isFollowingSet = true;
 
                 return null;
@@ -956,10 +952,7 @@ public class UserProfileActivity extends Activity {
                     } else {
                         twitter.createFriendship(otherUserName);
 
-                        FollowersDataSource data = new FollowersDataSource(context);
-                        data.open();
-                        data.createUser(thisUser, sharedPrefs.getInt("current_account", 1));
-                        data.close();
+                        FollowersDataSource.getInstance(context).createUser(thisUser, sharedPrefs.getInt("current_account", 1));
 
                         return true;
                     }
@@ -1049,10 +1042,7 @@ public class UserProfileActivity extends Activity {
                 if (thisUser != null) {
                     if (isFavorite) {
                         // destroy favorite
-                        FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
-                        data.open();
-                        data.deleteUser(thisUser.getId());
-                        data.close();
+                        FavoriteUsersDataSource.getInstance(context).deleteUser(thisUser.getId());
 
                         String favs = sharedPrefs.getString("favorite_user_names_" + currentAccount, "");
                         favs = favs.replaceAll(thisUser.getScreenName() + " ", "");
@@ -1061,10 +1051,7 @@ public class UserProfileActivity extends Activity {
                         return false;
 
                     } else {
-                        FavoriteUsersDataSource data = new FavoriteUsersDataSource(context);
-                        data.open();
-                        data.createUser(thisUser, currentAccount);
-                        data.close();
+                        FavoriteUsersDataSource.getInstance(context).createUser(thisUser, currentAccount);
 
                         sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, sharedPrefs.getString("favorite_user_names_" + currentAccount, "") + thisUser.getScreenName() + " ").commit();
 
