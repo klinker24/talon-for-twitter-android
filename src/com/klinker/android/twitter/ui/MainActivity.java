@@ -199,4 +199,31 @@ public class MainActivity extends DrawerActivity {
         startActivity(restart);
     }
 
+    @Override
+    public void onDestroy() {
+        try {
+            HomeDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            MentionsDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            DMDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            ListDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            FollowersDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            FavoriteUsersDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        try {
+            InteractionsDataSource.getInstance(context).close();
+        } catch (Exception e) { }
+        
+        super.onDestroy();
+    }
+
 }
