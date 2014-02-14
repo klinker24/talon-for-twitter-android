@@ -241,6 +241,11 @@ public class HomeContentProvider extends ContentProvider {
             valueses[i] = values;
         }
 
+        if (!MainActivity.homeDataSource.getDatabase().isOpen()) {
+            MainActivity.homeDataSource = new HomeDataSource(context);
+            MainActivity.homeDataSource.open();
+        }
+
         context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
     }
 
