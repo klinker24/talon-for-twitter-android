@@ -81,6 +81,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public ColorDrawable transparent;
 
     public Handler[] mHandler;
+    public Handler emojiHandler;
     public int currHandler = 0;
 
     public int type;
@@ -196,6 +197,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         mCache = App.getInstance(context).getBitmapCache();
 
         transparent = new ColorDrawable(android.R.color.transparent);
+
+        mHandler = new Handler[4];
+        for (int i = 0; i < 4; i++) {
+            mHandler[i] = new Handler();
+        }
+        currHandler = 0;
+
+        emojiHandler = new Handler();
     }
 
     @Override
@@ -324,6 +333,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public void bindView(final View view, Context mContext, Status status) {
         final ViewHolder holder = (ViewHolder) view.getTag();
+
+        if (holder.expandArea.getVisibility() == View.VISIBLE) {
+            removeExpansionNoAnimation(holder);
+        }
 
         Status thisStatus;
 
@@ -572,7 +585,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     holder.image.setImageDrawable(transparent);
 
-                    new Handler().postDelayed(new Runnable() {
+                    mHandler[currHandler].removeCallbacksAndMessages(null);
+                    mHandler[currHandler].postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (holder.tweetId == id) {
@@ -580,11 +594,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             }
                         }
                     }, 350);
+
+                    currHandler++;
+
+                    if (currHandler == 4) {
+                        currHandler = 0;
+                    }
 
                 } else {
                     holder.image.setImageDrawable(transparent);
 
-                    new Handler().postDelayed(new Runnable() {
+                    mHandler[currHandler].removeCallbacksAndMessages(null);
+                    mHandler[currHandler].postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (holder.tweetId == id) {
@@ -592,6 +613,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             }
                         }
                     }, 350);
+
+                    currHandler++;
+
+                    if (currHandler == 4) {
+                        currHandler = 0;
+                    }
 
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
@@ -634,7 +661,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             String text = holder.tweet.getText().toString();
             if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                new Handler().postDelayed(new Runnable() {
+                emojiHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if (holder.tweetId == id) {
@@ -642,7 +669,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             holder.tweet.setText(span);
                         }
                     }
-                }, 500);
+                }, 350);
             }
         }
     }
@@ -659,10 +686,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             v = convertView;
 
             final ViewHolder holder = (ViewHolder) v.getTag();
-
-            if (holder.expandArea.getVisibility() == View.VISIBLE) {
-                removeExpansionNoAnimation(holder);
-            }
 
             holder.profilePic.setImageDrawable(context.getResources().getDrawable(border));
             holder.image.setVisibility(View.GONE);
