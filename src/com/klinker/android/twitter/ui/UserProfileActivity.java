@@ -589,7 +589,13 @@ public class UserProfileActivity extends Activity {
                         }
                     });
                 } catch (Exception e) {
-                    Toast.makeText(context, "Error loading profile. Check your network connection", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Error loading profile. Check your network connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }).start();
@@ -675,6 +681,12 @@ public class UserProfileActivity extends Activity {
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Couldn't load timeline! Try checking your data connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }).start();
@@ -727,6 +739,12 @@ public class UserProfileActivity extends Activity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Couldn't load timeline! Try checking your data connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }).start();
