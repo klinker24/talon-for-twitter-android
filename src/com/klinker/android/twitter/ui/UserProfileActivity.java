@@ -482,11 +482,17 @@ public class UserProfileActivity extends Activity {
                         @Override
                         public void run() {
                             statement.append("\n" + fUrl);
+
+                            if (!settings.addonTheme) {
+                                linkifyText(statement);
+                            }
                         }
                     });
                 }
 
                 getFollowingStatus(statement, user);
+
+
             }
         }).start();
     }
@@ -572,10 +578,6 @@ public class UserProfileActivity extends Activity {
                                 statement.setLinkTextColor(getResources().getColor(R.color.app_color));
                             } else {
                                 statement.setLinkTextColor(settings.accentInt);
-                            }
-
-                            if (!settings.addonTheme) {
-                                linkifyText(statement);
                             }
 
                             tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
