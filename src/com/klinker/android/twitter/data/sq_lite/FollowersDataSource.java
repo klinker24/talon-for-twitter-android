@@ -22,7 +22,12 @@ public class FollowersDataSource {
     public static FollowersDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+                dataSource = new FollowersDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (Exception e) {
             dataSource = new FollowersDataSource(context); // create the database
             dataSource.open(); // open the database
         }

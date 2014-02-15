@@ -572,13 +572,16 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cursorAdapter = new TimeLineCursorAdapter(context, ListDataSource.getInstance(context).getCursor(listId), false);
-
-                final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
+                final Cursor cursor = ListDataSource.getInstance(context).getCursor(listId);
 
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+
+                        final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
+
                         if (bSpinner) {
                             try {
                                 spinner.setVisibility(View.GONE);

@@ -28,7 +28,12 @@ public class InteractionsDataSource {
     public static InteractionsDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+                dataSource = new InteractionsDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (Exception e) {
             dataSource = new InteractionsDataSource(context); // create the database
             dataSource.open(); // open the database
         }
