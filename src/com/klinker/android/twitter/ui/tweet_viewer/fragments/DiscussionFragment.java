@@ -130,17 +130,21 @@ public class DiscussionFragment extends Fragment {
                         query=result.nextQuery();
                     }*/
 
-                    do{
+                    do {
                         List<twitter4j.Status> tweets = result.getTweets();
-                        for(twitter4j.Status tweet: tweets){
+
+                        for(twitter4j.Status tweet : tweets){
                             if (tweet.getInReplyToStatusId() == id) {
                                 all.add(tweet);
                             }
                         }
-                        query=result.nextQuery();
-                        if(query!=null)
-                            result=twitter.search(query);
-                    }while(query!=null);
+
+                        query = result.nextQuery();
+
+                        if (query != null)
+                            result = twitter.search(query);
+
+                    } while (query != null);
 
                 } catch (Exception e) {
                     e.printStackTrace();
