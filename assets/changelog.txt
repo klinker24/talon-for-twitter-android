@@ -1,3 +1,8 @@
+<b>Version 1.4.1:</b><br/><br/>
+    &#8226; Customize the two pages on the left of the main timeline<br/>
+    &#8226; Many more crash fixes<br/>
+</br><br/>
+
 <b>Version 1.4.0:</b><br/><br/>
     &#8226; Customize the two pages on the left of the main timeline<br/>
     &#8226; Long click to remove favorite users<br/>
