@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.ui.drawer_activities.lists;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -77,7 +78,7 @@ public class ListsActivity extends DrawerActivity {
             }
         }
 
-        new GetLists().execute();
+        getLists();
 
     }
 
@@ -153,36 +154,43 @@ public class ListsActivity extends DrawerActivity {
         }
     }
 
-    class GetLists extends AsyncTask<String, Void, ResponseList<UserList>> {
+    public void getLists() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
-        protected ResponseList<UserList> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                    final ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
 
-                ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
+                    Collections.sort(lists, new Comparator<UserList>() {
+                        public int compare(UserList result1, UserList result2) {
+                            return result1.getName().compareTo(result2.getName());
+                        }
+                    });
 
-                Collections.sort(lists, new Comparator<UserList>() {
-                    public int compare(UserList result1, UserList result2) {
-                        return result1.getName().compareTo(result2.getName());
-                    }
-                });
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.setAdapter(new ListsArrayAdapter(context, lists));
+                            listView.setVisibility(View.VISIBLE);
 
-                return lists;
-            } catch (Exception e) {
-                return null;
+                            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
-        }
-
-        protected void onPostExecute(ResponseList<UserList> lists) {
-
-            if (lists != null) {
-                listView.setAdapter(new ListsArrayAdapter(context, lists));
-                listView.setVisibility(View.VISIBLE);
-            }
-
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
     class CreateList extends AsyncTask<String, Void, Boolean> {
