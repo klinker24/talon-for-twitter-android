@@ -520,7 +520,7 @@ public class UserProfileActivity extends Activity {
 
     public void getData(final TextView statement, final AsyncListView listView) {
 
-        new Thread(new Runnable() {
+        Thread getData = new Thread(new Runnable() {
             @Override
             public void run() {
                 Twitter twitter =  Utils.getTwitter(context, settings);
@@ -599,7 +599,10 @@ public class UserProfileActivity extends Activity {
                     });
                 }
             }
-        }).start();
+        });
+
+        getData.setPriority(Thread.MAX_PRIORITY);
+        getData.start();
     }
 
 
