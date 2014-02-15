@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
+import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -71,79 +72,63 @@ public class ConversationFragment extends Fragment {
 
         replyList.setItemManager(builder.build());
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new GetReplies(replyList, tweetId, progressSpinner, none).execute();
-            }
-        }, 1500);
+        getReplies(replyList, tweetId, progressSpinner, none);
 
         return layout;
     }
 
-    class GetReplies extends AsyncTask<String, Void, ArrayList<Status>> {
+    public void getReplies(final ListView listView, final long tweetId, final LinearLayout progressSpinner, final HoloTextView none) {
 
-        private ListView listView;
-        private long tweetId;
-        private LinearLayout progressSpinner;
-        private HoloTextView none;
-
-        public GetReplies(ListView listView, long tweetId, LinearLayout progressBar, HoloTextView none) {
-            this.listView = listView;
-            this.tweetId = tweetId;
-            this.progressSpinner = progressBar;
-            this.none = none;
-        }
-
-        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, settings);
-            try {
-                twitter4j.Status status = twitter.showStatus(tweetId);
-
-                twitter4j.Status replyStatus = twitter.showStatus(status.getInReplyToStatusId());
-
-                ArrayList<twitter4j.Status> replies = new ArrayList<twitter4j.Status>();
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Twitter twitter = Utils.getTwitter(context, settings);
+                final ArrayList<twitter4j.Status> replies = new ArrayList<twitter4j.Status>();
                 try {
-                    while(!replyStatus.getText().equals("")) {
-                        replies.add(replyStatus);
-                        Log.v("reply_status", replyStatus.getText());
+                    twitter4j.Status status = twitter.showStatus(tweetId);
+                    twitter4j.Status replyStatus = twitter.showStatus(status.getInReplyToStatusId());
 
-                        replyStatus = twitter.showStatus(replyStatus.getInReplyToStatusId());
-                    }
-                } catch (Exception e) {
-                    // the list of replies has ended, but we dont want to go to null
-                }
+                    try {
+                        while(!replyStatus.getText().equals("")) {
+                            replies.add(replyStatus);
+                            Log.v("reply_status", replyStatus.getText());
 
-                return replies;
-
-            } catch (TwitterException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(ArrayList<twitter4j.Status> replies) {
-            progressSpinner.setVisibility(View.GONE);
-
-            try {
-                if (replies.size() > 0) {
-
-                    ArrayList<twitter4j.Status> reversed = new ArrayList<twitter4j.Status>();
-                    for (int i = replies.size() - 1; i >= 0; i--) {
-                         reversed.add(replies.get(i));
+                            replyStatus = twitter.showStatus(replyStatus.getInReplyToStatusId());
+                        }
+                    } catch (Exception e) {
+                        // the list of replies has ended, but we dont want to go to null
                     }
 
-                    listView.setAdapter(new TimelineArrayAdapter(context, reversed));
-                    listView.setVisibility(View.VISIBLE);
-                } else {
-                    none.setVisibility(View.VISIBLE);
+                } catch (TwitterException e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                // none and it got the null object
-                listView.setVisibility(View.GONE);
-                none.setVisibility(View.VISIBLE);
+
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressSpinner.setVisibility(View.GONE);
+
+                        try {
+                            if (replies.size() > 0) {
+
+                                ArrayList<twitter4j.Status> reversed = new ArrayList<twitter4j.Status>();
+                                for (int i = replies.size() - 1; i >= 0; i--) {
+                                    reversed.add(replies.get(i));
+                                }
+
+                                listView.setAdapter(new TimelineArrayAdapter(context, reversed));
+                                listView.setVisibility(View.VISIBLE);
+                            } else {
+                                none.setVisibility(View.VISIBLE);
+                            }
+                        } catch (Exception e) {
+                            // none and it got the null object
+                            listView.setVisibility(View.GONE);
+                            none.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
             }
-        }
+        }).start();
     }
 }
