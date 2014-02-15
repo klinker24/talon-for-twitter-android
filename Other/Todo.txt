@@ -1,6 +1,5 @@
 - Features:
     - Retweet and favorite from multiple accounts
-    - Get more tweets when you get to the bottom of profiles
     - scheduling tweets
     - widget with just the unread numbers on it
     - instapaper mobilizer
@@ -13,7 +12,6 @@
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
     - vines on lower version of android
-    - replies to retweets
     - make sure tweet marker fires when switch accounts
     - compose not always shutting?
     - small images have the spinner behind them..
