@@ -283,7 +283,6 @@ public abstract class DrawerActivity extends Activity {
                         context.startActivity(viewProfile);
                     }
                 }, 400);
-
             }
         });
 

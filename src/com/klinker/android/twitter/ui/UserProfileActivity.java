@@ -389,7 +389,6 @@ public class UserProfileActivity extends Activity {
             public void onClick(View view) {
                 if(spinner.getVisibility() == View.GONE) {
                     startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()));
-
                 } else {
                     // it isn't ready to be opened just yet
                 }
