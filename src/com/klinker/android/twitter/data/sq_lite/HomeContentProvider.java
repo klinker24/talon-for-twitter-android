@@ -172,18 +172,11 @@ public class HomeContentProvider extends ContentProvider {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         // A convenience class to help build the query
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-
-        qb.setTables(helper.TABLE_HOME);
-        qb.appendWhere(helper.COLUMN_ID + "=" + uri.getLastPathSegment());
-        String orderBy = HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC";
-
         HomeDataSource data = HomeDataSource.getInstance(context);
         Cursor c = data.getCursor(Integer.parseInt(selectionArgs[0]));//qb.query(db,
                 //projection, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + selectionArgs[0], null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         c.setNotificationUri(context.getContentResolver(), uri);
 
-        db.close();
         return c;
     }
 

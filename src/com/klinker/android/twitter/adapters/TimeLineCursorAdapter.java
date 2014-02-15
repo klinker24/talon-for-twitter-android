@@ -80,6 +80,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private int border;
 
     private Handler[] mHandlers;
+    private Handler emojiHandler;
     private int currHandler;
 
     public boolean hasKeyboard = false;
@@ -176,6 +177,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         for (int i = 0; i < 4; i++) {
             mHandlers[i] = new Handler();
         }
+        emojiHandler = new Handler();
     }
 
     @Override
@@ -302,6 +304,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
+
+        if (holder.expandArea.getVisibility() == View.VISIBLE) {
+            removeExpansionNoAnimation(holder);
+        }
 
         final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
         holder.tweetId = id;
@@ -639,7 +645,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             String text = holder.tweet.getText().toString();
             if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                new Handler().postDelayed(new Runnable() {
+                emojiHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if (holder.tweetId == id) {
@@ -647,7 +653,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             holder.tweet.setText(span);
                         }
                     }
-                }, 500);
+                }, 350);
             }
         }
 
@@ -670,10 +676,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             v = convertView;
 
             final ViewHolder holder = (ViewHolder) v.getTag();
-
-            if (holder.expandArea.getVisibility() == View.VISIBLE) {
-                removeExpansionNoAnimation(holder);
-            }
 
             holder.profilePic.setImageDrawable(context.getResources().getDrawable(border));
             holder.image.setVisibility(View.GONE);
