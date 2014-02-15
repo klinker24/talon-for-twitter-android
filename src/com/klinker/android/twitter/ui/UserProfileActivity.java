@@ -22,9 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.util.Patterns;
@@ -55,7 +53,6 @@ import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
@@ -126,7 +123,7 @@ public class UserProfileActivity extends Activity {
     private long currentFollowers = -1;
     private long currentFollowing = -1;
     private int refreshes = 0;
-    private ArrayList<User> friends;
+    private ArrayList<User> followers;
     private ArrayList<User> following;
     private boolean canRefresh = true;
 
@@ -210,7 +207,7 @@ public class UserProfileActivity extends Activity {
         listView.addHeaderView(header);
         listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
 
-        friends = new ArrayList<User>();
+        followers = new ArrayList<User>();
         following = new ArrayList<User>();
 
         setUpUI(fromAddon);
@@ -347,7 +344,8 @@ public class UserProfileActivity extends Activity {
                     currentFollowers = -1;
                     refreshes = 0;
 
-                    listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
+                    listView.setItemManager(builder.build());
+                    listView.setAdapter(timelineAdapter);
 
                     getTimeline(thisUser, listView);
                 }
@@ -361,14 +359,11 @@ public class UserProfileActivity extends Activity {
             public void onClick(View view) {
                 if (current != BTN_FOLLOWERS) {
                     current = BTN_FOLLOWERS;
-                    currentFollowers = -1;
-                    friends = new ArrayList<User>();
-                    refreshes = 0;
 
                     listView.setItemManager(null);
-                    listView.setAdapter(new PeopleArrayAdapter(context, friends));
+                    listView.setAdapter(followersAdapter);
 
-                    new GetFollowers(thisUser, listView, false).execute();
+                    getFollowers(thisUser, listView);
                 }
             }
         });
@@ -380,14 +375,11 @@ public class UserProfileActivity extends Activity {
             public void onClick(View view) {
                 if (current != BTN_FOLLOWING) {
                     current = BTN_FOLLOWING;
-                    currentFollowing = -1;
-                    following = new ArrayList<User>();
-                    refreshes = 0;
 
                     listView.setItemManager(null);
                     listView.setAdapter(new PeopleArrayAdapter(context, following));
 
-                    new GetFollowing(thisUser, listView, false).execute();
+                    getFollowing(thisUser, listView);
                 }
             }
         });
@@ -433,9 +425,9 @@ public class UserProfileActivity extends Activity {
                 if(lastItem == totalItemCount) {
                     // Last item is fully visible.
                     if (current == BTN_FOLLOWING && canRefresh) {
-                        new GetFollowing(thisUser, listView, true).execute();
+                        getFollowing(thisUser, listView);
                     } else if (current == BTN_FOLLOWERS && canRefresh) {
-                        new GetFollowers(thisUser, listView, true).execute();
+                        getFollowers(thisUser, listView);
                     } else if (current == BTN_TWEET && canRefresh) {
                         getTimeline(thisUser, listView);
                     }
@@ -638,224 +630,106 @@ public class UserProfileActivity extends Activity {
         }
     }
 
-    class GetFollowers extends AsyncTask<String, Void, ArrayList<twitter4j.User>> {
+    public PeopleArrayAdapter followersAdapter;
 
-        private User user;
-        private AsyncListView listView;
-        private boolean shouldIncrement;
+    public void getFollowers(final User user, final AsyncListView listView) {
+        spinner.setVisibility(View.VISIBLE);
+        canRefresh = false;
 
-        public GetFollowers(User user, AsyncListView listView, boolean inc) {
-            this.user = user;
-            this.listView = listView;
-            this.shouldIncrement = inc;
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
-        protected void onPreExecute() {
-            spinner.setVisibility(View.VISIBLE);
-        }
+                    PagableResponseList<User> friendsPaging = twitter.getFollowersList(user.getId(), currentFollowers);
 
-        protected ArrayList<twitter4j.User> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-
-                PagableResponseList<User> friendsPaging = twitter.getFollowersList(user.getId(), currentFollowers);
-
-                for (int i = 0; i < friendsPaging.size(); i++) {
-                    friends.add(friendsPaging.get(i));
-                    Log.v("friends_list", friendsPaging.get(i).getName());
-                }
-
-                currentFollowers = friendsPaging.getNextCursor();
-
-                Log.v("friends_list", friends.size() + "");
-
-                return friends;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(ArrayList<twitter4j.User> users) {
-            if (users != null) {
-                final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
-                final int firstVisible = listView.getFirstVisiblePosition();
-                listView.setItemManager(null);
-
-                if (shouldIncrement) {
-                    listView.setAdapter(people);
-                    refreshes++;
-                } else {
-                    listView.setAdapter(people);
-                }
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setSelection(firstVisible);
+                    for (int i = 0; i < friendsPaging.size(); i++) {
+                        followers.add(friendsPaging.get(i));
                     }
-                }, 100);
 
-                listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    currentFollowers = friendsPaging.getNextCursor();
 
-                    @Override
-                    public boolean onPreDraw() {
-                        if(listView.getFirstVisiblePosition() == firstVisible) {
-                            listView.getViewTreeObserver().removeOnPreDrawListener(this);
-                            return true;
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (followersAdapter == null) {
+                                followersAdapter = new PeopleArrayAdapter(context, followers);
+                                listView.setAdapter(followersAdapter);
+                            } else {
+                                followersAdapter.notifyDataSetChanged();
+                            }
+
+                            if(settings.roundContactImages) {
+                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            } else {
+                                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            }
+
+                            String url = user.getProfileBannerURL();
+                            ImageUtils.loadImage(context, background, url, mCache);
+
+                            canRefresh = true;
+                            spinner.setVisibility(View.GONE);
                         }
-                        else {
-                            return false;
-                        }
-                    }
-                });
-            }
-
-            try {
-                if(settings.roundContactImages) {
-                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
-                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                } else {
-                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
-                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-
             }
-
-
-            String url;
-            try {
-                url = user.getProfileBannerURL();
-            } catch (Exception e) {
-                // awkward... they clicked here before the user was actually found...
-                // Damn you kb/sec internet
-                url = null;
-            }
-
-            if (url != null) {
-                /*if (!user.getScreenName().equals(settings.myScreenName)) {
-                    background.loadImage(url, false, null);
-                } else {
-                    background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
-                }*/
-                ImageUtils.loadImage(context, background, url, mCache);
-            }
-
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
-    class GetFollowing extends AsyncTask<String, Void, ArrayList<twitter4j.User>> {
+    public PeopleArrayAdapter followingAdapter;
 
-        private User user;
-        private AsyncListView listView;
-        private boolean shouldIncrement;
+    public void getFollowing(final User user, final AsyncListView listView) {
+        spinner.setVisibility(View.VISIBLE);
+        canRefresh = false;
 
-        public GetFollowing(User user, AsyncListView listViews, boolean inc) {
-            this.user = user;
-            this.listView = listViews;
-            this.shouldIncrement = inc;
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
-        protected void onPreExecute() {
-            spinner.setVisibility(View.VISIBLE);
-        }
+                    PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), currentFollowing);
 
-        protected ArrayList<twitter4j.User> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                    for (int i = 0; i < friendsPaging.size(); i++) {
+                        following.add(friendsPaging.get(i));
+                        Log.v("friends_list", friendsPaging.get(i).getName());
+                    }
 
-                PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), currentFollowing);
-
-                for (int i = 0; i < friendsPaging.size(); i++) {
-                    following.add(friendsPaging.get(i));
-                    Log.v("friends_list", friendsPaging.get(i).getName());
-                }
-
-                if (friendsPaging != null) {
                     currentFollowing = friendsPaging.getNextCursor();
-                } else {
-                    return null;
-                }
 
-                Log.v("friends_list", friends.size() + "");
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (followingAdapter == null) {
+                                followingAdapter = new PeopleArrayAdapter(context, following);
+                                listView.setAdapter(followingAdapter);
+                            } else {
+                                followingAdapter.notifyDataSetChanged();
+                            }
 
-                return following;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
+                            if(settings.roundContactImages) {
+                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            } else {
+                                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            }
 
-        protected void onPostExecute(ArrayList<twitter4j.User> users) {
-            if (users != null) {
-                final PeopleArrayAdapter people = new PeopleArrayAdapter(context, users);
-                final int firstVisible = listView.getFirstVisiblePosition();
-                listView.setItemManager(null);
+                            String url = user.getProfileBannerURL();
+                            ImageUtils.loadImage(context, background, url, mCache);
 
-                if (shouldIncrement) {
-                    listView.setAdapter(people);
-                    refreshes++;
-                } else {
-                    listView.setAdapter(people);
-                }
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setSelection(firstVisible);
-                    }
-                }, 100);
-
-                listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-                    @Override
-                    public boolean onPreDraw() {
-                        if(listView.getFirstVisiblePosition() == firstVisible) {
-                            listView.getViewTreeObserver().removeOnPreDrawListener(this);
-                            return true;
+                            canRefresh = true;
+                            spinner.setVisibility(View.GONE);
                         }
-                        else {
-                            return false;
-                        }
-                    }
-                });
+                    });
 
-            }
-
-            try {
-                if(settings.roundContactImages) {
-                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
-                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                } else {
-                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
-                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-
             }
-
-            String url;
-            try {
-                url = user.getProfileBannerURL();
-            } catch (Exception e) {
-                // awkward... they clicked here before the user was actually found...
-                // Damn you kb/sec internet
-                url = null;
-            }
-
-            if (url != null) {
-                /*if (!user.getScreenName().equals(settings.myScreenName)) {
-                    background.loadImage(url, false, null);
-                } else {
-                    background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
-                }*/
-                ImageUtils.loadImage(context, background, url, mCache);
-            }
-
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
     public Paging timelinePaging = new Paging(1, 20);
