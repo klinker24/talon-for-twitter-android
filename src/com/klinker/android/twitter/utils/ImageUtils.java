@@ -323,6 +323,10 @@ public class ImageUtils {
             mCurrentTask.cancel(true);
         }*/
 
+        if (url == null) {
+            return;
+        }
+
         BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
 
         if (null != wrapper) {
