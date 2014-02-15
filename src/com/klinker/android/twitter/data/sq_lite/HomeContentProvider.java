@@ -28,15 +28,12 @@ public class HomeContentProvider extends ContentProvider {
 
     private Context context;
     private HomeSQLiteHelper helper;
-    private SQLiteDatabase database;
 
     @Override
     public boolean onCreate() {
         Log.d(TAG, "onCreate");
         context = getContext();
-        HomeDataSource data = HomeDataSource.getInstance(context);
-        database = data.getDatabase();
-        helper = data.getHelper();
+        helper = new HomeSQLiteHelper(context);
 
         return (helper == null) ? false : true;
     }
@@ -54,7 +51,7 @@ public class HomeContentProvider extends ContentProvider {
 
         Uri result = null;
 
-        SQLiteDatabase db = database;
+        SQLiteDatabase db = helper.getWritableDatabase();
         long rowID;
         try {
             rowID = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -126,7 +123,7 @@ public class HomeContentProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         Log.d(TAG, "update uri: " + uri.toString());
-        SQLiteDatabase db = database;
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         HomeDataSource dataSource = HomeDataSource.getInstance(context);
         Cursor cursor = dataSource.getUnreadCursor(Integer.parseInt(selectionArgs[0]));
@@ -150,7 +147,7 @@ public class HomeContentProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String id, String[] selectionArgs) {
         Log.d(TAG, "delete uri: " + uri.toString());
-        SQLiteDatabase db = database;
+        SQLiteDatabase db = helper.getWritableDatabase();
         int count;
 
         String segment = uri.getLastPathSegment();
