@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 import twitter4j.Paging;
 import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -110,6 +112,11 @@ public class RetweetActivity extends DrawerActivity {
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if(lastItem == totalItemCount && canRefresh) {
+                    getRetweets();
+                }
+
                 if (!landscape && !isTablet) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
@@ -136,48 +143,70 @@ public class RetweetActivity extends DrawerActivity {
             }
         });
 
-        new GetRetweets().execute();
+        getRetweets();
 
     }
 
-    class GetRetweets extends AsyncTask<String, Void, ResponseList<twitter4j.Status>> {
+    public boolean canRefresh = false;
+    public Paging paging = new Paging(1, 20);
+    public TimelineArrayAdapter adapter;
+    public ArrayList<Status> statuses = new ArrayList<Status>();
 
-        protected void onPreExecute() {
-            listView.setVisibility(View.GONE);
+    public void getRetweets() {
+        canRefresh = false;
+        final LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
 
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-            spinner.setVisibility(View.VISIBLE);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
-        protected ResponseList<twitter4j.Status> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
+                    final ResponseList<twitter4j.Status> favs = twitter.getRetweetsOfMe(paging);
 
-                Paging paging = new Paging(1, 100);
+                    paging.setPage(paging.getPage() + 1);
 
-                ResponseList<twitter4j.Status> statuses = twitter.getRetweetsOfMe(paging);
+                    for (twitter4j.Status s : favs) {
+                        statuses.add(s);
+                    }
 
-                return statuses;
-            } catch (Exception e) {
-                return null;
-            }
-        }
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
 
-        protected void onPostExecute(ResponseList<twitter4j.Status> statuses) {
+                            if (adapter == null) {
+                                adapter = new TimelineArrayAdapter(context, statuses, TimelineArrayAdapter.RETWEET);
+                                listView.setAdapter(adapter);
+                                listView.setVisibility(View.VISIBLE);
+                            } else {
+                                adapter.notifyDataSetChanged();
+                            }
 
-            ArrayList<twitter4j.Status> arrayList = new ArrayList<twitter4j.Status>();
-            if (statuses != null) {
-                for (twitter4j.Status s : statuses) {
-                    arrayList.add(s);
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = true;
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                        }
+                    });
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                        }
+                    });
                 }
             }
-
-            listView.setAdapter(new TimelineArrayAdapter(context, arrayList, TimelineArrayAdapter.RETWEET));
-            listView.setVisibility(View.VISIBLE);
-
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
     @Override
