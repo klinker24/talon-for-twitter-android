@@ -420,7 +420,7 @@ public class UserProfileActivity extends Activity {
         });
 
         canRefresh = false;
-        
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -890,6 +890,15 @@ public class UserProfileActivity extends Activity {
                                 listView.setAdapter(timelineAdapter);
                             }
 
+                            if(settings.roundContactImages) {
+                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            } else {
+                                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            }
+
+                            String url = user.getProfileBannerURL();
+                            ImageUtils.loadImage(context, background, url, mCache);
+
                             spinner.setVisibility(View.GONE);
                             canRefresh = true;
                         }
@@ -914,39 +923,6 @@ public class UserProfileActivity extends Activity {
                 }
             }
         }).start();
-
-
-        /*protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
-            if (statuses != null) {
-            }
-
-            try {
-                if(settings.roundContactImages) {
-                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                } else {
-                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                }
-            } catch (Exception e) {
-                // user is null i guess
-            }
-
-            String url;
-            try {
-                url = user.getProfileBannerURL();
-            } catch (Exception e) {
-                // awkward... they clicked here before the user was actually found...
-                // Damn you kb/sec internet
-                url = null;
-            }
-            if (url != null) {
-                ImageUtils.loadImage(context, background, url, mCache);
-            }
-
-            if (thisUser != null) {
-                actionBar.setTitle(thisUser.getName());
-            }
-
-        }*/
     }
 
     class FollowUser extends AsyncTask<String, Void, Boolean> {
