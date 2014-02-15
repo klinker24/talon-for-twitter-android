@@ -172,8 +172,7 @@ public class HomeContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         Log.d(TAG, "query with uri: " + uri.toString());
 
-        HomeDataSource data = HomeDataSource.getInstance(context);
-        SQLiteDatabase db = data.getDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         // A convenience class to help build the query
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -182,6 +181,7 @@ public class HomeContentProvider extends ContentProvider {
         qb.appendWhere(helper.COLUMN_ID + "=" + uri.getLastPathSegment());
         String orderBy = HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC";
 
+        HomeDataSource data = HomeDataSource.getInstance(context);
         Cursor c = data.getCursor(Integer.parseInt(selectionArgs[0]));//qb.query(db,
                 //projection, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + selectionArgs[0], null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         c.setNotificationUri(context.getContentResolver(), uri);
