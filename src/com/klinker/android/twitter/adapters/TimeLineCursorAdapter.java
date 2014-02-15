@@ -78,6 +78,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private int cancelButton;
     private int border;
 
+    private Handler[] mHandlers;
+    private int currHandler = 0;
+
     public boolean hasKeyboard = false;
 
     private int layout;
@@ -167,6 +170,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         transparent = new ColorDrawable(android.R.color.transparent);
+
+        mHandlers = new Handler[4];
     }
 
     @Override
@@ -569,7 +574,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     holder.image.setImageDrawable(transparent);
 
-                    new Handler().postDelayed(new Runnable() {
+                    mHandlers[currHandler].removeCallbacksAndMessages(null);
+                    mHandlers[currHandler].postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (holder.tweetId == id) {
@@ -577,6 +583,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
                         }
                     }, 350);
+                    currHandler++;
 
 
                 } else {
@@ -593,7 +600,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     holder.image.setImageDrawable(transparent);
 
-                    new Handler().postDelayed(new Runnable() {
+                    mHandlers[currHandler].removeCallbacksAndMessages(null);
+                    mHandlers[currHandler].postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (holder.tweetId == id) {
@@ -601,6 +609,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
                         }
                     }, 350);
+                    currHandler++;
                 }
             }
         }
