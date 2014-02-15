@@ -27,8 +27,11 @@ public class HomeDataSource {
     public static HomeDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        SQLiteDatabase db = dataSource.getDatabase();
-        if (dataSource == null || !db.isOpen() || db.isDbLockedByCurrentThread() || db.isDbLockedByOtherThreads()) {
+        if (dataSource == null ||
+                !dataSource.getDatabase().isOpen() ||
+                dataSource.getDatabase().isDbLockedByCurrentThread() ||
+                dataSource.getDatabase().isDbLockedByOtherThreads()) {
+
             dataSource = new HomeDataSource(context); // create the database
             dataSource.open(); // open the database
         }
