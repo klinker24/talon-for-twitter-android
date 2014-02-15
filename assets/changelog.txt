@@ -1,5 +1,5 @@
 <b>Version 1.4.1:</b><br/><br/>
-    &#8226; Major speed improvements when viewing tweets, profiles, searches, and other networked tasks<br/>
+    &#8226; Major speed improvements when viewing tweets, profiles, searches, lists, and other networked tasks<br/>
     &#8226; Automatically load more search results, profile tweets, followers, and more at the bottom of the pages<br/>
     &#8226; Many more crash fixes<br/>
 </br><br/>
