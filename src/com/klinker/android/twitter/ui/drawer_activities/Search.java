@@ -150,7 +150,11 @@ public class Search extends Activity implements OnRefreshListener {
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount && canRefresh) {
-                    getMore();
+                    if (!searchQuery.contains("@")) {
+                        getMore();
+                    } else {
+                        getMoreUsers(searchQuery.replace("@", ""));
+                    }
                 }
             }
         });
@@ -417,28 +421,25 @@ public class Search extends Activity implements OnRefreshListener {
         }).start();
     }
 
+    public ArrayList<User> users;
+    public int userPage = 1;
+    public PeopleArrayAdapter peopleAdapter;
+
     public void doUserSearch(final String mQuery) {
         listView.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
+        hasMore = true;
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.v("inside_user_search", mQuery);
-
                     Twitter twitter = Utils.getTwitter(context, settings);
-                    ResponseList<User> result = twitter.searchUsers(mQuery, 1);
+                    ResponseList<User> result = twitter.searchUsers(mQuery, userPage);
 
-                    if (result.size() == 20) {
-                        result.addAll(twitter.searchUsers(mQuery, 2));
+                    userPage++;
 
-                        if (result.size() == 40) {
-                            result.addAll(twitter.searchUsers(mQuery, 3));
-                        }
-                    }
-
-                    final ArrayList<User> users = new ArrayList<User>();
+                    users = new ArrayList<User>();
 
                     for (User u : result) {
                         users.add(u);
@@ -447,7 +448,8 @@ public class Search extends Activity implements OnRefreshListener {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            listView.setAdapter(new PeopleArrayAdapter(context, users));
+                            peopleAdapter = new PeopleArrayAdapter(context, users);
+                            listView.setAdapter(peopleAdapter);
                             listView.setVisibility(View.VISIBLE);
 
                             spinner.setVisibility(View.GONE);
@@ -462,6 +464,7 @@ public class Search extends Activity implements OnRefreshListener {
                             spinner.setVisibility(View.GONE);
                         }
                     });
+                    hasMore = false;
                 }
             }
         }).start();
@@ -528,6 +531,46 @@ public class Search extends Activity implements OnRefreshListener {
                                 canRefresh = true;
                             }
                         });
+                    }
+                }
+            }).start();
+        }
+    }
+
+    public void getMoreUsers(final String mQuery) {
+        if (hasMore) {
+            canRefresh = false;
+            mPullToRefreshLayout.setRefreshing(true);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Twitter twitter = Utils.getTwitter(context, settings);
+                        ResponseList<User> result = twitter.searchUsers(mQuery, userPage);
+
+                        userPage++;
+
+                        for (User u : result) {
+                            users.add(u);
+                        }
+
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                peopleAdapter.notifyDataSetChanged();
+                                mPullToRefreshLayout.setRefreshComplete();
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPullToRefreshLayout.setRefreshComplete();
+                            }
+                        });
+                        hasMore = false;
                     }
                 }
             }).start();
