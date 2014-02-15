@@ -27,13 +27,18 @@ public class HomeDataSource {
     public static HomeDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null ||
-                !dataSource.getDatabase().isOpen() ||
-                dataSource.getDatabase().isDbLockedByCurrentThread() ||
-                dataSource.getDatabase().isDbLockedByOtherThreads()) {
+        try {
+            if (dataSource == null ||
+                    !dataSource.getDatabase().isOpen() ||
+                    dataSource.getDatabase().isDbLockedByCurrentThread() ||
+                    dataSource.getDatabase().isDbLockedByOtherThreads()) {
 
-            dataSource = new HomeDataSource(context); // create the database
-            dataSource.open(); // open the database
+                dataSource = new HomeDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (Exception e) {
+            dataSource = new HomeDataSource(context);
+            dataSource.open();
         }
 
         return dataSource;
