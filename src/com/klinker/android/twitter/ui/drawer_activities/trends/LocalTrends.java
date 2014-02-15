@@ -80,7 +80,7 @@ public class LocalTrends extends Fragment implements
 
         mLocationClient = new LocationClient(context, this, this);
 
-        new GetTrends().execute();
+        getTrends();
 
         return layout;
     }
@@ -112,55 +112,66 @@ public class LocalTrends extends Fragment implements
         super.onStop();
     }
 
-    class GetTrends extends AsyncTask<String, Void, ArrayList<String>> {
+    public void getTrends() {
 
-        protected ArrayList<String> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
-
-                while (!connected) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-
-                    }
-                }
-
-                Location location = mLocationClient.getLastLocation();
-
-                ResponseList<twitter4j.Location> locations = twitter.getClosestTrends(new GeoLocation(location.getLatitude(),location.getLongitude()));
-                twitter4j.Trends trends = twitter.getPlaceTrends(locations.get(0).getWoeid());
-
-                ArrayList<String> currentTrends = new ArrayList<String>();
-
-                for(Trend t: trends.getTrends()){
-                    String name = t.getName();
-                    currentTrends.add(name);
-                }
-
-                return currentTrends;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(ArrayList<String> trends) {
-
-            if (trends != null) {
-                listView.setAdapter(new TrendsArrayAdapter(context, trends));
-                listView.setVisibility(View.VISIBLE);
-            } else {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
                 try {
-                    Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    // it isn't attached to the main activity anymore
+                    Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
+
+                    int i = 0;
+                    while (!connected && i < 5) {
+                        try {
+                            Thread.sleep(1500);
+                        } catch (Exception e) {
+
+                        }
+
+                        i++;
+                    }
+
+                    Location location = mLocationClient.getLastLocation();
+
+                    ResponseList<twitter4j.Location> locations = twitter.getClosestTrends(new GeoLocation(location.getLatitude(),location.getLongitude()));
+                    twitter4j.Trends trends = twitter.getPlaceTrends(locations.get(0).getWoeid());
+
+                    final ArrayList<String> currentTrends = new ArrayList<String>();
+
+                    for(Trend t: trends.getTrends()){
+                        String name = t.getName();
+                        currentTrends.add(name);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (currentTrends != null) {
+                                listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
+                                listView.setVisibility(View.VISIBLE);
+                            } else {
+                                try {
+                                    Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    // it isn't attached to the main activity anymore
+                                }
+                            }
+
+                            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Couldn't find your location!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
-
-            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
     public int toDP(int px) {

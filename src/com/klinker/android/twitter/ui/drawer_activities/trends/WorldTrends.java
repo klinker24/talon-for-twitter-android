@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TrendsArrayAdapter;
@@ -24,12 +28,11 @@ import org.lucasr.smoothie.AsyncListView;
 
 import java.util.ArrayList;
 
+import twitter4j.GeoLocation;
+import twitter4j.ResponseList;
 import twitter4j.Trend;
 import twitter4j.Twitter;
 
-/**
- * Created by luke on 11/29/13.
- */
 public class WorldTrends extends Fragment {
 
     private Context context;
@@ -68,42 +71,45 @@ public class WorldTrends extends Fragment {
             }
         }
 
-        new GetTrends().execute();
+        getTrends();
 
         return layout;
     }
 
-    class GetTrends extends AsyncTask<String, Void, ArrayList<String>> {
+    public void getTrends() {
 
-        protected ArrayList<String> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
-                twitter4j.Trends trends = twitter.getPlaceTrends(1);
-                ArrayList<String> currentTrends = new ArrayList<String>();
+                    twitter4j.Trends trends = twitter.getPlaceTrends(1);
+                    final ArrayList<String> currentTrends = new ArrayList<String>();
 
-                for(Trend t: trends.getTrends()){
-                    String name = t.getName();
-                    currentTrends.add(name);
+                    for(Trend t: trends.getTrends()){
+                        String name = t.getName();
+                        currentTrends.add(name);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(currentTrends != null) {
+                                listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
+                            }
+
+                            listView.setVisibility(View.VISIBLE);
+
+                            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                } catch (Throwable e) {
+                    e.printStackTrace();
                 }
-
-                return currentTrends;
-            } catch (Exception e) {
-                return null;
             }
-        }
-
-        protected void onPostExecute(ArrayList<String> trends) {
-
-            if(trends != null) {
-                listView.setAdapter(new TrendsArrayAdapter(context, trends));
-            }
-
-            listView.setVisibility(View.VISIBLE);
-
-            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
     public int toDP(int px) {
