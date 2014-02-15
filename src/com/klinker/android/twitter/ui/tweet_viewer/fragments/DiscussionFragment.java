@@ -77,92 +77,105 @@ public class DiscussionFragment extends Fragment {
 
         replyList.setItemManager(builder.build());
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new GetReplies(replyList, tweetId, progressSpinner, none).execute();
-            }
-        }, 1500);
+        getReplies(replyList, tweetId, progressSpinner, none);
 
         return layout;
     }
 
-    class GetReplies extends AsyncTask<String, Void, ArrayList<Status>> {
+    public Query query;
 
-        private ListView listView;
-        private long tweetId;
-        private LinearLayout progressSpinner;
-        private HoloTextView none;
+    public void getReplies(final ListView listView, final long tweetId, final LinearLayout progressBar, final HoloTextView none) {
 
-        public GetReplies(ListView listView, long tweetId, LinearLayout progressBar, HoloTextView none) {
-            this.listView = listView;
-            this.tweetId = tweetId;
-            this.progressSpinner = progressBar;
-            this.none = none;
-        }
-
-        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, settings);
-            try {
-                twitter4j.Status status = twitter.showStatus(tweetId);
-                boolean isRetweet = status.isRetweet();
-
-                Query query = new Query("@" + screenname + " since_id:" + (isRetweet ? status.getRetweetedStatus().getId() : tweetId));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<twitter4j.Status> all = null;
+                Twitter twitter = Utils.getTwitter(context, settings);
                 try {
-                    query.setCount(100);
-                } catch ( Exception e) {
-                    // enlarge buffer error?
-                    query.setCount(30);
+                    twitter4j.Status status = twitter.showStatus(tweetId);
+
+                    boolean isRetweet = status.isRetweet();
+
+                    if (isRetweet) {
+                        status = status.getRetweetedStatus();
+                    }
+
+                    long id = status.getId();
+                    String screenname = status.getUser().getScreenName();
+
+                    Log.v("talon_retweet", screenname + " " + id);
+
+                    query = new Query("@" + screenname +
+                            " since_id:" + id);
+
+                    try {
+                        query.setCount(100);
+                    } catch (Exception e) {
+                        // enlarge buffer error?
+                        query.setCount(30);
+                    }
+
+                    QueryResult result = twitter.search(query);
+
+                    all = new ArrayList<twitter4j.Status>();
+
+                    /*if (query != null) {
+                        List<twitter4j.Status> tweets = result.getTweets();
+                        for(twitter4j.Status tweet: tweets){
+                            if (tweet.getInReplyToStatusId() == id) {
+                                all.add(tweet);
+                            }
+                        }
+
+                        query=result.nextQuery();
+                    }*/
+
+                    do{
+                        List<twitter4j.Status> tweets = result.getTweets();
+                        for(twitter4j.Status tweet: tweets){
+                            if (tweet.getInReplyToStatusId() == id) {
+                                all.add(tweet);
+                            }
+                        }
+                        query=result.nextQuery();
+                        if(query!=null)
+                            result=twitter.search(query);
+                    }while(query!=null);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
                 }
-                QueryResult result=twitter.search(query);
 
-                ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
+                final ArrayList<Status> fAll = all;
 
-                do{
-                    List<twitter4j.Status> tweets = result.getTweets();
-                    for(twitter4j.Status tweet: tweets){
-                        if (tweet.getInReplyToStatusId() == tweetId) {
-                            all.add(tweet);
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        try {
+                            if (fAll.size() > 0) {
+
+                                ArrayList<twitter4j.Status> reversed = new ArrayList<twitter4j.Status>();
+                                for (int i = fAll.size() - 1; i >= 0; i--) {
+                                    reversed.add(fAll.get(i));
+                                }
+
+                                listView.setAdapter(new TimelineArrayAdapter(context, reversed));
+                                listView.setVisibility(View.VISIBLE);
+                            } else {
+                                none.setVisibility(View.VISIBLE);
+                            }
+                        } catch (Exception e) {
+                            // none and it got the null object
+                            listView.setVisibility(View.GONE);
+                            none.setVisibility(View.VISIBLE);
                         }
                     }
-                    query=result.nextQuery();
-                    if(query!=null)
-                        result=twitter.search(query);
-                }while(query!=null);
-
-                return all;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-                // i don't have a clue why this would happen
-                return null;
+                });
             }
-        }
+        }).start();
 
-        protected void onPostExecute(ArrayList<twitter4j.Status> replies) {
-            progressSpinner.setVisibility(View.GONE);
-
-            try {
-                if (replies.size() > 0) {
-
-                    ArrayList<twitter4j.Status> reversed = new ArrayList<twitter4j.Status>();
-                    for (int i = replies.size() - 1; i >= 0; i--) {
-                        reversed.add(replies.get(i));
-                    }
-
-                    listView.setAdapter(new TimelineArrayAdapter(context, reversed));
-                    listView.setVisibility(View.VISIBLE);
-                } else {
-                    none.setVisibility(View.VISIBLE);
-                }
-            } catch (Exception e) {
-                // none and it got the null object
-                listView.setVisibility(View.GONE);
-                none.setVisibility(View.VISIBLE);
-            }
-        }
     }
 }
