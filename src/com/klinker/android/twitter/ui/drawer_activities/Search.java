@@ -232,7 +232,7 @@ public class Search extends Activity implements OnRefreshListener {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
             if (searchQuery.contains("@")) {
                 String query = searchQuery.replace("@", "");
-                new DoUserSearch(query).execute();
+                doUserSearch(query);
             } else {
                 String query = searchQuery;
                 doSearch(query);
@@ -252,7 +252,7 @@ public class Search extends Activity implements OnRefreshListener {
                     searchQuery = search;
                     if (searchQuery.contains("@")) {
                         String query = searchQuery.replace("@", "");
-                        new DoUserSearch(query).execute();
+                        doUserSearch(query);
                     } else {
                         String query = searchQuery;
                         doSearch(query);
@@ -417,57 +417,54 @@ public class Search extends Activity implements OnRefreshListener {
         }).start();
     }
 
-    class DoUserSearch extends AsyncTask<String, Void, ArrayList<User>> {
+    public void doUserSearch(final String mQuery) {
+        listView.setVisibility(View.GONE);
+        spinner.setVisibility(View.VISIBLE);
 
-        String mQuery;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.v("inside_user_search", mQuery);
 
-        public DoUserSearch(String query) {
-            this.mQuery = query;
-        }
+                    Twitter twitter = Utils.getTwitter(context, settings);
+                    ResponseList<User> result = twitter.searchUsers(mQuery, 1);
 
-        @Override
-        protected void onPreExecute() {
-            listView.setVisibility(View.GONE);
-            spinner.setVisibility(View.VISIBLE);
-        }
+                    if (result.size() == 20) {
+                        result.addAll(twitter.searchUsers(mQuery, 2));
 
-        protected ArrayList<User> doInBackground(String... urls) {
-            try {
-                Log.v("inside_user_search", mQuery);
-
-                Twitter twitter = Utils.getTwitter(context, settings);
-                ResponseList<User> result = twitter.searchUsers(mQuery, 1);
-
-                if (result.size() == 20) {
-                    result.addAll(twitter.searchUsers(mQuery, 2));
-
-                    if (result.size() == 40) {
-                        result.addAll(twitter.searchUsers(mQuery, 3));
+                        if (result.size() == 40) {
+                            result.addAll(twitter.searchUsers(mQuery, 3));
+                        }
                     }
+
+                    final ArrayList<User> users = new ArrayList<User>();
+
+                    for (User u : result) {
+                        users.add(u);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listView.setAdapter(new PeopleArrayAdapter(context, users));
+                            listView.setVisibility(View.VISIBLE);
+
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
                 }
-
-                ArrayList<User> users = new ArrayList<User>();
-
-                for (User u : result) {
-                    users.add(u);
-                }
-
-                return users;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
             }
-        }
-
-        protected void onPostExecute(ArrayList<User> searches) {
-
-            if (searches != null) {
-                listView.setAdapter(new PeopleArrayAdapter(context, searches));
-                listView.setVisibility(View.VISIBLE);
-            }
-
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
     @Override
