@@ -75,6 +75,7 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import twitter4j.PagableResponseList;
@@ -331,7 +332,7 @@ public class UserProfileActivity extends Activity {
         statement.setTextSize(settings.textSize);
         screenname.setTextSize(settings.textSize + 1);
 
-        new GetData(tweetId, null, null, null, statement, listView).execute();
+        getData(statement, listView);
 
         screenname.setText("@" + screenName);
 
@@ -348,7 +349,7 @@ public class UserProfileActivity extends Activity {
 
                     listView.setAdapter(new TimelineArrayAdapter(context, new ArrayList<Status>(0)));
 
-                    new GetTimeline(thisUser, listView).execute();
+                    getTimeline(thisUser, listView);
                 }
             }
         });
@@ -418,6 +419,8 @@ public class UserProfileActivity extends Activity {
             }
         });
 
+        canRefresh = false;
+        
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -433,6 +436,8 @@ public class UserProfileActivity extends Activity {
                         new GetFollowing(thisUser, listView, true).execute();
                     } else if (current == BTN_FOLLOWERS && canRefresh) {
                         new GetFollowers(thisUser, listView, true).execute();
+                    } else if (current == BTN_TWEET && canRefresh) {
+                        getTimeline(thisUser, listView);
                     }
 
                     canRefresh = false;
@@ -455,146 +460,147 @@ public class UserProfileActivity extends Activity {
         });
     }
 
-    class GetData extends AsyncTask<String, Void, User> {
-        private AsyncListView listView;
-        private TextView statement;
-        private String followingStatus = "";
-        private String url;
-
-        public GetData(long tweetId, TextView numTweets, TextView numFollowers, TextView numFollowing, TextView statement, AsyncListView listView) {
-
-            this.listView = listView;
-            this.statement = statement;
-        }
-
-        protected twitter4j.User doInBackground(String... urls) {
-            Twitter twitter =  Utils.getTwitter(context, settings);
-            try {
-                if (!isMyProfile) {
-                    User user = twitter.showUser(screenName);
-                    followingStatus = Utils.getTwitter(context, settings).showFriendship(settings.myScreenName, user.getScreenName()).isTargetFollowingSource() ?
-                            getResources().getString(R.string.follows_you) : getResources().getString(R.string.not_following_you);
-
-                    HttpURLConnection connection = null;
-                    try {
-                        URL address = new URL(user.getURL());
-                        connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
-                        connection.setConnectTimeout(1000);
-                        connection.setInstanceFollowRedirects(false);
-                        connection.setReadTimeout(1000);
-                        connection.connect();
-                        String expandedURL = connection.getHeaderField("Location");
-                        if(expandedURL != null) {
-                            url = expandedURL;
-                        } else {
-                            url = user.getURL();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        url = user.getURL();
-                    }
-
-                    return user;
-                } else {
-                    User user = twitter.showUser(settings.myScreenName);
-                    HttpURLConnection connection = null;
-                    try {
-                        URL address = new URL(user.getURL());
-                        connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
-                        connection.setConnectTimeout(1000);
-                        connection.setInstanceFollowRedirects(false);
-                        connection.setReadTimeout(1000);
-                        connection.connect();
-                        String expandedURL = connection.getHeaderField("Location");
-                        if(expandedURL != null) {
-                            url = expandedURL;
-                        } else {
-                            url = user.getURL();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        url = user.getURL();
-                    }
-
-                    // update the profile picture url and the background url in shared prefs
-                    int currentAccount = sharedPrefs.getInt("current_account", 1);
-
-                    SharedPreferences.Editor e = sharedPrefs.edit();
-                    e.putString("profile_pic_url_" + currentAccount, user.getBiggerProfileImageURL());
-                    e.putString("twitter_background_url_" + currentAccount, user.getProfileBannerURL());
-                    e.commit();
-
-                    return user;
-                }
-            } catch (Exception e) {
+    public void getURL(final TextView statement, final User user) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection;
+                String url = "";
                 try {
-                    thisUser = twitter.showUser(screenName);
-                    return thisUser;
-                } catch (Exception x) {
-                    return null;
-                }
-            }
-        }
-
-        protected void onPostExecute(twitter4j.User user) {
-            if (user != null) {
-
-                try {
-                    if (user.isVerified()) {
-                        if (settings.addonTheme) {
-                            Resources res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                            TextView verified = (TextView) findViewById(res.getIdentifier("verified_text", "id", settings.addonThemePackage));
-                            verified.setVisibility(View.VISIBLE);
-                            verified.setText(getResources().getString(R.string.verified));
-                        } else {
-                            HoloTextView verified = (HoloTextView) findViewById(R.id.verified_text);
-                            verified.setVisibility(View.VISIBLE);
-                            verified.setText(getResources().getString(R.string.verified));
-                        }
+                    URL address = new URL(user.getURL());
+                    connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
+                    connection.setConnectTimeout(1000);
+                    connection.setInstanceFollowRedirects(false);
+                    connection.setReadTimeout(1000);
+                    connection.connect();
+                    String expandedURL = connection.getHeaderField("Location");
+                    if(expandedURL != null) {
+                        url = expandedURL;
+                    } else {
+                        url = user.getURL();
                     }
                 } catch (Exception e) {
-                    // their theme was created before this was implemented
+                    e.printStackTrace();
+                    url = user.getURL();
                 }
 
-                thisUser = user;
-
-                new GetTimeline(user, listView).execute();
-                new GetActionBarInfo(user).execute();
-
-                String state = user.getDescription() + "\n";
-                String loca = user.getLocation();
-
-                if (!loca.equals("")) {
-                    state += "\n" + user.getLocation();
-                }
                 if (url != null) {
-                    state += "\n" + url;
+                    final String fUrl = url;
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            statement.append("\n" + fUrl);
+                        }
+                    });
                 }
 
-                if (!followingStatus.equals("")) {
-                    state += "\n" + followingStatus;
-                }
-                if (state.equals("")) {
-                    statement.setText(getResources().getString(R.string.no_description));
-                } else {
-                    statement.setText(state);
-                }
-
-                if (!settings.addonTheme) {
-                    statement.setLinkTextColor(getResources().getColor(R.color.app_color));
-                } else {
-                    statement.setLinkTextColor(settings.accentInt);
-                }
-
-                if (!settings.addonTheme) {
-                    linkifyText(statement);
-                }
-
-                tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
-                followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
-                followingBtn.setText(getResources().getString(R.string.following) + "\n" + "(" + thisUser.getFriendsCount() + ")");
+                getFollowingStatus(statement, user);
             }
-        }
+        }).start();
+    }
+
+    public void getFollowingStatus(final TextView statement, User user) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final String followingStatus = Utils.getTwitter(context, settings).showFriendship(settings.myScreenName, thisUser.getScreenName()).isTargetFollowingSource() ?
+                            getResources().getString(R.string.follows_you) : getResources().getString(R.string.not_following_you);
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            statement.append("\n\n" + followingStatus);
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
+            }
+        }).start();
+    }
+
+    public void getData(final TextView statement, final AsyncListView listView) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Twitter twitter =  Utils.getTwitter(context, settings);
+                try {
+                    Log.v("talon_profile", "start of load time: " + Calendar.getInstance().getTimeInMillis());
+                    if (!isMyProfile) {
+                        thisUser = twitter.showUser(screenName);
+
+                    } else {
+                        thisUser = twitter.showUser(settings.myScreenName);
+
+                        // update the profile picture url and the background url in shared prefs
+                        int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+                        SharedPreferences.Editor e = sharedPrefs.edit();
+                        e.putString("profile_pic_url_" + currentAccount, thisUser.getBiggerProfileImageURL());
+                        e.putString("twitter_background_url_" + currentAccount, thisUser.getProfileBannerURL());
+                        e.commit();
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (thisUser.isVerified()) {
+                                    if (settings.addonTheme) {
+                                        Resources res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                                        TextView verified = (TextView) findViewById(res.getIdentifier("verified_text", "id", settings.addonThemePackage));
+                                        verified.setVisibility(View.VISIBLE);
+                                        verified.setText(getResources().getString(R.string.verified));
+                                    } else {
+                                        HoloTextView verified = (HoloTextView) findViewById(R.id.verified_text);
+                                        verified.setVisibility(View.VISIBLE);
+                                        verified.setText(getResources().getString(R.string.verified));
+                                    }
+                                }
+                            } catch (Exception e) {
+                                // their theme was created before this was implemented
+                            }
+
+                            String state = thisUser.getDescription() + "\n";
+                            String loca = thisUser.getLocation();
+
+                            if (!loca.equals("")) {
+                                state += "\n" + thisUser.getLocation();
+                            }
+
+                            if (state.equals("")) {
+                                statement.setText(getResources().getString(R.string.no_description));
+                            } else {
+                                statement.setText(state);
+                            }
+
+                            if (!settings.addonTheme) {
+                                statement.setLinkTextColor(getResources().getColor(R.color.app_color));
+                            } else {
+                                statement.setLinkTextColor(settings.accentInt);
+                            }
+
+                            if (!settings.addonTheme) {
+                                linkifyText(statement);
+                            }
+
+                            tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
+                            followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
+                            followingBtn.setText(getResources().getString(R.string.following) + "\n" + "(" + thisUser.getFriendsCount() + ")");
+
+                            getURL(statement, thisUser);
+                            getTimeline(thisUser, listView);
+                            new GetActionBarInfo(thisUser).execute();
+                        }
+                    });
+                } catch (Exception e) {
+                    Toast.makeText(context, "Error loading profile. Check your network connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).start();
     }
 
 
@@ -852,56 +858,72 @@ public class UserProfileActivity extends Activity {
         }
     }
 
-    class GetTimeline extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {
+    public Paging timelinePaging = new Paging(1, 20);
+    public ArrayList<Status> timelineStatuses = new ArrayList<Status>();
+    public TimelineArrayAdapter timelineAdapter;
 
-        private User user;
-        private AsyncListView listView;
-        private TextView statement;
+    public void getTimeline(final User user, final AsyncListView listView) {
+        spinner.setVisibility(View.VISIBLE);
+        canRefresh = false;
 
-        public GetTimeline(User user, AsyncListView listView) {
-            this.user = user;
-            this.listView = listView;
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
-        protected void onPreExecute() {
-            spinner.setVisibility(View.VISIBLE);
-        }
+                    List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId(), timelinePaging);
+                    timelinePaging.setPage(timelinePaging.getPage() + 1);
 
-        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                    for (twitter4j.Status s : statuses) {
+                        timelineStatuses.add(s);
+                    }
 
-                List<twitter4j.Status> statuses = twitter.getUserTimeline(user.getId(), new Paging(1, 100));
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (timelineAdapter != null) {
+                                timelineAdapter.notifyDataSetChanged();
+                            } else {
+                                timelineAdapter= new TimelineArrayAdapter(context, timelineStatuses, screenName);
+                                listView.setItemManager(builder.build());
+                                listView.setAdapter(timelineAdapter);
+                            }
 
-                ArrayList<twitter4j.Status> all = new ArrayList<twitter4j.Status>();
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = true;
+                        }
+                    });
 
-                for (twitter4j.Status s : statuses) {
-                    all.add(s);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Couldn't load timeline! Try checking your data connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (OutOfMemoryError x) {
+                    x.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Couldn't load timeline! Try checking your data connection.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-
-                return all;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            } catch (OutOfMemoryError x) {
-                x.printStackTrace();
-                return null;
             }
-        }
+        }).start();
 
-        protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
+
+        /*protected void onPostExecute(ArrayList<twitter4j.Status> statuses) {
             if (statuses != null) {
-                final TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses, screenName);
-                listView.setItemManager(builder.build());
-                listView.setAdapter(adapter);
             }
 
             try {
                 if(settings.roundContactImages) {
-                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
                     ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                 } else {
-                    //profilePic.loadImage(thisUser.getBiggerProfileImageURL(), true, null);
                     ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                 }
             } catch (Exception e) {
@@ -917,11 +939,6 @@ public class UserProfileActivity extends Activity {
                 url = null;
             }
             if (url != null) {
-                /*if (!user.getScreenName().equals(settings.myScreenName)) {
-                    background.loadImage(url, false, null);
-                } else {
-                    background.loadImage(url, false, null, 0, false); // no transform and not from cache for my banner
-                }*/
                 ImageUtils.loadImage(context, background, url, mCache);
             }
 
@@ -929,8 +946,7 @@ public class UserProfileActivity extends Activity {
                 actionBar.setTitle(thisUser.getName());
             }
 
-            spinner.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     class FollowUser extends AsyncTask<String, Void, Boolean> {
