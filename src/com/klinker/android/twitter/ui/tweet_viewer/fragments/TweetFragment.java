@@ -943,7 +943,7 @@ public class TweetFragment extends Fragment {
 
     public void getInfo(final ImageButton favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
 
-        new Thread(new Runnable() {
+        Thread getInfo = new Thread(new Runnable() {
             @Override
             public void run() {
                 String location = "";
@@ -1044,7 +1044,10 @@ public class TweetFragment extends Fragment {
 
                 }
             }
-        }).start();
+        });
+
+        getInfo.setPriority(Thread.MAX_PRIORITY);
+        getInfo.start();
     }
 
     public void getRetweetCount(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {

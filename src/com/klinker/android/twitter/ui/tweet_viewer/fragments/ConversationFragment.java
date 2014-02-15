@@ -79,7 +79,7 @@ public class ConversationFragment extends Fragment {
 
     public void getReplies(final ListView listView, final long tweetId, final LinearLayout progressSpinner, final HoloTextView none) {
 
-        new Thread(new Runnable() {
+        Thread getReplies = new Thread(new Runnable() {
             @Override
             public void run() {
                 Twitter twitter = Utils.getTwitter(context, settings);
@@ -129,6 +129,9 @@ public class ConversationFragment extends Fragment {
                     }
                 });
             }
-        }).start();
+        });
+
+        getReplies.setPriority(7);
+        getReplies.start();
     }
 }

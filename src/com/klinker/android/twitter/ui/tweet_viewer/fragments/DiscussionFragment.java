@@ -86,7 +86,7 @@ public class DiscussionFragment extends Fragment {
 
     public void getReplies(final ListView listView, final long tweetId, final LinearLayout progressBar, final HoloTextView none) {
 
-        new Thread(new Runnable() {
+        Thread getReplies = new Thread(new Runnable() {
             @Override
             public void run() {
                 ArrayList<twitter4j.Status> all = null;
@@ -118,17 +118,6 @@ public class DiscussionFragment extends Fragment {
                     QueryResult result = twitter.search(query);
 
                     all = new ArrayList<twitter4j.Status>();
-
-                    /*if (query != null) {
-                        List<twitter4j.Status> tweets = result.getTweets();
-                        for(twitter4j.Status tweet: tweets){
-                            if (tweet.getInReplyToStatusId() == id) {
-                                all.add(tweet);
-                            }
-                        }
-
-                        query=result.nextQuery();
-                    }*/
 
                     do {
                         List<twitter4j.Status> tweets = result.getTweets();
@@ -179,7 +168,10 @@ public class DiscussionFragment extends Fragment {
                     }
                 });
             }
-        }).start();
+        });
+
+        getReplies.setPriority(8);
+        getReplies.start();
 
     }
 }

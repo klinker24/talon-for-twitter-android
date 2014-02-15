@@ -694,7 +694,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
         }
 
-        new Thread(new Runnable() {
+        Thread refresh = new Thread(new Runnable() {
             @Override
             public void run() {
                 numberNew = doRefresh();
@@ -778,7 +778,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 });
             }
-        }).start();
+        });
+
+        refresh.setPriority(7);
+        refresh.start();
     }
 
     class RefreshMentions extends AsyncTask<Void, Void, Boolean> {
