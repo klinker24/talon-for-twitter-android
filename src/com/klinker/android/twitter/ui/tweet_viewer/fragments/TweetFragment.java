@@ -17,7 +17,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -53,7 +52,6 @@ import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.UserProfileActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
@@ -595,9 +593,7 @@ public class TweetFragment extends Fragment {
             ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
         }
 
-        getFavoriteCount(favoriteCount, favoriteButton, tweetId);
-        getRetweetCount(retweetCount, tweetId, retweetButton);
-
+        getInfo(favoriteButton, favoriteCount, retweetCount, tweetId, retweetButton);
 
         String text = tweet;
         String extraNames = "";
@@ -945,7 +941,7 @@ public class TweetFragment extends Fragment {
         }
     }
 
-    public void getRetweetCount(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void getInfo(final ImageButton favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
 
         new Thread(new Runnable() {
             @Override
@@ -983,7 +979,7 @@ public class TweetFragment extends Fragment {
                     }
 
                     retweetedByMe = status.isRetweetedByMe();
-                    final String count = "" + status.getRetweetCount();
+                    final String retCount = "" + status.getRetweetCount();
 
                     final String timeDisplay;
 
@@ -997,11 +993,12 @@ public class TweetFragment extends Fragment {
 
                     final boolean fRet = retweetedByMe;
                     final long fTime = realTime;
-                    ((Activity)context).runOnUiThread(new Runnable() {
+                    final Status fStatus = status;
+                            ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            retweetCount.setText(" " + count);
+                            retweetCount.setText(" " + retCount);
 
                             if (fRet) {
                                 if (!settings.addonTheme) {
@@ -1015,6 +1012,71 @@ public class TweetFragment extends Fragment {
 
                             timetv.setText(timeDisplay + fVia);
                             timetv.append(fLoc);
+
+                            favCount.setText(" " + fStatus.getFavoriteCount());
+
+                            if (fStatus.isFavorited()) {
+                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                int resource = a.getResourceId(0, 0);
+                                a.recycle();
+
+                                if (!settings.addonTheme) {
+                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                } else {
+                                    favButton.setColorFilter(settings.accentInt);
+                                }
+
+                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                isFavorited = true;
+                            } else {
+                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
+                                int resource = a.getResourceId(0, 0);
+                                a.recycle();
+
+                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                isFavorited = false;
+
+                                favButton.clearColorFilter();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
+            }
+        }).start();
+    }
+
+    public void getRetweetCount(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean retweetedByMe;
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    twitter4j.Status status = twitter.showStatus(tweetId);
+
+                    retweetedByMe = status.isRetweetedByMe();
+                    final String retCount = "" + status.getRetweetCount();
+
+
+                    final boolean fRet = retweetedByMe;
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            retweetCount.setText(" " + retCount);
+
+                            if (fRet) {
+                                if (!settings.addonTheme) {
+                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                } else {
+                                    retweetButton.setColorFilter(settings.accentInt);
+                                }
+                            } else {
+                                retweetButton.clearColorFilter();
+                            }
                         }
                     });
                 } catch (Exception e) {
