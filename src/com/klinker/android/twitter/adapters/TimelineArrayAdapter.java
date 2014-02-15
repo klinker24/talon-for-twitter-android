@@ -80,6 +80,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public ColorDrawable transparent;
 
+    public Handler[] mHandler;
+    public int currHandler = 0;
+
     public int type;
     public String username;
 
@@ -160,6 +163,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     }
 
     public void setUpLayout() {
+        mHandler = new Handler[4];
+
         dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {

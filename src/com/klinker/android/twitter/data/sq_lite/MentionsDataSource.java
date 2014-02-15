@@ -26,7 +26,12 @@ public class MentionsDataSource {
     public static MentionsDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+                dataSource = new MentionsDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (Exception e) {
             dataSource = new MentionsDataSource(context); // create the database
             dataSource.open(); // open the database
         }

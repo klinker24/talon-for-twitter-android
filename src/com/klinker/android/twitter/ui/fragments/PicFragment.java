@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -305,14 +306,14 @@ public class PicFragment extends Fragment implements OnRefreshListener {
                     }
                 }
 
-                cursorAdapter = new TimeLineCursorAdapter(context,
-                        HomeDataSource.getInstance(context).getPicsCursor(sharedPrefs.getInt("current_account", 1)),
-                        false);
-
+                final Cursor cursor = HomeDataSource.getInstance(context).getPicsCursor(sharedPrefs.getInt("current_account", 1));
 
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        cursorAdapter = new TimeLineCursorAdapter(context,
+                            cursor,
+                            false);
                         if (bspinner) {
                             try {
                                 spinner.setVisibility(View.GONE);

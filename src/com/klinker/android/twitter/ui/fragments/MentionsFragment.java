@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -432,13 +433,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                cursorAdapter = new TimeLineCursorAdapter(context,
-                        MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)),
-                        false);
+                final Cursor cursor = MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
 
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        cursorAdapter = new TimeLineCursorAdapter(context,
+                                cursor,
+                                false);
                         try {
                             spinner.setVisibility(View.GONE);
                             listView.setVisibility(View.VISIBLE);

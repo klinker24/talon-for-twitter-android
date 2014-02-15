@@ -518,6 +518,7 @@ public class LoginActivity extends Activity {
 
                 } catch (Exception e) {
                     // they have no direct messages
+                    e.printStackTrace();
                 }
 
                 runOnUiThread(new Runnable() {
@@ -550,12 +551,14 @@ public class LoginActivity extends Activity {
                     }
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
 
             } catch (TwitterException e) {
                 // Error in updating status
                 Log.d("Twitter Update Error", e.getMessage());
+                e.printStackTrace();
+
             }
             return null;
         }

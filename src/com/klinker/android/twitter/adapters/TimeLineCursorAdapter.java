@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
@@ -79,7 +80,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private int border;
 
     private Handler[] mHandlers;
-    private int currHandler = 0;
+    private int currHandler;
 
     public boolean hasKeyboard = false;
 
@@ -172,6 +173,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         transparent = new ColorDrawable(android.R.color.transparent);
 
         mHandlers = new Handler[4];
+        for (int i = 0; i < 4; i++) {
+            mHandlers[i] = new Handler();
+        }
     }
 
     @Override
@@ -585,6 +589,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }, 350);
                     currHandler++;
 
+                    if (currHandler == 4) {
+                        currHandler = 0;
+                    }
+
 
                 } else {
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
@@ -610,6 +618,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     }, 350);
                     currHandler++;
+
+                    if (currHandler == 4) {
+                        currHandler = 0;
+                    }
                 }
             }
         }

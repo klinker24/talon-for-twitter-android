@@ -22,7 +22,12 @@ public class FavoriteUsersDataSource {
     public static FavoriteUsersDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+                dataSource = new FavoriteUsersDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (Exception e) {
             dataSource = new FavoriteUsersDataSource(context); // create the database
             dataSource.open(); // open the database
         }

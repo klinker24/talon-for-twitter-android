@@ -28,7 +28,12 @@ public class ListDataSource {
     public static ListDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
+                dataSource = new ListDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (Exception e) {
             dataSource = new ListDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -120,7 +125,12 @@ public class ListDataSource {
             open();
         }
 
-        database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
+        try {
+            database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
+        } catch (Exception e) {
+            database = dbHelper.getWritableDatabase();
+            database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
+        }
     }
 
     public void deleteTweet(long tweetId) {
