@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -29,6 +30,7 @@ import android.widget.SearchView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
+import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
@@ -47,6 +49,7 @@ import java.util.ArrayList;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -137,6 +140,21 @@ public class Search extends Activity implements OnRefreshListener {
 
         listView = (AsyncListView) findViewById(R.id.listView);
 
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if(lastItem == totalItemCount && canRefresh) {
+                    getMore();
+                }
+            }
+        });
+
         if (searchQuery != null && !searchQuery.equals("") && !searchQuery.contains("@")) {
             BitmapLruCache cache = App.getInstance(context).getBitmapCache();
             ArrayListLoader loader = new ArrayListLoader(cache, context);
@@ -217,7 +235,7 @@ public class Search extends Activity implements OnRefreshListener {
                 new DoUserSearch(query).execute();
             } else {
                 String query = searchQuery;
-                new DoSearch(query).execute();
+                doSearch(query);
             }
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
@@ -237,7 +255,7 @@ public class Search extends Activity implements OnRefreshListener {
                         new DoUserSearch(query).execute();
                     } else {
                         String query = searchQuery;
-                        new DoSearch(query).execute();
+                        doSearch(query);
                     }
                 }
 
@@ -274,10 +292,6 @@ public class Search extends Activity implements OnRefreshListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        /*if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }*/
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
@@ -308,131 +322,99 @@ public class Search extends Activity implements OnRefreshListener {
 
     @Override
     public void onRefreshStarted(View view) {
-        new AsyncTask<Void, Void, ArrayList<twitter4j.Status>>() {
-
+        new Thread(new Runnable() {
             @Override
-            protected ArrayList<twitter4j.Status> doInBackground(Void... params) {
+            public void run() {
                 try {
-                    Log.v("inside_search", searchQuery);
-
-                    if (searchQuery.contains("@")) {
-                        new DoUserSearch(searchQuery).execute();
-                        return null;
-                    }
-
                     Twitter twitter = Utils.getTwitter(context, settings);
-                    Query query = new Query(searchQuery.replace("@", "from:"));
+                    query = new Query(searchQuery.replace("@", "from:"));
                     QueryResult result = twitter.search(query);
-                    QueryResult result2 = null;
-                    QueryResult result3 = null;
 
-                    if (result.hasNext()) {
-                        result2 = twitter.search(result.nextQuery());
-                        if (result2.hasNext()) {
-                            result3 = twitter.search(result2.nextQuery());
-                        }
-                    }
-                    Log.v("inside_search", "got data");
+                    tweets.clear();
 
-                    ArrayList<twitter4j.Status> tweets = new ArrayList<twitter4j.Status>();
                     for (twitter4j.Status status : result.getTweets()) {
                         tweets.add(status);
                     }
-                    if (result2 != null) {
-                        for (twitter4j.Status status : result2.getTweets()) {
-                            tweets.add(status);
-                        }
-                        if (result3 != null) {
-                            for (twitter4j.Status status : result3.getTweets()) {
-                                tweets.add(status);
-                            }
-                        }
+
+                    if (result.hasNext()) {
+                        query = result.nextQuery();
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
                     }
 
-                    return tweets;
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter = new TimelineArrayAdapter(context, tweets);
+                            listView.setAdapter(adapter);
+                            listView.setVisibility(View.VISIBLE);
+
+                            spinner.setVisibility(View.GONE);
+
+                            mPullToRefreshLayout.setRefreshComplete();
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return null;
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                            mPullToRefreshLayout.setRefreshComplete();
+                        }
+                    });
                 }
             }
-
-            protected void onPostExecute(ArrayList<twitter4j.Status> searches) {
-
-                if (searches != null) {
-                    listView.setAdapter(new TimelineArrayAdapter(context, searches));
-                    listView.setVisibility(View.VISIBLE);
-                }
-
-                spinner.setVisibility(View.GONE);
-
-                mPullToRefreshLayout.setRefreshComplete();
-            }
-        }.execute();
+        }).start();
     }
 
-    class DoSearch extends AsyncTask<String, Void, ArrayList<twitter4j.Status>> {
+    public void doSearch(final String mQuery) {
+        spinner.setVisibility(View.VISIBLE);
 
-        String mQuery;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter = Utils.getTwitter(context, settings);
+                    query = new Query(mQuery);
+                    QueryResult result = twitter.search(query);
 
-        public DoSearch(String query) {
-            this.mQuery = query;
-        }
+                    tweets.clear();
 
-        @Override
-        protected void onPreExecute() {
-            listView.setVisibility(View.GONE);
-            spinner.setVisibility(View.VISIBLE);
-        }
-
-        protected ArrayList<twitter4j.Status> doInBackground(String... urls) {
-            try {
-                Log.v("inside_search", mQuery);
-
-                Twitter twitter = Utils.getTwitter(context, settings);
-                Query query = new Query(mQuery);
-                QueryResult result = twitter.search(query);
-                QueryResult result2 = null;
-                QueryResult result3 = null;
-
-                if (result.hasNext()) {
-                    result2 = twitter.search(result.nextQuery());
-                    if (result2.hasNext()) {
-                        result3 = twitter.search(result2.nextQuery());
-                    }
-                }
-                Log.v("inside_search", "got data");
-
-                ArrayList<twitter4j.Status> tweets = new ArrayList<twitter4j.Status>();
-                for (twitter4j.Status status : result.getTweets()) {
-                    tweets.add(status);
-                }
-                if (result2 != null) {
-                    for (twitter4j.Status status : result2.getTweets()) {
+                    for (twitter4j.Status status : result.getTweets()) {
                         tweets.add(status);
                     }
-                    if (result3 != null) {
-                        for (twitter4j.Status status : result3.getTweets()) {
-                            tweets.add(status);
-                        }
+
+                    if (result.hasNext()) {
+                        query = result.nextQuery();
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
                     }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter = new TimelineArrayAdapter(context, tweets);
+                            listView.setAdapter(adapter);
+                            listView.setVisibility(View.VISIBLE);
+
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+
                 }
-
-                return tweets;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
             }
-        }
-
-        protected void onPostExecute(ArrayList<twitter4j.Status> searches) {
-
-            if (searches != null) {
-                listView.setAdapter(new TimelineArrayAdapter(context, searches));
-                listView.setVisibility(View.VISIBLE);
-            }
-
-            spinner.setVisibility(View.GONE);
-        }
+        }).start();
     }
 
     class DoUserSearch extends AsyncTask<String, Void, ArrayList<User>> {
@@ -491,9 +473,6 @@ public class Search extends Activity implements OnRefreshListener {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        /*try {
-            mDrawerToggle.onConfigurationChanged(newConfig);
-        } catch (Exception e) { }*/
 
         overridePendingTransition(0,0);
         finish();
@@ -505,5 +484,56 @@ public class Search extends Activity implements OnRefreshListener {
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+    }
+
+    public boolean canRefresh = true;
+    public boolean hasMore;
+    public TimelineArrayAdapter adapter;
+    public Query query;
+    public ArrayList<Status> tweets = new ArrayList<Status>();
+
+    public void getMore() {
+        if (hasMore) {
+            canRefresh = false;
+            mPullToRefreshLayout.setRefreshing(true);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Twitter twitter = Utils.getTwitter(context, settings);
+                        QueryResult result = twitter.search(query);
+
+                        for (twitter4j.Status status : result.getTweets()) {
+                            tweets.add(status);
+                        }
+
+                        if (result.hasNext()) {
+                            query = result.nextQuery();
+                            hasMore = true;
+                        } else {
+                            hasMore = false;
+                        }
+
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                                mPullToRefreshLayout.setRefreshComplete();
+                                canRefresh = true;
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPullToRefreshLayout.setRefreshComplete();
+                                canRefresh = true;
+                            }
+                        });
+                    }
+                }
+            }).start();
+        }
     }
 }
