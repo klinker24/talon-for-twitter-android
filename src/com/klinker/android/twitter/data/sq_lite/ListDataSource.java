@@ -123,6 +123,8 @@ public class ListDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
 
         try {
@@ -138,6 +140,8 @@ public class ListDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
 
         database.delete(ListSQLiteHelper.TABLE_HOME, ListSQLiteHelper.COLUMN_TWEET_ID
@@ -146,6 +150,8 @@ public class ListDataSource {
 
     public void deleteAllTweets(int account) {
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
 
@@ -156,6 +162,8 @@ public class ListDataSource {
     public Cursor getCursor(int listId) {
 
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
 
@@ -226,6 +234,8 @@ public class ListDataSource {
 
     public void deleteDups(int list) {
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
 

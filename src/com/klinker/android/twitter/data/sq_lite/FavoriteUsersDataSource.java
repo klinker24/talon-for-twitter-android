@@ -75,22 +75,46 @@ public class FavoriteUsersDataSource {
         values.put(FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC, proPicUrl);
         values.put(FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME, screenName);
 
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.insert(FavoriteUsersSQLiteHelper.TABLE_HOME, null, values);
     }
 
     public void deleteUser(long userId) {
         long id = userId;
 
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, FavoriteUsersSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
     public void deleteAllUsers(int account) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
                 FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public Cursor getCursor(int account) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         Cursor cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
                 allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
 

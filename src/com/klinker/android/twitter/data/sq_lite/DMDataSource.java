@@ -95,20 +95,43 @@ public class DMDataSource {
             values.put(DMSQLiteHelper.COLUMN_URL, url.getExpandedURL());
         }
 
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.insert(DMSQLiteHelper.TABLE_DM, null, values);
     }
 
     public void deleteTweet(long tweetId) {
         long id = tweetId;
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
     }
 
     public void deleteAllTweets(int account) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public Cursor getCursor(int account) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
         Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
                 allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
 
@@ -116,6 +139,11 @@ public class DMDataSource {
     }
 
     public Cursor getConvCursor(String name, int account) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
         Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
                 allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
 
@@ -159,6 +187,11 @@ public class DMDataSource {
     }
 
     public void deleteDups(int account) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
         database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
     }
 }

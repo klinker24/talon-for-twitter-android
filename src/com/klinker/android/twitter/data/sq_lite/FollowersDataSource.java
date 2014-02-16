@@ -75,22 +75,45 @@ public class FollowersDataSource {
         values.put(FollowersSQLiteHelper.COLUMN_PRO_PIC, proPicUrl);
         values.put(FollowersSQLiteHelper.COLUMN_SCREEN_NAME, screenName);
 
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.insert(FollowersSQLiteHelper.TABLE_HOME, null, values);
     }
 
     public void deleteUser(long userId) {
         long id = userId;
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
 
         database.delete(FollowersSQLiteHelper.TABLE_HOME, FollowersSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
     public void deleteAllUsers(int account) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         database.delete(FollowersSQLiteHelper.TABLE_HOME,
                 FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public Cursor getCursor(int account, String name) {
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
         Cursor cursor = database.query(FollowersSQLiteHelper.TABLE_HOME,
                 allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
                     FollowersSQLiteHelper.COLUMN_NAME + " LIKE '%" + name + "%'" + " OR " +
