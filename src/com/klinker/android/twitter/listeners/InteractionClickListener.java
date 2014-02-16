@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.UserProfileActivity;
@@ -31,17 +32,29 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
     private Context context;
     private NotificationDrawerLayout drawer;
     private ViewPager viewPager;
-    private boolean extraPages;
+    private int extraPages = 0;
 
     private SharedPreferences sharedPreferences;
 
-    public InteractionClickListener(Context context, NotificationDrawerLayout drawer, ViewPager viewPager, boolean extraPages) {
+    public InteractionClickListener(Context context, NotificationDrawerLayout drawer, ViewPager viewPager) {
         this.context = context;
         this.drawer = drawer;
         this.viewPager = viewPager;
-        this.extraPages = extraPages;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        int currentAccount = sharedPreferences.getInt("current_account", 1);
+
+        int page1Type = sharedPreferences.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
+        int page2Type = sharedPreferences.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
+
+        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
+            extraPages++;
+        }
+
+        if (page2Type != AppSettings.PAGE_TYPE_NONE) {
+            extraPages++;
+        }
     }
 
     @Override
@@ -50,8 +63,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
         String mTitle = title.getText().toString();
 
         // get the datasource ready to read/write
-        InteractionsDataSource data = new InteractionsDataSource(context);
-        data.open();
+        InteractionsDataSource data = InteractionsDataSource.getInstance(context);
 
         if(mTitle.contains(context.getResources().getString(R.string.mentioned_by))) { // this is a mention
             if (MainDrawerArrayAdapter.current < 3) {
@@ -66,7 +78,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                     }
                 }, 300);
 
-                viewPager.setCurrentItem((extraPages ? 3 : 1), true);
+                viewPager.setCurrentItem((1 + extraPages), true);
             } else {
                 final int pos = i;
                 try {
@@ -79,7 +91,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                     public void run() {
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        intent.putExtra("page_to_open", (extraPages ? 3 : 1));
+                        intent.putExtra("page_to_open", (1 + extraPages));
                         intent.putExtra("from_drawer", true);
 
                         sharedPreferences.edit().putBoolean("should_refresh", false).commit();
