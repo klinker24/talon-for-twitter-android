@@ -747,11 +747,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.expandArea.startAnimation(expandAni);
 
         if (holder.favCount.getText().toString().equals("")) {
-            new GetFavoriteCount(holder, tweetId).execute();
-        }
-
-        if (holder.retweetCount.getText().toString().equals("")) {
-            new GetRetweetCount(holder, tweetId).execute();
+            getCounts(holder, tweetId);
         }
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
@@ -1110,98 +1106,169 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
     }
 
-    class GetFavoriteCount extends AsyncTask<String, Void, Status> {
+    public void getFavoriteCount(final ViewHolder holder, final long tweetId) {
 
-        private ViewHolder holder;
-        private long tweetId;
-
-        public GetFavoriteCount(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected twitter4j.Status doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                if (holder.retweeter.getVisibility() != View.GONE) {
-                    twitter4j.Status retweeted = twitter.showStatus(holder.tweetId).getRetweetedStatus();
-                    return retweeted;
-                }
-                return twitter.showStatus(tweetId);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(twitter4j.Status status) {
-            if (status != null && holder.tweetId == tweetId) {
-                holder.favCount.setText(" " + status.getFavoriteCount());
-
-                if (status.isFavorited()) {
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                    int resource = a.getResourceId(0, 0);
-                    a.recycle();
-
-                    if (!settings.addonTheme) {
-                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+        Thread getCount = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    final Status status;
+                    if (holder.retweeter.getVisibility() != View.GONE) {
+                        status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
                     } else {
-                        holder.favorite.setColorFilter(settings.accentInt);
+                        status = twitter.showStatus(tweetId);
                     }
 
-                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                    holder.isFavorited = true;
-                } else {
-                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                    int resource = a.getResourceId(0, 0);
-                    a.recycle();
+                    if (status != null && holder.tweetId == tweetId) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.favCount.setText(" " + status.getFavoriteCount());
 
-                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                    holder.isFavorited = false;
+                                if (status.isFavorited()) {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
 
-                    holder.favorite.clearColorFilter();
+                                    if (!settings.addonTheme) {
+                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        holder.favorite.setColorFilter(settings.accentInt);
+                                    }
+
+                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.isFavorited = true;
+                                } else {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
+
+                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.isFavorited = false;
+
+                                    holder.favorite.clearColorFilter();
+                                }
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+
                 }
             }
-        }
+        });
+
+        getCount.setPriority(7);
+        getCount.start();
     }
 
-    class GetRetweetCount extends AsyncTask<String, Void, String> {
+    public void getCounts(final ViewHolder holder, final long tweetId) {
 
-        private ViewHolder holder;
-        private long tweetId;
-        private boolean retweetedByMe = false;
-
-        public GetRetweetCount(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter4j.Status status = twitter.showStatus(holder.tweetId);
-                retweetedByMe = status.isRetweetedByMe();
-                return "" + status.getRetweetCount();
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String count) {
-            if (tweetId == holder.tweetId) {
-                if (retweetedByMe) {
-                    if (!settings.addonTheme) {
-                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+        Thread getCount = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    final Status status;
+                    if (holder.retweeter.getVisibility() != View.GONE) {
+                        status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
                     } else {
-                        holder.retweet.setColorFilter(settings.accentInt);
+                        status = twitter.showStatus(tweetId);
                     }
-                } else {
-                    holder.retweet.clearColorFilter();
-                }
-                if (count != null) {
-                    holder.retweetCount.setText(" " + count);
+
+                    if (status != null && holder.tweetId == tweetId) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.favCount.setText(" " + status.getFavoriteCount());
+                                holder.retweetCount.setText(" " + status.getRetweetCount());
+
+                                if (status.isFavorited()) {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
+
+                                    if (!settings.addonTheme) {
+                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        holder.favorite.setColorFilter(settings.accentInt);
+                                    }
+
+                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.isFavorited = true;
+                                } else {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
+
+                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.isFavorited = false;
+
+                                    holder.favorite.clearColorFilter();
+                                }
+
+                                if (status.isRetweetedByMe()) {
+                                    if (!settings.addonTheme) {
+                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        holder.retweet.setColorFilter(settings.accentInt);
+                                    }
+                                } else {
+                                    holder.retweet.clearColorFilter();
+                                }
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+
                 }
             }
-        }
+        });
+
+        getCount.setPriority(7);
+        getCount.start();
+    }
+
+    public void getRetweetCount(final ViewHolder holder, final long tweetId) {
+
+        Thread getRetweetCount = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    twitter4j.Status status = twitter.showStatus(holder.tweetId);
+                    final boolean retweetedByMe = status.isRetweetedByMe();
+                    final String count = "" + status.getRetweetCount();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (tweetId == holder.tweetId) {
+                                if (retweetedByMe) {
+                                    if (!settings.addonTheme) {
+                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        holder.retweet.setColorFilter(settings.accentInt);
+                                    }
+                                } else {
+                                    holder.retweet.clearColorFilter();
+                                }
+                                if (count != null) {
+                                    holder.retweetCount.setText(" " + count);
+                                }
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        getRetweetCount.setPriority(7);
+        getRetweetCount.start();
     }
 
     class FavoriteStatus extends AsyncTask<String, Void, String> {
@@ -1238,7 +1305,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected void onPostExecute(String count) {
             Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-            new GetFavoriteCount(holder, tweetId).execute();
+            getFavoriteCount(holder, tweetId);
         }
     }
 
@@ -1268,7 +1335,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected void onPostExecute(String count) {
             Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
-            new GetRetweetCount(holder, tweetId).execute();
+            getRetweetCount(holder, tweetId);
         }
     }
 
