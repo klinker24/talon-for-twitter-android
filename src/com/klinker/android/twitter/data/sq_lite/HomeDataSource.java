@@ -183,10 +183,6 @@ public class HomeDataSource {
 
     public Cursor getCursor(int account) {
 
-        if (database == null) {
-            open();
-        }
-
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
@@ -214,6 +210,8 @@ public class HomeDataSource {
         }
 
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
 
