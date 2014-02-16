@@ -308,6 +308,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (holder.expandArea.getVisibility() == View.VISIBLE) {
             removeExpansionNoAnimation(holder);
+            holder.retweetCount.setText("");
+            holder.favCount.setText("");
+            holder.reply.setText("");
+            holder.retweet.clearColorFilter();
+            holder.favorite.clearColorFilter();
         }
 
         final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
