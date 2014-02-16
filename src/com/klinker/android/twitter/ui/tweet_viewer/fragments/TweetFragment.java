@@ -970,12 +970,15 @@ public class TweetFragment extends Fragment {
 
                     via = android.text.Html.fromHtml(status.getSource()).toString();
 
+                    final String sfavCount;
                     if (status.isRetweet()) {
                         twitter4j.Status status2 = status.getRetweetedStatus();
                         via = android.text.Html.fromHtml(status2.getSource()).toString();
                         realTime = status2.getCreatedAt().getTime();
+                        sfavCount = status2.getFavoriteCount() + "";
                     } else {
                         realTime = status.getCreatedAt().getTime();
+                        sfavCount = status.getFavoriteCount() + "";
                     }
 
                     retweetedByMe = status.isRetweetedByMe();
@@ -1013,7 +1016,7 @@ public class TweetFragment extends Fragment {
                             timetv.setText(timeDisplay + fVia);
                             timetv.append(fLoc);
 
-                            favCount.setText(" " + fStatus.getFavoriteCount());
+                            favCount.setText(" " + sfavCount);
 
                             if (fStatus.isFavorited()) {
                                 TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});

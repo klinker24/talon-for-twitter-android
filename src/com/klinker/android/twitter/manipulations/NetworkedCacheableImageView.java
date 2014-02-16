@@ -8,8 +8,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.utils.ImageUtils;
 
@@ -226,9 +230,12 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             super.onPostExecute(result);
 
             try {
-                ImageView iv = mImageViewRef.get();
-                if (null != iv) {
+                final ImageView iv = mImageViewRef.get();
+                if (null != iv && iv.getVisibility() != View.GONE) {
                     iv.setImageDrawable(result);
+                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+                    iv.startAnimation(fadeInAnimation);
                 }
 
                 if (null != mListener) {
@@ -267,9 +274,12 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         // this on the main thread.
         BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
 
-        if (null != wrapper) {
+        if (null != wrapper && getVisibility() != View.GONE) {
             // The cache has it, so just display it
             setImageDrawable(wrapper);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+
+            startAnimation(fadeInAnimation);
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
@@ -310,9 +320,12 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         // this on the main thread.
         BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
 
-        if (null != wrapper) {
+        if (null != wrapper && getVisibility() != View.GONE) {
             // The cache has it, so just display it
             setImageDrawable(wrapper);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+
+            startAnimation(fadeInAnimation);
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
@@ -357,9 +370,12 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         } else {
             wrapper = null;
         }
-        if (null != wrapper) {
+        if (null != wrapper && getVisibility() != View.GONE) {
             // The cache has it, so just display it
             setImageDrawable(wrapper);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+
+            startAnimation(fadeInAnimation);
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
