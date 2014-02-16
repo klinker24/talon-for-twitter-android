@@ -604,7 +604,7 @@ public abstract class DrawerActivity extends Activity {
             notificationList.enableSwipeToDismiss();
             notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
 
-            notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager, settings.extraPages));
+            notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager));
         }
     }
 
