@@ -118,7 +118,10 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
+
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
     }
 
@@ -156,6 +159,8 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
 
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -166,6 +171,8 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
 
         database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
@@ -174,6 +181,8 @@ public class HomeDataSource {
 
     public void deleteAllTweets(int account) {
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
 
@@ -228,10 +237,6 @@ public class HomeDataSource {
 
     public Cursor getWidgetCursor(int account) {
 
-        if (database == null) {
-            open();
-        }
-
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
@@ -260,8 +265,9 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
-
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC");
 
@@ -269,10 +275,6 @@ public class HomeDataSource {
     }
 
     public Cursor getUnreadCursor(int account) {
-
-        if (database == null) {
-            open();
-        }
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -302,6 +304,8 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -311,10 +315,6 @@ public class HomeDataSource {
     }
 
     public Cursor getPicsCursor(int account) {
-
-        if (database == null) {
-            open();
-        }
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -345,6 +345,8 @@ public class HomeDataSource {
         where += " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " NOT LIKE " + "'%youtu%'";
 
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
 
@@ -389,6 +391,8 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
         }
 
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -419,6 +423,8 @@ public class HomeDataSource {
         cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
         try {
@@ -507,6 +513,8 @@ public class HomeDataSource {
 
     public void deleteDups(int account) {
         if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
         }
 
