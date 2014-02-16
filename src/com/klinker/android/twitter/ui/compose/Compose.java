@@ -284,9 +284,10 @@ public abstract class Compose extends Activity implements
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             String filePath = IOUtils.getPath(imageUri, context);
+            Log.v("talon_image", filePath);
 
             try {
-                File f = new File(attachedFilePath);
+                File f = new File(filePath);
 
                 Bitmap bitmap = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(attachedFilePath)), 100, 100);
 
@@ -294,6 +295,7 @@ public abstract class Compose extends Activity implements
 
                 attachedFilePath = filePath;
             } catch (FileNotFoundException e) {
+                e.printStackTrace();
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         }
