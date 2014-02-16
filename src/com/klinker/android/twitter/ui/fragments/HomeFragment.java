@@ -556,10 +556,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
             for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+
                 try {
                     if (!foundStatus) {
                         paging.setPage(i + 1);
                         List<Status> list = twitter.getHomeTimeline(paging);
+
+                        if (list.size() > 185) {
+                            foundStatus = false;
+                        } else {
+                            foundStatus = true;
+                        }
 
                         statuses.addAll(list);
                     }
