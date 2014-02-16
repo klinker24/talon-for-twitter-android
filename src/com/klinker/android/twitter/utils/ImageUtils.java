@@ -17,6 +17,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
@@ -317,7 +320,7 @@ public class ImageUtils {
 
     static ImageUrlAsyncTask mCurrentTask;
 
-    public static void loadImage(Context context, ImageView iv, String url, BitmapLruCache mCache) {
+    public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache) {
         // First check whether there's already a task running, if so cancel it
         /*if (null != mCurrentTask) {
             mCurrentTask.cancel(true);
@@ -329,9 +332,11 @@ public class ImageUtils {
 
         BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
 
-        if (null != wrapper) {
+        if (null != wrapper && iv.getVisibility() != View.GONE) {
             // The cache has it, so just display it
-            iv.setImageDrawable(wrapper);
+            iv.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+            iv.startAnimation(fadeInAnimation);
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
             iv.setImageDrawable(null);
@@ -357,7 +362,7 @@ public class ImageUtils {
         private BitmapLruCache mCache;
         private Context context;
         private final WeakReference<ImageView> mImageViewRef;
-        private ImageView iv;
+        public ImageView iv;
         private boolean thumbnail;
 
         ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean thumbnail) {
@@ -458,10 +463,13 @@ public class ImageUtils {
             super.onPostExecute(result);
 
             try {
-                ImageView iv = mImageViewRef.get();
+                final ImageView iv = mImageViewRef.get();
 
-                if (null != iv) {
+                if (null != iv && iv.getVisibility() != View.GONE) {
                     iv.setImageDrawable(result);
+                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+                    iv.startAnimation(fadeInAnimation);
                 }
 
             } catch (Exception e) {
@@ -492,15 +500,18 @@ public class ImageUtils {
         return inSampleSize;
     }
 
-    public static void loadCircleImage(Context context, ImageView iv, String url, BitmapLruCache mCache) {
+    public static void loadCircleImage(Context context, final ImageView iv, String url, BitmapLruCache mCache) {
         BitmapDrawable wrapper = null;
         if (url != null) {
             wrapper = mCache.getFromMemoryCache(url);
         }
 
-        if (null != wrapper) {
+        if (null != wrapper && iv.getVisibility() != View.GONE) {
             // The cache has it, so just display it
             iv.setImageDrawable(wrapper);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+            iv.startAnimation(fadeInAnimation);
         } else if (url != null) {
             // Memory Cache doesn't have the URL, do threaded request...
             iv.setImageDrawable(null);
@@ -586,10 +597,13 @@ public class ImageUtils {
             super.onPostExecute(result);
 
             try {
-                ImageView iv = mImageViewRef.get();
+                final ImageView iv = mImageViewRef.get();
 
-                if (null != iv) {
+                if (null != iv && iv.getVisibility() != View.GONE) {
                     iv.setImageDrawable(result);
+                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+                    iv.startAnimation(fadeInAnimation);
                 }
 
             } catch (Exception e) {

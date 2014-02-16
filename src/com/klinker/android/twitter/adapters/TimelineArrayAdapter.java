@@ -541,7 +541,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if(settings.inlinePics) {
             if (holder.picUrl.equals("")) {
-                if (holder.image.getVisibility() == View.VISIBLE) {
+                if (holder.image.getVisibility() != View.GONE) {
                     holder.image.setVisibility(View.GONE);
                 }
 

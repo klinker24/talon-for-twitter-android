@@ -538,7 +538,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if(settings.inlinePics && holder.picUrl != null) {
             if (holder.picUrl.equals("")) {
-                if (holder.image.getVisibility() == View.VISIBLE) {
+                if (holder.image.getVisibility() != View.GONE) {
                     holder.image.setVisibility(View.GONE);
                 }
 
@@ -588,7 +588,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     });
 
-                    holder.image.setImageDrawable(transparent);
+                    holder.image.setImageDrawable(null);
 
                     mHandlers[currHandler].removeCallbacksAndMessages(null);
                     mHandlers[currHandler].postDelayed(new Runnable() {
@@ -618,7 +618,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     });
 
-                    holder.image.setImageDrawable(transparent);
+                    holder.image.setImageDrawable(null);
 
                     mHandlers[currHandler].removeCallbacksAndMessages(null);
                     mHandlers[currHandler].postDelayed(new Runnable() {

@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Adapter;
 
+import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
 
@@ -83,13 +86,29 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
     public void displayItem(View itemView, CacheableBitmapDrawable result, boolean fromMemory) {
         try {
 
-            TimelineArrayAdapter.ViewHolder holder = (TimelineArrayAdapter.ViewHolder) itemView.getTag();
+            final TimelineArrayAdapter.ViewHolder holder = (TimelineArrayAdapter.ViewHolder) itemView.getTag();
 
             if (result == null) {
                 return;
             }
 
-            holder.profilePic.setImageBitmap(result.getBitmap());
+            holder.profilePic.setImageDrawable(result);
+            /*Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
+            holder.profilePic.setVisibility(View.INVISIBLE);
+            fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation arg0) {
+
+                    // let make your image visible
+                    holder.profilePic.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+                @Override
+                public void onAnimationStart(Animation animation) {}
+            });
+            holder.profilePic.startAnimation(fadeInAnimation);*/
         } catch (Exception e) {
             // happens sometimes when searching for users i guess
         }
