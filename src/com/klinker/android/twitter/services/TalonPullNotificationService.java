@@ -280,7 +280,7 @@ public class TalonPullNotificationService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            new Thread(new Runnable() {
+            Thread stop = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     TalonPullNotificationService.shuttingDown = true;
@@ -290,11 +290,24 @@ public class TalonPullNotificationService extends Service {
                         Log.v("twitter_stream_push", "stopping push notifications");
                     } catch (Exception e) {
                         // it isn't running
-
+                        e.printStackTrace();
+                        try {
+                            Thread.sleep(2000);
+                            pushStream.cleanUp();
+                            pushStream.shutdown();
+                            Log.v("twitter_stream_push", "stopping push notifications");
+                        } catch (Exception x) {
+                            // it isn't running
+                            x.printStackTrace();
+                        }
                     }
+
                     TalonPullNotificationService.shuttingDown = false;
                 }
-            }).start();
+            });
+
+            stop.setPriority(Thread.MAX_PRIORITY);
+            stop.start();
 
             stopSelf();
         }

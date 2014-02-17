@@ -62,6 +62,8 @@ public class TimelineRefreshService extends IntentService {
                 Paging paging = new Paging(1, 200);
                 if (lastId[0] != 0) {
                     paging.setSinceId(lastId[0]);
+                } else {
+                    return;
                 }
 
                 for (int i = 0; i < settings.maxTweetsRefresh; i++) {
@@ -86,7 +88,7 @@ public class TimelineRefreshService extends IntentService {
                     }
                 }
 
-                HomeContentProvider.insertTweets(statuses, currentAccount, context);
+                HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
 
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 

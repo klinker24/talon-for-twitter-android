@@ -149,7 +149,7 @@ public class ListDataSource {
                 + " = " + id, null);
     }
 
-    public void deleteAllTweets(int account) {
+    public void deleteAllTweets(int listNumber) {
         if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
@@ -157,7 +157,7 @@ public class ListDataSource {
         }
 
         database.delete(ListSQLiteHelper.TABLE_HOME,
-                ListSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+                ListSQLiteHelper.COLUMN_LIST_ID + " = " + listNumber, null);
     }
 
     public Cursor getCursor(int listId) {

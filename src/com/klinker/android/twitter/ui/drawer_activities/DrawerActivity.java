@@ -705,35 +705,28 @@ public abstract class DrawerActivity extends Activity {
         e.remove("current_position_" + currentAccount);
         e.commit();
 
-        HomeDataSource homeSources = new HomeDataSource(context);
-        homeSources.open();
+        HomeDataSource homeSources = HomeDataSource.getInstance(context);
         homeSources.deleteAllTweets(currentAccount);
-        homeSources.close();
 
-        MentionsDataSource mentionsSources = new MentionsDataSource(context);
-        mentionsSources.open();
+        MentionsDataSource mentionsSources = MentionsDataSource.getInstance(context);
         mentionsSources.deleteAllTweets(currentAccount);
-        mentionsSources.close();
 
-        DMDataSource dmSource = new DMDataSource(context);
-        dmSource.open();
+        DMDataSource dmSource = DMDataSource.getInstance(context);
         dmSource.deleteAllTweets(currentAccount);
-        dmSource.close();
 
-        FavoriteUsersDataSource favs = new FavoriteUsersDataSource(context);
-        favs.open();
+        FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
         favs.deleteAllUsers(currentAccount);
-        favs.close();
 
-        InteractionsDataSource inters = new InteractionsDataSource(context);
-        inters.open();
+        InteractionsDataSource inters = InteractionsDataSource.getInstance(context);
         inters.deleteAllInteractions(currentAccount);
-        inters.close();
 
-        ListDataSource list = new ListDataSource(context);
-        list.open();
-        list.deleteAllTweets(currentAccount);
-        list.close();
+
+        int account1List1 = sharedPrefs.getInt("account_" + currentAccount + "_list_1", 0);
+        int account1List2 = sharedPrefs.getInt("account_" + currentAccount + "_list_2", 0);
+
+        ListDataSource list = ListDataSource.getInstance(context);
+        list.deleteAllTweets(account1List1);
+        list.deleteAllTweets(account1List2);
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);

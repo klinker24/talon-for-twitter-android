@@ -539,9 +539,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
             User user = twitter.verifyCredentials();
-            long[] lastId;
-
-            lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+            long[] lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
 
             final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -549,8 +547,14 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             Paging paging = new Paging(1, 200);
 
-            if (lastId[0] != 0) {
+            if (false) {//lastId[0] != 0) {
                 paging.setSinceId(lastId[0]);
+            } else {
+                Cursor cursor = cursorAdapter.getCursor();
+                if (cursor.moveToLast()) {
+                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    paging.setSinceId(id);
+                }
             }
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
@@ -584,7 +588,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             only50 = false;
             manualRefresh = false;
 
-            HomeContentProvider.insertTweets(statuses, currentAccount, context);
+            HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
 
             Log.v("talon_inserting", "inserted tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
 
