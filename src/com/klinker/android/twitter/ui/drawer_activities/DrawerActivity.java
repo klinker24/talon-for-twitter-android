@@ -400,7 +400,7 @@ public abstract class DrawerActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.SWITCH_ACCOUNTS"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
                             Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
@@ -441,7 +441,7 @@ public abstract class DrawerActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.SWITCH_ACCOUNTS"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
                             Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
