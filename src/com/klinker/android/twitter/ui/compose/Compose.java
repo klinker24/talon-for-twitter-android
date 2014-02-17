@@ -284,12 +284,9 @@ public abstract class Compose extends Activity implements
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             String filePath = IOUtils.getPath(imageUri, context);
-            Log.v("talon_image", filePath);
 
             try {
-                File f = new File(filePath);
-
-                Bitmap bitmap = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(attachedFilePath)), 100, 100);
+                Bitmap bitmap = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 100, 100);
 
                 attachImage.setImageBitmap(bitmap);
 
