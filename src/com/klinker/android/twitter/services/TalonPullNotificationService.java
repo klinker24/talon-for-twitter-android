@@ -61,12 +61,15 @@ public class TalonPullNotificationService extends Service {
     public NotificationCompat.Builder mBuilder;
 
     public static boolean shuttingDown = false;
+    public static boolean isRunning = false;
 
     public ArrayList<Long> ids;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        TalonPullNotificationService.isRunning = true;
 
         settings = new AppSettings(this);
 
@@ -86,11 +89,6 @@ public class TalonPullNotificationService extends Service {
         Intent compose = new Intent(this, WidgetCompose.class);
         popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent composePending = PendingIntent.getActivity(this, 0, compose, 0);
-
-
-        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-        remoteView.setOnClickPendingIntent(R.id.popup_button, stopPending);
-        remoteView.setImageViewResource(R.id.icon, R.drawable.ic_stat_icon);*/
 
         String text;
 
@@ -154,6 +152,10 @@ public class TalonPullNotificationService extends Service {
         filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
         registerReceiver(stopService, filter);
 
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.SWITCH_ACCOUNTS");
+        registerReceiver(switchAccounts, filter);
+
         if (settings.liveStreaming && settings.timelineNot) {
             filter = new IntentFilter();
             filter.addAction("com.klinker.android.twitter.UPDATE_NOTIF");
@@ -168,7 +170,7 @@ public class TalonPullNotificationService extends Service {
             registerReceiver(clearPullUnread, filter);
         }
 
-        new Thread(new Runnable() {
+        Thread start = new Thread(new Runnable() {
             @Override
             public void run() {
                 // get the ids of everyone you follow
@@ -184,7 +186,6 @@ public class TalonPullNotificationService extends Service {
                         long[] lIds = idObject.getIDs();
                         ids = new ArrayList<Long>();
                         for (int i = 0; i < lIds.length; i++) {
-                            Log.v("getting_ids", i + ": " + lIds[i]);
                             ids.add(lIds[i]);
                         }
 
@@ -196,16 +197,19 @@ public class TalonPullNotificationService extends Service {
                     idsLoaded = true;
 
                     startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
+
+                    mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                 } catch (Exception e) {
                     e.printStackTrace();
+                    TalonPullNotificationService.isRunning = false;
                     stopSelf();
                 }
 
             }
-        }).start();
+        });
 
-
-        mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
+        start.setPriority(Thread.MAX_PRIORITY - 1);
+        start.start();
 
     }
 
@@ -291,6 +295,7 @@ public class TalonPullNotificationService extends Service {
                     } catch (Exception e) {
                         // it isn't running
                         e.printStackTrace();
+                        // try twice to shut it down i guess
                         try {
                             Thread.sleep(2000);
                             pushStream.cleanUp();
@@ -309,7 +314,92 @@ public class TalonPullNotificationService extends Service {
             stop.setPriority(Thread.MAX_PRIORITY);
             stop.start();
 
+            TalonPullNotificationService.isRunning = false;
             stopSelf();
+
+        }
+    };
+
+    public BroadcastReceiver switchAccounts = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Thread stop = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.v("twitter_stream_push", "switching accounts now");
+                    TalonPullNotificationService.shuttingDown = true;
+                    try {
+                        pushStream.cleanUp();
+                        pushStream.shutdown();
+                        Log.v("twitter_stream_push", "stopped current account");
+
+                        stopForeground(true);
+
+                        // get the ids of everyone you follow
+                        try {
+                            settings = new AppSettings(mContext);
+                            Log.v("getting_ids", "started getting ids, mine: " + settings.myId);
+                            Twitter twitter = Utils.getTwitter(mContext, settings);
+                            long currCursor = -1;
+                            IDs idObject;
+                            int rep = 0;
+
+                            ids.clear();
+
+                            do {
+                                idObject = twitter.getFriendsIDs(settings.myId, currCursor);
+                                long[] lIds = idObject.getIDs();
+                                ids = new ArrayList<Long>();
+                                for (int i = 0; i < lIds.length; i++) {
+                                    ids.add(lIds[i]);
+                                }
+
+                                rep++;
+                            } while ((currCursor = idObject.getNextCursor()) != 0 && rep < 3);
+
+                            ids.add(settings.myId);
+
+                            idsLoaded = true;
+
+                            int count = 0;
+                            if (sharedPreferences.getBoolean("is_logged_in_1", false)) {
+                                count++;
+                            }
+                            if (sharedPreferences.getBoolean("is_logged_in_2", false)) {
+                                count++;
+                            }
+
+                            boolean multAcc = false;
+                            if (count == 2) {
+                                multAcc = true;
+                            }
+
+                            mBuilder.setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " - @" + settings.myScreenName : ""));
+
+                            startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
+
+                            mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            TalonPullNotificationService.isRunning = false;
+                            stopSelf();
+                        }
+
+                    } catch (Exception e) {
+                        // it isn't running
+                        e.printStackTrace();
+                        Log.v("twitter_stream_push", "error shutting down stream i guess");
+                        TalonPullNotificationService.isRunning = false;
+                        stopSelf();
+                    }
+
+                    TalonPullNotificationService.shuttingDown = false;
+                }
+            });
+
+            stop.setPriority(Thread.MAX_PRIORITY);
+            stop.start();
         }
     };
 

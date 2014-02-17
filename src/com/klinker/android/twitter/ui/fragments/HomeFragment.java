@@ -187,7 +187,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         Log.v("setting_fragments", "home fragment");
 
         if(DrawerActivity.settings.pushNotifications) {
-            context.startService(new Intent(context, TalonPullNotificationService.class));
+            if (!TalonPullNotificationService.isRunning) {
+                context.startService(new Intent(context, TalonPullNotificationService.class));
+            }
         } else {
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         }
