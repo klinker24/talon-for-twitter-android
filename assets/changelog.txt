@@ -2,6 +2,7 @@
     &#8226; Major speed improvements when viewing tweets, profiles, searches, lists, and other networked tasks<br/>
     &#8226; Automatically load more search results, profile tweets, followers, and more at the bottom of the pages<br/>
     &#8226; View replies to retweets<br/>
+    &#8226; Fade in animation for pictures<br/>
     &#8226; Fix for sharing from gallery<br/>
     &#8226; Many more crash fixes<br/>
 </br><br/>
