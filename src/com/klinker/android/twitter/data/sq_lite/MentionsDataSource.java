@@ -59,6 +59,7 @@ public class MentionsDataSource {
 
     public void close() {
         dbHelper.close();
+        database = null;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -99,7 +100,7 @@ public class MentionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -135,7 +136,7 @@ public class MentionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -147,7 +148,7 @@ public class MentionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -158,7 +159,7 @@ public class MentionsDataSource {
     public void deleteAllTweets(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -167,11 +168,6 @@ public class MentionsDataSource {
     }
 
     public Cursor getCursor(int account) {
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
-            open();
-        }
 
         String users = sharedPrefs.getString("muted_users", "");
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
@@ -181,6 +177,12 @@ public class MentionsDataSource {
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
             }
+        }
+
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
+            open();
         }
 
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
@@ -203,7 +205,7 @@ public class MentionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -235,7 +237,7 @@ public class MentionsDataSource {
 
             if (database == null) {
                 open();
-            } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
                 open();
             }
 
@@ -284,7 +286,7 @@ public class MentionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -352,7 +354,7 @@ public class MentionsDataSource {
     public boolean tweetExists(long tweetId, int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -366,10 +368,10 @@ public class MentionsDataSource {
     public void deleteDups(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
-        
+
         database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
     }
 }

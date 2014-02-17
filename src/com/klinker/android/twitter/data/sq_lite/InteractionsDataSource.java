@@ -64,6 +64,7 @@ public class InteractionsDataSource {
 
     public void close() {
         dbHelper.close();
+        database = null;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -97,7 +98,7 @@ public class InteractionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -127,7 +128,7 @@ public class InteractionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -176,7 +177,7 @@ public class InteractionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -212,7 +213,7 @@ public class InteractionsDataSource {
 
                 if (database == null) {
                     open();
-                } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+                } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
                     open();
                 }
 
@@ -227,7 +228,7 @@ public class InteractionsDataSource {
     public Cursor interactionExists(long tweetId, int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -240,7 +241,7 @@ public class InteractionsDataSource {
     public void deleteInteraction(long id) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -251,7 +252,7 @@ public class InteractionsDataSource {
     public void deleteAllInteractions(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -262,7 +263,7 @@ public class InteractionsDataSource {
     public Cursor getCursor(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -275,7 +276,7 @@ public class InteractionsDataSource {
     public Cursor getBackwordCursor(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -288,7 +289,7 @@ public class InteractionsDataSource {
     public Cursor getUnreadCursor(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -301,7 +302,7 @@ public class InteractionsDataSource {
     public Cursor getUnreadBackwordCursor(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -332,7 +333,7 @@ public class InteractionsDataSource {
 
             if (database == null) {
                 open();
-            } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
                 open();
             }
 
@@ -369,7 +370,7 @@ public class InteractionsDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 

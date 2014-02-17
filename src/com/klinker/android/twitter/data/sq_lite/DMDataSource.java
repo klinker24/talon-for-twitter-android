@@ -58,6 +58,7 @@ public class DMDataSource {
 
     public void close() {
         dbHelper.close();
+        database = null;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -97,7 +98,7 @@ public class DMDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -108,7 +109,7 @@ public class DMDataSource {
         long id = tweetId;
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -119,7 +120,7 @@ public class DMDataSource {
     public void deleteAllTweets(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -129,7 +130,7 @@ public class DMDataSource {
     public Cursor getCursor(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
         Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
@@ -141,7 +142,7 @@ public class DMDataSource {
     public Cursor getConvCursor(String name, int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
         Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,

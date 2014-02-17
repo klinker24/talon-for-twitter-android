@@ -1156,9 +1156,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toastDescription = (TextView) view.findViewById(R.id.toastDescription);
         toastButton = (TextView) view.findViewById(R.id.toastButton);
 
-        if (DrawerActivity.settings.addonTheme) {
-            LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
-            toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
+        try {
+            if (DrawerActivity.settings.addonTheme) {
+                LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
+                toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
+            }
+        } catch (Exception e) {
+
         }
     }
 

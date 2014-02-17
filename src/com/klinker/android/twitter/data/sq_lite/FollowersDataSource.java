@@ -51,6 +51,7 @@ public class FollowersDataSource {
 
     public void close() {
         dbHelper.close();
+        database = null;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -77,7 +78,7 @@ public class FollowersDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -99,7 +100,7 @@ public class FollowersDataSource {
     public void deleteAllUsers(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -110,7 +111,7 @@ public class FollowersDataSource {
     public Cursor getCursor(int account, String name) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
