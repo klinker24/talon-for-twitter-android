@@ -1,3 +1,8 @@
+<b>Version 1.4.2:</b><br/><br/>
+    &#8226; Fixes for Talon Pull with multiple accounts<br/>
+    &#8226; Fixed duplicate tweets<br/>
+</br><br/>
+
 <b>Version 1.4.1:</b><br/><br/>
     &#8226; Major speed improvements when viewing tweets, profiles, searches, lists, and other networked tasks<br/>
     &#8226; Automatically load more search results, profile tweets, followers, and more at the bottom of the pages<br/>
