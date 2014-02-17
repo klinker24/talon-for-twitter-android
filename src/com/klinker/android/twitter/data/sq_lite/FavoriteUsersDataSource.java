@@ -51,6 +51,7 @@ public class FavoriteUsersDataSource {
 
     public void close() {
         dbHelper.close();
+        database = null;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -77,7 +78,7 @@ public class FavoriteUsersDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -89,7 +90,7 @@ public class FavoriteUsersDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -100,7 +101,7 @@ public class FavoriteUsersDataSource {
     public void deleteAllUsers(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -111,7 +112,7 @@ public class FavoriteUsersDataSource {
     public Cursor getCursor(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 

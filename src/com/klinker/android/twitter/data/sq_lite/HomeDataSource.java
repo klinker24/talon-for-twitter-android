@@ -30,8 +30,7 @@ public class HomeDataSource {
         try {
             if (dataSource == null ||
                     !dataSource.getDatabase().isOpen() ||
-                    dataSource.getDatabase().isDbLockedByCurrentThread() ||
-                    dataSource.getDatabase().isDbLockedByOtherThreads()) {
+                    !dataSource.getDatabase().isDbLockedByCurrentThread()) {
 
                 dataSource = new HomeDataSource(context); // create the database
                 dataSource.open(); // open the database
@@ -74,6 +73,7 @@ public class HomeDataSource {
 
     public void close() {
         dbHelper.close();
+        database = null;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -118,7 +118,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -159,7 +159,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -171,7 +171,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -182,7 +182,7 @@ public class HomeDataSource {
     public void deleteAllTweets(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -220,7 +220,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -265,7 +265,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -304,7 +304,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -346,7 +346,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -391,7 +391,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -424,7 +424,7 @@ public class HomeDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
         try {
@@ -456,7 +456,6 @@ public class HomeDataSource {
                     }
 
                     if (startUnreads) {
-
                         database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {thisId + ""});
                     }
                 } while (full.moveToNext());
@@ -488,7 +487,7 @@ public class HomeDataSource {
     }
 
     public boolean tweetExists(long tweetId, int account) {
-        if (database == null) {
+        if (database == null || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -514,7 +513,7 @@ public class HomeDataSource {
     public void deleteDups(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 

@@ -80,6 +80,7 @@ public class ListDataSource {
 
     public void close() {
         dbHelper.close();
+        database = null;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -123,7 +124,7 @@ public class ListDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -140,7 +141,7 @@ public class ListDataSource {
 
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -151,7 +152,7 @@ public class ListDataSource {
     public void deleteAllTweets(int account) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
@@ -195,6 +196,8 @@ public class ListDataSource {
 
         if (database == null) {
             open();
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
+            open();
         }
 
         Cursor cursor = database.query(ListSQLiteHelper.TABLE_HOME,
@@ -235,7 +238,7 @@ public class ListDataSource {
     public void deleteDups(int list) {
         if (database == null) {
             open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 

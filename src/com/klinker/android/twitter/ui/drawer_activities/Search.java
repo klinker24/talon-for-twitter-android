@@ -126,15 +126,13 @@ public class Search extends Activity implements OnRefreshListener {
             transformer.setProgressBarColor(settings.accentInt);
         }
 
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
         try {
             searchQuery = getIntent().getStringExtra(SearchManager.QUERY);
         } catch (Exception e) {
+            searchQuery = "";
+        }
+
+        if (searchQuery == null) {
             searchQuery = "";
         }
 
@@ -149,6 +147,7 @@ public class Search extends Activity implements OnRefreshListener {
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
+
                 if(lastItem == totalItemCount && canRefresh) {
                     if (!searchQuery.contains("@")) {
                         getMore();
@@ -229,7 +228,7 @@ public class Search extends Activity implements OnRefreshListener {
         }
     }
 
-    String searchQuery = "";
+    public String searchQuery = "";
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
