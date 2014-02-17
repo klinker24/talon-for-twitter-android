@@ -4,6 +4,7 @@
     &#8226; View replies to retweets<br/>
     &#8226; Fade in animation for pictures<br/>
     &#8226; Fix for sharing from gallery<br/>
+    &#8226; Support for Samsung Multi-window<br/>
     &#8226; Many more crash fixes<br/>
 </br><br/>
 
