@@ -458,4 +458,16 @@
     <string name="jumping_workaround_summary">更新した後にTLが下に移動してしまう場合これを有効にしてください。</string>
     <string name="menu_share_link">リンクの共有</string>
     <string name="no_links">リンクなし</string>
+    <string name="configure_pages">追加ページの編集</string>
+    <string name="picture_page">画像タイムライン</string>
+    <string name="link_page">リンクタイムライン</string>
+    <string name="list_page">リストタイムライン</string>
+    <string name="current">現在</string>
+    <string name="here_is_home">ここがホームタイムラインです!</string>
+    <string name="dont_use">このページは使わない</string>
+    <string name="page_1">ページ1</string>
+    <string name="page_2">ページ2</string>
+    <string name="load_tweets">ツイートの読み込み</string>
+    <string name="download_portal">Portalアプリのダウンロード</string>
+    <string name="download_portal_summary">Klinker Appsの\"Portal\"アプリです。TalonとEvolveSMS向けのテーマや最新情報などをお届けします。</string>
 </resources>

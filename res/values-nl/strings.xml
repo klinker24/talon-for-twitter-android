@@ -2,31 +2,31 @@
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon voor Twitter</string>
-    <string name="extension_description">Geeft het aantal ongelezen tweets, vermeldingen en directe berichten weer wanneer ze zijn geüpdatet. </string>
+    <string name="extension_description">Geeft het aantal ongelezen tweets, vermeldingen en directe berichten weer wanneer ze zijn geüpdate.</string>
     <!-- Action Bar -->
-    <string name="menu_refresh">Vernieuw Timeline</string>
-    <string name="menu_compose">Nieuwe Tweet</string>
+    <string name="menu_refresh">Vernieuw timeline</string>
+    <string name="menu_compose">Nieuwe tweet</string>
     <string name="menu_logout">Uitloggen</string>
     <string name="menu_settings">Instellingen </string>
-    <string name="menu_follow">Volg Gebruiker</string>
-    <string name="menu_unfollow">Ontvolg Gebruiker</string>
-    <string name="menu_tweet">Verstuur Tweet</string>
-    <string name="menu_dm">Verstuur Direct Bericht</string>
-    <string name="menu_block">Blokkeer Gebruiker</string>
-    <string name="menu_unblock">Deblokkeer Gebruiker</string>
+    <string name="menu_follow">Volg gebruiker</string>
+    <string name="menu_unfollow">Ontvolg gebruiker</string>
+    <string name="menu_tweet">Verstuur tweet</string>
+    <string name="menu_dm">Verstuur direct bericht</string>
+    <string name="menu_block">Blokkeer gebruiker</string>
+    <string name="menu_unblock">Deblokkeer gebruiker</string>
     <string name="menu_add_to_list">Voeg toe aan lijst</string>
-    <string name="menu_change_picture">Verander Profielfoto</string>
-    <string name="menu_change_bio">Verander Profiel Info</string>
-    <string name="menu_change_banner">Verander Profiel Banner</string>
-    <string name="menu_direct_message">Nieuw Direct Bericht</string>
+    <string name="menu_change_picture">Verander profielfoto</string>
+    <string name="menu_change_bio">Verander profiel Info</string>
+    <string name="menu_change_banner">Verander profiel banner</string>
+    <string name="menu_direct_message">Nieuw privé bericht</string>
     <string name="menu_save_image">Sla afbeelding op</string>
     <string name="menu_favorite">Voeg gebruiker toe aan favorieten</string>
     <string name="menu_unfavorite">Verwijder gebruiker uit favorieten</string>
-    <string name="menu_create_list">Maak Nieuwe Lijst</string>
-    <string name="menu_spam">Markeer als Spam</string>
+    <string name="menu_create_list">Maak nieuwe lijst</string>
+    <string name="menu_spam">Markeer als spam</string>
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
-    <string name="just_now">op dit moment</string>
+    <string name="just_now">zojuist</string>
     <string name="a_min_ago">een minuut geleden</string>
     <string name="minutes_ago">%s minuten geleden</string>
     <string name="an_hour_ago">een uur geleden</string>
@@ -36,20 +36,20 @@
     <!-- Muting -->
     <string name="mute">Dempen</string>
     <string name="unmute">Niet meer dempen</string>
-    <string name="muted_users">Gedempte Gebruikers</string>
-    <string name="no_users">Geen Gebruikers</string>
+    <string name="muted_users">Gedempte gebruikers</string>
+    <string name="no_users">Geen gebruikers</string>
     <!-- Main Activity -->
     <string name="links">Links</string>
     <string name="pictures">Afbeeldingen</string>
     <string name="timeline">Timeline</string>
     <string name="mentions">Vermeldingen</string>
-    <string name="direct_messages">Directe Berichten</string>
+    <string name="direct_messages">Privéberichten</string>
     <string name="retweets">Retweets</string>
-    <string name="favorite_tweets">Favoriete Tweets</string>
+    <string name="favorite_tweets">Favoriete tweets</string>
     <string name="favorite_users">Favoriete gebruikers</string>
     <string name="trends">Trending</string>
-    <string name="local_trends">Lokale Trends</string>
-    <string name="world_trends">Wereld trends</string>
+    <string name="local_trends">Lokale trends</string>
+    <string name="world_trends">Wereldwijde trends</string>
     <string name="search">Zoeken</string>
     <string name="lists">Lijsten</string>
     <string name="search_hint">\@gebruikersnaam of zoeken... </string>
@@ -59,16 +59,16 @@
     <string name="new_mention">nieuwe vermelding</string>
     <string name="new_mentions">nieuwe vermeldingen</string>
     <string name="no_new_mentions">Geen nieuwe vermeldingen</string>
-    <string name="new_direct_message">nieuw direct bericht</string>
-    <string name="new_direct_messages">nieuwe directe berichten</string>
-    <string name="no_new_direct_messages">Geen nieuwe directe berichten</string>
+    <string name="new_direct_message">nieuw privébericht</string>
+    <string name="new_direct_messages">nieuwe privéberichten</string>
+    <string name="no_new_direct_messages">Geen nieuwe privéberichten</string>
     <string name="tap_to_setup">Tap om in te stellen</string>
-    <string name="new_account">Nieuw Account </string>
+    <string name="new_account">Nieuw account</string>
     <string name="from_top">vanaf boven</string>
-    <string name="jump_to_top">Naar Eerste</string>
+    <string name="jump_to_top">Naar eerste</string>
     <string name="all_read">Alles gelezen!</string>
     <string name="view_new">Laden?</string>
-    <string name="old_interactions">Alle Interacties</string>
+    <string name="old_interactions">Alle interacties</string>
     <!-- Notifications -->
     <string name="tweet">Tweet</string>
     <string name="tweets">Tweets</string>
@@ -83,14 +83,13 @@
     <string name="noti_reply">Antwoorden</string>
     <string name="popup">Pop-up</string>
     <string name="fav_user_tweets">nieuwe tweet favoriete gebruiker</string>
-    <string name="sec_acc">Tweede Account</string>
+    <string name="sec_acc">Tweede account</string>
     <string name="talon_pull">Talon Pull</string>
     <string name="listening">Luisterend</string>
     <string name="listening_for_mentions">Luisteren voor interacties</string>
     <string name="refreshing">Aan het vernieuwen</string>
     <string name="refreshing_widget">Widget aan het vernieuwen</string>
     <string name="downloading">Aan het downloaden</string>
-    <string name="saving_picture">Afbeelding aan het opslaan</string>
     <string name="new_interaction_upper">Nieuwe Interactie</string>
     <string name="new_interactions_lower">nieuwe interacties</string>
     <string name="new_interactions">Nieuwe interacties</string>
@@ -99,15 +98,15 @@
     <string name="followed">volgde u</string>
     <string name="new_retweets">retweets</string>
     <string name="new_favorites">favorieten</string>
-    <string name="new_tweets_upper">Nieuwe Tweets</string>
+    <string name="new_tweets_upper">Nieuwe tweets</string>
     <!-- Login Screen -->
     <string name="setup_talon">Stel Talon in</string>
     <string name="login_to_twitter">Log in op Twitter</string>
     <string name="first_welcome">Welkom bij Talon!</string>
-    <string name="second_welcome">Data synchroniseren</string>
+    <string name="second_welcome">Gegevens synchroniseren</string>
     <string name="third_welcome">Dat is het!</string>
     <string name="back_to_timeline">Breng me naar mijn timeline!</string>
-    <string name="initial_sync">Sync Nu!</string>
+    <string name="initial_sync">Sync nu!</string>
     <string name="first_info">Voordat we beginnen, laten we u inloggen.</string>
     <string name="second_info">Geweldig!\n\nNu gaan we wat eerste gegevens ophalen.\n\nDit kan enige tijd duren, afhankelijk van uw internetverbinding.</string>
     <string name="third_info">Hopelijk waardeert u Talon!\n\n-- Luke Klinker</string>
@@ -122,11 +121,11 @@
     <string name="follow_me">Volg!</string>
     <string name="follow_me_description">Volg @TalonAndroid en @lukeklinker voor alle nieuwe fucties en ondersteuning!</string>
     <!-- Compose New Activity -->
-    <string name="compose_activity">Nieuwe Tweet</string>
+    <string name="compose_activity">Nieuwe tweet</string>
     <string name="compose_tweet_hint">Typ tweet hier...</string>
     <string name="send_to">Voer gebruiker\'s schermnaam in</string>
-    <string name="direct_message_sent">Direct Bericht Verzonden</string>
-    <string name="type_user">Typ Gebruiker</string>
+    <string name="direct_message_sent">Privébericht verzonden</string>
+    <string name="type_user">Typ gebruiker</string>
     <string name="add_user">Gebruiker toevoegen</string>
     <string name="location_connected">Locatie toegevoegd</string>
     <string name="location_disconnected">Locatie verloren</string>
@@ -135,7 +134,7 @@
     <string name="apply">Toepassen?</string>
     <string name="tweet_failed">Fout bij versturen tweet</string>
     <string name="tap_to_retry">Tik om opnieuw te proberen</string>
-    <string name="one_recepient">U kunt Directe Berichten alleen naar één gebruiker sturen!</string>
+    <string name="one_recepient">U kunt privéberichten alleen maar naar één gebruiker sturen!</string>
     <!-- Actionbar Done-Discard -->
     <string name="discard">Weggooien</string>
     <string name="send">Versturen</string>
@@ -143,21 +142,21 @@
     <string name="placeholder">Plaatshouder</string>
     <string name="reply">Reageren...</string>
     <string name="error">Fout</string>
-    <string name="error_loading_page">Fout bij laden webpagina</string>
+    <string name="error_loading_page">Fout bij laden van webpagina</string>
     <string name="delete">Verwijderen</string>
     <string name="cancel">Annuleren</string>
-    <string name="delete_direct_message">Bericht Verwijderen?</string>
-    <string name="save_image">Afbeelding Opgeslagen</string>
-    <string name="tweet_success">Tweet Succesvol</string>
-    <string name="error_sending_tweet">Fout bij Versturen Tweet</string>
+    <string name="delete_direct_message">Bericht verwijderen?</string>
+    <string name="save_image">Afbeelding opgeslagen</string>
+    <string name="tweet_success">Tweet succesvol</string>
+    <string name="error_sending_tweet">Fout bij versturen van tweet</string>
     <string name="tweet_to_long">Tweet te lang!</string>
     <string name="ok">Oké</string>
     <string name="no">Nee</string>
-    <string name="changelog">Wat is er Nieuw</string>
+    <string name="changelog">Wat is er nieuw</string>
     <string name="created_by">Gemaakt door</string>
     <string name="no_location">Kon locatie niet vinden</string>
-    <string name="take_picture">Maak Foto</string>
-    <string name="from_file">Afbeelding Toevoegen</string>
+    <string name="take_picture">Maak foto</string>
+    <string name="from_file">Afbeelding toevoegen</string>
     <string name="via">via</string>
     <string name="version">Versie</string>
     <string name="from">Van</string>
@@ -168,20 +167,20 @@
     <string name="followers">Volgers</string>
     <string name="following">Volgend</string>
     <string name="blocked_user">Gebruiker geblokkeerd</string>
-    <string name="unblocked_user">Gebruiker Gedeblokkeerd</string>
+    <string name="unblocked_user">Gebruiker gedeblokkeerd</string>
     <string name="followed_user">Gebruiker gevolgd</string>
     <string name="unfollowed_user">Gebruiker ontvolgd</string>
     <string name="no_description">Geen gebruikers beschrijving beschikbaar.</string>
-    <string name="favorite_user">Gebruiker Gefavoriet</string>
-    <string name="unfavorite_user">Gebruiker Gedefavoriet</string>
+    <string name="favorite_user">Gebruiker gefavoriet</string>
+    <string name="unfavorite_user">Gebruiker gedefavoriet</string>
     <string name="updating_pro_pic">Profielfoto aan het updaten</string>
     <string name="updating_banner_pic">Banner afbeelding aan het updaten</string>
-    <string name="uploaded">Bestand Geüpload</string>
-    <string name="change_profile_info">Verander Profiel Info</string>
+    <string name="uploaded">Bestand geüpload</string>
+    <string name="change_profile_info">Verander profiel info</string>
     <string name="update">Update</string>
-    <string name="optional_name">Naam (Optioneel)</string>
-    <string name="optional_url">URL (Optioneel)</string>
-    <string name="optional_location">Locatie (Optioneel)</string>
+    <string name="optional_name">Naam (optioneel)</string>
+    <string name="optional_url">URL (optioneel)</string>
+    <string name="optional_location">Locatie (optioneel)</string>
     <string name="optional_description">Beschrijving (Optioneel)</string>
     <string name="updated_profile">Profiel geüpdatet</string>
     <string name="name_char_length">Naam: 20 karakters limiet</string>
@@ -193,40 +192,41 @@
     <string name="retweet_lower">retweet</string>
     <string name="retweeter">geretweet door @</string>
     <!-- Tweet Activity -->
-    <string name="menu_open_web">Open Web Link</string>
-    <string name="menu_copy_text">Kopieer Tweet Tekst</string>
-    <string name="menu_share">Deel Tweet</string>
-    <string name="menu_delete_tweet">Verwijder Tweet</string>
+    <string name="menu_open_web">Open website link</string>
+    <string name="menu_copy_text">Kopieer tweet tekst</string>
+    <string name="menu_share">Deel tweet</string>
+    <string name="menu_delete_tweet">Verwijder tweet</string>
     <string name="conversation">Conversatie</string>
-    <string name="webpage">Web Pagina</string>
+    <string name="webpage">Web pagina</string>
     <string name="tweet_youtube">YouTube</string>
-    <string name="menu_quote">Quote Tweet</string>
+    <string name="menu_quote">Quote tweet</string>
     <string name="deleted_tweet">Tweet verwijderd</string>
     <string name="error_deleting">Error bij verwijderen tweet</string>
     <string name="sending">Versturen</string>
     <string name="open_what">Open wat</string>
-    <string name="youtube_error">Error bij afspelen video</string>
-    <string name="no_conversation">Geen Vorige Tweets</string>
-    <string name="saved_picture">Afbeelding Succesvol Opgeslagen</string>
-    <string name="retweet_success">Retweet Succesvol</string>
-    <string name="favorite_success">Favoriet Succesvol</string>
+    <string name="youtube_error">Error bij het afspelen van de video</string>
+    <string name="no_conversation">Geen vorige tweets</string>
+    <string name="saving_picture">Afbeelding aan het opslaan</string>
+    <string name="saved_picture">Afbeelding succesvol opgeslagen</string>
+    <string name="retweet_success">Retweet succesvol</string>
+    <string name="favorite_success">Favoriet succesvol</string>
     <string name="success">Succes</string>
     <!-- User Lists -->
-    <string name="view_users">Bekijk Gebruikers</string>
-    <string name="delete_list">Verwijder Lijst</string>
-    <string name="remove_user">Verwijder Gebruiker</string>
+    <string name="view_users">Bekijk gebruikers</string>
+    <string name="delete_list">Verwijder lijst</string>
+    <string name="remove_user">Verwijder gebruiker</string>
     <string name="remove">Verwijder</string>
     <string name="from_list">van lijst</string>
     <string name="removed_user">Gebruiker verwijderd</string>
-    <string name="create_new_list">Maak Nieuwe Lijst</string>
+    <string name="create_new_list">Maak nieuwe lijst</string>
     <string name="list_name">Lijst naam...</string>
     <string name="list_description">Optionele lijst beschrijving...</string>
     <string name="deleted_list">Lijst verwijderd</string>
     <string name="back_to_refresh">Ga terug om lijst te vernieuwen</string>
     <string name="sPrivate">Privé</string>
     <string name="sPublic">Openbaar</string>
-    <string name="finding_lists">Lijst Vinden...</string>
-    <string name="choose_list">Kies Lijst</string>
+    <string name="finding_lists">Lijsten vinden...</string>
+    <string name="choose_list">Kies lijst</string>
     <string name="added_to_list">Toegevoegd aan lijst</string>
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\nToegang tot\nfuncties bij tikken\nop items in\nde navigatie\ndrawer!</string>
@@ -234,12 +234,12 @@
     <string name="part_2">\nWissel tussen\ntimelines met\neen swipe vanuit\nhet midden van\nhet scherm!</string>
     <string name="part_3">Dat is het!\n\nRaak aan\nom te\nstarten!</string>
     <!-- Settings Menu -->
-    <string name="theme_settings">Thema Instellingen</string>
-    <string name="theme_options">Thema Opties</string>
-    <string name="font_options">Lettertype Opties</string>
-    <string name="other_options">Andere Opties</string>
+    <string name="theme_settings">Thema instellingen</string>
+    <string name="theme_options">Thema opties</string>
+    <string name="font_options">Lettertype opties</string>
+    <string name="other_options">Andere opties</string>
     <string name="theme">Thema</string>
-    <string name="addon_themes">Add-on Thema\'s</string>
+    <string name="addon_themes">Add-on thema\'s</string>
     <string name="addon_note">Klik hier om nieuwe thema\'s te vinden\n\nNOTITIES:\n- Dit zal het ingebouwde emoji toetsenbord uitschakelen tijdens het reageren op een tweet.\n- Rapporteer alstublieft geen fouten tenzij u ze kunt bevestigen ZONDER dat er een aangepast thema is ingesteld.</string>
     <string name="use_addon_themes">Gebruik add-on thema</string>
     <string name="make_a_theme">Maak een thema</string>
@@ -249,23 +249,23 @@
 U zult \"Talon\" uit uw recente apps moeten swypen om de wijzigingen volledig op uw timeline te kunnen zien.
 Als uw profielfoto\'s niet worden weergegeven zoals ze zouden moeten (bijv. rond of vierkant), dan moet u de widget verwijderen en opnieuw toevoegen.</string>
     <string name="layout_summary">Wanneer dit gewijzigd wordt zal de app\'s cache worden geleegd.</string>
-    <string name="text_size">Tekst Grootte</string>
-    <string name="night_mode">Nacht Modus</string>
-    <string name="night_mode_night">Selecteer Start Nachttijd</string>
-    <string name="night_mode_day">Selecteer Start Dagtijd</string>
-    <string name="night_mode_theme">Selecteer Thema voor Nacht Modus</string>
-    <string name="device_font">Gebruik Apparaat Lettertype</string>
+    <string name="text_size">Tekst grootte</string>
+    <string name="night_mode">Nacht modus</string>
+    <string name="night_mode_night">Selecteer start nachttijd</string>
+    <string name="night_mode_day">Selecteer start dagtijd</string>
+    <string name="night_mode_theme">Selecteer thema voor nacht modus</string>
+    <string name="device_font">Gebruik apparaat lettertype</string>
     <string name="device_font_summary">Standaard \"Roboto\" op de meeste apparaten. Talon\'s standaard lettertype is \"Roboto Light\".</string>
-    <string name="ui_extras">UI Extra\'s</string>
+    <string name="ui_extras">UI extra\'s</string>
     <string name="ui_extras_summary">Houdt in:\n
-- Verberg Actie Balk\n
-- Bruikbare Toast Balk
-- Transparante Systeem Balken (Alleen Android 4.4)\n\n
+- Verberg Actie Balk\n 
+- Bruikbare Toast balk
+- Transparante systeem balken (alleen Android 4.4)\n\n
 Het toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</string>
-    <string name="inline_pics">Geef In-Line Afbeeldingen Weer</string>
-    <string name="use_screen_name">Geef Twitter-cliënt Weer</string>
+    <string name="inline_pics">Geef in-line afbeeldingen weer</string>
+    <string name="use_screen_name">Geef Twitter-cliënt weer</string>
     <string name="use_screen_name_summary">Geef de Twitter-cliënt weer in plaats van hun naam op timelines.</string>
-    <string name="timestamp">24-Uur Tijdstempel</string>
+    <string name="timestamp">24-Uur tijdstempel</string>
     <string name="enable_emojis">Gebruik Emojis</string>
     <string name="to_market">Naar Play Store</string>
     <string name="get_android">Krijg Android Emojis</string>
@@ -273,7 +273,7 @@ Het toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</s
     <string name="emoji_dialog_summary">Om emojis te gebruiken in deze app, moet u het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
 U kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n
 NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat pakket wordt zowel als plug-in gebruikt, en als een op zichzelf staand toetsenbord. </string>
-    <string name="theme_light">Licht Thema</string>
+    <string name="theme_light">Licht thema</string>
     <string name="theme_dark">Donker Thema</string>
     <string name="theme_black">Zwart Thema</string>
     <string name="sync_settings">Sync Instellingen</string>
@@ -331,7 +331,7 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="cache_dialog_summary">Deze actie kan niet ongedaan worden gemaakt.</string>
     <string name="timeline_size">Timeline Grootte</string>
     <string name="timeline_size_summary">Max aantal tweets om op te slaan in de database</string>
-    <string name="mentions_size">Vermedingen grootte</string>
+    <string name="mentions_size">Vermeldingen grootte</string>
     <string name="mentions_size_summary">Max aantal vermeldingen om op te slaan in de database</string>
     <string name="dm_size">Directe Berichten Grootte</string>
     <string name="dm_size_summary">Max aantal directe berichten om op te slaan in de database</string>

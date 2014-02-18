@@ -90,7 +90,6 @@
     <string name="refreshing">Aggiornamento</string>
     <string name="refreshing_widget">Aggiornamento Widget</string>
     <string name="downloading">In download</string>
-    <string name="saving_picture">Salvataggio immagine</string>
     <string name="new_interaction_upper">Nuova Interazione</string>
     <string name="new_interactions_lower">nuove interazioni</string>
     <string name="new_interactions">Nuove Interazioni</string>
@@ -207,6 +206,7 @@
     <string name="open_what">Apri quale</string>
     <string name="youtube_error">Errore nella riproduzione del video</string>
     <string name="no_conversation">Nessun Tweet Precedente</string>
+    <string name="saving_picture">Salvataggio immagine</string>
     <string name="saved_picture">Immagine salvata con successo</string>
     <string name="retweet_success">Retwittato con successo</string>
     <string name="favorite_success">Tweet Preferito con successo</string>
@@ -447,5 +447,17 @@ Queste informazioni vengono utilizzate durante una ricerca di utenti quando si s
     <string name="use_tweetmarker">Abilita TweetMarker</string>
     <string name="finding_tweetmarker">Trovando TweetMarker</string>
     <string name="loading">Caricamento</string>
+    <string name="loading_tweets">Caricamento dei tweet...</string>
     <string name="pull_to_refresh">Rilascia per Aggiornare</string>
+    <string name="removing_retweet">Annullo retweet</string>
+    <string name="retweeting_status">Retwittando lo stato</string>
+    <string name="removing_favorite">Rimozione del tweet preferito</string>
+    <string name="favoriting_status">Aggiungendo lo stato tra i preferiti</string>
+    <string name="menu_share_link">Condividi link</string>
+    <string name="no_links">Nessun Link</string>
+    <string name="configure_pages">Configura Pagine Extra</string>
+    <string name="page_1">Pagina 1</string>
+    <string name="page_2">Pagina 2</string>
+    <string name="load_tweets">Carica i tweet</string>
+    <string name="download_portal">Scarica l\'app Theme Portal</string>
 </resources>

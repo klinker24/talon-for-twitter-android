@@ -458,4 +458,16 @@
     <string name="jumping_workaround_summary">Включите, если лента перескакивает вниз после обновления ленты.</string>
     <string name="menu_share_link">Поделиться ссылкой</string>
     <string name="no_links">Нет ссылок</string>
+    <string name="configure_pages">Настроить доп. страницы</string>
+    <string name="picture_page">Лента изображений</string>
+    <string name="link_page">Лента ссылок</string>
+    <string name="list_page">Лента со списком</string>
+    <string name="current">Сейчас</string>
+    <string name="here_is_home">Это главная лента!</string>
+    <string name="dont_use">Не используется</string>
+    <string name="page_1">Страница 1</string>
+    <string name="page_2">Страница 2</string>
+    <string name="load_tweets">Загрузить твитытвиты</string>
+    <string name="download_portal">Загрузить портал тем</string>
+    <string name="download_portal_summary">Приложение Klinker Apps сделано для того, чтобы быть в курсе последних новостей, а также находить лучшие темы для Talon и EvolveSMS в одном месте!</string>
 </resources>
