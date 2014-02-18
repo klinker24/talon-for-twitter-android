@@ -160,7 +160,7 @@ public class NotificationUtils {
                 Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
                 Map pebbleData = new HashMap();
                 pebbleData.put("title", title[0]);
-                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+                pebbleData.put("body", HtmlUtils.removeColorHtml(shortText, settings));
                 JSONObject jsonData = new JSONObject(pebbleData);
                 String notificationData = new JSONArray().put(jsonData).toString();
                 pebble.putExtra("messageType", "PEBBLE_ALERT");

@@ -540,7 +540,7 @@ public class UserProfileActivity extends Activity {
                                 ((Activity)context).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(context, "You changed your username before Talon could record your ID! You will have to log out and back in to make the correct changes!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "You changed your username before Talon could save your ID! You will have to log out and back in once to make the correct changes!", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
