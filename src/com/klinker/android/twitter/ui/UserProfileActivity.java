@@ -532,7 +532,23 @@ public class UserProfileActivity extends Activity {
                     if (!isMyProfile) {
                         thisUser = twitter.showUser(screenName);
                     } else {
-                        thisUser = twitter.showUser(settings.myId);
+                        if (settings.myId == 0) {
+                            try {
+                                thisUser = twitter.showUser(settings.myScreenName);
+                            } catch (Exception e) {
+                                // the user has changed their screen name, so look for the id
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, "You changed your username before Talon could record your ID! You will have to log out and back in to make the correct changes!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            return;
+                        } else {
+                            thisUser = twitter.showUser(settings.myId);
+                        }
+
 
                         // update the profile picture url and the background url in shared prefs
                         int currentAccount = sharedPrefs.getInt("current_account", 1);
@@ -540,6 +556,7 @@ public class UserProfileActivity extends Activity {
                         SharedPreferences.Editor e = sharedPrefs.edit();
                         e.putString("twitter_users_name_" + currentAccount, thisUser.getName()).commit();
                         e.putString("twitter_screen_name_" + currentAccount, thisUser.getScreenName()).commit();
+                        e.putLong("twitter_id_" + currentAccount, thisUser.getId()).commit();
                         e.putString("profile_pic_url_" + currentAccount, thisUser.getBiggerProfileImageURL());
                         e.putString("twitter_background_url_" + currentAccount, thisUser.getProfileBannerURL());
                         e.commit();
