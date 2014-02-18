@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.utils.api_helper;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -14,7 +15,14 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import twitter4j.GeoLocation;
 import twitter4j.Status;
@@ -28,14 +36,16 @@ public class TwitPicHelper extends APIHelper {
 
     private Twitter twitter;
     private String message;
-    private File file;
+    private InputStream stream;
     private long replyToStatusId = 0;
     private GeoLocation location = null;
+    private Context context;
 
-    public TwitPicHelper(Twitter twitter, String message, File picture) {
+    public TwitPicHelper(Twitter twitter, String message, InputStream stream, Context context) {
         this.twitter = twitter;
         this.message = message;
-        this.file = picture;
+        this.stream = stream;
+        this.context = context;
     }
 
     /**
@@ -90,6 +100,9 @@ public class TwitPicHelper extends APIHelper {
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
             post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
 
+            String filePath = saveStreamTemp(stream);
+            File file = new File(filePath);
+
             MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
             entity.addPart("key", new StringBody(TWITPIC_API_KEY));
             entity.addPart("media", new FileBody(file));
@@ -142,6 +155,47 @@ public class TwitPicHelper extends APIHelper {
         public String getText() {
             return totalTweet;
         }
+    }
+
+    String saveStreamTemp(InputStream fStream){
+        final File file;
+        try {
+            String timeStamp =
+                    new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+            file = new File(context.getCacheDir(), "temp_" + timeStamp + ".jpg");
+            final OutputStream output;
+            try {
+                output = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return "";
+            }
+            try {
+                try {
+                    final byte[] buffer = new byte[1024];
+                    int read;
+
+                    while ((read = fStream.read(buffer)) != -1)
+                        output.write(buffer, 0, read);
+
+                    output.flush();
+                } finally {
+                    output.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } finally {
+            try {
+                fStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+
+        return file.getPath();
     }
 
 }

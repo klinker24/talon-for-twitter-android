@@ -99,7 +99,7 @@ public class TweetFragment extends Fragment {
     private PhotoViewAttacher mAttacher;
 
     private ImageView attachImage;
-    private String attachedFilePath = "";
+    private String attachedUri = "";
 
     private String name;
     private String screenName;
@@ -626,8 +626,8 @@ public class TweetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
-                        if (reply.getText().length() + (attachedFilePath.equals("") ? 0 : 22) > 140) {
+                    if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
+                        if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) > 140) {
                             new AlertDialog.Builder(context)
                                     .setTitle(context.getResources().getString(R.string.twitlonger))
                                     .setMessage(context.getResources().getString(R.string.post_with_twitlonger))
@@ -680,12 +680,12 @@ public class TweetFragment extends Fragment {
                             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                             startActivityForResult(captureIntent, CAPTURE_IMAGE);
                         } else { // attach picture
-                            if (attachedFilePath == null || attachedFilePath.equals("")) {
+                            if (attachedUri == null || attachedUri.equals("")) {
                                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                                 photoPickerIntent.setType("image/*");
                                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
                             } else {
-                                attachedFilePath = "";
+                                attachedUri = "";
 
                                 TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
                                 int resource = a.getResourceId(0, 0);
@@ -727,7 +727,7 @@ public class TweetFragment extends Fragment {
 
                 if (!text.contains("http")) { // no links, normal tweet
                     try {
-                        charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                        charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
                     } catch (Exception e) {
                         charRemaining.setText("0");
                     }
@@ -740,7 +740,7 @@ public class TweetFragment extends Fragment {
                         count += 22; // add 22 for the shortened url
                     }
 
-                    if (!attachedFilePath.equals("")) {
+                    if (!attachedUri.equals("")) {
                         count += 22;
                     }
 
@@ -1170,6 +1170,7 @@ public class TweetFragment extends Fragment {
         private EditText message;
         private int remainingChars;
         private boolean messageToLong = false;
+        private InputStream stream;
 
         public ReplyToStatus(EditText message, long tweetId, int remainingChars) {
             this.text = message.getText().toString();
@@ -1198,30 +1199,15 @@ public class TweetFragment extends Fragment {
                     twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(text);
                     reply.setInReplyToStatusId(tweetId);
 
-                    if (!attachedFilePath.equals("")) {
-                        File f = new File(attachedFilePath);
-
-                        Bitmap bitmap = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(attachedFilePath)), 500, 500);
-
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 90, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-
-                        try {
-                            //write the bytes in file
-                            FileOutputStream fos = new FileOutputStream(f);
-                            fos.write(bitmapdata);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            // couldn't find file
-                        }
+                    if (!attachedUri.equals("")) {
+                        stream = context.getContentResolver().openInputStream(Uri.parse(attachedUri));
 
                         if (!settings.twitpic) {
-                            reply.setMedia(f);
+                            reply.setMedia("Pic from Talon", stream);
                             twitter.updateStatus(reply);
                             return true;
                         } else {
-                            TwitPicHelper helper = new TwitPicHelper(twitter, text, f);
+                            TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
                             helper.setInReplyToStatusId(tweetId);
                             return helper.createPost() != 0;
                         }
@@ -1237,6 +1223,12 @@ public class TweetFragment extends Fragment {
         }
 
         protected void onPostExecute(Boolean sent) {
+            try {
+                stream.close();
+            } catch (Throwable e) {
+
+            }
+            
             if (sent) {
                 Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
             } else {
@@ -1351,32 +1343,22 @@ public class TweetFragment extends Fragment {
             case SELECT_PHOTO:
                 if(resultCode == ((Activity)context).RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    String filePath = IOUtils.getPath(selectedImage, context);
 
-                    try {
-                        Bitmap yourSelectedImage = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 200, 200);
+                    attachImage.setImageURI(selectedImage);
+                    attachImage.setVisibility(View.VISIBLE);
 
-                        attachImage.setImageBitmap(yourSelectedImage);
-                        attachImage.setVisibility(View.VISIBLE);
-
-                        attachedFilePath = filePath;
-                    } catch (FileNotFoundException e) {
-
-                    }
+                    attachedUri = selectedImage.toString();
                 }
                 break;
             case CAPTURE_IMAGE:
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
-                        String filePath = selectedImage.getPath();
-                        //String filePath = IOUtils.getPath(selectedImage, context);
-                        Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
 
-                        attachImage.setImageBitmap(yourSelectedImage);
+                        attachImage.setImageURI(selectedImage);
                         attachImage.setVisibility(View.VISIBLE);
 
-                        attachedFilePath = filePath;
+                        attachedUri = selectedImage.toString();
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();

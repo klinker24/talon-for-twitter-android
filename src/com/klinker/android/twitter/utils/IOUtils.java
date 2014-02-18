@@ -65,7 +65,7 @@ public class IOUtils {
 
     public static String getPath(Uri uri, Context context) {
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        String filePath;
+        String filePath = null;
 
         try {
             Cursor cursor = context.getContentResolver().query(
@@ -76,7 +76,13 @@ public class IOUtils {
             filePath = cursor.getString(columnIndex);
             cursor.close();
         } catch (Exception e) {
+            e.printStackTrace();
             filePath = uri.getPath();
+        }
+
+        if (filePath == null) {
+            filePath = uri.getPath();
+            Log.v("talon_file_path", filePath);
         }
 
         return filePath;
