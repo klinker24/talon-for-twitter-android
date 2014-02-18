@@ -103,6 +103,24 @@ public class HomeContentProvider extends ContentProvider {
             }
 
             db.setTransactionSuccessful();
+        } catch (NullPointerException x)  {
+            // i don't understand why this would happen
+            db = HomeDataSource.getInstance(getContext()).getDatabase();
+            db.beginTransaction();
+
+            for (ContentValues initialValues : allValues) {
+                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
+                try {
+                    rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                } catch (IllegalStateException e) {
+                    db = HomeDataSource.getInstance(context).getDatabase();
+                    rowId = 0;
+                }
+                if (rowId > 0)
+                    rowsAdded++;
+            }
+
+            db.setTransactionSuccessful();
         } catch (IllegalStateException e) {
             // caught setting up the transaction I guess, shouldn't ever happen now.
             e.printStackTrace();
