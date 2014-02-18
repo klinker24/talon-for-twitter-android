@@ -63,7 +63,12 @@ public class TimelineRefreshService extends IntentService {
                 if (lastId[0] != 0) {
                     paging.setSinceId(lastId[0]);
                 } else {
-                    return;
+                    long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0);
+                    if (id != 0) {
+                        paging.setSinceId(id);
+                    } else {
+                        return;
+                    }
                 }
 
                 for (int i = 0; i < settings.maxTweetsRefresh; i++) {

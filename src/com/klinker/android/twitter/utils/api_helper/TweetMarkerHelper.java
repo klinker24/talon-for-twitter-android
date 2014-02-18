@@ -151,7 +151,7 @@ public class TweetMarkerHelper extends APIHelper {
 
                 if (timeline != null) {
 
-                    long val = timeline.getLong("id");
+                    long val = Long.parseLong(timeline.getString("id"));
                     int version = timeline.getInt("version");
                     Log.v("talon_tweetmarker", "getting tweetmarker, version: " + version + " id: " + val + " screename: " + screenname);
 
