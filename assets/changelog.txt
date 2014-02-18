@@ -2,6 +2,7 @@
     &#8226; Fixes for Talon Pull with multiple accounts<br/>
     &#8226; Fixed duplicate tweets<br/>
     &#8226; Way better support for sharing and uploading images<br/>
+    &#8226; Open statuses from a web link in talon<br/>
 </br><br/>
 
 <b>Version 1.4.1:</b><br/><br/>
