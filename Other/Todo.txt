@@ -22,6 +22,7 @@
 
 -- For Release --
 
-    -- users favorites and pictures on profile... this will mean turning that into a view pager as well
-    -- update languages
+    -- users favorites, mentions, and pictures on profile
+        - pics can go in a header view above the timeline
+        - mentions and favorites will have to get their own pages
     -- post from different accounts on compose window
