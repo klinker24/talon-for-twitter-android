@@ -41,7 +41,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
@@ -53,9 +52,9 @@ import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,7 +83,7 @@ public abstract class Compose extends Activity implements
     public TextView charRemaining;
     public ListPopupWindow autocomplete;
 
-    public String attachedFilePath = "";
+    public String attachedUri = "";
 
     public PhotoViewAttacher mAttacher;
 
@@ -228,7 +227,7 @@ public abstract class Compose extends Activity implements
 
                 if (!text.contains("http")) { // no links, normal tweet
                     try {
-                        charRemaining.setText(140 - reply.getText().length() - (attachedFilePath.equals("") ? 0 : 22) + "");
+                        charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
                     } catch (Exception e) {
                         charRemaining.setText("0");
                     }
@@ -241,7 +240,7 @@ public abstract class Compose extends Activity implements
                         count += 22; // add 22 for the shortened url
                     }
 
-                    if (!attachedFilePath.equals("")) {
+                    if (!attachedUri.equals("")) {
                         count += 22;
                     }
 
@@ -280,21 +279,14 @@ public abstract class Compose extends Activity implements
         }
     }
 
+
+
     void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
-            String filePath = IOUtils.getPath(imageUri, context);
-
-            try {
-                Bitmap bitmap = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 100, 100);
-
-                attachImage.setImageBitmap(bitmap);
-
-                attachedFilePath = filePath;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            }
+            //String filePath = IOUtils.getPath(imageUri, context);
+            attachImage.setImageURI(imageUri);
+            attachedUri = imageUri.toString();
         }
     }
 
@@ -367,19 +359,8 @@ public abstract class Compose extends Activity implements
 
                         Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
 
-                        Bitmap yourSelectedImage;
-                        try {
-                            yourSelectedImage = BitmapFactory.decodeFile(filePath);
-                        } catch (OutOfMemoryError e) {
-                            yourSelectedImage = null;
-                        }
-
-                        if (yourSelectedImage != null) {
-                            attachImage.setImageBitmap(yourSelectedImage);
-                            attachedFilePath = filePath;
-                        } else {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        }
+                        attachImage.setImageURI(selectedImage);
+                        attachedUri = selectedImage.toString();
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -390,24 +371,10 @@ public abstract class Compose extends Activity implements
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
-                        String filePath = selectedImage.getPath();
-                        //String filePath = IOUtils.getPath(selectedImage, context);
-                        Bitmap yourSelectedImage;
 
-                        try {
-                            yourSelectedImage = BitmapFactory.decodeFile(filePath);
-                        } catch (OutOfMemoryError e) {
-                            yourSelectedImage = null;
-                        }
+                            attachImage.setImageURI(selectedImage);
+                            attachedUri = selectedImage.toString();
 
-                        Log.v("talon_compose_pic", "file path, taken from camera: " + filePath);
-
-                        if (yourSelectedImage != null) {
-                            attachImage.setImageBitmap(yourSelectedImage);
-                            attachedFilePath = filePath;
-                        } else {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        }
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -485,6 +452,7 @@ public abstract class Compose extends Activity implements
 
         String text;
         private int remaining;
+        private InputStream stream;
 
         public updateTwitterStatus(String text, int length) {
             this.text = text;
@@ -533,7 +501,7 @@ public abstract class Compose extends Activity implements
                         media.setInReplyToStatusId(notiId);
                     }
 
-                    if (attachedFilePath.equals("")) {
+                    if (attachedUri.equals("")) {
                         // Update status
                         if(addLocation) {
                             Location location = mLocationClient.getLastLocation();
@@ -546,25 +514,10 @@ public abstract class Compose extends Activity implements
                         return true;
 
                     } else {
-                        File f = new File(attachedFilePath);
-
-                        Bitmap bitmap = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(attachedFilePath)), 500, 500);
-
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 90, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-
-                        try {
-                            //write the bytes in file
-                            FileOutputStream fos = new FileOutputStream(f);
-                            fos.write(bitmapdata);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            // couldn't find file
-                        }
+                        stream = getContentResolver().openInputStream(Uri.parse(attachedUri));
 
                         if (settings.twitpic) {
-                            TwitPicHelper helper = new TwitPicHelper(twitter, text, f);
+                            TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
                             if (addLocation) {
                                 int wait = 0;
                                 while (!mLocationClient.isConnected() && wait < 4) {
@@ -588,7 +541,12 @@ public abstract class Compose extends Activity implements
                             }
                             return helper.createPost() != 0;
                         } else {
-                            media.setMedia(f);
+                            //media.setMedia(f);
+                            try {
+                                media.setMedia("Pic from Talon", stream);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
                             if(addLocation) {
                                 int wait = 0;
@@ -620,13 +578,18 @@ public abstract class Compose extends Activity implements
                 }
 
             } catch (Exception e) {
-                // Error in updating status
+                e.printStackTrace();
             }
             return false;
         }
 
         protected void onPostExecute(Boolean success) {
             // dismiss the dialog after getting all products
+            try {
+                stream.close();
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
 
             if (success) {
                 Toast.makeText(getBaseContext(),

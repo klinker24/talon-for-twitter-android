@@ -12,26 +12,21 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
-import com.klinker.android.twitter.adapters.SearchedPeopleCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 
@@ -157,12 +152,12 @@ public class ComposeActivity extends Compose {
                             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                             startActivityForResult(captureIntent, CAPTURE_IMAGE);
                         } else { // attach picture
-                            if (attachedFilePath == null || attachedFilePath.equals("")) {
+                            if (attachedUri == null || attachedUri.equals("")) {
                                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                                 photoPickerIntent.setType("image/*");
                                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
                             } else {
-                                attachedFilePath = "";
+                                attachedUri = "";
                                 attachImage.setImageDrawable(null);
                                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                                 photoPickerIntent.setType("image/*");
@@ -358,7 +353,7 @@ public class ComposeActivity extends Compose {
                 return true;
             }
         } else {
-            if (editText.getText().length() + (attachedFilePath.equals("") ? 0 : 22) <= 140) {
+            if (editText.getText().length() + (attachedUri.equals("") ? 0 : 22) <= 140) {
                 // EditText is empty
                 Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
             } else {

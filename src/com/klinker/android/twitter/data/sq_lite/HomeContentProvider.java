@@ -85,7 +85,7 @@ public class HomeContentProvider extends ContentProvider {
         long rowId;
         ContentValues values;
 
-        SQLiteDatabase db = HomeDataSource.getInstance(context).getDatabase();
+        SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
 
         try {
             db.beginTransaction();
