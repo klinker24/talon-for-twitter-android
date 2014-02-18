@@ -245,28 +245,33 @@ public class Search extends Activity implements OnRefreshListener {
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
             suggestions.saveRecentQuery(searchQuery, null);
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            try {
-                Uri uri = intent.getData();
+            Uri uri = intent.getData();
+            String uriString = uri.toString();
+            if (uriString.contains("status/")) {
+                long id = Long.parseLong(uriString.substring(uriString.indexOf("status")).replace("status/", ""));
+                findStatus(id);
+            } else {
+                try {
+                    String search = uri.getQueryParameter("q");
+                    Log.v("searching_twitter", "" + search);
 
-                String search = uri.getQueryParameter("q");
-                Log.v("searching_twitter", "" + search);
-
-                if (search != null) {
-                    searchQuery = search;
-                    if (searchQuery.contains("@")) {
-                        String query = searchQuery.replace("@", "");
-                        doUserSearch(query);
-                    } else {
-                        String query = searchQuery;
-                        doSearch(query);
+                    if (search != null) {
+                        searchQuery = search;
+                        if (searchQuery.contains("@")) {
+                            String query = searchQuery.replace("@", "");
+                            doUserSearch(query);
+                        } else {
+                            String query = searchQuery;
+                            doSearch(query);
+                        }
                     }
+
+                    SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+                    suggestions.saveRecentQuery(searchQuery, null);
+                } catch (Exception e) {
+
                 }
-
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                        MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-                suggestions.saveRecentQuery(searchQuery, null);
-            } catch (Exception e) {
-
             }
         }
     }
@@ -451,6 +456,49 @@ public class Search extends Activity implements OnRefreshListener {
                             listView.setAdapter(peopleAdapter);
                             listView.setVisibility(View.VISIBLE);
 
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+                    hasMore = false;
+                }
+            }
+        }).start();
+    }
+
+    public void findStatus(final long statusid) {
+        listView.setVisibility(View.GONE);
+        spinner.setVisibility(View.VISIBLE);
+        hasMore = false;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter = Utils.getTwitter(context, settings);
+                    Status status = twitter.showStatus(statusid);
+
+                    userPage++;
+
+                    final ArrayList<Status> statuses = new ArrayList<Status>();
+
+                    statuses.add(status);
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses);
+                            listView.setAdapter(adapter);
+                            listView.setVisibility(View.VISIBLE);
+                            
                             spinner.setVisibility(View.GONE);
                         }
                     });

@@ -46,7 +46,7 @@
             android:layout_weight="1"
             android:maxLines="5"
             android:minLines="2"
-            android:hint="@string/compose_tweet_hint"
+            android:hint="@string/compose_dm_hint"
             android:inputType="textCapSentences|textMultiLine"/>
 
         <LinearLayout
