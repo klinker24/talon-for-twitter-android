@@ -1228,7 +1228,7 @@ public class TweetFragment extends Fragment {
             } catch (Throwable e) {
 
             }
-            
+
             if (sent) {
                 Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
             } else {
