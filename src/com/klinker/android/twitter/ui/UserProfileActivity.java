@@ -497,11 +497,14 @@ public class UserProfileActivity extends Activity {
         }).start();
     }
 
-    public void getFollowingStatus(final TextView statement, User user) {
+    public void getFollowingStatus(final TextView statement, final User user) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    if (user.getScreenName().equals(settings.myScreenName)) {
+                        return;
+                    }
                     final String followingStatus = Utils.getTwitter(context, settings).showFriendship(settings.myScreenName, thisUser.getScreenName()).isTargetFollowingSource() ?
                             getResources().getString(R.string.follows_you) : getResources().getString(R.string.not_following_you);
 
