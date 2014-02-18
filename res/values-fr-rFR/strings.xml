@@ -458,4 +458,16 @@ Défaut (quand c\'est désactivé) \n
     <string name="jumping_workaround_summary">Activer si votre timeline saute vers le bas lorsque que vous rafraîchissez vos actualités</string>
     <string name="menu_share_link">Partager le lien</string>
     <string name="no_links">Aucun lien</string>
+    <string name="configure_pages">Configurer les pages optionnelles</string>
+    <string name="picture_page">Image de la timeline</string>
+    <string name="link_page">Lien de la timeline</string>
+    <string name="list_page">Listes de votre Timeline</string>
+    <string name="current">Actuelle</string>
+    <string name="here_is_home">Ici c\'est votre Timeline</string>
+    <string name="dont_use">Ne pas utiliser cette page</string>
+    <string name="page_1">Page 1</string>
+    <string name="page_2">Page 2</string>
+    <string name="load_tweets">Charger les tweets</string>
+    <string name="download_portal">Télécharger l\'application regroupant des thèmes</string>
+    <string name="download_portal_summary">Cette application vous permet de rester à jour avec les dernières nouvelles ainsi que de trouver tous les meilleurs thèmes pour Talon et EvolveSMS en un seul endroit!</string>
 </resources>

@@ -458,4 +458,16 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="jumping_workaround_summary">Aktivér dette hvis din Tidslinje hopper et tweet ned ved opdatering</string>
     <string name="menu_share_link">Del link</string>
     <string name="no_links">Ingen links</string>
+    <string name="configure_pages">Konfigurér ekstra sider</string>
+    <string name="picture_page">Billede tidslinje</string>
+    <string name="link_page">Link tidslinje</string>
+    <string name="list_page">Liste tidslinje</string>
+    <string name="current">Nuværende</string>
+    <string name="here_is_home">Her er din start tidslinje</string>
+    <string name="dont_use">Brug ikke denne side</string>
+    <string name="page_1">Side 1</string>
+    <string name="page_2">Side 2</string>
+    <string name="load_tweets">Hent tweets</string>
+    <string name="download_portal">Download Theme Portal App</string>
+    <string name="download_portal_summary">Dette er Klinker Apps \"Portal\" app som giver dig mulighed for at være opdateret med de seneste nyheder og de bedste temaer for Talon og EvolveSMS, et sted!</string>
 </resources>
