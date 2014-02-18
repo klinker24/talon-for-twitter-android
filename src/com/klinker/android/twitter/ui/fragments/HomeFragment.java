@@ -703,8 +703,15 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     int numberNew;
     boolean tweetMarkerUpdate;
 
+    private boolean isRefreshing = false;
+
     @Override
     public void onRefreshStarted(final View view) {
+        if (isRefreshing) {
+            return;
+        } else {
+            isRefreshing = true;
+        }
 
         try {
             transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
@@ -792,6 +799,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                 // not attached to the activity i guess, don't know how or why that would be though
                             }
                         }
+
+                        isRefreshing = false;
 
                     context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
                     }
