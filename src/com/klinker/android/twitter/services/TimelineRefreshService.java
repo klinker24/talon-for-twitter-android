@@ -88,6 +88,10 @@ public class TimelineRefreshService extends IntentService {
                     }
                 }
 
+                if (statuses.size() > 0) {
+                    sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                }
+
                 HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
 
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();

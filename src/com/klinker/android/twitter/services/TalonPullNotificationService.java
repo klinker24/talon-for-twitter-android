@@ -537,6 +537,7 @@ public class TalonPullNotificationService extends Service {
                     if (!home.tweetExists(status.getId(), currentAccount)) {
                         //HomeContentProvider.insertTweet(status, currentAccount, mContext);
                         HomeDataSource.getInstance(mContext).createTweet(status, currentAccount);
+                        sharedPreferences.edit().putLong("account_" + currentAccount + "_lastid", status.getId()).commit();
                     }
 
                     pullUnread++;
