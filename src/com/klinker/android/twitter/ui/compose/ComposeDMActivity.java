@@ -135,7 +135,7 @@ public class ComposeDMActivity extends Compose {
             }
         });
 
-        reply.setHint(getResources().getString(R.string.compose_tweet_hint));
+        reply.setHint(getResources().getString(R.string.compose_dm_hint));
 
         if (!settings.useEmoji) {
             emojiButton.setVisibility(View.GONE);
