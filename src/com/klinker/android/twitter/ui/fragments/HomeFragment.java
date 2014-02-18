@@ -549,14 +549,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             Paging paging = new Paging(1, 200);
 
-            if (false) {//lastId[0] != 0) {
+            if (lastId[0] != 0) {
                 paging.setSinceId(lastId[0]);
-            } else {
+            } else if (cursorAdapter != null) {
                 Cursor cursor = cursorAdapter.getCursor();
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     paging.setSinceId(id);
                 }
+            } else {
+                paging.setSinceId(sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0));
             }
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
@@ -589,6 +591,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
             only50 = false;
             manualRefresh = false;
+
+            if (statuses.size() > 0) {
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+            }
 
             HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
 
