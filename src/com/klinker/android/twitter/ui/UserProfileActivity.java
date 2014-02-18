@@ -263,10 +263,10 @@ public class UserProfileActivity extends Activity {
         name = from.getStringExtra("name");
         screenName = from.getStringExtra("screenname");
         proPic = from.getStringExtra("profilePicture");
-        tweetId = from.getLongExtra("tweetid", 0);
+        tweetId = from.getLongExtra("tweetid", 0l);
         isRetweet = from.getBooleanExtra("retweet", false);
 
-        if (screenName.equals(settings.myScreenName)) {
+        if (screenName.equalsIgnoreCase(settings.myScreenName) || name.equalsIgnoreCase(settings.myName)) {
             isMyProfile = true;
         }
     }
@@ -531,14 +531,15 @@ public class UserProfileActivity extends Activity {
                     Log.v("talon_profile", "start of load time: " + Calendar.getInstance().getTimeInMillis());
                     if (!isMyProfile) {
                         thisUser = twitter.showUser(screenName);
-
                     } else {
-                        thisUser = twitter.showUser(settings.myScreenName);
+                        thisUser = twitter.showUser(settings.myId);
 
                         // update the profile picture url and the background url in shared prefs
                         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                         SharedPreferences.Editor e = sharedPrefs.edit();
+                        e.putString("twitter_users_name_" + currentAccount, thisUser.getName()).commit();
+                        e.putString("twitter_screen_name_" + currentAccount, thisUser.getScreenName()).commit();
                         e.putString("profile_pic_url_" + currentAccount, thisUser.getBiggerProfileImageURL());
                         e.putString("twitter_background_url_" + currentAccount, thisUser.getProfileBannerURL());
                         e.commit();
