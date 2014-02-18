@@ -498,8 +498,7 @@ public class Search extends Activity implements OnRefreshListener {
                             TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
-                            
-                            spinner.setVisibility(View.GONE);
+ spinner.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception e) {
