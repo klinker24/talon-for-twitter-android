@@ -125,7 +125,7 @@ public class HomeContentProvider extends ContentProvider {
         } catch (SQLiteDatabaseLockedException e ) {
 
             HomeDataSource.getInstance(getContext()).close();
-            
+
             db = HomeDataSource.getInstance(getContext()).getDatabase();
             db.beginTransaction();
 
@@ -133,7 +133,7 @@ public class HomeContentProvider extends ContentProvider {
                 values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
                 try {
                     rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-                } catch (IllegalStateException e) {
+                } catch (IllegalStateException x) {
                     db = HomeDataSource.getInstance(context).getDatabase();
                     rowId = 0;
                 }
