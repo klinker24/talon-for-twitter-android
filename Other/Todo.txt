@@ -8,6 +8,7 @@
     - picture searching
     - translation
     - pictures on direct messages
+    - discover tab
 
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
@@ -15,6 +16,10 @@
     - make sure tweet marker fires when switch accounts
     - compose not always shutting?
     - small images have the spinner behind them..
+    - Users having a very small amount of favorites
+    - quoting with an image give the pbs.twimg url
+    - random avatar changes
+    - sideways pictures
 
 
 - Notification Center:
@@ -26,3 +31,7 @@
         - pics can go in a header view above the timeline
         - mentions and favorites will have to get their own pages
     -- post from different accounts on compose window
+
+    - Danish arablic and finnish translations
+    - user search from links
+    - open gallery with picture saved notification

@@ -86,7 +86,7 @@ public class ConversationFragment extends Fragment {
                 final ArrayList<twitter4j.Status> replies = new ArrayList<twitter4j.Status>();
                 try {
                     twitter4j.Status status = twitter.showStatus(tweetId);
-                    
+
                     if (status.isRetweet()) {
                         status = status.getRetweetedStatus();
                     }
