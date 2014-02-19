@@ -578,8 +578,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         Preference users = findPreference("favorite_users_notifications");
         users.setOnPreferenceChangeListener(click);
 
-        Preference pebble = findPreference("pebble_notification");
-        pebble.setOnPreferenceChangeListener(click);
+        /*Preference pebble = findPreference("pebble_notification");
+        pebble.setOnPreferenceChangeListener(click);*/
 
         Preference notification = findPreference("notifications");
         notification.setOnPreferenceChangeListener(click);

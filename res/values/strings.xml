@@ -499,5 +499,7 @@
     <string name="compose_dm_hint">Type direct message here...</string>
     <string name="pwiccer">Pwiccer</string>
     <string name="select_shortening_service">Select a shortening service or edit the tweet.</string>
+    <string name="use_shortening_service">Use shortening service</string>
+    <string name="use_shortening_service_summary">You will be able to select either TwitLonger or Pwiccer (a service that converts your long tweet to an image for posting).</string>
 
 </resources>

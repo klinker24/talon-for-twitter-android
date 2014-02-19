@@ -34,7 +34,8 @@
 
         <CheckBoxPreference
             android:key="twitlonger"
-            android:title="@string/use_twitlonger"
+            android:title="@string/use_shortening_service"
+            android:summary="@string/use_shortening_service_summary"
             android:defaultValue="true"
             />
 
