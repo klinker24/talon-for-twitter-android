@@ -3,7 +3,9 @@ package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -120,7 +122,11 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        webView.loadUrl(pages[i]);
+        if (pages[i].contains("play.google.com")) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(pages[i])));
+        } else {
+            webView.loadUrl(pages[i]);
+        }
     }
 
     @Override
