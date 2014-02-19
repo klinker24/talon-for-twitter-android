@@ -157,10 +157,23 @@ public abstract class Compose extends Activity implements
                             new AlertDialog.Builder(context)
                                     .setTitle(context.getResources().getString(R.string.twitlonger))
                                     .setMessage(context.getResources().getString(R.string.post_with_twitlonger))
-                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             doneClick();
+                                        }
+                                    })
+                                    .setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            try {
+                                                Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
+                                                pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
+                                                startActivityForResult(pwiccer, 420);
+                                            } catch (Exception e) {
+                                                // open the play store here
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
+                                            }
                                         }
                                     })
                                     .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
@@ -344,6 +357,7 @@ public abstract class Compose extends Activity implements
 
     public static final int SELECT_PHOTO = 100;
     public static final int CAPTURE_IMAGE = 101;
+    public static final int PWICCER = 420;
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
@@ -372,8 +386,8 @@ public abstract class Compose extends Activity implements
                     try {
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
 
-                            attachImage.setImageURI(selectedImage);
-                            attachedUri = selectedImage.toString();
+                        attachImage.setImageURI(selectedImage);
+                        attachedUri = selectedImage.toString();
 
                     } catch (Throwable e) {
                         e.printStackTrace();
@@ -381,6 +395,19 @@ public abstract class Compose extends Activity implements
                     }
                 }
                 break;
+            case PWICCER:
+                if (resultCode == Activity.RESULT_OK) {
+                    String path = imageReturnedIntent.getStringExtra("RESULT");
+                    attachedUri = Uri.fromFile(new File(path)).toString();
+                    attachImage.setImageURI(Uri.parse(attachedUri));
+
+                    String currText = reply.getText().toString();
+                    reply.setText(currText.substring(0, 113) + "...");
+
+                    doneClick();
+                } else {
+                    Toast.makeText(context, "Pwiccer failed to generate image!", Toast.LENGTH_SHORT).show();
+                }
         }
     }
 
