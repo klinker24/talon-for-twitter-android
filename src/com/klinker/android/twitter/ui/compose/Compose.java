@@ -408,7 +408,7 @@ public abstract class Compose extends Activity implements
                     doneClick();
                     onBackPressed();
                 } else {
-                    Toast.makeText(context, "Pwiccer failed to generate image!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Pwiccer failed to generate image! Is it installed?", Toast.LENGTH_SHORT).show();
                 }
         }
     }

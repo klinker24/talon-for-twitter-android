@@ -1,3 +1,7 @@
+<b>Version 1.4.4:</b><br/><br/>
+    &#8226; Pwiccer support (https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en)<br/>
+</br><br/>
+
 <b>Version 1.4.3:</b><br/><br/>
     &#8226; Attempted fixes for TweetMarker<br/>
     &#8226; Translation updates<br/>
