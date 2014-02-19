@@ -497,6 +497,7 @@
     <string name="download_portal">Download Theme Portal App</string>
     <string name="download_portal_summary">This is the Klinker Apps \"Portal\" app to stay up to date with the latest news as well as find all the best themes for Talon and EvolveSMS in one place!</string>
     <string name="compose_dm_hint">Type direct message here...</string>
-    <string name="pwiccer">Pwiccer (Tweet Image)</string>
+    <string name="pwiccer">Pwiccer</string>
+    <string name="select_shortening_service">Select a shortening service or edit the tweet.</string>
 
 </resources>

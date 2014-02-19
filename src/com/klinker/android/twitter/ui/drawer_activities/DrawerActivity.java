@@ -859,8 +859,8 @@ public abstract class DrawerActivity extends Activity {
             menu.getItem(5).setVisible(false);
         }
 
-        // to first listener
-        if (MainDrawerArrayAdapter.current > 2 || settings.useToast) {
+        // to first button in overflow instead of the toast
+        if (MainDrawerArrayAdapter.current > 2 || (settings.uiExtras && settings.useToast)) {
             menu.getItem(5).setVisible(false);
         } else {
             menu.getItem(5).setVisible(true);
