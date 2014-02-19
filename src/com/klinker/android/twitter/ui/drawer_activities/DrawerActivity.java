@@ -156,7 +156,12 @@ public abstract class DrawerActivity extends Activity {
                         actionBar.setTitle(actName);
                     } else {
                         int position = mViewPager.getCurrentItem();
-                        String title = "" + mSectionsPagerAdapter.getPageTitle(position);
+                        String title = "";
+                        try {
+                            title = "" + mSectionsPagerAdapter.getPageTitle(position);
+                        } catch (NullPointerException e) {
+                            title = "";
+                        }
                         actionBar.setTitle(title);
                     }
 
