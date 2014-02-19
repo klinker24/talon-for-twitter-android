@@ -266,7 +266,7 @@ public class UserProfileActivity extends Activity {
         tweetId = from.getLongExtra("tweetid", 0l);
         isRetweet = from.getBooleanExtra("retweet", false);
 
-        if (screenName.equalsIgnoreCase(settings.myScreenName) || name.equalsIgnoreCase(settings.myName)) {
+        if (screenName.equalsIgnoreCase(settings.myScreenName)) {
             isMyProfile = true;
         }
     }
