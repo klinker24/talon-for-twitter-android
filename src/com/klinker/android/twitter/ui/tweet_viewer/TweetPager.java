@@ -412,7 +412,12 @@ public class TweetPager extends YouTubeBaseActivity {
                 return true;
 
             case R.id.menu_open_web:
-                Uri weburi = Uri.parse(webpage);
+                Uri weburi;
+                try {
+                    weburi = Uri.parse(otherLinks[0]);
+                } catch (Exception e) {
+                    weburi = Uri.parse(webpage);
+                }
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                 startActivity(launchBrowser);
 
