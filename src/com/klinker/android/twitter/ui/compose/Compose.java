@@ -402,8 +402,10 @@ public abstract class Compose extends Activity implements
                     attachedUri = Uri.fromFile(new File(path)).toString();
                     attachImage.setImageURI(Uri.parse(attachedUri));
 
-                    String currText = reply.getText().toString();
-                    reply.setText(currText.substring(0, 113) + "...");
+                    String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
+                    if (currText != null) {
+                        reply.setText(currText);
+                    }
 
                     doneClick();
                     onBackPressed();
