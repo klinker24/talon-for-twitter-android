@@ -155,8 +155,8 @@ public abstract class Compose extends Activity implements
                     public void onClick(View v) {
                         if (Integer.parseInt(charRemaining.getText().toString()) < 0 && settings.twitlonger) {
                             new AlertDialog.Builder(context)
-                                    .setTitle(context.getResources().getString(R.string.twitlonger))
-                                    .setMessage(context.getResources().getString(R.string.post_with_twitlonger))
+                                    .setTitle(context.getResources().getString(R.string.tweet_to_long))
+                                    .setMessage(context.getResources().getString(R.string.select_shortening_service))
                                     .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -170,8 +170,9 @@ public abstract class Compose extends Activity implements
                                                 Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
                                                 pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
                                                 startActivityForResult(pwiccer, 420);
-                                            } catch (Exception e) {
+                                            } catch (Throwable e) {
                                                 // open the play store here
+                                                // they don't have pwiccer installed
                                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
                                             }
                                         }
@@ -405,6 +406,7 @@ public abstract class Compose extends Activity implements
                     reply.setText(currText.substring(0, 113) + "...");
 
                     doneClick();
+                    onBackPressed();
                 } else {
                     Toast.makeText(context, "Pwiccer failed to generate image!", Toast.LENGTH_SHORT).show();
                 }
