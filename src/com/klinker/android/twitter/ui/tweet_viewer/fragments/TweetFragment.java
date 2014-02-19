@@ -202,6 +202,8 @@ public class TweetFragment extends Fragment {
         return layout;
     }
 
+    private EditText reply;
+    private ImageButton replyButton;
 
     public void setUIElements(final View layout) {
         TextView nametv;
@@ -218,8 +220,6 @@ public class TweetFragment extends Fragment {
         final ImageButton retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
-        final EditText reply;
-        final ImageButton replyButton;
         final ImageButton overflow;
         final LinearLayout buttons;
         final TextView charRemaining;
@@ -629,12 +629,26 @@ public class TweetFragment extends Fragment {
                     if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
                         if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) > 140) {
                             new AlertDialog.Builder(context)
-                                    .setTitle(context.getResources().getString(R.string.twitlonger))
-                                    .setMessage(context.getResources().getString(R.string.post_with_twitlonger))
+                                    .setTitle(context.getResources().getString(R.string.tweet_to_long))
+                                    .setMessage(context.getResources().getString(R.string.select_shortening_service))
                                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
+                                        }
+                                    })
+                                    .setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            try {
+                                                Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
+                                                pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
+                                                startActivityForResult(pwiccer, 420);
+                                            } catch (Throwable e) {
+                                                // open the play store here
+                                                // they don't have pwiccer installed
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
+                                            }
                                         }
                                     })
                                     .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
@@ -1334,6 +1348,7 @@ public class TweetFragment extends Fragment {
 
     private static final int SELECT_PHOTO = 100;
     private static final int CAPTURE_IMAGE = 101;
+    private static final int PWICCER = 420;
 
     public void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
@@ -1366,6 +1381,20 @@ public class TweetFragment extends Fragment {
                     }
                 }
                 break;
+
+            case PWICCER:
+                if (resultCode == Activity.RESULT_OK) {
+                    String path = imageReturnedIntent.getStringExtra("RESULT");
+                    attachedUri = Uri.fromFile(new File(path)).toString();
+                    attachImage.setImageURI(Uri.parse(attachedUri));
+
+                    String currText = reply.getText().toString();
+                    reply.setText(currText.substring(0, 113) + "...");
+
+                    replyButton.performClick();
+                } else {
+                    Toast.makeText(context, "Pwiccer failed to generate image!", Toast.LENGTH_SHORT).show();
+                }
         }
     }
 
