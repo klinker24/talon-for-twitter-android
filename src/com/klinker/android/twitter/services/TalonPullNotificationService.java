@@ -63,6 +63,8 @@ public class TalonPullNotificationService extends Service {
     public static boolean shuttingDown = false;
     public static boolean isRunning = false;
 
+    public boolean thisInstanceOn = true;
+
     public ArrayList<Long> ids;
 
     @Override
@@ -151,10 +153,6 @@ public class TalonPullNotificationService extends Service {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.STOP_PUSH_SERVICE");
         registerReceiver(stopService, filter);
-
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.SWITCH_ACCOUNTS");
-        registerReceiver(switchAccounts, filter);
 
         if (settings.liveStreaming && settings.timelineNot) {
             filter = new IntentFilter();
@@ -251,6 +249,8 @@ public class TalonPullNotificationService extends Service {
                     }
                 }
             });
+
+            thisInstanceOn = false;
         }
     };
 
@@ -315,149 +315,18 @@ public class TalonPullNotificationService extends Service {
             stop.start();
 
             TalonPullNotificationService.isRunning = false;
+            thisInstanceOn = false;
+
             stopSelf();
 
-        }
-    };
-
-    public BroadcastReceiver switchAccounts = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Thread stop = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.v("twitter_stream_push", "switching accounts now");
-                    TalonPullNotificationService.shuttingDown = true;
-                    try {
-                        pushStream.cleanUp();
-                        pushStream.shutdown();
-                        Log.v("twitter_stream_push", "stopped current account");
-
-                        stopForeground(true);
-
-                        // get the ids of everyone you follow
-                        try {
-                            settings = new AppSettings(mContext);
-                            Log.v("getting_ids", "started getting ids, mine: " + settings.myId);
-                            Twitter twitter = Utils.getTwitter(mContext, settings);
-                            long currCursor = -1;
-                            IDs idObject;
-                            int rep = 0;
-
-                            ids.clear();
-
-                            do {
-                                idObject = twitter.getFriendsIDs(settings.myId, currCursor);
-                                long[] lIds = idObject.getIDs();
-                                ids = new ArrayList<Long>();
-                                for (int i = 0; i < lIds.length; i++) {
-                                    ids.add(lIds[i]);
-                                }
-
-                                rep++;
-                            } while ((currCursor = idObject.getNextCursor()) != 0 && rep < 3);
-
-                            ids.add(settings.myId);
-
-                            idsLoaded = true;
-
-                            int count = 0;
-                            if (sharedPreferences.getBoolean("is_logged_in_1", false)) {
-                                count++;
-                            }
-                            if (sharedPreferences.getBoolean("is_logged_in_2", false)) {
-                                count++;
-                            }
-
-                            boolean multAcc = false;
-                            if (count == 2) {
-                                multAcc = true;
-                            }
-
-                            mBuilder.setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " - @" + settings.myScreenName : ""));
-
-                            startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
-
-                            mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            TalonPullNotificationService.isRunning = false;
-                            stopSelf();
-                        }
-
-                    } catch (Exception e) {
-                        // it isn't running
-
-                        pushStream.cleanUp();
-                        pushStream.shutdown();
-                        Log.v("twitter_stream_push", "stopped current account");
-
-                        stopForeground(true);
-
-                        // get the ids of everyone you follow
-                        try {
-                            settings = new AppSettings(mContext);
-                            Log.v("getting_ids", "started getting ids, mine: " + settings.myId);
-                            Twitter twitter = Utils.getTwitter(mContext, settings);
-                            long currCursor = -1;
-                            IDs idObject;
-                            int rep = 0;
-
-                            ids.clear();
-
-                            do {
-                                idObject = twitter.getFriendsIDs(settings.myId, currCursor);
-                                long[] lIds = idObject.getIDs();
-                                ids = new ArrayList<Long>();
-                                for (int i = 0; i < lIds.length; i++) {
-                                    ids.add(lIds[i]);
-                                }
-
-                                rep++;
-                            } while ((currCursor = idObject.getNextCursor()) != 0 && rep < 3);
-
-                            ids.add(settings.myId);
-
-                            idsLoaded = true;
-
-                            int count = 0;
-                            if (sharedPreferences.getBoolean("is_logged_in_1", false)) {
-                                count++;
-                            }
-                            if (sharedPreferences.getBoolean("is_logged_in_2", false)) {
-                                count++;
-                            }
-
-                            boolean multAcc = false;
-                            if (count == 2) {
-                                multAcc = true;
-                            }
-
-                            mBuilder.setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " - @" + settings.myScreenName : ""));
-
-                            startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
-
-                            mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
-                        } catch (Exception x) {
-                            e.printStackTrace();
-                            Log.v("twitter_stream_push", "error shutting down stream i guess");
-                            TalonPullNotificationService.isRunning = false;
-                            stopSelf();
-                        }
-                    }
-                    TalonPullNotificationService.shuttingDown = false;
-                }
-            });
-
-            stop.setPriority(Thread.MAX_PRIORITY);
-            stop.start();
         }
     };
 
     public BroadcastReceiver startPush = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            thisInstanceOn = true;
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -488,6 +357,11 @@ public class TalonPullNotificationService extends Service {
     public UserStreamListener userStream = new UserStreamListener() {
         @Override
         public void onStatus(Status status) {
+
+            if (!thisInstanceOn) {
+                return;
+            }
+
             UserMentionEntity[] entities = status.getUserMentionEntities();
             ArrayList<String> names = new ArrayList<String>();
             for (UserMentionEntity e : entities) {
@@ -590,6 +464,11 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onFavorite(User source, User target, Status favoritedStatus) {
+
+            if (!thisInstanceOn) {
+                return;
+            }
+
             if(!source.getScreenName().equals(settings.myScreenName) && target.getScreenName().equals(settings.myScreenName)) {
                 AppSettings settings = new AppSettings(mContext);
 
@@ -626,6 +505,11 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onFollow(User source, User followedUser) {
+
+            if (!thisInstanceOn) {
+                return;
+            }
+
             Log.v("twitter_stream_push", "onFollow source:@"
                     + source.getScreenName() + " target:@"
                     + followedUser.getScreenName());
@@ -656,6 +540,11 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onDirectMessage(DirectMessage directMessage) {
+
+            if (!thisInstanceOn) {
+                return;
+            }
+
             if (!directMessage.getSender().getScreenName().equals(settings.myScreenName)) {
                 Log.v("twitter_stream_push", "onDirectMessage text:"
                         + directMessage.getText());
