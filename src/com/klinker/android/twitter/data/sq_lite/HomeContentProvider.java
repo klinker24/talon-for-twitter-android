@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.Settings.System;
@@ -121,6 +122,27 @@ public class HomeContentProvider extends ContentProvider {
             }
 
             db.setTransactionSuccessful();
+        } catch (SQLiteDatabaseLockedException e ) {
+
+            HomeDataSource.getInstance(getContext()).close();
+            
+            db = HomeDataSource.getInstance(getContext()).getDatabase();
+            db.beginTransaction();
+
+            for (ContentValues initialValues : allValues) {
+                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
+                try {
+                    rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                } catch (IllegalStateException e) {
+                    db = HomeDataSource.getInstance(context).getDatabase();
+                    rowId = 0;
+                }
+                if (rowId > 0)
+                    rowsAdded++;
+            }
+
+            db.setTransactionSuccessful();
+
         } catch (IllegalStateException e) {
             // caught setting up the transaction I guess, shouldn't ever happen now.
             e.printStackTrace();
