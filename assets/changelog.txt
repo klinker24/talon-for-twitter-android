@@ -1,5 +1,10 @@
 <b>Version 1.4.4:</b><br/><br/>
     &#8226; Pwiccer support (https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en)<br/>
+    &#8226; Mention retweeter when replying<br/>
+    &#8226; Fixes for live streaming sometimes setting up multiple listeners causing duplicates<br/>
+    &#8226; Open play store links to the play store<br/>
+    &#8226; Play store crash fixes<br/>
+    &#8226; Random small reported bug fixes<br/>
 </br><br/>
 
 <b>Version 1.4.3:</b><br/><br/>
