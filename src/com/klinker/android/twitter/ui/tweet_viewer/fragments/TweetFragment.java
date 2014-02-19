@@ -606,6 +606,10 @@ public class TweetFragment extends Fragment {
             }
         }
 
+        if (retweeter != null && !retweeter.equals("") && !retweeter.equals(settings.myScreenName)) {
+             extraNames += "@" + retweeter + " ";
+        }
+
         if (!screenName.equals(settings.myScreenName)) {
             reply.setText("@" + screenName + " " + extraNames);
         } else {
