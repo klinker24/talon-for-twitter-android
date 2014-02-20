@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/pro_pic_size"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp" >
 
             <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
@@ -49,7 +50,9 @@
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:contentDescription="Profile Picture - Account 2"
                 android:layout_marginRight="2dp"
-                android:layout_marginLeft="2dp"/>
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"/>
 
             <LinearLayout
                 android:layout_toRightOf="@id/profile_pic_2"
@@ -58,7 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="10dp" >
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp" >
 
                 <com.klinker.android.twitter.ui.widgets.HoloTextView
                     android:id="@+id/name_2"
@@ -101,7 +105,9 @@
         android:scrollbars="none"
         android:overScrollMode="never"
         android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"/>
 

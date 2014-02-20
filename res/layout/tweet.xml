@@ -50,7 +50,8 @@
                     android:layout_width="wrap_content"
                     android:textStyle="bold"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"/>
 
             <com.klinker.android.twitter.ui.widgets.HoloTextView
                 android:id="@+id/screenname"
@@ -58,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name"
                 android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:textColor="?dateColor"
                 android:visibility="gone"/>
 
@@ -92,6 +94,8 @@
                     android:layout_below="@id/tweet"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
                     android:paddingBottom="15dp"
                     android:textStyle="italic"
                     android:textColor="?dateColor"
