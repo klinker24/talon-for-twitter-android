@@ -741,7 +741,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     extraNames += "@" + holder.retweeterName + " ";
                 }
             } catch (NullPointerException e) {
-                
+
             }
 
             if (!screenname.equals(settings.myScreenName)) {

@@ -207,6 +207,8 @@ public class TweetMarkerHelper extends APIHelper {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+
         }
 
         return 0;

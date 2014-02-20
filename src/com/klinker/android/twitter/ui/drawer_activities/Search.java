@@ -248,7 +248,7 @@ public class Search extends Activity implements OnRefreshListener {
             Uri uri = intent.getData();
             String uriString = uri.toString();
             if (uriString.contains("status/")) {
-                long id = Long.parseLong(uriString.substring(uriString.indexOf("status")).replace("status/", ""));
+                long id = Long.parseLong(uriString.substring(uriString.indexOf("status")).replace("status/", "").replaceAll("photo/*", ""));
                 findStatus(id);
             } else if (!uriString.contains("q=")) { // going to try searching for users i guess
                 String name = uriString.substring(uriString.indexOf(".com/"));

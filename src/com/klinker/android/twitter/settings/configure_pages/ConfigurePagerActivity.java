@@ -39,7 +39,11 @@ public class ConfigurePagerActivity extends Activity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = new AppSettings(this);
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        try {
+            requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        } catch (Throwable e) {
+            // don't have a clue why
+        }
 
         Utils.setUpTheme(context, settings);
         setContentView(R.layout.configuration_activity);
