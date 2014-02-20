@@ -738,8 +738,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        if (holder.retweeter.getVisibility() == View.VISIBLE) {
-            extraNames += "@" + holder.retweeterName + " ";
+        try {
+            if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                extraNames += "@" + holder.retweeterName + " ";
+            }
+        } catch (NullPointerException e) {
+
         }
 
         if (!screenname.equals(settings.myScreenName)) {
