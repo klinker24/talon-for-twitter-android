@@ -123,6 +123,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public boolean isFavorited;
         public String screenName;
         public String picUrl;
+        public String retweeterName;
 
     }
 
@@ -643,6 +644,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             String text = context.getResources().getString(R.string.retweeter);
             //holder.retweeter.setText(settings.displayScreenName ? text + retweeter : text.substring(0, text.length() - 2) + " " + name);
             holder.retweeter.setText(text + retweeter);
+            holder.retweeterName = retweeter;
             holder.retweeter.setVisibility(View.VISIBLE);
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
@@ -732,6 +734,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         extraNames += "@" + s + " ";
                     }
                 }
+            }
+
+            if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                extraNames += "@" + holder.retweeterName + " ";
             }
 
             if (!screenname.equals(settings.myScreenName)) {
