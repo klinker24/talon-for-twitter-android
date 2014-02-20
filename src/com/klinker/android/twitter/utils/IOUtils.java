@@ -37,7 +37,7 @@ import java.util.Stack;
 
 public class IOUtils {
 
-    public static void saveImage(Bitmap finalBitmap, String d, Context context) {
+    public static Uri saveImage(Bitmap finalBitmap, String d, Context context) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/Talon");
         myDir.mkdirs();
@@ -61,6 +61,8 @@ public class IOUtils {
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         Toast.makeText(context, context.getResources().getString(R.string.save_image), Toast.LENGTH_SHORT).show();
+
+        return Uri.fromFile(file);
     }
 
     public static String getPath(Uri uri, Context context) {

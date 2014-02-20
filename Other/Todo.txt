@@ -24,8 +24,6 @@
 - 1.4
     - user search from links
     - open gallery with picture saved notification
-    - make sure tweet marker fires when switch accounts
-    - Users having a very small amount of favorites/retweets
     - RTL support
 
 
