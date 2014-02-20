@@ -23,7 +23,6 @@
 
 - 1.4
     - user search from links
-    - open gallery with picture saved notification
     - RTL support
 
 

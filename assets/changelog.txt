@@ -3,6 +3,7 @@
     &#8226; Mention retweeter when replying<br/>
     &#8226; Fixes for live streaming sometimes setting up multiple listeners causing duplicates<br/>
     &#8226; Open play store links to the play store<br/>
+    &#8226; Clicking a "Saved Image" notification will take you to that image in the gallery<br/>
     &#8226; Play store crash fixes<br/>
     &#8226; Random small reported bug fixes<br/>
     &#8226; Updated more translations<br/>
