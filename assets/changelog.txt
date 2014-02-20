@@ -5,6 +5,7 @@
     &#8226; Open play store links to the play store<br/>
     &#8226; Play store crash fixes<br/>
     &#8226; Random small reported bug fixes<br/>
+    &#8226; Updated more translations<br/>
 </br><br/>
 
 <b>Version 1.4.3:</b><br/><br/>
