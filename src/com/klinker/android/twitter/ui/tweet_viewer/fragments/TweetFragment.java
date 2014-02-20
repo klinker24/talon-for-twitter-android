@@ -292,8 +292,8 @@ public class TweetFragment extends Fragment {
         tweettv.setTextSize(settings.textSize);
         timetv.setTextSize(settings.textSize - 3);
         retweetertv.setTextSize(settings.textSize - 3);
-        favoriteCount.setTextSize(settings.textSize + 1);
-        retweetCount.setTextSize(settings.textSize + 1);
+        favoriteCount.setTextSize(13);
+        retweetCount.setTextSize(13);
         reply.setTextSize(settings.textSize);
 
         if (settings.addonTheme) {
