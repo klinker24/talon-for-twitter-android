@@ -1,5 +1,4 @@
 - Features:
-    - Retweet and favorite from multiple accounts
     - scheduling tweets
     - widget with just the unread numbers on it
     - instapaper mobilizer
@@ -13,10 +12,8 @@
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
     - vines on lower version of android
-    - make sure tweet marker fires when switch accounts
     - compose not always shutting?
     - small images have the spinner behind them..
-    - Users having a very small amount of favorites
     - quoting with an image give the pbs.twimg url
     - random avatar changes
     - sideways pictures
@@ -27,11 +24,21 @@
 
 -- For Release --
 
+- 1.4
+    - Danish arablic and finnish translations
+    - user search from links
+    - open gallery with picture saved notification
+    - make sure tweet marker fires when switch accounts
+    - Users having a very small amount of favorites/retweets
+
+
+- 1.5
     -- users favorites, mentions, and pictures on profile
         - pics can go in a header view above the timeline
         - mentions and favorites will have to get their own pages
     -- post from different accounts on compose window
+    -- theme the action bar
 
-    - Danish arablic and finnish translations
-    - user search from links
-    - open gallery with picture saved notification
+
+- 1.6
+    -- new widget stuff

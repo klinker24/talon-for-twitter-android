@@ -235,6 +235,13 @@ public class HomeDataSource {
                     allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         }
 
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
+            open();
+        }
+
+
         if (cursor.getCount() > timelineSize) {
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
@@ -277,7 +284,7 @@ public class HomeDataSource {
             open();
         }
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", "200");
+                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", "150");
 
         return cursor;
     }
