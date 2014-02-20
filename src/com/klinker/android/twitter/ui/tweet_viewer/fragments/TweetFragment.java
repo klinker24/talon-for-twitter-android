@@ -53,6 +53,7 @@ import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
+import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
 import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
@@ -212,6 +213,7 @@ public class TweetFragment extends Fragment {
         ImageButton attachButton;
         ImageButton at;
         ImageButton quote = null;
+        ImageButton viewRetweeters = null;
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
@@ -249,6 +251,7 @@ public class TweetFragment extends Fragment {
             timetv = (TextView) layout.findViewById(R.id.time);
             pictureIv = (ImageView) layout.findViewById(R.id.imageView);
             attachImage = (ImageView) layout.findViewById(R.id.attach);
+            viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
         } else {
             Resources res;
             try {
@@ -265,11 +268,6 @@ public class TweetFragment extends Fragment {
             expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
             profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
             favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-            try {
-                quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
-            } catch (Exception e) {
-                // didn't exist when the theme was created.
-            }
             retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
             favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
             retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
@@ -285,6 +283,16 @@ public class TweetFragment extends Fragment {
             timetv = (TextView) layout.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
             pictureIv = (ImageView) layout.findViewById(res.getIdentifier("imageView", "id", settings.addonThemePackage));
             attachImage = (ImageView) layout.findViewById(res.getIdentifier("attach", "id", settings.addonThemePackage));
+            try {
+                viewRetweeters = (ImageButton) layout.findViewById(res.getIdentifier("view_retweeters", "id", settings.addonThemePackage));
+            } catch (Exception e) {
+                // it doesn't exist in the theme;
+            }
+            try {
+                quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
+            } catch (Exception e) {
+                // didn't exist when the theme was created.
+            }
         }
 
         nametv.setTextSize(settings.textSize +2);
@@ -304,6 +312,18 @@ public class TweetFragment extends Fragment {
             } catch (Exception e) {
                 // theme does not include a reply entry box
             }
+        }
+
+        if (viewRetweeters != null) {
+            viewRetweeters.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //open up the activity to see who retweeted it
+                    Intent viewRetweeters = new Intent(context, ViewRetweeters.class);
+                    viewRetweeters.putExtra("id", tweetId);
+                    startActivity(viewRetweeters);
+                }
+            });
         }
 
         if (quote != null) {
