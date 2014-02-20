@@ -160,8 +160,12 @@ public class FavoritesActivity extends DrawerActivity {
     public Paging paging = new Paging(1, 20);
     public TimelineArrayAdapter adapter;
     public ArrayList<Status> statuses = new ArrayList<Status>();
+    public boolean hasMore = true;
 
     public void getFavorites() {
+        if (!hasMore) {
+            return;
+        }
         canRefresh = false;
         final LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
 
@@ -172,6 +176,10 @@ public class FavoritesActivity extends DrawerActivity {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
                     final ResponseList<twitter4j.Status> favs = twitter.getFavorites(paging);
+
+                    if (favs.size() < 17) {
+                        hasMore = false;
+                    }
 
                     paging.setPage(paging.getPage() + 1);
 
