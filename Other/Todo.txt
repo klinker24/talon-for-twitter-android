@@ -22,7 +22,6 @@
 -- For Release --
 
 - 1.4
-    - Danish arablic and finnish translations
     - user search from links
     - open gallery with picture saved notification
     - make sure tweet marker fires when switch accounts

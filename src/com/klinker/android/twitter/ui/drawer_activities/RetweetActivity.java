@@ -151,8 +151,13 @@ public class RetweetActivity extends DrawerActivity {
     public Paging paging = new Paging(1, 20);
     public TimelineArrayAdapter adapter;
     public ArrayList<Status> statuses = new ArrayList<Status>();
+    public boolean hasMore = true;
 
     public void getRetweets() {
+        if (!hasMore) {
+            return;
+        }
+
         canRefresh = false;
         final LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
 
@@ -163,6 +168,10 @@ public class RetweetActivity extends DrawerActivity {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
                     final ResponseList<twitter4j.Status> favs = twitter.getRetweetsOfMe(paging);
+
+                    if (favs.size() > 17) {
+                        hasMore = false;
+                    }
 
                     paging.setPage(paging.getPage() + 1);
 

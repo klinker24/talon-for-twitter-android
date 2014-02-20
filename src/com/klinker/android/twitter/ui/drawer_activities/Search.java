@@ -443,6 +443,10 @@ public class Search extends Activity implements OnRefreshListener {
 
                     userPage++;
 
+                    if (result.size() < 18) {
+                        hasMore = false;
+                    }
+
                     users = new ArrayList<User>();
 
                     for (User u : result) {
@@ -498,7 +502,7 @@ public class Search extends Activity implements OnRefreshListener {
                             TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
- spinner.setVisibility(View.GONE);
+                            spinner.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception e) {
@@ -593,7 +597,7 @@ public class Search extends Activity implements OnRefreshListener {
                     try {
                         Twitter twitter = Utils.getTwitter(context, settings);
                         ResponseList<User> result = twitter.searchUsers(mQuery, userPage);
-
+                        
                         userPage++;
 
                         for (User u : result) {
