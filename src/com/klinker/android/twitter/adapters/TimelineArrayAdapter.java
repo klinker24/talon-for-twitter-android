@@ -114,6 +114,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public boolean isFavorited;
         public String screenName;
         public String picUrl;
+        public String retweeterName;
 
     }
 
@@ -646,6 +647,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         if (type == NORMAL) {
             if (retweeter.length() > 0) {
                 holder.retweeter.setText(context.getResources().getString(R.string.retweeter) + retweeter);
+                holder.retweeterName = retweeter;
                 holder.retweeter.setVisibility(View.VISIBLE);
             } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
                 holder.retweeter.setVisibility(View.GONE);
@@ -734,6 +736,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     extraNames += "@" + s + " ";
                 }
             }
+        }
+
+        if (holder.retweeter.getVisibility() == View.VISIBLE) {
+            extraNames += "@" + holder.retweeterName + " ";
         }
 
         if (!screenname.equals(settings.myScreenName)) {
