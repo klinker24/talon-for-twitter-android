@@ -71,7 +71,6 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
         Utils.setUpPopupTheme(this, settings);
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.lists));
 
         setContentView(R.layout.ptr_list_layout);
 
