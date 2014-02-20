@@ -1,3 +1,8 @@
+<b>Version 1.5.0:</b><br/><br/>
+    &#8226; View up to 100 retweeters of a status<br/>
+    &#8226; Remade the tweet viewer layout<br/>
+</br><br/>
+
 <b>Version 1.4.4:</b><br/><br/>
     &#8226; Pwiccer support (https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en)<br/>
     &#8226; Mention retweeter when replying<br/>
@@ -48,16 +53,16 @@
 <b>Version 1.3.4:</b><br/><br/>
     &#8226; New method for faster refresh times<br/>
     &#8226; Small bug fixes<br/>
-</br>
+</br></br>
 
 <b>Version 1.3.3:</b><br/><br/>
     &#8226; Few fixes for attaching images to tweets<br/>
-</br>
+</br></br>
 
 <b>Version 1.3.2:</b><br/><br/>
     &#8226; A little bit higher quality YouTube thumbnails<br/>
     &#8226; Better stability<br/>
-</br>
+</br></br>
 
 <b>Version 1.3.0:</b><br/><br/>
     &#8226; TweetMarker support<br/>
