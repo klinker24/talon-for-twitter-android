@@ -403,8 +403,11 @@ public abstract class Compose extends Activity implements
                     attachImage.setImageURI(Uri.parse(attachedUri));
 
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
+                    Log.v("pwiccer_text", currText);
                     if (currText != null) {
                         reply.setText(currText);
+                    } else {
+                        reply.setText(reply.getText().toString().substring(0, 114) + "...");
                     }
 
                     doneClick();
