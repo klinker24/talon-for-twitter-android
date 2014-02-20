@@ -26,7 +26,10 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -62,6 +65,7 @@ public class ConversationFragment extends Fragment {
         final AsyncListView replyList = (AsyncListView) layout.findViewById(R.id.listView);
         final LinearLayout progressSpinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         final HoloTextView none = (HoloTextView) layout.findViewById(R.id.no_conversation);
+        none.setText(getResources().getString(R.string.no_tweets));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
@@ -77,15 +81,19 @@ public class ConversationFragment extends Fragment {
         return layout;
     }
 
+    public ArrayList<Status> replies;
+    public TimelineArrayAdapter adapter;
+    public Status status = null;
+
     public void getReplies(final ListView listView, final long tweetId, final LinearLayout progressSpinner, final HoloTextView none) {
 
         Thread getReplies = new Thread(new Runnable() {
             @Override
             public void run() {
                 Twitter twitter = Utils.getTwitter(context, settings);
-                final ArrayList<twitter4j.Status> replies = new ArrayList<twitter4j.Status>();
+                replies = new ArrayList<twitter4j.Status>();
                 try {
-                    twitter4j.Status status = twitter.showStatus(tweetId);
+                    status = twitter.showStatus(tweetId);
 
                     if (status.isRetweet()) {
                         status = status.getRetweetedStatus();
@@ -100,18 +108,25 @@ public class ConversationFragment extends Fragment {
 
                             replyStatus = twitter.showStatus(replyStatus.getInReplyToStatusId());
                         }
+
                     } catch (Exception e) {
                         // the list of replies has ended, but we dont want to go to null
                     }
+
+
 
                 } catch (TwitterException e) {
                     e.printStackTrace();
                 }
 
+                if (status != null && replies.size() > 0) {
+                    replies.add(0, status);
+                }
+
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressSpinner.setVisibility(View.GONE);
+
 
                         try {
                             if (replies.size() > 0) {
@@ -121,8 +136,110 @@ public class ConversationFragment extends Fragment {
                                     reversed.add(replies.get(i));
                                 }
 
-                                listView.setAdapter(new TimelineArrayAdapter(context, reversed));
+                                replies = reversed;
+
+                                adapter = new TimelineArrayAdapter(context, replies);
+                                listView.setAdapter(adapter);
                                 listView.setVisibility(View.VISIBLE);
+                                progressSpinner.setVisibility(View.GONE);
+
+                            } else {
+                            }
+                        } catch (Exception e) {
+                            // none and it got the null object
+                        }
+
+
+                        if (status != null) {
+                            // everything here worked, so get the discussion on the tweet
+                            getDiscussion(listView, tweetId, progressSpinner, none, status);
+                        }
+                    }
+                });
+            }
+        });
+
+        getReplies.setPriority(7);
+        getReplies.start();
+    }
+
+    public Query query;
+
+    public void getDiscussion(final ListView listView, final long tweetId, final LinearLayout progressBar, final HoloTextView none, Status status) {
+
+        Log.v("talon_replies", "getting discussion");
+
+        if (replies.size() == 0) {
+            replies.add(status);
+        }
+
+        Thread getReplies = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<twitter4j.Status> all = null;
+                Twitter twitter = Utils.getTwitter(context, settings);
+                try {
+
+                    twitter4j.Status status = replies.get(replies.size() - 1);
+
+                    long id = status.getId();
+                    String screenname = status.getUser().getScreenName();
+
+                    query = new Query("@" + screenname + " since_id:" + id);
+
+                    try {
+                        query.setCount(100);
+                    } catch (Throwable e) {
+                        // enlarge buffer error?
+                        query.setCount(30);
+                    }
+
+                    QueryResult result = twitter.search(query);
+
+                    all = new ArrayList<twitter4j.Status>();
+
+                    do {
+                        List<Status> tweets = result.getTweets();
+
+                        for(twitter4j.Status tweet : tweets){
+                            if (tweet.getInReplyToStatusId() == id) {
+                                all.add(tweet);
+                                Log.v("talon_replies", tweet.getText());
+                            }
+                        }
+
+                        query = result.nextQuery();
+
+                        if (query != null)
+                            result = twitter.search(query);
+
+                    } while (query != null);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                }
+
+                final ArrayList<Status> fAll = all;
+
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        try {
+                            if (fAll.size() > 0) {
+
+                                for (int i = fAll.size() - 1; i >= 0; i--) {
+                                    replies.add(fAll.get(i));
+                                }
+
+                                if (adapter != null) {
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    listView.setAdapter(new TimelineArrayAdapter(context, replies));
+                                    listView.setVisibility(View.VISIBLE);
+                                }
                             } else {
                                 none.setVisibility(View.VISIBLE);
                             }
@@ -136,7 +253,8 @@ public class ConversationFragment extends Fragment {
             }
         });
 
-        getReplies.setPriority(7);
+        getReplies.setPriority(8);
         getReplies.start();
+
     }
 }

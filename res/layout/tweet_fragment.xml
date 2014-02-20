@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:background="@android:color/transparent"
                     android:minWidth="300dp"
-                    android:minHeight="250dp"
+                    android:minHeight="220dp"
                     android:layout_margin="@dimen/tweet_activ_margin"
                     android:visibility="gone" />
 
@@ -217,9 +217,10 @@
                     <com.klinker.android.twitter.ui.widgets.HoloTextView
                         android:layout_height="37dp"
                         android:layout_width="wrap_content"
-                        android:layout_marginLeft="3dp"
+                        android:layout_marginLeft="-9dp"
+                        android:layout_marginBottom="2dp"
                         android:textSize="13dp"
-                        android:gravity="center_vertical"
+                        android:gravity="bottom"
                         android:id="@+id/fav_count" />
 
                 </LinearLayout>
@@ -251,9 +252,10 @@
                     <com.klinker.android.twitter.ui.widgets.HoloTextView
                         android:layout_height="37dp"
                         android:layout_width="wrap_content"
-                        android:layout_marginLeft="3dp"
+                        android:layout_marginLeft="-8dp"
+                        android:layout_marginBottom="2dp"
                         android:textSize="13dp"
-                        android:gravity="center_vertical"
+                        android:gravity="bottom"
                         android:id="@+id/retweet_count" />
 
                 </LinearLayout>

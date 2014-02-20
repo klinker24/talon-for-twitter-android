@@ -105,7 +105,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
             this.hasWebpage = false;
         }
 
-        pageCount = 3; // tweet, conversations, and Discussion will always be there
+        pageCount = 2; // tweet, conversations, and Discussion will always be there
 
         if (this.hasWebpage) {
             pageCount++;
@@ -118,19 +118,16 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
 
-        if (pageCount == 3) {
+        if (pageCount == 2) {
             switch (i) {
                 case 0:
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 1:
-                    DiscussionFragment discussion = new DiscussionFragment(settings, tweetId, screenName);
-                    return discussion;
-                case 2:
                     ConversationFragment conversation = new ConversationFragment(settings, tweetId);
                     return conversation;
             }
-        } else if (pageCount == 4 && youtube) {
+        } else if (pageCount == 3 && youtube) {
             switch (i) {
                 case 0:
                     TweetYouTubeFragment youTube = new TweetYouTubeFragment(settings, video);
@@ -139,13 +136,10 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 2:
-                    DiscussionFragment discussion = new DiscussionFragment(settings, tweetId, screenName);
-                    return discussion;
-                case 3:
                     ConversationFragment conversation = new ConversationFragment(settings, tweetId);
                     return conversation;
             }
-        } else if (pageCount == 4) { // no youtube, just a hasWebpage
+        } else if (pageCount == 3) { // no youtube, just a webpage
             switch (i) {
                 case 0:
                     WebFragment web = new WebFragment(settings, webpages);
@@ -154,9 +148,6 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 2:
-                    DiscussionFragment discussion = new DiscussionFragment(settings, tweetId, screenName);
-                    return discussion;
-                case 3:
                     ConversationFragment conversation = new ConversationFragment(settings, tweetId);
                     return conversation;
             }
@@ -172,9 +163,6 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 3:
-                    DiscussionFragment Discussion = new DiscussionFragment(settings, tweetId, screenName);
-                    return Discussion;
-                case 4:
                     ConversationFragment conversation = new ConversationFragment(settings, tweetId);
                     return conversation;
             }
@@ -198,35 +186,29 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int i) {
-        if (pageCount == 3) {
+        if (pageCount == 2) {
             switch (i) {
                 case 0:
                     return context.getResources().getString(R.string.tweet);
                 case 1:
-                    return context.getResources().getString(R.string.discussion);
-                case 2:
                     return context.getResources().getString(R.string.conversation);
             }
-        } else if (pageCount == 4 && youtube) {
+        } else if (pageCount == 3 && youtube) {
             switch (i) {
                 case 0:
                     return context.getResources().getString(R.string.tweet_youtube);
                 case 1:
                     return context.getResources().getString(R.string.tweet);
                 case 2:
-                    return context.getResources().getString(R.string.discussion);
-                case 3:
                     return context.getResources().getString(R.string.conversation);
             }
-        } else if (pageCount == 4) { // no youtube, just a hasWebpage
+        } else if (pageCount == 3) { // no youtube, just a hasWebpage
             switch (i) {
                 case 0:
                     return context.getResources().getString(R.string.webpage);
                 case 1:
                     return context.getResources().getString(R.string.tweet);
                 case 2:
-                    return context.getResources().getString(R.string.discussion);
-                case 3:
                     return context.getResources().getString(R.string.conversation);
             }
         } else { // every page is shown
@@ -238,8 +220,6 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                 case 2:
                     return context.getResources().getString(R.string.tweet);
                 case 3:
-                    return context.getResources().getString(R.string.discussion);
-                case 4:
                     return context.getResources().getString(R.string.conversation);
             }
         }
