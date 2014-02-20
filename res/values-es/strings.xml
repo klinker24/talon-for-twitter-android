@@ -454,7 +454,7 @@
     <string name="retweeting_status">Retweeteando estado</string>
     <string name="removing_favorite">Eliminando de favoritos</string>
     <string name="favoriting_status">Marcando estado como favorito</string>
-    <string name="jumping_workaround">Solución alternativa para los saltos</string>
+    <string name="jumping_workaround">Solución para evitar los saltos</string>
     <string name="jumping_workaround_summary">Habilita esta opción si tu cronología salta un lugar hacia abajo después de cargar.</string>
     <string name="menu_share_link">Compartir enlace</string>
     <string name="no_links">No hay enlaces</string>
@@ -468,6 +468,6 @@
     <string name="page_1">Página 1</string>
     <string name="page_2">Página 2</string>
     <string name="load_tweets">Cargar tweets</string>
-    <string name="download_portal">Descargar la aplicación de temas Portal</string>
+    <string name="download_portal">Descargar la app de temas Portal</string>
     <string name="download_portal_summary">¡Esta es \"Portal\" de Klinker Apps para estar al día con las últimas noticias, así como encontrar los mejores temas para Talon y EvolveSMS en un solo lugar!</string>
 </resources>

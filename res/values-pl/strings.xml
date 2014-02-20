@@ -458,4 +458,12 @@
     <string name="jumping_workaround_summary">Aktywuj tę opcję, jeżeli oś czasu po odświeżeniu listy tweetów przeskakuje w dół o jedną pozycję.</string>
     <string name="menu_share_link">Udostępnij link</string>
     <string name="no_links">Brak linków</string>
+    <string name="configure_pages">Skonfiguruj dodatkowe strony</string>
+    <string name="picture_page">Obrazek osi czasu</string>
+    <string name="link_page">Link osi czasu</string>
+    <string name="list_page">Lista osi czasu</string>
+    <string name="current">Bieżący</string>
+    <string name="here_is_home">To jest domyślna oś czasu!</string>
+    <string name="page_1">Strona 1</string>
+    <string name="page_2">Strona 2</string>
 </resources>

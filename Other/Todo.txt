@@ -19,9 +19,6 @@
     - sideways pictures
 
 
-- Notification Center:
-    - Combined pictures from Evolve
-
 -- For Release --
 
 - 1.4
@@ -30,6 +27,7 @@
     - open gallery with picture saved notification
     - make sure tweet marker fires when switch accounts
     - Users having a very small amount of favorites/retweets
+    - RTL support
 
 
 - 1.5
