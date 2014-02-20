@@ -30,6 +30,7 @@
         - pics can go in a header view above the timeline
         - mentions and favorites will have to get their own pages
     -- post from different accounts on compose window
+    -- Mute by source and regex
     -- theme the action bar
 
 
