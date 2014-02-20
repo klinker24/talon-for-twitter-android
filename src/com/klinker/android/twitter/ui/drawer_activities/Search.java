@@ -597,7 +597,7 @@ public class Search extends Activity implements OnRefreshListener {
                     try {
                         Twitter twitter = Utils.getTwitter(context, settings);
                         ResponseList<User> result = twitter.searchUsers(mQuery, userPage);
-                        
+
                         userPage++;
 
                         for (User u : result) {

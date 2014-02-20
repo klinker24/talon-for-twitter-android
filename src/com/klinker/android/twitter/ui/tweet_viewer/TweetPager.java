@@ -2,6 +2,7 @@ package com.klinker.android.twitter.ui.tweet_viewer;
 
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -458,10 +459,16 @@ public class TweetPager extends YouTubeBaseActivity {
                             n = generator.nextInt(n);
                             String fname = "Image-" + n;
 
-                            IOUtils.saveImage(bitmap, fname, context);
+                            Uri uri = IOUtils.saveImage(bitmap, fname, context);
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            intent.setDataAndType(uri, "image/*");
+
+                            PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
 
                             mBuilder =
                                     new NotificationCompat.Builder(context)
+                                            .setContentIntent(pending)
                                             .setSmallIcon(R.drawable.ic_stat_icon)
                                             .setTicker(getResources().getString(R.string.saved_picture) + "...")
                                             .setContentTitle(getResources().getString(R.string.app_name))

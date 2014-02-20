@@ -2,6 +2,7 @@ package com.klinker.android.twitter.ui.widgets;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -10,9 +11,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -167,9 +170,16 @@ public class PhotoViewerDialog extends Activity {
                             n = generator.nextInt(n);
                             String fname = "Image-" + n;
 
-                            IOUtils.saveImage(bitmap, fname, context);
+                            Uri uri = IOUtils.saveImage(bitmap, fname, context);
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_VIEW);
+                            intent.setDataAndType(uri, "image/*");
+
+                            PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
+
                             mBuilder =
                                     new NotificationCompat.Builder(context)
+                                            .setContentIntent(pending)
                                             .setSmallIcon(R.drawable.ic_stat_icon)
                                             .setTicker(getResources().getString(R.string.saved_picture) + "...")
                                             .setContentTitle(getResources().getString(R.string.app_name))

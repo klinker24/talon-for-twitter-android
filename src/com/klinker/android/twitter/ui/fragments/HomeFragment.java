@@ -166,10 +166,27 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     public BroadcastReceiver markRead = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, Intent intent) {
             int account = intent.getIntExtra("current_account", 0);
-            Log.v("talon_tweetmarker", "received intent to mark read, account = " + account);
             markReadForLoad(account);
+            if (DrawerActivity.settings.tweetmarker) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
+                                sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
+                                Utils.getTwitter(context, new AppSettings(context)));
+
+                        long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+
+                        helper.sendCurrentId("timeline", currentId);
+
+                        // then want to write the new version into shared prefs
+                        int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
+                    }
+                }).start();
+            }
         }
     };
 
