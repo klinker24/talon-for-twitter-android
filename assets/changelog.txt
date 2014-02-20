@@ -5,6 +5,7 @@
     &#8226; Open play store links to the play store<br/>
     &#8226; Clicking a "Saved Image" notification will take you to that image in the gallery<br/>
     &#8226; Play store crash fixes<br/>
+    &#8226; Simple style changes to extra page setup<br/>
     &#8226; Random small reported bug fixes<br/>
     &#8226; Updated more translations<br/>
 </br><br/>
