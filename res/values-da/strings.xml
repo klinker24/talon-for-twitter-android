@@ -11,14 +11,14 @@
     <string name="menu_follow">Følg</string>
     <string name="menu_unfollow">Følg ikke</string>
     <string name="menu_tweet">Send tweet</string>
-    <string name="menu_dm">Send Direkte besked</string>
+    <string name="menu_dm">Send direkte besked</string>
     <string name="menu_block">Blokér bruger</string>
     <string name="menu_unblock">Ophæv blokéring</string>
     <string name="menu_add_to_list">Tilføj til liste</string>
     <string name="menu_change_picture">Redigér profil billede</string>
     <string name="menu_change_bio">Redigér profil information</string>
     <string name="menu_change_banner">Redigér profil banner</string>
-    <string name="menu_direct_message">Ny Direkte besked</string>
+    <string name="menu_direct_message">Ny direkte besked</string>
     <string name="menu_save_image">Gem billede</string>
     <string name="menu_favorite">Favorit</string>
     <string name="menu_unfavorite">Fjern favorit</string>
@@ -49,19 +49,19 @@
     <string name="favorite_users">Favorit brugere</string>
     <string name="trends">Trends</string>
     <string name="local_trends">Lokale trends</string>
-    <string name="world_trends">Worldwide trends</string>
+    <string name="world_trends">Globale trends</string>
     <string name="search">Søg</string>
     <string name="lists">Liste(r)</string>
     <string name="search_hint">\@brugernavn</string>
     <string name="new_tweet">Nyt tweet</string>
     <string name="new_tweets">Nye tweets</string>
     <string name="no_new_tweets">Ingen nye tweets</string>
-    <string name="new_mention">ny Mening</string>
-    <string name="new_mentions">nye Meninger</string>
-    <string name="no_new_mentions">Ingen nye Meninger</string>
-    <string name="new_direct_message">Ny Direkte besked</string>
-    <string name="new_direct_messages">Nye Direkte beskeder</string>
-    <string name="no_new_direct_messages">Ingen nye Direkte beskeder</string>
+    <string name="new_mention">ny mening</string>
+    <string name="new_mentions">nye meninger</string>
+    <string name="no_new_mentions">Ingen nye meninger</string>
+    <string name="new_direct_message">Ny direkte besked</string>
+    <string name="new_direct_messages">Nye direkte beskeder</string>
+    <string name="no_new_direct_messages">Ingen nye direkte beskeder</string>
     <string name="tap_to_setup">Tap for at indstille</string>
     <string name="new_account">Ny konto</string>
     <string name="from_top">fra top</string>
@@ -94,7 +94,7 @@
     <string name="new_interactions_lower">nye interaktioner</string>
     <string name="new_interactions">Nye interaktioner</string>
     <string name="retweeted">retweetet dit tweet</string>
-    <string name="favorited">favorittet dit tweet</string>
+    <string name="favorited">valgte dit tweet som favorit</string>
     <string name="followed">følger dig</string>
     <string name="new_retweets">retweets</string>
     <string name="new_favorites">Favoritter</string>
@@ -134,7 +134,7 @@
     <string name="apply">Tilføj?</string>
     <string name="tweet_failed">Fejl, tweet ikke sendt</string>
     <string name="tap_to_retry">Tap for at forsøge igen</string>
-    <string name="one_recepient">Du kan kun sende direkte beskeder til én bruger!</string>
+    <string name="one_recepient">Du kan kun sende direkte beskeder til én bruger af gangen!</string>
     <!-- Actionbar Done-Discard -->
     <string name="discard">Annullér</string>
     <string name="send">Send</string>
@@ -150,7 +150,7 @@
     <string name="tweet_success">Tweet sendt</string>
     <string name="error_sending_tweet">Fejl, tweet ikke sendt</string>
     <string name="tweet_to_long">For langt tweet!</string>
-    <string name="ok">Ja</string>
+    <string name="ok">Ok</string>
     <string name="no">Nej</string>
     <string name="changelog">Hvad er nyt?</string>
     <string name="created_by">Udviklet af</string>
@@ -248,7 +248,7 @@
     <string name="themeing_complete_summary">\"Talon\" lukker nu ned.\n\n
 Du skal swipe \"Talon\" ud af dine senest brugte apps for at dine ændringer slår fuldt igennem på din Tidslinje \n\n
 Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant, skal du fjerne widget\'en og tilføje den igen</string>
-    <string name="layout_summary">Ændring af dette vil slette app´ens cache</string>
+    <string name="layout_summary">Skift af layout\'et vil slette app´ens cache</string>
     <string name="text_size">Tekst størrelse</string>
     <string name="night_mode">Nat tilstand</string>
     <string name="night_mode_night">Vælg starttidspunkt for nat tilstand</string>
@@ -261,10 +261,10 @@ Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant
                 - Gemmer funktions linje\n
                 - Aktiv info linje\n
                 - Transparente system linjer (kun Android 4.4)\n\n
- Aktivéring af denne indstilling vil have indflydelse på scrolling oplevelsen</string>
+ Aktivéring af denne indstilling kan have indflydelse på scrolling oplevelsen</string>
     <string name="inline_pics">Vis in-line billeder</string>
     <string name="use_screen_name">Vis Twitter kaldenavn</string>
-    <string name="use_screen_name_summary">Vis brugernes Twitter kaldenavn i stedet for deres eget navn, i Tidslinjen</string>
+    <string name="use_screen_name_summary">Vis brugers Twitter kaldenavn i stedet for deres eget navn, i Tidslinjen</string>
     <string name="timestamp">24 timers tidsvisning</string>
     <string name="enable_emojis">Aktivér emojis</string>
     <string name="to_market">Til Play Store</string>
@@ -288,9 +288,9 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="quiet_hours">Forstyr ikke</string>
     <string name="max_number_on_refresh">Max. antal tweets som opdateres</string>
     <string name="fav_users_notifications">Notifikation for favorit</string>
-    <string name="sync_second_mentions">Synkr. sekundær konto, Meninger</string>
+    <string name="sync_second_mentions">Synkr. sekundær konto, meninger</string>
     <string name="sync_second_mentions_summary">Tjek og informer automatisk for nye meninger, både for din primære og sekundære konto</string>
-    <string name="max_number_summary">Højere max. grænse betyder langsommere opdatering</string>
+    <string name="max_number_summary">Høj max. grænse betyder langsommere opdatering</string>
     <string name="auto_refresh_category">Auto-opdater indstillinger</string>
     <string name="refresh_on_startup">Opdatér når app\'en åbnes</string>
     <string name="timeline_sync_interval">Tidslinjen\'s opdaterings interval</string>
@@ -298,8 +298,8 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="dm_sync_interval">Direkte beskeder\'s opdaterings interval</string>
     <string name="sync_friends">Synkr. venners data</string>
     <string name="sync_friends_summary2">Synkronisér venners data til brug ved skrivning af tweets</string>
-    <string name="sync_friends_summary">Synkronisérer manuelt venne liste\n\nDette blev gjort for dig ved log ind og de bliver automatisk tilføjet når du følger nogen fra Talon, men denne funktion vil hente alle dine seneste \"Følger\"\n\n
-Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et tweet</string>
+    <string name="sync_friends_summary">Synkronisérer manuelt venne liste\n\nDette blev gjort for dig ved log ind og de bliver automatisk tilføjet når du følger nogen fra Talon. Denne funktion vil tilføje de seneste personer du har valgt at følge\n\n
+ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af tweets</string>
     <string name="sync_success">Synkroniséret</string>
     <string name="sync_failed">Synkroniserings fejl</string>
     <string name="push_notification_options">"\"Push notifikationer\" indstillinger"</string>
@@ -312,9 +312,9 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="advanced_settings">Avancerede indstillinger</string>
     <string name="app_feel_category">Indstillinger af app oplevelsen</string>
     <string name="advance_windowed">Avanceret visning</string>
-    <string name="advance_windowed_summary">Åbn profiler og tweets i et \"vindue\" der lægges ovenover Tidslinjen</string>
-    <string name="full_screen_browsers">Fuld skærms browser</string>
-    <string name="full_screen_browsers_summary">Åbn tweets der indeholder links til websider, med fuld skærms visning</string>
+    <string name="advance_windowed_summary">Åbn profiler og tweets i et \"vindue\" der vises foran Tidslinjen</string>
+    <string name="full_screen_browsers">Fuldskærms browser</string>
+    <string name="full_screen_browsers_summary">Åbn tweets der indeholder links til websider, med fuldskærms visning</string>
     <string name="reverse_click_actions">Spejlvend tap funktioner</string>
     <string name="reverse_click_actions_summary">Spejlvend funktioner ved tap på tweets.\n\n
  Standard (når déaktiveret):\n
@@ -331,10 +331,10 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="cache_dialog_summary">Dette kan ikke fortrydes</string>
     <string name="timeline_size">Størrelse for Tidslinje</string>
     <string name="timeline_size_summary">Maksimale antal af tweets der gemmes i databasen </string>
-    <string name="mentions_size">Størrelse for Meninger </string>
-    <string name="mentions_size_summary">Maksimale antal af Meninger der gemmes i databasen </string>
-    <string name="dm_size">Størrelse for Direkte beskeder</string>
-    <string name="dm_size_summary">Maksimale antal af Direkte beskeder der gemmes i databasen</string>
+    <string name="mentions_size">Størrelse for meninger</string>
+    <string name="mentions_size_summary">Maksimale antal af meninger der gemmes i databasen</string>
+    <string name="dm_size">Størrelse for direkte beskeder</string>
+    <string name="dm_size_summary">Maksimale antal af direkte beskeder der gemmes i databasen</string>
     <string name="auto_trim">Auto-trim databaser</string>
     <string name="trim_now">Trim databaser nu</string>
     <string name="trim_dialog">Trim databaser nu?</string>
@@ -348,7 +348,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="backup_success">Backup lykkedes</string>
     <string name="restore_success">Gendannelse lykkedes</string>
     <string name="restore_settings">Gendan indstillinger</string>
-    <string name="restore_settings_summary">Sletter hukommelsen for at tilføje ændringer i tema</string>
+    <string name="restore_settings_summary">Sletter cache for at tilføje ændringer i tema</string>
     <string name="get_help_settings">Hjælp</string>
     <string name="rerun_tutorial">Vis opstarts introduktion</string>
     <string name="faq">FAQ\'s</string>
@@ -390,17 +390,17 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="dismiss_all">Annullér alle</string>
     <string name="handle_and_name">Vis kaldenavn og navn</string>
     <string name="notification_types">Notifikations typer</string>
-    <string name="with_talon_pull">Adgang via \"Talon Pull\"</string>
+    <string name="with_talon_pull">Tilgået via \"Talon Pull\"</string>
     <string name="favorited_tweet">Favorit af dine tweets</string>
     <string name="new_followers">Nye følgere</string>
     <string name="discussion">Kommentarer</string>
     <string name="no_replies">Ingen kommentarer</string>
-    <string name="rt_style_quotes">Vælg \"RT\" som type for redigeret tweets</string>
+    <string name="rt_style_quotes">Vælg typen \"RT\" for redigeret tweets</string>
     <string name="rt_style_quotes_summary">Bruger original \"RT @brugernavn: ...\" for redigeret tweets i stedet for Talon\'s måde\n\nTilgåes via funktions linjen eller menuen</string>
     <string name="absolute_date">Vis absolut dato</string>
     <string name="clear_searches">Slet gemte søgninger</string>
     <string name="compose_with_search">Skriv tweet via søge funktion</string>
-    <string name="use_toast">Vis \"Til top\" aktiv linje</string>
+    <string name="use_toast">Vis aktiv \"Til top\" linje</string>
     <string name="ignore_retweets">Ignorér retweets</string>
     <string name="ignore_retweets_summary">Vis ikke retweets når du scroller igennem din Tidslinje</string>
     <string name="view">Vis</string>
@@ -422,7 +422,7 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="follows_you">Følger dig</string>
     <string name="not_following_you">Følger ikke dig</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
-    <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for tweetet</string>
+    <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for at vise tweetet</string>
     <string name="device">Enhedens tekst type</string>
     <string name="roboto_light">Roboto Lyst (Standard)</string>
     <string name="roboto_condensed">Roboto Fortættet</string>
@@ -442,16 +442,16 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="remove_retweet">Fjern retweet status</string>
     <string name="edit">Redigér</string>
     <string name="use_twitpic">Brug TwitPic</string>
-    <string name="twitpic_summary">Brug Twitpic som service udbyder ved upload af billeder, i stedet for Twitter\'s egen</string>
+    <string name="twitpic_summary">Brug Twitpic som tjeneste ved upload af billeder, i stedet for Twitter\'s egen</string>
     <string name="verified">Bekræftet</string>
     <string name="use_tweetmarker">Aktivér TweetMarker</string>
     <string name="tweetmarker_summary">Stadig under udvikling. Du kan opleve det får Tidslinjen til at hoppe til bunden.</string>
     <string name="finding_tweetmarker">Synkronisérer TweetMarker</string>
-    <string name="loading">Opdatérer...</string>
+    <string name="loading">Opdaterer</string>
     <string name="loading_tweets">Opdatérer tweets...</string>
     <string name="pull_to_refresh">Stryg ned for at opdaterer...</string>
     <string name="removing_retweet">Fjerner retweet status</string>
-    <string name="retweeting_status">Retweet\'er...</string>
+    <string name="retweeting_status">Sender tweet...</string>
     <string name="removing_favorite">Fjerner favorit status</string>
     <string name="favoriting_status">Favorit</string>
     <string name="jumping_workaround">Løsning for hop i Tidslinjen</string>
@@ -469,5 +469,5 @@ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af et twe
     <string name="page_2">Side 2</string>
     <string name="load_tweets">Hent tweets</string>
     <string name="download_portal">Download Theme Portal App</string>
-    <string name="download_portal_summary">Dette er Klinker Apps \"Portal\" app som giver dig mulighed for at være opdateret med de seneste nyheder og de bedste temaer for Talon og EvolveSMS, et sted!</string>
+    <string name="download_portal_summary">Dette er Klinker Apps \"Portal\" app som giver dig mulighed for at være opdateret med de seneste nyheder og de bedste temaer for både Talon og EvolveSMS.</string>
 </resources>

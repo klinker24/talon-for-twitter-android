@@ -68,7 +68,7 @@
     <string name="jump_to_top">إلى الأولى</string>
     <string name="all_read">الكل مقروءة! </string>
     <string name="view_new">تحميل؟ </string>
-    <string name="old_interactions">جميع الإشارات </string>
+    <string name="old_interactions">جميع التنبيهات</string>
     <!-- Notifications -->
     <string name="tweet">تغريد</string>
     <string name="tweets">التغريدات </string>
@@ -90,7 +90,6 @@
     <string name="refreshing">تحديث </string>
     <string name="refreshing_widget">تحديث الأيقونة</string>
     <string name="downloading">تنزيل </string>
-    <string name="saving_picture">حفظ الصورة </string>
     <string name="new_interaction_upper">تنبيه جديد </string>
     <string name="new_interactions_lower">تنبيهات جديدة </string>
     <string name="new_interactions">تنبيهات جديدة </string>
@@ -198,7 +197,7 @@
     <string name="menu_share">مشاركة التغريدة</string>
     <string name="menu_delete_tweet">مسح التغريدة </string>
     <string name="conversation">المحادثة </string>
-    <string name="webpage">صفحة الأنترنت </string>
+    <string name="webpage">صفحة الويب</string>
     <string name="tweet_youtube">يوتيوب</string>
     <string name="menu_quote">أقتباس تغريدة</string>
     <string name="deleted_tweet">تم مسح التغريدة </string>
@@ -207,6 +206,7 @@
     <string name="open_what">فتح ما</string>
     <string name="youtube_error">خلل في تشغيل الفيديو </string>
     <string name="no_conversation">لاتوجد تغريدات سابقة</string>
+    <string name="saving_picture">حفظ الصورة</string>
     <string name="saved_picture">تم حفظ الصورة</string>
     <string name="retweet_success">تم إعادة التغريد</string>
     <string name="favorite_success">تم التفضيل</string>
@@ -417,7 +417,7 @@
     <string name="deleting_messages">حذف الرسائل</string>
     <string name="type_message">كتابة رسالة...</string>
     <string name="fill_gaps">عبئ الفراغات في الخط الزمني</string>
-    <string name="fill_gaps_summary">عبئ الفراغات التي حصلت نتيجة أتصال مباشر سيء  وتشغيل البث المباشر.</string>
+    <string name="fill_gaps_summary">عبئ الفراغات التي حصلت نتيجة أتصال مباشر سيء وتفعيل البث المباشر.</string>
     <string name="filling_timeline">يعبئ الفراغات في الخط الزمني</string>
     <string name="follows_you">يتابعك</string>
     <string name="not_following_you">لا يتابعك</string>
@@ -458,4 +458,16 @@
     <string name="jumping_workaround_summary">تفعيل هذا إذا الخط الزمني الخاص بك يقفز أسفل نقطة واحدة بعد تحديث خلاصتك.</string>
     <string name="menu_share_link">شارك رابط</string>
     <string name="no_links">لاتوجد روابط</string>
+    <string name="configure_pages">تكوين صفحات إضافية</string>
+    <string name="picture_page">صور الخط الزمني</string>
+    <string name="link_page">روابط الخط الزمني</string>
+    <string name="list_page">قائمة الخط الزمني</string>
+    <string name="current">حالي</string>
+    <string name="here_is_home">هنا هو خطك الزمني الأساسي!</string>
+    <string name="dont_use">لاتستخدم هذه الصفحة</string>
+    <string name="page_1">صفحة 1</string>
+    <string name="page_2">صفحة 2</string>
+    <string name="load_tweets">تحميل التغريدات</string>
+    <string name="download_portal">تنزيل خلفية بوابة التطبيق</string>
+    <string name="download_portal_summary">هذه هي تطبيقات كلينكر \"بوابة\" التطبيق للبقاء مع أحدث الأخبار وكذلك تجد كل الخلفيات الأفضل لتالون وإيفولف أس أم أس في مكان واحد!</string>
 </resources>

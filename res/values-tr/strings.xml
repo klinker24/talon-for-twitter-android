@@ -91,9 +91,9 @@
     <string name="refreshing_widget">Widgeti yenile</string>
     <string name="downloading">İndiriliyor</string>
     <string name="new_interaction_upper">Yeni Etkileşim</string>
-    <string name="new_interactions_lower">yeni Etkileşimler</string>
+    <string name="new_interactions_lower">yeni etkileşimler</string>
     <string name="new_interactions">Yeni Etkileşimler</string>
-    <string name="retweeted">Durumunuzu retweetleyin</string>
+    <string name="retweeted">durumunuzu retweetleyin</string>
     <string name="favorited">favori dumumunuz</string>
     <string name="followed">takip edildin</string>
     <string name="new_retweets">retweetler</string>
@@ -105,7 +105,7 @@
     <string name="first_welcome">Talon\' a Hoşgeldiniz!</string>
     <string name="second_welcome">Bilgiler Senkronize Ediliyor</string>
     <string name="third_welcome">İşte Bu!</string>
-    <string name="back_to_timeline">Benim zaman ana sayfa ya götür!</string>
+    <string name="back_to_timeline">Benim ana sayfama gidelim!</string>
     <string name="initial_sync">Şimdi Senkronize Et!</string>
     <string name="first_info">Başlamadan önce, giriş yapın.</string>
     <string name="second_info">Harika! \n\nŞimdi bazı başlangıç ​​verilerini almak için bağlanıyoruz. \n\nBu internet bağlantısına bağlı olarak biraz zaman alabilir.\n\n\n\n</string>
@@ -208,7 +208,7 @@
     <string name="no_conversation">Önceki Tweetleri Atla</string>
     <string name="saving_picture">Resmi Kaydet</string>
     <string name="saved_picture">Resim Başarıyla Kaydedildi</string>
-    <string name="retweet_success"> Retweet Başarılı</string>
+    <string name="retweet_success">Retweet Başarılı</string>
     <string name="favorite_success">Beğenilen Başarılı</string>
     <string name="success">Başarılı</string>
     <!-- User Lists -->
@@ -229,9 +229,9 @@
     <string name="choose_list">Liste Seçin</string>
     <string name="added_to_list">Listeye eklendi</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nAçılabilir çekmeceye dokunduğunda görünen erişim özellikleri!\n\n\n\n</string>
-    <string name="part_1_phone">\nEkranın soluna dokunun ve sağa doğru kaydırın!\n\n\n</string>
-    <string name="part_2">\nEkranın ortasına kadar açılır, ekranın diğer kalan bölümünde ana sayfa görüntülenir !\n\n\n</string>
+    <string name="part_1_tablet">\nAçılabilir çekmeceye \ndokunduğun da\ngörünen erişim\nözellikleri!\n\n\n\n</string>
+    <string name="part_1_phone">Ekranın soluna \ndokunun ve \nsağa doğru \nkaydırın!\n\n\n</string>
+    <string name="part_2">\nEkranın ortasına\nkadar açılır, ekranın \ndiğer kalan \nbölümünde ana\nsayfa görüntülenir !\n\n\n</string>
     <string name="part_3">İşte bu!\n\nBaşlamak için\nekrana\ndokunun!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Tema Ayarları</string>
@@ -248,7 +248,7 @@
     <string name="themeing_complete_summary">\"Talon\" şimdi kapanacak.\n\n
 Ana sayfa akışını tam zamanında almak ve görmek için son uygulamalar üzerinden \"Talon\" u kaydırmak zorunda kalacak.\n\n
 Profil resimlerini (yani daire veya kare) gerektiği şekilde göstermek istemiyorsanız, widget\'i kaldırmak ve yeniden eklemek zorunda kalacaksınız.</string>
-    <string name="layout_summary">Bu değişen uygulamasının ön belleğini temizleyecektir.</string>
+    <string name="layout_summary">Bu değiştiğin de uygulamanın ön belleğini temizleyecektir.</string>
     <string name="text_size">Yazı Boyutu</string>
     <string name="night_mode">Gece Modu</string>
     <string name="night_mode_night">Gece Saati Başlangıcı</string>
