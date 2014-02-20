@@ -22,7 +22,6 @@
 -- For Release --
 
 - 1.4
-    - user search from links
     - RTL support
 
 

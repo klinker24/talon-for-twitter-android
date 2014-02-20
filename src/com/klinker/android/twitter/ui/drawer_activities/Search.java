@@ -250,6 +250,11 @@ public class Search extends Activity implements OnRefreshListener {
             if (uriString.contains("status/")) {
                 long id = Long.parseLong(uriString.substring(uriString.indexOf("status")).replace("status/", ""));
                 findStatus(id);
+            } else if (!uriString.contains("q=")) { // going to try searching for users i guess
+                String name = uriString.substring(uriString.indexOf(".com/"));
+                name = name.replaceAll("/", "").replaceAll(".com", "");
+                Log.v("searching_twitter", "username: " + name);
+                doUserSearch(name);
             } else {
                 try {
                     String search = uri.getQueryParameter("q");
