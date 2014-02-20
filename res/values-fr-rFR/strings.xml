@@ -52,7 +52,7 @@
     <string name="world_trends">Tendances mondiales</string>
     <string name="search">Rechercher</string>
     <string name="lists">Listes</string>
-    <string name="search_hint">\@nom d\\'utilisateur ou recherche...</string>
+    <string name="search_hint">\@nom d\'utilisateur ou recherche...</string>
     <string name="new_tweet">nouveau tweet</string>
     <string name="new_tweets">nouveaux tweets</string>
     <string name="no_new_tweets">Pas de nouveau tweet</string>
