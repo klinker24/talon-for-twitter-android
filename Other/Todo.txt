@@ -32,6 +32,7 @@
     -- post from different accounts on compose window
     -- Mute by source and regex
     -- theme the action bar
+    -- put the retweeter button onto the theme example
 
 
 - 1.6
