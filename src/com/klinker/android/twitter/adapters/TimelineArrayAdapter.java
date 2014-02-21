@@ -762,9 +762,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
 
-        if (holder.favCount.getText().toString().equals(" ")) {
-            getCounts(holder, id);
-        }
+        getCounts(holder, id);
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1117,13 +1115,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
                     final Status status;
-                    if (holder.retweeter.getVisibility() != View.GONE) {
-                        status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
-                    } else {
-                        status = twitter.showStatus(tweetId);
-                    }
 
-                    if (status != null && holder.tweetId == tweetId) {
+                    status = twitter.showStatus(tweetId);
+
+                    if (status != null) {
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -1168,7 +1163,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     }
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         });
