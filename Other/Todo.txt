@@ -31,6 +31,7 @@
         - mentions and favorites will have to get their own pages
     -- post from different accounts on compose window
     -- theme the action bar
+    -- mute regex and via sources
 
 
 - 1.6
