@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
 import com.klinker.android.twitter.utils.ImageUtils;
 
 import java.util.ArrayList;
@@ -172,7 +172,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfileFragment.class);
                 viewProfile.putExtra("name", user.getName());
                 viewProfile.putExtra("screenname", user.getScreenName());
                 viewProfile.putExtra("proPic", user.getBiggerProfileImageURL());

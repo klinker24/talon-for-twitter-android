@@ -1,33 +1,23 @@
 package com.klinker.android.twitter.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
-import android.preference.PreferenceManager;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
-import com.klinker.android.twitter.utils.ImageUtils;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
 

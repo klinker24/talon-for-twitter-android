@@ -1,28 +1,10 @@
 package com.klinker.android.twitter.adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
-import android.text.Html;
-import android.text.Spannable;
 import android.view.View;
 
-import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.twitter.ui.UserProfileActivity;
-import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
-import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
-import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.ImageUtils;
-import com.klinker.android.twitter.utils.Utils;
-
-import java.util.Date;
 
 /**
  * Created by luke on 1/20/14.

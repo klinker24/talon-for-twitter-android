@@ -11,12 +11,10 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
@@ -43,11 +41,9 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
-import com.klinker.android.twitter.ui.UserProfileActivity;
-import com.klinker.android.twitter.ui.compose.Compose;
+import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
-import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
@@ -55,10 +51,8 @@ import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
@@ -480,7 +474,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
                 viewProfile.putExtra("proPic", profilePic);
@@ -497,7 +491,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public boolean onLongClick(View view) {
 
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
                 viewProfile.putExtra("proPic", profilePic);
