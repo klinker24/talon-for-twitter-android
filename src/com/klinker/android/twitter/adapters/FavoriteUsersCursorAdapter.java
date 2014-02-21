@@ -3,7 +3,6 @@ package com.klinker.android.twitter.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
@@ -11,9 +10,7 @@ import android.view.View;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
-import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.drawer_activities.FavoriteUsersActivity;
-import com.klinker.android.twitter.utils.ImageUtils;
 
 /**
  * Created by luke on 2/12/14.

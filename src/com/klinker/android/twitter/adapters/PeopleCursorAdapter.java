@@ -21,7 +21,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
 import com.klinker.android.twitter.utils.ImageUtils;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -169,7 +169,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfileFragment.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenName);
                 viewProfile.putExtra("proPic", url);

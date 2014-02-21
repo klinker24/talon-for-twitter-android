@@ -31,8 +31,6 @@ import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
-import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
@@ -47,7 +45,7 @@ import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
 import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
@@ -59,7 +57,6 @@ import de.timroes.android.listview.EnhancedListView;
 import org.lucasr.smoothie.AsyncListView;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 public abstract class DrawerActivity extends Activity {
 
@@ -277,7 +274,7 @@ public abstract class DrawerActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                        Intent viewProfile = new Intent(context, ProfileFragment.class);
                         viewProfile.putExtra("name", sName);
                         viewProfile.putExtra("screenname", sScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
@@ -304,7 +301,7 @@ public abstract class DrawerActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                        Intent viewProfile = new Intent(context, ProfileFragment.class);
                         viewProfile.putExtra("name", sName);
                         viewProfile.putExtra("screenname", sScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);

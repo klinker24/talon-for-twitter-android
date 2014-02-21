@@ -51,7 +51,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
@@ -60,17 +60,12 @@ import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
 import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.HtmlUtils;
-import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -379,7 +374,7 @@ public class TweetFragment extends Fragment {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfileFragment.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenName);
                 viewProfile.putExtra("proPic", proPic);
@@ -510,7 +505,7 @@ public class TweetFragment extends Fragment {
                                         }
                                     }
                                 } else if (touched.contains("@")) { //username
-                                    Intent user = new Intent(context, UserProfileActivity.class);
+                                    Intent user = new Intent(context, ProfileFragment.class);
                                     user.putExtra("screenname", touched.replace("@", ""));
                                     user.putExtra("proPic", "");
                                     context.startActivity(user);
@@ -544,7 +539,7 @@ public class TweetFragment extends Fragment {
                                 }
                             }
                         } else if (touched.contains("@")) { //username
-                            Intent user = new Intent(context, UserProfileActivity.class);
+                            Intent user = new Intent(context, ProfileFragment.class);
                             user.putExtra("screenname", touched.replace("@", ""));
                             user.putExtra("proPic", "");
                             context.startActivity(user);

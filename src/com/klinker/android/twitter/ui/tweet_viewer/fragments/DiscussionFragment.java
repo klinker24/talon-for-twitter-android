@@ -34,6 +34,10 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
+/**
+ * This fragment is not used anymore. It was combined with the ConversationFragment for unified
+ * conversations in the tweet viewer.
+ */
 public class DiscussionFragment extends Fragment {
     private Context context;
     private View layout;

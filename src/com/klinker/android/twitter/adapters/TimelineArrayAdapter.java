@@ -33,7 +33,7 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
@@ -481,7 +481,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.profilePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                    Intent viewProfile = new Intent(context, ProfileFragment.class);
                     viewProfile.putExtra("name", name);
                     viewProfile.putExtra("screenname", screenname);
                     viewProfile.putExtra("proPic", profilePic);
@@ -498,7 +498,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 @Override
                 public boolean onLongClick(View view) {
 
-                    Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                    Intent viewProfile = new Intent(context, ProfileFragment.class);
                     viewProfile.putExtra("name", name);
                     viewProfile.putExtra("screenname", screenname);
                     viewProfile.putExtra("proPic", profilePic);

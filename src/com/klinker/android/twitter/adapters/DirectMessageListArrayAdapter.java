@@ -30,14 +30,11 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.DirectMessageConversation;
-import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
