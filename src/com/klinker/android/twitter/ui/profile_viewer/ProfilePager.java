@@ -82,6 +82,11 @@ public class ProfilePager extends Activity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         settings = new AppSettings(this);
 
+        if ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
+                !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false)) {
+            setUpWindow();
+        }
+
         setUpTheme();
 
         int currentOrientation = getResources().getConfiguration().orientation;
@@ -92,16 +97,12 @@ public class ProfilePager extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
 
-        if ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
-                !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false)) {
-            setUpWindow();
-        }
-
         getFromIntent();
 
         setContentView(R.layout.tweet_pager);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         ProfilePagerAdapter mPagerAdapter = new ProfilePagerAdapter(getFragmentManager(), context, name, screenName, proPic, tweetId, isRetweet, isMyProfile);
+        pager.setAdapter(mPagerAdapter);
 
         if (settings.addonTheme) {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
