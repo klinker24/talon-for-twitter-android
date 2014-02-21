@@ -40,7 +40,9 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -166,9 +168,12 @@ public class ProfileFragment extends Fragment {
 
         inflater = LayoutInflater.from(context);
 
-        layout = inflater.inflate(R.layout.conversation_fragment, null);
+        layout = inflater.inflate(R.layout.list_fragment, null);
+        LinearLayout spin = (LinearLayout) layout.findViewById(R.id.spinner);
+        spin.setVisibility(View.GONE);
 
         AsyncListView listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView.setVisibility(View.VISIBLE);
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
 
@@ -276,9 +281,6 @@ public class ProfileFragment extends Fragment {
         final ImageView header = mheader;
 
         spinner.setVisibility(View.VISIBLE);
-
-        actionBar.setTitle(name);
-        actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         statement.setTextSize(settings.textSize);
         screenname.setTextSize(settings.textSize + 1);
