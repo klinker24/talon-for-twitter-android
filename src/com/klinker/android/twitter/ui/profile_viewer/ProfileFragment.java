@@ -141,6 +141,15 @@ public class ProfileFragment extends Fragment {
 
     public View layout;
 
+    public ProfileFragment() {
+        this.name = "";
+        this.screenName = "";
+        this.proPic = "";
+        this.tweetId = 0;
+        this.isRetweet = false;
+        this.isMyProfile = false;
+    }
+
     public ProfileFragment(String name, String screenName, String proPic, long tweetId, boolean isRetweet, boolean isMyProfile) {
         this.name = name;
         this.screenName = screenName;
