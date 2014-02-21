@@ -13,75 +13,83 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true">
+            android:layout_alignParentTop="true" >
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
-
                 <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="?tweetBackgroundNoDialog"
                     android:layout_margin="@dimen/tweet_activ_margin">
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
+                        android:orientation="vertical">
 
-                        <include layout="@layout/contact_info"
-                            android:id="@+id/contact_info"
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_margin="10dp" />
+                            android:gravity="center">
 
-                        <ImageButton
-                            android:id="@+id/expand"
-                            android:layout_height="48dp"
-                            android:layout_width="48dp"
-                            android:src="?showMoreButton"
-                            android:scaleType="fitCenter"
-                            android:adjustViewBounds="true"
-                            android:contentDescription="Expand Picture"
-                            android:background="@drawable/pressed_button"
-                            android:layout_margin="10dp"
-                            android:rotation="180"/>
+                            <include layout="@layout/contact_info"
+                                android:id="@+id/contact_info"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:layout_margin="10dp" />
+
+                            <ImageButton
+                                android:id="@+id/expand"
+                                android:layout_height="48dp"
+                                android:layout_width="48dp"
+                                android:src="?showMoreButton"
+                                android:scaleType="fitCenter"
+                                android:adjustViewBounds="true"
+                                android:contentDescription="Expand Picture"
+                                android:background="@drawable/pressed_button"
+                                android:layout_margin="10dp"
+                                android:rotation="180"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" >
+
+                            <include android:id="@+id/tweet_background"
+                                layout="@layout/tweet_for_fragment"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent" />
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/linLayout"
+
+                    <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
+                        android:id="@+id/imageView"
+                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-
-                        <include android:id="@+id/tweet_background"
-                            layout="@layout/tweet_for_fragment"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent" />
-
-
-                    </LinearLayout>
+                        android:background="@android:color/transparent"
+                        android:minWidth="300dp"
+                        android:minHeight="220dp"
+                        android:layout_margin="@dimen/tweet_activ_margin"
+                        android:visibility="gone" />
 
                 </LinearLayout>
-
-
-                <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
-                    android:id="@+id/imageView"
-                    android:layout_height="wrap_content"
+                <View
                     android:layout_width="match_parent"
-                    android:background="@android:color/transparent"
-                    android:minWidth="300dp"
-                    android:minHeight="220dp"
-                    android:layout_margin="@dimen/tweet_activ_margin"
-                    android:visibility="gone" />
-
+                    android:layout_height="3dp" />
             </LinearLayout>
 
-            </ScrollView>
+        </ScrollView>
 
         <LinearLayout
             android:id="@+id/buttons"
