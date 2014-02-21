@@ -2,6 +2,7 @@
     &#8226; View up to 100 retweeters of a status<br/>
     &#8226; Remade the tweet viewer layout<br/>
     &#8226; Changed the conversation and discussion style<br/>
+    &#8226; A few more tweetmarker fixes<br/>
 </br><br/>
 
 <b>Version 1.4.4:</b><br/><br/>
