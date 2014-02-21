@@ -157,6 +157,11 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
+                    Status stat = twitter.showStatus(tweetId);
+                    if (stat.isRetweet()) {
+                        tweetId = stat.getRetweetedStatus().getId();
+                    }
+
                     // can get 100 retweeters is all
                     ResponseList<twitter4j.Status> lists = twitter.getRetweets(tweetId);
 
