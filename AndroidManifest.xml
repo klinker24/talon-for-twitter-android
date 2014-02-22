@@ -259,6 +259,13 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
+        <activity android:name=".utils.RedirectToDrawer"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TalonDark"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+
         <activity android:name=".utils.SwitchAccountsRedirect"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark" >
