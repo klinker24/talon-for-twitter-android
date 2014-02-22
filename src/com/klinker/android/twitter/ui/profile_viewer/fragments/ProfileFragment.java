@@ -172,7 +172,7 @@ public class ProfileFragment extends Fragment {
 
         mCache = App.getInstance(context).getBitmapCache();
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         inflater = LayoutInflater.from(context);

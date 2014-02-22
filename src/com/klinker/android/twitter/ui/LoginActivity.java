@@ -85,7 +85,7 @@ public class LoginActivity extends Activity {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         context = this;
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         //context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH"));
 
@@ -251,6 +251,7 @@ public class LoginActivity extends Activity {
                     sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
                     sharedPrefs.edit().putBoolean("need_new_dm", false).commit();
                     sharedPrefs.edit().putBoolean("need_clean_databases_version_1_3_0", false).commit();
+                    AppSettings.invalidate();
                     startActivity(timeline);
                 }
 
@@ -646,6 +647,7 @@ public class LoginActivity extends Activity {
 
         Intent restart = new Intent(context, LoginActivity.class);
         finish();
+        AppSettings.invalidate();
         startActivity(restart);
     }
 

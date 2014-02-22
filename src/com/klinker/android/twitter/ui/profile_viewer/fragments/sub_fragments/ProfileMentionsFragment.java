@@ -61,7 +61,7 @@ public class ProfileMentionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         this.inflater = LayoutInflater.from(context);

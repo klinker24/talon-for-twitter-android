@@ -89,7 +89,7 @@ public class PhotoViewerDialog extends Activity {
             spinner.setVisibility(View.GONE);
         }*/
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);

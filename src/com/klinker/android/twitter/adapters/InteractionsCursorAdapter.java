@@ -54,7 +54,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         this.cursor = cursor;
         this.inflater = LayoutInflater.from(context);
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         setUpLayout();
     }

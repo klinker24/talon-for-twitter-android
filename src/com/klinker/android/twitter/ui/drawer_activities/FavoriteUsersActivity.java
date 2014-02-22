@@ -49,7 +49,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
         sContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         sSharedPrefs = sharedPrefs;
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 

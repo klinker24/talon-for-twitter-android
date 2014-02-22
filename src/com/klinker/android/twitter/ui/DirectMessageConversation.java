@@ -65,7 +65,7 @@ public class DirectMessageConversation extends Activity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         if (settings.advanceWindowed) {
             setUpWindow();

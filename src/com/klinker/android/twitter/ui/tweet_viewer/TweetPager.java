@@ -85,7 +85,7 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         context = this;
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         getFromIntent();
         Utils.setUpPopupTheme(context, settings);

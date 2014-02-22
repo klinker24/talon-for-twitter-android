@@ -27,7 +27,7 @@ public class BootService  extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         if (settings.timelineRefresh != 0) { // user only wants manual
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

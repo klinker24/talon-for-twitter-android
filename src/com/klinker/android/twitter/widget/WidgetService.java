@@ -66,7 +66,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         darkTheme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mContext).getString("theme", "1")) != 0;
 
         mCache = App.getInstance(context).getBitmapCache();
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
     }
 
     @Override

@@ -52,7 +52,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.context = context;
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         this.name = name;
         this.screenName = screenName;

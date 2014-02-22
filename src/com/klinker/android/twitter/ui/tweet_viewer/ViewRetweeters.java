@@ -64,7 +64,7 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         setUpWindow();
 

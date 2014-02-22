@@ -80,7 +80,7 @@ public class ProfilePager extends Activity {
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         if ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
                 !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false)) {

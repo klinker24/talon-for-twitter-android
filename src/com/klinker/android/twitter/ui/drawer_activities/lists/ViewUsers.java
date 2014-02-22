@@ -59,7 +59,7 @@ public class ViewUsers extends Activity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         listName = getIntent().getStringExtra("list_name");
 

@@ -168,7 +168,7 @@ public class TweetFragment extends Fragment {
         addonTheme = false;
 
         if(settings == null) {
-            settings = new AppSettings(context);
+            settings = AppSettings.getInstance(context);
         }
 
         if (settings.addonTheme) {

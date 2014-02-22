@@ -46,7 +46,7 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 public class NotificationUtils {
 
     public static void refreshNotification(Context context) {
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
         Intent popup = new Intent(context, MainActivityPopup.class);
@@ -403,7 +403,7 @@ public class NotificationUtils {
             Log.v("notifications_talon", "in screenname");
             String url;
             try {
-                url = Utils.getTwitter(context, new AppSettings(context)).showUser(screenname).getBiggerProfileImageURL();
+                url = Utils.getTwitter(context, AppSettings.getInstance(context)).showUser(screenname).getBiggerProfileImageURL();
                 CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
 
                 Log.v("notifications_talon", "got wrapper");
@@ -492,7 +492,7 @@ public class NotificationUtils {
 
         NotificationCompat.Builder mBuilder;
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
@@ -560,7 +560,7 @@ public class NotificationUtils {
         BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
         String url;
         try {
-            url = Utils.getTwitter(context, new AppSettings(context)).showUser(screenname).getBiggerProfileImageURL();
+            url = Utils.getTwitter(context, AppSettings.getInstance(context)).showUser(screenname).getBiggerProfileImageURL();
             CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
 
             if (wrapper == null) {
@@ -611,7 +611,7 @@ public class NotificationUtils {
         Intent markRead = new Intent(context, MarkReadService.class);
         PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
@@ -688,7 +688,7 @@ public class NotificationUtils {
         String smallText = "";
         Bitmap icon = null;
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );

@@ -940,7 +940,7 @@ public class EmojiUtils {
         ThingsEmojiAdapter.init(context);
         TransEmojiAdapter.init(context);
 
-        textSize = (new AppSettings(context)).textSize;
+        textSize = (AppSettings.getInstance(context)).textSize;
     }
 
     public static int textSize;

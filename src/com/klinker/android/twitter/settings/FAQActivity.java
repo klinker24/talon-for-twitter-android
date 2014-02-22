@@ -24,7 +24,7 @@ public class FAQActivity extends Activity {
 
         setUpLinks();
 
-        AppSettings settings = new AppSettings(this);
+        AppSettings settings = AppSettings.getInstance(this);
 
         Utils.setUpPopupTheme(this, settings);
         setUpWindow();

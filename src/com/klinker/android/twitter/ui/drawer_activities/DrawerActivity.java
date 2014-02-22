@@ -379,6 +379,7 @@ public abstract class DrawerActivity extends Activity {
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
 
                         Intent login = new Intent(context, LoginActivity.class);
+                        AppSettings.invalidate();
                         finish();
                         startActivity(login);
                     }
@@ -418,6 +419,7 @@ public abstract class DrawerActivity extends Activity {
                                     }
                                     sharedPrefs.edit().putInt("current_account", 2).commit();
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
                                     startActivity(next);
@@ -458,6 +460,7 @@ public abstract class DrawerActivity extends Activity {
 
                                     sharedPrefs.edit().putInt("current_account", 1).commit();
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
                                     startActivity(next);
@@ -734,6 +737,8 @@ public abstract class DrawerActivity extends Activity {
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
         suggestions.clearHistory();
 
+        AppSettings.invalidate();
+
         if (currentAccount == 1 && login2) {
             e.putInt("current_account", 2).commit();
             finish();
@@ -777,18 +782,6 @@ public abstract class DrawerActivity extends Activity {
             recreate();
         }*/
 
-        /*if (sharedPrefs.getBoolean("test_twitlong_22", true)) {
-            sharedPrefs.edit().putBoolean("test_twitlong_22", false).commit();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    TwitLongerHelper helper = new TwitLongerHelper("@TalonAndroid Hey! finally got this working and it is working well! Some problems, mostly because I had no clue what i was doing, but all is worked out now, and Twitlonger will be coming to Talon very soon :)", Utils.getTwitter(context, settings));
-                    long id = helper.createPost();
-                    Log.v("twitlonger", id + "");
-                }
-            }).start();
-        }*/
-
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("new_followers", 0);
         e.putInt("new_favorites", 0);
@@ -796,32 +789,7 @@ public abstract class DrawerActivity extends Activity {
         e.putString("old_interaction_text", "");
         e.commit();
 
-        DrawerActivity.settings = new AppSettings(context);
-
-        /*if (sharedPrefs.getBoolean("need_new_dm", true)) {
-            Utils.newDMRefresh(context);
-        }*/
-
-        if (sharedPrefs.getBoolean("need_clean_databases_version_1_3_0", true)) {
-            sharedPrefs.edit().putBoolean("auto_trim", true).commit();
-            Utils.needCleanTimeline(context);
-        }
-
-        if (sharedPrefs.getBoolean("version_1_3_2", true)) {
-            sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
-            if (Integer.parseInt(sharedPrefs.getString("timeline_size", "500")) > 2000) {
-                sharedPrefs.edit().putString("timeline_size", "2000").commit();
-            }
-        }
-
-        // for testing
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                NotificationUtils.refreshNotification(context);
-                //NotificationUtils.notifySecondMentions(context, 1);
-            }
-        }).start();*/
+        DrawerActivity.settings = AppSettings.getInstance(context);
     }
 
     private SearchView searchView;

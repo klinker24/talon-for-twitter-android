@@ -126,7 +126,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
 
-        this.settings = new AppSettings(context);
+        this.settings = AppSettings.getInstance(context);
 
         this.type = NORMAL;
 
@@ -142,7 +142,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
 
-        this.settings = new AppSettings(context);
+        this.settings = AppSettings.getInstance(context);
 
         this.type = type;
         this.username = "";
@@ -157,7 +157,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.statuses = statuses;
         this.inflater = LayoutInflater.from(context);
 
-        this.settings = new AppSettings(context);
+        this.settings = AppSettings.getInstance(context);
 
         this.type = NORMAL;
         this.username = username;

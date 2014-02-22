@@ -128,7 +128,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
         
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 

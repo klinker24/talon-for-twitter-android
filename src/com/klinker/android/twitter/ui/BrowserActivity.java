@@ -28,7 +28,7 @@ public class BrowserActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         Utils.setUpTheme(this, settings);

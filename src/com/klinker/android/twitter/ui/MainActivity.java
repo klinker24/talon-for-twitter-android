@@ -43,7 +43,7 @@ public class MainActivity extends DrawerActivity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        DrawerActivity.settings = new AppSettings(context);
+        DrawerActivity.settings = AppSettings.getInstance(context);
 
         /*if(sharedPrefs.getBoolean("pebble_notification", false)) {
             Log.v("talon_pebble", "sending pebble notification");

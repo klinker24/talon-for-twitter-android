@@ -83,7 +83,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         if (settings.advanceWindowed) {
             setUpWindow();

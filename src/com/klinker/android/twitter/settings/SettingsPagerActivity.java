@@ -48,6 +48,8 @@ public class SettingsPagerActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        AppSettings.invalidate();
+
         setUpTheme();
 
         setContentView(R.layout.settings_main);
@@ -219,7 +221,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public void setUpTheme() {
 
-        AppSettings settings = new AppSettings(this);
+        AppSettings settings = AppSettings.getInstance(this);
 
         switch (settings.theme) {
             case AppSettings.THEME_LIGHT:
@@ -285,6 +287,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        AppSettings.invalidate();
         Intent main = new Intent(this, MainActivity.class);
         startActivity(main);
         finish();

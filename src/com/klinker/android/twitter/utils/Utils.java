@@ -42,7 +42,7 @@ public class Utils {
 
     public static Twitter getTwitter(Context context, AppSettings settings) {
         if (settings == null) {
-            settings = new AppSettings(context);
+            settings = AppSettings.getInstance(context);
         }
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
@@ -55,7 +55,7 @@ public class Utils {
     }
 
     public static TwitterStream getStreamingTwitter(Context context, AppSettings settings) {
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
@@ -68,7 +68,7 @@ public class Utils {
     }
 
     public static Twitter getSecondTwitter(Context context) {
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(AppSettings.TWITTER_CONSUMER_KEY)
@@ -359,7 +359,7 @@ public class Utils {
             sharedPrefs.edit().putLong("last_direct_message_id_2", 0).commit();
 
             try {
-                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
+                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
 
                 Paging paging = new Paging(1, 100);
 

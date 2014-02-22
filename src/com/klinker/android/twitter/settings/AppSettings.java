@@ -16,6 +16,19 @@ import java.util.Calendar;
 
 public class AppSettings {
 
+    public static AppSettings settings;
+
+    public static AppSettings getInstance(Context context) {
+        if (settings == null) {
+            settings = new AppSettings(context);
+        }
+        return settings;
+    }
+
+    public static void invalidate() {
+        settings = null;
+    }
+
     public SharedPreferences sharedPrefs;
 
     public static String TWITTER_CONSUMER_KEY = "V9yijGrKf79jlYi0l3ekpA";

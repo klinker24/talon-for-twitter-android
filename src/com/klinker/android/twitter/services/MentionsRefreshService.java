@@ -32,7 +32,7 @@ public class MentionsRefreshService extends IntentService {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Context context = getApplicationContext();
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         // if they have mobile data on and don't want to sync over mobile data
         if (Utils.getConnectionStatus(context) && !settings.syncMobile) {

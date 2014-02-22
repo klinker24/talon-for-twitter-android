@@ -55,7 +55,7 @@ public class ListChooser extends Activity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         Utils.setUpTheme(context, settings);
         setContentView(R.layout.list_chooser);

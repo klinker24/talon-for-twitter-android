@@ -57,7 +57,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         this.context = context;
         this.users = users;
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
 
         setUpLayout();
