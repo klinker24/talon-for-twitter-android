@@ -15,9 +15,9 @@ import android.widget.LinearLayout;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
-import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
+import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
 

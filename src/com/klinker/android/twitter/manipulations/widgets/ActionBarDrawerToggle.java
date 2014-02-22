@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.widgets;
+package com.klinker.android.twitter.manipulations.widgets;
 /*
  * Copyright (C) 2013 The Android Open Source Project
  *

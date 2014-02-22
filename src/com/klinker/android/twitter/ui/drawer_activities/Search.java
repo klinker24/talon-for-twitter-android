@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,20 +29,17 @@ import android.widget.SearchView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
-import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
+import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.SettingsPagerActivity;
-import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 import twitter4j.Query;

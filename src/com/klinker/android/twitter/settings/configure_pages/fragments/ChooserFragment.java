@@ -14,7 +14,7 @@ import android.widget.Button;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.configure_pages.ListChooser;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 
 public abstract class ChooserFragment extends Fragment {

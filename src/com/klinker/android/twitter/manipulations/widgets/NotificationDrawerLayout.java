@@ -15,7 +15,7 @@
  */
 
 
-package com.klinker.android.twitter.ui.widgets;
+package com.klinker.android.twitter.manipulations.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;

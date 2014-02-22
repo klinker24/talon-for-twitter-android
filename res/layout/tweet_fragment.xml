@@ -73,7 +73,7 @@
                     </LinearLayout>
 
 
-                    <com.klinker.android.twitter.manipulations.NetworkedCacheableImageView
+                    <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
                         android:id="@+id/imageView"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
@@ -222,7 +222,7 @@
                         android:maxWidth="32dp" android:maxHeight="32dp"
                         android:background="@drawable/pressed_button"  />
 
-                    <com.klinker.android.twitter.ui.widgets.HoloTextView
+                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                         android:layout_height="37dp"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="-9dp"
@@ -257,7 +257,7 @@
                         android:maxWidth="37dp" android:maxHeight="37dp"
                         android:background="@drawable/pressed_button" />
 
-                    <com.klinker.android.twitter.ui.widgets.HoloTextView
+                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                         android:layout_height="37dp"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="-8dp"
@@ -313,7 +313,7 @@
                 android:contentDescription="Overflow Options"
                 android:background="@drawable/pressed_button" />
 
-            <com.klinker.android.twitter.ui.widgets.HoloEditText
+            <com.klinker.android.twitter.manipulations.widgets.HoloEditText
                 android:id="@+id/reply"
                 android:layout_height="wrap_content"
                 android:maxLines="5"
@@ -329,7 +329,7 @@
                 android:layout_width="48dp"
                 android:layout_height="wrap_content">
 
-                <com.klinker.android.twitter.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:layout_height="13dp"
                     android:layout_width="match_parent"
                     android:textSize="10dp"

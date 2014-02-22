@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.manipulations;
+package com.klinker.android.twitter.manipulations.widgets;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.SDK11;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

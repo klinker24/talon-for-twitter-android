@@ -2,30 +2,19 @@ package com.klinker.android.twitter.settings.configure_pages;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.ListsArrayAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.LoginActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
