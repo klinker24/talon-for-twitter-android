@@ -690,7 +690,7 @@ public class NotificationUtils {
 
         AppSettings settings = AppSettings.getInstance(context);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
+        Intent resultIntent = new Intent(context, RedirectToDrawer.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
         int newFollowers = sharedPrefs.getInt("new_followers", 0);

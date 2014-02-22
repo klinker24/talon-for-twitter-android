@@ -790,6 +790,10 @@ public abstract class DrawerActivity extends Activity {
         e.commit();
 
         DrawerActivity.settings = AppSettings.getInstance(context);
+
+        if (getIntent().getBooleanExtra("open_interactions", false)) {
+            mDrawerLayout.openDrawer(Gravity.END);
+        }
     }
 
     private SearchView searchView;
