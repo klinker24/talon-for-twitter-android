@@ -43,6 +43,8 @@ public class ProfileMentionsFragment extends Fragment {
     public AsyncListView listView;
     public LinearLayout spinner;
 
+    public LayoutInflater inflater;
+
     public String screenName;
 
     public ProfileMentionsFragment(String screenName) {
@@ -62,7 +64,7 @@ public class ProfileMentionsFragment extends Fragment {
         settings = new AppSettings(context);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        inflater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
 
         layout = inflater.inflate(R.layout.list_fragment, null);
 
@@ -88,7 +90,7 @@ public class ProfileMentionsFragment extends Fragment {
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
 
-                if(lastItem == totalItemCount && canRefresh) {
+                if(lastItem == totalItemCount && canRefresh && hasMore) {
                     getMore();
                 }
             }
@@ -114,7 +116,8 @@ public class ProfileMentionsFragment extends Fragment {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
 
-                    query = new Query("to:" + screenName);
+                    query = new Query("@" + screenName + " -RT");
+                    query.sinceId(1);
                     QueryResult result = twitter.search(query);
 
                     tweets.clear();
@@ -140,6 +143,11 @@ public class ProfileMentionsFragment extends Fragment {
                             spinner.setVisibility(View.GONE);
                             canRefresh = true;
 
+                            if (!hasMore) {
+                                View footer = inflater.inflate(R.layout.mentions_footer, null);
+                                listView.addFooterView(footer);
+                                listView.setFooterDividersEnabled(false);
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -149,6 +157,12 @@ public class ProfileMentionsFragment extends Fragment {
                         public void run() {
                             spinner.setVisibility(View.GONE);
                             canRefresh = false;
+
+                            if (!hasMore) {
+                                View footer = inflater.inflate(R.layout.mentions_footer, null);
+                                listView.addFooterView(footer);
+                                listView.setFooterDividersEnabled(false);
+                            }
                         }
                     });
 
@@ -185,6 +199,12 @@ public class ProfileMentionsFragment extends Fragment {
                         public void run() {
                             adapter.notifyDataSetChanged();
                             canRefresh = true;
+
+                            if (!hasMore) {
+                                View footer = inflater.inflate(R.layout.mentions_footer, null);
+                                listView.addFooterView(footer);
+                                listView.setFooterDividersEnabled(false);
+                            }
                         }
                     });
                 } catch (Exception e) {
