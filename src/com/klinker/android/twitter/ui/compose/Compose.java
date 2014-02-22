@@ -97,7 +97,7 @@ public abstract class Compose extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 

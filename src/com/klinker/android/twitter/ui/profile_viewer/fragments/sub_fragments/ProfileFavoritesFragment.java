@@ -60,7 +60,7 @@ public class ProfileFavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         inflater = LayoutInflater.from(context);

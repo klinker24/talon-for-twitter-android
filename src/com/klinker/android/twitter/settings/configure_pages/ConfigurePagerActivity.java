@@ -37,7 +37,7 @@ public class ConfigurePagerActivity extends Activity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);

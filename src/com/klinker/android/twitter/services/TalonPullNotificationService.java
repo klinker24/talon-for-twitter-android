@@ -73,7 +73,7 @@ public class TalonPullNotificationService extends Service {
 
         TalonPullNotificationService.isRunning = true;
 
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 

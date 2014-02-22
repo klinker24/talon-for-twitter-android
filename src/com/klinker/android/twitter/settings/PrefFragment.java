@@ -588,7 +588,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     public void setUpSyncSettings() {
         final Context context = getActivity();
 
-        final AppSettings settings = new AppSettings(context);
+        final AppSettings settings = AppSettings.getInstance(context);
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         final Preference timeline = findPreference("timeline_sync_interval");
@@ -1198,7 +1198,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }
 
         protected Boolean doInBackground(String... urls) {
-            AppSettings settings = new AppSettings(context);
+            AppSettings settings = AppSettings.getInstance(context);
 
             try {
                 int currentAccount = settings.currentAccount;
@@ -1288,7 +1288,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
             try {
 
-                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
+                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 PagableResponseList<User> friendsPaging = twitter.getFriendsList(screenName, -1);

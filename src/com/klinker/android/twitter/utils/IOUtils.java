@@ -220,7 +220,7 @@ public class IOUtils {
 
     public static boolean trimDatabase(Context context, int account) {
         try {
-            AppSettings settings = new AppSettings(context);
+            AppSettings settings = AppSettings.getInstance(context);
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
             InteractionsDataSource interactions = new InteractionsDataSource(context);

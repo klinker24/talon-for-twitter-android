@@ -59,7 +59,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         setUpLayout();
     }

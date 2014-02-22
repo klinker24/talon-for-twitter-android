@@ -68,7 +68,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         this.context = context;
         this.messages = messages;
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
 
         setUpLayout();
@@ -273,7 +273,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
             DMDataSource data = DMDataSource.getInstance(context);
 
             try {
-                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
+                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
 
                 Cursor cursor = data.getConvCursor(name, settings.currentAccount);
 

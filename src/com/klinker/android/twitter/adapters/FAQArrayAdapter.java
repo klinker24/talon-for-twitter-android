@@ -40,7 +40,7 @@ public class FAQArrayAdapter extends ArrayAdapter<User> {
         this.context = context;
         this.text = text;
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
 
     }

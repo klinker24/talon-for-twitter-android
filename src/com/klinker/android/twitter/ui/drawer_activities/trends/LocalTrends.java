@@ -60,7 +60,7 @@ public class LocalTrends extends Fragment implements
         super.onCreateView(inflater, container, savedInstanceState);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         layout = inflater.inflate(R.layout.trends_list_view, null);
 
