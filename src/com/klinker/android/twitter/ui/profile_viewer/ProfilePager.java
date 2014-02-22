@@ -103,6 +103,7 @@ public class ProfilePager extends Activity {
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         ProfilePagerAdapter mPagerAdapter = new ProfilePagerAdapter(getFragmentManager(), context, name, screenName, proPic, tweetId, isRetweet, isMyProfile);
         pager.setAdapter(mPagerAdapter);
+        pager.setOffscreenPageLimit(3);
 
         if (settings.addonTheme) {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
