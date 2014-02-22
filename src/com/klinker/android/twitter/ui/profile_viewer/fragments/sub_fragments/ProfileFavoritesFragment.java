@@ -170,8 +170,6 @@ public class ProfileFavoritesFragment extends Fragment {
 
                     ResponseList<Status> result = twitter.getFavorites(screenName, paging);
 
-                    tweets.clear();
-
                     for (twitter4j.Status status : result) {
                         tweets.add(status);
                     }
