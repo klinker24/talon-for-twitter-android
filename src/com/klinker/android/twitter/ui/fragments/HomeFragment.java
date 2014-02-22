@@ -460,7 +460,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         toMentionsListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.mViewPager.setCurrentItem(DrawerActivity.settings.extraPages ? 3 : 1, true);
+                int page1Type = sharedPrefs.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
+                int page2Type = sharedPrefs.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
+
+                int extraPages = 0;
+                if (page1Type != AppSettings.PAGE_TYPE_NONE) {
+                    extraPages++;
+                }
+
+                if (page2Type != AppSettings.PAGE_TYPE_NONE) {
+                    extraPages++;
+                }
+
+                MainActivity.mViewPager.setCurrentItem(1 + extraPages, true);
                 hideToastBar(400);
             }
         };
