@@ -19,10 +19,9 @@ import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
-import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout;
 
 public class InteractionClickListener implements AdapterView.OnItemClickListener {
 

@@ -71,7 +71,7 @@
                   android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.widgets.PhotoViewerDialog"
+        <activity android:name=".manipulations.PhotoViewerDialog"
                     android:configChanges="orientation|screenSize"
                     android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
@@ -410,7 +410,7 @@
             </intent-filter>
         </receiver>
 
-        <provider android:name="com.klinker.android.twitter.manipulations.MySuggestionsProvider"
+        <provider android:name=".utils.MySuggestionsProvider"
             android:authorities="com.klinker.android.MySuggestionsProvider" />
 
         <!-- Widget -->

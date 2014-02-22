@@ -1,8 +1,6 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -14,19 +12,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.FavoriteUsersCursorAdapter;
-import com.klinker.android.twitter.adapters.PeopleCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

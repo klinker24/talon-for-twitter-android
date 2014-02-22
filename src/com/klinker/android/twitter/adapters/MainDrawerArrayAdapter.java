@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 import java.util.ArrayList;
 

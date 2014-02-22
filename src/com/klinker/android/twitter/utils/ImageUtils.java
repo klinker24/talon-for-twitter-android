@@ -1,8 +1,6 @@
 package com.klinker.android.twitter.utils;
 
-import android.app.ActivityManager;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -23,8 +20,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.manipulations.SDK11;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

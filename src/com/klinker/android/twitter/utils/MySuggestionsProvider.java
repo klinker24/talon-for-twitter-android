@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.manipulations;
+package com.klinker.android.twitter.utils;
 
 import android.content.SearchRecentSuggestionsProvider;
 

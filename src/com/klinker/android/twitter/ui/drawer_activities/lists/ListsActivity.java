@@ -22,7 +22,7 @@ import com.klinker.android.twitter.adapters.ListsArrayAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -32,7 +32,6 @@ import java.util.Comparator;
 
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
-import twitter4j.User;
 import twitter4j.UserList;
 
 public class ListsActivity extends DrawerActivity {

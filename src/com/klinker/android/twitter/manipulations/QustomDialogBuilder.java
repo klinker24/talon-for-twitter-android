@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.widgets;
+package com.klinker.android.twitter.manipulations;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.SearchedPeopleCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 
 public class QustomDialogBuilder extends AlertDialog.Builder{
 

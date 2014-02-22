@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.ui.widgets;
+package com.klinker.android.twitter.manipulations;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -43,6 +43,7 @@ import com.klinker.android.twitter.adapters.emoji.ThingsEmojiAdapter;
 import com.klinker.android.twitter.adapters.emoji.TransEmojiAdapter;
 import com.klinker.android.twitter.data.sq_lite.EmojiDataSource;
 import com.klinker.android.twitter.data.sq_lite.Recent;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.EmojiUtils;
 
 import java.util.ArrayList;

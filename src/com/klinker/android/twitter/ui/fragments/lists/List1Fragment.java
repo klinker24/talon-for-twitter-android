@@ -2,16 +2,11 @@ package com.klinker.android.twitter.ui.fragments.lists;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Fragment;
-import android.app.LoaderManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -43,21 +38,18 @@ import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterStream;
 import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;

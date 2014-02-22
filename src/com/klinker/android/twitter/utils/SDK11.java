@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.manipulations;
+package com.klinker.android.twitter.utils;
 
 import android.annotation.TargetApi;
 import android.os.AsyncTask;

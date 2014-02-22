@@ -39,7 +39,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
-        <com.klinker.android.twitter.ui.widgets.HoloEditText
+        <com.klinker.android.twitter.manipulations.widgets.HoloEditText
             android:id="@+id/tweet_content"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.klinker.android.twitter.ui.widgets.HoloTextView
+            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                 android:id="@+id/char_remaining"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"

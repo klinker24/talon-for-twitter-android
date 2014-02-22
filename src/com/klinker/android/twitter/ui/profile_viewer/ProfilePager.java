@@ -40,7 +40,7 @@ import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 

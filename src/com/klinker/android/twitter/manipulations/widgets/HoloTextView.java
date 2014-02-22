@@ -14,39 +14,28 @@
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.ui.widgets;
+package com.klinker.android.twitter.manipulations.widgets;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.widget.EditText;
+import android.widget.TextView;
 
-public class HoloEditText extends EditText {
+public class HoloTextView extends TextView {
 
-    private static SharedPreferences sharedPreferences;
-
-    public HoloEditText(Context context) {
+    public HoloTextView(Context context) {
         super(context);
-        setUp(context);
+        setTypeface(context);
     }
 
-    public HoloEditText(Context context, AttributeSet attrs) {
+    public HoloTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setUp(context);
+        setTypeface(context);
     }
 
-    public HoloEditText(Context context, AttributeSet attrs, int defStyle) {
+    public HoloTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setUp(context);
-    }
-
-    private void setUp(Context context) {
-        if (sharedPreferences == null) {
-            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        }
-
         setTypeface(context);
     }
 
