@@ -47,6 +47,7 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
@@ -113,6 +114,40 @@ public class TweetFragment extends Fragment {
 
     private boolean addonTheme;
 
+    private TextView charRemaining;
+
+    String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
+    final Pattern p = Pattern.compile(regex);
+
+    private Handler countHandler;
+    private Runnable getCount = new Runnable() {
+        @Override
+        public void run() {
+            String text = reply.getText().toString();
+
+            if (!text.contains("http")) { // no links, normal tweet
+                try {
+                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
+                } catch (Exception e) {
+                    charRemaining.setText("0");
+                }
+            } else {
+                int count = text.length();
+                Matcher m = p.matcher(text);
+                while(m.find()) {
+                    String url = m.group();
+                    count -= url.length(); // take out the length of the url
+                    count += 22; // add 22 for the shortened url
+                }
+
+                if (!attachedUri.equals("")) {
+                    count += 22;
+                }
+
+                charRemaining.setText(140 - count + "");
+            }
+        }
+    };
 
     public TweetFragment(AppSettings settings, String name, String screenName, String tweet, long time, String retweeter, String webpage,
                          String proPic, long tweetId, boolean picture, String[] users, String[] hashtags, String[] links,
@@ -162,6 +197,8 @@ public class TweetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        countHandler = new Handler();
 
         layout = inflater.inflate(R.layout.tweet_fragment, null);
         addonTheme = false;
@@ -219,7 +256,6 @@ public class TweetFragment extends Fragment {
         final TextView retweetCount;
         final ImageButton overflow;
         final LinearLayout buttons;
-        final TextView charRemaining;
 
         if (!addonTheme) {
             nametv = (TextView) layout.findViewById(R.id.name);
@@ -749,8 +785,6 @@ public class TweetFragment extends Fragment {
         charRemaining.setText(140 - reply.getText().length() + "");
 
         reply.setHint(context.getResources().getString(R.string.reply));
-        String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-        final Pattern p = Pattern.compile(regex);
         reply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -764,29 +798,8 @@ public class TweetFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String text = reply.getText().toString();
-
-                if (!text.contains("http")) { // no links, normal tweet
-                    try {
-                        charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
-                    } catch (Exception e) {
-                        charRemaining.setText("0");
-                    }
-                } else {
-                    int count = text.length();
-                    Matcher m = p.matcher(text);
-                    while(m.find()) {
-                        String url = m.group();
-                        count -= url.length(); // take out the length of the url
-                        count += 22; // add 22 for the shortened url
-                    }
-
-                    if (!attachedUri.equals("")) {
-                        count += 22;
-                    }
-
-                    charRemaining.setText(140 - count + "");
-                }
+                countHandler.removeCallbacks(getCount);
+                countHandler.postDelayed(getCount, 300);
             }
         });
 

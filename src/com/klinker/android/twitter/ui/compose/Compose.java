@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
@@ -89,9 +90,44 @@ public abstract class Compose extends Activity implements
 
     public int currentAccount;
 
+    String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
+    final Pattern p = Pattern.compile(regex);
+
+    public Handler countHandler;
+    public Runnable getCount = new Runnable() {
+        @Override
+        public void run() {
+            String text = reply.getText().toString();
+
+            if (!text.contains("http")) { // no links, normal tweet
+                try {
+                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
+                } catch (Exception e) {
+                    charRemaining.setText("0");
+                }
+            } else {
+                int count = text.length();
+                Matcher m = p.matcher(text);
+                while(m.find()) {
+                    String url = m.group();
+                    count -= url.length(); // take out the length of the url
+                    count += 22; // add 22 for the shortened url
+                }
+
+                if (!attachedUri.equals("")) {
+                    count += 22;
+                }
+
+                charRemaining.setText(140 - count + "");
+            }
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        countHandler = new Handler();
 
         settings = AppSettings.getInstance(this);
         context = this;
@@ -218,8 +254,7 @@ public abstract class Compose extends Activity implements
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
         charRemaining.setText(140 - reply.getText().length() + "");
-        String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-        final Pattern p = Pattern.compile(regex);
+
         reply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -233,29 +268,8 @@ public abstract class Compose extends Activity implements
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String text = reply.getText().toString();
-
-                if (!text.contains("http")) { // no links, normal tweet
-                    try {
-                        charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
-                    } catch (Exception e) {
-                        charRemaining.setText("0");
-                    }
-                } else {
-                    int count = text.length();
-                    Matcher m = p.matcher(text);
-                    while(m.find()) {
-                        String url = m.group();
-                        count -= url.length(); // take out the length of the url
-                        count += 22; // add 22 for the shortened url
-                    }
-
-                    if (!attachedUri.equals("")) {
-                        count += 22;
-                    }
-
-                    charRemaining.setText(140 - count + "");
-                }
+                countHandler.removeCallbacks(getCount);
+                countHandler.postDelayed(getCount, 300);
             }
         });
 
