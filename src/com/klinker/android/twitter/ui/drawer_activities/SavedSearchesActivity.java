@@ -48,7 +48,7 @@ public class SavedSearchesActivity extends DrawerActivity {
 
         setUpTheme();
         setContentView(R.layout.twitter_lists_page);
-        setUpDrawer(4, getResources().getString(R.string.saved_searches));
+        setUpDrawer(8, getResources().getString(R.string.saved_searches));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.saved_searches));
@@ -106,6 +106,8 @@ public class SavedSearchesActivity extends DrawerActivity {
                     });
 
                     final ArrayList<String> searchNames = new ArrayList<String>();
+
+                    Log.v("talon_searches", "got saved searches");
 
                     for (SavedSearch sear : searches) {
                         Log.v("talon_searches", sear.getName());
