@@ -95,6 +95,11 @@ public class MainActivity extends DrawerActivity {
             mViewPager.setCurrentItem(page);
         }
 
+        if (getIntent().getBooleanExtra("open_interactions", false)) {
+            Log.v("talon_interactions", "should open the drawer");
+            mDrawerLayout.openDrawer(Gravity.END);
+        }
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
             }
