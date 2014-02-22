@@ -51,7 +51,8 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
-import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
 import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
@@ -374,7 +375,7 @@ public class TweetFragment extends Fragment {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfileFragment.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenName);
                 viewProfile.putExtra("proPic", proPic);
@@ -505,7 +506,7 @@ public class TweetFragment extends Fragment {
                                         }
                                     }
                                 } else if (touched.contains("@")) { //username
-                                    Intent user = new Intent(context, ProfileFragment.class);
+                                    Intent user = new Intent(context, ProfilePager.class);
                                     user.putExtra("screenname", touched.replace("@", ""));
                                     user.putExtra("proPic", "");
                                     context.startActivity(user);
@@ -539,7 +540,7 @@ public class TweetFragment extends Fragment {
                                 }
                             }
                         } else if (touched.contains("@")) { //username
-                            Intent user = new Intent(context, ProfileFragment.class);
+                            Intent user = new Intent(context, ProfilePager.class);
                             user.putExtra("screenname", touched.replace("@", ""));
                             user.putExtra("proPic", "");
                             context.startActivity(user);

@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -47,7 +48,7 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
         holder.picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfileFragment.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", user.getName());
                 viewProfile.putExtra("screenname", user.getScreenName());
                 viewProfile.putExtra("proPic", user.getBiggerProfileImageURL());

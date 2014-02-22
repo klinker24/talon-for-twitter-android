@@ -5,11 +5,9 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
-import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.sub_fragments.ProfileFavoritesFragment;
 
-/**
- * Created by luke on 2/21/14.
- */
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
     private Context context;
     private String name;
@@ -35,13 +33,16 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 ProfileFragment profile = new ProfileFragment(name, screenName, proPic, tweetId, isRetweet, isMyProfile);
                 return profile;
+            case 1:
+                ProfileFavoritesFragment favs = new ProfileFavoritesFragment(screenName);
+                return favs;
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -49,6 +50,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return "Profile";
+            case 1:
+                return "Favorites";
         }
         return null;
     }
