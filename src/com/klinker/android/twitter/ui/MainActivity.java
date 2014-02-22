@@ -88,18 +88,6 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
 
-        if (getIntent().getBooleanExtra("from_drawer", false)) {
-            int page = getIntent().getIntExtra("page_to_open", 0);
-            String title = "" + mSectionsPagerAdapter.getPageTitle(page);
-            actionBar.setTitle(title);
-            mViewPager.setCurrentItem(page);
-        }
-
-        if (getIntent().getBooleanExtra("open_interactions", false)) {
-            Log.v("talon_interactions", "should open the drawer");
-            mDrawerLayout.openDrawer(Gravity.END);
-        }
-
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
             }
@@ -223,6 +211,23 @@ public class MainActivity extends DrawerActivity {
         overridePendingTransition(0, 0);
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         startActivity(restart);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (getIntent().getBooleanExtra("from_drawer", false)) {
+            int page = getIntent().getIntExtra("page_to_open", 0);
+            String title = "" + mSectionsPagerAdapter.getPageTitle(page);
+            actionBar.setTitle(title);
+            mViewPager.setCurrentItem(page);
+        }
+
+        if (getIntent().getBooleanExtra("open_interactions", false)) {
+            Log.v("talon_interactions", "should open the drawer");
+            mDrawerLayout.openDrawer(Gravity.END);
+        }
     }
 
     @Override
