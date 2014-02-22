@@ -110,6 +110,13 @@
             android:theme="@style/Theme.TalonDark" >
         </activity>
 
+        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.SavedSearchesActivity"
+            android:label="@string/saved_searches"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.TalonDark" >
+        </activity>
+
         <activity android:name="com.klinker.android.twitter.ui.drawer_activities.lists.ChoosenListActivity"
             android:label="@string/lists"
             android:configChanges="orientation|screenSize"

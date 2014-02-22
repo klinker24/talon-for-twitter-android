@@ -21,6 +21,7 @@ import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.twitter.ui.drawer_activities.FavoritesActivity;
 import com.klinker.android.twitter.ui.drawer_activities.RetweetActivity;
+import com.klinker.android.twitter.ui.drawer_activities.SavedSearchesActivity;
 import com.klinker.android.twitter.ui.drawer_activities.Search;
 import com.klinker.android.twitter.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter.ui.drawer_activities.trends.TrendsPager;
@@ -143,7 +144,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                             intent = new Intent(context, FavoritesActivity.class);
                             break;
                         case 8:
-                            intent = new Intent(context, Search.class);
+                            intent = new Intent(context, SavedSearchesActivity.class);
                             break;
                     }
 
