@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.utils;
+package com.klinker.android.twitter.utils.redirects;
 
 import android.app.Activity;
 import android.content.Intent;

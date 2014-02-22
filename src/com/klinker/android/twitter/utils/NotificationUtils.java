@@ -30,6 +30,11 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.NotificationCompose;
+import com.klinker.android.twitter.utils.redirects.RedirectToDMs;
+import com.klinker.android.twitter.utils.redirects.RedirectToDrawer;
+import com.klinker.android.twitter.utils.redirects.RedirectToMentions;
+import com.klinker.android.twitter.utils.redirects.RedirectToPopup;
+import com.klinker.android.twitter.utils.redirects.SwitchAccountsRedirect;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
