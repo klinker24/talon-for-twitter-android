@@ -30,4 +30,3 @@
     -- RTL support
     -- new widget stuff
     -- saved searches on drawer
-    - make sure retweeters are only mentioned once on replies

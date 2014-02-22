@@ -730,7 +730,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
 
             try {
-                if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                if (holder.retweeter.getVisibility() == View.VISIBLE && !extraNames.contains(holder.retweeterName)) {
                     extraNames += "@" + holder.retweeterName + " ";
                 }
             } catch (NullPointerException e) {
