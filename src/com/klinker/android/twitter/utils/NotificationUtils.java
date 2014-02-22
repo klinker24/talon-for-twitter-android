@@ -96,8 +96,17 @@ public class NotificationUtils {
             boolean useExpanded = useExp(context);
             boolean addButton = addBtn(unreadCounts);
 
-            Intent resultIntent = new Intent(context, MainActivity.class);
-            resultIntent.putExtra("from_notification", true);
+            Intent resultIntent;
+
+            if (unreadCounts[1] != 0 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
+                // it is a mention notification
+                resultIntent = new Intent(context, RedirectToMentions.class);
+            } else if (unreadCounts[2] != 0 && unreadCounts[0] == 0 && unreadCounts[1] == 0) {
+                // it is a direct message
+                resultIntent = new Intent(context, RedirectToDMs.class);
+            } else {
+                resultIntent = new Intent(context, MainActivity.class);
+            }
 
             PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
