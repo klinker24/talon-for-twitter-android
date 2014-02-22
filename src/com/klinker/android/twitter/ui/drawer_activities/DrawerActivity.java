@@ -45,7 +45,7 @@ import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
@@ -274,7 +274,7 @@ public abstract class DrawerActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfileFragment.class);
+                        Intent viewProfile = new Intent(context, ProfilePager.class);
                         viewProfile.putExtra("name", sName);
                         viewProfile.putExtra("screenname", sScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
@@ -301,7 +301,7 @@ public abstract class DrawerActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfileFragment.class);
+                        Intent viewProfile = new Intent(context, ProfilePager.class);
                         viewProfile.putExtra("name", sName);
                         viewProfile.putExtra("screenname", sScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);

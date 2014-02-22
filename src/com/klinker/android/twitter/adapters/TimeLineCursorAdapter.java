@@ -41,7 +41,6 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
-import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;

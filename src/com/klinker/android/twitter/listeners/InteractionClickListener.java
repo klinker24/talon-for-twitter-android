@@ -18,7 +18,8 @@ import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
@@ -131,7 +132,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                 public void onClick(DialogInterface dialog, int item) {
                     String touched = fItems[item];
 
-                    Intent user = new Intent(context, ProfileFragment.class);
+                    Intent user = new Intent(context, ProfilePager.class);
                     user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
                     user.putExtra("proPic", "");
                     context.startActivity(user);
@@ -152,7 +153,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
 
-            Intent user = new Intent(context, ProfileFragment.class);
+            Intent user = new Intent(context, ProfilePager.class);
             user.putExtra("screenname", username);
             user.putExtra("proPic", "");
             context.startActivity(user);
@@ -166,7 +167,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
 
-            Intent user = new Intent(context, ProfileFragment.class);
+            Intent user = new Intent(context, ProfilePager.class);
             user.putExtra("screenname", username);
             user.putExtra("proPic", "");
             context.startActivity(user);

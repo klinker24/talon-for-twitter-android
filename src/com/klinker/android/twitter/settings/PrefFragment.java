@@ -50,7 +50,8 @@ import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.configure_pages.ConfigurePagerActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.profile_viewer.ProfileFragment;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
@@ -186,7 +187,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         public void onClick(DialogInterface dialog, int item) {
                             String touched = users[item];
 
-                            Intent user = new Intent(context, ProfileFragment.class);
+                            Intent user = new Intent(context, ProfilePager.class);
                             user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
                             user.putExtra("proPic", "");
                             context.startActivity(user);
@@ -1457,7 +1458,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         followTalon.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent profile = new Intent(getActivity(), ProfileFragment.class);
+                Intent profile = new Intent(getActivity(), ProfilePager.class);
                 profile.putExtra("screenname", "TalonAndroid");
                 profile.putExtra("proPic", "");
                 startActivity(profile);

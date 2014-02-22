@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.profile_viewer;
+package com.klinker.android.twitter.ui.profile_viewer.fragments;
 
 import android.app.ActionBar;
 import android.app.Activity;
