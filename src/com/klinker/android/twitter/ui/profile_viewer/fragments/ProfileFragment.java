@@ -271,6 +271,7 @@ public class ProfileFragment extends Fragment {
                     currentFollowing = -1;
                     currentFollowers = -1;
                     refreshes = 0;
+                    hasMore = true;
 
                     listView.setItemManager(builder.build());
                     listView.setAdapter(timelineAdapter);
@@ -287,6 +288,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if (current != BTN_FOLLOWERS) {
                     current = BTN_FOLLOWERS;
+                    hasMore = true;
 
                     listView.setItemManager(null);
                     listView.setAdapter(followersAdapter);
@@ -303,6 +305,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if (current != BTN_FOLLOWING) {
                     current = BTN_FOLLOWING;
+                    hasMore = true;
 
                     listView.setItemManager(null);
                     listView.setAdapter(new PeopleArrayAdapter(context, following));
@@ -349,7 +352,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
-                if(lastItem == totalItemCount) {
+                if(lastItem == totalItemCount && hasMore) {
                     // Last item is fully visible.
                     if (current == BTN_FOLLOWING && canRefresh) {
                         getFollowing(thisUser, listView);
@@ -378,6 +381,8 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+    public boolean hasMore = true;
 
     public void getURL(final TextView statement, final User user) {
         new Thread(new Runnable() {
@@ -568,6 +573,12 @@ public class ProfileFragment extends Fragment {
                         followers.add(friendsPaging.get(i));
                     }
 
+                    if (friendsPaging.size() > 17) {
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
+                    }
+
                     currentFollowers = friendsPaging.getNextCursor();
 
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -623,6 +634,12 @@ public class ProfileFragment extends Fragment {
                     for (int i = 0; i < friendsPaging.size(); i++) {
                         following.add(friendsPaging.get(i));
                         Log.v("friends_list", friendsPaging.get(i).getName());
+                    }
+
+                    if (friendsPaging.size() > 17) {
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
                     }
 
                     currentFollowing = friendsPaging.getNextCursor();
@@ -683,6 +700,12 @@ public class ProfileFragment extends Fragment {
 
                     for (twitter4j.Status s : statuses) {
                         timelineStatuses.add(s);
+                    }
+
+                    if (statuses.size() > 17) {
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
                     }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
