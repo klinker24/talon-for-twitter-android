@@ -27,7 +27,6 @@
     -- theme the action bar
     -- put the retweeter button onto the theme example
     -- try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
-    -- RTL support
     -- new widget stuff
     -- add some text to the drawer activities if they don't have anything on them
     -- update all the translation stuff and make sure the profiles error, currently in beta are on them
