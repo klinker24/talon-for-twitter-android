@@ -18,11 +18,11 @@ public class RedirectToDrawer extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent mentions = new Intent(this, MainActivity.class);
-        mentions.putExtra("open_interactions", true);
+        Intent drawer = new Intent(this, MainActivity.class);
+        drawer.putExtra("open_interactions", true);
 
         finish();
 
-        startActivity(mentions);
+        startActivity(drawer);
     }
 }

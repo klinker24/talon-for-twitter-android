@@ -34,11 +34,11 @@ public class RedirectToDMs extends Activity {
             extraPages++;
         }
 
-        Intent mentions = new Intent(this, MainActivity.class);
-        mentions.putExtra("page_to_open", 2 + extraPages);
+        Intent dm = new Intent(this, MainActivity.class);
+        dm.putExtra("page_to_open", 2 + extraPages);
 
         finish();
 
-        startActivity(mentions);
+        startActivity(dm);
     }
 }
