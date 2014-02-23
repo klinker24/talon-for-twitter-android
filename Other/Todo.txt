@@ -29,5 +29,6 @@
     -- try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
     -- new widget stuff
     -- add some text to the drawer activities if they don't have anything on them
-    -- update all the translation stuff and make sure the profiles error, currently in beta are on them
-    -- delayed handler on the compose activity to check the size of the tweet instead of constantly doing it
+    -- save the searches
+    -- pebble again
+    -- switch to jacobs theme selector

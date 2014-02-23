@@ -505,4 +505,8 @@
     <string name="no_tweets">No Tweets</string>
     <string name="only_7_days">Only 7 days available</string>
     <string name="saved_searches">Saved Searches</string>
+    <string name="error_check_network">Error loading profile. Check your network connection.</string>
+    <string name="error_loading_timeline">Couldn\'t load timeline! Try checking your data connection.</string>
+    <string name="currently_in_beta">Currently in BETA.</string>
+    <string name="changed_screenname">You changed your username before Talon could save your ID! You will have to log out and back in once to make the correct changes!</string>
 </resources>

@@ -309,7 +309,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         });
 
         Preference download = findPreference("download_portal");
-        download.setSummary(context.getResources().getString(R.string.download_portal_summary) + "\n\nCurrently in BETA.");
+        download.setSummary(context.getResources().getString(R.string.download_portal_summary) + "\n\n" + context.getResources().getString(R.string.currently_in_beta));
         download.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
