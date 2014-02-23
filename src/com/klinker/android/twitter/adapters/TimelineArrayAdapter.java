@@ -41,6 +41,7 @@ import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -530,7 +531,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
 
-        if (tweetText.contains("<font")) {
+        /*if (tweetText.contains("<font")) {
             if (settings.addonTheme) {
                 holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
             } else {
@@ -538,7 +539,20 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         } else {
             holder.tweet.setText(tweetText);
-        }
+        }*/
+        holder.tweet.setText(tweetText);
+        emojiHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (id == holder.tweetId) {
+                    if (settings.addonTheme) {
+                        holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
+                    } else {
+                        holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
+                    }
+                }
+            }
+        }, 500);
 
         if(settings.inlinePics) {
             if (holder.picUrl.equals("")) {

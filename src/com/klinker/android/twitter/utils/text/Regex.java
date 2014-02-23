@@ -149,10 +149,10 @@ class Regex {
                     + "([0-9][0-9\\- \\.][0-9\\- \\.]+[0-9])"); // <digit><digit|sdd>+<digit>
 
     public static final Pattern HASHTAG_PATTERN
-            = Pattern.compile("(?:\\s|\\A)[##]+([A-Za-z0-9-_]+)");
+            = Pattern.compile("#([A-Za-z0-9_-]+)");
 
     public static final Pattern MENTION_PATTERN
-            = Pattern.compile("(?:\\s|\\A)[@@]+([A-Za-z0-9-_]+)");
+            = Pattern.compile("@([A-Za-z0-9_-]+)");
 
     /**
      * Convenience method to take all of the non-null matching groups in a

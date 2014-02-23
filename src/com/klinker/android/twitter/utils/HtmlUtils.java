@@ -101,7 +101,7 @@ public class HtmlUtils {
 
         String tweetTexts = status.getText();
 
-        if (users.length > 0) {
+        /*if (users.length > 0) {
             for (String s : sUsers) {
                 if (s.length() > 1) {
                     if (tweetTexts.contains(s)) {
@@ -123,7 +123,7 @@ public class HtmlUtils {
                     }
                 }
             }
-        }
+        }*/
 
         String imageUrl = "";
         String otherUrl = "";
@@ -134,9 +134,9 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp);
                 }
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.insta")) {
                     imageUrl = exp + "media/?size=m";
@@ -200,9 +200,9 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp);
                 }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
                 //otherUrl += exp;
@@ -302,7 +302,7 @@ public class HtmlUtils {
 
         String tweetTexts = status.getText();
 
-        if (users.length > 0) {
+        /*if (users.length > 0) {
             for (String s : sUsers) {
                 if (s.length() > 1) {
                     if (tweetTexts.contains(s)) {
@@ -324,7 +324,7 @@ public class HtmlUtils {
                     }
                 }
             }
-        }
+        }*/
 
         String imageUrl = "";
         String otherUrl = "";
@@ -335,9 +335,9 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp);
                 }
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.instag")) {
                     imageUrl = exp + "media/?size=m";
@@ -388,9 +388,9 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp.substring(0, 20) + "..." + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, "<font color='#FF8800'>" + exp + "</font>");
+                    tweetTexts = tweetTexts.replace(comp, exp);
                 }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
             }

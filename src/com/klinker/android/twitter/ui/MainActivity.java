@@ -75,6 +75,12 @@ public class MainActivity extends DrawerActivity {
             startActivity(login);
         }
 
+        sharedPrefs.edit().putBoolean("setup_v_two", false).commit();
+        if (!sharedPrefs.getBoolean("setup_v_two", false)) {
+            Intent setupV2 = new Intent(context, Version2Setup.class);
+            startActivity(setupV2);
+        }
+
         mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
