@@ -25,14 +25,9 @@ import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.utils.HtmlUtils;
-import com.klinker.android.twitter.utils.NotificationUtils;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
+import com.klinker.android.twitter.ui.setup.TutorialActivity;
+import com.klinker.android.twitter.ui.setup.Version2Setup;
 
 public class MainActivity extends DrawerActivity {
 

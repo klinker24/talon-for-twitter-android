@@ -34,6 +34,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -415,10 +416,7 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void run() {
                             statement.append("\n" + fUrl);
-
-                            if (!settings.addonTheme) {
-                                linkifyText(statement);
-                            }
+                            TextUtils.linkifyText(context, statement, null, true);
                         }
                     });
                 }

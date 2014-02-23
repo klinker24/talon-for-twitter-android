@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

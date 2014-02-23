@@ -33,6 +33,7 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;

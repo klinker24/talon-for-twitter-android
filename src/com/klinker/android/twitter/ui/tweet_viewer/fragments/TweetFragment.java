@@ -65,6 +65,7 @@ import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -459,135 +460,13 @@ public class TweetFragment extends Fragment {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        if (settings.addonTheme) {
-            tweettv.setText(Html.fromHtml(tweet.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
-        } else {
-            tweettv.setText(Html.fromHtml(tweet.replaceAll("\n", "<br/>")));
-        }
+        tweettv.setText(restoreLinks(tweet));
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
                 final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet.replaceAll("\n", "<br/>")));
                 tweettv.setText(span);
             }
-        }
-
-        // sets the click listener to display the dialog for the highlighted text
-        if (tweet.contains("<font")) {
-            tweettv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    ArrayList<String> strings = new ArrayList<String>();
-
-                    if (users != null) {
-                        for (String s : users) {
-                            if (!s.equals("")) {
-                                strings.add("@" + s);
-                            }
-                        }
-                    }
-
-                    if (hashtags != null) {
-                        for (String s : hashtags) {
-                            if (!s.equals("")) {
-                                strings.add("#" + s);
-                            }
-                        }
-                    }
-
-                    if (otherLinks != null) {
-                        for (String s : otherLinks) {
-                            if (!s.equals("")) {
-                                strings.add(s);
-                            }
-                        }
-                    }
-
-                    if (!webpage.equals("") && !webpage.contains("youtu") && !webpage.contains("insta") && picture) {
-                        strings.add(webpage);
-                    }
-
-                    CharSequence[] items = new CharSequence[strings.size()];
-
-                    for (int i = 0; i < items.length; i++) {
-                        String s = strings.get(i);
-                        if (s != null) {
-                            items[i] = s;
-                        }
-                    }
-
-                    final CharSequence[] fItems = items;
-
-                    if (fItems.length > 1) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setItems(items, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
-                                String touched = fItems[item] + "";
-
-                                if (touched.contains("http")) { //weblink
-                                    sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                                    if (touched.contains("play.google.com")) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(touched)));
-                                    } else {
-                                        if (settings.inAppBrowser) {
-                                            Intent launchBrowser = new Intent(context, BrowserActivity.class);
-                                            launchBrowser.putExtra("url", touched);
-                                            startActivity(launchBrowser);
-                                        } else {
-                                            Uri weburi = Uri.parse(touched);
-                                            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                                            startActivity(launchBrowser);
-                                        }
-                                    }
-                                } else if (touched.contains("@")) { //username
-                                    Intent user = new Intent(context, ProfilePager.class);
-                                    user.putExtra("screenname", touched.replace("@", ""));
-                                    user.putExtra("proPic", "");
-                                    context.startActivity(user);
-                                } else { // hashtag
-                                    Intent search = new Intent(context, SearchedTrendsActivity.class);
-                                    search.setAction(Intent.ACTION_SEARCH);
-                                    search.putExtra(SearchManager.QUERY, touched);
-                                    context.startActivity(search);
-                                }
-
-                                dialog.dismiss();
-                            }
-                        });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    } else {
-                        String touched = fItems[0] + "";
-
-                        if (touched.contains("http")) { //weblink
-                            if (touched.contains("play.google.com")) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(touched)));
-                            } else {
-                                if (settings.inAppBrowser) {
-                                    Intent launchBrowser = new Intent(context, BrowserActivity.class);
-                                    launchBrowser.putExtra("url", touched);
-                                    startActivity(launchBrowser);
-                                } else {
-                                    Uri weburi = Uri.parse(touched);
-                                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                                    startActivity(launchBrowser);
-                                }
-                            }
-                        } else if (touched.contains("@")) { //username
-                            Intent user = new Intent(context, ProfilePager.class);
-                            user.putExtra("screenname", touched.replace("@", ""));
-                            user.putExtra("proPic", "");
-                            context.startActivity(user);
-                        } else { // hashtag
-                            Intent search = new Intent(context, SearchedTrendsActivity.class);
-                            search.setAction(Intent.ACTION_SEARCH);
-                            search.putExtra(SearchManager.QUERY, touched);
-                            context.startActivity(search);
-                        }
-                    }
-                }
-            });
         }
 
         //Date tweetDate = new Date(time);
@@ -894,6 +773,9 @@ public class TweetFragment extends Fragment {
                 overflow.performClick();
             }
         });
+
+        TextUtils.linkifyText(context, retweetertv, null, true);
+        TextUtils.linkifyText(context, tweettv, null, true);
 
     }
 

@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui;
+package com.klinker.android.twitter.ui.setup;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -38,6 +38,7 @@ import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
 import com.klinker.android.twitter.ui.fragments.MentionsFragment;

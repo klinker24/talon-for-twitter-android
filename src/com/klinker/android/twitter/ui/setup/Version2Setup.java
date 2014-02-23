@@ -1,8 +1,6 @@
-package com.klinker.android.twitter.ui;
+package com.klinker.android.twitter.ui.setup;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,18 +9,14 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.klinker.android.twitter.R;
@@ -34,25 +28,11 @@ import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsSQLiteHelper;
-import com.klinker.android.twitter.services.DirectMessageRefreshService;
-import com.klinker.android.twitter.services.MentionsRefreshService;
-import com.klinker.android.twitter.services.TimelineRefreshService;
-import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.fragments.DMFragment;
-import com.klinker.android.twitter.ui.fragments.HomeFragment;
-import com.klinker.android.twitter.ui.fragments.MentionsFragment;
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
-
-import java.util.Date;
-
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.RequestToken;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Created by luke on 2/22/14.
