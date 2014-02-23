@@ -25,6 +25,7 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
@@ -46,6 +47,7 @@ import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
@@ -245,6 +247,28 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
                 compose.putExtra("user", searchQuery + " ");
                 startActivity(compose);
                 return  super.onOptionsItemSelected(item);
+
+            case R.id.menu_save_search:
+                Toast.makeText(context, getString(R.string.saving_search), Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+                            twitter.createSavedSearch(searchQuery);
+
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, getString(R.string.success), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (TwitterException e) {
+                            // something went wrong
+                        }
+                    }
+                }).start();
+                return super.onOptionsItemSelected(item);
 
             case R.id.menu_settings:
                 Intent settings = new Intent(context, SettingsPagerActivity.class);

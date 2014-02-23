@@ -25,6 +25,7 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
@@ -47,6 +48,7 @@ import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -311,6 +313,28 @@ public class Search extends Activity implements OnRefreshListener {
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
+
+            case R.id.menu_save_search:
+                Toast.makeText(context, getString(R.string.saving_search), Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+                            twitter.createSavedSearch(searchQuery);
+
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, getString(R.string.success), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (TwitterException e) {
+                            // something went wrong
+                        }
+                    }
+                }).start();
+                return super.onOptionsItemSelected(item);
 
             case R.id.menu_compose_with_search:
                 Intent compose = new Intent(context, ComposeActivity.class);

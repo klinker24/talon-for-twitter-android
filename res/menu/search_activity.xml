@@ -14,6 +14,11 @@
         android:orderInCategory="2"
         android:showAsAction="never" />
 
+    <item android:title="@string/menu_save_search"
+        android:id="@+id/menu_save_search"
+        android:orderInCategory="3"
+        android:showAsAction="never" />
+
 
     <item android:id="@+id/menu_settings"
         android:orderInCategory="3"
