@@ -171,16 +171,7 @@ public class NotificationUtils {
 
             // Pebble notification
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title[0]);
-                pebbleData.put("body", HtmlUtils.removeColorHtml(shortText, settings));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title[0], shortText);
             }
 
             int homeTweets = unreadCounts[0];
@@ -556,16 +547,7 @@ public class NotificationUtils {
 
             // Pebble notification
             if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? shortText.replaceAll("FF8800", settings.accentColor) : shortText));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title, shortText);
             }
         }
     }
@@ -676,16 +658,7 @@ public class NotificationUtils {
 
             // Pebble notification
             if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title, messageLong);
             }
 
         }
@@ -808,17 +781,25 @@ public class NotificationUtils {
 
             // Pebble notification
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title, text);
             }
         }
+    }
+
+    public static void sendAlertToPebble(Context context, String title, String body) {
+        final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+
+        final Map data = new HashMap();
+        data.put("title", HtmlUtils.removeColorHtml(title, AppSettings.getInstance(context)));
+        data.put("body", HtmlUtils.removeColorHtml(body, AppSettings.getInstance(context)));
+        final JSONObject jsonData = new JSONObject(data);
+        final String notificationData = new JSONArray().put(jsonData).toString();
+
+        i.putExtra("messageType", "PEBBLE_ALERT");
+        i.putExtra("sender", "talon_for_twitter");
+        i.putExtra("notificationData", notificationData);
+
+        Log.v("talon_pebble", "About to send a modal alert to Pebble: " + notificationData);
+        context.sendBroadcast(i);
     }
 }

@@ -26,6 +26,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.NotificationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,19 +46,11 @@ public class MainActivity extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = AppSettings.getInstance(context);
 
-        /*if(sharedPrefs.getBoolean("pebble_notification", false)) {
-            Log.v("talon_pebble", "sending pebble notification");
-            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-            Map pebbleData = new HashMap();
-            pebbleData.put("title", "Test from Talon");
-            pebbleData.put("body", "This is just a test that will run whenever the main activity is created.");
-            JSONObject jsonData = new JSONObject(pebbleData);
-            String notificationData = new JSONArray().put(jsonData).toString();
-            pebble.putExtra("messageType", "PEBBLE_ALERT");
-            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-            pebble.putExtra("notificationData", notificationData);
-            context.sendBroadcast(pebble);
-        }*/
+        if(sharedPrefs.getBoolean("pebble_notification", false)) {
+            NotificationUtils.sendAlertToPebble(context,
+                    "Test from Talon",
+                    "Here is just a test from Talon, it will run every time you recreate the app unless the setting is off");
+        }
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
