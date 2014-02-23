@@ -513,5 +513,6 @@
     <string name="saving_search">Saving Search</string>
     <string name="delete_saved_search">Delete Saved Search</string>
     <string name="deleting_search">Deleting Search</string>
+    <string name="none">None</string>
 
 </resources>
