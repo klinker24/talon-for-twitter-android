@@ -473,7 +473,7 @@ public class ProfileFragment extends Fragment {
                                 ((Activity)context).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(context, "You changed your username before Talon could save your ID! You will have to log out and back in once to make the correct changes!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(context, context.getResources().getString(R.string.changed_screenname) , Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -544,7 +544,7 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "Error loading profile. Check your network connection.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getResources().getString(R.string.error_check_network), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -738,7 +738,7 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "Couldn't load timeline! Try checking your data connection.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } catch (OutOfMemoryError x) {
@@ -746,7 +746,7 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "Couldn't load timeline! Try checking your data connection.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
