@@ -532,7 +532,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.tweet.setText(tweetText);
         }*/
         holder.tweet.setText(HtmlUtils.removeColorHtml(tweetText, settings));
-        TextUtils.linkifyText(context, holder.tweet, holder.background, true);
+        //TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+        emojiHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (id == holder.tweetId) {
+                    holder.tweet.setText(TextUtils.colorText(HtmlUtils.removeColorHtml(tweetText, settings), context.getResources().getColor(R.color.app_color)));
+                }
+            }
+        }, 500);
 
         if(settings.inlinePics && holder.picUrl != null) {
             if (holder.picUrl.equals("")) {
