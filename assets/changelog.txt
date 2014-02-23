@@ -1,4 +1,4 @@
-<b>Version 1.5.0:</b><br/><br/>
+<b>Version 2.0.0:</b><br/><br/>
     &#8226; View users mentions and favorites on their profiles<br/>
     &#8226; View up to 100 retweeters of a status<br/>
     &#8226; Remade the tweet viewer layout<br/>
@@ -7,6 +7,7 @@
     &#8226; Opening notifications will now take you to the correct place<br/>
     &#8226; RTL support for languages that use it<br/>
     &#8226; Save and destroy saved searches<br/>
+    &#8226; Much more efficient and useful highlighting of users, hashtags, and links<br/>
     &#8226; More Tweetmarker fixes<br/>
     &#8226; Better theme selection<br/>
     &#8226; Some optimizations<br/>

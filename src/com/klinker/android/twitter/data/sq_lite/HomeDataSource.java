@@ -555,4 +555,12 @@ public class HomeDataSource {
 
         return pos;
     }
+
+    public void removeHTML(long tweetId, String text) {
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_TEXT, text);
+
+        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+
+    }
 }

@@ -69,6 +69,7 @@ public class TextUtils {
     }
 
     public static Spannable changeText(Spannable original, String target, int colour) {
+        target = target.replaceAll("\"", "");
         String vString = original.toString();
         int startSpan = 0, endSpan = 0;
         Spannable spanRange = original;

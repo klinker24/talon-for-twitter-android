@@ -374,4 +374,12 @@ public class MentionsDataSource {
 
         database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
     }
+
+    public void removeHTML(long tweetId, String text) {
+        ContentValues cv = new ContentValues();
+        cv.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
+
+        database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+
+    }
 }

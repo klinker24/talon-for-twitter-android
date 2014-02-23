@@ -215,6 +215,20 @@ public class ListDataSource {
         return cursor;
     }
 
+    public Cursor getWholeCursor() {
+
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
+            open();
+        }
+
+        Cursor cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                allColumns, null, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor;
+    }
+
     public long[] getLastIds(int listId) {
         long id[] = new long[5];
 
@@ -245,5 +259,13 @@ public class ListDataSource {
         database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +
                 " WHERE _id NOT IN (SELECT MIN(_id) FROM " + ListSQLiteHelper.TABLE_HOME +
                 " GROUP BY " + ListSQLiteHelper.COLUMN_TWEET_ID + ") AND " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + list);
+    }
+
+    public void removeHTML(long tweetId, String text) {
+        ContentValues cv = new ContentValues();
+        cv.put(ListSQLiteHelper.COLUMN_TEXT, text);
+
+        database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+
     }
 }

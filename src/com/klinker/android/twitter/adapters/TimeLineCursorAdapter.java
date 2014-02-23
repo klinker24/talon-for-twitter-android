@@ -531,13 +531,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             holder.tweet.setText(tweetText);
         }*/
-        holder.tweet.setText(HtmlUtils.removeColorHtml(tweetText, settings));
+        holder.tweet.setText(tweetText);
         //TextUtils.linkifyText(context, holder.tweet, holder.background, false);
         emojiHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (id == holder.tweetId) {
-                    holder.tweet.setText(TextUtils.colorText(HtmlUtils.removeColorHtml(tweetText, settings), context.getResources().getColor(R.color.app_color)));
+                    if (settings.addonTheme) {
+                        holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
+                    } else {
+                        holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
+                    }
                 }
             }
         }, 500);
