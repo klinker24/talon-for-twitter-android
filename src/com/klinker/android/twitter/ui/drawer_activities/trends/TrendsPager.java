@@ -11,7 +11,7 @@ import android.view.Window;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TrendsPagerAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 
 /**

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.ui;
+package com.klinker.android.twitter.ui.setup;
 
 import android.app.Activity;
 import android.content.Context;
