@@ -17,11 +17,16 @@
 package com.klinker.android.twitter.utils.text;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextUtils {
 
@@ -39,5 +44,46 @@ public class TextUtils {
         Linkify.addLinks(context, textView, Patterns.WEB_URL, null, filter, textView, holder);
         Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder);
         Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder);
+    }
+
+    public static Spannable colorText(String tweet, int color) {
+        Spannable finish = new SpannableString(tweet);
+
+        Matcher m = Regex.MENTION_PATTERN.matcher(tweet);
+        while (m.find()) {
+            Log.v("talon_text", "Found: " + m.group(0));
+            finish = changeText(finish, m.group(0), color);
+        }
+        m = Regex.HASHTAG_PATTERN.matcher(tweet);
+        while (m.find()) {
+            Log.v("talon_text", "Found: " + m.group(0));
+            finish = changeText(finish, m.group(0), color);
+        }
+        m = Patterns.WEB_URL.matcher(tweet);
+        while (m.find()) {
+            Log.v("talon_text", "Found: " + m.group(0));
+            finish = changeText(finish, m.group(0), color);
+        }
+
+        return finish;
+    }
+
+    public static Spannable changeText(Spannable original, String target, int colour) {
+        String vString = original.toString();
+        int startSpan = 0, endSpan = 0;
+        Spannable spanRange = original;
+
+        while (true) {
+            startSpan = vString.indexOf(target, endSpan);
+            ForegroundColorSpan foreColour = new ForegroundColorSpan(colour);
+            // Need a NEW span object every loop, else it just moves the span
+            if (startSpan < 0)
+                break;
+            endSpan = startSpan + target.length();
+            spanRange.setSpan(foreColour, startSpan, endSpan,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        return spanRange;
     }
 }
