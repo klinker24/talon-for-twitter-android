@@ -55,10 +55,10 @@
         android:title="@string/addon_themes" >
 
 
-        <CheckBoxPreference
+        <Preference
             android:key="addon_themes"
             android:title="@string/use_addon_themes"
-            android:defaultValue="false"
+            android:defaultValue="@null"
             />
 
         <Preference

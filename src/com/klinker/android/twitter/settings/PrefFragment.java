@@ -381,17 +381,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         }
 
-        addonTheme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        addonTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (sharedPrefs.getBoolean("addon_themes", false)) {
-                    sharedPrefs.edit().putBoolean("addon_themes", false).commit();
-                    sharedPrefs.edit().putString("addon_theme_package", null).commit();
-                    addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
-                    new TrimCache(null).execute();
-                    context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                    return true;
-                }
+            public boolean onPreferenceClick(Preference preference) {
 
                 final PackageManager pm = context.getPackageManager();
                 final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
@@ -413,10 +405,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     }
                 }
 
-                final Item[] items = new Item[packages.size()];
+                final Item[] items = new Item[packages.size() + 1];
 
-                for (int i = 0; i < items.length; i++) {
-                    items[i] = new Item(packages.get(i).loadLabel(pm).toString(), pm.getApplicationIcon(packages.get(i)));
+                items[0] = new Item(getString(R.string.none), getResources().getDrawable(R.mipmap.ic_launcher));
+                for (int i = 0; i < packages.size(); i++) {
+                    items[i + 1] = new Item(packages.get(i).loadLabel(pm).toString(), pm.getApplicationIcon(packages.get(i)));
                 }
 
                 ListAdapter adapter = new ArrayAdapter<Item>(
@@ -440,12 +433,28 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        sharedPrefs.edit().putString("addon_theme_package", packages.get(arg1).packageName).commit();
-                        try {
-                            String pack = packages.get(arg1).packageName;
-                            addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
-                        } catch (Exception e) {
-                            sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
+                        if (arg1 == 0) {
+                            sharedPrefs.edit().putBoolean("addon_themes", false).commit();
+                            sharedPrefs.edit().putString("addon_theme_package", null).commit();
+                            addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
+                            layout.setEnabled(true);
+                            theme.setEnabled(true);
+                            nightMode.setEnabled(true);
+                        } else {
+                            arg1 -= 1;
+                            layout.setEnabled(false);
+                            theme.setEnabled(false);
+                            nightMode.setEnabled(false);
+                            sharedPrefs.edit()
+                                    .putString("addon_theme_package", packages.get(arg1).packageName)
+                                    .putBoolean("addon_themes", true)
+                                    .commit();
+                            try {
+                                String pack = packages.get(arg1).packageName;
+                                addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
+                            } catch (Exception e) {
+                                sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
+                            }
                         }
 
                         new TrimCache(null).execute();
@@ -455,6 +464,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 });
 
                 attachBuilder.create().show();
+
                 return true;
             }
         });

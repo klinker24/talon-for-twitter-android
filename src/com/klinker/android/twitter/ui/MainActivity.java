@@ -46,11 +46,11 @@ public class MainActivity extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = AppSettings.getInstance(context);
 
-        if(sharedPrefs.getBoolean("pebble_notification", false)) {
+        /*if(sharedPrefs.getBoolean("pebble_notification", false)) {
             NotificationUtils.sendAlertToPebble(context,
                     "Test from Talon",
                     "Here is just a test from Talon, it will run every time you recreate the app unless the setting is off");
-        }
+        }*/
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
