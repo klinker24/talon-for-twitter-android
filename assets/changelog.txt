@@ -8,6 +8,7 @@
     &#8226; RTL support for languages that use it<br/>
     &#8226; Save and destroy saved searches<br/>
     &#8226; More Tweetmarker fixes<br/>
+    &#8226; Better theme selection<br/>
     &#8226; Some optimizations<br/>
 </br><br/>
 
