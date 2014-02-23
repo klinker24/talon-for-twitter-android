@@ -123,9 +123,15 @@ public class SavedSearchesActivity extends DrawerActivity {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter = new SavedSearchArrayAdapter(context, searchNames);
-                            listView.setAdapter(adapter);
-                            listView.setVisibility(View.VISIBLE);
+                            if (searchNames.size() > 0) {
+                                adapter = new SavedSearchArrayAdapter(context, searchNames);
+                                listView.setAdapter(adapter);
+                                listView.setVisibility(View.VISIBLE);
+                            } else {
+                                LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
+                                nothing.setVisibility(View.VISIBLE);
+                                listView.setVisibility(View.GONE);
+                            }
 
                             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);

@@ -32,6 +32,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
     private static Context sContext;
     private static SharedPreferences sSharedPrefs;
     private static LinearLayout spinner;
+    private static LinearLayout nothing;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
         }
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
+        nothing = (LinearLayout) findViewById(R.id.no_content);
 
         listView = (AsyncListView) findViewById(R.id.listView);
         list = listView;
@@ -173,9 +175,14 @@ public class FavoriteUsersActivity extends DrawerActivity {
 
             Log.v("fav_users", cursor.getCount() + "");
 
-            people = new FavoriteUsersCursorAdapter(sContext, cursor);
-            list.setAdapter(people);
-            list.setVisibility(View.VISIBLE);
+            if (cursor.getCount() > 0) {
+                people = new FavoriteUsersCursorAdapter(sContext, cursor);
+                list.setAdapter(people);
+                list.setVisibility(View.VISIBLE);
+            } else {
+                nothing.setVisibility(View.VISIBLE);
+                list.setVisibility(View.GONE);
+            }
 
             spinner.setVisibility(View.GONE);
         }

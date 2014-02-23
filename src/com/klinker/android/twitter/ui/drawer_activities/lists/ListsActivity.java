@@ -171,8 +171,14 @@ public class ListsActivity extends DrawerActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            listView.setAdapter(new ListsArrayAdapter(context, lists));
-                            listView.setVisibility(View.VISIBLE);
+                            if(lists.size() > 0) {
+                                listView.setAdapter(new ListsArrayAdapter(context, lists));
+                                listView.setVisibility(View.VISIBLE);
+                            } else {
+                                LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
+                                nothing.setVisibility(View.VISIBLE);
+                                listView.setVisibility(View.GONE);
+                            }
 
                             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);
@@ -183,6 +189,10 @@ public class ListsActivity extends DrawerActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
+                            nothing.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+
                             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);
                         }
