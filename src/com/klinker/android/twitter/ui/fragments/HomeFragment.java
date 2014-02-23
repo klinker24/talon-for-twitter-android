@@ -1078,9 +1078,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     }
 
     public boolean viewPressed = false;
+    public Cursor currCursor;
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+
+        currCursor = cursor;
 
         if (cursor.getCount() == 0) {
             // restart loader i guess?
@@ -1312,7 +1315,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         Log.v("talon_tweetmarker", "marking read for account " + currentAccount);
 
         try {
-            Cursor cursor = cursorAdapter.getCursor();
+            Cursor cursor = currCursor;
             int current = listView.getFirstVisiblePosition();
 
             HomeDataSource.getInstance(context).markAllRead(currentAccount);
@@ -1342,7 +1345,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         try {
-            Cursor cursor = cursorAdapter.getCursor();
+            Cursor cursor = currCursor;
             int current = listView.getFirstVisiblePosition();
 
             HomeDataSource.getInstance(context).markAllRead(currentAccount);

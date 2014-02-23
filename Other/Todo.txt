@@ -29,4 +29,3 @@
     -- try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
     -- new widget stuff
     -- add some text to the drawer activities if they don't have anything on them
-    -- check out jacob's linkify

@@ -573,7 +573,7 @@ public class TweetFragment extends Fragment {
                             new AlertDialog.Builder(context)
                                     .setTitle(context.getResources().getString(R.string.tweet_to_long))
                                     .setMessage(context.getResources().getString(R.string.select_shortening_service))
-                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
