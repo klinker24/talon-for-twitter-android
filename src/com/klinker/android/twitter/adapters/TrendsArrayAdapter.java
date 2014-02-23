@@ -23,7 +23,7 @@ import twitter4j.User;
  */
 public class TrendsArrayAdapter extends ArrayAdapter<User> {
 
-    private Context context;
+    protected Context context;
 
     private ArrayList<String> text;
 
@@ -105,5 +105,9 @@ public class TrendsArrayAdapter extends ArrayAdapter<User> {
         bindView(v, context, text.get(position));
 
         return v;
+    }
+
+    public String getElement(int pos) {
+        return text.get(pos);
     }
 }

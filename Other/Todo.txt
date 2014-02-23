@@ -29,6 +29,5 @@
     -- try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
     -- new widget stuff
     -- add some text to the drawer activities if they don't have anything on them
-    -- save the searches
-    -- pebble again
     -- switch to jacobs theme selector
+    -- make sure the ok button is twitlonger

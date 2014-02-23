@@ -1,6 +1,8 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -10,12 +12,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ListsArrayAdapter;
+import com.klinker.android.twitter.adapters.SavedSearchArrayAdapter;
 import com.klinker.android.twitter.adapters.TrendsArrayAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.Utils;
@@ -90,6 +94,8 @@ public class SavedSearchesActivity extends DrawerActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private SavedSearchArrayAdapter adapter;
+
     public void getSearches() {
         new Thread(new Runnable() {
             @Override
@@ -117,7 +123,8 @@ public class SavedSearchesActivity extends DrawerActivity {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            listView.setAdapter(new TrendsArrayAdapter(context, searchNames));
+                            adapter = new SavedSearchArrayAdapter(context, searchNames);
+                            listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
 
                             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
