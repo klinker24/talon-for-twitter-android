@@ -49,6 +49,7 @@ import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -520,7 +521,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             Date date = new Date(longTime);
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
-        if (tweetText.contains("<font")) {
+
+        /*if (tweetText.contains("<font")) {
             if (settings.addonTheme) {
                 holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
             } else {
@@ -528,7 +530,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         } else {
             holder.tweet.setText(tweetText);
-        }
+        }*/
+        holder.tweet.setText(HtmlUtils.removeColorHtml(tweetText, settings));
+        TextUtils.linkifyText(context, holder.tweet, holder.background, true);
 
         if(settings.inlinePics && holder.picUrl != null) {
             if (holder.picUrl.equals("")) {

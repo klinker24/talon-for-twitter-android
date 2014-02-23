@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,11 +17,14 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.View;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
@@ -463,4 +468,5 @@ public class Utils {
             sharedPrefs.edit().putBoolean("need_clean_databases", false).commit();
         }
     }
+
 }
