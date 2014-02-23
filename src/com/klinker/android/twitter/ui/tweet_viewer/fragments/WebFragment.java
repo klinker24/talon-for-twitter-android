@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.VideoView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.HTML5WebView;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         context = getActivity();
 
-        layout = inflater.inflate(R.layout.web_fragment, null);
+        /*layout = inflater.inflate(R.layout.web_fragment, null);
         webView = (WebView) layout.findViewById(R.id.webview);
         progressBar = (ProgressBar) layout.findViewById(R.id.progress_bar);
         progressBar.setProgress(0);
@@ -96,9 +97,15 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
             webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
         }
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient());*/
 
-        if (webpages.size() > 0) {
+        webView = new HTML5WebView(context);
+
+        webView.loadUrl(webpages.get(0));
+
+        return webView;
+
+        /*if (webpages.size() > 0) {
             webView.loadUrl(webpages.get(0));
         }
 
@@ -117,7 +124,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
             spinner.setVisibility(View.GONE);
         }
 
-        return layout;
+        return layout;*/
     }
 
     @Override

@@ -11,6 +11,7 @@
     &#8226; Ability to open retweeters profile when viewing a retweet<br/>
     &#8226; More Tweetmarker fixes<br/>
     &#8226; Pebble notifications will now work for everyone<br/>
+    &#8226; A little bit better Vine support. Sound is an issue.<br/>
     &#8226; Better theme selection<br/>
     &#8226; Some more optimizations<br/>
 </br><br/>
