@@ -17,6 +17,7 @@
     - quoting with an image give the pbs.twimg url
     - random avatar changes
     - sideways pictures
+    - try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
 
 
 -- For Release --
@@ -26,6 +27,4 @@
     -- Mute by source and regex
     -- theme the action bar
     -- put the retweeter button onto the theme example
-    -- try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
     -- new widget stuff
-    -- add some text to the drawer activities if they don't have anything on them

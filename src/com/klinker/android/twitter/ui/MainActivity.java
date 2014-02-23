@@ -206,8 +206,8 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         if (getIntent().getBooleanExtra("from_drawer", false)) {
             int page = getIntent().getIntExtra("page_to_open", 0);
