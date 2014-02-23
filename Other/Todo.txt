@@ -11,7 +11,7 @@
 
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
-    - vines on lower version of android
+    - video sound stops after one time playing it
     - compose not always shutting?
     - small images have the spinner behind them..
     - quoting with an image give the pbs.twimg url
