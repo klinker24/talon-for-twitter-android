@@ -192,9 +192,16 @@ public class FavoritesActivity extends DrawerActivity {
                         public void run() {
 
                             if (adapter == null) {
-                                adapter = new TimelineArrayAdapter(context, statuses, TimelineArrayAdapter.FAVORITE);
-                                listView.setAdapter(adapter);
-                                listView.setVisibility(View.VISIBLE);
+                                if (statuses.size() > 0) {
+                                    adapter = new TimelineArrayAdapter(context, statuses, TimelineArrayAdapter.FAVORITE);
+                                    listView.setAdapter(adapter);
+                                    listView.setVisibility(View.VISIBLE);
+                                } else {
+                                    LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
+                                    nothing.setVisibility(View.VISIBLE);
+                                    listView.setVisibility(View.GONE);
+                                    hasMore = false;
+                                }
                             } else {
                                 adapter.notifyDataSetChanged();
                             }

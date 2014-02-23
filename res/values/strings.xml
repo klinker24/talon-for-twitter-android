@@ -523,5 +523,6 @@
     <string name="setting_up_dms">Setting up direct messages...</string>
     <string name="setting_up_lists">Setting up lists...</string>
     <string name="version_two_setup_done">Done setting up Talon 2.0, enjoy!</string>
+    <string name="no_content">Nothing to display!</string>
 
 </resources>
