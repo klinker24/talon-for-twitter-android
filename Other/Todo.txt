@@ -1,13 +1,9 @@
 - Features:
     - scheduling tweets
     - instapaper mobilizer
-    - nearby tweets
-    - pick where the local trends are
-    - picture searching
-    - translation
+    - translation of tweets (probably won't be happening)
     - pictures on direct messages
-    - discover tab
-    - pics on profile somehow
+    - addon package for full screen themes
 
 - Bugs:
     - doesn't display pictures full screen when clicking on tweet
@@ -18,13 +14,22 @@
     - random avatar changes
     - sideways pictures
     - try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
+    - stop threads from running when the tweet or profile activity is closed
 
 
 -- For Release --
 
 - 2.0.0
-    -- post from different accounts on compose window
-    -- Mute by source and regex
-    -- new widget stuff
-    -- add image previews for that guys emails... and the one on google plus
-    -- pictures button on search activity (filter:links)
+    - Features/Major
+        -- post from different accounts on compose window
+        -- Mute by source and regex
+        -- new widget stuff
+        -- picture page on profiles
+        -- discover tab (trends, nearby tweets, and suggested users resources)
+        -- pick location of local trends
+
+    - Minor
+        -- add image previews for that guys emails... and the one on google plus
+        -- pictures button on search activity (filter:links)
+        -- emoji keyboard is up when pressing send doesn't close the compose window
+        -- full finnish update
