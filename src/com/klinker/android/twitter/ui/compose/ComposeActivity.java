@@ -336,6 +336,16 @@ public class ComposeActivity extends Compose {
     }
 
     public boolean doneClick() {
+
+        if (emojiKeyboard.isShowing()) {
+            emojiKeyboard.setVisibility(false);
+
+            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            emojiButton.setImageResource(resource);
+        }
+
         EditText editText = (EditText) findViewById(R.id.tweet_content);
         final String status = editText.getText().toString();
 
