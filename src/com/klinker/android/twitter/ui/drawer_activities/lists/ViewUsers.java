@@ -110,6 +110,7 @@ public class ViewUsers extends Activity {
 
         new GetUsers().execute();
 
+        Utils.setActionBar(context);
     }
 
     public void setUpWindow() {

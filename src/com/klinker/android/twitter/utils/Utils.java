@@ -286,6 +286,13 @@ public class Utils {
         }
     }
 
+    public static void setActionBar(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        if (settings.actionBar != null) {
+            ((Activity)context).getActionBar().setBackgroundDrawable(settings.actionBar);
+        }
+    }
+
     public static void newDMRefresh(final Context context) {
         new AlertDialog.Builder(context)
                 .setTitle("Refresh Direct Messages")

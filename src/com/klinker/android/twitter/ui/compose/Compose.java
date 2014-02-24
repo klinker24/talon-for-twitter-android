@@ -147,6 +147,8 @@ public abstract class Compose extends Activity implements
         if (reply.getText().toString().contains(" RT @")) {
             reply.setSelection(0);
         }
+
+        Utils.setActionBar(context);
     }
 
     public void setUpWindow() {
