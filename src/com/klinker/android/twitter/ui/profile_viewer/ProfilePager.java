@@ -110,6 +110,8 @@ public class ProfilePager extends Activity {
             strip.setBackgroundColor(settings.accentInt);
         }
 
+        Utils.setActionBar(context);
+
     }
 
     public void setUpTheme() {

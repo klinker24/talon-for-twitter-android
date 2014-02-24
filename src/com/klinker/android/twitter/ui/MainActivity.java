@@ -72,8 +72,6 @@ public class MainActivity extends DrawerActivity {
             startActivity(setupV2);
         }
 
-
-
         mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -206,8 +204,8 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
         if (getIntent().getBooleanExtra("from_drawer", false)) {
             int page = getIntent().getIntExtra("page_to_open", 0);

@@ -205,6 +205,7 @@ public class Search extends Activity implements OnRefreshListener {
 
         handleIntent(getIntent());
 
+        Utils.setActionBar(context);
     }
 
     @Override

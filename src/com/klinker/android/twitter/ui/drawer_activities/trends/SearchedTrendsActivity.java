@@ -147,6 +147,8 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
 
         handleIntent(getIntent());
 
+        Utils.setActionBar(context);
+
     }
 
     public void setUpWindow() {
