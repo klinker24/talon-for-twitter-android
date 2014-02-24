@@ -296,6 +296,12 @@ public class Search extends Activity implements OnRefreshListener {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
 
+        if (searchQuery.contains("@")) {
+            // user search and we should hide the filters
+            menu.getItem(3).setVisible(false); // pictures
+            menu.getItem(4).setVisible(false); // retweets
+        }
+
         return true;
     }
 
