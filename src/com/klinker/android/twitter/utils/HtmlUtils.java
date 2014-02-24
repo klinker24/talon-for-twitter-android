@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.utils;
 
+import android.util.Log;
+
 import com.klinker.android.twitter.settings.AppSettings;
 
 import twitter4j.DirectMessage;
@@ -56,24 +58,10 @@ public class HtmlUtils {
             }
         }
 
-        String[] sUsers;
-        String[] sHashtags;
         String[] sExpandedUrls;
         String[] sCompressedUrls;
         String[] sMediaExp;
         String[] sMediaComp;
-
-        try {
-            sUsers = mUsers.split("  ");
-        } catch (Exception e) {
-            sUsers = new String[0];
-        }
-
-        try {
-            sHashtags = mHashtags.split("  ");
-        } catch (Exception e) {
-            sHashtags = new String[0];
-        }
 
         try {
             sCompressedUrls = compressedUrls.split("  ");
@@ -100,30 +88,6 @@ public class HtmlUtils {
         }
 
         String tweetTexts = status.getText();
-
-        /*if (users.length > 0) {
-            for (String s : sUsers) {
-                if (s.length() > 1) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("@" + s.toLowerCase(), "<font color='#FF8800'>@" + s + "</font>");
-                    }
-                }
-            }
-        }
-
-        if(hashtags.length > 0) {
-            for (String s : sHashtags) {
-                if (s.length() > 1 && !s.equals("FF")) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("#" + s, "<font color='#FF8800'>#" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("#" + s.toLowerCase(), "<font color='#FF8800'>#" + s + "</font>");
-                    }
-                }
-            }
-        }*/
 
         String imageUrl = "";
         String otherUrl = "";
@@ -187,6 +151,10 @@ public class HtmlUtils {
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("pbs.twimg.com")) {
                     imageUrl = exp;
+                    otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("ow.ly/i")) {
+                    Log.v("talon_owly", exp);
+                    imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
                     otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
@@ -265,18 +233,6 @@ public class HtmlUtils {
         String[] sMediaComp;
 
         try {
-            sUsers = mUsers.split("  ");
-        } catch (Exception e) {
-            sUsers = new String[0];
-        }
-
-        try {
-            sHashtags = mHashtags.split("  ");
-        } catch (Exception e) {
-            sHashtags = new String[0];
-        }
-
-        try {
             sCompressedUrls = compressedUrls.split("  ");
         } catch (Exception e) {
             sCompressedUrls = new String[0];
@@ -301,30 +257,6 @@ public class HtmlUtils {
         }
 
         String tweetTexts = status.getText();
-
-        /*if (users.length > 0) {
-            for (String s : sUsers) {
-                if (s.length() > 1) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("@" + s.toLowerCase(), "<font color='#FF8800'>@" + s + "</font>");
-                    }
-                }
-            }
-        }
-
-        if(hashtags.length > 0) {
-            for (String s : sHashtags) {
-                if (s.length() > 1) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("#" + s, "<font color='#FF8800'>#" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("#" + s.toLowerCase(), "<font color='#FF8800'>#" + s + "</font>");
-                    }
-                }
-            }
-        }*/
 
         String imageUrl = "";
         String otherUrl = "";
@@ -375,6 +307,10 @@ public class HtmlUtils {
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("pbs.twimg.com")) {
                     imageUrl = exp;
+                    otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("ow.ly/i")) {
+                    Log.v("talon_owly", exp);
+                    imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
                     otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
