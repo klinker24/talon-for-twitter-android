@@ -28,7 +28,7 @@ import android.view.View;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
-import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
+import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 
 public class LongClickableSpan extends ClickableSpan {

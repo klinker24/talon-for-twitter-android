@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.drawer_activities.trends;
+package com.klinker.android.twitter.ui.drawer_activities.discover.trends;
 
 import android.app.ActionBar;
 import android.app.Activity;
