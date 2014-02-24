@@ -121,13 +121,13 @@ public class TweetPager extends YouTubeBaseActivity {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         switch (numberOfPages) {
-            case 3:
+            case 2:
                 pager.setCurrentItem(0);
                 break;
-            case 4:
+            case 3:
                 pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 1);
                 break;
-            case 5:
+            case 4:
                 pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 2);
                 break;
         }
