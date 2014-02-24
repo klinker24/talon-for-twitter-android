@@ -17,6 +17,7 @@
     &#8226; A little bit better Vine support. Sound is an issue.<br/>
     &#8226; Better theme selection<br/>
     &#8226; Some support for ow.ly images in-line<br/>
+    &#8226; Fixed the compose window not always shutting<br/>
     &#8226; Some more optimizations<br/>
 </br><br/>
 
