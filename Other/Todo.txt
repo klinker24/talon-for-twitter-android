@@ -27,3 +27,4 @@
     -- Mute by source and regex
     -- new widget stuff
     -- add image previews for that guys emails... and the one on google plus
+    -- pictures button on search activity (filter:links)

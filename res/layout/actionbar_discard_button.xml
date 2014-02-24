@@ -29,5 +29,6 @@
               android:drawableLeft="?cancelButton"
               android:drawablePadding="8dp"
               android:gravity="center_vertical"
+              android:background="@drawable/pressed_toast"
               android:text="@string/discard"/>
 </FrameLayout>
