@@ -28,5 +28,4 @@
         -- go to jacobs settings drawer
 
     - Minor
-        -- pictures button on search activity (filter:links)
         -- full finnish update
