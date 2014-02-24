@@ -673,7 +673,7 @@ public class TweetFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 countHandler.removeCallbacks(getCount);
-                countHandler.postDelayed(getCount, 300);
+                countHandler.postDelayed(getCount, 200);
             }
         });
 
