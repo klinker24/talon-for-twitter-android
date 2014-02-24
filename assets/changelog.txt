@@ -3,6 +3,7 @@
     &#8226; View users mentions and favorites on their profiles<br/>
     &#8226; View up to 100 retweeters of a status<br/>
     &#8226; Remade the tweet viewer layout<br/>
+    &#8226; Added option to manually select location for local trends<br/>
     &#8226; Changed the conversation and discussion style<br/>
     &#8226; Made a drawer item for saved searches<br/>
     &#8226; Opening notifications will now take you to the correct place<br/>

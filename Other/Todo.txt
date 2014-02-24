@@ -25,7 +25,7 @@
         -- Mute by source and regex
         -- new widget stuff
         -- picture page on profiles
-        -- pick location of local trends
+        -- go to jacobs settings drawer
 
     - Minor
         -- add image previews for that guys emails... and the one on google plus

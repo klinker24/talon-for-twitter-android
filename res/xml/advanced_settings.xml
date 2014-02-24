@@ -22,6 +22,31 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/local_trend_options" >
+
+        <CheckBoxPreference
+            android:key="manually_config_location"
+            android:title="@string/manually_config_location"
+            android:defaultValue="false"
+            />
+
+        <ListPreference
+            android:key="country"
+            android:title="@string/country_region"
+            android:defaultValue="United States"
+            android:entries="@array/countries"
+            android:entryValues="@array/countries"
+            android:dependency="manually_config_location"
+            />
+
+        <Preference
+            android:key="city"
+            android:title="@string/city"
+            android:dependency="manually_config_location" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="advanced_other"
         android:title="@string/other_options" >
 
