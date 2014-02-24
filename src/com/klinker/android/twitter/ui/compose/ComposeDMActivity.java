@@ -201,7 +201,7 @@ public class ComposeDMActivity extends Compose {
     }
 
     public boolean doneClick() {
-        
+
         if (emojiKeyboard.isShowing()) {
             emojiKeyboard.setVisibility(false);
 
