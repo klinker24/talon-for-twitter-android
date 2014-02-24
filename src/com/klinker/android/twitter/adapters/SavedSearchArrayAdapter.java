@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -67,21 +68,31 @@ public class SavedSearchArrayAdapter extends TrendsArrayAdapter {
                                             ResponseList<SavedSearch> searches = twitter.savedSearches().getSavedSearches();
 
                                             for (int i = 0; i < searches.size(); i++) {
-                                                if (searches.get(i).getName() == search) {
+                                                String name = searches.get(i).getName();
+                                                Log.v("talon_saved_searches", name);
+                                                if (name.equals(search)) {
                                                     id = searches.get(i).getId();
+                                                    Log.v("talon_saved_searches", "id to delete: " + id);
                                                 }
                                             }
 
                                             if (id != -1) {
                                                 twitter.destroySavedSearch(id);
-                                            }
 
-                                            ((Activity)context).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else {
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context, context.getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
                                         } catch (Exception e) {
                                             ((Activity)context).runOnUiThread(new Runnable() {
                                                 @Override
