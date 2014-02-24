@@ -349,6 +349,30 @@ public class Search extends Activity implements OnRefreshListener {
                 overridePendingTransition(0,0);
                 return super.onOptionsItemSelected(item);
 
+            case R.id.menu_pic_filter:
+                listView.setVisibility(View.GONE);
+                if (!item.isChecked()) {
+                    searchQuery += " filter:links twitter.com";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace("filter:links", "").replace("twitter.com", "");
+                    item.setChecked(false);
+                }
+                doSearch(searchQuery);
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_remove_rt:
+                listView.setVisibility(View.GONE);
+                if (!item.isChecked()) {
+                    searchQuery += " -RT";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace(" -RT", "");
+                    item.setChecked(false);
+                }
+                doSearch(searchQuery);
+                return super.onOptionsItemSelected(item);
+
             default:
                 return super.onOptionsItemSelected(item);
         }

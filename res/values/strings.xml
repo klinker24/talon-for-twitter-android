@@ -531,5 +531,7 @@
     <string name="manually_config_location">Manually Configure Location</string>
     <string name="country_region">Country/Region</string>
     <string name="city">City</string>
+    <string name="menu_apply_picture_filter">Apply Picture Filter</string>
+    <string name="menu_remove_rt">Remove Retweets</string>
 
 </resources>
