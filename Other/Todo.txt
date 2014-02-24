@@ -25,7 +25,6 @@
         -- Mute by source and regex
         -- new widget stuff
         -- picture page on profiles
-        -- discover tab (trends, nearby tweets, and suggested users resources)
         -- pick location of local trends
 
     - Minor
