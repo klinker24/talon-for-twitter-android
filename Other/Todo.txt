@@ -28,3 +28,4 @@
     -- theme the action bar
     -- put the retweeter button onto the theme example
     -- new widget stuff
+    -- add image previews for that guys emails... and the one on google plus
