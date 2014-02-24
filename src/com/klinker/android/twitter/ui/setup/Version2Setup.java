@@ -154,6 +154,7 @@ public class Version2Setup extends Activity {
         protected void onPreExecute() {
             progDescription.setText(getString(R.string.cleaning_databases));
             progressBar.setIndeterminate(true);
+            summary.setText("");
 
             progDescription.setVisibility(View.VISIBLE);
         }
