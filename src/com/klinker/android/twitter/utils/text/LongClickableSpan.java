@@ -66,7 +66,7 @@ public class LongClickableSpan extends ClickableSpan {
                 );
                 mContext.startActivity(intent);
             } else {
-                if (settings.inAppBrowser) {
+                if (false) {//settings.inAppBrowser) {
                     Intent browser = new Intent(mContext, BrowserActivity.class);
                     browser.putExtra("url", mValue);
                     mContext.startActivity(browser);
