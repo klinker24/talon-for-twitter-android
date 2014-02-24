@@ -6,8 +6,10 @@ import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.ui.drawer_activities.trends.LocalTrends;
-import com.klinker.android.twitter.ui.drawer_activities.trends.WorldTrends;
+import com.klinker.android.twitter.ui.drawer_activities.discover.NearbyTweets;
+import com.klinker.android.twitter.ui.drawer_activities.discover.people.CategoryFragment;
+import com.klinker.android.twitter.ui.drawer_activities.discover.trends.LocalTrends;
+import com.klinker.android.twitter.ui.drawer_activities.discover.trends.WorldTrends;
 
 public class TrendsPagerAdapter extends FragmentPagerAdapter {
 
@@ -26,13 +28,19 @@ public class TrendsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 WorldTrends world = new WorldTrends();
                 return world;
+            case 2:
+                CategoryFragment people = new CategoryFragment();
+                return people;
+            case 3:
+                NearbyTweets nearby = new NearbyTweets();
+                return nearby;
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -42,6 +50,10 @@ public class TrendsPagerAdapter extends FragmentPagerAdapter {
                 return context.getResources().getString(R.string.local_trends);
             case 1:
                 return context.getResources().getString(R.string.world_trends);
+            case 2:
+                return context.getResources().getString(R.string.people);
+            case 3:
+                return context.getResources().getString(R.string.nearby_tweets);
         }
         return null;
     }

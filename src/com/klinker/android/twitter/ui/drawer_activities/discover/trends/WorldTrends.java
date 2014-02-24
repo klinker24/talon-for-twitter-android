@@ -1,11 +1,9 @@
-package com.klinker.android.twitter.ui.drawer_activities.trends;
+package com.klinker.android.twitter.ui.drawer_activities.discover.trends;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
@@ -14,11 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TrendsArrayAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -29,18 +23,10 @@ import org.lucasr.smoothie.AsyncListView;
 
 import java.util.ArrayList;
 
-import twitter4j.GeoLocation;
-import twitter4j.ResponseList;
 import twitter4j.Trend;
 import twitter4j.Twitter;
 
-
-public class LocalTrends extends Fragment implements
-        GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
-
-    private LocationClient mLocationClient;
-    private boolean connected = false;
+public class WorldTrends extends Fragment {
 
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -78,38 +64,9 @@ public class LocalTrends extends Fragment implements
             }
         }
 
-        mLocationClient = new LocationClient(context, this, this);
-
         getTrends();
 
         return layout;
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        connected = true;
-    }
-
-    @Override
-    public void onDisconnected() {
-        connected = false;
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mLocationClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        mLocationClient.disconnect();
-        super.onStop();
     }
 
     public void getTrends() {
@@ -118,24 +75,9 @@ public class LocalTrends extends Fragment implements
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
+                    Twitter twitter =  Utils.getTwitter(context, settings);
 
-                    int i = 0;
-                    while (!connected && i < 5) {
-                        try {
-                            Thread.sleep(1500);
-                        } catch (Exception e) {
-
-                        }
-
-                        i++;
-                    }
-
-                    Location location = mLocationClient.getLastLocation();
-
-                    ResponseList<twitter4j.Location> locations = twitter.getClosestTrends(new GeoLocation(location.getLatitude(),location.getLongitude()));
-                    twitter4j.Trends trends = twitter.getPlaceTrends(locations.get(0).getWoeid());
-
+                    twitter4j.Trends trends = twitter.getPlaceTrends(1);
                     final ArrayList<String> currentTrends = new ArrayList<String>();
 
                     for(Trend t: trends.getTrends()){
@@ -146,16 +88,11 @@ public class LocalTrends extends Fragment implements
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (currentTrends != null) {
+                            if(currentTrends != null) {
                                 listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
-                                listView.setVisibility(View.VISIBLE);
-                            } else {
-                                try {
-                                    Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    // it isn't attached to the main activity anymore
-                                }
                             }
+
+                            listView.setVisibility(View.VISIBLE);
 
                             LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);
@@ -163,12 +100,6 @@ public class LocalTrends extends Fragment implements
                     });
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "Couldn't find your location!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
             }
         }).start();
@@ -177,5 +108,4 @@ public class LocalTrends extends Fragment implements
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
-
 }

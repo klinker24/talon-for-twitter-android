@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.tweet_viewer;
+package com.klinker.android.twitter.ui.drawer_activities.discover.people;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -32,14 +32,12 @@ import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class ViewRetweeters extends Activity implements OnRefreshListener {
+/**
+ * Created by luke on 2/23/14.
+ */
+public class PeopleSearch extends Activity {
 
     public AppSettings settings;
     private Context context;
@@ -49,15 +47,15 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
 
     private AsyncListView listView;
 
-    private long tweetId;
-    private String listName;
+    public String slug;
 
-    private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        slug = getIntent().getStringExtra("slug");
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -77,24 +75,7 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
             finish();
         }
 
-        mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
         spinner = (LinearLayout) findViewById(R.id.list_progress);
-
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(this)
-                // set up the scroll distance
-                .options(Options.create().scrollDistance(.3f).build())
-                        // Mark All Children as pullable
-                .allChildrenArePullable()
-                        // Set the OnRefreshListener
-                .listener(this)
-                        // Finally commit the setup to our PullToRefreshLayout
-                .setup(mPullToRefreshLayout);
-
-        if (settings.addonTheme) {
-            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-            transformer.setProgressBarColor(settings.accentInt);
-        }
 
         listView = (AsyncListView) findViewById(R.id.listView);
 
@@ -107,9 +88,7 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
 
         listView.setItemManager(builder.build());
 
-        tweetId = getIntent().getLongExtra("id", 0);
-
-        onRefreshStarted(null);
+        getPeople();
 
     }
 
@@ -146,26 +125,18 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    @Override
-    public void onRefreshStarted(View view) {
+    public void getPeople() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
-                    Status stat = twitter.showStatus(tweetId);
-                    if (stat.isRetweet()) {
-                        tweetId = stat.getRetweetedStatus().getId();
-                    }
-
-                    // can get 100 retweeters is all
-                    ResponseList<twitter4j.Status> lists = twitter.getRetweets(tweetId);
+                    ResponseList<User> usersResponse = twitter.getUserSuggestions(slug);
 
                     users.clear();
-
-                    for (Status status : lists) {
-                        users.add(status.getUser());
+                    for(User i : usersResponse) {
+                        users.add(i);
                     }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -185,8 +156,6 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
                     e.printStackTrace();
 
                 }
-
-                mPullToRefreshLayout.setRefreshComplete();
             }
         }).start();
     }
