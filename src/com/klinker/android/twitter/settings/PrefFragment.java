@@ -43,6 +43,7 @@ import com.klinker.android.twitter.data.Item;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.utils.LocalTrendsUtils;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
@@ -743,6 +744,44 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     public void setUpAdvancedSettings() {
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        final Preference cities = findPreference("city");
+
+        if (sharedPrefs.getBoolean("manually_config_location", false)) {
+            cities.setSummary(sharedPrefs.getString("location", "Chicago"));
+        }
+        cities.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                String country = sharedPrefs.getString("country", "United States");
+                final String[][] full = LocalTrendsUtils.getArray(country);
+                String[] names = new String[full.length];
+
+                for (int i = 0; i <names.length; i++) {
+                    String[] s = full[i];
+                    names[i] = s[0];
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(names, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        String id = full[item][1];
+                        String name = full[item][0];
+
+                        sharedPrefs.edit().putInt("woeid", Integer.parseInt(id)).commit();
+                        sharedPrefs.edit().putString("location", name).commit();
+
+                        cities.setSummary(name);
+
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                return false;
+            }
+        });
 
         final Preference emojis = findPreference("use_emojis");
         emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

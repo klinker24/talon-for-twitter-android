@@ -1,8 +1,6 @@
 package com.klinker.android.twitter.utils;
 
-/**
- * Created by luke on 2/24/14.
- */
+
 public class LocalTrendsUtils {
 
     public static String[][] argentina = {
@@ -16,20 +14,20 @@ public class LocalTrendsUtils {
     };
 
     public static String[][] brazil = {
+            {"All Cities", "23424768"},
             {"Brasília", "455819"},
+            {"Fortaleza", "455830"},
+            {"Manaus", "455833"},
             {"Rio de Janeiro", "455825"},
             {"Salvador", "455826"},
-            {"São Paulo", "455827"},
-            {"All Cities", "23424768"},
-            {"Fortaleza", "455830"},
-            {"Manaus", "455833"}
+            {"São Paulo", "455827"}
     };
 
     public static String[][] canada = {
             {"All Cities", "23424775"},
             {"Montreal", "3534"},
-            {"Vancouver", "9807"},
-            {"Toronto", "4118"}
+            {"Toronto", "4118"},
+            {"Vancouver", "9807"}
     };
 
     public static String[][] chile = {
@@ -43,8 +41,8 @@ public class LocalTrendsUtils {
     };
 
     public static String[][] dominican_republic = {
-            {"Santo Domingo", "76456"},
-            {"All Cities", "23424800"}
+            {"All Cities", "23424800"},
+            {"Santo Domingo", "76456"}
     };
 
     public static String[][] ecuador = {
@@ -52,15 +50,15 @@ public class LocalTrendsUtils {
     };
 
     public static String[][] france = {
-            {"Paris", "615702"},
             {"All Cities", "23424819"},
+            {"Lyon", "609125"},
             {"Marseille", "610264"},
-            {"Lyon", "609125"}
+            {"Paris", "615702"}
     };
 
     public static String[][] germany = {
-            {"Berlin", "638242"},
             {"All Cities", "23424829"},
+            {"Berlin", "638242"},
             {"Hamburg", "656958"},
             {"Munich", "676757"}
     };
@@ -70,26 +68,26 @@ public class LocalTrendsUtils {
     };
 
     public static String[][] india = {
+            {"Ahmedabad", "2295402"},
+            {"All Cities", "23424848"},
             {"Bangalore", "2295420"},
             {"Chennai", "2295424"},
             {"Delhi", "20070458"},
-            {"All Cities", "23424848"},
-            {"Ahmedabad", "2295402"},
-            {"Mumbai", "2295411"},
-            {"Hyderabad", "2295414"}
+            {"Hyderabad", "2295414"},
+            {"Mumbai", "2295411"}
     };
 
     public static String[][] indonesia = {
-            {"Jakarta", "1047378"},
-            {"Bandung", "1047180"},
             {"All Cities", "23424846"},
+            {"Bandung", "1047180"},
             {"Bekasi", "1030077"},
+            {"Jakarta", "1047378"},
             {"Surabaya", "1044316"}
     };
 
     public static String[][] ireland = {
-            {"Dublin", "560743"},
-            {"All Cities", "23424803"}
+            {"All Cities", "23424803"},
+            {"Dublin", "560743"}
     };
 
     public static String[][] italy = {
@@ -97,28 +95,28 @@ public class LocalTrendsUtils {
     };
 
     public static String[][] japan = {
-            {"Sendai", "1118129"},
-            {"Osaka", "15015370"},
-            {"Kyoto", "15015372"},
-            {"Tokyo", "1118370"},
-            {"Fukuoka", "1117099"},
-            {"Sapporo", "1118108"},
             {"All Cities", "23424856"},
-            {"Takamatsu", "1118285"},
+            {"Fukuoka", "1117099"},
+            {"Kyoto", "15015372"},
             {"Nagoya", "1117817"},
-            {"Okinawa", "2345896"}
+            {"Okinawa", "2345896"},
+            {"Osaka", "15015370"},
+            {"Sapporo", "1118108"},
+            {"Sendai", "1118129"},
+            {"Takamatsu", "1118285"},
+            {"Tokyo", "1118370"}
     };
 
     public static String[][] malaysia = {
-            {"Kuala Lumpur", "1154781"},
+            {"All Cities", "23424901"},
             {"Klang", "1154726"},
-            {"All Cities", "23424901"}
+            {"Kuala Lumpur", "1154781"}
     };
 
     public static String[][] mexico = {
-            {"Monterrey", "134047"},
             {"All Cities", "23424900"},
-            {"Mexico City", "116545"}
+            {"Mexico City", "116545"},
+            {"Monterrey", "134047"}
     };
 
     public static String[][] netherlands = {
@@ -147,15 +145,15 @@ public class LocalTrendsUtils {
     };
 
     public static String[][] philippines = {
+            {"All Cities", "23424934"},
             {"Manila", "1199477"},
-            {"Quezon City", "1199682"},
-            {"All Cities", "23424934"}
+            {"Quezon City", "1199682"}
     };
 
     public static String[][] russia = {
+            {"All Cities", "23424936"},
             {"Moscow", "2122265"},
             {"Novosibirsk", "2122541"},
-            {"All Cities", "23424936"},
             {"Saint Petersburg", "2123260"}
     };
 
@@ -180,10 +178,10 @@ public class LocalTrendsUtils {
     };
 
     public static String[][] turkey = {
+            {"All Cities", "23424969"},
             {"Ankara", "2343732"},
             {"Istanbul", "2344116"},
-            {"Izmir", "2344117"},
-            {"All Cities", "23424969"}
+            {"Izmir", "2344117"}
     };
 
     public static String[][] united_arab_emirates = {
@@ -192,70 +190,70 @@ public class LocalTrendsUtils {
 
     public static String[][] united_kingdom = {
             {"All Cities", "23424975"},
-            {"Manchester", "28218"},
-            {"Glasgow", "21125"},
             {"Birmingham", "12723"},
-            {"London", "44418"}
+            {"Glasgow", "21125"},
+            {"London", "44418"},
+            {"Manchester", "28218"}
     };
 
     public static String[][] united_states = {
-            {"Miami", "2450022"},
-            {"New Orleans", "2458833"},
-            {"Salt Lake City", "2487610"},
-            {"Columbus", "2383660"},
-            {"Providence", "2477058"},
             {"All Cities", "23424977"},
-            {"Chicago", "2379574"},
-            {"Houston", "2424766"},
-            {"Washington", "2514815"},
-            {"Portland", "2475687"},
-            {"Sacramento", "2486340"},
-            {"Jackson", "2428184"},
-            {"Memphis", "2449323"},
-            {"Tampa", "2503863"},
+            {"Atlanta", "2357024"},
             {"Austin", "2357536"},
-            {"St. Louis", "2486982"},
-            {"Raleigh", "2478307"},
+            {"Baltimore", "2358820"},
+            {"Baton Rouge", "2359991"},
+            {"Birmingham", "2364559"},
+            {"Boston", "2367105"},
+            {"Charlotte", "2378426"},
+            {"Chicago", "2379574"},
+            {"Cincinnati", "2380358"},
+            {"Cleveland", "2381475"},
+            {"Columbus", "2383660"},
             {"Dallas-Ft. Worth", "2388929"},
-            {"San Diego", "2487889"},
-            {"San Francisco", "2487956"},
+            {"Denver", "2391279"},
+            {"Detroit", "2391585"},
+            {"Greensboro", "2414469"},
+            {"Harrisburg", "2418046"},
+            {"Houston", "2424766"},
+            {"Indianapolis", "2427032"},
+            {"Jackson", "2428184"},
+            {"Las Vegas", "2436704"},
+            {"Los Angeles", "2442047"},
+            {"Memphis", "2449323"},
+            {"Miami", "2450022"},
+            {"Milwaukee", "2451822"},
             {"Minneapolis", "2452078"},
             {"Nashville", "2457170"},
             {"New Haven", "2458410"},
+            {"New Orleans", "2458833"},
             {"New York", "2459115"},
-            {"Las Vegas", "2436704"},
             {"Norfolk", "2460389"},
-            {"Denver", "2391279"},
-            {"Cincinnati", "2380358"},
-            {"Harrisburg", "2418046"},
-            {"Baton Rouge", "2359991"},
-            {"Baltimore", "2358820"},
-            {"Richmond", "2480894"},
-            {"San Antonio", "2487796"},
-            {"Pittsburgh", "2473224"},
             {"Orlando", "2466256"},
-            {"Detroit", "2391585"},
             {"Philadelphia", "2471217"},
-            {"Tallahassee", "2503713"},
-            {"Greensboro", "2414469"},
-            {"Indianapolis", "2427032"},
-            {"Milwaukee", "2451822"},
-            {"Charlotte", "2378426"},
-            {"Seattle", "2490383"},
-            {"Cleveland", "2381475"},
             {"Phoenix", "2471390"},
-            {"Birmingham", "2364559"},
-            {"Boston", "2367105"},
-            {"Los Angeles", "2442047"},
-            {"Atlanta", "2357024"}
+            {"Pittsburgh", "2473224"},
+            {"Portland", "2475687"},
+            {"Providence", "2477058"},
+            {"Raleigh", "2478307"},
+            {"Richmond", "2480894"},
+            {"Sacramento", "2486340"},
+            {"Salt Lake City", "2487610"},
+            {"San Antonio", "2487796"},
+            {"San Diego", "2487889"},
+            {"San Francisco", "2487956"},
+            {"Seattle", "2490383"},
+            {"St. Louis", "2486982"},
+            {"Tallahassee", "2503713"},
+            {"Tampa", "2503863"},
+            {"Washington", "2514815"}
     };
 
     public static String[][] venezuela = {
+            {"All Cities", "23424982"},
+            {"Barquisimeto", "468382"},
             {"Caracas", "395269"},
             {"Maracaibo", "395270"},
-            {"Valencia", "395272"},
-            {"All Cities", "23424982"},
-            {"Barquisimeto", "468382"}
+            {"Valencia", "395272"}
     };
 
     public static String[][] getArray(String countryName) {
