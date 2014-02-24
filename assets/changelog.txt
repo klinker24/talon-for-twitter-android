@@ -16,6 +16,7 @@
     &#8226; Pebble notifications will now work for everyone<br/>
     &#8226; A little bit better Vine support. Sound is an issue.<br/>
     &#8226; Better theme selection<br/>
+    &#8226; Some support for ow.ly images in-line<br/>
     &#8226; Some more optimizations<br/>
 </br><br/>
 
