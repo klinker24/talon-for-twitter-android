@@ -6,10 +6,8 @@
     - addon package for full screen themes
 
 - Bugs:
-    - doesn't display pictures full screen when clicking on tweet
     - video sound stops after one time playing it
-    - compose not always shutting?
-    - small images have the spinner behind them..
+    - small images have the spinner behind them
     - quoting with an image give the pbs.twimg url
     - random avatar changes
     - sideways pictures
