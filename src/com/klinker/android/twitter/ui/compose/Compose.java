@@ -25,6 +25,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -90,8 +91,7 @@ public abstract class Compose extends Activity implements
 
     public int currentAccount;
 
-    String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-    final Pattern p = Pattern.compile(regex);
+    final Pattern p = Patterns.WEB_URL;
 
     public Handler countHandler;
     public Runnable getCount = new Runnable() {
@@ -99,7 +99,7 @@ public abstract class Compose extends Activity implements
         public void run() {
             String text = reply.getText().toString();
 
-            if (!text.contains("http")) { // no links, normal tweet
+            if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
                 try {
                     charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
                 } catch (Exception e) {
