@@ -49,12 +49,14 @@ public class TweetLinkUtils {
         MediaEntity[] medias = status.getMediaEntities();
         String mediaExp = "";
         String mediaComp = "";
+        String mediaDisplay = "";
 
         for (MediaEntity e : medias) {
             String url = e.getURL();
             if (url.length() > 1) {
                 mediaComp += url + "  ";
                 mediaExp += e.getExpandedURL() + "  ";
+                mediaDisplay += e.getDisplayURL() + "  ";
             }
         }
 
@@ -62,6 +64,7 @@ public class TweetLinkUtils {
         String[] sCompressedUrls;
         String[] sMediaExp;
         String[] sMediaComp;
+        String[] sMediaDisplay;
 
         try {
             sCompressedUrls = compressedUrls.split("  ");
@@ -87,6 +90,12 @@ public class TweetLinkUtils {
             sMediaExp = new String[0];
         }
 
+        try {
+            sMediaDisplay = mediaDisplay.split("  ");
+        } catch (Exception e) {
+            sMediaDisplay = new String[0];
+        }
+
         String tweetTexts = status.getText();
 
         String imageUrl = "";
@@ -98,9 +107,9 @@ public class TweetLinkUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22).replace("http://", "").replace("https://", "").replace("www.", "") + "...");
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp).replace("http://", "").replace("https://", "").replace("www.", "");
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.insta")) {
                     imageUrl = exp + "media/?size=m";
@@ -170,10 +179,10 @@ public class TweetLinkUtils {
                 try {
                     tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
-                //otherUrl += exp;
+                otherUrl += sMediaDisplay[i];
             }
         }
 
@@ -216,12 +225,14 @@ public class TweetLinkUtils {
         MediaEntity[] medias = status.getMediaEntities();
         String mediaExp = "";
         String mediaComp = "";
+        String mediaDisplay = "";
 
         for (MediaEntity e : medias) {
             String url = e.getURL();
             if (url.length() > 1) {
                 mediaComp += url + "  ";
                 mediaExp += e.getExpandedURL() + "  ";
+                mediaDisplay += e.getDisplayURL() + "  ";
             }
         }
 
@@ -231,6 +242,7 @@ public class TweetLinkUtils {
         String[] sCompressedUrls;
         String[] sMediaExp;
         String[] sMediaComp;
+        String[] sMediaDisply;
 
         try {
             sCompressedUrls = compressedUrls.split("  ");
@@ -256,6 +268,12 @@ public class TweetLinkUtils {
             sMediaExp = new String[0];
         }
 
+        try {
+            sMediaDisply = mediaDisplay.split("  ");
+        } catch (Exception e) {
+            sMediaDisply = new String[0];
+        }
+
         String tweetTexts = status.getText();
 
         String imageUrl = "";
@@ -266,11 +284,12 @@ public class TweetLinkUtils {
             String exp = sExpandedUrls[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22).replace("http://", "").replace("https://", "").replace("www.", "") + "...");
+                tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
+                /*try {
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp).replace("http://", "").replace("https://", "").replace("www.", "");
-                }
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
+                }*/
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.instag")) {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
@@ -323,12 +342,14 @@ public class TweetLinkUtils {
             String exp = sMediaExp[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                try {
+                tweetTexts = tweetTexts.replace(comp, sMediaDisply[i]);
+                /*try {
                     tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
-                }
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
+                }*/
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
+                otherUrl += sMediaDisply[i];
             }
         }
 

@@ -30,6 +30,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,8 +114,7 @@ public class TweetFragment extends Fragment {
 
     private TextView charRemaining;
 
-    String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-    final Pattern p = Pattern.compile(regex);
+    final Pattern p = Patterns.WEB_URL;
 
     private Handler countHandler;
     private Runnable getCount = new Runnable() {
@@ -360,8 +360,8 @@ public class TweetFragment extends Fragment {
                 public void onClick(View view) {
                     String text = tweet;
 
-                    text = TweetLinkUtils.removeColorHtml(text, settings);
-                    text = restoreLinks(text);
+                    //text = TweetLinkUtils.removeColorHtml(text, settings);
+                    //text = restoreLinks(text);
 
                     if (!settings.preferRT) {
                         text = "\"@" + screenName + ": " + text + "\" ";
@@ -456,7 +456,8 @@ public class TweetFragment extends Fragment {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        tweettv.setText(restoreLinks(tweet));
+        tweet = restoreLinks(tweet);
+        tweettv.setText(tweet);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
@@ -1393,13 +1394,17 @@ public class TweetFragment extends Fragment {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
 
-                if (Regex.WEB_URL_PATTERN.matcher(s).find()) { // we know the link is cut off
+                if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
                     String f = s.replace("...", "").replace("http", "");
 
                     for (int x = 0; x < otherLinks.length; x++) {
                         Log.v("recreating_links", "other link first: " + otherLinks[x]);
                         if (otherLinks[x].contains(f)) {
                             changed = true;
+                            // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
+                            if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
+                                otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
+                            }
                             f = otherLinks[x];
                             break;
                         }
@@ -1425,8 +1430,8 @@ public class TweetFragment extends Fragment {
 
                 Log.v("talon_picture_", s);
 
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    split[i] = webpage;
+                if (Patterns.WEB_URL.matcher(s).find() && (s.contains("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                    split[i] = otherLinks[otherLinks.length - 1];
                     changed = true;
                     Log.v("talon_picture", split[i]);
                 }
