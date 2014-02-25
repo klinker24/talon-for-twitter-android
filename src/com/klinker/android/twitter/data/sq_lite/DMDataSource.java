@@ -7,7 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 
 import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
@@ -74,7 +74,7 @@ public class DMDataSource {
         long time = status.getCreatedAt().getTime();
 
         values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(DMSQLiteHelper.COLUMN_TEXT, HtmlUtils.getHtmlStatus(status)[0]);
+        values.put(DMSQLiteHelper.COLUMN_TEXT, TweetLinkUtils.getHtmlStatus(status)[0]);
         values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
         values.put(DMSQLiteHelper.COLUMN_NAME, status.getSender().getName());
         values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getBiggerProfileImageURL());

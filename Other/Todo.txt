@@ -25,6 +25,8 @@
         -- picture page on profiles
         -- go to jacobs settings drawer
         -- add auto complete users to the reply activity
+        -- auto-complete hashtags
+        -- custom backgrounds
 
     - Minor
         -- full finnish update

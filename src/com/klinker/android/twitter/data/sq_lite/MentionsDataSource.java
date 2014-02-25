@@ -8,7 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 
 import twitter4j.Status;
 
@@ -76,7 +76,7 @@ public class MentionsDataSource {
         long id = status.getId();
         long time = status.getCreatedAt().getTime();
 
-        String[] html = HtmlUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getHtmlStatus(status);
         String text = html[0];
         String media = html[1];
         String otherUrl = html[2];
@@ -113,7 +113,7 @@ public class MentionsDataSource {
         long id = status.getId();
         long time = status.getCreatedAt().getTime();
 
-        String[] html = HtmlUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getHtmlStatus(status);
         String text = html[0];
         String media = html[1];
         String otherUrl = html[2];

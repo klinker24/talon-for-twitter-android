@@ -11,7 +11,7 @@ import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
-public class HtmlUtils {
+public class TweetLinkUtils {
 
     public static String[] getHtmlStatus(Status status) {
         UserMentionEntity[] users = status.getUserMentionEntities();
@@ -98,9 +98,9 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22).replace("http://", "").replace("https://", "").replace("www.", "") + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
+                    tweetTexts = tweetTexts.replace(comp, exp).replace("http://", "").replace("https://", "").replace("www.", "");
                 }
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.insta")) {
                     imageUrl = exp + "media/?size=m";
@@ -168,7 +168,7 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
                     tweetTexts = tweetTexts.replace(comp, exp);
                 }
@@ -267,9 +267,9 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22).replace("http://", "").replace("https://", "").replace("www.", "") + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
+                    tweetTexts = tweetTexts.replace(comp, exp).replace("http://", "").replace("https://", "").replace("www.", "");
                 }
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.instag")) {
                     imageUrl = exp + "media/?size=m";
@@ -324,7 +324,7 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
                     tweetTexts = tweetTexts.replace(comp, exp);
                 }
