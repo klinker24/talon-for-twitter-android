@@ -40,7 +40,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -342,7 +342,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private Intent getShareIntent() {
         String text1 = tweet;
-        text1 = HtmlUtils.removeColorHtml(text1, settings);
+        text1 = TweetLinkUtils.removeColorHtml(text1, settings);
         text1 = restoreLinks(text1);
         text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -395,7 +395,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_share:
                 String text1 = tweet;
-                text1 = HtmlUtils.removeColorHtml(text1, settings);
+                text1 = TweetLinkUtils.removeColorHtml(text1, settings);
                 text1 = restoreLinks(text1);
                 text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
                 Log.v("my_text_on_share", text1);
@@ -408,7 +408,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_copy_text:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("tweet_text", restoreLinks(HtmlUtils.removeColorHtml(tweet, settings)));
+                ClipData clip = ClipData.newPlainText("tweet_text", restoreLinks(TweetLinkUtils.removeColorHtml(tweet, settings)));
                 clipboard.setPrimaryClip(clip);
                 return true;
 
@@ -499,7 +499,7 @@ public class TweetPager extends YouTubeBaseActivity {
             case R.id.menu_quote:
                 String text = tweet;
 
-                text = HtmlUtils.removeColorHtml(text, settings);
+                text = TweetLinkUtils.removeColorHtml(text, settings);
                 text = restoreLinks(text);
 
                 if (!settings.preferRT) {

@@ -56,11 +56,12 @@ import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
+import com.klinker.android.twitter.utils.text.Regex;
 import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.File;
@@ -359,7 +360,7 @@ public class TweetFragment extends Fragment {
                 public void onClick(View view) {
                     String text = tweet;
 
-                    text = HtmlUtils.removeColorHtml(text, settings);
+                    text = TweetLinkUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
                     if (!settings.preferRT) {
@@ -1392,7 +1393,7 @@ public class TweetFragment extends Fragment {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
 
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                if (Regex.WEB_URL_PATTERN.matcher(s).find()) { // we know the link is cut off
                     String f = s.replace("...", "").replace("http", "");
 
                     for (int x = 0; x < otherLinks.length; x++) {

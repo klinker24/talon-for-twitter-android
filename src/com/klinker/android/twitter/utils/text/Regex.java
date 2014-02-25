@@ -19,7 +19,7 @@ package com.klinker.android.twitter.utils.text;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class Regex {
+public class Regex {
     /**
      * Regular expression pattern to match all IANA top-level domains.
      * List accurate as of 2007/06/15.  List taken from:
@@ -97,6 +97,7 @@ class Regex {
                     + "|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(?:25[0-5]|2[0-4][0-9]|[0-1]"
                     + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
                     + "|[1-9][0-9]|[0-9])))"
+                    + "|\\.\\.\\."
                     + "(?:\\:\\d{1,5})?)" // plus option port number
                     + "(\\/(?:(?:[a-zA-Z0-9\\;\\/\\?\\:\\@\\&\\=\\#\\~"  // plus option query params
                     + "\\-\\.\\+\\!\\*\\'\\(\\)\\,\\_])|(?:\\%[a-fA-F0-9]{2}))*)?"

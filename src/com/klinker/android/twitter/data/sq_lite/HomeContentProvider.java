@@ -7,16 +7,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.Settings.System;
 import android.util.Log;
 
-import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import twitter4j.Status;
@@ -232,7 +229,7 @@ public class HomeContentProvider extends ContentProvider {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = HtmlUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getHtmlStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -278,7 +275,7 @@ public class HomeContentProvider extends ContentProvider {
                     status = status.getRetweetedStatus();
                 }
 
-                String[] html = HtmlUtils.getHtmlStatus(status);
+                String[] html = TweetLinkUtils.getHtmlStatus(status);
                 String text = html[0];
                 String media = html[1];
                 String url = html[2];
