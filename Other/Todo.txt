@@ -24,6 +24,7 @@
         -- new widget stuff
         -- picture page on profiles
         -- go to jacobs settings drawer
+        -- add auto complete users to the reply activity
 
     - Minor
         -- full finnish update
