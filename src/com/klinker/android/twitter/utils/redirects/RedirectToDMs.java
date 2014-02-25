@@ -35,8 +35,9 @@ public class RedirectToDMs extends Activity {
         }
 
         Intent dm = new Intent(this, MainActivity.class);
-        dm.putExtra("page_to_open", 2 + extraPages);
-        dm.putExtra("from_drawer", true);
+
+        sharedPrefs.edit().putBoolean("open_a_page", true).commit();
+        sharedPrefs.edit().putInt("open_what_page", extraPages + 2);
 
         finish();
 

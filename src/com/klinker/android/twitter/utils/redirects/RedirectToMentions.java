@@ -33,8 +33,9 @@ public class RedirectToMentions extends Activity {
         }
 
         Intent mentions = new Intent(this, MainActivity.class);
-        mentions.putExtra("page_to_open", 1 + extraPages);
-        mentions.putExtra("from_drawer", true);
+
+        sharedPrefs.edit().putBoolean("open_a_page", true).commit();
+        sharedPrefs.edit().putInt("open_what_page", extraPages + 1);
 
         finish();
 

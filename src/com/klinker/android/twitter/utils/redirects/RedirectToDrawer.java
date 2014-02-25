@@ -19,7 +19,9 @@ public class RedirectToDrawer extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent drawer = new Intent(this, MainActivity.class);
-        drawer.putExtra("open_interactions", true);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefs.edit().putBoolean("open_interactions", true).commit();
 
         finish();
 

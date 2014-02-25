@@ -207,16 +207,16 @@ public class MainActivity extends DrawerActivity {
     public void onResume() {
         super.onResume();
 
-        if (getIntent().getBooleanExtra("from_drawer", false)) {
-            getIntent().putExtra("from_drawer", false);
-            int page = getIntent().getIntExtra("page_to_open", 0);
+        if (sharedPrefs.getBoolean("open_a_page", false)) {
+            sharedPrefs.edit().putBoolean("open_a_page", false).commit();
+            int page = sharedPrefs.getInt("open_what_page", 3);
             String title = "" + mSectionsPagerAdapter.getPageTitle(page);
             actionBar.setTitle(title);
             mViewPager.setCurrentItem(page);
         }
 
-        if (getIntent().getBooleanExtra("open_interactions", false)) {
-            getIntent().putExtra("open_interactions", false);
+        if (sharedPrefs.getBoolean("open_interactions", false)) {
+            sharedPrefs.edit().putBoolean("open_interactions", false).commit();
             mDrawerLayout.openDrawer(Gravity.END);
         }
     }
