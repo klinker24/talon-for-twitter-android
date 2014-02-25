@@ -1,13 +1,13 @@
 <b>Version 2.0.0:</b><br/><br/>
 <b>NEW:<b/>
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
-    &#8226; View users mentions and favorites on their profiles<br/>
     &#8226; View up to 100 retweeters of a status (API limit)<br/>
+    &#8226; View users mentions and favorites on their profiles<br/>
     &#8226; Added option to manually select location for local trends<br/>
-    &#8226; Added picture filter to searches<br/>
-    &#8226; Added retweet filter to searches<br/>
     &#8226; Saved Searches drawer item<br/>
     &#8226; Save and destroy saved searches<br/>
+    &#8226; Added picture filter to searches<br/>
+    &#8226; Added retweet filter to searches<br/>
     &#8226; RTL support for Android 4.2 and above<br/>
     &#8226; Themers can now theme the action bar<br/>
     &#8226; Some support for ow.ly images in-line<br/>
@@ -16,11 +16,11 @@
     &#8226; Remade the tweet viewer layout<br/>
     &#8226; Changed the conversation and discussion style<br/>
     &#8226; Opening notifications will now take you to the correct place<br/>
-    &#8226; Improved auto-complete of users. Opening their profile will now make them searchable<br/>
+    &#8226; Auto-complete of users. Opening their profile will now make them searchable<br/>
     &#8226; Much more efficient and useful highlighting of users, hashtags, and links<br/>
     &#8226; Ability to open retweeters profile when viewing a retweet<br/>
     &#8226; Displaying links on timeline<br/>
-    &#8226; Better theme selection<br/>
+    &#8226; Theme selection<br/>
 
 <b>FIXES:<b/>
     &#8226; Super smooth optimizations<br/>
