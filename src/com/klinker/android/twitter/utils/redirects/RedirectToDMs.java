@@ -37,7 +37,7 @@ public class RedirectToDMs extends Activity {
         Intent dm = new Intent(this, MainActivity.class);
 
         sharedPrefs.edit().putBoolean("open_a_page", true).commit();
-        sharedPrefs.edit().putInt("open_what_page", extraPages + 2);
+        sharedPrefs.edit().putInt("open_what_page", extraPages + 2).commit();
 
         finish();
 
