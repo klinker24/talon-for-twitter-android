@@ -1,5 +1,4 @@
 - Features:
-    - scheduling tweets
     - instapaper mobilizer
     - translation of tweets (probably won't be happening)
     - pictures on direct messages
@@ -27,6 +26,7 @@
         -- add auto complete users to the reply activity
         -- auto-complete hashtags
         -- custom backgrounds
+        -- scheduling tweets
 
     - Minor
         -- full finnish update
