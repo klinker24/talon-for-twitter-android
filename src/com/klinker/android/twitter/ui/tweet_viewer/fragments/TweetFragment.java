@@ -563,8 +563,8 @@ public class TweetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
-                        if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) > 140) {
+                    if (Integer.parseInt(charRemaining.getText().toString()) < 140 || settings.twitlonger) {
+                        if (Integer.parseInt(charRemaining.getText().toString()) > 140) {
                             new AlertDialog.Builder(context)
                                     .setTitle(context.getResources().getString(R.string.tweet_to_long))
                                     .setMessage(context.getResources().getString(R.string.select_shortening_service))

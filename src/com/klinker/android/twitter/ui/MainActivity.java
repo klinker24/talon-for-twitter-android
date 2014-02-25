@@ -204,10 +204,11 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         if (getIntent().getBooleanExtra("from_drawer", false)) {
+            getIntent().putExtra("from_drawer", false);
             int page = getIntent().getIntExtra("page_to_open", 0);
             String title = "" + mSectionsPagerAdapter.getPageTitle(page);
             actionBar.setTitle(title);
@@ -215,7 +216,7 @@ public class MainActivity extends DrawerActivity {
         }
 
         if (getIntent().getBooleanExtra("open_interactions", false)) {
-            Log.v("talon_interactions", "should open the drawer");
+            getIntent().putExtra("open_interactions", false);
             mDrawerLayout.openDrawer(Gravity.END);
         }
     }
