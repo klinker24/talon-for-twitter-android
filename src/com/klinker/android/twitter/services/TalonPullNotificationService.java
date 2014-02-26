@@ -620,6 +620,44 @@ public class TalonPullNotificationService extends Service {
         public void onException(Exception ex) {
             ex.printStackTrace();
             Log.v("twitter_stream_push", "onException:" + ex.getMessage());
+
+            // stop and restart the service automatically
+            Thread stop = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    TalonPullNotificationService.shuttingDown = true;
+                    try {
+                        pushStream.cleanUp();
+                        pushStream.shutdown();
+                        Log.v("twitter_stream_push", "stopping push notifications");
+                    } catch (Exception e) {
+                        // it isn't running
+                        e.printStackTrace();
+                        // try twice to shut it down i guess
+                        try {
+                            Thread.sleep(2000);
+                            pushStream.cleanUp();
+                            pushStream.shutdown();
+                            Log.v("twitter_stream_push", "stopping push notifications");
+                        } catch (Exception x) {
+                            // it isn't running
+                            x.printStackTrace();
+                        }
+                    }
+
+                    TalonPullNotificationService.shuttingDown = false;
+
+                    mContext.startService(new Intent(mContext, TalonPullNotificationService.class));
+                }
+            });
+
+            stop.setPriority(Thread.MAX_PRIORITY);
+            stop.start();
+
+            TalonPullNotificationService.isRunning = false;
+            thisInstanceOn = false;
+
+            stopSelf();
         }
     };
 }

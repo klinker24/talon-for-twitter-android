@@ -30,3 +30,5 @@
         -- dimen for pic sizes for tablets on tweet viewer
         -- full finnish update
         -- higher quality profile pictures on profile maybe?
+        -- Version 2 text on startup
+        -- no retweeters text if there aren't any
