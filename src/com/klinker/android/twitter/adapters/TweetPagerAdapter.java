@@ -84,23 +84,25 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     youtube = true;
                     break;
                 } else {
-                    webpages.add(s);
+                    if (!s.contains("pic.twitt")) {
+                        webpages.add(s);
+                    }
                 }
             }
 
-            if (youtube) {
-                if (links.length > 1 && sharedPrefs.getBoolean("inapp_browser", true)) {
+            //if (youtube) {
+                if (webpages.size() > 1 && sharedPrefs.getBoolean("inapp_browser", true)) {
                     this.hasWebpage = true;
                 } else {
                     this.hasWebpage = false;
                 }
-            } else {
+            /*} else {
                 if (sharedPrefs.getBoolean("inapp_browser", true)) {
                     this.hasWebpage = true;
                 } else {
                     this.hasWebpage= false;
                 }
-            }
+            }*/
         } else {
             this.hasWebpage = false;
         }
