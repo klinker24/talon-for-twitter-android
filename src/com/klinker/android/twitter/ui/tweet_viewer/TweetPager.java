@@ -669,11 +669,17 @@ public class TweetPager extends YouTubeBaseActivity {
         if (!webpage.equals("")) {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
+                s = s.replace("...", "");
 
-                Log.v("talon_picture_", s);
+                Log.v("talon_links", s);
 
                 if (Patterns.WEB_URL.matcher(s).find() && (s.contains("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                    split[i] = otherLinks[otherLinks.length - 1];
+                    String replace = otherLinks[otherLinks.length - 1];
+                    Log.v("talon_links", ":" + replace + ":");
+                    if (replace.replace(" ", "").equals("")) {
+                        replace = webpage;
+                    }
+                    split[i] = replace;
                     changed = true;
                     Log.v("talon_picture", split[i]);
                 }

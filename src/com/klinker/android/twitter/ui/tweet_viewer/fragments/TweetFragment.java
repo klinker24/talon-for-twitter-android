@@ -360,9 +360,6 @@ public class TweetFragment extends Fragment {
                 public void onClick(View view) {
                     String text = tweet;
 
-                    //text = TweetLinkUtils.removeColorHtml(text, settings);
-                    //text = restoreLinks(text);
-
                     if (!settings.preferRT) {
                         text = "\"@" + screenName + ": " + text + "\" ";
                     } else {
@@ -456,7 +453,6 @@ public class TweetFragment extends Fragment {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        tweet = restoreLinks(tweet);
         tweettv.setText(tweet);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
@@ -1381,74 +1377,5 @@ public class TweetFragment extends Fragment {
         }
 
         return inSampleSize;
-    }
-
-    public String restoreLinks(String text) {
-        String full = text;
-
-        String[] split = text.split(" ");
-
-        boolean changed = false;
-
-        if (otherLinks.length > 0) {
-            for (int i = 0; i < split.length; i++) {
-                String s = split[i];
-
-                if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
-                    String f = s.replace("...", "").replace("http", "");
-
-                    for (int x = 0; x < otherLinks.length; x++) {
-                        Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                        if (otherLinks[x].contains(f)) {
-                            changed = true;
-                            // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                            if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
-                                otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
-                            }
-                            f = otherLinks[x];
-                            break;
-                        }
-                    }
-
-                    if (changed) {
-                        split[i] = f;
-                    } else {
-                        split[i] = s;
-                    }
-                } else {
-                    split[i] = s;
-                }
-
-            }
-        }
-
-        Log.v("talon_picture", ":" + webpage + ":");
-
-        if (!webpage.equals("")) {
-            for (int i = 0; i < split.length; i++) {
-                String s = split[i];
-
-                Log.v("talon_picture_", s);
-
-                if (Patterns.WEB_URL.matcher(s).find() && (s.contains("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                    split[i] = otherLinks[otherLinks.length - 1];
-                    changed = true;
-                    Log.v("talon_picture", split[i]);
-                }
-            }
-        }
-
-
-
-        if(changed) {
-            full = "";
-            for (String p : split) {
-                full += p + " ";
-            }
-
-            full = full.substring(0, full.length() - 1);
-        }
-
-        return full;
     }
 }
