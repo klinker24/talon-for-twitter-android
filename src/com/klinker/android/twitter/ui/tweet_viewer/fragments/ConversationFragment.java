@@ -275,6 +275,18 @@ public class ConversationFragment extends Fragment {
                 } catch (OutOfMemoryError e) {
                     e.printStackTrace();
                 }
+
+                if (progressBar.getVisibility() == View.VISIBLE) {
+                    // nothing to show, so tell them that
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            listView.setVisibility(View.GONE);
+                            none.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
             }
         });
 
