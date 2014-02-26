@@ -23,11 +23,11 @@
     &#8226; Displaying links on timeline<br/>
     &#8226; Displaying and sharing Twitter picture links<br/>
     &#8226; Theme selection<br/>
-    &#8226; Excessive lag when closing the tweet viewer or profiles (caused from the background processes not being stopped)<br/>
 <br/>
 <b>FIXES:</b><br/>
     &#8226; A little bit better Vine support. Sound is an issue.<br/>
-    &#8226; More Tweetmarker fixes<br/>
+    &#8226; Excessive lag when closing the tweet viewer or profiles on lower end devices (caused from the background processes not being stopped)<br/>
+    &#8226; More Tweetmarker fixes (I think it should be working very well now... at least through my testing!)<br/>
     &#8226; Pebble notifications will now work for everyone<br/>
     &#8226; Fixed the compose window not always shutting<br/>
 </br><br/>
