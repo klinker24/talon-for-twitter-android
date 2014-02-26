@@ -133,6 +133,8 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
 
         getLists();
 
+        Utils.setActionBar(context);
+
     }
 
     public void setUpWindow() {

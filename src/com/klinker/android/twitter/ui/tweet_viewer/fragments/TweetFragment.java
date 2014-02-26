@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +30,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,31 +47,28 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
-import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
+import com.klinker.android.twitter.utils.text.Regex;
 import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -117,8 +114,7 @@ public class TweetFragment extends Fragment {
 
     private TextView charRemaining;
 
-    String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-    final Pattern p = Pattern.compile(regex);
+    final Pattern p = Patterns.WEB_URL;
 
     private Handler countHandler;
     private Runnable getCount = new Runnable() {
@@ -364,9 +360,6 @@ public class TweetFragment extends Fragment {
                 public void onClick(View view) {
                     String text = tweet;
 
-                    text = HtmlUtils.removeColorHtml(text, settings);
-                    text = restoreLinks(text);
-
                     if (!settings.preferRT) {
                         text = "\"@" + screenName + ": " + text + "\" ";
                     } else {
@@ -460,7 +453,7 @@ public class TweetFragment extends Fragment {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        tweettv.setText(restoreLinks(tweet));
+        tweettv.setText(tweet);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
@@ -568,8 +561,8 @@ public class TweetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
-                        if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) > 140) {
+                    if (Integer.parseInt(charRemaining.getText().toString()) < 140 || settings.twitlonger) {
+                        if (Integer.parseInt(charRemaining.getText().toString()) > 140) {
                             new AlertDialog.Builder(context)
                                     .setTitle(context.getResources().getString(R.string.tweet_to_long))
                                     .setMessage(context.getResources().getString(R.string.select_shortening_service))
@@ -678,7 +671,7 @@ public class TweetFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 countHandler.removeCallbacks(getCount);
-                countHandler.postDelayed(getCount, 300);
+                countHandler.postDelayed(getCount, 200);
             }
         });
 
@@ -1384,70 +1377,5 @@ public class TweetFragment extends Fragment {
         }
 
         return inSampleSize;
-    }
-
-    public String restoreLinks(String text) {
-        String full = text;
-
-        String[] split = text.split(" ");
-
-        boolean changed = false;
-
-        if (otherLinks.length > 0) {
-            for (int i = 0; i < split.length; i++) {
-                String s = split[i];
-
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    String f = s.replace("...", "").replace("http", "");
-
-                    for (int x = 0; x < otherLinks.length; x++) {
-                        Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                        if (otherLinks[x].contains(f)) {
-                            changed = true;
-                            f = otherLinks[x];
-                            break;
-                        }
-                    }
-
-                    if (changed) {
-                        split[i] = f;
-                    } else {
-                        split[i] = s;
-                    }
-                } else {
-                    split[i] = s;
-                }
-
-            }
-        }
-
-        Log.v("talon_picture", ":" + webpage + ":");
-
-        if (!webpage.equals("")) {
-            for (int i = 0; i < split.length; i++) {
-                String s = split[i];
-
-                Log.v("talon_picture_", s);
-
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    split[i] = webpage;
-                    changed = true;
-                    Log.v("talon_picture", split[i]);
-                }
-            }
-        }
-
-
-
-        if(changed) {
-            full = "";
-            for (String p : split) {
-                full += p + " ";
-            }
-
-            full = full.substring(0, full.length() - 1);
-        }
-
-        return full;
     }
 }

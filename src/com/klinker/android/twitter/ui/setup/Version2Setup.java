@@ -30,7 +30,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -154,6 +154,7 @@ public class Version2Setup extends Activity {
         protected void onPreExecute() {
             progDescription.setText(getString(R.string.cleaning_databases));
             progressBar.setIndeterminate(true);
+            summary.setText("");
 
             progDescription.setVisibility(View.VISIBLE);
         }
@@ -179,7 +180,7 @@ public class Version2Setup extends Activity {
                 do {
                     id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-                    home.removeHTML(id, HtmlUtils.removeColorHtml(text, settings));
+                    home.removeHTML(id, TweetLinkUtils.removeColorHtml(text, settings));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -191,7 +192,7 @@ public class Version2Setup extends Activity {
                 do {
                     id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-                    home.removeHTML(id, HtmlUtils.removeColorHtml(text, settings));
+                    home.removeHTML(id, TweetLinkUtils.removeColorHtml(text, settings));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -211,7 +212,7 @@ public class Version2Setup extends Activity {
                 do {
                     id = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
                     text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
-                    mentions.removeHTML(id, HtmlUtils.removeColorHtml(text, settings));
+                    mentions.removeHTML(id, TweetLinkUtils.removeColorHtml(text, settings));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -223,7 +224,7 @@ public class Version2Setup extends Activity {
                 do {
                     id = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
                     text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
-                    mentions.removeHTML(id, HtmlUtils.removeColorHtml(text, settings));
+                    mentions.removeHTML(id, TweetLinkUtils.removeColorHtml(text, settings));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -243,7 +244,7 @@ public class Version2Setup extends Activity {
                 do {
                     id = cursor.getLong(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TWEET_ID));
                     text = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
-                    dm.removeHTML(id, HtmlUtils.removeColorHtml(text, settings));
+                    dm.removeHTML(id, TweetLinkUtils.removeColorHtml(text, settings));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -255,7 +256,7 @@ public class Version2Setup extends Activity {
                 do {
                     id = cursor.getLong(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TWEET_ID));
                     text = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
-                    dm.removeHTML(id, HtmlUtils.removeColorHtml(text, settings));
+                    dm.removeHTML(id, TweetLinkUtils.removeColorHtml(text, settings));
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -275,7 +276,7 @@ public class Version2Setup extends Activity {
                 do {
                     id = cursor.getLong(cursor.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID));
                     text = cursor.getString(cursor.getColumnIndex(ListSQLiteHelper.COLUMN_TEXT));
-                    lists.removeHTML(id, HtmlUtils.removeColorHtml(text, settings));
+                    lists.removeHTML(id, TweetLinkUtils.removeColorHtml(text, settings));
                 } while (cursor.moveToNext());
             }
             cursor.close();

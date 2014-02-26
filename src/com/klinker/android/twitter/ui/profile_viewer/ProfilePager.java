@@ -110,6 +110,8 @@ public class ProfilePager extends Activity {
             strip.setBackgroundColor(settings.accentInt);
         }
 
+        Utils.setActionBar(context);
+
     }
 
     public void setUpTheme() {
@@ -190,6 +192,14 @@ public class ProfilePager extends Activity {
                     thisUser = twitter.showUser(screenName);
                 } catch (Exception e) {
                     thisUser = null;
+                }
+
+                if (thisUser != null) {
+                    try {
+                        FollowersDataSource.getInstance(context).createUser(thisUser, sharedPrefs.getInt("current_account", 1));
+                    } catch (Exception e) {
+                        // the user already exists. don't know if this is more efficient than querying the db or not.
+                    }
                 }
 
                 new GetActionBarInfo().execute();

@@ -1,24 +1,22 @@
-package com.klinker.android.twitter.ui.drawer_activities.trends;
+package com.klinker.android.twitter.ui.drawer_activities.discover.people;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.CategoriesArrayAdapter;
 import com.klinker.android.twitter.adapters.TrendsArrayAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -27,13 +25,19 @@ import com.klinker.android.twitter.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
+import twitter4j.Category;
 import twitter4j.GeoLocation;
 import twitter4j.ResponseList;
 import twitter4j.Trend;
 import twitter4j.Twitter;
+import twitter4j.UserList;
+import twitter4j.api.SuggestedUsersResources;
 
-public class WorldTrends extends Fragment {
+
+public class CategoryFragment extends Fragment {
 
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -71,34 +75,33 @@ public class WorldTrends extends Fragment {
             }
         }
 
-        getTrends();
+        getSuggestions();
 
         return layout;
     }
 
-    public void getTrends() {
+    public void getSuggestions() {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
 
-                    twitter4j.Trends trends = twitter.getPlaceTrends(1);
-                    final ArrayList<String> currentTrends = new ArrayList<String>();
+                    int i = 0;
 
-                    for(Trend t: trends.getTrends()){
-                        String name = t.getName();
-                        currentTrends.add(name);
-                    }
+                    final ResponseList<Category> categories = twitter.getSuggestedUserCategories();
+
+                    Collections.sort(categories, new Comparator<Category>() {
+                        public int compare(Category result1, Category result2) {
+                            return result1.getName().compareTo(result2.getName());
+                        }
+                    });
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(currentTrends != null) {
-                                listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
-                            }
-
+                            listView.setAdapter(new CategoriesArrayAdapter(context, categories));
                             listView.setVisibility(View.VISIBLE);
 
                             LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
@@ -107,6 +110,12 @@ public class WorldTrends extends Fragment {
                     });
                 } catch (Throwable e) {
                     e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Couldn't find your location!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         }).start();
@@ -115,4 +124,5 @@ public class WorldTrends extends Fragment {
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
+
 }

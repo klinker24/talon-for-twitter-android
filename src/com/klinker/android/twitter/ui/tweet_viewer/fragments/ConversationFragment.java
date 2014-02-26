@@ -54,9 +54,19 @@ public class ConversationFragment extends Fragment {
         context = activity;
     }
 
+    public static boolean isRunning = true;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isRunning = false;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        isRunning = true;
 
         layout = inflater.inflate(R.layout.conversation_fragment, null);
         final AsyncListView replyList = (AsyncListView) layout.findViewById(R.id.listView);
@@ -87,6 +97,11 @@ public class ConversationFragment extends Fragment {
         Thread getReplies = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                if (!isRunning) {
+                    return;
+                }
+
                 Twitter twitter = Utils.getTwitter(context, settings);
                 replies = new ArrayList<twitter4j.Status>();
                 try {
@@ -100,6 +115,9 @@ public class ConversationFragment extends Fragment {
 
                     try {
                         while(!replyStatus.getText().equals("")) {
+                            if (!isRunning) {
+                                return;
+                            }
                             replies.add(replyStatus);
                             Log.v("reply_status", replyStatus.getText());
 
@@ -173,6 +191,11 @@ public class ConversationFragment extends Fragment {
         Thread getReplies = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                if (!isRunning) {
+                    return;
+                }
+
                 ArrayList<twitter4j.Status> all = null;
                 Twitter twitter = Utils.getTwitter(context, settings);
                 try {
@@ -196,6 +219,9 @@ public class ConversationFragment extends Fragment {
                     all = new ArrayList<twitter4j.Status>();
 
                     do {
+                        if (!isRunning) {
+                            return;
+                        }
                         List<Status> tweets = result.getTweets();
 
                         for(twitter4j.Status tweet : tweets){
@@ -203,6 +229,38 @@ public class ConversationFragment extends Fragment {
                                 all.add(tweet);
                                 Log.v("talon_replies", tweet.getText());
                             }
+                        }
+
+                        if (all.size() > 0) {
+                            for (int i = all.size() - 1; i >= 0; i--) {
+                                replies.add(all.get(i));
+                            }
+
+                            all.clear();
+
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.GONE);
+                                    try {
+                                        if (replies.size() > 0) {
+                                            if (adapter != null) {
+                                                adapter.notifyDataSetChanged();
+                                            } else {
+                                                adapter = new TimelineArrayAdapter(context, replies);
+                                                listView.setAdapter(adapter);
+                                                listView.setVisibility(View.VISIBLE);
+                                            }
+                                        } else {
+                                            none.setVisibility(View.VISIBLE);
+                                        }
+                                    } catch (Exception e) {
+                                        // none and it got the null object
+                                        listView.setVisibility(View.GONE);
+                                        none.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            });
                         }
 
                         query = result.nextQuery();
@@ -218,35 +276,17 @@ public class ConversationFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                final ArrayList<Status> fAll = all;
-
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.GONE);
-                        try {
-                            if (fAll.size() > 0) {
-
-                                for (int i = fAll.size() - 1; i >= 0; i--) {
-                                    replies.add(fAll.get(i));
-                                }
-
-                                if (adapter != null) {
-                                    adapter.notifyDataSetChanged();
-                                } else {
-                                    listView.setAdapter(new TimelineArrayAdapter(context, replies));
-                                    listView.setVisibility(View.VISIBLE);
-                                }
-                            } else {
-                                none.setVisibility(View.VISIBLE);
-                            }
-                        } catch (Exception e) {
-                            // none and it got the null object
+                if (progressBar.getVisibility() == View.VISIBLE) {
+                    // nothing to show, so tell them that
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
                             listView.setVisibility(View.GONE);
                             none.setVisibility(View.VISIBLE);
-                        }
                     }
                 });
+            }
             }
         });
 

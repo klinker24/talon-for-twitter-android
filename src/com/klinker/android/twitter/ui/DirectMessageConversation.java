@@ -138,6 +138,8 @@ public class DirectMessageConversation extends Activity {
                 }
             }
         });
+
+        Utils.setActionBar(context);
     }
 
     public void setUpWindow() {

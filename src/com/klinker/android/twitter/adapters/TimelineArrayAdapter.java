@@ -13,7 +13,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +37,7 @@ import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.text.TextUtils;
@@ -373,7 +372,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String name = user.getName();
         final String screenname = user.getScreenName();
 
-        String[] html = HtmlUtils.getHtmlStatus(thisStatus);
+        String[] html = TweetLinkUtils.getHtmlStatus(thisStatus);
         final String tweetText = html[0];
         final String picUrl = html[1];
         holder.picUrl = picUrl;
@@ -889,7 +888,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
-                    text = HtmlUtils.removeColorHtml(text, settings);
+                    text = TweetLinkUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
                     if (!settings.preferRT) {
@@ -976,7 +975,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
-                    text = HtmlUtils.removeColorHtml(text, settings);
+                    text = TweetLinkUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
                     if (!settings.preferRT) {

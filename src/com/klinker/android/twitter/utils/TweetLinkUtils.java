@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.utils;
 
+import android.util.Log;
+
 import com.klinker.android.twitter.settings.AppSettings;
 
 import twitter4j.DirectMessage;
@@ -9,7 +11,7 @@ import twitter4j.Status;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
-public class HtmlUtils {
+public class TweetLinkUtils {
 
     public static String[] getHtmlStatus(Status status) {
         UserMentionEntity[] users = status.getUserMentionEntities();
@@ -47,33 +49,22 @@ public class HtmlUtils {
         MediaEntity[] medias = status.getMediaEntities();
         String mediaExp = "";
         String mediaComp = "";
+        String mediaDisplay = "";
 
         for (MediaEntity e : medias) {
             String url = e.getURL();
             if (url.length() > 1) {
                 mediaComp += url + "  ";
                 mediaExp += e.getExpandedURL() + "  ";
+                mediaDisplay += e.getDisplayURL() + "  ";
             }
         }
 
-        String[] sUsers;
-        String[] sHashtags;
         String[] sExpandedUrls;
         String[] sCompressedUrls;
         String[] sMediaExp;
         String[] sMediaComp;
-
-        try {
-            sUsers = mUsers.split("  ");
-        } catch (Exception e) {
-            sUsers = new String[0];
-        }
-
-        try {
-            sHashtags = mHashtags.split("  ");
-        } catch (Exception e) {
-            sHashtags = new String[0];
-        }
+        String[] sMediaDisplay;
 
         try {
             sCompressedUrls = compressedUrls.split("  ");
@@ -99,31 +90,13 @@ public class HtmlUtils {
             sMediaExp = new String[0];
         }
 
-        String tweetTexts = status.getText();
-
-        /*if (users.length > 0) {
-            for (String s : sUsers) {
-                if (s.length() > 1) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("@" + s.toLowerCase(), "<font color='#FF8800'>@" + s + "</font>");
-                    }
-                }
-            }
+        try {
+            sMediaDisplay = mediaDisplay.split("  ");
+        } catch (Exception e) {
+            sMediaDisplay = new String[0];
         }
 
-        if(hashtags.length > 0) {
-            for (String s : sHashtags) {
-                if (s.length() > 1 && !s.equals("FF")) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("#" + s, "<font color='#FF8800'>#" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("#" + s.toLowerCase(), "<font color='#FF8800'>#" + s + "</font>");
-                    }
-                }
-            }
-        }*/
+        String tweetTexts = status.getText();
 
         String imageUrl = "";
         String otherUrl = "";
@@ -134,9 +107,9 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.insta")) {
                     imageUrl = exp + "media/?size=m";
@@ -188,6 +161,10 @@ public class HtmlUtils {
                 } else if (exp.toLowerCase().contains("pbs.twimg.com")) {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("ow.ly/i")) {
+                    Log.v("talon_owly", exp);
+                    imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
+                    otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
                 }
@@ -200,12 +177,12 @@ public class HtmlUtils {
 
             if (comp.length() > 1 && exp.length() > 1) {
                 try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
-                //otherUrl += exp;
+                otherUrl += sMediaDisplay[i];
             }
         }
 
@@ -248,12 +225,14 @@ public class HtmlUtils {
         MediaEntity[] medias = status.getMediaEntities();
         String mediaExp = "";
         String mediaComp = "";
+        String mediaDisplay = "";
 
         for (MediaEntity e : medias) {
             String url = e.getURL();
             if (url.length() > 1) {
                 mediaComp += url + "  ";
                 mediaExp += e.getExpandedURL() + "  ";
+                mediaDisplay += e.getDisplayURL() + "  ";
             }
         }
 
@@ -263,18 +242,7 @@ public class HtmlUtils {
         String[] sCompressedUrls;
         String[] sMediaExp;
         String[] sMediaComp;
-
-        try {
-            sUsers = mUsers.split("  ");
-        } catch (Exception e) {
-            sUsers = new String[0];
-        }
-
-        try {
-            sHashtags = mHashtags.split("  ");
-        } catch (Exception e) {
-            sHashtags = new String[0];
-        }
+        String[] sMediaDisply;
 
         try {
             sCompressedUrls = compressedUrls.split("  ");
@@ -300,31 +268,13 @@ public class HtmlUtils {
             sMediaExp = new String[0];
         }
 
-        String tweetTexts = status.getText();
-
-        /*if (users.length > 0) {
-            for (String s : sUsers) {
-                if (s.length() > 1) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("@" + s, "<font color='#FF8800'>@" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("@" + s.toLowerCase(), "<font color='#FF8800'>@" + s + "</font>");
-                    }
-                }
-            }
+        try {
+            sMediaDisply = mediaDisplay.split("  ");
+        } catch (Exception e) {
+            sMediaDisply = new String[0];
         }
 
-        if(hashtags.length > 0) {
-            for (String s : sHashtags) {
-                if (s.length() > 1) {
-                    if (tweetTexts.contains(s)) {
-                        tweetTexts = tweetTexts.replace("#" + s, "<font color='#FF8800'>#" + s + "</font>");
-                    } else {
-                        tweetTexts = tweetTexts.replace("#" + s.toLowerCase(), "<font color='#FF8800'>#" + s + "</font>");
-                    }
-                }
-            }
-        }*/
+        String tweetTexts = status.getText();
 
         String imageUrl = "";
         String otherUrl = "";
@@ -334,11 +284,12 @@ public class HtmlUtils {
             String exp = sExpandedUrls[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
+                /*try {
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
-                }
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
+                }*/
                 if(exp.toLowerCase().contains("instag") && !exp.contains("blog.instag")) {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
@@ -376,6 +327,10 @@ public class HtmlUtils {
                 } else if (exp.toLowerCase().contains("pbs.twimg.com")) {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains("ow.ly/i")) {
+                    Log.v("talon_owly", exp);
+                    imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
+                    otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
                 }
@@ -387,12 +342,14 @@ public class HtmlUtils {
             String exp = sMediaExp[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
-                try {
-                    tweetTexts = tweetTexts.replace(comp, exp.substring(0, 22) + "...");
+                tweetTexts = tweetTexts.replace(comp, sMediaDisply[i]);
+                /*try {
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 22) + "...");
                 } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp);
-                }
+                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
+                }*/
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
+                otherUrl += sMediaDisply[i];
             }
         }
 

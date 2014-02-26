@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.drawer_activities.trends;
+package com.klinker.android.twitter.ui.drawer_activities.discover;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,7 +17,7 @@ import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 /**
  * Created by luke on 11/29/13.
  */
-public class TrendsPager extends DrawerActivity {
+public class DiscoverPager extends DrawerActivity {
 
     private TrendsPagerAdapter mSectionsPagerAdapter;
 
@@ -68,7 +68,7 @@ public class TrendsPager extends DrawerActivity {
 
         overridePendingTransition(0,0);
         finish();
-        Intent restart = new Intent(context, TrendsPager.class);
+        Intent restart = new Intent(context, DiscoverPager.class);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         overridePendingTransition(0, 0);
         startActivity(restart);

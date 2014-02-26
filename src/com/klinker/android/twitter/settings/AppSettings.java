@@ -3,7 +3,9 @@ package com.klinker.android.twitter.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.preference.PreferenceGroup;
@@ -124,6 +126,8 @@ public class AppSettings {
     public long mentionsRefresh;
     public long dmRefresh;
     public long myId;
+
+    public Drawable actionBar = null;
 
     public AppSettings(Context context) {
         Log.v("talon_settings", "getting talon settings");
@@ -306,9 +310,13 @@ public class AppSettings {
                 } else {
                     this.theme = THEME_LIGHT;
                 }
+
+                Resources res = context.getPackageManager().getResourcesForApplication(addonThemePackage);
+                actionBar = res.getDrawable(res.getIdentifier("ab_background", "drawable", addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
                 sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();
+                actionBar = null;
             }
         } else {
             addonTheme = false;

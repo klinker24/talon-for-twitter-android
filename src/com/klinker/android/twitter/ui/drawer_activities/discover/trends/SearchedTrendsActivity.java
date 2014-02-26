@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.drawer_activities.trends;
+package com.klinker.android.twitter.ui.drawer_activities.discover.trends;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -147,6 +147,8 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
 
         handleIntent(getIntent());
 
+        Utils.setActionBar(context);
+
     }
 
     public void setUpWindow() {
@@ -274,6 +276,30 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
+
+            case R.id.menu_pic_filter:
+                listView.setVisibility(View.GONE);
+                if (!item.isChecked()) {
+                    searchQuery += " filter:links twitter.com";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace("filter:links", "").replace("twitter.com", "");
+                    item.setChecked(false);
+                }
+                doSearch(searchQuery);
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_remove_rt:
+                listView.setVisibility(View.GONE);
+                if (!item.isChecked()) {
+                    searchQuery += " -RT";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace(" -RT", "");
+                    item.setChecked(false);
+                }
+                doSearch(searchQuery);
+                return super.onOptionsItemSelected(item);
 
             default:
                 return super.onOptionsItemSelected(item);

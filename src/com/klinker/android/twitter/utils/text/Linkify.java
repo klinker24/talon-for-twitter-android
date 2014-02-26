@@ -300,7 +300,11 @@ class Linkify {
         tv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                holder.performLongClick();
+                try {
+                    holder.performLongClick();
+                } catch (Exception e) {
+                    // i didn't send anything to holder, so it will throw an npe
+                }
                 return false;
             }
         });

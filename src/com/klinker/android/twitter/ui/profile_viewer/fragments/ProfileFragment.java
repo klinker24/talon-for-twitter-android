@@ -506,35 +506,35 @@ public class ProfileFragment extends Fragment {
                                         verified.setText(getResources().getString(R.string.verified));
                                     }
                                 }
+
+                                String state = thisUser.getDescription() + "\n";
+                                String loca = thisUser.getLocation();
+
+                                if (!loca.equals("")) {
+                                    state += "\n" + thisUser.getLocation();
+                                }
+
+                                if (state.equals("")) {
+                                    statement.setText(getResources().getString(R.string.no_description));
+                                } else {
+                                    statement.setText(state);
+                                }
+
+                                if (!settings.addonTheme) {
+                                    statement.setLinkTextColor(getResources().getColor(R.color.app_color));
+                                } else {
+                                    statement.setLinkTextColor(settings.accentInt);
+                                }
+
+                                tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
+                                followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
+                                followingBtn.setText(getResources().getString(R.string.following) + "\n" + "(" + thisUser.getFriendsCount() + ")");
+
+                                getURL(statement, thisUser);
+                                getTimeline(thisUser, listView);
                             } catch (Exception e) {
-                                // their theme was created before this was implemented
+                                // Illegal state because the activity is destroyed
                             }
-
-                            String state = thisUser.getDescription() + "\n";
-                            String loca = thisUser.getLocation();
-
-                            if (!loca.equals("")) {
-                                state += "\n" + thisUser.getLocation();
-                            }
-
-                            if (state.equals("")) {
-                                statement.setText(getResources().getString(R.string.no_description));
-                            } else {
-                                statement.setText(state);
-                            }
-
-                            if (!settings.addonTheme) {
-                                statement.setLinkTextColor(getResources().getColor(R.color.app_color));
-                            } else {
-                                statement.setLinkTextColor(settings.accentInt);
-                            }
-
-                            tweetsBtn.setText(getResources().getString(R.string.tweets) + "\n" + "(" + thisUser.getStatusesCount() + ")");
-                            followersBtn.setText(getResources().getString(R.string.followers) + "\n" + "(" + thisUser.getFollowersCount() + ")");
-                            followingBtn.setText(getResources().getString(R.string.following) + "\n" + "(" + thisUser.getFriendsCount() + ")");
-
-                            getURL(statement, thisUser);
-                            getTimeline(thisUser, listView);
                         }
                     });
                 } catch (Exception e) {
