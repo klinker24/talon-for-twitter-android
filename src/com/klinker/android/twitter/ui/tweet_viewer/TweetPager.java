@@ -640,7 +640,7 @@ public class TweetPager extends YouTubeBaseActivity {
                             if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
                                 otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
                             }
-                            f = otherLinks[x];
+                            f = otherLinks[x].replace("http://", "").replace("https://", "").replace("www.", "");
                             break;
                         }
                     }
@@ -666,7 +666,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 Log.v("talon_links", s);
 
-                if (Patterns.WEB_URL.matcher(s).find() && (s.contains("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
                     String replace = otherLinks[otherLinks.length - 1];
                     Log.v("talon_links", ":" + replace + ":");
                     if (replace.replace(" ", "").equals("")) {

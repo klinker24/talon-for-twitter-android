@@ -23,6 +23,7 @@
     &#8226; Displaying links on timeline<br/>
     &#8226; Displaying and sharing Twitter picture links<br/>
     &#8226; Theme selection<br/>
+    &#8226; Excessive lag when closing the tweet viewer or profiles (caused from the background processes not being stopped)<br/>
 <br/>
 <b>FIXES:</b><br/>
     &#8226; A little bit better Vine support. Sound is an issue.<br/>

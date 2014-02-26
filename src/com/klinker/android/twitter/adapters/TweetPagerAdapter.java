@@ -91,7 +91,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
             }
 
             //if (youtube) {
-                if (webpages.size() > 1 && sharedPrefs.getBoolean("inapp_browser", true)) {
+                if (webpages.size() >= 1 && sharedPrefs.getBoolean("inapp_browser", true)) {
                     this.hasWebpage = true;
                 } else {
                     this.hasWebpage = false;
