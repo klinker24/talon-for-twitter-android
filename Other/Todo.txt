@@ -7,11 +7,9 @@
 - Bugs:
     - video sound stops after one time playing it
     - small images have the spinner behind them
-    - quoting with an image give the pbs.twimg url
     - random avatar changes
     - sideways pictures
     - try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
-    - stop threads from running when the tweet or profile activity is closed
 
 
 -- For Release --
@@ -31,3 +29,4 @@
     - Minor
         -- dimen for pic sizes for tablets on tweet viewer
         -- full finnish update
+        -- higher quality profile pictures on profile maybe?
