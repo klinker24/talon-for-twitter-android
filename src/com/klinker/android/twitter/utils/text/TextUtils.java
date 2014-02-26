@@ -59,7 +59,7 @@ public class TextUtils {
             Log.v("talon_text", "Found: " + m.group(0));
             finish = changeText(finish, m.group(0), color);
         }
-        m = Regex.WEB_URL_PATTERN.matcher(tweet);
+        m = Patterns.WEB_URL.matcher(tweet);
         while (m.find()) {
             Log.v("talon_text", "Found: " + m.group(0));
             finish = changeText(finish, m.group(0), color);
