@@ -29,4 +29,5 @@
         -- scheduling tweets
 
     - Minor
+        -- dimen for pic sizes for tablets on tweet viewer
         -- full finnish update
