@@ -1,20 +1,12 @@
 - Features:
-    - scheduling tweets
     - instapaper mobilizer
-    - nearby tweets
-    - pick where the local trends are
-    - picture searching
-    - translation
+    - translation of tweets (probably won't be happening)
     - pictures on direct messages
-    - discover tab
-    - pics on profile somehow
+    - addon package for full screen themes
 
 - Bugs:
-    - doesn't display pictures full screen when clicking on tweet
     - video sound stops after one time playing it
-    - compose not always shutting?
-    - small images have the spinner behind them..
-    - quoting with an image give the pbs.twimg url
+    - small images have the spinner behind them
     - random avatar changes
     - sideways pictures
     - try to fix the overlay action bar sometimes not working (find a way to check it, then recreate if it happens)
@@ -23,9 +15,20 @@
 -- For Release --
 
 - 2.0.0
-    -- post from different accounts on compose window
-    -- Mute by source and regex
-    -- theme the action bar
-    -- put the retweeter button onto the theme example
-    -- new widget stuff
-    -- add image previews for that guys emails... and the one on google plus
+    - Features/Major
+        -- post from different accounts on compose window
+        -- Mute by source and regex
+        -- new widget stuff
+        -- picture page on profiles
+        -- go to jacobs settings drawer
+        -- add auto complete users to the reply activity
+        -- auto-complete hashtags
+        -- custom backgrounds
+        -- scheduling tweets
+
+    - Minor
+        -- dimen for pic sizes for tablets on tweet viewer
+        -- full finnish update
+        -- higher quality profile pictures on profile maybe?
+        -- Version 2 text on startup
+        -- no retweeters text if there aren't any

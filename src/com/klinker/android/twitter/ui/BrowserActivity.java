@@ -68,6 +68,8 @@ public class BrowserActivity extends Activity {
         browser.loadUrl(url);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Utils.setActionBar(this);
     }
 
     @Override

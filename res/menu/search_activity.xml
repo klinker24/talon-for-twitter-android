@@ -19,9 +19,22 @@
         android:orderInCategory="3"
         android:showAsAction="never" />
 
+    <item android:title="@string/menu_apply_picture_filter"
+        android:id="@+id/menu_pic_filter"
+        android:orderInCategory="4"
+        android:showAsAction="never"
+        android:checkable="true"
+        android:checked="false" />
+
+    <item android:title="@string/menu_remove_rt"
+        android:id="@+id/menu_remove_rt"
+        android:orderInCategory="5"
+        android:showAsAction="never"
+        android:checkable="true"
+        android:checked="false"/>
 
     <item android:id="@+id/menu_settings"
-        android:orderInCategory="3"
+        android:orderInCategory="6"
         android:title="@string/menu_settings"
         android:showAsAction="never" />
 

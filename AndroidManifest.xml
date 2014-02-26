@@ -96,7 +96,7 @@
             android:theme="@style/Theme.TalonDark.Popup" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.trends.TrendsPager"
+        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.discover.DiscoverPager"
             android:label="@string/local_trends"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
@@ -205,7 +205,7 @@
                 android:resource="@xml/searchable"/>
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity"
+        <activity android:name=".ui.drawer_activities.discover.trends.SearchedTrendsActivity"
             android:label="@string/trends"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
@@ -352,6 +352,13 @@
 
         <activity android:name=".ui.tweet_viewer.ViewRetweeters"
             android:label="@string/view_retweeters"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.TalonDark.Popup">
+        </activity>
+
+        <activity android:name=".ui.drawer_activities.discover.people.PeopleSearch"
+            android:label="@string/suggested_users"
             android:configChanges="orientation"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.TalonDark.Popup">

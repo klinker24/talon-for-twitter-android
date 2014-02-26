@@ -185,6 +185,8 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
                     e.printStackTrace();
 
                 }
+
+                mPullToRefreshLayout.setRefreshComplete();
             }
         }).start();
     }

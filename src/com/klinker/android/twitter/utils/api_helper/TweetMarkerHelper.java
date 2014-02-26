@@ -87,7 +87,7 @@ public class TweetMarkerHelper extends APIHelper {
         }
     }
 
-    public void sendCurrentId(String collection, long id) {
+    public boolean sendCurrentId(String collection, long id) {
         try {
             HttpPost post = new HttpPost(postURL);
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
@@ -118,11 +118,21 @@ public class TweetMarkerHelper extends APIHelper {
                 response = client.execute(post);
                 responseCode = response.getStatusLine().getStatusCode();
                 Log.v("talon_tweetmarker", "sending response code: " + responseCode);
+
+                if (responseCode == 200) {
+                    // success, return true
+                    return true;
+                }
+
+            } else {
+                return true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     public long getLastStatus(String collection, int lastVersion, SharedPreferences sharedPrefs) {

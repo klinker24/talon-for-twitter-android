@@ -120,12 +120,12 @@ public class NotificationUtils {
             if (useExpanded) {
                 mBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle(title[0])
-                        .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                         .setContentIntent(resultPendingIntent)
                         .setAutoCancel(true)
-                        .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setDeleteIntent(readPending)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
@@ -160,11 +160,11 @@ public class NotificationUtils {
             } else {
                 mBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle(title[0])
-                        .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                         .setContentIntent(resultPendingIntent)
-                        .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setDeleteIntent(readPending)
                         .setAutoCancel(true);
             }
@@ -502,7 +502,7 @@ public class NotificationUtils {
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -511,7 +511,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -612,7 +612,7 @@ public class NotificationUtils {
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(message, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -622,7 +622,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(messageLong, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(messageLong, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -790,8 +790,8 @@ public class NotificationUtils {
         final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
 
         final Map data = new HashMap();
-        data.put("title", HtmlUtils.removeColorHtml(title, AppSettings.getInstance(context)));
-        data.put("body", HtmlUtils.removeColorHtml(body, AppSettings.getInstance(context)));
+        data.put("title", TweetLinkUtils.removeColorHtml(title, AppSettings.getInstance(context)));
+        data.put("body", TweetLinkUtils.removeColorHtml(body, AppSettings.getInstance(context)));
         final JSONObject jsonData = new JSONObject(data);
         final String notificationData = new JSONArray().put(jsonData).toString();
 

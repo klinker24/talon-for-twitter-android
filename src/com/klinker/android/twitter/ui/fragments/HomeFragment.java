@@ -175,11 +175,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                         long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
 
-                        helper.sendCurrentId("timeline", currentId);
+                        boolean success = helper.sendCurrentId("timeline", currentId);
 
-                        // then want to write the new version into shared prefs
-                        int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
-                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
+                        if (success) {
+                            // then want to write the new version into shared prefs
+                            int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+                            sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
+                        }
                     }
                 }).start();
             }
@@ -967,11 +969,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                     long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
 
-                    helper.sendCurrentId("timeline", currentId);
+                    boolean success = helper.sendCurrentId("timeline", currentId);
 
-                    // then want to write the new version into shared prefs
-                    int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
-                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
+                    if (success) {
+                        // then want to write the new version into shared prefs
+                        int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
+                    }
                 }
             }).start();
         }

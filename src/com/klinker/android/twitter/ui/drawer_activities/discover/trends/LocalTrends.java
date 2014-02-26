@@ -1,11 +1,10 @@
-package com.klinker.android.twitter.ui.drawer_activities.trends;
+package com.klinker.android.twitter.ui.drawer_activities.discover.trends;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
@@ -131,10 +130,16 @@ public class LocalTrends extends Fragment implements
                         i++;
                     }
 
-                    Location location = mLocationClient.getLastLocation();
+                    twitter4j.Trends trends;
 
-                    ResponseList<twitter4j.Location> locations = twitter.getClosestTrends(new GeoLocation(location.getLatitude(),location.getLongitude()));
-                    twitter4j.Trends trends = twitter.getPlaceTrends(locations.get(0).getWoeid());
+                    if (sharedPrefs.getBoolean("manually_config_location", false)) {
+                        trends = twitter.getPlaceTrends(sharedPrefs.getInt("woeid", 2379574)); // chicago to default
+                    } else {
+                        Location location = mLocationClient.getLastLocation();
+
+                        ResponseList<twitter4j.Location> locations = twitter.getClosestTrends(new GeoLocation(location.getLatitude(),location.getLongitude()));
+                        trends = twitter.getPlaceTrends(locations.get(0).getWoeid());
+                    }
 
                     final ArrayList<String> currentTrends = new ArrayList<String>();
 

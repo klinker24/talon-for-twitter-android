@@ -524,5 +524,14 @@
     <string name="setting_up_lists">Setting up lists...</string>
     <string name="version_two_setup_done">Done setting up Talon 2.0, enjoy!</string>
     <string name="no_content">Nothing to display!</string>
+    <string name="discover">Discover</string>
+    <string name="suggested_users">Suggested Users</string>
+    <string name="nearby_tweets">Nearby Tweets</string>
+    <string name="local_trend_options">Local Trend Options</string>
+    <string name="manually_config_location">Manually Configure Location</string>
+    <string name="country_region">Country/Region</string>
+    <string name="city">City</string>
+    <string name="menu_apply_picture_filter">Apply Picture Filter</string>
+    <string name="menu_remove_rt">Remove Retweets</string>
 
 </resources>

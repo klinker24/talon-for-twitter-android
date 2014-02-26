@@ -22,13 +22,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
-import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
+import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 
 public class LongClickableSpan extends ClickableSpan {
@@ -53,11 +54,10 @@ public class LongClickableSpan extends ClickableSpan {
 
     @Override
     public void onClick(View widget) {
-        if (Patterns.EMAIL_ADDRESS.matcher(mValue).find() || Patterns.PHONE.matcher(mValue).find()) {
-            // don't do anything with these yet
-            //Utils.showContactDialog(mContext, mValue, widget);
-        } else if (Patterns.WEB_URL.matcher(mValue).find()) {
+        Log.v("talon_link", mValue);
+        if (Patterns.WEB_URL.matcher(mValue).find()) {
             // open the in-app browser or the regular browser
+            Log.v("talon_link", "web");
             if (mValue.contains("play.google.com")) {
                 // open to the play store
                 String data = mValue.replace("http://", "").replace("https://", "");
@@ -66,25 +66,21 @@ public class LongClickableSpan extends ClickableSpan {
                 );
                 mContext.startActivity(intent);
             } else {
-                if (false) {//settings.inAppBrowser) {
-                    Intent browser = new Intent(mContext, BrowserActivity.class);
-                    browser.putExtra("url", mValue);
-                    mContext.startActivity(browser);
-                } else {
-                    String data = mValue.replace("http://", "").replace("https://", "");
-                    Intent intent = new Intent(Intent.ACTION_VIEW).setData(
-                            Uri.parse("http://" + data)
-                    );
-                    mContext.startActivity(intent);
-                }
+                String data = mValue.replace("http://", "").replace("https://", "");
+
+                Uri weburi = Uri.parse("http://" + data);
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                mContext.startActivity(launchBrowser);
             }
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
+            Log.v("talon_link", "hashtag");
             // found a hashtag, so open the hashtag search
             Intent search = new Intent(mContext, SearchedTrendsActivity.class);
             search.setAction(Intent.ACTION_SEARCH);
             search.putExtra(SearchManager.QUERY, mValue);
             mContext.startActivity(search);
         } else if (Regex.MENTION_PATTERN.matcher(mValue).find()) {
+            Log.v("talon_link", "mention");
             Intent user = new Intent(mContext, ProfilePager.class);
             user.putExtra("screenname", mValue.replace("@", "").replaceAll(" ", ""));
             user.putExtra("proPic", "");
