@@ -39,4 +39,3 @@
     - tweetmarker shouldn't jump anymore
     - Overlay action bar fix
     - pictures not being switch on timeline and other places
-    - compose from multiple accounts
