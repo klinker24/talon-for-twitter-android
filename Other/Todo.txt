@@ -16,7 +16,6 @@
 
 - 2.0.0
     - Features/Major
-        -- post from different accounts on compose window
         -- Mute by source and regex
         -- new widget stuff
         -- picture page on profiles
@@ -40,3 +39,4 @@
     - tweetmarker shouldn't jump anymore
     - Overlay action bar fix
     - pictures not being switch on timeline and other places
+    - compose from multiple accounts

@@ -656,6 +656,8 @@ public class TalonPullNotificationService extends Service {
                     TalonPullNotificationService.shuttingDown = false;
 
                     mContext.startService(new Intent(mContext, TalonPullNotificationService.class));
+
+                    stopSelf();
                 }
             });
 
@@ -664,8 +666,6 @@ public class TalonPullNotificationService extends Service {
 
             TalonPullNotificationService.isRunning = false;
             thisInstanceOn = false;
-
-            stopSelf();
         }
     };
 }
