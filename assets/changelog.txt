@@ -31,6 +31,7 @@
     &#8226; Don't blur the banner picture in the drawer. Will have to clear cache for this to take effect<br/>
     &#8226; Displaying and sharing Twitter picture links<br/>
     &#8226; Hashtag muting support, works on mentions now too<br/>
+    &#8226; Set up so themers could use a transparent action bar if they would like<br/>
     &#8226; Retweets from Talon Pull in interactions drawer, they now stack on top of each other instead of creating an instance for every new one.<br/>
     &#8226; Theme selection<br/>
     &#8226; A bit larger auto-complete box<br/>
