@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
@@ -71,12 +72,6 @@ public class PhotoViewerDialog extends Activity {
         }
 
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
-        boolean doRestart = getIntent().getBooleanExtra("restart", true);
-
-        /*if (!doRestart) {
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-            spinner.setVisibility(View.GONE);
-        }*/
 
         AppSettings settings = AppSettings.getInstance(context);
 
@@ -85,6 +80,8 @@ public class PhotoViewerDialog extends Activity {
         }
 
         setContentView(R.layout.photo_dialog_layout);
+
+        final LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
 
         if (url == null) {
             finish();
@@ -98,21 +95,12 @@ public class PhotoViewerDialog extends Activity {
         picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
-        picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
+        picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
-                if (isRunning) {
-                    overridePendingTransition(0,0);
-                    finish();
-                    Intent restart = new Intent(context, PhotoViewerDialog.class);
-                    restart.putExtra("url", url);
-                    restart.putExtra("from_cache", true);
-                    restart.putExtra("restart", false);
-                    overridePendingTransition(0,0);
-                    startActivity(restart);
-                }
+                spinner.setVisibility(View.GONE);
             }
-        } : null, 0, fromCache); // no transform
+        }, 0, fromCache); // no transform
 
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
