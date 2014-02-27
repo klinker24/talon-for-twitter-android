@@ -533,5 +533,8 @@
     <string name="city">City</string>
     <string name="menu_apply_picture_filter">Apply Picture Filter</string>
     <string name="menu_remove_rt">Remove Retweets</string>
+    <string name="input_expression">Expression to mute...</string>
+    <string name="mute_expression">Mute Expression</string>
+    <string name="view_muted_expressions">Remove Muted Expressions</string>
 
 </resources>
