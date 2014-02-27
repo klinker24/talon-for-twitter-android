@@ -688,29 +688,10 @@ public class ProfilePager extends Activity {
                 if(resultCode == RESULT_OK){
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
-                        String filePath = IOUtils.getPath(selectedImage, context);
 
-                        Bitmap yourSelectedImage = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 500, 500);
+                        new UpdateProPic(getContentResolver().openInputStream(selectedImage)).execute();
 
-                        String root = Environment.getExternalStorageDirectory().toString();
-                        File myDir = new File(root + "/Talon");
-                        myDir.mkdirs();
-
-                        File file = new File(myDir, "profile.jpg");
-                        if (file.exists()) file.delete();
-                        try {
-                            FileOutputStream out = new FileOutputStream(file);
-                            yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 35, out);
-                            out.flush();
-                            out.close();
-
-                            new UpdateProPic(file).execute();
-
-                        } catch (Exception e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    } catch (FileNotFoundException e) {
+                    } catch (Exception e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
@@ -720,28 +701,8 @@ public class ProfilePager extends Activity {
                 if(resultCode == RESULT_OK){
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
-                        String filePath = IOUtils.getPath(selectedImage, context);
+                        new UpdateBanner(getContentResolver().openInputStream(selectedImage)).execute();
 
-                        Bitmap yourSelectedImage = decodeSampledBitmapFromResourceMemOpt(new FileInputStream(new File(filePath)), 500, 500);
-
-                        String root = Environment.getExternalStorageDirectory().toString();
-                        File myDir = new File(root + "/Talon");
-                        myDir.mkdirs();
-
-                        File file = new File(myDir, "banner.jpg");
-                        if (file.exists()) file.delete();
-                        try {
-                            FileOutputStream out = new FileOutputStream(file);
-                            yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 40, out);
-                            out.flush();
-                            out.close();
-
-                            new UpdateBanner(file).execute();
-
-                        } catch (Exception e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
                     } catch (FileNotFoundException e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
@@ -816,10 +777,10 @@ public class ProfilePager extends Activity {
     class UpdateBanner extends AsyncTask<String, Void, Boolean> {
 
         ProgressDialog pDialog;
-        private File out;
+        private InputStream stream;
 
-        public UpdateBanner(File out) {
-            this.out = out;
+        public UpdateBanner(InputStream stream) {
+            this.stream = stream;
         }
 
         protected void onPreExecute() {
@@ -835,7 +796,7 @@ public class ProfilePager extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
-                twitter.updateProfileBanner(out);
+                twitter.updateProfileBanner(stream);
 
                 String profileURL = thisUser.getProfileBannerURL();
                 sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
@@ -847,6 +808,12 @@ public class ProfilePager extends Activity {
         }
 
         protected void onPostExecute(Boolean uploaded) {
+
+            try {
+                stream.close();
+            } catch (Exception e) {
+
+            }
 
             pDialog.dismiss();
 
@@ -861,10 +828,10 @@ public class ProfilePager extends Activity {
     class UpdateProPic extends AsyncTask<String, Void, Boolean> {
 
         ProgressDialog pDialog;
-        private File out;
+        private InputStream stream;
 
-        public UpdateProPic(File out) {
-            this.out = out;
+        public UpdateProPic(InputStream stream) {
+            this.stream = stream;
         }
 
         protected void onPreExecute() {
@@ -881,7 +848,7 @@ public class ProfilePager extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
-                User user = twitter.updateProfileImage(out);
+                User user = twitter.updateProfileImage(stream);
                 String profileURL = user.getBiggerProfileImageURL();
                 sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
 
@@ -892,6 +859,12 @@ public class ProfilePager extends Activity {
         }
 
         protected void onPostExecute(Boolean uploaded) {
+
+            try {
+                stream.close();
+            } catch (Exception e) {
+
+            }
 
             pDialog.dismiss();
 

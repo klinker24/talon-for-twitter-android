@@ -29,7 +29,6 @@
         -- higher quality profile pictures on profile maybe?
         -- no retweeters text if there aren't any
         -- text feedback when clicked
-        -- uri stuff on user backgrounds and profile pictures
 
 
 - Need testing

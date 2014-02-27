@@ -256,7 +256,7 @@ public abstract class DrawerActivity extends Activity {
         final String profilePicUrl = settings.myProfilePicUrl;
 
         if (!backgroundUrl.equals("")) {
-            backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
+            backgroundPic.loadImage(backgroundUrl, false, null);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.default_header_background);
             backgroundPic.setImageBitmap(ImageUtils.blur(b));

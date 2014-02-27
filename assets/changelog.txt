@@ -25,6 +25,8 @@
     &#8226; Much more efficient and useful highlighting of users, hashtags, and links<br/>
     &#8226; Ability to open retweeters profile when viewing a retweet<br/>
     &#8226; Displaying links on timeline<br/>
+    &#8226; Uploading new profile and banner pictures<br/>
+    &#8226; Don't blur the banner picture in the drawer. Will have to clear cache for this to take effect<br/>
     &#8226; Displaying and sharing Twitter picture links<br/>
     &#8226; Hashtag muting support, works on mentions now too<br/>
     &#8226; Retweets from Talon Pull in interactions drawer, they now stack on top of each other instead of creating an instance for every new one.<br/>
