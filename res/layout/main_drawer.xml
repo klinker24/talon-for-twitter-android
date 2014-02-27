@@ -5,8 +5,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:animateLayoutChanges="true"
-              android:background="?drawerBackground" >
+              android:animateLayoutChanges="true" >
 
     <View android:id="@+id/drawer_status_bar"
         android:layout_width="match_parent"
@@ -21,14 +20,16 @@
     <include layout="@layout/user_header"
              android:id="@+id/header"
              android:layout_height="120dp"
-             android:layout_width="match_parent"/>
+             android:layout_width="match_parent"
+            android:background="?drawerBackground"/>
 
     <LinearLayout
             android:id="@+id/logoutLayout"
             android:orientation="vertical"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:animateLayoutChanges="true"
+            android:background="?drawerBackground"
             android:visibility="gone" >
 
         <!-- second profile stuff -->
@@ -94,21 +95,29 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/drawer_list"
-        android:layout_height="0dp"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:dividerHeight="1dp"
-        android:animateLayoutChanges="true"
-        android:divider="?drawerDividerColor"
-        android:scrollbars="none"
-        android:overScrollMode="never"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"/>
+        android:background="?drawerBackground">
+
+        <ListView
+            android:id="@+id/drawer_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:dividerHeight="1dp"
+            android:animateLayoutChanges="true"
+            android:divider="?drawerDividerColor"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"/>
+
+        </LinearLayout>
+
 
 </LinearLayout>
