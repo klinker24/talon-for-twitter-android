@@ -33,8 +33,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
@@ -80,6 +83,12 @@ public abstract class Compose extends Activity implements
     public ImageButton overflow;
     public TextView charRemaining;
     public ListPopupWindow autocomplete;
+
+    public LinearLayout selectAccounts;
+    public CheckBox accountOneCheck;
+    public CheckBox accountTwoCheck;
+    public HoloTextView accountOneName;
+    public HoloTextView accountTwoName;
 
     public String attachedUri = "";
 
@@ -509,37 +518,81 @@ public abstract class Compose extends Activity implements
             String status = args[0];
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
+                Twitter twitter2 = Utils.getSecondTwitter(getApplicationContext());
 
                 if (remaining < 0) {
                     // twitlonger goes here
-                    TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
-                    if (notiId != 0) {
-                        helper.setInReplyToStatusId(notiId);
-                    }
+                    boolean isDone = false;
 
-                    if (addLocation) {
-                        int wait = 0;
-                        while (!mLocationClient.isConnected() && wait < 4) {
-                            try {
-                                Thread.sleep(1500);
-                            } catch (Exception e) {
+                    if (accountOneCheck.isChecked()) {
+                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
+
+                        if (notiId != 0) {
+                            helper.setInReplyToStatusId(notiId);
+                        }
+
+                        if (addLocation) {
+                            int wait = 0;
+                            while (!mLocationClient.isConnected() && wait < 4) {
+                                try {
+                                    Thread.sleep(1500);
+                                } catch (Exception e) {
+                                    return false;
+                                }
+
+                                wait++;
+                            }
+
+                            if (wait == 4) {
                                 return false;
                             }
 
-                            wait++;
+                            Location location = mLocationClient.getLastLocation();
+                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+
+                            helper.setLocation(geolocation);
                         }
 
-                        if (wait == 4) {
-                            return false;
+                        if (helper.createPost() != 0) {
+                            isDone = true;
                         }
-
-                        Location location = mLocationClient.getLastLocation();
-                        GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-
-                        helper.setLocation(geolocation);
                     }
 
-                    return helper.createPost() != 0;
+                    if (accountTwoCheck.isChecked()) {
+                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter2);
+
+                        if (notiId != 0) {
+                            helper.setInReplyToStatusId(notiId);
+                        }
+
+                        if (addLocation) {
+                            int wait = 0;
+                            while (!mLocationClient.isConnected() && wait < 4) {
+                                try {
+                                    Thread.sleep(1500);
+                                } catch (Exception e) {
+                                    return false;
+                                }
+
+                                wait++;
+                            }
+
+                            if (wait == 4) {
+                                return false;
+                            }
+
+                            Location location = mLocationClient.getLastLocation();
+                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+
+                            helper.setLocation(geolocation);
+                        }
+
+                        if (helper.createPost() != 0) {
+                            isDone = true;
+                        }
+                    }
+
+                    return isDone;
                 } else {
                     StatusUpdate media = new StatusUpdate(status);
 
@@ -555,7 +608,12 @@ public abstract class Compose extends Activity implements
                             media.setLocation(geolocation);
                         }
 
-                        twitter.updateStatus(media);
+                        if (accountOneCheck.isChecked()) {
+                            twitter.updateStatus(media);
+                        }
+                        if (accountTwoCheck.isChecked()) {
+                            twitter2.updateStatus(media);
+                        }
 
                         return true;
 
@@ -563,29 +621,62 @@ public abstract class Compose extends Activity implements
                         stream = getContentResolver().openInputStream(Uri.parse(attachedUri));
 
                         if (settings.twitpic) {
-                            TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
-                            if (addLocation) {
-                                int wait = 0;
-                                while (!mLocationClient.isConnected() && wait < 4) {
-                                    try {
-                                        Thread.sleep(1500);
-                                    } catch (Exception e) {
+                            boolean isDone = false;
+                            if (accountOneCheck.isChecked()) {
+                                TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
+                                if (addLocation) {
+                                    int wait = 0;
+                                    while (!mLocationClient.isConnected() && wait < 4) {
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (Exception e) {
+                                            return false;
+                                        }
+
+                                        wait++;
+                                    }
+
+                                    if (wait == 4) {
                                         return false;
                                     }
 
-                                    wait++;
-                                }
+                                    Location location = mLocationClient.getLastLocation();
+                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
 
-                                if (wait == 4) {
-                                    return false;
+                                    helper.setLocation(geolocation);
                                 }
-
-                                Location location = mLocationClient.getLastLocation();
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-                                
-                                helper.setLocation(geolocation);
+                                if (helper.createPost() != 0) {
+                                    isDone = true;
+                                }
                             }
-                            return helper.createPost() != 0;
+                            if (accountTwoCheck.isChecked()) {
+                                TwitPicHelper helper = new TwitPicHelper(twitter2, text, stream, context);
+                                if (addLocation) {
+                                    int wait = 0;
+                                    while (!mLocationClient.isConnected() && wait < 4) {
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (Exception e) {
+                                            return false;
+                                        }
+
+                                        wait++;
+                                    }
+
+                                    if (wait == 4) {
+                                        return false;
+                                    }
+
+                                    Location location = mLocationClient.getLastLocation();
+                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+
+                                    helper.setLocation(geolocation);
+                                }
+                                if (helper.createPost() != 0) {
+                                    isDone = true;
+                                }
+                            }
+                            return isDone;
                         } else {
                             //media.setMedia(f);
                             try {
@@ -615,7 +706,12 @@ public abstract class Compose extends Activity implements
                                 media.setLocation(geolocation);
                             }
 
-                            twitter.updateStatus(media);
+                            if (accountOneCheck.isChecked()) {
+                                twitter.updateStatus(media);
+                            }
+                            if (accountTwoCheck.isChecked()) {
+                                twitter2.updateStatus(media);
+                            }
 
                             return true;
                         }

@@ -67,6 +67,7 @@ limitations under the License.
     <attr name="read_button" format="reference"/>
     <attr name="unread_button" format="reference"/>
     <attr name="quote_button" format="reference"/>
+    <attr name="check_box" format="reference"/>
 
     <!-- Drawer Icons -->
     <attr name="drawerIcon" format="reference"/>
