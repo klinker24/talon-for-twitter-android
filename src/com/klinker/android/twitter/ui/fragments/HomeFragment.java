@@ -762,6 +762,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 if (DrawerActivity.settings.tweetmarker) {
                     tweetMarkerUpdate = getTweet();
+                    Log.v("talon_tweetmarker", "tweet marker update" + tweetMarkerUpdate);
                 }
 
                 final boolean result = numberNew > 0 || tweetMarkerUpdate;
@@ -998,7 +999,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if((DrawerActivity.settings.refreshOnStart) && (listView.getFirstVisiblePosition() == 0 || DrawerActivity.settings.tweetmarker) && !MainActivity.isPopup && sharedPrefs.getBoolean("should_refresh", true)) {
+                    if((DrawerActivity.settings.refreshOnStart) &&
+                            (listView.getFirstVisiblePosition() == 0) &&
+                            !MainActivity.isPopup &&
+                            sharedPrefs.getBoolean("should_refresh", true) &&
+                            !DrawerActivity.settings.tweetmarker) {
+
                         mPullToRefreshLayout.setRefreshing(true);
                         onRefreshStarted(view);
                     }
@@ -1009,8 +1015,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             }, 400);
         }
 
-        if ((DrawerActivity.settings.liveStreaming || !DrawerActivity.settings.refreshOnStart) && DrawerActivity.settings.tweetmarker) {
+        if (DrawerActivity.settings.liveStreaming && DrawerActivity.settings.tweetmarker) {
             fetchTweetMarker();
+        } else if (!DrawerActivity.settings.liveStreaming && DrawerActivity.settings.tweetmarker) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mPullToRefreshLayout.setRefreshing(true);
+                    onRefreshStarted(view);
+                }
+            }, 400);
         }
 
         IntentFilter filter = new IntentFilter();
