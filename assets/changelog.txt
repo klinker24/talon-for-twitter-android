@@ -17,6 +17,7 @@
 <br/>
 <b>IMPROVED:</b><br/>
     &#8226; Super smooth scrolling optimizations<br/>
+    &#8226; Higher quality profile pictures<br/>
     &#8226; Remade the tweet viewer layout<br/>
     &#8226; Much better image sizing on tweet viewer<br/>
     &#8226; Photo viewer tweeks<br/>

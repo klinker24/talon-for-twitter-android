@@ -39,18 +39,15 @@ public class ImageUtils {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(scale,
-                scale, Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(output);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, scale,
-                scale);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        Rect rect = new Rect(0, 0, scale, scale);
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(scale / 2,
-                scale / 2, (scale / 2) - (scale / 25), paint);
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         try {
             canvas.drawBitmap(bitmap, null, rect, paint);
@@ -70,8 +67,45 @@ public class ImageUtils {
             paint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
         }
 
-        canvas.drawCircle(scale / 2,
-                scale / 2, (scale / 2) - (scale / 25), paint);
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
+
+        return output;
+    }
+
+    public static Bitmap getBiggerCircle(Bitmap currentImage, Context context) {
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 256, context.getResources().getDisplayMetrics());
+
+        Bitmap bitmap = currentImage;
+        Bitmap output = Bitmap.createBitmap(scale,
+                scale, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        Rect rect = new Rect(0, 0, scale, scale);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        try {
+            canvas.drawBitmap(bitmap, null, rect, paint);
+        } catch (Exception e) {
+            // bitmap is null i guess
+
+        }
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.contact_picture_border));
+
+        try {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circle_border});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            paint.setColor(context.getResources().getColor(resource));
+        } catch (Exception e) {
+            paint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+        }
+
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
 
         return output;
     }
@@ -526,6 +560,24 @@ public class ImageUtils {
         }
     }
 
+    public static void loadCircleImage(Context context, final ImageView iv, String url, BitmapLruCache mCache, boolean largerProfile) {
+
+        // don't want to find the cached one
+        iv.setImageDrawable(null);
+
+        ImageUrlCircleAsyncTask mCurrentTask = new ImageUrlCircleAsyncTask(context, iv, mCache, largerProfile);
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                SDK11.executeOnThreadPool(mCurrentTask, url);
+            } else {
+                mCurrentTask.execute(url);
+            }
+        } catch (RejectedExecutionException e) {
+            // This shouldn't happen, but might.
+        }
+    }
+
     private static class ImageUrlCircleAsyncTask
             extends AsyncTask<String, Void, CacheableBitmapDrawable> {
 
@@ -533,14 +585,14 @@ public class ImageUtils {
         private Context context;
         private final WeakReference<ImageView> mImageViewRef;
         private ImageView iv;
-        private boolean thumbnail;
+        private boolean largeProfile;
 
-        ImageUrlCircleAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean thumbnail) {
+        ImageUrlCircleAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean profile) {
             this.context = context;
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             iv = imageView;
-            this.thumbnail = thumbnail;
+            largeProfile = profile;
         }
 
         @Override
@@ -557,7 +609,7 @@ public class ImageUtils {
 
                 result = mCache.get(url, null);
 
-                if (null == result) {
+                if (null == result || largeProfile) {
                     Log.d("ImageUrlAsyncTask", "Downloading: " + url);
 
                     // The bitmap isn't cached so download from the web
@@ -565,7 +617,12 @@ public class ImageUtils {
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
                     Bitmap b = BitmapFactory.decodeStream(is);
-                    b = getCircle(b, context);
+                    if (largeProfile) {
+                        Log.v("talon_picture", "bigger profile image");
+                        b = getBiggerCircle(b, context);
+                    } else {
+                        b = getCircle(b, context);
+                    }
 
                     // Add to cache
                     result = mCache.put(url, b);
