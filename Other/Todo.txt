@@ -29,9 +29,7 @@
     - Minor
         -- full finnish update
         -- higher quality profile pictures on profile maybe?
-        -- Version 2 text on startup
         -- no retweeters text if there aren't any
-        -- pictures not switching on the timeline
         -- text feedback when clicked
         -- uri stuff on user backgrounds and profile pictures
 
@@ -41,3 +39,4 @@
     - RTL support
     - tweetmarker shouldn't jump anymore
     - Overlay action bar fix
+    - pictures not being switch on timeline and other places

@@ -30,15 +30,30 @@ public class AutoCompetePeopleAdapter extends SearchedPeopleCursorAdapter {
         final String screenName = cursor.getString(cursor.getColumnIndex(FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME));
         final String url = cursor.getString(cursor.getColumnIndex(FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC));
         final long id = cursor.getLong(cursor.getColumnIndex(FavoriteUsersSQLiteHelper.COLUMN_ID));
+        holder.userId = id;
 
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 
         //holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
         if(settings.roundContactImages) {
-            ImageUtils.loadCircleImage(context, holder.picture, url, mCache);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (holder.userId == id) {
+                        loadCircleImage(context, holder, url, mCache, id);
+                    }
+                }
+            }, 500);
         } else {
-            ImageUtils.loadImage(context, holder.picture, url, mCache);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (holder.userId == id) {
+                        loadImage(context, holder, url, mCache, id);
+                    }
+                }
+            }, 500);
         }
 
         holder.background.setOnClickListener(new View.OnClickListener() {
