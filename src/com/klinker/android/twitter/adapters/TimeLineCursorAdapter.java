@@ -480,8 +480,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             });
 
-            /*if (otherUrl != null && !otherUrl.equals("")) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
+            if (otherUrl != null && !otherUrl.equals("")) {
+                holder.tweet.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent browser = new Intent(context, BrowserActivity.class);
@@ -489,7 +489,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         context.startActivity(browser);
                     }
                 });
-            }*/
+            }
         }
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
@@ -550,9 +550,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             public void run() {
                 if (id == holder.tweetId) {
                     if (settings.addonTheme) {
-                        holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
+                        if (!isDM) {
+                            holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
+                        } else {
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+                        }
                     } else {
-                        holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
+                        if (!isDM) {
+                            holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
+                        } else {
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+                        }
                     }
                 }
             }
