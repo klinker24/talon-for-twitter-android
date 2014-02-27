@@ -65,7 +65,6 @@ public class ProfileFragment extends Fragment {
 
     private Context context;
     private AppSettings settings;
-    private ActionBar actionBar;
 
     private User thisUser;
 
@@ -73,26 +72,14 @@ public class ProfileFragment extends Fragment {
     private Button followersBtn;
     private Button followingBtn;
 
-    private String name;
     private String screenName;
-    private String proPic;
-    private long tweetId;
-    private boolean isRetweet;
     private boolean isMyProfile;
 
-    private LayoutInflater inflater;
-
-    private boolean isBlocking;
-    private boolean isFollowing;
-    private boolean isFavorite;
-    private boolean isMuted;
-    private boolean isFollowingSet = false;
 
     private ItemManager.Builder builder;
 
     private long currentFollowers = -1;
     private long currentFollowing = -1;
-    private int refreshes = 0;
     private ArrayList<User> followers;
     private ArrayList<User> following;
     private boolean canRefresh = true;
@@ -106,20 +93,12 @@ public class ProfileFragment extends Fragment {
     public View layout;
 
     public ProfileFragment() {
-        this.name = "";
         this.screenName = "";
-        this.proPic = "";
-        this.tweetId = 0;
-        this.isRetweet = false;
         this.isMyProfile = false;
     }
 
     public ProfileFragment(String name, String screenName, String proPic, long tweetId, boolean isRetweet, boolean isMyProfile) {
-        this.name = name;
         this.screenName = screenName;
-        this.proPic = proPic;
-        this.tweetId = tweetId;
-        this.isRetweet = isRetweet;
         this.isMyProfile = isMyProfile;
     }
 
@@ -271,7 +250,6 @@ public class ProfileFragment extends Fragment {
                     current = BTN_TWEET;
                     currentFollowing = -1;
                     currentFollowers = -1;
-                    refreshes = 0;
                     hasMore = true;
 
                     listView.setItemManager(builder.build());
