@@ -193,6 +193,7 @@ public class HomeDataSource {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
+        String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (!users.equals("")) {
@@ -210,6 +211,13 @@ public class HomeDataSource {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -253,6 +261,7 @@ public class HomeDataSource {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
+        String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (!users.equals("")) {
@@ -270,6 +279,13 @@ public class HomeDataSource {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -292,6 +308,7 @@ public class HomeDataSource {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
+        String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?";
 
         if (!users.equals("")) {
@@ -309,6 +326,13 @@ public class HomeDataSource {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -332,6 +356,7 @@ public class HomeDataSource {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
+        String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'";
 
         if (!users.equals("")) {
@@ -349,6 +374,13 @@ public class HomeDataSource {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -379,6 +411,7 @@ public class HomeDataSource {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
+        String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'";
 
         if (!users.equals("")) {
@@ -389,6 +422,13 @@ public class HomeDataSource {
 
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 

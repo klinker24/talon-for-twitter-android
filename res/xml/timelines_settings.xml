@@ -54,6 +54,7 @@
         <Preference
             android:key="mute_regex"
             android:title="@string/mute_expression"
+            android:summary="@string/regex_disclaimer"
             />
 
         <Preference
