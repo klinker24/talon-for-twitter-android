@@ -392,14 +392,14 @@ public class ImageUtils {
         private Context context;
         private final WeakReference<ImageView> mImageViewRef;
         public ImageView iv;
-        private boolean thumbnail;
+        public boolean largerProfile;
 
-        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean thumbnail) {
+        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean profile) {
             this.context = context;
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             iv = imageView;
-            this.thumbnail = thumbnail;
+            this.largerProfile = profile;
         }
 
         @Override
@@ -416,7 +416,7 @@ public class ImageUtils {
 
                 result = mCache.get(url, null);
 
-                if (null == result) {
+                if (null == result || largerProfile) {
 
                     // The bitmap isn't cached so download from the web
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
