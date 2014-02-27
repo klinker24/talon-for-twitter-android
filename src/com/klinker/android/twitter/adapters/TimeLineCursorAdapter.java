@@ -347,7 +347,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if(!settings.reverseClickActions) {
             final String fRetweeter = retweeter;
             if (!isDM) {
-                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                View.OnLongClickListener click = new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
                         String link;
@@ -377,11 +377,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         return true;
                     }
-                });
+                };
+                holder.background.setOnLongClickListener(click);
+                //holder.tweet.setOnLongClickListener(click);
             }
 
             if (!isDM) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
+                View.OnClickListener click = new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
@@ -391,12 +393,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             removeKeyboard(holder);
                         }
                     }
-                });
+                };
+                holder.background.setOnClickListener(click);
+                //holder.tweet.setOnClickListener(click);
             }
         } else {
             final String fRetweeter = retweeter;
             if (!isDM) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
+                View.OnClickListener click = new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String link = "";
@@ -424,11 +428,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         context.startActivity(viewTweet);
                     }
-                });
+                };
+                holder.background.setOnClickListener(click);
+                //holder.tweet.setOnClickListener(click);
             }
 
             if (!isDM) {
-                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                View.OnLongClickListener click = new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
@@ -440,7 +446,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         return true;
                     }
-                });
+                };
+
+                holder.background.setOnLongClickListener(click);
+                //holder.tweet.setOnLongClickListener(click);
             }
         }
 
@@ -471,7 +480,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             });
 
-            if (otherUrl != null && !otherUrl.equals("")) {
+            /*if (otherUrl != null && !otherUrl.equals("")) {
                 holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -480,7 +489,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         context.startActivity(browser);
                     }
                 });
-            }
+            }*/
         }
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
@@ -534,15 +543,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
 
-        /*if (tweetText.contains("<font")) {
-            if (settings.addonTheme) {
-                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
-            } else {
-                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("\n", "<br/>")));
-            }
-        } else {
-            holder.tweet.setText(tweetText);
-        }*/
         holder.tweet.setText(tweetText);
         //TextUtils.linkifyText(context, holder.tweet, holder.background, false);
         emojiHandler.postDelayed(new Runnable() {
