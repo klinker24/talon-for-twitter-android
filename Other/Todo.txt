@@ -25,7 +25,6 @@
 
     - Minor
         -- full finnish update
-        -- higher quality profile pictures on profile maybe?
         -- no retweeters text if there aren't any
         -- text feedback when clicked
 
