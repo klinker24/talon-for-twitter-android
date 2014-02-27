@@ -16,59 +16,6 @@
             android:id="@+id/prompt_pos"
             />
 
-        <!-- checkboxes at the top for the different accounts -->
-        <LinearLayout
-            android:id="@+id/select_account"
-            android:layout_above="@+id/bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:id="@+id/account_one"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical|left">
-
-                <CheckBox
-                    android:id="@+id/account_one_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"/>
-
-                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                    android:id="@+id/account_one_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/account_two"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right">
-
-                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                    android:id="@+id/account_two_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <CheckBox
-                    android:id="@+id/account_two_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
         <ImageView
                 android:id="@+id/picture"
                 android:layout_height="0dp"
@@ -86,13 +33,68 @@
                 android:layout_above="@+id/bottom_bar"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="bottom"
                 android:layout_margin="5dp"
                 android:layout_marginBottom="10dp"
                 android:visibility="gone">
 
-            <ImageButton
+            <!-- checkboxes at the top for the different accounts -->
+            <LinearLayout
+                android:id="@+id/select_account"
+                android:layout_above="@+id/bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/account_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left">
+
+                    <CheckBox
+                        android:id="@+id/account_one_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
+
+                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                        android:id="@+id/account_one_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/account_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left">
+
+                    <CheckBox
+                        android:id="@+id/account_two_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"/>
+
+                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                        android:id="@+id/account_two_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
                     android:id="@+id/at_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -102,7 +104,7 @@
                     android:gravity="center"
                     android:layout_gravity="center" />
 
-            <ImageButton
+                <ImageButton
                     android:id="@+id/location"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
@@ -113,7 +115,7 @@
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp" />
 
-            <ImageButton
+                <ImageButton
                     android:id="@+id/attach"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
@@ -124,7 +126,7 @@
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp" />
 
-            <ImageButton
+                <ImageButton
                     android:id="@+id/emoji"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
@@ -134,6 +136,8 @@
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

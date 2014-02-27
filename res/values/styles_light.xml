@@ -85,6 +85,7 @@ limitations under the License.
         <item name="unread_button">@drawable/ic_action_unread_light</item>
         <item name="quote_button">@drawable/ic_action_reply_all_light</item>
         <item name="check_box">@drawable/twitter_btn_check_holo_light</item>
+        <item name="background_card">@drawable/background_card</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="notificationSettings">@drawable/drawer_notifications_light</item>

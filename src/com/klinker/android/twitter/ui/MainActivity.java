@@ -6,12 +6,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
@@ -24,6 +29,7 @@ import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.setup.TutorialActivity;
@@ -32,12 +38,78 @@ import com.klinker.android.twitter.ui.setup.Version2Setup;
 public class MainActivity extends DrawerActivity {
 
     public static boolean isPopup;
+    public static Context sContext;
+
+    public static ImageButton sendButton;
+    public static LinearLayout sendLayout;
+    public static boolean showIsRunning = false;
+    public static boolean hideIsRunning = false;
+    public static Handler sendHandler;
+    public static Runnable showSend = new Runnable() {
+        @Override
+        public void run() {
+            if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_in_left);
+                anim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        showIsRunning = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        sendLayout.setVisibility(View.VISIBLE);
+                        showIsRunning = false;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                anim.setDuration(300);
+                sendLayout.startAnimation(anim);
+                //sendLayout.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+    public static Runnable hideSend = new Runnable() {
+        @Override
+        public void run() {
+            if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_out_right);
+                anim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        hideIsRunning = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        sendLayout.setVisibility(View.GONE);
+                        hideIsRunning = false;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                anim.setDuration(300);
+                sendLayout.startAnimation(anim);
+                //sendLayout.setVisibility(View.GONE);
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MainActivity.sendHandler = new Handler();
+
         context = this;
+        sContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = AppSettings.getInstance(context);
 
@@ -54,6 +126,17 @@ public class MainActivity extends DrawerActivity {
         setContentView(R.layout.main_activity);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         setUpDrawer(0, getResources().getString(R.string.timeline));
+
+        MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
+        MainActivity.sendHandler.postDelayed(showSend, 1000);
+        MainActivity.sendButton = (ImageButton) findViewById(R.id.send_button);
+        MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent compose = new Intent(context, ComposeActivity.class);
+                startActivity(compose);
+            }
+        });
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.timeline));
