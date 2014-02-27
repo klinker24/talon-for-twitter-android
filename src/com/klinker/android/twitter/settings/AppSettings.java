@@ -95,6 +95,7 @@ public class AppSettings {
     public boolean twitpic;
     public boolean tweetmarker;
     public boolean jumpingWorkaround;
+    public boolean floatingCompose;
 
     // notifications
     public boolean timelineNot;
@@ -201,6 +202,11 @@ public class AppSettings {
         twitpic = sharedPrefs.getBoolean("twitpic", false);
         tweetmarker = sharedPrefs.getBoolean("tweetmarker", false);
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
+        floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
+
+        if (!uiExtras) {
+            floatingCompose = false;
+        }
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 

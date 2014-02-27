@@ -192,19 +192,25 @@ public class DMFragment extends Fragment implements OnRefreshListener {
         new GetCursorAdapter().execute();
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        if (DrawerActivity.settings.uiExtras) {
-            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-                int mLastFirstVisibleItem = 0;
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-                @Override
-                public void onScrollStateChanged(AbsListView absListView, int i) {
+            int mLastFirstVisibleItem = 0;
 
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                if (i == SCROLL_STATE_IDLE) {
+                    MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
+                    MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
+                } else {
+                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+                    MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
                 }
+            }
 
-                @Override
-                public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+            @Override
+            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
                     if (firstVisibleItem != 0) {
                         if (MainActivity.canSwitch) {
@@ -248,9 +254,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                         hideStatusBar();
                     }
                 }
+            }
 
-            });
-        }
+        });
 
         setUpToastBar(layout);
 
