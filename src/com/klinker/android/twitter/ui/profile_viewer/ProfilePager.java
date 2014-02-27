@@ -77,6 +77,8 @@ public class ProfilePager extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(R.anim.activity_slide_down, R.anim.activity_slide_down);
+
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -474,6 +476,11 @@ public class ProfilePager extends Activity {
         return true;
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_down, R.anim.activity_slide_down);
+    }
     private final int SELECT_PRO_PIC = 57;
     private final int SELECT_BANNER = 58;
 

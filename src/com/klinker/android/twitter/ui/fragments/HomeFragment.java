@@ -1012,11 +1012,16 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     waitOnRefresh.removeCallbacks(applyRefresh);
                     waitOnRefresh.postDelayed(applyRefresh, 30000);
                 }
-            }, 400);
+            }, 600);
         }
 
         if (DrawerActivity.settings.liveStreaming && DrawerActivity.settings.tweetmarker) {
-            fetchTweetMarker();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchTweetMarker();
+                }
+            }, 600);
         } else if (!DrawerActivity.settings.liveStreaming && DrawerActivity.settings.tweetmarker) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1024,7 +1029,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     mPullToRefreshLayout.setRefreshing(true);
                     onRefreshStarted(view);
                 }
-            }, 400);
+            }, 600);
         }
 
         IntentFilter filter = new IntentFilter();

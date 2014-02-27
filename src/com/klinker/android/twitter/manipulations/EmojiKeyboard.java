@@ -113,7 +113,7 @@ public class EmojiKeyboard extends LinearLayout {
 
     public void setVisibility(final boolean visible) {
         setVisibility(View.VISIBLE);
-        Animation animation = AnimationUtils.loadAnimation(getContext(), visible ? R.anim.slide_up : R.anim.slide_down);
+        Animation animation = AnimationUtils.loadAnimation(getContext(), visible ? R.anim.activity_slide_up : R.anim.activity_slide_down);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

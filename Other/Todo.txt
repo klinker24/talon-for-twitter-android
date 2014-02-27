@@ -23,7 +23,6 @@
         -- add auto complete users to the reply activity
         -- custom backgrounds
         -- scheduling tweets
-        -- window animations
 
     - Minor
         -- full finnish update

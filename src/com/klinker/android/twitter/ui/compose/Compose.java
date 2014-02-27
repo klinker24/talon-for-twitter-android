@@ -133,8 +133,16 @@ public abstract class Compose extends Activity implements
     };
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         countHandler = new Handler();
 
