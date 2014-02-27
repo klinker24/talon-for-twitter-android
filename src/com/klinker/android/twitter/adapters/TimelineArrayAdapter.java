@@ -1531,7 +1531,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             super.onPostExecute(result);
 
             try {
-                if (result != null && holder.tweetId == id) {
+                if (result != null && holder.tweetId == id && holder.image.getVisibility() == View.VISIBLE) {
                     holder.image.setImageDrawable(result);
                     Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
