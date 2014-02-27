@@ -1,5 +1,6 @@
 <b>Version 2.0.0:</b><br/><br/>
 <b>NEW:</b><br/>
+    &#8226; Compose button can now float over the main timelines instead of being in the action bar<br/>
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
     &#8226; Animations for opening new pages and windows<br/>
     &#8226; Post tweets from different accounts in the compose window<br/>

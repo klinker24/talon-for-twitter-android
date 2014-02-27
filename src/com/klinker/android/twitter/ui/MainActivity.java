@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -48,7 +49,7 @@ public class MainActivity extends DrawerActivity {
     public static Runnable showSend = new Runnable() {
         @Override
         public void run() {
-            if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+            if (settings.floatingCompose && sendLayout.getVisibility() == View.GONE && !showIsRunning) {
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_in_left);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -76,7 +77,7 @@ public class MainActivity extends DrawerActivity {
     public static Runnable hideSend = new Runnable() {
         @Override
         public void run() {
-            if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+            if (settings.floatingCompose && sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_out_right);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -167,6 +168,7 @@ public class MainActivity extends DrawerActivity {
                         statusBar.setVisibility(View.VISIBLE);
                     }
                 }
+                MainActivity.sendHandler.post(showSend);
             }
 
             public void onPageSelected(int position) {
@@ -331,6 +333,17 @@ public class MainActivity extends DrawerActivity {
         if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
             recreate();
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        if (settings.floatingCompose) {
+            menu.getItem(2).setVisible(false); // hide the compose button here
+        }
+
+        return true;
     }
 
 }

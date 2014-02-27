@@ -201,7 +201,13 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-
+                if (i == SCROLL_STATE_IDLE) {
+                    MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
+                    MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
+                } else {
+                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+                    MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
+                }
             }
 
             @Override
