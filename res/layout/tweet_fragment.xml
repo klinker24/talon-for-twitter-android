@@ -72,15 +72,15 @@
 
                     </LinearLayout>
 
-
                     <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
                         android:id="@+id/imageView"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="fill_parent"
                         android:background="@android:color/transparent"
-                        android:minWidth="300dp"
-                        android:minHeight="220dp"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
                         android:layout_margin="@dimen/tweet_activ_margin"
+                        android:paddingRight="6dp"
                         android:visibility="gone" />
 
                 </LinearLayout>

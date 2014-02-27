@@ -46,7 +46,7 @@ public class ComposeActivity extends Compose {
 
         autocomplete = new ListPopupWindow(context);
         autocomplete.setAnchorView(findViewById(R.id.prompt_pos));
-        autocomplete.setHeight(toDP(110));
+        autocomplete.setHeight(toDP(150));
         autocomplete.setWidth(toDP(275));
         autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(currentAccount, reply.getText().toString()), reply));
