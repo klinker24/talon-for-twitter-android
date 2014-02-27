@@ -27,6 +27,7 @@
         -- full finnish update
         -- no retweeters text if there aren't any
         -- text feedback when clicked
+        -- add checkboxes to the custom themes for the compose window
 
 
 - Need testing
