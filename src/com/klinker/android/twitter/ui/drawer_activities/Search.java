@@ -72,8 +72,16 @@ public class Search extends Activity implements OnRefreshListener {
     private PullToRefreshLayout mPullToRefreshLayout;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);

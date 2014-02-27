@@ -41,7 +41,6 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
-import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -76,6 +75,8 @@ public class TweetPager extends YouTubeBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
@@ -691,5 +692,11 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         return full;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
     }
 }

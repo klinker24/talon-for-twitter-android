@@ -25,8 +25,16 @@ public class BrowserActivity extends Activity {
     private WebView browser;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
 
         settings = AppSettings.getInstance(this);
 
