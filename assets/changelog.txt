@@ -1,7 +1,7 @@
 <b>Version 2.0.0:</b><br/><br/>
 <b>NEW:</b><br/>
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
-    &#8226; Post tweets from different accounts in the compose activity if more than one is logged in<br/>
+    &#8226; Post tweets from different accounts in the compose window<br/>
     &#8226; View up to 100 retweeters of a status (API limit)<br/>
     &#8226; View users mentions and favorites on their profiles<br/>
     &#8226; Added option to manually select location for local trends<br/>
