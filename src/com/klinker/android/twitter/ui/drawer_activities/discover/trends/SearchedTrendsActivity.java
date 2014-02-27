@@ -75,8 +75,16 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
     private PullToRefreshLayout mPullToRefreshLayout;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
