@@ -3,6 +3,7 @@
     - translation of tweets (probably won't be happening)
     - pictures on direct messages
     - addon package for full screen themes
+    - auto-complete hashtags
 
 - Bugs:
     - video sound stops after one time playing it
@@ -21,7 +22,6 @@
         -- picture page on profiles
         -- go to jacobs settings drawer
         -- add auto complete users to the reply activity
-        -- auto-complete hashtags
         -- custom backgrounds
         -- scheduling tweets
         -- window animations
@@ -38,6 +38,6 @@
 
 - Need testing
     - retweets stacking up in the drawer
-    - rtl support
+    - RTL support
     - tweetmarker shouldn't jump anymore
-    - Overlay action bar stuff
+    - Overlay action bar fix
