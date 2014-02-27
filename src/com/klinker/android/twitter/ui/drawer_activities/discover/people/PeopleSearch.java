@@ -52,8 +52,16 @@ public class PeopleSearch extends Activity {
     private LinearLayout spinner;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         slug = getIntent().getStringExtra("slug");
 
