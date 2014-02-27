@@ -16,6 +16,58 @@
             android:id="@+id/prompt_pos"
             />
 
+        <!-- checkboxes at the top for the different accounts -->
+        <LinearLayout
+            android:id="@+id/select_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/account_one"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|left">
+
+                <CheckBox
+                    android:id="@+id/account_one_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"/>
+
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    android:id="@+id/account_one_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/account_two"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right">
+
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    android:id="@+id/account_two_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <CheckBox
+                    android:id="@+id/account_two_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
         <ImageView
                 android:id="@+id/picture"
                 android:layout_height="0dp"

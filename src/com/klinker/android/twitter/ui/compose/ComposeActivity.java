@@ -3,6 +3,7 @@ package com.klinker.android.twitter.ui.compose;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -29,6 +31,7 @@ import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +46,39 @@ public class ComposeActivity extends Compose {
 
         setUpSimilar();
         setUpToastBar();
+
+        selectAccounts = (LinearLayout) findViewById(R.id.select_account);
+        accountOneCheck = (CheckBox) findViewById(R.id.account_one_check);
+        accountTwoCheck = (CheckBox) findViewById(R.id.account_two_check);
+        accountOneName = (HoloTextView) findViewById(R.id.account_one_name);
+        accountTwoName = (HoloTextView) findViewById(R.id.account_two_name);
+
+        int count = 0; // number of accounts logged in
+
+        if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
+            count++;
+        }
+
+        if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
+            count++;
+        }
+
+        if (count == 2) {
+            selectAccounts.setVisibility(View.VISIBLE);
+            accountOneName.setText("@" + settings.myScreenName);
+            accountTwoName.setText("@" + settings.secondScreenName);
+
+            if (settings.addonTheme) {
+                try {
+                    Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                    int back = resourceAddon.getIdentifier("checkmark_background", "drawable", settings.addonThemePackage);
+                    accountOneCheck.setBackgroundDrawable(resourceAddon.getDrawable(back));
+                    accountTwoCheck.setBackgroundDrawable(resourceAddon.getDrawable(back));
+                } catch (Exception e) {
+                    // theme does not include a reply entry box
+                }
+            }
+        }
 
         autocomplete = new ListPopupWindow(context);
         autocomplete.setAnchorView(findViewById(R.id.prompt_pos));

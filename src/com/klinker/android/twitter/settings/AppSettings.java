@@ -55,6 +55,7 @@ public class AppSettings {
     public String secondAuthToken;
     public String secondAuthTokenSecret;
     public String myScreenName;
+    public String secondScreenName;
     public String myName;
     public String myBackgroundUrl;
     public String myProfilePicUrl;
@@ -141,6 +142,7 @@ public class AppSettings {
             secondAuthToken = sharedPrefs.getString("authentication_token_2", "none");
             secondAuthTokenSecret = sharedPrefs.getString("authentication_token_secret_2", "none");
             myScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
+            secondScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
             myName = sharedPrefs.getString("twitter_users_name_1", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_1", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
@@ -152,6 +154,7 @@ public class AppSettings {
             secondAuthToken = sharedPrefs.getString("authentication_token_1", "none");
             secondAuthTokenSecret = sharedPrefs.getString("authentication_token_secret_1", "none");
             myScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
+            secondScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
             myName = sharedPrefs.getString("twitter_users_name_2", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_2", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
