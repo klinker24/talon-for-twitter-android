@@ -28,6 +28,8 @@
     &#8226; A bit larger auto-complete box<br/>
 <br/>
 <b>FIXES:</b><br/>
+    &#8226; Images won't get mixed up between people or tweets anymore<br/>
+    &#8226; Images will be full screen when the load on the tweet viewer if you had problems with that<br/>
     &#8226; Action bar not always being set to overlay, so it created a jumpy behavior and big margin at the top<br/>
     &#8226; A little bit better Vine support. Sound is an issue though.<br/>
     &#8226; Excessive lag when closing the tweet viewer or profiles on lower end devices (caused from the background processes not being stopped)<br/>

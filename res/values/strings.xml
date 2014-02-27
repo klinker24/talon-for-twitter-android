@@ -515,7 +515,7 @@
     <string name="deleting_search">Deleting Search</string>
     <string name="none">None</string>
     <string name="start">Start!</string>
-    <string name="version_two">Version 2</string>
+    <string name="version_two">Version 2.0.0</string>
     <string name="cleaning_databases">Cleaning databases...</string>
     <string name="setup_version_two">Lots has changed recently with Talon, and to make sure I can give you the best experience, we have to do some cleanup before heading into the app! \n\nThis could take some time depending on the number of tweets you store!</string>
     <string name="setting_up_timeline">Setting up timeline...</string>

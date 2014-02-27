@@ -317,9 +317,9 @@ public class ImageUtils {
 
     public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache) {
         // First check whether there's already a task running, if so cancel it
-        /*if (null != mCurrentTask) {
+        if (null != mCurrentTask) {
             mCurrentTask.cancel(true);
-        }*/
+        }
 
         if (url == null) {
             return;
@@ -566,10 +566,6 @@ public class ImageUtils {
 
                     Bitmap b = BitmapFactory.decodeStream(is);
                     b = getCircle(b, context);
-
-                    if (thumbnail) {
-                        b = ImageUtils.overlayPlay(b, context);
-                    }
 
                     // Add to cache
                     result = mCache.put(url, b);
