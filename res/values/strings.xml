@@ -536,5 +536,7 @@
     <string name="input_expression">Expression to mute...</string>
     <string name="mute_expression">Mute Expression</string>
     <string name="view_muted_expressions">Remove Muted Expressions</string>
+    <string name="no_expression">No Expression!</string>
+    <string name="regex_disclaimer">Muting to many expressions may affect startup and refresh times.</string>
 
 </resources>

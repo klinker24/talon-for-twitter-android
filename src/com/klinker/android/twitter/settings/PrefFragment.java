@@ -3,6 +3,7 @@ package com.klinker.android.twitter.settings;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -31,6 +32,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -149,6 +151,44 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             showHandle.setEnabled(false);
         }
 
+        final Preference newRegexMute = findPreference("mute_regex");
+        newRegexMute.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.insert_regex_dialog);
+                dialog.setTitle(getResources().getString(R.string.mute_expression) + ":");
+
+                final HoloEditText expTV = (HoloEditText) dialog.findViewById(R.id.expression);
+
+                Button cancel = (Button) dialog.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button change = (Button) dialog.findViewById(R.id.ok);
+                change.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String exp = expTV.getText().toString();
+                        if (!exp.equals("")) {
+                            String newRegex = sharedPrefs.getString("muted_regex", "") + exp + "   ";
+                            sharedPrefs.edit().putString("muted_regex", newRegex).commit();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(context, getResources().getString(R.string.no_expression), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                dialog.show();
+                return false;
+            }
+        });
+
         final Preference both = findPreference("both_handle_name");
         both.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -169,6 +209,39 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceClick(Preference preference) {
                 Intent configurePages = new Intent(context, ConfigurePagerActivity.class);
                 startActivity(configurePages);
+                return false;
+            }
+        });
+
+        Preference mutedRegex = findPreference("manage_regex_mute");
+        mutedRegex.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] exps = sharedPrefs.getString("muted_regex", "").split("   ");
+
+                if (exps.length == 0 || (exps.length == 1 && exps[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_expression), Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(exps, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String newExps = "";
+
+                            for (int i = 0; i < exps.length; i++) {
+                                if (i != item) {
+                                    newExps += exps[i] + "   ";
+                                }
+                            }
+
+                            sharedPrefs.edit().putString("muted_regex", newExps).commit();
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
                 return false;
             }
         });

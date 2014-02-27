@@ -2,6 +2,7 @@
 <b>NEW:</b><br/>
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
     &#8226; Post tweets from different accounts in the compose window<br/>
+    &#8226; Mute expressions and keywords on tweets<br/>
     &#8226; View up to 100 retweeters of a status (API limit)<br/>
     &#8226; View users mentions and favorites on their profiles<br/>
     &#8226; Added option to manually select location for local trends<br/>
@@ -24,6 +25,7 @@
     &#8226; Ability to open retweeters profile when viewing a retweet<br/>
     &#8226; Displaying links on timeline<br/>
     &#8226; Displaying and sharing Twitter picture links<br/>
+    &#8226; Hashtag muting support, works on mentions now too<br/>
     &#8226; Retweets from Talon Pull in interactions drawer, they now stack on top of each other instead of creating an instance for every new one.<br/>
     &#8226; Theme selection<br/>
     &#8226; A bit larger auto-complete box<br/>

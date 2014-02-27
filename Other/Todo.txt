@@ -4,6 +4,7 @@
     - pictures on direct messages
     - addon package for full screen themes
     - auto-complete hashtags
+    - mute by source
 
 - Bugs:
     - video sound stops after one time playing it
@@ -16,7 +17,6 @@
 
 - 2.0.0
     - Features/Major
-        -- Mute by source and regex
         -- new widget stuff
         -- picture page on profiles
         -- go to jacobs settings drawer

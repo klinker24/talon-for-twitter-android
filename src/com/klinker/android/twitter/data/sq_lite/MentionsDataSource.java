@@ -170,12 +170,28 @@ public class MentionsDataSource {
     public Cursor getCursor(int account) {
 
         String users = sharedPrefs.getString("muted_users", "");
+        String hashtags = sharedPrefs.getString("muted_hashtags", "");
+        String expressions = sharedPrefs.getString("muted_regex", "");
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (!users.equals("")) {
             String[] split = users.split(" ");
             for (String s : split) {
-                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+                where += " AND " + MentionsSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + MentionsSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
@@ -194,12 +210,28 @@ public class MentionsDataSource {
     public Cursor getUnreadCursor(int account) {
 
         String users = sharedPrefs.getString("muted_users", "");
+        String hashtags = sharedPrefs.getString("muted_hashtags", "");
+        String expressions = sharedPrefs.getString("muted_regex", "");
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?";
 
         if (!users.equals("")) {
             String[] split = users.split(" ");
             for (String s : split) {
-                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+                where += " AND " + MentionsSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + MentionsSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 

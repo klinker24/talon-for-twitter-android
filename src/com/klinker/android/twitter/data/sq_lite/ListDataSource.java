@@ -169,6 +169,7 @@ public class ListDataSource {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
+        String expressions = sharedPreferences.getString("muted_regex", "");
         String where = ListSQLiteHelper.COLUMN_LIST_ID + " = ?";
 
         if (!users.equals("")) {
@@ -186,6 +187,13 @@ public class ListDataSource {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + ListSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + ListSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
