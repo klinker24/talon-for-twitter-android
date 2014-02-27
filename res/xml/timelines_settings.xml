@@ -51,6 +51,16 @@
             android:summary="@string/muted_hashtags_summary"
             />
 
+        <Preference
+            android:key="mute_regex"
+            android:title="@string/mute_expression"
+            />
+
+        <Preference
+            android:key="manage_regex_mute"
+            android:title="@string/view_muted_expression"
+            />
+
         <CheckBoxPreference
             android:key="ignore_retweets"
             android:title="@string/ignore_retweets"
