@@ -15,6 +15,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -289,7 +290,8 @@ public class Utils {
     public static void setActionBar(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         if (settings.actionBar != null) {
-            ((Activity)context).getActionBar().setBackgroundDrawable(settings.actionBar);
+            //Drawable back = settings.actionBar;
+            ((Activity) context).getActionBar().setBackgroundDrawable(settings.actionBar);
         }
     }
 
