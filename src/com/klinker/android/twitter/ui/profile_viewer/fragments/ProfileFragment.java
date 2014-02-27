@@ -568,7 +568,7 @@ public class ProfileFragment extends Fragment {
                             }
 
                             if(settings.roundContactImages) {
-                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
                             } else {
                                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                             }
@@ -631,7 +631,7 @@ public class ProfileFragment extends Fragment {
                             }
 
                             if(settings.roundContactImages) {
-                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
                             } else {
                                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                             }
@@ -696,7 +696,7 @@ public class ProfileFragment extends Fragment {
                             }
 
                             if(settings.roundContactImages) {
-                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
                             } else {
                                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                             }

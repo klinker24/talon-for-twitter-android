@@ -281,6 +281,15 @@ public class Version2Setup extends Activity {
             }
             cursor.close();
 
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progDescription.setText(getResources().getString(R.string.cleaning_cache));
+                }
+            });
+
+            IOUtils.trimCache(context);
+
             return null;
         }
 
