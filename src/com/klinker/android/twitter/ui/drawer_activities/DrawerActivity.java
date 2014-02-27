@@ -778,11 +778,6 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        /*if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
-            sharedPrefs.edit().putBoolean("check_overlay", false).commit();
-            recreate();
-        }*/
-
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("new_followers", 0);
         e.putInt("new_favorites", 0);
