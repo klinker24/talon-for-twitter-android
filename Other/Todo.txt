@@ -8,7 +8,6 @@
 
 - Bugs:
     - video sound stops after one time playing it
-    - small images have the spinner behind them
     - random avatar changes
     - sideways pictures
 
