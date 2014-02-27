@@ -210,6 +210,14 @@ public class TalonPullNotificationService extends Service {
 
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+        return START_STICKY;
+    }
+
     public boolean idsLoaded = false;
 
     @Override
