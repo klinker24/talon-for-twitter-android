@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
@@ -307,7 +309,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-
+                    if (i == SCROLL_STATE_IDLE) {
+                        MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
+                        MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
+                    } else {
+                        MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+                        MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
+                    }
                 }
 
                 @Override
@@ -384,7 +392,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-
+                    if (i == SCROLL_STATE_IDLE) {
+                        MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
+                        MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
+                    } else {
+                        MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+                        MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
+                    }
                 }
 
                 @Override

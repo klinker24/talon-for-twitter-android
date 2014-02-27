@@ -246,6 +246,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
+
                     <ImageButton
                         android:id="@+id/retweet"
                         android:layout_width="37dp"
