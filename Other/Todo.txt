@@ -36,11 +36,10 @@
         -- pictures not switching on the timeline
         -- text feedback when clicked
         -- uri stuff on user backgrounds and profile pictures
-        -- make sure tweetmarker is found and refreshed on a manual pull to refresh
 
 
 
-- Need testing,
+- Need testing
     - retweets stacking up in the drawer
     - rtl support
     - tweetmarker shouldn't jump anymore

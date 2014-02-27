@@ -41,7 +41,7 @@ public class ComposeDMActivity extends Compose {
 
         autocomplete = new ListPopupWindow(context);
         autocomplete.setAnchorView(contactEntry);
-        autocomplete.setHeight(toDP(110));
+        autocomplete.setHeight(toDP(150));
         autocomplete.setWidth(toDP(275));
         autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
