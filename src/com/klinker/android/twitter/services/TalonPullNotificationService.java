@@ -345,7 +345,7 @@ public class TalonPullNotificationService extends Service {
                         }
                     }
 
-                    settings = new AppSettings(mContext);
+                    settings = AppSettings.getInstance(mContext);
                     pushStream = Utils.getStreamingTwitter(mContext, settings);
 
                     String myName = settings.myScreenName;
@@ -639,7 +639,6 @@ public class TalonPullNotificationService extends Service {
                         pushStream.shutdown();
                         TalonPullNotificationService.shuttingDown = false;
                         Log.v("twitter_stream_push", "stopping push notifications");
-                        mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                     } catch (Exception e) {
                         // it isn't running
                         e.printStackTrace();
@@ -650,17 +649,13 @@ public class TalonPullNotificationService extends Service {
                             pushStream.shutdown();
                             TalonPullNotificationService.shuttingDown = false;
                             Log.v("twitter_stream_push", "stopping push notifications");
-                            mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                         } catch (Exception x) {
                             // it isn't running
                             x.printStackTrace();
                         }
                     }
 
-
-                    //mContext.startService(new Intent(mContext, TalonPullNotificationService.class));
-
-                    //stopSelf();
+                    onCreate();
                 }
             });
 
