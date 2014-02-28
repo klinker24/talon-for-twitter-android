@@ -16,7 +16,7 @@
 
 - 2.0.0
     - Features/Major
-        -- new widget stuff
+        -- new widget stuff (seperate dashclock settings from notification settings)
         -- picture page on profiles
         -- go to jacobs settings drawer
         -- add auto complete users to the reply activity
@@ -28,6 +28,9 @@
         -- no retweeters text if there aren't any
         -- text feedback when clicked
         -- add checkboxes to the custom themes for the compose window
+        -- portugese spelling mistake
+        -- country summary text
+
 
 
 - Need testing

@@ -1639,11 +1639,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             super.onPostExecute(result);
 
             try {
-                if (result != null && holder.tweetId == id && holder.image.getVisibility() == View.VISIBLE) {
+                if (result != null && holder.tweetId == id) {
                     holder.image.setImageDrawable(result);
-                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
 
-                    holder.image.startAnimation(fadeInAnimation);
+                    if (holder.tweetId == id) {
+                        holder.image.startAnimation(fadeInAnimation);
+                    }
                 }
 
             } catch (Exception e) {
