@@ -86,7 +86,7 @@ limitations under the License.
         <item name="unread_button">@drawable/ic_action_unread_dark</item>
         <item name="quote_button">@drawable/ic_action_reply_all_dark</item>
         <item name="check_box">@drawable/twitter_btn_check_holo_dark</item>
-        <item name="background_card">@drawable/background_card_dark</item>
+        <item name="background_card">@drawable/send_card_black</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>

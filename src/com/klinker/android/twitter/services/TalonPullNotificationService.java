@@ -637,7 +637,9 @@ public class TalonPullNotificationService extends Service {
                     try {
                         pushStream.cleanUp();
                         pushStream.shutdown();
+                        TalonPullNotificationService.shuttingDown = false;
                         Log.v("twitter_stream_push", "stopping push notifications");
+                        mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                     } catch (Exception e) {
                         // it isn't running
                         e.printStackTrace();
@@ -646,26 +648,27 @@ public class TalonPullNotificationService extends Service {
                             Thread.sleep(2000);
                             pushStream.cleanUp();
                             pushStream.shutdown();
+                            TalonPullNotificationService.shuttingDown = false;
                             Log.v("twitter_stream_push", "stopping push notifications");
+                            mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                         } catch (Exception x) {
                             // it isn't running
                             x.printStackTrace();
                         }
                     }
 
-                    TalonPullNotificationService.shuttingDown = false;
 
-                    mContext.startService(new Intent(mContext, TalonPullNotificationService.class));
+                    //mContext.startService(new Intent(mContext, TalonPullNotificationService.class));
 
-                    stopSelf();
+                    //stopSelf();
                 }
             });
 
             stop.setPriority(Thread.MAX_PRIORITY);
             stop.start();
 
-            TalonPullNotificationService.isRunning = false;
-            thisInstanceOn = false;
+            //TalonPullNotificationService.isRunning = false;
+            //thisInstanceOn = false;
         }
     };
 }
