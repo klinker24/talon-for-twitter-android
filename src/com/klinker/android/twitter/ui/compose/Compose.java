@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -74,8 +75,8 @@ public abstract class Compose extends Activity implements
     public Context context;
     public SharedPreferences sharedPrefs;
 
-    public HoloEditText contactEntry;
-    public HoloEditText reply;
+    public EditText contactEntry;
+    public EditText reply;
     public ImageView attachImage;
     public ImageButton attachButton;
     public ImageButton emojiButton;
@@ -269,7 +270,7 @@ public abstract class Compose extends Activity implements
         attachButton = (ImageButton) findViewById(R.id.attach);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
-        reply = (HoloEditText) findViewById(R.id.tweet_content);
+        reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
         charRemaining.setText(140 - reply.getText().length() + "");
