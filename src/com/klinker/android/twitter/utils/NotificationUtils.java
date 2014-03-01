@@ -508,7 +508,7 @@ public class NotificationUtils {
     }
 
     public static void makeFavsNotificationToActivity(ArrayList<String[]> tweets, Context context) {
-        
+
         SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(context).edit();
 
         e.putString("fav_user_tweet_name", tweets.get(0)[0]);
