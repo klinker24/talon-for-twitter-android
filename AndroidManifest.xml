@@ -390,6 +390,9 @@
         <service android:name=".services.TalonPullNotificationService">
         </service>
 
+        <service android:name=".services.CatchupPull">
+        </service>
+
         <service android:name=".services.StopPull">
         </service>
 

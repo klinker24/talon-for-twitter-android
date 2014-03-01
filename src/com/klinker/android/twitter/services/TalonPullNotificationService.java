@@ -49,6 +49,7 @@ public class TalonPullNotificationService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        pullUnread = intent.getIntExtra("new", 0);
         return null;
     }
 
@@ -200,6 +201,7 @@ public class TalonPullNotificationService extends Service {
                     e.printStackTrace();
                     TalonPullNotificationService.isRunning = false;
                     stopSelf();
+                    pullUnread = 0;
                 }
 
             }
@@ -238,6 +240,8 @@ public class TalonPullNotificationService extends Service {
             unregisterReceiver(clearPullUnread);
         } catch (Exception e) { }
 
+        pullUnread = 0;
+
         super.onDestroy();
     }
 
@@ -254,6 +258,8 @@ public class TalonPullNotificationService extends Service {
                     } catch (Exception e) {
                         // it isn't running
                     }
+
+                    pullUnread = 0;
                 }
             });
 
@@ -261,7 +267,7 @@ public class TalonPullNotificationService extends Service {
         }
     };
 
-    public int pullUnread = 0;
+    public static int pullUnread = 0;
 
     public BroadcastReceiver updateNotification = new BroadcastReceiver() {
         @Override
@@ -323,6 +329,8 @@ public class TalonPullNotificationService extends Service {
 
             TalonPullNotificationService.isRunning = false;
             thisInstanceOn = false;
+
+            pullUnread = 0;
 
             stopSelf();
 
@@ -629,41 +637,7 @@ public class TalonPullNotificationService extends Service {
             ex.printStackTrace();
             Log.v("twitter_stream_push", "onException:" + ex.getMessage());
 
-            // stop and restart the service automatically
-            Thread stop = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    TalonPullNotificationService.shuttingDown = true;
-                    try {
-                        pushStream.cleanUp();
-                        pushStream.shutdown();
-                        TalonPullNotificationService.shuttingDown = false;
-                        Log.v("twitter_stream_push", "stopping push notifications");
-                    } catch (Exception e) {
-                        // it isn't running
-                        e.printStackTrace();
-                        // try twice to shut it down i guess
-                        try {
-                            Thread.sleep(2000);
-                            pushStream.cleanUp();
-                            pushStream.shutdown();
-                            TalonPullNotificationService.shuttingDown = false;
-                            Log.v("twitter_stream_push", "stopping push notifications");
-                        } catch (Exception x) {
-                            // it isn't running
-                            x.printStackTrace();
-                        }
-                    }
-
-                    onCreate();
-                }
-            });
-
-            stop.setPriority(Thread.MAX_PRIORITY);
-            stop.start();
-
-            //TalonPullNotificationService.isRunning = false;
-            //thisInstanceOn = false;
+            mContext.startService(new Intent(mContext, CatchupPull.class));
         }
     };
 }
