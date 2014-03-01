@@ -8,11 +8,12 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.klinker.android.twitter.services.CatchupPull;
-import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.Utils;
 
 public class ConnectivityChangeReceiver extends BroadcastReceiver {
+
+    public static boolean justRan = false;
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -22,8 +23,11 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
         AppSettings settings = AppSettings.getInstance(context);
 
         // we don't want to do anything here if talon pull isn't on
-        if (!settings.pushNotifications) {
+        if (!settings.pushNotifications || ConnectivityChangeReceiver.justRan) {
+            Log.v("talon_pull", "connectivity change: stopping the receiver very early");
             return;
+        } else {
+            ConnectivityChangeReceiver.justRan = true;
         }
 
         if (Utils.hasInternetConnection(context)) {
@@ -48,5 +52,15 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
             // we want to turn off the live streaming/talon pull because it is just wasting battery not working/looking for connection
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         }
+
+        // wait 10 seconds so it doesn't run a ton of times.
+        // seems like it runs multiple times when the mobile data connection goes off,
+        // don't know why...
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ConnectivityChangeReceiver.justRan = false;
+            }
+        }, 10000);
     }
 }
