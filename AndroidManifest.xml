@@ -428,9 +428,15 @@
         <service android:name="com.klinker.android.twitter.services.TrimDataService">
         </service>
 
-        <receiver android:name="com.klinker.android.twitter.services.BootService">
+        <receiver android:name=".receivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.ConnectivityChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 

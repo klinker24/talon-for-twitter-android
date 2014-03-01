@@ -636,8 +636,6 @@ public class TalonPullNotificationService extends Service {
         public void onException(Exception ex) {
             ex.printStackTrace();
             Log.v("twitter_stream_push", "onException:" + ex.getMessage());
-
-            mContext.startService(new Intent(mContext, CatchupPull.class));
         }
     };
 }

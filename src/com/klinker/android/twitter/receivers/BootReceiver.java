@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.services;
+package com.klinker.android.twitter.receivers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -8,6 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.klinker.android.twitter.services.DirectMessageRefreshService;
+import com.klinker.android.twitter.services.MentionsRefreshService;
+import com.klinker.android.twitter.services.TalonPullNotificationService;
+import com.klinker.android.twitter.services.TimelineRefreshService;
+import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
@@ -18,7 +23,7 @@ import java.util.Date;
 /**
  * Created by luke on 11/26/13.
  */
-public class BootService  extends BroadcastReceiver {
+public class BootReceiver extends BroadcastReceiver {
 
     public static final int TRIM_ID = 131;
 
