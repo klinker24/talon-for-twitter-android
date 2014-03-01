@@ -22,7 +22,6 @@
         -- add auto complete users to the reply activity
         -- custom backgrounds
         -- scheduling tweets
-        -- connectivity change receiver
 
     - Minor
         -- full finnish update

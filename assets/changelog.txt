@@ -1,5 +1,6 @@
 <b>Version 2.0.0:</b><br/><br/>
 <b>NEW:</b><br/>
+    &#8226; Better management of Talon Pull and live streaming. It will automatically turn off when no data connection is available to conserve battery, then turn back on and refresh the timeline to avoid gaps when data becomes available again.<br/>
     &#8226; Compose button can now float over the main timelines instead of being in the action bar<br/>
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
     &#8226; Animations for opening new pages and windows<br/>

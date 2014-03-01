@@ -54,65 +54,67 @@ public class CatchupPull extends IntentService {
         AppSettings settings = AppSettings.getInstance(context);
 
         try {
-            Log.v("talon_pull", "into the try for catchup service");
-            Twitter twitter = Utils.getTwitter(context, settings);
+            if (settings.liveStreaming) {
+                Log.v("talon_pull", "into the try for catchup service");
+                Twitter twitter = Utils.getTwitter(context, settings);
 
-            HomeDataSource dataSource = HomeDataSource.getInstance(context);
+                HomeDataSource dataSource = HomeDataSource.getInstance(context);
 
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-            User user = twitter.verifyCredentials();
-            long[] lastId = dataSource.getLastIds(currentAccount);
-            List<Status> statuses = new ArrayList<Status>();
+                User user = twitter.verifyCredentials();
+                long[] lastId = dataSource.getLastIds(currentAccount);
+                List<Status> statuses = new ArrayList<Status>();
 
-            boolean foundStatus = false;
+                boolean foundStatus = false;
 
-            Paging paging = new Paging(1, 200);
-            if (lastId[0] != 0) {
-                paging.setSinceId(lastId[0]);
-            } else {
-                long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0);
-                if (id != 0) {
-                    paging.setSinceId(id);
+                Paging paging = new Paging(1, 200);
+                if (lastId[0] != 0) {
+                    paging.setSinceId(lastId[0]);
                 } else {
-                    return;
-                }
-            }
-
-            for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                try {
-                    if (!foundStatus) {
-                        paging.setPage(i + 1);
-                        List<Status> list = twitter.getHomeTimeline(paging);
-
-                        if (list.size() > 185) { // close to the 200 lol
-                            foundStatus = false;
-                        } else {
-                            foundStatus = true;
-                        }
-
-                        statuses.addAll(list);
+                    long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0);
+                    if (id != 0) {
+                        paging.setSinceId(id);
+                    } else {
+                        return;
                     }
-                } catch (Exception e) {
-                    // the page doesn't exist
-                    foundStatus = true;
-                    e.printStackTrace();
-                } catch (OutOfMemoryError o) {
-                    // don't know why...
-                    o.printStackTrace();
                 }
+
+                for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+                    try {
+                        if (!foundStatus) {
+                            paging.setPage(i + 1);
+                            List<Status> list = twitter.getHomeTimeline(paging);
+
+                            if (list.size() > 185) { // close to the 200 lol
+                                foundStatus = false;
+                            } else {
+                                foundStatus = true;
+                            }
+
+                            statuses.addAll(list);
+                        }
+                    } catch (Exception e) {
+                        // the page doesn't exist
+                        foundStatus = true;
+                        e.printStackTrace();
+                    } catch (OutOfMemoryError o) {
+                        // don't know why...
+                        o.printStackTrace();
+                    }
+                }
+
+                Log.v("talon_pull", "got statuses, new = " + statuses.size());
+
+                if (statuses.size() > 0) {
+                    sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                    unreadNow += statuses.size();
+                }
+
+                HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             }
-
-            Log.v("talon_pull", "got statuses, new = " + statuses.size());
-
-            if (statuses.size() > 0) {
-                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
-                unreadNow += statuses.size();
-            }
-
-            HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
-
-            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
         } catch (TwitterException e) {
             Log.v("talon_pull", "caught while refreshing the messages in the catchup service");
