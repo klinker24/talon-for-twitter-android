@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.klinker.android.twitter.services.CatchupPull;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TalonPullNotificationService;
@@ -87,7 +88,8 @@ public class BootReceiver extends BroadcastReceiver {
         }
 
         if (settings.pushNotifications) {
-            context.startService(new Intent(context, TalonPullNotificationService.class));
+            //context.startService(new Intent(context, TalonPullNotificationService.class));
+            context.startService(new Intent(context, CatchupPull.class));
         }
 
     }
