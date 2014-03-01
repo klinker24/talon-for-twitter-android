@@ -7,7 +7,7 @@
     &#8226; Mute expressions and keywords on tweets<br/>
     &#8226; View up to 100 retweeters of a status (API limit)<br/>
     &#8226; View users mentions and favorites on their profiles<br/>
-    &#8226; Favorite user tweets will now open directly to the tweet<br/>
+    &#8226; Favorite user tweet notifications will now open directly to the tweet<br/>
     &#8226; Added option to manually select location for local trends<br/>
     &#8226; Saved Searches drawer item<br/>
     &#8226; Save and destroy saved searches<br/>
