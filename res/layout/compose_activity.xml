@@ -156,7 +156,7 @@
                     android:maxLines="5"
                     android:minLines="2"
                     android:hint="@string/compose_tweet_hint"
-                    android:inputType="textCapSentences|textMultiLine"/>
+                    android:inputType="textCapSentences|textMultiLine" />
 
             <LinearLayout
                     android:id="@+id/overflow"

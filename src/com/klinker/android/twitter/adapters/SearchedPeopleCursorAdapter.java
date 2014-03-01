@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,9 +18,9 @@ import com.klinker.android.twitter.utils.ImageUtils;
 
 public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
 
-    public HoloEditText text;
+    public EditText text;
 
-    public SearchedPeopleCursorAdapter(Context context, Cursor cursor, HoloEditText text) {
+    public SearchedPeopleCursorAdapter(Context context, Cursor cursor, EditText text) {
         super(context, cursor);
         this.text = text;
     }

@@ -29,7 +29,7 @@ public class ComposeDMActivity extends Compose {
 
         setUpSimilar();
 
-        contactEntry = (HoloEditText) findViewById(R.id.contact_entry);
+        contactEntry = (EditText) findViewById(R.id.contact_entry);
         contactEntry.setVisibility(View.VISIBLE);
 
         String screenname = getIntent().getStringExtra("screenname");
