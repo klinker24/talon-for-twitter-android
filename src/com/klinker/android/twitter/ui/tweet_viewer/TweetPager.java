@@ -54,23 +54,23 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private TweetPagerAdapter mSectionsPagerAdapter;
     private ViewPager pager;
-    private Context context;
-    private AppSettings settings;
+    public Context context;
+    public AppSettings settings;
 
-    private String name;
-    private String screenName;
-    private String tweet;
-    private long time;
-    private String retweeter;
-    private String webpage;
-    private String proPic;
-    private boolean picture;
-    private long tweetId;
-    private String[] users;
-    private String[] hashtags;
-    private String[] otherLinks;
-    private boolean isMyTweet = false;
-    private boolean isMyRetweet = true;
+    public String name;
+    public String screenName;
+    public String tweet;
+    public long time;
+    public String retweeter;
+    public String webpage;
+    public String proPic;
+    public boolean picture;
+    public long tweetId;
+    public String[] users;
+    public String[] hashtags;
+    public String[] otherLinks;
+    public boolean isMyTweet = false;
+    public boolean isMyRetweet = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

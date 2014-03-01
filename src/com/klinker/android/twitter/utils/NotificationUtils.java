@@ -30,6 +30,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.NotificationCompose;
+import com.klinker.android.twitter.ui.tweet_viewer.NotiTweetPager;
 import com.klinker.android.twitter.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter.utils.redirects.RedirectToDrawer;
 import com.klinker.android.twitter.utils.redirects.RedirectToMentions;
@@ -450,8 +451,45 @@ public class NotificationUtils {
                 if (favs.isFavUser(account, screenname)) {
                     String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
                     String text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+                    String time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)) + "";
+                    String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+                    String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
+                    String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
+                    String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
+                    String id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "";
+                    String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
+                    String otherUrls = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
+                    String userss = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
+                    String hashtagss = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
+                    String retweeter;
+                    try {
+                        retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
+                    } catch (Exception e) {
+                        retweeter = "";
+                    }
+                    String link = "";
 
-                    tweets.add(new String[] {name, text, screenname});
+                    boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                    if (displayPic) {
+                        link = picUrl;
+                    } else {
+                        link = otherUrls.split("  ")[0];
+                    }
+
+                    tweets.add(new String[] {
+                            name,
+                            text,
+                            screenname,
+                            time,
+                            retweeter,
+                            link,
+                            displayPic ? "true" : "false",
+                            id,
+                            profilePic,
+                            userss,
+                            hashtagss,
+                            otherUrls
+                    });
                 }
             } while (cursor.moveToNext());
         }
@@ -461,19 +499,49 @@ public class NotificationUtils {
         data.close();
 
         if (tweets.size() > 0) {
-            makeFavsNotification(tweets, context);
+            if (tweets.size() == 1) {
+                makeFavsNotificationToActivity(tweets, context);
+            } else {
+                makeFavsNotification(tweets, context, true);
+            }
         }
     }
 
-    public static void makeFavsNotification(ArrayList<String[]> tweets, Context context) {
+    public static void makeFavsNotificationToActivity(ArrayList<String[]> tweets, Context context) {
+        
+        SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(context).edit();
+
+        e.putString("fav_user_tweet_name", tweets.get(0)[0]);
+        e.putString("fav_user_tweet_text", tweets.get(0)[1]);
+        e.putString("fav_user_tweet_screenname", tweets.get(0)[2]);
+        e.putLong("fav_user_tweet_time", Long.parseLong(tweets.get(0)[3]));
+        e.putString("fav_user_tweet_retweeter", tweets.get(0)[4]);
+        e.putString("fav_user_tweet_webpage", tweets.get(0)[5]);
+        e.putBoolean("fav_user_tweet_picture", tweets.get(0)[6].equals("true") ? true : false);
+        e.putLong("fav_user_tweet_tweet_id", Long.parseLong(tweets.get(0)[7]));
+        e.putString("fav_user_tweet_pro_pic", tweets.get(0)[8]);
+        e.putString("fav_user_tweet_users", tweets.get(0)[9]);
+        e.putString("fav_user_tweet_hashtags", tweets.get(0)[10]);
+        e.putString("fav_user_tweet_links", tweets.get(0)[11]);
+        e.commit();
+
+        makeFavsNotification(tweets, context, false);
+    }
+
+    public static void makeFavsNotification(ArrayList<String[]> tweets, Context context, boolean toDrawer) {
         String shortText;
         String longText;
         String title;
         int smallIcon = R.drawable.ic_stat_icon;
         Bitmap largeIcon;
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra("from_notification", true);
+        Intent resultIntent;
+
+        if (toDrawer) {
+            resultIntent = new Intent(context, RedirectToDrawer.class);
+        } else {
+            resultIntent = new Intent(context, NotiTweetPager.class);
+        }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
