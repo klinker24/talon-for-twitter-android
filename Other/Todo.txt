@@ -22,6 +22,7 @@
         -- add auto complete users to the reply activity
         -- custom backgrounds
         -- scheduling tweets
+        -- connectivity change receiver
 
     - Minor
         -- full finnish update
@@ -30,7 +31,7 @@
         -- add checkboxes to the custom themes for the compose window
         -- portugese spelling mistake
         -- country summary text
-
+        -- color of cursor on compose window
 
 
 - Need testing
@@ -39,3 +40,4 @@
     - tweetmarker shouldn't jump anymore
     - Overlay action bar fix
     - pictures not being switch on timeline and other places
+    - talon pull stuff
