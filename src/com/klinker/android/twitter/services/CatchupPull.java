@@ -25,6 +25,7 @@ import twitter4j.User;
 public class CatchupPull extends IntentService {
 
     SharedPreferences sharedPrefs;
+    public static boolean catchupRunning = false;
 
     public CatchupPull() {
         super("CatchupPullService");
@@ -32,6 +33,12 @@ public class CatchupPull extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+
+        if (CatchupPull.catchupRunning) {
+            return;
+        } else {
+            CatchupPull.catchupRunning = true;
+        }
 
         Log.v("talon_pull", "catchup pull started");
 
@@ -109,5 +116,9 @@ public class CatchupPull extends IntentService {
         context.startService(new Intent(context, TalonPullNotificationService.class).putExtra("new", unreadNow));
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+
+        CatchupPull.catchupRunning = false;
+
+        Log.v("talon_pull", "finished with the catchup service");
     }
 }
