@@ -1,6 +1,6 @@
 <b>Version 2.0.0:</b><br/><br/>
 <b>NEW:</b><br/>
-    &#8226; Better management of Talon Pull and live streaming. It will automatically turn off when no data connection is available to conserve battery, then turn back on and refresh the timeline to avoid gaps when data becomes available again.<br/>
+    &#8226; Talon Pull will automatically shut down to preserve battery when no data connection is active, then restart and check your timeline for missed tweets when data becomes available again.<br/>
     &#8226; Compose button can now float over the main timelines instead of being in the action bar<br/>
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
     &#8226; Animations for opening new pages and windows<br/>
@@ -22,6 +22,7 @@
 <b>IMPROVED:</b><br/>
     &#8226; Super smooth scrolling optimizations<br/>
     &#8226; Higher quality profile pictures<br/>
+    &#8226; Management of Talon Pull and keeping it active<br/>
     &#8226; Remade the tweet viewer layout<br/>
     &#8226; Much better image sizing on tweet viewer<br/>
     &#8226; Photo viewer tweeks<br/>
