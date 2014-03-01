@@ -33,6 +33,8 @@ public class CatchupPull extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
 
+        Log.v("talon_pull", "catchup pull started");
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Context context = getApplicationContext();
