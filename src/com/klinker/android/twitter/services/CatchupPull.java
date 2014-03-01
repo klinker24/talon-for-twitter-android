@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -53,6 +54,7 @@ public class CatchupPull extends IntentService {
         AppSettings settings = AppSettings.getInstance(context);
 
         try {
+            Log.v("talon_pull", "into the try for catchup service");
             Twitter twitter = Utils.getTwitter(context, settings);
 
             HomeDataSource dataSource = HomeDataSource.getInstance(context);
@@ -94,10 +96,14 @@ public class CatchupPull extends IntentService {
                 } catch (Exception e) {
                     // the page doesn't exist
                     foundStatus = true;
+                    e.printStackTrace();
                 } catch (OutOfMemoryError o) {
                     // don't know why...
+                    o.printStackTrace();
                 }
             }
+
+            Log.v("talon_pull", "got statuses, new = " + statuses.size());
 
             if (statuses.size() > 0) {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
@@ -108,16 +114,23 @@ public class CatchupPull extends IntentService {
 
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
-
         } catch (TwitterException e) {
-            Log.d("Twitter Update Error", e.getMessage());
+            Log.v("talon_pull", "caught while refreshing the messages in the catchup service");
+            e.printStackTrace();
         }
 
-        context.startService(new Intent(context, TalonPullNotificationService.class).putExtra("new", unreadNow));
+        sharedPrefs.edit().putInt("pull_unread", unreadNow).commit();
+        context.startService(new Intent(context, TalonPullNotificationService.class));
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
 
-        CatchupPull.catchupRunning = false;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // we are going to wait 20 seconds before it tries to do it again, because for some reason, the receiver runs more than once sometimes
+                CatchupPull.catchupRunning = false;
+            }
+        }, 20000);
 
         Log.v("talon_pull", "finished with the catchup service");
     }

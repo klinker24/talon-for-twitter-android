@@ -49,7 +49,6 @@ public class TalonPullNotificationService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        pullUnread = intent.getIntExtra("new", 0);
         return null;
     }
 
@@ -76,6 +75,8 @@ public class TalonPullNotificationService extends Service {
         settings = AppSettings.getInstance(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        pullUnread = sharedPreferences.getInt("pull_unread", 0);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -202,6 +203,7 @@ public class TalonPullNotificationService extends Service {
                     TalonPullNotificationService.isRunning = false;
                     stopSelf();
                     pullUnread = 0;
+                    sharedPreferences.edit().putInt("pull_unread", 0).commit();
                 }
 
             }
@@ -240,7 +242,7 @@ public class TalonPullNotificationService extends Service {
             unregisterReceiver(clearPullUnread);
         } catch (Exception e) { }
 
-        pullUnread = 0;
+        sharedPreferences.edit().putInt("pull_unread", 0);
 
         super.onDestroy();
     }
@@ -259,6 +261,7 @@ public class TalonPullNotificationService extends Service {
                         // it isn't running
                     }
 
+                    sharedPreferences.edit().putInt("pull_unread", 0).commit();
                     pullUnread = 0;
                 }
             });
@@ -286,6 +289,7 @@ public class TalonPullNotificationService extends Service {
         public void onReceive(Context context, Intent intent) {
 
             pullUnread = 0;
+            sharedPreferences.edit().putInt("pull_unread", 0).commit();
 
             mBuilder.setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + pullUnread);
 
@@ -331,6 +335,7 @@ public class TalonPullNotificationService extends Service {
             thisInstanceOn = false;
 
             pullUnread = 0;
+            sharedPreferences.edit().putInt("pull_unread", 0).commit();
 
             stopSelf();
 
@@ -430,6 +435,7 @@ public class TalonPullNotificationService extends Service {
                     }
 
                     pullUnread++;
+                    sharedPreferences.edit().putInt("pull_unread", pullUnread);
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
