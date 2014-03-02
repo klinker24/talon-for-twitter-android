@@ -10,7 +10,9 @@ import android.util.Log;
 
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
@@ -113,6 +115,40 @@ public class CatchupPull extends IntentService {
         } catch (TwitterException e) {
             Log.v("talon_pull", "caught while refreshing the messages in the catchup service");
             e.printStackTrace();
+        }
+
+        try {
+            Twitter twitter = Utils.getTwitter(context, settings);
+
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+            User user = twitter.verifyCredentials();
+            MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
+
+            long[] lastId = dataSource.getLastIds(currentAccount);
+            Paging paging;
+            paging = new Paging(1, 200);
+            if (lastId[0] != 0) {
+                paging.sinceId(lastId[0]);
+            }
+
+            List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
+
+            for (twitter4j.Status status : statuses) {
+                try {
+                    dataSource.createTweet(status, currentAccount);
+                } catch (Exception e) {
+                    dataSource = MentionsDataSource.getInstance(context);
+                    dataSource.createTweet(status, currentAccount);
+                }
+            }
+
+            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+            sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+
+        } catch (TwitterException e) {
+            // Error in updating status
+            Log.d("Twitter Update Error", e.getMessage());
         }
 
         sharedPrefs.edit().putInt("pull_unread", unreadNow).commit();
