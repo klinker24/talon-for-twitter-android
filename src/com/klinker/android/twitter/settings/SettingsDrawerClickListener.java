@@ -25,12 +25,12 @@ import com.klinker.android.twitter.utils.IOUtils;
 
 public class SettingsDrawerClickListener implements ListView.OnItemClickListener {
 
-    private Context context;
+    public Context context;
 
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private LinearLayout mDrawer;
-    private ViewPager viewPager;
+    public DrawerLayout mDrawerLayout;
+    public ListView mDrawerList;
+    public LinearLayout mDrawer;
+    public ViewPager viewPager;
 
     public SettingsDrawerClickListener(Context context, DrawerLayout drawerLayout, ListView drawerList, ViewPager vp, LinearLayout drawer) {
         this.context = context;
@@ -42,52 +42,14 @@ public class SettingsDrawerClickListener implements ListView.OnItemClickListener
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id) {
 
-        Intent intent;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerLayout.closeDrawer(Gravity.START);
+            }
+        }, 300);
 
-        final int mPos = position;
+        viewPager.setCurrentItem(position, true);
 
-        if (mPos < 7) { // one of the settings pages
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mDrawerLayout.closeDrawer(Gravity.START);
-                }
-            }, 300);
-
-            viewPager.setCurrentItem(mPos, true);
-        } else if (mPos == 7) { // changelog
-
-            // changelog.txt
-            String changes = IOUtils.readChangelog(context);
-            ScrollView scrollView = new ScrollView(context);
-            TextView changeView = new TextView(context);
-            changeView.setText(Html.fromHtml(changes));
-            int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, context.getResources().getDisplayMetrics());
-            changeView.setPadding(padding, padding, padding, padding);
-            changeView.setTextSize(14);
-            scrollView.addView(changeView);
-
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.changelog)
-                    .setView(scrollView)
-                    .setPositiveButton(R.string.ok, null)
-                    .show();
-
-        } else if (mPos == 8) { // rate it option
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-
-                    try {
-                        context.startActivity(goToMarket);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }, 200);
-
-        }
     }
 }

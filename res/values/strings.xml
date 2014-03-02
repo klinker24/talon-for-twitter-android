@@ -540,5 +540,7 @@
     <string name="regex_disclaimer">Muting to many expressions may affect startup and refresh times.</string>
     <string name="cleaning_cache">Cleaning cache...</string>
     <string name="floating_compose">Floating Compose Button</string>
+    <string name="settings_links">Settings Links</string>
+    <string name="other_links">Other Links</string>
 
 </resources>
