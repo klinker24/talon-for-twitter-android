@@ -73,7 +73,7 @@ public class ImageUtils {
     }
 
     public static Bitmap getBiggerCircle(Bitmap currentImage, Context context) {
-        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 256, context.getResources().getDisplayMetrics());
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 156, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
         Bitmap output = Bitmap.createBitmap(scale,
