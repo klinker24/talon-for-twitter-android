@@ -305,8 +305,8 @@ public class Utils {
             if (settings.customBackground != null) {
                 Log.v("custom_background", "attempting to set custom background");
                 try {
-                    Drawable background = settings.customBackground;
-                    ((Activity)context).getWindow().setBackgroundDrawable(background);
+                    //Drawable background = settings.customBackground;
+                    ((Activity)context).getWindow().setBackgroundDrawable(settings.customBackground);
                 } catch (Throwable e) {
                     e.printStackTrace();
                     Log.v("custom_background", "error setting custom background");
