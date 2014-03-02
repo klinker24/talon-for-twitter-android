@@ -164,7 +164,7 @@
     <string name="stop">Parar</string>
     <string name="tweeted">tweetado</string>
     <!-- User Profile Activity -->
-    <string name="followers">Segudores</string>
+    <string name="followers">Seguidores</string>
     <string name="following">Seguindo</string>
     <string name="blocked_user">Usuário Bloqueado</string>
     <string name="unblocked_user">Usuário Desbloqueado</string>

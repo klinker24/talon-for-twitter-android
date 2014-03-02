@@ -20,17 +20,19 @@
         -- picture page on profiles
         -- go to jacobs settings drawer
         -- add auto complete users to the reply activity
-        -- custom backgrounds
         -- scheduling tweets
 
     - Minor
         -- full finnish update
         -- no retweeters text if there aren't any
         -- text feedback when clicked
-        -- add checkboxes to the custom themes for the compose window
         -- portugese spelling mistake
         -- country summary text
-        -- color of cursor on compose window
+
+    - Add to custom themes:
+        -- background
+        -- compose activity
+        -- checkboxes (if they aren't blue by default when adding the compose activities)
 
 
 - Need testing
@@ -40,3 +42,4 @@
     - Overlay action bar fix
     - pictures not being switch on timeline and other places
     - talon pull stuff
+    - backgrounds for themes
