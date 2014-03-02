@@ -37,15 +37,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
@@ -109,6 +113,8 @@ public class TweetFragment extends Fragment {
     private String[] hashtags;
     private String[] otherLinks;
     private boolean isMyTweet;
+
+    private ListPopupWindow autocomplete;
 
     private boolean addonTheme;
 
@@ -322,6 +328,67 @@ public class TweetFragment extends Fragment {
                 // didn't exist when the theme was created.
             }
         }
+
+        autocomplete = new ListPopupWindow(context);
+        autocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
+        autocomplete.setHeight(Utils.toDP(100, context));
+        autocomplete.setWidth(Utils.toDP(275, context));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
+        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autocomplete.dismiss();
+            }
+        });
+
+        reply.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                String searchText = reply.getText().toString();
+
+                try {
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                        autocomplete.show();
+
+                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                        autocomplete.dismiss();
+                    } else if (autocomplete.isShowing()) {
+                        String[] split = reply.getText().toString().split(" ");
+                        String adapterText;
+                        if (split.length > 1) {
+                            adapterText = split[split.length - 1];
+                        } else {
+                            adapterText = split[0];
+                        }
+                        adapterText = adapterText.replace("@", "");
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
+                    }
+                } catch (Exception e) {
+                    // there is no text
+                    try {
+                        autocomplete.dismiss();
+                    } catch (Exception x) {
+                        // something went really wrong i guess haha
+                    }
+                }
+
+            }
+        });
 
         nametv.setTextSize(settings.textSize +2);
         screennametv.setTextSize(settings.textSize);
