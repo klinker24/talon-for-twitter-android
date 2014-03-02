@@ -531,8 +531,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                             }
                         }
 
-                        new TrimCache(null).execute();
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                        new TrimCache(null).execute();
                     }
 
                 });
