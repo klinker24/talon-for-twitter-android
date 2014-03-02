@@ -36,6 +36,9 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
         if (Utils.hasInternetConnection(context)) {
             Log.v("talon_pull", "connectivity change: network is available and talon pull is on");
 
+            // we want to turn off the live streaming/talon pull because it is just wasting battery not working/looking for connection
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
             long now = Calendar.getInstance().getTimeInMillis();
