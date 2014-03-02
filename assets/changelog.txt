@@ -14,6 +14,7 @@
     &#8226; Save and destroy saved searches<br/>
     &#8226; Added picture filter to searches<br/>
     &#8226; Added retweet filter to searches<br/>
+    &#8226; Auto-complete users from the tweet reply<br/>
     &#8226; RTL support for Android 4.2 and above<br/>
     &#8226; Themers can now theme the action bar<br/>
     &#8226; Themers can now change the background for the windows<br/>
