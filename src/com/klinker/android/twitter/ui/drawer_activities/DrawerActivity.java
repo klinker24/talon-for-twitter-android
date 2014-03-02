@@ -633,7 +633,7 @@ public abstract class DrawerActivity extends Activity {
 
         Utils.setUpTheme(context, settings);
 
-        if (settings.addonTheme) {
+        /*if (settings.addonTheme) {
             getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
         } else {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
@@ -641,7 +641,7 @@ public abstract class DrawerActivity extends Activity {
             a.recycle();
 
             getWindow().getDecorView().setBackgroundResource(resource);
-        }
+        }*/
 
         // this is a super hacky workaround for the theme problems that some people were having... but it works ok
         int actionBarTitleId = 0;
