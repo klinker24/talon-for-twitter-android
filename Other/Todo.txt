@@ -26,7 +26,6 @@
         -- full finnish update
         -- no retweeters text if there aren't any
         -- text feedback when clicked
-        -- portugese spelling mistake
         -- country summary text
 
     - Add to custom themes:
