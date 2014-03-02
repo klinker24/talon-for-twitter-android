@@ -114,6 +114,8 @@ public class AppSettings {
     public boolean translateProfileHeader;
     public String accentColor;
     public int accentInt;
+    public Drawable actionBar = null;
+    public Drawable customBackground = null;
 
     public int theme;
     public int layout;
@@ -129,7 +131,6 @@ public class AppSettings {
     public long dmRefresh;
     public long myId;
 
-    public Drawable actionBar = null;
 
     public AppSettings(Context context) {
         Log.v("talon_settings", "getting talon settings");
@@ -322,6 +323,7 @@ public class AppSettings {
 
                 Resources res = context.getPackageManager().getResourcesForApplication(addonThemePackage);
                 actionBar = res.getDrawable(res.getIdentifier("ab_background", "drawable", addonThemePackage));
+                customBackground = res.getDrawable(res.getIdentifier("wallpaper", "drawable", addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
                 sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();

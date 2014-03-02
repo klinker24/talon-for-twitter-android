@@ -14,7 +14,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,6 +35,7 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -292,6 +295,31 @@ public class Utils {
         if (settings.actionBar != null) {
             //Drawable back = settings.actionBar;
             ((Activity) context).getActionBar().setBackgroundDrawable(settings.actionBar);
+        }
+
+        setWallpaper(settings, context);
+    }
+
+    protected static void setWallpaper(AppSettings settings, Context context) {
+        if (settings.addonTheme) {
+            if (settings.customBackground != null) {
+                Log.v("custom_background", "attempting to set custom background");
+                try {
+                    Drawable background = settings.customBackground;
+                    ((Activity)context).getWindow().setBackgroundDrawable(background);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    Log.v("custom_background", "error setting custom background");
+                }
+            } else if (settings.customBackground == null) {
+                ((Activity)context).getWindow().setBackgroundDrawable(new ColorDrawable(settings.backgroundColor));
+            }
+        } else {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+
+            ((Activity)context).getWindow().getDecorView().setBackgroundResource(resource);
         }
     }
 
