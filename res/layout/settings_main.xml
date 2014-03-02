@@ -29,53 +29,6 @@
     </android.support.v4.view.ViewPager>
 
     <!-- The navigation drawer -->
-    <!-- default of 240dp width -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/drawer"
-        android:orientation="vertical"
-        android:layout_width="275dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="start"
-        android:background="?drawerBackground" >
-
-        <ListView android:id="@+id/links_list"
-            android:layout_height="wrap_content" android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:divider="?drawerDividerColor" android:dividerHeight="1dp"
-            android:paddingLeft="10dp" android:paddingRight="10dp"
-            android:footerDividersEnabled="false" android:headerDividersEnabled="false"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/pressed_button"
-            android:contentDescription="Created By"
-            android:id="@+id/created_by_layout"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17dp"
-                android:textColor="?textColor"
-                android:text="@string/created_by"
-                android:id="@+id/created_by"  />
-
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:textColor="?textColor"
-                android:id="@+id/version_number" />
-
-            </LinearLayout>
-
-    </LinearLayout>
+    <include layout="@layout/settings_drawer"/>
 
 </android.support.v4.widget.DrawerLayout>
