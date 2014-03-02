@@ -60,13 +60,13 @@ public class LongClickableSpan extends ClickableSpan {
             Log.v("talon_link", "web");
             if (mValue.contains("play.google.com")) {
                 // open to the play store
-                String data = mValue.replace("http://", "").replace("https://", "");
+                String data = mValue.replace("http://", "").replace("https://", "").replace("\"", "");
                 Intent intent = new Intent(Intent.ACTION_VIEW).setData(
                         Uri.parse("http://" + data)
                 );
                 mContext.startActivity(intent);
             } else {
-                String data = mValue.replace("http://", "").replace("https://", "");
+                String data = mValue.replace("http://", "").replace("https://", "").replace("\"", "");
 
                 Uri weburi = Uri.parse("http://" + data);
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
