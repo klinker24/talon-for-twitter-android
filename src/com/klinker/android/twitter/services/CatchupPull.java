@@ -26,7 +26,6 @@ import twitter4j.User;
 public class CatchupPull extends IntentService {
 
     SharedPreferences sharedPrefs;
-    public static boolean catchupRunning = false;
 
     public CatchupPull() {
         super("CatchupPullService");
@@ -34,12 +33,6 @@ public class CatchupPull extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
-
-        if (CatchupPull.catchupRunning) {
-            return;
-        } else {
-            CatchupPull.catchupRunning = true;
-        }
 
         Log.v("talon_pull", "catchup pull started");
 
@@ -49,6 +42,7 @@ public class CatchupPull extends IntentService {
 
         int unreadNow = TalonPullNotificationService.pullUnread;
 
+        // stop it just in case
         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
         AppSettings settings = AppSettings.getInstance(context);
@@ -125,14 +119,6 @@ public class CatchupPull extends IntentService {
         context.startService(new Intent(context, TalonPullNotificationService.class));
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // we are going to wait 20 seconds before it tries to do it again, because for some reason, the receiver runs more than once sometimes
-                CatchupPull.catchupRunning = false;
-            }
-        }, 20000);
 
         Log.v("talon_pull", "finished with the catchup service");
     }

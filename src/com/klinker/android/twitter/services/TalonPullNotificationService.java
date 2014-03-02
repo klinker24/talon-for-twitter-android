@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.services;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -30,6 +31,7 @@ import com.klinker.android.twitter.utils.Utils;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
@@ -201,9 +203,22 @@ public class TalonPullNotificationService extends Service {
                 } catch (Exception e) {
                     e.printStackTrace();
                     TalonPullNotificationService.isRunning = false;
-                    stopSelf();
+
+                    // schedule an alarm to try to restart again since this one failed, probably no data connection
+                    AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+
+                    long now = Calendar.getInstance().getTimeInMillis();
+                    long alarm = now + 60000; // schedule it to begin in 1 min
+
+                    PendingIntent pendingIntent = PendingIntent.getService(mContext, 236, new Intent(mContext, CatchupPull.class), 0);
+
+                    am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
+                    am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+
                     pullUnread = 0;
                     sharedPreferences.edit().putInt("pull_unread", 0).commit();
+
+                    stopSelf();
                 }
 
             }
