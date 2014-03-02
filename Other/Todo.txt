@@ -19,7 +19,6 @@
     - Features/Major
         -- new widget stuff (seperate dashclock settings from notification settings)
         -- picture page on profiles
-        -- go to jacobs settings drawer
         -- scheduling tweets
 
     - Minor
