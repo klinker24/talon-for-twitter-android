@@ -505,7 +505,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 }, 300);
 
-                context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
             }
         };
@@ -522,7 +521,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                     }
                 }, 300);
 
-                context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
             }
         };
@@ -849,8 +847,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         }
 
                         isRefreshing = false;
-
-                    context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
                     }
                 });
             }
@@ -994,6 +990,8 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }).start();
         }
+
+        context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
 
         super.onStop();
     }
