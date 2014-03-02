@@ -10,6 +10,7 @@
     - video sound stops after one time playing it
     - random avatar changes
     - sideways pictures
+    - themes not always changing?
 
 
 -- For Release --
