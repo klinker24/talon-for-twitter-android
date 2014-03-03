@@ -542,5 +542,7 @@
     <string name="floating_compose">Floating Compose Button</string>
     <string name="settings_links">Settings Links</string>
     <string name="other_links">Other Links</string>
+    <string name="display_options">Display Options</string>
+    <string name="third_party_services">Third Party Services</string>
 
 </resources>
