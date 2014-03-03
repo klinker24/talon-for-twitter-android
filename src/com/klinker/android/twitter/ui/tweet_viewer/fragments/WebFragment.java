@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -145,5 +146,17 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
     public void onDestroy() {
         webView.loadUrl("");
         super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((AudioManager)context.getSystemService(
+                Context.AUDIO_SERVICE)).requestAudioFocus(
+                new AudioManager.OnAudioFocusChangeListener() {
+                    @Override
+                    public void onAudioFocusChange(int focusChange) {}
+                }, AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
     }
 }
