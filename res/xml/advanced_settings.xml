@@ -47,8 +47,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="advanced_other"
-        android:title="@string/other_options" >
+        android:key="third_party"
+        android:title="@string/third_party_services" >
 
         <CheckBoxPreference
             android:key="tweetmarker"
@@ -71,6 +71,12 @@
             android:defaultValue="false"
             />
 
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="display_other"
+        android:title="@string/display_options" >
+
         <CheckBoxPreference
             android:key="use_emojis"
             android:title="@string/enable_emojis"
@@ -83,6 +89,12 @@
             android:summary="@string/advance_windowed_summary"
             android:defaultValue="true"
             />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="advanced_other"
+        android:title="@string/other_options" >
 
         <CheckBoxPreference
             android:key="prefer_rt"
