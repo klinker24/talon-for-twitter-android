@@ -33,6 +33,5 @@
     - RTL support
     - tweetmarker shouldn't jump anymore
     - Overlay action bar fix
-    - pictures not being switch on timeline and other places
+    - pictures not being switched on timeline and other places
     - talon pull stuff
-    - backgrounds for themes
