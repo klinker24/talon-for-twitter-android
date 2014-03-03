@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +31,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.services.CatchupPull;
 import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
@@ -36,6 +39,8 @@ import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.setup.TutorialActivity;
 import com.klinker.android.twitter.ui.setup.Version2Setup;
+
+import java.util.Calendar;
 
 public class MainActivity extends DrawerActivity {
 
@@ -342,6 +347,14 @@ public class MainActivity extends DrawerActivity {
         } else {
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         }
+
+        // cancel the alarm to start the catchup service
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 236, new Intent(context, CatchupPull.class), 0);
+        am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
+
+        // clear the pull unread
+        sharedPrefs.edit().putInt("pull_unread", 0).commit();
     }
 
     @Override
