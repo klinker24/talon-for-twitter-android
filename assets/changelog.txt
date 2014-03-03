@@ -55,6 +55,7 @@
     &#8226; Talon Pull sometimes shutting down the connection with the server<br/>
     &#8226; Pebble notifications will now work for everyone<br/>
     &#8226; Fixed the compose window not always shutting<br/>
+    &#8226; Disable custom font option if an addon theme is applied<br/>
 </br><br/>
 
 <b>Version 1.4.4:</b><br/><br/>
