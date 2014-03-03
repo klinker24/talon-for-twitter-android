@@ -216,7 +216,6 @@ public class TalonPullNotificationService extends Service {
                     am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
 
                     pullUnread = 0;
-                    sharedPreferences.edit().putInt("pull_unread", 0).commit();
 
                     stopSelf();
                 }
@@ -257,8 +256,6 @@ public class TalonPullNotificationService extends Service {
             unregisterReceiver(clearPullUnread);
         } catch (Exception e) { }
 
-        sharedPreferences.edit().putInt("pull_unread", 0);
-
         super.onDestroy();
     }
 
@@ -276,7 +273,6 @@ public class TalonPullNotificationService extends Service {
                         // it isn't running
                     }
 
-                    sharedPreferences.edit().putInt("pull_unread", 0).commit();
                     pullUnread = 0;
                 }
             });
@@ -350,7 +346,6 @@ public class TalonPullNotificationService extends Service {
             thisInstanceOn = false;
 
             pullUnread = 0;
-            sharedPreferences.edit().putInt("pull_unread", 0).commit();
 
             stopSelf();
 
