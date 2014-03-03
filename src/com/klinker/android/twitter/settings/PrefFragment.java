@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -318,7 +319,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        Preference deviceFont = findPreference("font_type");
+        final Preference deviceFont = findPreference("font_type");
         deviceFont.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -438,10 +439,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             nightMode.setEnabled(false);
             layout.setEnabled(false);
             theme.setEnabled(false);
+            deviceFont.setEnabled(false);
         } else {
             nightMode.setEnabled(true);
             layout.setEnabled(true);
             theme.setEnabled(true);
+            deviceFont.setEnabled(true);
         }
 
         final Preference addonTheme = findPreference("addon_themes");
@@ -514,11 +517,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                             layout.setEnabled(true);
                             theme.setEnabled(true);
                             nightMode.setEnabled(true);
+                            deviceFont.setEnabled(true);
                         } else {
                             arg1 -= 1;
                             layout.setEnabled(false);
                             theme.setEnabled(false);
                             nightMode.setEnabled(false);
+                            deviceFont.setEnabled(false);
                             sharedPrefs.edit()
                                     .putString("addon_theme_package", packages.get(arg1).packageName)
                                     .putBoolean("addon_themes", true)
@@ -817,6 +822,21 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     public void setUpAdvancedSettings() {
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        /*final Preference country = findPreference("country");
+        String currCountry = sharedPrefs.getString("country", "");
+
+        if (!currCountry.equals("")) {
+            country.setSummary(currCountry);
+        }
+
+        country.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                country.setSummary(sharedPrefs.getString("country", ""));
+                return true;
+            }
+        });*/
 
         final Preference cities = findPreference("city");
 
