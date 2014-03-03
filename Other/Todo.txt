@@ -15,6 +15,7 @@
 
 -- For Release --
 
+
 - 2.0.0
     - Features/Major
         -- new widget stuff (seperate dashclock settings from notification settings)
@@ -25,12 +26,6 @@
         -- full finnish update
         -- no retweeters text if there aren't any
         -- text feedback when clicked
-        -- country summary text
-
-    - Add to custom themes:
-        -- background
-        -- compose activity
-        -- checkboxes (if they aren't blue by default when adding the compose activities)
 
 
 - Need testing
