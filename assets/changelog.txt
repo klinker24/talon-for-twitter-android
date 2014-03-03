@@ -42,6 +42,7 @@
     &#8226; Set up so themers could use a transparent action bar if they would like<br/>
     &#8226; Retweets from Talon Pull in interactions drawer, they now stack on top of each other instead of creating an instance for every new one.<br/>
     &#8226; Theme selection<br/>
+    &#8226; Management of widget updates<br/>
     &#8226; A bit larger auto-complete box<br/>
 <br/>
 <b>FIXES:</b><br/>
