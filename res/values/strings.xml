@@ -546,5 +546,6 @@
     <string name="third_party_services">Third Party Services</string>
     <string name="open_keyboard">Auto-Open Keyboard</string>
     <string name="open_keyboard_summary">Automatically open the keyboard to reply in the tweet viewer</string>
+    <string name="no_retweets">No retweets</string>
 
 </resources>

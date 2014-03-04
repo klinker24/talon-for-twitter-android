@@ -54,6 +54,7 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
 
     private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
+    private LinearLayout noContent;
 
     @Override
     public void finish() {
@@ -87,6 +88,7 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
 
         mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
         spinner = (LinearLayout) findViewById(R.id.list_progress);
+        noContent = (LinearLayout) findViewById(R.id.no_content);
 
         // Now setup the PullToRefreshLayout
         ActionBarPullToRefresh.from(this)
@@ -184,6 +186,10 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
                             listView.setVisibility(View.VISIBLE);
 
                             spinner.setVisibility(View.GONE);
+
+                            if (users.size() == 0) {
+                                noContent.setVisibility(View.VISIBLE);
+                            }
                         }
                     });
                 } catch (Exception e) {
