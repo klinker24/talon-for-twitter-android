@@ -898,6 +898,9 @@ public abstract class DrawerActivity extends Activity {
 
         try {
             if (mDrawerToggle.onOptionsItemSelected(item)) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+                    mDrawerLayout.closeDrawer(Gravity.END);
+                }
                 return true;
             }
         } catch (Exception e) {
@@ -942,6 +945,10 @@ public abstract class DrawerActivity extends Activity {
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_notifications:
+                if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+                    mDrawerLayout.closeDrawer(Gravity.START);
+                }
+
                 if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
                     mDrawerLayout.closeDrawer(Gravity.END);
                 } else {
