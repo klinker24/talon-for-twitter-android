@@ -602,8 +602,6 @@ public abstract class DrawerActivity extends Activity {
                     oldInteractions.setText(getResources().getString(R.string.old_interactions));
                     readButton.setImageResource(openMailResource);
 
-                    invalidateOptionsMenu();
-
                     return null;
                 }
             });
