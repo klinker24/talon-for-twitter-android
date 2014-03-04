@@ -16,6 +16,8 @@ public class RedirectToMentions extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(0, 0);
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
@@ -38,6 +40,8 @@ public class RedirectToMentions extends Activity {
         sharedPrefs.edit().putInt("open_what_page", extraPages + 1).commit();
 
         finish();
+
+        overridePendingTransition(0,0);
 
         startActivity(mentions);
     }

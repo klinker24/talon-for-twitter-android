@@ -18,6 +18,8 @@ public class RedirectToDMs extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(0,0);
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
@@ -40,6 +42,8 @@ public class RedirectToDMs extends Activity {
         sharedPrefs.edit().putInt("open_what_page", extraPages + 2).commit();
 
         finish();
+
+        overridePendingTransition(0,0);
 
         startActivity(dm);
     }
