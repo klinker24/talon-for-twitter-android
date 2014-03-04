@@ -6,7 +6,11 @@
     &#8226; Pictures page on a users profile<br/>
     &#8226; Animations for opening new pages and windows<br/>
     &#8226; Post tweets from different accounts in the compose window<br/>
-    &#8226; Notifications button in the action bar<br/>
+    &#8226; Notifications button in the action bar for Talon Pull interations<br/>
+    &#8226; Seperated the DashClock settings from the notification settings<br/>
+    &#8226; Widget themed differently<br/>
+    &#8226; Two new transparent widget themes<br/>
+    &#8226; Added time ago to the widget items<br/>
     &#8226; Mute expressions and keywords on tweets<br/>
     &#8226; View up to 100 retweeters of a status (API limit)<br/>
     &#8226; View users mentions and favorites on their profiles<br/>
