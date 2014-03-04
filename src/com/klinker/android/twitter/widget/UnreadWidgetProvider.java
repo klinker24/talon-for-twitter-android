@@ -98,13 +98,12 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 openApp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent openAppPending = PendingIntent.getActivity(this, 0, openApp, 0);
 
-                Intent mentions = new Intent(this, MainActivity.class);
-                mentions.putExtra("page_to_open", 3);
-                mentions.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent mentions = new Intent(this, RedirectToMentions.class);
+                mentions.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 PendingIntent mentionsPending = PendingIntent.getActivity(this, 0, mentions, 0);
 
                 Intent dms = new Intent(this, RedirectToDMs.class);
-                dms.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                dms.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 PendingIntent dmsPending = PendingIntent.getActivity(this, 0, dms, 0);
 
                 views.setOnClickPendingIntent(R.id.launcherIcon, openAppPending);
