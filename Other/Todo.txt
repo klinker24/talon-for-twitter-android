@@ -20,6 +20,8 @@
 
 
 - 2.0.0
+    - round corners on the unread bar widget
+    - play store crashes
 
 
 - Need testing
