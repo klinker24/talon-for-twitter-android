@@ -42,13 +42,13 @@ public class TalonDashClockExtension extends DashClockExtension {
         int mentionsTweets = unreads[1];
         int dmTweets = unreads[2];
 
-        if (!sharedPrefs.getBoolean("timeline_notifications", true)) {
+        if (!sharedPrefs.getBoolean("dashclock_timeline", true)) {
             homeTweets = 0;
         }
-        if (!sharedPrefs.getBoolean("mentions_notifications", true)) {
+        if (!sharedPrefs.getBoolean("dashclock_mentions", true)) {
             mentionsTweets = 0;
         }
-        if (!sharedPrefs.getBoolean("direct_message_notifications", true)) {
+        if (!sharedPrefs.getBoolean("dashclock_dms", true)) {
             dmTweets = 0;
         }
 

@@ -19,7 +19,7 @@
 
 - 2.0.0
     - Features/Major
-        -- new widget stuff (seperate dashclock settings from notification settings)
+        -- new widget stuff
         -- scheduling tweets
 
     - Minor
