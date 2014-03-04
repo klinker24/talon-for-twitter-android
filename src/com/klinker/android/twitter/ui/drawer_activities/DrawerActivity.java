@@ -602,6 +602,10 @@ public abstract class DrawerActivity extends Activity {
                     oldInteractions.setText(getResources().getString(R.string.old_interactions));
                     readButton.setImageResource(openMailResource);
 
+                    if (notificationAdapter.getCount() == 0) {
+                        setNotificationFilled(false);
+                    }
+
                     return null;
                 }
             });
@@ -876,19 +880,30 @@ public abstract class DrawerActivity extends Activity {
             actionBar.setHomeButtonEnabled(false);
         }
 
+        noti = menu.getItem(NOTIFICATIONS);
+
         if (InteractionsDataSource.getInstance(context).getUnreadCount(settings.currentAccount) > 0) {
+            setNotificationFilled(true);
+        } else {
+            setNotificationFilled(false);
+        }
+
+        return true;
+    }
+
+    public MenuItem noti;
+    public void setNotificationFilled(boolean isFilled) {
+        if (isFilled) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button});
             int resource = a.getResourceId(0, 0);
             a.recycle();
-            menu.getItem(NOTIFICATIONS).setIcon(resource);
+            noti.setIcon(resource);
         } else {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button_empty});
             int resource = a.getResourceId(0, 0);
             a.recycle();
-            menu.getItem(NOTIFICATIONS).setIcon(resource);
+            noti.setIcon(resource);
         }
-
-        return true;
     }
 
     public static final int SETTINGS_RESULT = 101;
