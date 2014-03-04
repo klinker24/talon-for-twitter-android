@@ -26,12 +26,14 @@
 <br/>
 
 <b>IMPROVED:</b><br/>
+    &#8226; Layout optimizations for Talon layout<br/>
     &#8226; Super smooth scrolling optimizations<br/>
     &#8226; Higher quality profile pictures<br/>
     &#8226; Management of Talon Pull and keeping it active<br/>
     &#8226; Remade the tweet viewer layout<br/>
     &#8226; Much better image sizing on tweet viewer<br/>
     &#8226; Photo viewer tweeks<br/>
+    &#8226; New time format on tweets for better sizing<br/>
     &#8226; Changed the conversation and discussion style<br/>
     &#8226; Opening notifications will now take you to the correct place<br/>
     &#8226; Auto-complete of users. Opening their profile will now make them searchable<br/>
