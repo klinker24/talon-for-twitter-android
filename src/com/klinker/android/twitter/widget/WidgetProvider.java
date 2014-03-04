@@ -53,7 +53,6 @@ public class WidgetProvider extends AppWidgetProvider {
             Intent updateWidget = new Intent(context, CardWidgetService2.class);
             context.startService(updateWidget);
         } else if (intent.getAction().equals("OPEN_APP")) {
-
             Intent viewTweet = new Intent(context, TweetActivityWidget.class);
             viewTweet.putExtra("name", intent.getStringExtra("name"));
             viewTweet.putExtra("screenname", intent.getStringExtra("screenname"));
@@ -93,8 +92,22 @@ public class WidgetProvider extends AppWidgetProvider {
             ComponentName thisAppWidget = new ComponentName(this.getPackageName(), WidgetProvider.class.getName());
             int[] appWidgetIds = mgr.getAppWidgetIds(thisAppWidget);
 
-            boolean darkTheme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("theme", "1")) != 0;
-            RemoteViews views = new RemoteViews(this.getPackageName(), darkTheme ? R.layout.widget_dark : R.layout.widget_light);
+            int res = 0;
+            switch (Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("widget_theme", "3"))) {
+                case 0:
+                    res = R.layout.widget_light;
+                    break;
+                case 1:
+                    res = R.layout.widget_dark;
+                    break;
+                case 2:
+                    res = R.layout.widget_trans_light;
+                    break;
+                case 3:
+                    res = R.layout.widget_trans_black;
+                    break;
+            }
+            RemoteViews views = new RemoteViews(this.getPackageName(), res);
             views.setViewVisibility(R.id.replyButton, View.VISIBLE);
 
             for (int i = 0; i < appWidgetIds.length; i++) {

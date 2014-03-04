@@ -83,7 +83,23 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int arg0) {
-        final RemoteViews card = new RemoteViews(mContext.getPackageName(), darkTheme ? R.layout.widget_conversation_dark : R.layout.widget_conversation_light);
+        int res = 0;
+        switch (Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mContext).getString("widget_theme", "3"))) {
+            case 0:
+                res = R.layout.widget_conversation_light;
+                break;
+            case 1:
+                res = R.layout.widget_conversation_dark;
+                break;
+            case 2:
+                res = R.layout.widget_conversation_light;
+                break;
+            default:
+                res = R.layout.widget_conversation_dark;
+                break;
+        }
+
+        final RemoteViews card = new RemoteViews(mContext.getPackageName(), res);
 
         try {
             Log.v("talon_widget", "starting getviewat");

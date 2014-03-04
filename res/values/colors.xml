@@ -59,4 +59,11 @@ limitations under the License.
     <color name="action_bar_black">@android:color/black</color>
     <color name="black_message">#171717</color>
 
+
+    <!-- Widgets -->
+    <color name="widget_dark_trans_ab">#99000000</color>
+    <color name="widget_dark_trans_list">#66000000</color>
+    <color name="widget_light_trans_ab">#99FFFFFF</color>
+    <color name="widget_light_trans_list">#66FFFFFF</color>
+
 </resources>
