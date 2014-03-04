@@ -26,7 +26,7 @@
 <br/>
 
 <b>IMPROVED:</b><br/>
-    &#8226; Layout optimizations for Talon layout<br/>
+    &#8226; Layout and sizing optimizations for Talon layout<br/>
     &#8226; Super smooth scrolling optimizations<br/>
     &#8226; Higher quality profile pictures<br/>
     &#8226; Management of Talon Pull and keeping it active<br/>
