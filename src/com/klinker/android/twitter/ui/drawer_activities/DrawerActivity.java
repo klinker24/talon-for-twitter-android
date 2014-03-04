@@ -898,6 +898,18 @@ public abstract class DrawerActivity extends Activity {
             actionBar.setHomeButtonEnabled(false);
         }
 
+        if (InteractionsDataSource.getInstance(context).getUnreadCount(settings.currentAccount) > 0) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            menu.getItem(NOTIFICATIONS).setIcon(resource);
+        } else {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button_empty});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            menu.getItem(NOTIFICATIONS).setIcon(resource);
+        }
+
         return true;
     }
 
