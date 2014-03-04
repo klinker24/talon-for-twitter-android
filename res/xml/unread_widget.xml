@@ -15,12 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="180dp"
-    android:minHeight="180dp"
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="40dp"
     android:updatePeriodMillis="3600000"
-    android:initialLayout="@layout/widget_trans_black"
-    android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen|keyguard"
-    android:initialKeyguardLayout="@layout/widget_trans_black" >
+    android:initialLayout="@layout/widget_unread_trans_black"
+    android:resizeMode="none"
+    android:widgetCategory="home_screen">
 </appwidget-provider>
