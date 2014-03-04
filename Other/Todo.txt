@@ -20,10 +20,6 @@
 
 
 - 2.0.0
-    - Features/Major
-
-    - Minor
-        -- full finnish update
 
 
 - Need testing
