@@ -813,27 +813,6 @@ public abstract class DrawerActivity extends Activity {
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
         view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
 
-        View count = menu.findItem(R.id.menu_notifications).getActionView();
-        /*notifCount = (ImageButton) count.findViewById(R.id.notif_count);
-        mNotifCount = InteractionsDataSource.getInstance(context).getUnreadCount(settings.currentAccount);
-        //notifCount.setText(String.valueOf(mNotifCount));
-        notifCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
-                    mDrawerLayout.closeDrawer(Gravity.END);
-                } else {
-                    mDrawerLayout.openDrawer(Gravity.END);
-                }
-            }
-        });
-
-        if (settings.theme == AppSettings.THEME_LIGHT) {
-            notifCount.setBackgroundResource(R.drawable.shape_notification_light);
-        } else {
-            notifCount.setBackgroundResource(R.drawable.shape_notification_dark);
-        }*/
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -872,12 +851,11 @@ public abstract class DrawerActivity extends Activity {
             if (!settings.pushNotifications) {
                 menu.getItem(NOTIFICATIONS).setVisible(false);
             } else {
-                if (menu.getItem(COMPOSE).isVisible()) {
-                    menu.getItem(NOTIFICATIONS).setVisible(false);
-                } else {
+                if (settings.floatingCompose || getResources().getBoolean(R.bool.isTablet)) {
                     menu.getItem(NOTIFICATIONS).setVisible(true);
+                } else {
+                    menu.getItem(NOTIFICATIONS).setVisible(false);
                 }
-                menu.getItem(NOTIFICATIONS).setVisible(true);
             }
         }
 

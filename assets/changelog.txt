@@ -5,6 +5,7 @@
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
     &#8226; Animations for opening new pages and windows<br/>
     &#8226; Post tweets from different accounts in the compose window<br/>
+    &#8226; Notifications button in the action bar<br/>
     &#8226; Mute expressions and keywords on tweets<br/>
     &#8226; View up to 100 retweeters of a status (API limit)<br/>
     &#8226; View users mentions and favorites on their profiles<br/>
