@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/widget_dark_trans_ab"
+    android:background="@color/widget_light_trans_ab"
     android:padding="5dp"
     android:gravity="center_vertical">
 
@@ -31,11 +31,11 @@
             android:alpha=".6"
             android:background="@drawable/pressed_toast"
             android:paddingBottom="3dp"
-            android:src="@drawable/ic_send_dark"
+            android:src="@drawable/ic_send_light"
             android:scaleX=".85"
             android:scaleY=".85"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
     <!-- these are the buttons for the timelines -->
     <LinearLayout
@@ -51,7 +51,7 @@
             android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
-            android:src="@drawable/timeline_dark"
+            android:src="@drawable/timeline_light"
             android:background="@drawable/pressed_toast"
             />
 
@@ -60,6 +60,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="0"
+            android:alpha=".6"
+            android:textColor="@android:color/black"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textSize="16sp"/>
@@ -72,7 +74,7 @@
             android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
-            android:src="@drawable/mentions_dark"
+            android:src="@drawable/mentions_light"
             android:background="@drawable/pressed_toast"
             />
 
@@ -81,6 +83,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="0"
+            android:alpha=".6"
+            android:textColor="@android:color/black"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textSize="16sp"/>
@@ -93,7 +97,7 @@
             android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
-            android:src="@drawable/ic_action_reply_dark"
+            android:src="@drawable/ic_action_reply_light"
             android:background="@drawable/pressed_toast"
             />
 
@@ -102,10 +106,12 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="0"
+            android:alpha=".6"
+            android:textColor="@android:color/black"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textSize="16sp"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

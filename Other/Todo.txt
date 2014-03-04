@@ -7,6 +7,7 @@
     - mute by source
     - text feedback when clicked
     - interactions with dashclock
+    - scheduling tweets
 
 - Bugs:
     - video sound stops after one time playing it
@@ -20,7 +21,6 @@
 
 - 2.0.0
     - Features/Major
-        -- scheduling tweets
 
     - Minor
         -- full finnish update
