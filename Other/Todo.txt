@@ -5,6 +5,7 @@
     - addon package for full screen themes
     - auto-complete hashtags
     - mute by source
+    - text feedback when clicked
 
 - Bugs:
     - video sound stops after one time playing it
@@ -25,7 +26,6 @@
     - Minor
         -- full finnish update
         -- no retweeters text if there aren't any
-        -- text feedback when clicked
 
 
 - Need testing
