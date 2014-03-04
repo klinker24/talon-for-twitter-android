@@ -7,6 +7,7 @@
     &#8226; Animations for opening new pages and windows<br/>
     &#8226; Post tweets from different accounts in the compose window<br/>
     &#8226; Notifications button in the action bar for Talon Pull interations<br/>
+    &#8226; Unread "bar" widget<br/>
     &#8226; Seperated the DashClock settings from the notification settings<br/>
     &#8226; Widget themed differently<br/>
     &#8226; Two new transparent widget themes<br/>
