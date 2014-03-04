@@ -475,7 +475,14 @@
             <meta-data android:name="worldReadable" android:value="true" />
             <meta-data android:name="description"
                 android:value="@string/extension_description" />
+            <meta-data android:name="settingsActivity"
+                android:value=".settings.DashClockSettingsActivity" />
         </service>
+
+        <activity android:name=".settings.DashClockSettingsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TalonLight"
+            android:exported="true" />
 
     </application>
 </manifest>
