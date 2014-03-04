@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.WidgetCompose;
@@ -38,7 +41,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("com.klinker.android.twitter.UPDATE_WIDGET")) {
+        if (intent.getAction().equals("com.klinker.android.talon.UPDATE_WIDGET")) {
             Intent updateWidget = new Intent(context, UnreadWidgetService.class);
             context.startService(updateWidget);
         } else {
@@ -111,6 +114,17 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 views.setOnClickPendingIntent(R.id.timeline, openAppPending);
                 views.setOnClickPendingIntent(R.id.mentions, mentionsPending);
                 views.setOnClickPendingIntent(R.id.dms, dmsPending);
+
+                // get the counts
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+                int currentAccount = sharedPrefs.getInt("current_account", 1);
+                String dm = sharedPrefs.getInt("dm_unread_" + currentAccount, 0) + "";
+                String mention = MentionsDataSource.getInstance(this).getUnreadCount(currentAccount) + "";
+                String home = HomeDataSource.getInstance(this).getPosition(currentAccount, sharedPrefs.getLong("current_position_" + currentAccount, 0)) + "";
+
+                views.setTextViewText(R.id.home_text, home);
+                views.setTextViewText(R.id.mention_text, mention);
+                views.setTextViewText(R.id.dm_text, dm);
 
                 mgr.updateAppWidget(appWidgetId, views);
 
