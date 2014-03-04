@@ -457,11 +457,27 @@
                 android:resource="@xml/card_widget" />
         </receiver>
 
+        <!-- unread widget -->
+        <receiver android:name="com.klinker.android.twitter.widget.UnreadWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.klinker.android.talon.UPDATE_WIDGET" />
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/unread_widget" />
+        </receiver>
+
+
         <activity android:name="com.klinker.android.twitter.widget.WidgetProxyActivity"
             android:theme="@style/Theme.TalonDark"/>
         <service android:name="com.klinker.android.twitter.widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service android:name="com.klinker.android.twitter.widget.WidgetProvider$CardWidgetService2" />
+        <service android:name="com.klinker.android.twitter.widget.UnreadWidgetProvider$UnreadWidgetService" />
 
         <!-- DashClock -->
         <service android:name="com.klinker.android.twitter.widget.TalonDashClockExtension"
