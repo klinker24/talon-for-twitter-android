@@ -90,6 +90,7 @@ limitations under the License.
         <item name="check_box">@drawable/twitter_btn_check_holo_dark</item>
         <item name="background_card">@drawable/send_card_dark</item>
         <item name="notification_button">@drawable/ic_action_notification_dark</item>
+        <item name="notification_button_empty">@drawable/ic_action_notification_none_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>

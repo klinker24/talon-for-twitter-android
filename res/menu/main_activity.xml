@@ -25,7 +25,7 @@
         android:orderInCategory="4"
         android:title="@string/notifications"
         android:showAsAction="always"
-        android:icon="?notification_button" />
+        android:icon="?notification_button_empty" />
 
     <item android:id="@+id/menu_direct_message"
           android:orderInCategory="5"
