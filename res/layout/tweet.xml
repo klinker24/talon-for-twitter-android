@@ -36,6 +36,7 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="7dp"
             android:background="?tweetBackground">
 
         <!-- Holds the name, screen name, and time-->
@@ -51,6 +52,7 @@
                     android:textStyle="bold"
                     android:textColor="?dateColor"
                     android:layout_alignParentTop="true"
+                    android:paddingTop="4dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"/>
 
@@ -87,8 +89,7 @@
                     android:layout_below="@+id/screenname"
                     android:paddingBottom="5dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginLeft="12dp"
-                    android:text="@string/placeholder"/>
+                    android:layout_marginLeft="12dp" />
 
             <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:id="@+id/retweeter"

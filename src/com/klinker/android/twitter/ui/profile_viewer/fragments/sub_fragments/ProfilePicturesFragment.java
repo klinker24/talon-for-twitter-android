@@ -10,13 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
+import com.klinker.android.twitter.adapters.PicturesArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -64,19 +68,10 @@ public class ProfilePicturesFragment extends Fragment {
 
         inflater = LayoutInflater.from(context);
 
-        layout = inflater.inflate(R.layout.list_fragment, null);
+        layout = inflater.inflate(R.layout.pictures_fragment, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
-
-        listView.setItemManager(builder.build());
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -94,16 +89,26 @@ public class ProfilePicturesFragment extends Fragment {
             }
         });
 
-        doSearch();
+        final LinearLayout getTweets = (LinearLayout) layout.findViewById(R.id.load_tweets);
+        final Button getPics = (Button) layout.findViewById(R.id.get_pics);
+        getPics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getTweets.setVisibility(View.GONE);
+                spinner.setVisibility(View.VISIBLE);
+                doSearch();
+            }
+        });
 
         return layout;
     }
 
     public ArrayList<Status> tweets = new ArrayList<Status>();
+    public ArrayList<String> pics = new ArrayList<String>();
     public Paging paging = new Paging(1, 20);
     public boolean hasMore = true;
     public boolean canRefresh = false;
-    public TimelineArrayAdapter adapter;
+    public PicturesArrayAdapter adapter;
 
     public void doSearch() {
         spinner.setVisibility(View.VISIBLE);
@@ -128,10 +133,17 @@ public class ProfilePicturesFragment extends Fragment {
                         hasMore = false;
                     }
 
+                    for (Status s : tweets) {
+                        String[] links = TweetLinkUtils.getHtmlStatus(s);
+                        if (!links[1].equals("")) {
+                            pics.add(links[1]);
+                        }
+                    }
+
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter = new TimelineArrayAdapter(context, tweets);
+                            adapter = new PicturesArrayAdapter(context, pics);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
 
@@ -158,6 +170,12 @@ public class ProfilePicturesFragment extends Fragment {
 
     public void getMore() {
         canRefresh = false;
+        spinner.setVisibility(View.VISIBLE);
+
+        if (destroyed) {
+            hasMore = false;
+            return;
+        }
 
         new Thread(new Runnable() {
             @Override
@@ -167,7 +185,9 @@ public class ProfilePicturesFragment extends Fragment {
 
                     paging.setPage(paging.getPage() + 1);
 
-                    ResponseList<Status> result = twitter.getFavorites(screenName, paging);
+                    ResponseList<Status> result = twitter.getUserTimeline(screenName, paging);
+
+                    tweets.clear();
 
                     for (twitter4j.Status status : result) {
                         tweets.add(status);
@@ -179,13 +199,28 @@ public class ProfilePicturesFragment extends Fragment {
                         hasMore = false;
                     }
 
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.notifyDataSetChanged();
-                            canRefresh = true;
+                    final int lastPicSize = pics.size();
+
+                    for (Status s : tweets) {
+                        String[] links = TweetLinkUtils.getHtmlStatus(s);
+                        if (!links[1].equals("")) {
+                            pics.add(links[1]);
                         }
-                    });
+                    }
+
+                    if (pics.size() > lastPicSize) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                                canRefresh = true;
+
+                                spinner.setVisibility(View.GONE);
+                            }
+                        });
+                    } else {
+                        canRefresh = true;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -193,6 +228,8 @@ public class ProfilePicturesFragment extends Fragment {
                         public void run() {
                             canRefresh = false;
                             hasMore = false;
+
+                            spinner.setVisibility(View.GONE);
                         }
                     });
 
@@ -200,5 +237,13 @@ public class ProfilePicturesFragment extends Fragment {
 
             }
         }).start();
+    }
+
+    public boolean destroyed = false;
+
+    @Override
+    public void onDestroy() {
+        destroyed = true;
+        super.onDestroy();
     }
 }

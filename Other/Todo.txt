@@ -20,7 +20,6 @@
 - 2.0.0
     - Features/Major
         -- new widget stuff (seperate dashclock settings from notification settings)
-        -- picture page on profiles
         -- scheduling tweets
 
     - Minor
