@@ -56,6 +56,7 @@
             />
 
         <TextView
+            android:id="@+id/home_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
@@ -79,6 +80,7 @@
             />
 
         <TextView
+            android:id="@+id/mention_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
@@ -102,6 +104,7 @@
             />
 
         <TextView
+            android:id="@+id/dm_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
