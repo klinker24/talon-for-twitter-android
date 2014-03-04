@@ -239,6 +239,9 @@ public class ProfilePager extends Activity {
         }
 
         protected void onPostExecute(Void none) {
+            if (thisUser != null) {
+                actionBar.setTitle(thisUser.getName());
+            }
             invalidateOptionsMenu();
         }
     }
