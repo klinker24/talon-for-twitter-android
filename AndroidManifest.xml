@@ -251,6 +251,13 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
+        <activity android:name=".utils.redirects.RedirectToTimeline"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TalonDark"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+
         <activity android:name=".utils.redirects.RedirectToMentions"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark"
