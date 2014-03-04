@@ -38,7 +38,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("com.klinker.android.messaging.UPDATE_WIDGET")) {
+        if (intent.getAction().equals("com.klinker.android.twitter.UPDATE_WIDGET")) {
             Intent updateWidget = new Intent(context, UnreadWidgetService.class);
             context.startService(updateWidget);
         } else {
@@ -48,7 +48,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
     public static class UnreadWidgetService extends IntentService {
         public UnreadWidgetService() {
-            super("card_widget_service");
+            super("unread_widget_service");
         }
 
         @Override
@@ -65,21 +65,20 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
             Log.v("talon_unread_widget", "running service");
 
             int res = 0;
-            /*switch (Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("widget_theme", "3"))) {
+            switch (Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("widget_theme", "3"))) {
                 case 0:
-                    res = R.layout.widget_light;
+                    res = R.layout.widget_unread_trans_light;
                     break;
                 case 1:
-                    res = R.layout.widget_dark;
+                    res = R.layout.widget_unread_trans_black;
                     break;
                 case 2:
-                    res = R.layout.widget_trans_light;
+                    res = R.layout.widget_unread_trans_light;
                     break;
                 case 3:
-                    res = R.layout.widget_trans_black;
+                    res = R.layout.widget_unread_trans_black;
                     break;
-            }*/
-            res = R.layout.widget_unread_trans_black;
+            }
 
             RemoteViews views = new RemoteViews(this.getPackageName(), res);
 
