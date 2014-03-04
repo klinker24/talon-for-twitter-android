@@ -25,7 +25,6 @@
 
     - Minor
         -- full finnish update
-        -- no retweeters text if there aren't any
 
 
 - Need testing
