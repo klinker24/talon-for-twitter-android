@@ -23,6 +23,7 @@
     &#8226; Better organization of settings<br/>
     &#8226; Some support for ow.ly images in-line<br/>
 <br/>
+
 <b>IMPROVED:</b><br/>
     &#8226; Super smooth scrolling optimizations<br/>
     &#8226; Higher quality profile pictures<br/>
