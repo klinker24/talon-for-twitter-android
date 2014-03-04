@@ -551,5 +551,11 @@
     <string name="favorites">Favorites</string>
     <string name="load_pictures">Load Pictures</string>
     <string name="pic_search_disclaimer">Searches the user\'s timeline for pictures. Will take more time depending on how current their pictures are.</string>
+    <string name="widget_theme">Widget Theme</string>
+    <string name="widget_theme_summary">Applied to the homescreen widgets</string>
+    <string name="widget_light">Light Theme</string>
+    <string name="widget_dark">Dark Theme</string>
+    <string name="widget_trans_light">Transparent Light Theme</string>
+    <string name="widget_trans_black">Transparent Black Theme</string>
 
 </resources>

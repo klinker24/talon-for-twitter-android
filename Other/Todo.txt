@@ -6,6 +6,7 @@
     - auto-complete hashtags
     - mute by source
     - text feedback when clicked
+    - interactions with dashclock
 
 - Bugs:
     - video sound stops after one time playing it

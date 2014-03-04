@@ -42,6 +42,11 @@ public class AppSettings {
     public static final int THEME_DARK = 1;
     public static final int THEME_BLACK = 2;
 
+    public static final int WIDGET_LIGHT = 0;
+    public static final int WIDGET_DARK = 1;
+    public static final int WIDGET_TRANS_LIGHT = 2;
+    public static final int WIDGET_TRANS_BLACK = 3;
+
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
     public static final int PAGE_TYPE_LINKS = 2;
