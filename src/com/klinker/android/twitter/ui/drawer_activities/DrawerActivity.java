@@ -769,6 +769,8 @@ public abstract class DrawerActivity extends Activity {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
         }
+
+        invalidateOptionsMenu();
     }
 
     @Override
