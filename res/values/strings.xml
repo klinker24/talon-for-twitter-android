@@ -549,5 +549,7 @@
     <string name="no_retweets">No retweets</string>
     <string name="profile">Profile</string>
     <string name="favorites">Favorites</string>
+    <string name="load_pictures">Load Pictures</string>
+    <string name="pic_search_disclaimer">Searches the user\'s timeline for pictures. Will take more time depending on how current their pictures are.</string>
 
 </resources>

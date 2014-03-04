@@ -114,6 +114,8 @@ public class ProfilePager extends Activity {
 
         Utils.setActionBar(context);
 
+        // set it to the profile
+        pager.setCurrentItem(1);
     }
 
     public void setUpTheme() {
