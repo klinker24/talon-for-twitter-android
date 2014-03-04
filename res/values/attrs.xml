@@ -30,6 +30,8 @@ limitations under the License.
     <attr name="action_bar_color" format="color" />
     <attr name="message_color" format="color" />
     <attr name="notificationBackground" format="color" />
+    <attr name="border_color" format="color" />
+    <attr name="icon_color" format="color" />
 
     <!-- Drawables -->
     <attr name="myTweetBackground" format="reference"/>
@@ -69,6 +71,7 @@ limitations under the License.
     <attr name="quote_button" format="reference"/>
     <attr name="check_box" format="reference"/>
     <attr name="background_card" format="reference"/>
+    <attr name="notification_button" format="reference" />
 
     <!-- Drawer Icons -->
     <attr name="drawerIcon" format="reference"/>

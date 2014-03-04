@@ -21,18 +21,24 @@
           android:showAsAction="always"
           android:icon="?sendButton" />
 
+    <item android:id="@+id/menu_notifications"
+        android:orderInCategory="4"
+        android:title="@string/notifications"
+        android:showAsAction="always"
+        android:icon="?notification_button" />
+
     <item android:id="@+id/menu_direct_message"
-          android:orderInCategory="4"
+          android:orderInCategory="5"
           android:title="@string/menu_direct_message"
           android:showAsAction="never" />
 
     <item android:id="@+id/menu_settings"
-          android:orderInCategory="5"
+          android:orderInCategory="6"
           android:title="@string/menu_settings"
           android:showAsAction="never" />
 
     <item android:id="@+id/menu_to_first"
-        android:orderInCategory="6"
+        android:orderInCategory="7"
         android:title="@string/jump_to_top"
         android:showAsAction="never" />
 
