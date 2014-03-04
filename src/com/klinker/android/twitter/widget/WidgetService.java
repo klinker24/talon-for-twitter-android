@@ -36,6 +36,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.Utils;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -104,11 +105,9 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         try {
             Log.v("talon_widget", "starting getviewat");
             card.setTextViewText(R.id.contactName, settings.displayScreenName ? "@" + mWidgetItems.get(arg0).getScreenName() : mWidgetItems.get(arg0).getName());
-            card.setTextViewText(R.id.contactText, Html.fromHtml(settings.addonTheme ? mWidgetItems.get(arg0).getTweet().replaceAll("FF8800", settings.accentColor) : mWidgetItems.get(arg0).getTweet()));
-            if (settings.theme > 0) {
-                card.setTextColor(R.id.contactName, mContext.getResources().getColor(android.R.color.white));
-                card.setTextColor(R.id.contactName, mContext.getResources().getColor(android.R.color.white));
-            }
+            card.setTextViewText(R.id.contactText, mWidgetItems.get(arg0).getTweet());
+            card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext));
+
             final int arg = arg0;
 
             card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg).getPicUrl()));
