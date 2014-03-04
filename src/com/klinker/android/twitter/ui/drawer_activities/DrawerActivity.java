@@ -602,6 +602,8 @@ public abstract class DrawerActivity extends Activity {
                     oldInteractions.setText(getResources().getString(R.string.old_interactions));
                     readButton.setImageResource(openMailResource);
 
+                    invalidateOptionsMenu();
+
                     return null;
                 }
             });
@@ -790,6 +792,9 @@ public abstract class DrawerActivity extends Activity {
 
     private SearchView searchView;
 
+    public static ImageButton notifCount;
+    public static int mNotifCount = 0;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -806,35 +811,84 @@ public abstract class DrawerActivity extends Activity {
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
         view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
 
+        View count = menu.findItem(R.id.menu_notifications).getActionView();
+        /*notifCount = (ImageButton) count.findViewById(R.id.notif_count);
+        mNotifCount = InteractionsDataSource.getInstance(context).getUnreadCount(settings.currentAccount);
+        //notifCount.setText(String.valueOf(mNotifCount));
+        notifCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+                    mDrawerLayout.closeDrawer(Gravity.END);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.END);
+                }
+            }
+        });
+
+        if (settings.theme == AppSettings.THEME_LIGHT) {
+            notifCount.setBackgroundResource(R.drawable.shape_notification_light);
+        } else {
+            notifCount.setBackgroundResource(R.drawable.shape_notification_dark);
+        }*/
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+
+        final int DISMISS = 0;
+        final int SEARCH = 1;
+        final int COMPOSE = 2;
+        final int NOTIFICATIONS = 3;
+        final int DM = 4;
+        final int SETTINGS = 5;
+        final int TOFIRST = 6;
+
         if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
-            menu.getItem(0).setVisible(true);
-            menu.getItem(1).setVisible(false);
-            menu.getItem(2).setVisible(false);
-            menu.getItem(3).setVisible(false);
-            menu.getItem(5).setVisible(false);
+            menu.getItem(DISMISS).setVisible(true);
+
+            menu.getItem(SEARCH).setVisible(false);
+            menu.getItem(COMPOSE).setVisible(false);
+            menu.getItem(DM).setVisible(false);
+            menu.getItem(TOFIRST).setVisible(false);
+
+            if (settings.pushNotifications) {
+                menu.getItem(NOTIFICATIONS).setVisible(true);
+            } else {
+                menu.getItem(NOTIFICATIONS).setVisible(false);
+            }
+
         } else {
-            menu.getItem(0).setVisible(false);
-            menu.getItem(1).setVisible(true);
-            menu.getItem(2).setVisible(true);
-            menu.getItem(3).setVisible(true);
-            menu.getItem(5).setVisible(false);
+            menu.getItem(DISMISS).setVisible(false);
+
+            menu.getItem(SEARCH).setVisible(true);
+            menu.getItem(COMPOSE).setVisible(true);
+            menu.getItem(DM).setVisible(true);
+
+            if (!settings.pushNotifications) {
+                menu.getItem(NOTIFICATIONS).setVisible(false);
+            } else {
+                if (menu.getItem(COMPOSE).isVisible()) {
+                    menu.getItem(NOTIFICATIONS).setVisible(false);
+                } else {
+                    menu.getItem(NOTIFICATIONS).setVisible(true);
+                }
+                menu.getItem(NOTIFICATIONS).setVisible(true);
+            }
         }
 
         // to first button in overflow instead of the toast
         if (MainDrawerArrayAdapter.current > 2 || (settings.uiExtras && settings.useToast)) {
-            menu.getItem(5).setVisible(false);
+            menu.getItem(TOFIRST).setVisible(false);
         } else {
-            menu.getItem(5).setVisible(true);
+            menu.getItem(TOFIRST).setVisible(true);
         }
 
         if (MainActivity.isPopup) {
-            menu.getItem(4).setVisible(false); // hide the settings button if the popup is up
-            menu.getItem(1).setVisible(false); // hide the search button in popup
+            menu.getItem(SETTINGS).setVisible(false); // hide the settings button if the popup is up
+            menu.getItem(SEARCH).setVisible(false); // hide the search button in popup
 
             // disable the left drawer so they can't switch activities in the popup.
             // causes problems with the layouts
@@ -894,6 +948,15 @@ public abstract class DrawerActivity extends Activity {
                 mDrawerLayout.closeDrawer(Gravity.END);
                 notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                 notificationList.setAdapter(notificationAdapter);
+
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_notifications:
+                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+                    mDrawerLayout.closeDrawer(Gravity.END);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.END);
+                }
 
                 return super.onOptionsItemSelected(item);
 

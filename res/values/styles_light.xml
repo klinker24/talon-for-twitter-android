@@ -51,6 +51,8 @@ limitations under the License.
         <item name="emojiDivider">@color/emoji_divider_light</item>
         <item name="circle_border">@color/circle_outline_light</item>
         <item name="message_color">@color/light_message</item>
+        <item name="border_color">@color/border_light</item>
+        <item name="icon_color">@color/icon_light</item>
 
         <item name="myTweetBackground">@drawable/sent_background_light</item>
         <item name="tweetBackground">@drawable/received_background_light</item>
@@ -86,6 +88,7 @@ limitations under the License.
         <item name="quote_button">@drawable/ic_action_reply_all_light</item>
         <item name="check_box">@drawable/twitter_btn_check_holo_light</item>
         <item name="background_card">@drawable/send_card</item>
+        <item name="notification_button">@drawable/ic_action_notification_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="notificationSettings">@drawable/drawer_notifications_light</item>
