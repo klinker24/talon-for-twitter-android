@@ -5,9 +5,11 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
 import com.klinker.android.twitter.ui.profile_viewer.fragments.sub_fragments.ProfileFavoritesFragment;
 import com.klinker.android.twitter.ui.profile_viewer.fragments.sub_fragments.ProfileMentionsFragment;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.sub_fragments.ProfilePicturesFragment;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
     private Context context;
@@ -32,12 +34,15 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
+                ProfilePicturesFragment pics = new ProfilePicturesFragment(screenName);
+                return pics;
+            case 1:
                 ProfileFragment profile = new ProfileFragment(name, screenName, proPic, tweetId, isRetweet, isMyProfile);
                 return profile;
-            case 1:
+            case 2:
                 ProfileMentionsFragment mentions = new ProfileMentionsFragment(screenName);
                 return mentions;
-            case 2:
+            case 3:
                 ProfileFavoritesFragment favs = new ProfileFavoritesFragment(screenName);
                 return favs;
         }
@@ -46,18 +51,20 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Profile";
+                return context.getResources().getString(R.string.pictures);
             case 1:
-                return "Mentions";
+                return context.getResources().getString(R.string.profile);
             case 2:
-                return "Favorites";
+                return context.getResources().getString(R.string.mentions);
+            case 3:
+                return context.getResources().getString(R.string.favorites);
         }
         return null;
     }

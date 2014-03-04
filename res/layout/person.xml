@@ -58,7 +58,7 @@
                 android:layout_below="@id/name"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
-                android:paddingBottom="15dp"/>
+                android:paddingBottom="5dp"/>
 
         </RelativeLayout>
 
