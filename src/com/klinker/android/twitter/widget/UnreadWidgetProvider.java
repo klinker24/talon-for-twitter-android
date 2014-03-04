@@ -95,19 +95,25 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 intent2.setData(Uri.parse(intent2.toUri(Intent.URI_INTENT_SCHEME)));
 
                 Intent openApp = new Intent(this, MainActivity.class);
+                openApp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent openAppPending = PendingIntent.getActivity(this, 0, openApp, 0);
 
-                Intent mentions = new Intent(this, RedirectToMentions.class);
-                PendingIntent mentionsPending = PendingIntent.getService(this, 0, mentions, 0);
+                Intent mentions = new Intent(this, MainActivity.class);
+                mentions.putExtra("page_to_open", 3);
+                mentions.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent mentionsPending = PendingIntent.getActivity(this, 0, mentions, 0);
 
                 Intent dms = new Intent(this, RedirectToDMs.class);
-                PendingIntent dmsPending = PendingIntent.getService(this, 0, dms, 0);
+                dms.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent dmsPending = PendingIntent.getActivity(this, 0, dms, 0);
 
                 views.setOnClickPendingIntent(R.id.launcherIcon, openAppPending);
                 views.setOnClickPendingIntent(R.id.replyButton, quickPending);
                 views.setOnClickPendingIntent(R.id.timeline, openAppPending);
                 views.setOnClickPendingIntent(R.id.mentions, mentionsPending);
                 views.setOnClickPendingIntent(R.id.dms, dmsPending);
+
+                mgr.updateAppWidget(appWidgetId, views);
 
                 try {
                     Thread.sleep(500);
