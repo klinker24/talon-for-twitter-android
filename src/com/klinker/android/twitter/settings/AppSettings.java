@@ -96,6 +96,7 @@ public class AppSettings {
     public boolean tweetmarker;
     public boolean jumpingWorkaround;
     public boolean floatingCompose;
+    public boolean openKeyboard;
 
     // notifications
     public boolean timelineNot;
@@ -204,6 +205,7 @@ public class AppSettings {
         tweetmarker = sharedPrefs.getBoolean("tweetmarker", false);
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
+        openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
 
         if (!uiExtras) {
             floatingCompose = false;
