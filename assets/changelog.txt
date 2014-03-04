@@ -22,6 +22,7 @@
     &#8226; Live streaming should now preform a background refresh to avoid missing tweets if your data connection changes<br/>
     &#8226; Better organization of settings<br/>
     &#8226; Some support for ow.ly images in-line<br/>
+    &#8226; Option to automatically open the keyboard when you open the tweet viewer<br/>
 <br/>
 
 <b>IMPROVED:</b><br/>

@@ -721,6 +721,17 @@ public class TweetFragment extends Fragment {
             }
         });
 
+        if (settings.openKeyboard) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    reply.requestFocus();
+                    InputMethodManager inputMethodManager=(InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInputFromWindow(reply.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+                }
+            }, 500);
+        }
+
         charRemaining.setText(140 - reply.getText().length() + "");
 
         reply.setHint(context.getResources().getString(R.string.reply));

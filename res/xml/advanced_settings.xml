@@ -90,6 +90,13 @@
             android:defaultValue="true"
             />
 
+        <CheckBoxPreference
+            android:key="open_keyboard"
+            android:title="@string/open_keyboard"
+            android:summary="@string/open_keyboard_summary"
+            android:defaultValue="false"
+            />
+
         </PreferenceCategory>
 
     <PreferenceCategory
