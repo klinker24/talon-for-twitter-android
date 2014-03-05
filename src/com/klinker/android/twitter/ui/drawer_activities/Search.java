@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -304,6 +305,10 @@ public class Search extends Activity implements OnRefreshListener {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
 
+        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+        ImageView view = (ImageView) searchView.findViewById(searchImgId);
+        view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
+
         if (searchQuery.contains("@")) {
             // user search and we should hide the filters
             menu.getItem(3).setVisible(false); // pictures
@@ -314,6 +319,8 @@ public class Search extends Activity implements OnRefreshListener {
     }
 
     public static final int SETTINGS_RESULT = 101;
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

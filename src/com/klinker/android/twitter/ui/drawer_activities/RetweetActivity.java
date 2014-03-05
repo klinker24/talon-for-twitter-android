@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
@@ -236,5 +237,22 @@ public class RetweetActivity extends DrawerActivity {
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         overridePendingTransition(0, 0);
         startActivity(restart);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        final int DISMISS = 0;
+        final int SEARCH = 1;
+        final int COMPOSE = 2;
+        final int NOTIFICATIONS = 3;
+        final int DM = 4;
+        final int SETTINGS = 5;
+        final int TOFIRST = 6;
+
+        menu.getItem(NOTIFICATIONS).setVisible(false);
+
+        return true;
     }
 }

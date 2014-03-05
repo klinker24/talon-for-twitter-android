@@ -85,7 +85,13 @@ public class ListsActivity extends DrawerActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity, menu);
-        return super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu);
+
+        final int NOTIFICATIONS = 3;
+        menu.getItem(NOTIFICATIONS).setVisible(false);
+        menu.getItem(2).setVisible(false);
+
+        return true;
     }
 
     private boolean clicked = false;

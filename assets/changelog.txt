@@ -3,6 +3,8 @@
     &#8226; Only show custom background on main timelines or it gets distorted<br/>
     &#8226; Force closes<br/>
     &#8226; Audio stopping when viewing web page from tweet viewer<br/>
+    &#8226; Smaller search icon on the search pages<br/>
+    &#8226; Weird action bar icons on some drawer pages<br/>
 </br><br/>
 
 <b>Version 2.0.0 Beta 1:</b><br/><br/>
