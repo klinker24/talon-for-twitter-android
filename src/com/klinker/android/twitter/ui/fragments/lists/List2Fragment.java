@@ -586,6 +586,12 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                     @Override
                     public void run() {
 
+                        Cursor c = null;
+                        try {
+                            c = cursorAdapter.getCursor();
+                        } catch (Exception e) {
+
+                        }
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
 
                         final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
@@ -603,6 +609,12 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                         mPullToRefreshLayout.setRefreshComplete();
+
+                        try {
+                            c.close();
+                        } catch (Exception e) {
+                            
+                        }
                     }
                 });
             }

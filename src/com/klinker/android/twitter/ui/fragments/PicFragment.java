@@ -327,8 +327,9 @@ public class PicFragment extends Fragment implements OnRefreshListener {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Cursor c = null;
                         try {
-                            cursorAdapter.getCursor().close();
+                            c = cursorAdapter.getCursor();
                         } catch (Exception e) {
 
                         }
@@ -344,6 +345,12 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
                         attachCursor();
                         mPullToRefreshLayout.setRefreshComplete();
+
+                        try {
+                            c.close();
+                        } catch (Exception e) {
+
+                        }
                     }
                 });
             }

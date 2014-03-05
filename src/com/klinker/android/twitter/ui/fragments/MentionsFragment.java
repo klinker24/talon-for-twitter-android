@@ -366,17 +366,18 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 else
                     am.cancel(pendingIntent);
 
-                try {
-                    cursorAdapter.getCursor().close();
-                } catch (Exception e) {
-
-                }
-
                 return MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
             }
 
             @Override
             protected void onPostExecute(Cursor cursor) {
+
+                Cursor c = null;
+                try {
+                    c = cursorAdapter.getCursor();
+                } catch (Exception e) {
+
+                }
 
                 cursorAdapter = new TimeLineCursorAdapter(context,
                         cursor,
@@ -401,6 +402,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 mPullToRefreshLayout.setRefreshComplete();
 
                 DrawerActivity.canSwitch = true;
+
+                try {
+                    c.close();
+                } catch (Exception e) {
+
+                }
             }
         }.execute();
     }
@@ -450,8 +457,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Cursor c = null;
                         try {
-                            cursorAdapter.getCursor().close();
+                            c = cursorAdapter.getCursor();
                         } catch (Exception e) {
 
                         }
@@ -465,6 +473,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         } catch (Exception e) { }
 
                         attachCursor();
+
+                        try {
+                            c.close();
+                        } catch (Exception e) {
+
+                        }
                     }
                 });
             }
