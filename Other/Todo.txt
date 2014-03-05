@@ -13,7 +13,6 @@
     - video sound stops after one time playing it
     - random avatar changes
     - sideways pictures
-    - themes not always changing?
 
 
 -- For Release --
@@ -23,7 +22,6 @@
     - play store crashes
     - bar widget on tablet
     - attach pictures from the talon pull compose
-    - whole area is clickable on the tweet viewer buttons
 
 
 - Need testing
