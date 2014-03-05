@@ -969,15 +969,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onStop() {
         Log.v("talon_stopping", "stopping here");
 
-        try {
-            context.unregisterReceiver(pullReceiver);
-        } catch (Exception e) { }
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) { }
-        try {
-            context.unregisterReceiver(markRead);
-        } catch (Exception e) { }
+        context.unregisterReceiver(pullReceiver);
+        context.unregisterReceiver(jumpTopReceiver);
+        context.unregisterReceiver(markRead);
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 

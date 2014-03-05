@@ -81,8 +81,8 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     };
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
@@ -90,14 +90,11 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     }
 
     @Override
-    public void onPause() {
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) {
-            // not registered
-        }
+    public void onStop() {
 
-        super.onPause();
+        context.unregisterReceiver(jumpTopReceiver);
+
+        super.onStop();
     }
 
     @Override
