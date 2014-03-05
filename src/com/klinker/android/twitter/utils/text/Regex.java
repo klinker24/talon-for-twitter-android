@@ -150,7 +150,7 @@ public class Regex {
                     + "([0-9][0-9\\- \\.][0-9\\- \\.]+[0-9])"); // <digit><digit|sdd>+<digit>
 
     public static final Pattern HASHTAG_PATTERN
-            = Pattern.compile("#([A-Za-z0-9_-]+)");
+            = Pattern.compile("#([\\p{L}$A-Za-z0-9_-]+)");
 
     public static final Pattern MENTION_PATTERN
             = Pattern.compile("@([A-Za-z0-9_-]+)");
