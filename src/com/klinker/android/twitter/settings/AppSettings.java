@@ -328,9 +328,15 @@ public class AppSettings {
                     this.theme = THEME_LIGHT;
                 }
 
-                Resources res = context.getPackageManager().getResourcesForApplication(addonThemePackage);
-                actionBar = res.getDrawable(res.getIdentifier("ab_background", "drawable", addonThemePackage));
-                customBackground = res.getDrawable(res.getIdentifier("wallpaper", "drawable", addonThemePackage));
+                try {
+                    Resources res = context.getPackageManager().getResourcesForApplication(addonThemePackage);
+                    actionBar = res.getDrawable(res.getIdentifier("ab_background", "drawable", addonThemePackage));
+                    customBackground = res.getDrawable(res.getIdentifier("wallpaper", "drawable", addonThemePackage));
+                } catch (Exception e) {
+                    actionBar = null;
+                    customBackground = null;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();
