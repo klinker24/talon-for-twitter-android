@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.Spannable;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -927,14 +928,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
 
-                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                            if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
                                 String f = s.replace("...", "").replace("http", "");
 
                                 for (int x = 0; x < otherLinks.length; x++) {
                                     Log.v("recreating_links", "other link first: " + otherLinks[x]);
                                     if (otherLinks[x].contains(f)) {
                                         changed = true;
-                                        f = otherLinks[x];
+                                        // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
+                                        if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
+                                            otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
+                                        }
+                                        f = otherLinks[x].replace("http://", "").replace("https://", "").replace("www.", "");
                                         break;
                                     }
                                 }
@@ -956,11 +961,17 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (!webpage.equals("")) {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
+                            s = s.replace("...", "");
 
-                            Log.v("talon_picture_", s);
+                            Log.v("talon_links", s);
 
-                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                                split[i] = webpage;
+                            if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                                String replace = otherLinks[otherLinks.length - 1];
+                                Log.v("talon_links", ":" + replace + ":");
+                                if (replace.replace(" ", "").equals("")) {
+                                    replace = webpage;
+                                }
+                                split[i] = replace;
                                 changed = true;
                                 Log.v("talon_picture", split[i]);
                             }
