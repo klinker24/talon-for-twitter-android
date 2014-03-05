@@ -191,8 +191,9 @@ public class DirectMessageConversation extends Activity {
         protected void onPostExecute(Cursor cursor) {
 
             if (cursor != null) {
+                Cursor c = null;
                 try {
-                    cursorAdapter.getCursor().close();
+                    c = cursorAdapter.getCursor();
                 } catch (Exception e) {
 
                 }
@@ -200,6 +201,12 @@ public class DirectMessageConversation extends Activity {
                 listView.setAdapter(cursorAdapter);
                 listView.setVisibility(View.VISIBLE);
                 listView.setStackFromBottom(true);
+
+                try {
+                    c.close();
+                } catch (Exception e) {
+                    
+                }
             }
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
