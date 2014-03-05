@@ -104,7 +104,13 @@ public class HomeContentProvider extends ContentProvider {
         } catch (NullPointerException x)  {
             // i don't understand why this would happen
             db = HomeDataSource.getInstance(getContext()).getDatabase();
-            db.beginTransaction();
+            try {
+                db.beginTransaction();
+            } catch (Exception e) {
+                // what the hell... :/
+                db = HomeDataSource.getInstance(getContext()).getDatabase();
+                db.beginTransaction();
+            }
 
             for (ContentValues initialValues : allValues) {
                 values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
@@ -161,12 +162,6 @@ public class ListDataSource {
 
     public Cursor getCursor(int listId) {
 
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
-            open();
-        }
-
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
@@ -207,16 +202,42 @@ public class ListDataSource {
             open();
         }
 
-        Cursor cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
-        if (cursor.getCount() > timelineSize) {
-            cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                    allColumns,
-                    where,
-                    new String[] {"" + listId},
-                    null,
-                    null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
+        Cursor cursor;
+        try {
+            long count = DatabaseUtils.queryNumEntries(database, ListSQLiteHelper.TABLE_HOME);
+            if (count > timelineSize) {
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns,
+                        where,
+                        new String[] {"" + listId},
+                        null,
+                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
+
+            }
+            open();
+            long count = DatabaseUtils.queryNumEntries(database, ListSQLiteHelper.TABLE_HOME);
+            if (count > timelineSize) {
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns,
+                        where,
+                        new String[] {"" + listId},
+                        null,
+                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
         }
 
         return cursor;
@@ -230,8 +251,21 @@ public class ListDataSource {
             open();
         }
 
-        Cursor cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                allColumns, null, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        Cursor cursor;
+        try {
+            cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                    allColumns, null, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
+
+            }
+            open();
+
+            cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                    allColumns, null, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        }
 
         return cursor;
     }

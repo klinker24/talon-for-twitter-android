@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 
@@ -233,26 +235,41 @@ public class HomeDataSource {
 
         Cursor cursor;
 
-        try {
-            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
-        } catch (Exception e) {
-            open();
-            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
-        }
-
         if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
 
+        try {
+            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            Log.v("talon_database", "home database has " + count + " entries");
+            if (count > timelineSize) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
 
-        if (cursor.getCount() > timelineSize) {
-            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
+            }
+            open();
+
+            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            Log.v("talon_database", "home database has " + count + " entries");
+            if (count > timelineSize) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
         }
+
 
         return cursor;
     }
@@ -298,6 +315,7 @@ public class HomeDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
+
         Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                 allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", "150");
 
@@ -396,12 +414,32 @@ public class HomeDataSource {
             open();
         }
 
-        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        Cursor cursor;
 
-        if (cursor.getCount() > timelineSize) {
-            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
+        try {
+            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            if (count > timelineSize) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
+
+            }
+            open();
+            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            if (count > timelineSize) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
         }
 
         return cursor;
@@ -449,12 +487,32 @@ public class HomeDataSource {
             open();
         }
 
-        Cursor cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        Cursor cursor;
 
-        if (cursor.getCount() > timelineSize) {
-            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
+        try {
+            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            if (count > timelineSize) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
+
+            }
+            open();
+            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            if (count > timelineSize) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
         }
 
         return cursor;
@@ -600,6 +658,5 @@ public class HomeDataSource {
         cv.put(HomeSQLiteHelper.COLUMN_TEXT, text);
 
         database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-
     }
 }
