@@ -191,7 +191,13 @@ public class DirectMessageConversation extends Activity {
         protected void onPostExecute(Cursor cursor) {
 
             if (cursor != null) {
-                listView.setAdapter(new TimeLineCursorAdapter(context, cursor, true));
+                try {
+                    cursorAdapter.getCursor().close();
+                } catch (Exception e) {
+
+                }
+                cursorAdapter = new TimeLineCursorAdapter(context, cursor, true);
+                listView.setAdapter(cursorAdapter);
                 listView.setVisibility(View.VISIBLE);
                 listView.setStackFromBottom(true);
             }
@@ -200,6 +206,8 @@ public class DirectMessageConversation extends Activity {
             spinner.setVisibility(View.GONE);
         }
     }
+
+    public TimeLineCursorAdapter cursorAdapter;
 
     class SendDirectMessage extends AsyncTask<String, String, Boolean> {
 
