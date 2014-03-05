@@ -8,6 +8,7 @@
     &#8226; Improved startup speed and efficiency<br/>
     &#8226; Match international characters when highlighting hashtags<br/>
     &#8226; Share links correctly from the timeline<br/>
+    &#8226; Improved click area of button on tweet viewer<br/>
 </br><br/>
 
 <b>Version 2.0.0 Beta 1:</b><br/><br/>
