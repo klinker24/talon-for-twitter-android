@@ -372,7 +372,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
                 }
 
-
                 return MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
             }
 
