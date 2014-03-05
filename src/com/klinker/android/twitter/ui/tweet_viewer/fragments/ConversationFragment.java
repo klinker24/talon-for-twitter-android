@@ -204,6 +204,8 @@ public class ConversationFragment extends Fragment {
 
                     query = new Query("@" + screenname + " since_id:" + id);
 
+                    Log.v("talon_replies", "query string: " + query.getQuery());
+
                     try {
                         query.setCount(100);
                     } catch (Throwable e) {
@@ -217,6 +219,7 @@ public class ConversationFragment extends Fragment {
                     all = new ArrayList<twitter4j.Status>();
 
                     do {
+                        Log.v("talon_replies", "do loop repetition");
                         if (!isRunning) {
                             return;
                         }
@@ -231,6 +234,7 @@ public class ConversationFragment extends Fragment {
 
                         if (all.size() > 0) {
                             for (int i = all.size() - 1; i >= 0; i--) {
+                                Log.v("talon_replies", "inserting into arraylist:" + all.get(i).getText());
                                 replies.add(all.get(i));
                             }
 
@@ -242,18 +246,20 @@ public class ConversationFragment extends Fragment {
                                     progressBar.setVisibility(View.GONE);
                                     try {
                                         if (replies.size() > 0) {
-                                            if (adapter != null) {
-                                                adapter.notifyDataSetChanged();
-                                            } else {
+                                            if (adapter == null || adapter.getCount() == 0) {
                                                 adapter = new TimelineArrayAdapter(context, replies);
                                                 listView.setAdapter(adapter);
                                                 listView.setVisibility(View.VISIBLE);
+                                            } else {
+                                                Log.v("talon_replies", "notifying adapter change");
+                                                adapter.notifyDataSetChanged();
                                             }
                                         } else {
                                             none.setVisibility(View.VISIBLE);
                                         }
                                     } catch (Exception e) {
                                         // none and it got the null object
+                                        e.printStackTrace();
                                         listView.setVisibility(View.GONE);
                                         none.setVisibility(View.VISIBLE);
                                     }
@@ -274,7 +280,7 @@ public class ConversationFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                if (progressBar.getVisibility() == View.VISIBLE) {
+                if (replies.size() < 2) {
                     // nothing to show, so tell them that
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
