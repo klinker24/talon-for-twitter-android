@@ -416,6 +416,16 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     public void onResume() {
         super.onResume();
 
+        if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
+            getCursorAdapter();
+            sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
         context.registerReceiver(refrehshMentions, filter);
@@ -424,21 +434,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
         context.registerReceiver(jumpTopReceiver, filter);
 
-        sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
-            getCursorAdapter();
-        }
     }
 
     @Override
     public void onStop() {
         MentionsDataSource.getInstance(context).markAllRead(sharedPrefs.getInt("current_account", 1));
+
+        context.unregisterReceiver(refrehshMentions);
+        context.unregisterReceiver(jumpTopReceiver);
 
         super.onStop();
     }
@@ -495,16 +498,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             MentionsDataSource.getInstance(context).markMultipleRead(mUnread, currentAccount);
 
             unread = mUnread;
-        }
-
-        try {
-            context.unregisterReceiver(refrehshMentions);
-        } catch (Exception e) {
-        }
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) {
-
         }
 
         super.onPause();

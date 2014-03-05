@@ -518,9 +518,7 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
     @Override
     public void onStop() {
 
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) { }
+        context.unregisterReceiver(jumpTopReceiver);
 
         super.onStop();
     }

@@ -513,9 +513,7 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
     @Override
     public void onStop() {
 
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) { }
+        context.unregisterReceiver(jumpTopReceiver);
 
         super.onStop();
     }
@@ -604,7 +602,11 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                         listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                         mPullToRefreshLayout.setRefreshComplete();
 
-                        c.close();
+                        try {
+                            c.close();
+                        } catch (Exception e) {
+
+                        }
                     }
                 });
             }
