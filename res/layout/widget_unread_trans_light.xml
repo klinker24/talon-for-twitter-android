@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/widget_light_trans_ab"
+    android:background="@drawable/bar_widget_light"
     android:padding="5dp"
     android:gravity="center_vertical">
 
@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingLeft="15dp">
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="32dp"
@@ -30,7 +31,6 @@
             android:layout_marginRight="7dp"
             android:alpha=".6"
             android:background="@drawable/pressed_toast"
-            android:paddingBottom="3dp"
             android:src="@drawable/ic_send_light"
             android:scaleX=".85"
             android:scaleY=".85"/>

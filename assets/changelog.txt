@@ -5,6 +5,7 @@
     &#8226; Audio stopping when viewing web page from tweet viewer<br/>
     &#8226; Smaller search icon on the search pages<br/>
     &#8226; Weird action bar icons on some drawer pages<br/>
+    &#8226; Improved startup speed and efficiency<br/>
 </br><br/>
 
 <b>Version 2.0.0 Beta 1:</b><br/><br/>
