@@ -30,7 +30,7 @@
             android:layout_height="fill_parent"
             android:layout_width="wrap_content"
             android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:padding="20dp" />
     </LinearLayout>

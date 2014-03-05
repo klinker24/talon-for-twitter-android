@@ -580,8 +580,9 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Cursor c = null;
                         try {
-                            cursorAdapter.getCursor().close();
+                            c = cursorAdapter.getCursor();
                         } catch (Exception e) {
 
                         }
@@ -602,6 +603,8 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                         mPullToRefreshLayout.setRefreshComplete();
+
+                        c.close();
                     }
                 });
             }

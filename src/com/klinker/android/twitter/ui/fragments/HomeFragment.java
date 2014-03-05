@@ -1139,7 +1139,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             return;
         }
 
-        Cursor c = cursorAdapter.getCursor();
+        Cursor c = null;
+        if (cursorAdapter != null) {
+            c = cursorAdapter.getCursor();
+        }
 
         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
 
@@ -1219,7 +1222,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         } catch (Exception e) {
             newTweets = false;
         }
-        
+
         try {
             c.close();
         } catch (Exception e) {
