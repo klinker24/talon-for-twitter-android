@@ -20,14 +20,11 @@
 
 
 - 2.0.0
-    - round corners on the unread bar widget
     - play store crashes
     - bar widget on tablet
-    - remove spannable logging
     - delay invalidating options menu
     - attach pictures from the talon pull compose
     - restore links in adapters too
-    - regex for accented characters
     - whole area is clickable on the tweet viewer buttons
 
 
