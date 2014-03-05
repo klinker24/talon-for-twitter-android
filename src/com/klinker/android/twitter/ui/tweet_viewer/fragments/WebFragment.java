@@ -102,7 +102,11 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         webView = new HTML5WebView(context);
 
-        webView.loadUrl(webpages.get(0));
+        try {
+            webView.loadUrl(webpages.get(0));
+        } catch (Exception e) {
+
+        }
 
         return webView;
 
@@ -151,12 +155,18 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
     @Override
     public void onPause() {
         super.onPause();
-        ((AudioManager)context.getSystemService(
-                Context.AUDIO_SERVICE)).requestAudioFocus(
-                new AudioManager.OnAudioFocusChangeListener() {
-                    @Override
-                    public void onAudioFocusChange(int focusChange) {}
-                }, AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        try {
+            if (webpages.get(0).contains("vine")) {
+                ((AudioManager)context.getSystemService(
+                        Context.AUDIO_SERVICE)).requestAudioFocus(
+                        new AudioManager.OnAudioFocusChangeListener() {
+                            @Override
+                            public void onAudioFocusChange(int focusChange) {}
+                        }, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+            }
+        } catch (Exception e) {
+
+        }
     }
 }

@@ -129,7 +129,11 @@ public class SavedSearchesActivity extends DrawerActivity {
                                 listView.setVisibility(View.VISIBLE);
                             } else {
                                 LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
-                                nothing.setVisibility(View.VISIBLE);
+                                try {
+                                    nothing.setVisibility(View.VISIBLE);
+                                } catch (Exception e) {
+
+                                }
                                 listView.setVisibility(View.GONE);
                             }
 
