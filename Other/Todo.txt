@@ -22,9 +22,7 @@
 - 2.0.0
     - play store crashes
     - bar widget on tablet
-    - delay invalidating options menu
     - attach pictures from the talon pull compose
-    - restore links in adapters too
     - whole area is clickable on the tweet viewer buttons
 
 
