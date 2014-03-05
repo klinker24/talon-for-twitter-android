@@ -613,7 +613,7 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                         try {
                             c.close();
                         } catch (Exception e) {
-                            
+
                         }
                     }
                 });
