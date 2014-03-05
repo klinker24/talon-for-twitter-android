@@ -301,7 +301,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onRefreshStarted(View view) {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, Cursor>() {
 
             private boolean update;
             private int numberNew;
@@ -312,7 +312,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             }
 
             @Override
-            protected Void doInBackground(Void... params) {
+            protected Cursor doInBackground(Void... params) {
                 try {
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -371,16 +371,17 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 } catch (Exception e) {
 
                 }
-                cursorAdapter = new TimeLineCursorAdapter(context,
-                        MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)),
-                        false);
 
-                return null;
+
+                return MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
             }
 
             @Override
-            protected void onPostExecute(Void result) {
-                super.onPostExecute(result);
+            protected void onPostExecute(Cursor cursor) {
+
+                cursorAdapter = new TimeLineCursorAdapter(context,
+                        cursor,
+                        false);
 
                 refreshCursor();
 
