@@ -108,6 +108,17 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     }
 
     @Override
+    public void onDestroy() {
+        try {
+            cursorAdapter.getCursor().close();
+        } catch (Exception e) {
+
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -315,6 +326,12 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        try {
+                            cursorAdapter.getCursor().close();
+                        } catch (Exception e) {
+
+                        }
+
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
                         if (bSpinner) {
                             try {
@@ -331,54 +348,10 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
         }).start();
     }
 
-    class GetCursorAdapter extends AsyncTask<Void, Void, String> {
-        private boolean bspinner;
-
-        public GetCursorAdapter(boolean spinner) {
-            this.bspinner = spinner;
-        }
-
-        protected void onPreExecute() {
-            if (bspinner) {
-                try {
-                    spinner.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                } catch (Exception e) { }
-            }
-        }
-
-        protected String doInBackground(Void... args) {
-
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-
-            }
-
-            cursorAdapter = new TimeLineCursorAdapter(context, HomeDataSource.getInstance(context).getLinksCursor(sharedPrefs.getInt("current_account", 1)), false);
-
-            return null;
-        }
-
-        protected void onPostExecute(String file_url) {
-
-            if (bspinner) {
-                try {
-                    spinner.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                } catch (Exception e) { }
-            }
-
-            attachCursor();
-            mPullToRefreshLayout.setRefreshComplete();
-        }
-
-    }
-
-    public static void swapCursors() {
+    /*public static void swapCursors() {
         cursorAdapter.swapCursor(HomeDataSource.getInstance(context).getLinksCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
-    }
+    }*/
 
     @SuppressWarnings("deprecation")
     public void attachCursor() {
@@ -388,7 +361,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
 
         }
 
-        swapCursors();
+        //swapCursors();
     }
 
     public int toDP(int px) {

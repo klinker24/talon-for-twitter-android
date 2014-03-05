@@ -946,6 +946,17 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     };
 
     @Override
+    public void onDestroy() {
+        try {
+            cursorAdapter.getCursor().close();
+        } catch (Exception e) {
+
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
     public void onPause() {
         markReadForLoad();
 
@@ -1090,6 +1101,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
         if (!trueLive && !initial) {
             Log.v("talon_tweetmarker", "true live");
             markReadForLoad();
@@ -1118,12 +1130,19 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 
+
         currCursor = cursor;
 
         if (cursor.getCount() == 0) {
             // restart loader i guess?
             getLoaderManager().restartLoader(0, null, HomeFragment.this);
             return;
+        }
+
+        try {
+            cursorAdapter.getCursor().close();
+        } catch (Exception e) {
+
         }
 
         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
@@ -1227,10 +1246,11 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         // data is not available anymore, delete reference
         Log.v("talon_timeline", "had to restart the loader for some reason, it was reset");
         try {
-            cursorAdapter.swapCursor(null);
+            cursorAdapter.swapCursor(null).close();
         } catch (Exception e) {
 
         }
+
         getLoaderManager().restartLoader(0, null, HomeFragment.this);
     }
 
@@ -1370,6 +1390,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             e.printStackTrace();
         }
     }
+
     public void markReadForLoad(int currentAccount) {
 
         Log.v("talon_tweetmarker", "marking read for account " + currentAccount + " from the intent");
