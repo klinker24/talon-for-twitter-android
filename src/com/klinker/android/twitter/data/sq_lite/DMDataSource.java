@@ -133,8 +133,21 @@ public class DMDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
-        Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
-                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
+        Cursor cursor;
+        try {
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
+
+            }
+            open();
+
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
+        }
 
         return cursor;
     }
@@ -145,8 +158,21 @@ public class DMDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }
-        Cursor cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
-                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+        Cursor cursor;
+        try {
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
+
+            }
+            open();
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+
+        }
 
         return cursor;
     }
