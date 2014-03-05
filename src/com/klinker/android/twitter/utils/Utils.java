@@ -297,7 +297,16 @@ public class Utils {
             ((Activity) context).getActionBar().setBackgroundDrawable(settings.actionBar);
         }
 
-        setWallpaper(settings, context);
+        // we will only do this if it is specified with the function below
+        //setWallpaper(settings, context);
+    }
+
+    public static void setActionBar(Context context, boolean setWallpaper) {
+        setActionBar(context);
+
+        if (setWallpaper) {
+            setWallpaper(AppSettings.getInstance(context), context);
+        }
     }
 
     protected static void setWallpaper(AppSettings settings, Context context) {
