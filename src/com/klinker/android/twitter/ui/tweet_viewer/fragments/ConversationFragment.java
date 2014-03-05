@@ -141,8 +141,6 @@ public class ConversationFragment extends Fragment {
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-
                         try {
                             if (replies.size() > 0) {
 
@@ -180,7 +178,7 @@ public class ConversationFragment extends Fragment {
 
     public Query query;
 
-    public void getDiscussion(final ListView listView, final long tweetId, final LinearLayout progressBar, final HoloTextView none, Status status) {
+    public void getDiscussion(final ListView listView, final long tweetId, final LinearLayout progressBar, final HoloTextView none, final Status status) {
 
         Log.v("talon_replies", "getting discussion");
 
@@ -199,8 +197,7 @@ public class ConversationFragment extends Fragment {
                 ArrayList<twitter4j.Status> all = null;
                 Twitter twitter = Utils.getTwitter(context, settings);
                 try {
-
-                    twitter4j.Status status = replies.get(replies.size() - 1);
+                    Log.v("talon_replies", "looking for discussion");
 
                     long id = status.getId();
                     String screenname = status.getUser().getScreenName();
@@ -215,6 +212,7 @@ public class ConversationFragment extends Fragment {
                     }
 
                     QueryResult result = twitter.search(query);
+                    Log.v("talon_replies", "result: " + result.getTweets().size());
 
                     all = new ArrayList<twitter4j.Status>();
 
