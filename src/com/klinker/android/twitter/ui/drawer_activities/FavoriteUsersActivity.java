@@ -180,7 +180,11 @@ public class FavoriteUsersActivity extends DrawerActivity {
                 list.setAdapter(people);
                 list.setVisibility(View.VISIBLE);
             } else {
-                nothing.setVisibility(View.VISIBLE);
+                try {
+                    nothing.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+
+                }
                 list.setVisibility(View.GONE);
             }
 

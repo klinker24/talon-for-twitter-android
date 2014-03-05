@@ -125,7 +125,7 @@ public class HomeContentProvider extends ContentProvider {
             }
 
             db.setTransactionSuccessful();
-        } catch (SQLiteDatabaseLockedException e ) {
+        } catch (SQLiteDatabaseLockedException e) {
 
             HomeDataSource.getInstance(getContext()).close();
 
