@@ -114,6 +114,16 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
+    public void onDestroy() {
+        try {
+            cursorAdapter.getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -570,6 +580,11 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        try {
+                            cursorAdapter.getCursor().close();
+                        } catch (Exception e) {
+
+                        }
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
 
                         final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));

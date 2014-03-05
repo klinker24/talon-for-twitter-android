@@ -93,7 +93,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     public BroadcastReceiver refrehshMentions = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //new GetCursorAdapter().execute();
             getCursorAdapter();
         }
     };
@@ -110,6 +109,16 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onAttach(activity);
         context = activity;
         actionBar = context.getActionBar();
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            cursorAdapter.getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -197,7 +206,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             }
         }
 
-        //new GetCursorAdapter().execute();
         getCursorAdapter();
 
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
@@ -358,6 +366,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 else
                     am.cancel(pendingIntent);
 
+                try {
+                    cursorAdapter.getCursor().close();
+                } catch (Exception e) {
+
+                }
+                cursorAdapter = new TimeLineCursorAdapter(context,
+                        MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)),
+                        false);
 
                 return null;
             }
@@ -366,24 +382,15 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
 
+                refreshCursor();
+
                 try {
                     if (update) {
-                        cursorAdapter = new TimeLineCursorAdapter(context,
-                                MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)),
-                                false);
-
-                        refreshCursor();
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                     } else {
-                        cursorAdapter = new TimeLineCursorAdapter(context,
-                                MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)),
-                                false);
-
-                        refreshCursor();
-
                         CharSequence text = getResources().getString(R.string.no_new_mentions);
                         showToastBar(text + "", allRead, 400, true, toTopListener);
                     }
@@ -418,7 +425,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onStart();
 
         if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
-            //new GetCursorAdapter().execute();
             getCursorAdapter();
         }
     }
@@ -444,6 +450,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        try {
+                            cursorAdapter.getCursor().close();
+                        } catch (Exception e) {
+
+                        }
+
                         cursorAdapter = new TimeLineCursorAdapter(context,
                                 cursor,
                                 false);
@@ -457,35 +469,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 });
             }
         }).start();
-    }
-    class GetCursorAdapter extends AsyncTask<Void, Void, String> {
-
-        protected void onPreExecute() {
-            try {
-                spinner.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-            } catch (Exception e) { }
-        }
-
-        protected String doInBackground(Void... args) {
-
-            cursorAdapter = new TimeLineCursorAdapter(context,
-                    MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)),
-                    false);
-
-            return null;
-        }
-
-        protected void onPostExecute(String file_url) {
-
-            try {
-                spinner.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
-            } catch (Exception e) { }
-
-            attachCursor();
-        }
-
     }
 
     @Override
@@ -513,10 +496,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onPause();
     }
 
-    public static void swapCursors() {
+    /*public static void swapCursors() {
         cursorAdapter.swapCursor(MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)));
         cursorAdapter.notifyDataSetChanged();
-    }
+    }*/
 
     public static void refreshCursor() {
         try {
@@ -525,7 +508,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         }
 
-        swapCursors();
+        //swapCursors();
     }
 
     @SuppressWarnings("deprecation")
@@ -536,7 +519,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
         }
 
-        swapCursors();
+        //swapCursors();
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets;

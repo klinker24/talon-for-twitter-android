@@ -475,6 +475,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
                 } while (cursor.moveToPrevious());
             }
 
+            cursor.close();
+
             cursorAdapter = new DirectMessageListArrayAdapter(context, messageList);
 
             return null;

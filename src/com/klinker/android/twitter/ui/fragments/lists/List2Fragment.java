@@ -114,6 +114,16 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
+    public void onDestroy() {
+        try {
+            cursorAdapter.getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
