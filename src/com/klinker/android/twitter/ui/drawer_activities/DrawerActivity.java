@@ -681,7 +681,7 @@ public abstract class DrawerActivity extends Activity {
                 break;
         }
 
-        Utils.setActionBar(context);
+        Utils.setActionBar(context, true);
     }
 
     @Override

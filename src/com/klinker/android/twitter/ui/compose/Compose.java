@@ -166,7 +166,7 @@ public abstract class Compose extends Activity implements
             reply.setSelection(0);
         }
 
-        Utils.setActionBar(context);
+        Utils.setActionBar(context, false);
     }
 
     public void setUpWindow() {
