@@ -294,6 +294,7 @@ public class MainActivity extends DrawerActivity {
 
         MainActivity.showIsRunning = false;
         MainActivity.hideIsRunning = false;
+        MainActivity.sendHandler.postDelayed(showSend, 1000);
 
         if (sharedPrefs.getBoolean("open_a_page", false)) {
             sharedPrefs.edit().putBoolean("open_a_page", false).commit();
