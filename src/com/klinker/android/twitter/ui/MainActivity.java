@@ -292,6 +292,9 @@ public class MainActivity extends DrawerActivity {
     public void onResume() {
         super.onResume();
 
+        MainActivity.showIsRunning = false;
+        MainActivity.hideIsRunning = false;
+
         if (sharedPrefs.getBoolean("open_a_page", false)) {
             sharedPrefs.edit().putBoolean("open_a_page", false).commit();
             int page = sharedPrefs.getInt("open_what_page", 3);
