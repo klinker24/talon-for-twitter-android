@@ -1157,6 +1157,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             numTweets = 0;
         } else {
             numTweets = getPosition(cursor, id);
+            if (numTweets == -1) {
+                return;
+            }
 
             // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
             // so this is to error trap that
@@ -1164,12 +1167,21 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
                 // go with id + 1 first because tweetmarker seems to go 1 id less than I need
                 numTweets = getPosition(cursor, id + 1);
+                if (numTweets == -1) {
+                    return;
+                }
 
                 if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
                     numTweets = getPosition(cursor, id + 2);
+                    if (numTweets == -1) {
+                        return;
+                    }
 
                     if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
                         numTweets = getPosition(cursor, id - 1);
+                        if (numTweets == -1) {
+                            return;
+                        }
 
                         if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
                             numTweets = 0;
@@ -1236,14 +1248,20 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public int getPosition(Cursor cursor, long id) {
         int pos = 0;
 
-        if (cursor.moveToLast()) {
-            do {
-                if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
-                    break;
-                } else {
-                    pos++;
-                }
-            } while (cursor.moveToPrevious());
+        try {
+            if (cursor.moveToLast()) {
+                do {
+                    if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
+                        break;
+                    } else {
+                        pos++;
+                    }
+                } while (cursor.moveToPrevious());
+            }
+        } catch (Exception e) {
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            HomeDataSource.getInstance(context).close();
+            return -1;
         }
 
         return pos;

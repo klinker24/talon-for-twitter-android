@@ -247,7 +247,7 @@ public class HomeDataSource {
         }
 
         try {
-            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             Log.v("talon_database", "home database has " + count + " entries");
@@ -266,7 +266,7 @@ public class HomeDataSource {
             }
             open();
 
-            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             Log.v("talon_database", "home database has " + count + " entries");
@@ -426,7 +426,7 @@ public class HomeDataSource {
         Cursor cursor;
 
         try {
-            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
@@ -443,7 +443,7 @@ public class HomeDataSource {
 
             }
             open();
-            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
@@ -503,7 +503,7 @@ public class HomeDataSource {
         Cursor cursor;
 
         try {
-            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
@@ -520,7 +520,7 @@ public class HomeDataSource {
 
             }
             open();
-            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
