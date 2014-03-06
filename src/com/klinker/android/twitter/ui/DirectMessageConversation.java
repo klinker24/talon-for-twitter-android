@@ -205,7 +205,7 @@ public class DirectMessageConversation extends Activity {
                 try {
                     c.close();
                 } catch (Exception e) {
-                    
+
                 }
             }
 
