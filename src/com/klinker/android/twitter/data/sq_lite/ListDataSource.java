@@ -214,12 +214,19 @@ public class ListDataSource {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns,
                         where,
-                        new String[] {"" + listId},
                         null,
-                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC",
+                        (count - 400) + "," + 400);
             } else {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                        allColumns,
+                        where,
+                        null,
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
         } catch (Exception e) {
             try {
@@ -236,12 +243,19 @@ public class ListDataSource {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns,
                         where,
-                        new String[] {"" + listId},
                         null,
-                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC",
+                        (count - 400) + "," + 400);
             } else {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                        allColumns,
+                        where,
+                        null,
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
         }
 

@@ -429,9 +429,9 @@ public class HomeDataSource {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
-            if (count > timelineSize) {
+            if (count > 200) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
             } else {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -446,9 +446,9 @@ public class HomeDataSource {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
-            if (count > timelineSize) {
+            if (count > 200) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
             } else {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -506,9 +506,9 @@ public class HomeDataSource {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
-            if (count > timelineSize) {
+            if (count > 200) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
             } else {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -523,9 +523,9 @@ public class HomeDataSource {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
-            if (count > timelineSize) {
+            if (count > 200) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
             } else {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");

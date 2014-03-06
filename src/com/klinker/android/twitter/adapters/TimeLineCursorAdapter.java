@@ -953,7 +953,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 public String restoreLinks(String text) {
                     String full = text;
 
-                    String[] split = text.split(" ");
+                    String[] split = text.split("\\s");
 
                     boolean changed = false;
 
