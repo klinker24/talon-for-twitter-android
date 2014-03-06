@@ -20,9 +20,6 @@
 
 
 - 2.0.0
-    - play store crashes
-    - picture viewer not showing full screen pictures
-    - compose button disappearing
 
 
 - Need testing
