@@ -21,6 +21,7 @@
 - 2.0.0
     - play store crashes
     - attach pictures from the talon pull compose
+    - put a background layout on the swipe to dismiss
 
 
 - Need testing
