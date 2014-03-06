@@ -858,8 +858,8 @@ public class NotificationUtils {
         final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
 
         final Map data = new HashMap();
-        data.put("title", TweetLinkUtils.removeColorHtml(title, AppSettings.getInstance(context)));
-        data.put("body", TweetLinkUtils.removeColorHtml(body, AppSettings.getInstance(context)));
+        data.put("title", TweetLinkUtils.removeColorHtml(title.replaceAll("<b>","").replaceAll("</b>", ""), AppSettings.getInstance(context)));
+        data.put("body", TweetLinkUtils.removeColorHtml(body.replaceAll("<b>","").replaceAll("</b>", ""), AppSettings.getInstance(context)));
         final JSONObject jsonData = new JSONObject(data);
         final String notificationData = new JSONArray().put(jsonData).toString();
 
