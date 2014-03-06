@@ -938,14 +938,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
-                    text = TweetLinkUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
-                    if (!settings.preferRT) {
-                        text = "\"@" + name + ": " + text + "\" ";
-                    } else {
-                        text = " RT @" + name + ": " + text;
-                    }
+                    text = "@" + name + ": " + text;
+
+                    Log.v("talon_sharing", "text: " + text);
+
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                     intent.putExtra(Intent.EXTRA_TEXT, text);
                     context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
@@ -973,7 +971,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                         if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
                                             otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
                                         }
-                                        f = otherLinks[x].replace("http://", "").replace("https://", "").replace("www.", "");
+                                        f = otherLinks[x];
                                         break;
                                     }
                                 }

@@ -1134,14 +1134,13 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 
-
         currCursor = cursor;
 
-        if (cursor.getCount() == 0) {
+        /*if (cursor.getCount() == 0) {
             // restart loader i guess?
             getLoaderManager().restartLoader(0, null, HomeFragment.this);
             return;
-        }
+        }*/
 
         Cursor c = null;
         if (cursorAdapter != null) {
