@@ -1,3 +1,10 @@
+<b>Version 2.0.0 Beta 3:</b><br/><br/>
+    &#8226; Fixed sharing from the timeline<br/>
+    &#8226; Memory management enhancements<br/>
+    &#8226; Fixed leaky cursors and receivers<br/>
+    &#8226; Hopefully fixed the timelines sometimes just not updating<br/>
+</br><br/>
+
 <b>Version 2.0.0 Beta 2:</b><br/><br/>
     &#8226; Fixed themes being reset<br/>
     &#8226; Only show custom background on main timelines or it gets distorted<br/>
