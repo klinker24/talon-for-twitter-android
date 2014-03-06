@@ -939,7 +939,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                         if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
                                             otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
                                         }
-                                        f = otherLinks[x].replace("http://", "").replace("https://", "").replace("www.", "");
+                                        f = otherLinks[x];
                                         break;
                                     }
                                 }

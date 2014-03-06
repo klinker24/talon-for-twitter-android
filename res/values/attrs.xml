@@ -23,6 +23,7 @@ limitations under the License.
     <attr name="dateColor" format="color" />
     <attr name="textShadowColor" format="color" />
     <attr name="drawerBackground" format="color" />
+    <attr name="oppDrawerBackground" format="color"/>
     <attr name="headerTextColor" format="color" />
     <attr name="windowBackground" format="color" />
     <attr name="emojiDivider" format="color" />

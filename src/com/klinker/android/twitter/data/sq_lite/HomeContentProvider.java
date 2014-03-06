@@ -108,8 +108,7 @@ public class HomeContentProvider extends ContentProvider {
                 db.beginTransaction();
             } catch (Exception e) {
                 // what the hell... :/
-                db = HomeDataSource.getInstance(getContext()).getDatabase();
-                db.beginTransaction();
+                return 0;
             }
 
             for (ContentValues initialValues : allValues) {

@@ -242,9 +242,10 @@
                         <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                             android:layout_height="37dp"
                             android:layout_width="wrap_content"
-                            android:layout_marginLeft="-9dp"
+                            android:layout_marginLeft="-5dp"
                             android:layout_marginBottom="2dp"
                             android:textSize="13dp"
+                            android:singleLine="true"
                             android:gravity="bottom"
                             android:id="@+id/fav_count" />
                     </LinearLayout>
@@ -291,9 +292,10 @@
                         <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                             android:layout_height="37dp"
                             android:layout_width="wrap_content"
-                            android:layout_marginLeft="-8dp"
+                            android:layout_marginLeft="-4dp"
                             android:layout_marginBottom="2dp"
                             android:textSize="13dp"
+                            android:singleLine="true"
                             android:gravity="bottom"
                             android:id="@+id/retweet_count" />
 
