@@ -960,6 +960,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     public void onPause() {
         markReadForLoad();
 
+        context.unregisterReceiver(pullReceiver);
+        context.unregisterReceiver(jumpTopReceiver);
+        context.unregisterReceiver(markRead);
+
         super.onPause();
     }
 
@@ -968,10 +972,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public void onStop() {
         Log.v("talon_stopping", "stopping here");
-
-        context.unregisterReceiver(pullReceiver);
-        context.unregisterReceiver(jumpTopReceiver);
-        context.unregisterReceiver(markRead);
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
@@ -999,6 +999,28 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
 
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
+        context.registerReceiver(pullReceiver, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
+        context.registerReceiver(jumpTopReceiver, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.MARK_POSITION");
+        context.registerReceiver(markRead, filter);
+
+        if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+        }
     }
 
     @Override
@@ -1048,18 +1070,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             }, 600);
         }
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
-        context.registerReceiver(pullReceiver, filter);
-
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
-        context.registerReceiver(jumpTopReceiver, filter);
-
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.MARK_POSITION");
-        context.registerReceiver(markRead, filter);
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
     }

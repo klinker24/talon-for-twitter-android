@@ -504,6 +504,8 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
     public void onPause() {
         markReadForLoad();
 
+        context.unregisterReceiver(jumpTopReceiver);
+
         super.onPause();
     }
 
@@ -511,16 +513,8 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
     public int listId;
 
     @Override
-    public void onStop() {
-
-        context.unregisterReceiver(jumpTopReceiver);
-
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
