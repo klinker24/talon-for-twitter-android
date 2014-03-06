@@ -83,8 +83,8 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     };
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
@@ -92,10 +92,10 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
-    public void onStop() {
+    public void onPause() {
         context.unregisterReceiver(jumpTopReceiver);
 
-        super.onStop();
+        super.onPause();
     }
 
     @Override

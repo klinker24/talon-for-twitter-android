@@ -395,8 +395,8 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         if (sharedPrefs.getBoolean("refresh_me_dm", false)) {
             new GetCursorAdapter().execute();
@@ -416,12 +416,12 @@ public class DMFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
-    public void onStop() {
+    public void onPause() {
 
         context.unregisterReceiver(jumpTopReceiver);
         context.unregisterReceiver(updateDM);
 
-        super.onStop();
+        super.onPause();
     }
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
