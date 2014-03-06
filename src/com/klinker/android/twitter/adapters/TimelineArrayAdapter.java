@@ -920,7 +920,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 public String restoreLinks(String text) {
                     String full = text;
 
-                    String[] split = text.split(" ");
+                    String[] split = text.split("\\s");
 
                     boolean changed = false;
 

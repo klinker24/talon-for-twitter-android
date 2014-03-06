@@ -622,7 +622,7 @@ public class TweetPager extends YouTubeBaseActivity {
     public String restoreLinks(String text) {
         String full = text;
 
-        String[] split = text.split(" ");
+        String[] split = text.split("\\s");
 
         boolean changed = false;
 
@@ -631,11 +631,13 @@ public class TweetPager extends YouTubeBaseActivity {
                 String s = split[i];
 
                 if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
-                    String f = s.replace("...", "").replace("http", "");
+                    String f = s.replace("...", "").replace("http", "").replace("Video", "").replace("\n", "");
+                    Log.v("recreating_links", "s link: " + s);
 
                     for (int x = 0; x < otherLinks.length; x++) {
                         Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                        if (otherLinks[x].contains(f)) {
+                        Log.v("recreating_links", "f link: " + f);
+                        if (otherLinks[x].toLowerCase().contains(f.toLowerCase())) {
                             changed = true;
                             // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
                             if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
