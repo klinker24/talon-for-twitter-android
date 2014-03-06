@@ -105,7 +105,7 @@ public class ProfilePicturesFragment extends Fragment {
 
     public ArrayList<Status> tweets = new ArrayList<Status>();
     public ArrayList<String> pics = new ArrayList<String>();
-    public Paging paging = new Paging(1, 20);
+    public Paging paging = new Paging(1, 60);
     public boolean hasMore = true;
     public boolean canRefresh = false;
     public PicturesArrayAdapter adapter;
