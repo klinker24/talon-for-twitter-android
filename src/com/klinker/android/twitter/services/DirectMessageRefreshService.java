@@ -97,6 +97,8 @@ public class DirectMessageRefreshService extends IntentService {
                 NotificationUtils.refreshNotification(context);
             }
 
+            dataSource.close();
+
         } catch (TwitterException e) {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
