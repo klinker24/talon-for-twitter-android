@@ -52,7 +52,6 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
     private long tweetId;
     private String listName;
 
-    private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
     private LinearLayout noContent;
 
@@ -86,25 +85,8 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
             finish();
         }
 
-        mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
         spinner = (LinearLayout) findViewById(R.id.list_progress);
         noContent = (LinearLayout) findViewById(R.id.no_content);
-
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(this)
-                // set up the scroll distance
-                .options(Options.create().scrollDistance(.3f).build())
-                        // Mark All Children as pullable
-                .allChildrenArePullable()
-                        // Set the OnRefreshListener
-                .listener(this)
-                        // Finally commit the setup to our PullToRefreshLayout
-                .setup(mPullToRefreshLayout);
-
-        if (settings.addonTheme) {
-            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-            transformer.setProgressBarColor(settings.accentInt);
-        }
 
         listView = (AsyncListView) findViewById(R.id.listView);
 
@@ -199,8 +181,6 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
                     e.printStackTrace();
 
                 }
-
-                mPullToRefreshLayout.setRefreshComplete();
             }
         }).start();
     }
