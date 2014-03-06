@@ -8,6 +8,7 @@
     - text feedback when clicked
     - interactions with dashclock
     - scheduling tweets
+    - attach pictures from the talon pull compose
 
 - Bugs:
     - video sound stops after one time playing it
@@ -20,8 +21,8 @@
 
 - 2.0.0
     - play store crashes
-    - attach pictures from the talon pull compose
-    - put a background layout on the swipe to dismiss
+    - picture viewer not showing full screen pictures
+    - compose button disappearing
 
 
 - Need testing
