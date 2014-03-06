@@ -332,7 +332,11 @@ public abstract class Compose extends Activity implements
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             //String filePath = IOUtils.getPath(imageUri, context);
-            attachImage.setImageURI(imageUri);
+            try {
+                attachImage.setImageURI(imageUri);
+            } catch (OutOfMemoryError e) {
+                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
             attachedUri = imageUri.toString();
         }
     }
@@ -407,7 +411,11 @@ public abstract class Compose extends Activity implements
 
                         Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
 
-                        attachImage.setImageURI(selectedImage);
+                        try {
+                            attachImage.setImageURI(selectedImage);
+                        } catch (OutOfMemoryError e) {
+                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
                         attachedUri = selectedImage.toString();
                     } catch (Throwable e) {
                         e.printStackTrace();
@@ -420,7 +428,11 @@ public abstract class Compose extends Activity implements
                     try {
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
 
-                        attachImage.setImageURI(selectedImage);
+                        try {
+                            attachImage.setImageURI(selectedImage);
+                        } catch (OutOfMemoryError e) {
+                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
                         attachedUri = selectedImage.toString();
 
                     } catch (Throwable e) {
@@ -433,7 +445,11 @@ public abstract class Compose extends Activity implements
                 if (resultCode == Activity.RESULT_OK) {
                     String path = imageReturnedIntent.getStringExtra("RESULT");
                     attachedUri = Uri.fromFile(new File(path)).toString();
-                    attachImage.setImageURI(Uri.parse(attachedUri));
+                    try {
+                        attachImage.setImageURI(Uri.parse(attachedUri));
+                    } catch (OutOfMemoryError e) {
+
+                    }
 
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
                     Log.v("pwiccer_text", currText);
