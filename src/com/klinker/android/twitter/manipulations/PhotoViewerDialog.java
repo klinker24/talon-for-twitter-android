@@ -9,15 +9,24 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
@@ -27,11 +36,14 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.IOUtils;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
+import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -72,8 +84,9 @@ public class PhotoViewerDialog extends Activity {
         }
 
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
+        boolean doRestart = getIntent().getBooleanExtra("restart", true);
 
-        AppSettings settings = AppSettings.getInstance(context);
+        AppSettings settings = new AppSettings(context);
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -81,7 +94,10 @@ public class PhotoViewerDialog extends Activity {
 
         setContentView(R.layout.photo_dialog_layout);
 
-        final LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+        if (!doRestart) {
+            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+            spinner.setVisibility(View.GONE);
+        }
 
         if (url == null) {
             finish();
@@ -95,12 +111,21 @@ public class PhotoViewerDialog extends Activity {
         picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
-        picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
+        picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
-                spinner.setVisibility(View.GONE);
+                if (isRunning) {
+                    overridePendingTransition(0,0);
+                    finish();
+                    Intent restart = new Intent(context, PhotoViewerDialog.class);
+                    restart.putExtra("url", url);
+                    restart.putExtra("from_cache", true);
+                    restart.putExtra("restart", false);
+                    overridePendingTransition(0,0);
+                    startActivity(restart);
+                }
             }
-        }, 0, fromCache); // no transform
+        } : null, 0, fromCache); // no transform
 
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
