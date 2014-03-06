@@ -2,6 +2,7 @@ package com.klinker.android.twitter.ui.drawer_activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -36,16 +37,17 @@ import twitter4j.SavedSearch;
 import twitter4j.Twitter;
 import twitter4j.UserList;
 
-/**
- * Created by luke on 2/21/14.
- */
+
 public class SavedSearchesActivity extends DrawerActivity {
+
+    public static AsyncListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = this;
+        super.context = this;
+        SavedSearchesActivity.context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = AppSettings.getInstance(this);
 
@@ -62,6 +64,10 @@ public class SavedSearchesActivity extends DrawerActivity {
         View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
         listView.setHeaderDividersEnabled(false);
+
+
+        nothing = (LinearLayout) findViewById(R.id.no_content);
+        spinner = (LinearLayout) findViewById(R.id.list_progress);
 
         if (DrawerActivity.translucent) {
             if (Utils.hasNavBar(context)) {
@@ -95,9 +101,12 @@ public class SavedSearchesActivity extends DrawerActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private SavedSearchArrayAdapter adapter;
+    public static SavedSearchArrayAdapter adapter;
+    public static LinearLayout nothing;
+    public static LinearLayout spinner;
+    public static Context context;
 
-    public void getSearches() {
+    public static void getSearches() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -129,7 +138,6 @@ public class SavedSearchesActivity extends DrawerActivity {
                                 listView.setAdapter(adapter);
                                 listView.setVisibility(View.VISIBLE);
                             } else {
-                                LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
                                 try {
                                     nothing.setVisibility(View.VISIBLE);
                                 } catch (Exception e) {
@@ -138,7 +146,6 @@ public class SavedSearchesActivity extends DrawerActivity {
                                 listView.setVisibility(View.GONE);
                             }
 
-                            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);
                         }
                     });
@@ -147,7 +154,6 @@ public class SavedSearchesActivity extends DrawerActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);
                         }
                     });
