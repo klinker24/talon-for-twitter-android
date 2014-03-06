@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -246,7 +247,9 @@ public class HomeDataSource {
         }
 
         try {
-            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
             Log.v("talon_database", "home database has " + count + " entries");
             if (count > timelineSize) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -263,7 +266,9 @@ public class HomeDataSource {
             }
             open();
 
-            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
             Log.v("talon_database", "home database has " + count + " entries");
             if (count > timelineSize) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -421,7 +426,9 @@ public class HomeDataSource {
         Cursor cursor;
 
         try {
-            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
@@ -436,7 +443,9 @@ public class HomeDataSource {
 
             }
             open();
-            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
@@ -494,7 +503,9 @@ public class HomeDataSource {
         Cursor cursor;
 
         try {
-            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
@@ -509,7 +520,9 @@ public class HomeDataSource {
 
             }
             open();
-            long count = DatabaseUtils.queryNumEntries(database, HomeSQLiteHelper.TABLE_HOME);
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
             if (count > timelineSize) {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
