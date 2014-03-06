@@ -146,6 +146,10 @@ public class CatchupPull extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
+            if (settings.notifications) {
+                NotificationUtils.refreshNotification(context);
+            }
+
         } catch (TwitterException e) {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
