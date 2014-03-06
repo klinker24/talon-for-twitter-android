@@ -214,7 +214,7 @@ public class ListDataSource {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns,
                         where,
-                        new String[] {"" + listId},
+                        null,
                         null,
                         null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
             } else {
@@ -236,7 +236,7 @@ public class ListDataSource {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns,
                         where,
-                        new String[] {"" + listId},
+                        null,
                         null,
                         null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
             } else {
