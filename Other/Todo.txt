@@ -20,7 +20,6 @@
 
 - 2.0.0
     - play store crashes
-    - bar widget on tablet
     - attach pictures from the talon pull compose
 
 
