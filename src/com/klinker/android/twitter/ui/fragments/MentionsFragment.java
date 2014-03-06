@@ -416,6 +416,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     public void onResume() {
         super.onResume();
 
+        if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
+            getCursorAdapter();
+            sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
+        }
+
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
         context.registerReceiver(refrehshMentions, filter);
@@ -423,17 +428,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
         context.registerReceiver(jumpTopReceiver, filter);
-
-        sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
-            getCursorAdapter();
-        }
     }
 
     @Override
@@ -497,15 +496,9 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             unread = mUnread;
         }
 
-        try {
-            context.unregisterReceiver(refrehshMentions);
-        } catch (Exception e) {
-        }
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) {
+        context.unregisterReceiver(refrehshMentions);
+        context.unregisterReceiver(jumpTopReceiver);
 
-        }
 
         super.onPause();
     }

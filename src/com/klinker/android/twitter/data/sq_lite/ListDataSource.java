@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 
@@ -202,19 +204,20 @@ public class ListDataSource {
             open();
         }
 
-
         Cursor cursor;
         try {
-            long count = DatabaseUtils.queryNumEntries(database, ListSQLiteHelper.TABLE_HOME);
-            if (count > timelineSize) {
+            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
+            Log.v("talon_database", "list database has " + count + " entries");
+            if (count > 400) {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns,
                         where,
                         new String[] {"" + listId},
                         null,
-                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
             } else {
-
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
@@ -225,16 +228,18 @@ public class ListDataSource {
 
             }
             open();
-            long count = DatabaseUtils.queryNumEntries(database, ListSQLiteHelper.TABLE_HOME);
-            if (count > timelineSize) {
+            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
+            Log.v("talon_database", "list database has " + count + " entries");
+            if (count > 400) {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns,
                         where,
                         new String[] {"" + listId},
                         null,
-                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+                        null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
             } else {
-
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
@@ -307,6 +312,5 @@ public class ListDataSource {
         cv.put(ListSQLiteHelper.COLUMN_TEXT, text);
 
         database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-
     }
 }

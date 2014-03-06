@@ -93,11 +93,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onPause() {
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) {
-            // not registered
-        }
+        context.unregisterReceiver(jumpTopReceiver);
 
         super.onPause();
     }

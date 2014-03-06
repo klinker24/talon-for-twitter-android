@@ -417,17 +417,9 @@ public class DMFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onPause() {
-        try {
-            context.unregisterReceiver(jumpTopReceiver);
-        } catch (Exception e) {
-            // not registered
-        }
 
-        try {
-            context.unregisterReceiver(updateDM);
-        } catch (Exception e) {
-
-        }
+        context.unregisterReceiver(jumpTopReceiver);
+        context.unregisterReceiver(updateDM);
 
         super.onPause();
     }
