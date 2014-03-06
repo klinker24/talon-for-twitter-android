@@ -27,12 +27,13 @@
 
         <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
             android:id="@+id/picture"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
             android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:padding="20dp" />
+
     </LinearLayout>
 
     <LinearLayout

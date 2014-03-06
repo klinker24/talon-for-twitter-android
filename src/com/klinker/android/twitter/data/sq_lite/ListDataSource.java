@@ -167,7 +167,7 @@ public class ListDataSource {
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
-        String where = ListSQLiteHelper.COLUMN_LIST_ID + " = ?";
+        String where = ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
 
         if (!users.equals("")) {
             String[] split = users.split(" ");
@@ -206,7 +206,7 @@ public class ListDataSource {
 
         Cursor cursor;
         try {
-            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
+            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             Log.v("talon_database", "list database has " + count + " entries");
@@ -219,7 +219,7 @@ public class ListDataSource {
                         null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
             } else {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                        allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                        allColumns, where, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
         } catch (Exception e) {
             try {
@@ -228,7 +228,7 @@ public class ListDataSource {
 
             }
             open();
-            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
+            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
             Log.v("talon_database", "list database has " + count + " entries");
@@ -241,7 +241,7 @@ public class ListDataSource {
                         null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 400) + "," + 400);
             } else {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                        allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                        allColumns, where, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
         }
 

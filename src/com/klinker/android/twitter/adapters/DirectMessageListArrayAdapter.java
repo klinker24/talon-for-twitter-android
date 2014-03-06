@@ -302,8 +302,13 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         }
 
         protected void onPostExecute(Boolean deleted) {
-            pDialog.dismiss();
-            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            try {
+                pDialog.dismiss();
+                Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            } catch (IllegalStateException e) {
+                // view not attached
+            }
+
             context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
             sharedPrefs.edit().putLong("last_direct_message_id_" + settings.currentAccount, 0).commit();
         }
