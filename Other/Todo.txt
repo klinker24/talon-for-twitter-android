@@ -17,15 +17,3 @@
 
 
 -- For Release --
-
-
-- 2.0.0
-
-
-- Need testing
-    - retweets stacking up in the drawer
-    - RTL support
-    - tweetmarker shouldn't jump anymore
-    - Overlay action bar fix
-    - pictures not being switched on timeline and other places
-    - talon pull stuff

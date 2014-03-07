@@ -9,19 +9,6 @@
     &#8226; Hopefully fixed the profile picture in the drawer sometimes changing<br/>
 </br><br/>
 
-<b>Version 2.0.0 Beta 2:</b><br/><br/>
-    &#8226; Fixed themes being reset<br/>
-    &#8226; Only show custom background on main timelines or it gets distorted<br/>
-    &#8226; Force closes<br/>
-    &#8226; Audio stopping when viewing web page from tweet viewer<br/>
-    &#8226; Smaller search icon on the search pages<br/>
-    &#8226; Weird action bar icons on some drawer pages<br/>
-    &#8226; Improved startup speed and efficiency<br/>
-    &#8226; Match international characters when highlighting hashtags<br/>
-    &#8226; Share links correctly from the timeline<br/>
-    &#8226; Improved click area of button on tweet viewer<br/>
-</br><br/>
-
 <b>Version 2.0.0 Beta 1:</b><br/><br/>
 <b>NEW:</b><br/>
     &#8226; Talon Pull will automatically shut down to preserve battery when no data connection is active, then restart and check your timeline for missed tweets when data becomes available again.<br/>
@@ -47,6 +34,7 @@
     &#8226; Added retweet filter to searches<br/>
     &#8226; Auto-complete users from the tweet reply<br/>
     &#8226; RTL support for Android 4.2 and above<br/>
+    &#8226; DashClock updates immediately after closing the app<br/>
     &#8226; Themers can now theme the action bar<br/>
     &#8226; Themers can now change the background for the windows<br/>
     &#8226; Live streaming should now preform a background refresh to avoid missing tweets if your data connection changes<br/>
@@ -77,11 +65,16 @@
     &#8226; Set up so themers could use a transparent action bar if they would like<br/>
     &#8226; Retweets from Talon Pull in interactions drawer, they now stack on top of each other instead of creating an instance for every new one.<br/>
     &#8226; Theme selection<br/>
+    &#8226; Typos and casing in settings<br/>
     &#8226; Cleaned up advanced settings<br/>
     &#8226; User names in action bar on profile viewer<br/>
     &#8226; Better management of live streaming unread count<br/>
     &#8226; Management of widget updates<br/>
     &#8226; A bit larger auto-complete box<br/>
+    &#8226; Better memory management again<br/>
+    &#8226; Swipe to dismiss updates for the interactions drawer<br/>
+    &#8226; Updated all of the translations<br/>
+    &#8226; Styling of Pebble notifications<br/>
 <br/>
 <b>FIXES:</b><br/>
     &#8226; Images won't get mixed up between people or tweets anymore<br/>
@@ -95,6 +88,12 @@
     &#8226; Fixed the compose window not always shutting<br/>
     &#8226; Problems with the drawer states and both drawers sometimes being open<br/>
     &#8226; Disable custom font option if an addon theme is applied<br/>
+    &#8226; Leaky cursors and receivers<br/>
+    &#8226; Your avatar sometimes changing when scrolling through the timeline (hopefully)<br/>
+    &#8226; Some things not being translated correctly<br/>
+    &#8226; Match international characters correctly in hashtags<br/>
+    &#8226; Some audio problems with playing videos in the in-app browser<br/>
+    &#8226; Tons of play store crash reports<br/>
 </br><br/>
 
 <b>Version 1.4.4:</b><br/><br/>
