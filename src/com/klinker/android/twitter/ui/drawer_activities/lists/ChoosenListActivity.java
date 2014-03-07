@@ -106,6 +106,7 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
         if (settings.addonTheme) {
             DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
             transformer.setProgressBarColor(settings.accentInt);
+            transformer.setRefreshingText(getResources().getString(R.string.loading));
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
