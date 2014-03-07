@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.manipulations.widgets;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.webkit.GeolocationPermissions;
 import android.app.Activity;
 import android.content.Context;
@@ -194,9 +196,13 @@ public class HTML5WebView extends WebView {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.i(LOGTAG, "shouldOverrideUrlLoading: "+url);
-            // don't override URL so that stuff within iframe can work properly
-            // view.loadUrl(url);
+            Log.v("talon_webpage", "override url: " + url);
+            /*if (url.contains("play.google.com")) { // we want to take them to the play store app
+                Uri weburi;
+                weburi = Uri.parse(url);
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                getContext().startActivity(launchBrowser);
+            }*/
             return false;
         }
     }

@@ -153,7 +153,7 @@ public class Regex {
             = Pattern.compile("#([\\p{L}$A-Za-z0-9_-]+)");
 
     public static final Pattern MENTION_PATTERN
-            = Pattern.compile("@([A-Za-z0-9_-]+)");
+            = Pattern.compile("@([\\p{L}A-Za-z0-9_-]+)");
 
     /**
      * Convenience method to take all of the non-null matching groups in a
