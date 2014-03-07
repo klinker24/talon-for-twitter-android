@@ -16,7 +16,7 @@
             <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
                 android:layout_width="@dimen/pro_pic_size"
                 android:layout_height="@dimen/pro_pic_size"
-                android:id="@+id/profile_pic"
+                android:id="@+id/profile_pic_contact"
                 android:src="?circleBorder"
                 android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
