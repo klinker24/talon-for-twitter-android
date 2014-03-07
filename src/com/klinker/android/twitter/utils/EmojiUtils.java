@@ -967,10 +967,15 @@ public class EmojiUtils {
                 if (set) {
                     hasChanges = true;
                     int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, textSize + 2, context.getResources().getDisplayMetrics());
-                    Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, entry.getValue()), scale, scale, true);
-                    spannable.setSpan(new ImageSpan(context, bitmap, ImageSpan.ALIGN_BOTTOM),
-                            matcher.start(), matcher.end(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    try {
+                        Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res, entry.getValue()), scale, scale, true);
+                        spannable.setSpan(new ImageSpan(context, bitmap, ImageSpan.ALIGN_BOTTOM),
+                                matcher.start(), matcher.end(),
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } catch (OutOfMemoryError e) {
+                        return false;
+                    }
+
                 }
             }
         }
