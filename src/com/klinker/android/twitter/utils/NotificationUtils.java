@@ -247,13 +247,11 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        HomeDataSource data = new HomeDataSource(context);
-        data.open();
-        int homeTweets = data.getPosition(currentAccount, sharedPrefs.getLong("current_position_" + currentAccount, 0));//data.getUnreadCount(currentAccount);
+        HomeDataSource data = HomeDataSource.getInstance(context);
+        int homeTweets = data.getUnreadCount(currentAccount);
         data.close();
 
-        MentionsDataSource mentions = new MentionsDataSource(context);
-        mentions.open();
+        MentionsDataSource mentions = MentionsDataSource.getInstance(context);
         int mentionsTweets = mentions.getUnreadCount(currentAccount);
         mentions.close();
 

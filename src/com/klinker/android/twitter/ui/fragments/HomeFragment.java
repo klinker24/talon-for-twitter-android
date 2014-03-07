@@ -997,7 +997,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
-        context.sendBroadcast(new Intent("com.google.android.apps.dashclock.Extension"));
 
         super.onStop();
     }
