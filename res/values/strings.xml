@@ -557,5 +557,6 @@
     <string name="widget_dark">Dark Theme</string>
     <string name="widget_trans_light">Transparent Light Theme</string>
     <string name="widget_trans_black">Transparent Black Theme</string>
+    <string name="ui_settings">UI Settings</string>
 
 </resources>
