@@ -104,8 +104,8 @@ public class NotificationUtils {
 
             Intent resultIntent;
 
-            if (unreadCounts[1] != 0 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
-                // it is a mention notification
+            if (unreadCounts[1] != 0 && unreadCounts[0] == 0) {
+                // it is a mention notification (could also have a direct message)
                 resultIntent = new Intent(context, RedirectToMentions.class);
             } else if (unreadCounts[2] != 0 && unreadCounts[0] == 0 && unreadCounts[1] == 0) {
                 // it is a direct message
@@ -858,8 +858,8 @@ public class NotificationUtils {
         final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
 
         final Map data = new HashMap();
-        data.put("title", TweetLinkUtils.removeColorHtml(title.replaceAll("<b>","").replaceAll("</b>", ""), AppSettings.getInstance(context)));
-        data.put("body", TweetLinkUtils.removeColorHtml(body.replaceAll("<b>","").replaceAll("</b>", ""), AppSettings.getInstance(context)));
+        data.put("title", TweetLinkUtils.removeColorHtml(title, AppSettings.getInstance(context)));
+        data.put("body", TweetLinkUtils.removeColorHtml(body, AppSettings.getInstance(context)));
         final JSONObject jsonData = new JSONObject(data);
         final String notificationData = new JSONArray().put(jsonData).toString();
 
