@@ -54,24 +54,6 @@ public class NotificationUtils {
     public static void refreshNotification(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
 
-        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-        Intent popup = new Intent(context, MainActivityPopup.class);
-        popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        popup.putExtra("from_notification", true);
-        PendingIntent popupPending =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        popup,
-                        0
-                );
-        remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
-        remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
-
-        remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
-
-        use .setContent(remoteView) to make the notification using this instead*/
-
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -174,6 +156,9 @@ public class NotificationUtils {
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
                 sendAlertToPebble(context, title[0], shortText);
             }
+
+            // Light Flow notification
+            sendToLightFlow(context, title[0], shortText);
 
             int homeTweets = unreadCounts[0];
             int mentionsTweets = unreadCounts[1];
@@ -615,6 +600,9 @@ public class NotificationUtils {
             if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
                 sendAlertToPebble(context, title, shortText);
             }
+
+            // Light Flow notification
+            sendToLightFlow(context, title, shortText);
         }
     }
 
@@ -727,6 +715,8 @@ public class NotificationUtils {
                 sendAlertToPebble(context, title, messageLong);
             }
 
+            // Light Flow notification
+            sendToLightFlow(context, title, messageLong);
         }
 
 
@@ -849,6 +839,9 @@ public class NotificationUtils {
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
                 sendAlertToPebble(context, title, text);
             }
+
+            // Light Flow notification
+            sendToLightFlow(context, title, text);
         }
     }
 
@@ -867,5 +860,13 @@ public class NotificationUtils {
 
         Log.v("talon_pebble", "About to send a modal alert to Pebble: " + notificationData);
         context.sendBroadcast(i);
+    }
+
+    public static void sendToLightFlow(Context context, String title, String message) {
+        Intent data = new Intent("com.klinker.android.twitter.NEW_NOTIFICATION");
+        data.putExtra("title", title);
+        data.putExtra("message", message);
+
+        context.sendBroadcast(data);
     }
 }
