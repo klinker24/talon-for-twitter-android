@@ -1,20 +1,10 @@
-<b>Version 2.0.0 Beta 3:</b><br/><br/>
-    &#8226; Fixed sharing from the timeline<br/>
-    &#8226; Memory management enhancements<br/>
-    &#8226; Fixed leaky cursors and receivers<br/>
-    &#8226; Hopefully fixed the timelines sometimes just not updating<br/>
-    &#8226; Small style change on the tweet viewer<br/>
-    &#8226; Some swipe to dismiss interactions list update<br/>
-    &#8226; Fixed some non-translated text<br/>
-    &#8226; Hopefully fixed the profile picture in the drawer sometimes changing<br/>
-</br><br/>
-
 <b>Version 2.0.0 Beta 1:</b><br/><br/>
 <b>NEW:</b><br/>
     &#8226; Talon Pull will automatically shut down to preserve battery when no data connection is active, then restart and check your timeline for missed tweets when data becomes available again.<br/>
     &#8226; Compose button can now float over the main timelines instead of being in the action bar<br/>
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
     &#8226; Pictures page on a users profile<br/>
+    &#8226; Custom Light Flow support<br/>
     &#8226; Animations for opening new pages and windows<br/>
     &#8226; Post tweets from different accounts in the compose window<br/>
     &#8226; Notifications button in the action bar for Talon Pull interations<br/>
