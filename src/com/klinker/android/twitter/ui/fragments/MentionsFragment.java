@@ -113,11 +113,14 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onDestroy() {
-        try {
-            //cursorAdapter.getCursor().close();
+
+        // can't do this here because the cursor adapter is static, causes a ton of illegal state exceptions
+        /*try {
+            cursorAdapter.getCursor().close();
         } catch (Exception e) {
 
-        }
+        }*/
+
         super.onDestroy();
     }
 
