@@ -701,9 +701,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (!cursor.moveToPosition(cursor.getCount() - 1 - position)) {
+        try {
+            if (!cursor.moveToPosition(cursor.getCount() - 1 - position)) {
+                throw new IllegalStateException("couldn't move cursor to position " + position);
+            }
+        } catch (Exception e) {
             ((Activity)context).recreate();
-            //throw new IllegalStateException("couldn't move cursor to position " + position);
+            return null;
         }
 
         View v;
