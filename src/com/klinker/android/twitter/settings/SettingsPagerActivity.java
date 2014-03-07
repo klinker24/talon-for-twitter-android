@@ -75,7 +75,7 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.rate_it)};
 
         settingsItems = new String[] {
-                getResources().getString(R.string.theme_settings),
+                getResources().getString(R.string.ui_settings),
                 getResources().getString(R.string.timelines_settings),
                 getResources().getString(R.string.sync_settings),
                 getResources().getString(R.string.notification_settings),
