@@ -345,6 +345,7 @@ public class TalonPullNotificationService extends Service {
             TalonPullNotificationService.isRunning = false;
             thisInstanceOn = false;
 
+            sharedPreferences.edit().putInt("pull_unread", pullUnread).commit();
             pullUnread = 0;
 
             stopSelf();
