@@ -249,7 +249,7 @@ public class NotificationUtils {
 
         HomeDataSource data = new HomeDataSource(context);
         data.open();
-        int homeTweets = data.getUnreadCount(currentAccount);
+        int homeTweets = data.getPosition(currentAccount, sharedPrefs.getLong("current_position_" + currentAccount, 0));//data.getUnreadCount(currentAccount);
         data.close();
 
         MentionsDataSource mentions = new MentionsDataSource(context);
