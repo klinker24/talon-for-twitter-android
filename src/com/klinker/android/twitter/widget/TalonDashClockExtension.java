@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.widget;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -18,13 +20,26 @@ import com.klinker.android.twitter.utils.NotificationUtils;
 
 public class TalonDashClockExtension extends DashClockExtension {
 
+    public BroadcastReceiver update = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            publishUpdate(getUpdateData());
+        }
+    };
+
     @Override
     protected void onInitialize(boolean isReconnect) {
         super.onInitialize(isReconnect);
 
+        try {
+            unregisterReceiver(update);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
-        registerReceiver(pullReceiver, filter);
+        filter.addAction("com.klinker.android.talon.UPDATE_WIDGET");
+        registerReceiver(update, filter);
 
         String[] watcher = {"content://" + HomeContentProvider.AUTHORITY};
         this.addWatchContentUris(watcher);
@@ -33,7 +48,10 @@ public class TalonDashClockExtension extends DashClockExtension {
 
     @Override
     protected void onUpdateData(int arg0) {
+        publishUpdate(getUpdateData());
+    }
 
+    public ExtensionData getUpdateData() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -65,16 +83,16 @@ public class TalonDashClockExtension extends DashClockExtension {
             b.putBoolean("dashclock", true);
             intent.putExtras(b);
 
-            publishUpdate(new ExtensionData()
+            return new ExtensionData()
                     .visible(true)
                     .icon(R.drawable.ic_stat_icon)
                     .status(homeTweets + mentionsTweets + dmTweets + "")
                     .expandedTitle(NotificationUtils.getTitle(unreads, this, currentAccount)[0])
                     .expandedBody(TweetLinkUtils.removeColorHtml(NotificationUtils.getLongTextNoHtml(unreads, this, currentAccount), AppSettings.getInstance(this)))
-                    .clickIntent(intent));
+                    .clickIntent(intent);
         } else {
-            publishUpdate(new ExtensionData()
-                    .visible(false));
+            return new ExtensionData()
+                    .visible(false);
         }
     }
 }
