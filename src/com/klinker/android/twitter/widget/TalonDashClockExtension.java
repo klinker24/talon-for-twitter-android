@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.widget;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +21,10 @@ public class TalonDashClockExtension extends DashClockExtension {
     @Override
     protected void onInitialize(boolean isReconnect) {
         super.onInitialize(isReconnect);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
+        registerReceiver(pullReceiver, filter);
 
         String[] watcher = {"content://" + HomeContentProvider.AUTHORITY};
         this.addWatchContentUris(watcher);

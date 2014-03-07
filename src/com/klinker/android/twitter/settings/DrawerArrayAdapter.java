@@ -61,7 +61,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
         holder.name.setText(settingName);
         holder.name.setTextSize(18);
 
-        if (text.get(position).equals(context.getResources().getString(R.string.theme_settings))) {
+        if (text.get(position).equals(context.getResources().getString(R.string.ui_settings))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.themeSettings});
             int resource = a.getResourceId(0, 0);
             a.recycle();
