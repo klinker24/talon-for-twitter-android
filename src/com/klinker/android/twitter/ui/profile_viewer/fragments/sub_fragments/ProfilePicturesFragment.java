@@ -53,6 +53,10 @@ public class ProfilePicturesFragment extends Fragment {
         this.screenName = screenName;
     }
 
+    public ProfilePicturesFragment() {
+        this.screenName = "";
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
