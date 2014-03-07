@@ -58,7 +58,11 @@ public class MentionsDataSource {
     }
 
     public void close() {
-        dbHelper.close();
+        try {
+            dbHelper.close();
+        } catch (Exception e) {
+
+        }
         database = null;
     }
 

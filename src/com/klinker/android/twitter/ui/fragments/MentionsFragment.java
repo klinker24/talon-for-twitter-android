@@ -114,7 +114,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onDestroy() {
         try {
-            cursorAdapter.getCursor().close();
+            //cursorAdapter.getCursor().close();
         } catch (Exception e) {
 
         }
@@ -457,6 +457,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                     @Override
                     public void run() {
                         Cursor c = null;
+
                         try {
                             c = cursorAdapter.getCursor();
                         } catch (Exception e) {
