@@ -62,6 +62,8 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
     protected ActionBar actionBar;
     protected int mActionBarSize;
 
+    protected int currentAccount;
+
     protected boolean landscape;
     protected boolean isToastShowing = false;
     protected boolean infoBar = false;
@@ -126,6 +128,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        currentAccount = sharedPrefs.getInt("current_account", 1);
 
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("dm_unread_" + sharedPrefs.getInt("current_account", 1), 0);
@@ -170,14 +173,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         }
         transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
 
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        CursorListLoader loader = new CursorListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-        builder.setThreadPoolSize(2);
-
-        listView.setItemManager(builder.build());
+        setBuilder();
 
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
@@ -213,6 +209,17 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
     }
 
     public abstract void setUpListScroll();
+
+    public void setBuilder() {
+        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+        CursorListLoader loader = new CursorListLoader(cache, context);
+
+        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
+        builder.setThreadPoolSize(2);
+
+        listView.setItemManager(builder.build());
+    }
 
     public void toTop() {
         try {

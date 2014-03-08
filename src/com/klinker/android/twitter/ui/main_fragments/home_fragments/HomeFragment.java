@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
@@ -43,7 +44,6 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class HomeFragment extends MainFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -106,7 +106,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                 HomeDataSource dataSource = HomeDataSource.getInstance(context);
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
@@ -327,8 +326,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
     public int doRefresh() {
         int numberNew = 0;
 
-        final int currentAccount = sharedPrefs.getInt("current_account", 1);
-
         try {
             Cursor cursor = cursorAdapter.getCursor();
             if (cursor.moveToLast()) {
@@ -441,7 +438,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
     }
 
     public boolean getTweet() {
-        int currentAccount = DrawerActivity.settings.currentAccount;
         int lastVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
         TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                 sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
@@ -452,7 +448,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
         Log.v("talon_tweetmarker", "tweetmarker status: " + tweetmarkerStatus);
 
         if (tweetmarkerStatus != 0) {
-            sharedPrefs.edit().putLong("current_position_" + DrawerActivity.settings.currentAccount, tweetmarkerStatus).commit();
+            sharedPrefs.edit().putLong("current_position_" + currentAccount, tweetmarkerStatus).commit();
             Log.v("talon_tweetmarker", "updating with tweetmarker");
             trueLive = true;
             return true;
@@ -637,8 +633,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             try {
                 twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
-                int currentAccount = sharedPrefs.getInt("current_account", 1);
-
                 twitter.verifyCredentials();
                 MentionsDataSource mentions = MentionsDataSource.getInstance(context);
                 long[] lastId = mentions.getLastIds(currentAccount);
@@ -717,8 +711,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
         super.onPause();
     }
-
-    int currentAccount;
 
     @Override
     public void onStop() {
@@ -826,8 +818,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        currentAccount = sharedPrefs.getInt("current_account", 1);
-
         if (!trueLive && !initial) {
             Log.v("talon_tweetmarker", "true live");
             markReadForLoad();
@@ -847,6 +837,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                 null,
                 new String[] {currentAccount + ""},
                 null );
+
         return cursorLoader;
     }
 
@@ -923,13 +914,12 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
         final int tweets = numTweets;
 
         listView.setAdapter(cursorAdapter);
+
         if (spinner.getVisibility() == View.VISIBLE) {
             spinner.setVisibility(View.GONE);
         }
 
-        if (listView.getVisibility() == View.GONE) {
-            listView.setVisibility(View.VISIBLE);
-        }
+        listView.setVisibility(View.VISIBLE);
 
         if (viewPressed) {
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
