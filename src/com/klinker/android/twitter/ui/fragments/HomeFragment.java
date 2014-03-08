@@ -1,9 +1,6 @@
 package com.klinker.android.twitter.ui.fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Fragment;
 import android.app.LoaderManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -12,48 +9,29 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
-
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,54 +40,60 @@ import java.util.List;
 
 import twitter4j.Paging;
 import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class HomeFragment extends Fragment implements OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class HomeFragment extends MainFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int HOME_REFRESH_ID = 121;
 
-    private static Twitter twitter;
-
-    public AsyncListView listView;
-    private TimeLineCursorAdapter cursorAdapter;
-
-    private SharedPreferences sharedPrefs;
-
-    private PullToRefreshLayout mPullToRefreshLayout;
     public DefaultHeaderTransformer transformer;
-    private LinearLayout spinner;
 
-    private static int unread;
-
-    static Activity context;
-
-    private ActionBar actionBar;
-    private int mActionBarSize;
+    private int unread;
 
     private boolean initial = true;
-    private boolean shown = true;
-    private boolean landscape;
     public boolean newTweets = false;
 
-    private String jumpToTop;
-    private String fromTop;
-    private String toMentions;
-    private String allRead;
+    private View.OnClickListener toMentionsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int page1Type = sharedPrefs.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
+            int page2Type = sharedPrefs.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
 
-    private View.OnClickListener toTopListener;
-    private View.OnClickListener toMentionsListener;
-    private View.OnClickListener liveStreamRefresh;
-    private View.OnClickListener over50Refresh;
+            int extraPages = 0;
+            if (page1Type != AppSettings.PAGE_TYPE_NONE) {
+                extraPages++;
+            }
 
-    public View view;
+            if (page2Type != AppSettings.PAGE_TYPE_NONE) {
+                extraPages++;
+            }
+
+            MainActivity.mViewPager.setCurrentItem(1 + extraPages, true);
+            hideToastBar(400);
+        }
+    };
+
+    private View.OnClickListener liveStreamRefresh = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            newTweets = false;
+            viewPressed = true;
+            trueLive = true;
+            manualRefresh = false;
+            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            listView.setSelectionFromTop(0, 0);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideToastBar(400);
+                }
+            }, 300);
+
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+        }
+    };
 
     public int liveUnread = 0;
 
@@ -155,18 +139,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
     };
 
-    public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            toTop();
-        }
-    };
-
     public BroadcastReceiver markRead = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
-            int account = intent.getIntExtra("current_account", 0);
-            markReadForLoad(account);
+            markReadForLoad();
             if (DrawerActivity.settings.tweetmarker) {
                 new Thread(new Runnable() {
                     @Override
@@ -191,115 +167,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     };
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
-        actionBar = context.getActionBar();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        Log.v("setting_fragments", "home fragment");
-
-        if(DrawerActivity.settings.pushNotifications) {
-            if (!TalonPullNotificationService.isRunning) {
-                context.startService(new Intent(context, TalonPullNotificationService.class));
-            }
-        } else {
-            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-        }
-
-        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        currentAccount = sharedPrefs.getInt("current_account", 1);
-
-        sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-
-        jumpToTop = getResources().getString(R.string.jump_to_top);
-        fromTop = getResources().getString(R.string.from_top);
-        toMentions = getResources().getString(R.string.mentions);
-        allRead = getResources().getString(R.string.all_read);
-
-        try{
-            final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-                    new int[] { android.R.attr.actionBarSize });
-            mActionBarSize = (int) styledAttributes.getDimension(0, 0);
-            styledAttributes.recycle();
-        } catch (Exception e) {
-            // a default just in case i guess...
-            mActionBarSize = toDP(48);
-        }
-
-        View layout = inflater.inflate(R.layout.main_fragments, null);
-
-        listView = (AsyncListView) layout.findViewById(R.id.listView);
-        listView.setVisibility(View.VISIBLE);
-
-        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
-        spinner.setVisibility(View.VISIBLE);
-
-        getLoaderManager().initLoader(0, null, this);
-
-        // Now find the PullToRefreshLayout to setup
-        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
-
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(context)
-                // set up the scroll distance
-                .options(Options.create().scrollDistance(.3f).build())
-                // Mark All Children as pullable
-                .allChildrenArePullable()
-                        // Set the OnRefreshListener
-                .listener(this)
-                        // Finally commit the setup to our PullToRefreshLayout
-                .setup(mPullToRefreshLayout);
-
-        transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-
-        if (DrawerActivity.settings.addonTheme) {
-            transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
-        }
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        CursorListLoader loader = new CursorListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-        builder.setThreadPoolSize(2);
-
-        listView.setItemManager(builder.build());
-        listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-
-        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
-        listView.setHeaderDividersEnabled(false);
-
-        if (DrawerActivity.translucent) {
-            if (Utils.hasNavBar(context)) {
-                View footer = new View(context);
-                footer.setOnClickListener(null);
-                footer.setOnLongClickListener(null);
-                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-                footer.setLayoutParams(params);
-                listView.addFooterView(footer);
-                listView.setFooterDividersEnabled(false);
-            }
-
-            if (!MainActivity.isPopup) {
-                View view = new View(context);
-                view.setOnClickListener(null);
-                view.setOnLongClickListener(null);
-                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
-                view.setLayoutParams(params2);
-                listView.addHeaderView(view);
-                listView.setHeaderDividersEnabled(false);
-            }
-        }
-
+    public void setUpListScroll() {
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
         if (DrawerActivity.settings.useToast) {
@@ -329,14 +197,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                     false,
                                     liveStreamRefresh);
                         }
-                    }
-
-                    if (over50Unread > 0 && firstVisibleItem == 0) {
-                        showToastBar(over50Unread + " " + (over50Unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                getResources().getString(R.string.view),
-                                400,
-                                true,
-                                over50Refresh);
                     }
 
                     if (DrawerActivity.settings.uiExtras) {
@@ -414,14 +274,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                         }
                     }
 
-                    if (over50Unread > 0 && firstVisibleItem == 0) {
-                        showToastBar(over50Unread + " " + (over50Unread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                getResources().getString(R.string.view),
-                                400,
-                                true,
-                                over50Refresh);
-                    }
-
                     if (DrawerActivity.settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
@@ -457,103 +309,21 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 }
             });
         }
+    }
 
-        view = layout;
 
-        setUpToastBar(layout);
-
-        toTopListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toTop();
-            }
-        };
-
-        toMentionsListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int page1Type = sharedPrefs.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
-                int page2Type = sharedPrefs.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
-
-                int extraPages = 0;
-                if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-                    extraPages++;
-                }
-
-                if (page2Type != AppSettings.PAGE_TYPE_NONE) {
-                    extraPages++;
-                }
-
-                MainActivity.mViewPager.setCurrentItem(1 + extraPages, true);
-                hideToastBar(400);
-            }
-        };
-
-        liveStreamRefresh = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newTweets = false;
-                viewPressed = true;
-                trueLive = true;
-                manualRefresh = false;
-                getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                listView.setSelectionFromTop(0, 0);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideToastBar(400);
-                    }
-                }, 300);
-
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
-            }
-        };
-
-        over50Refresh = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                over50Unread = 0;
-                getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideToastBar(400);
-                    }
-                }, 300);
-
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
-            }
-        };
-
-        return layout;
+    @Override
+    public void getCursorAdapter(boolean spinner) {
+        getLoaderManager().initLoader(0, null, this);
     }
 
     public void toTop() {
-
         // used so the content observer doesn't change the shared pref we just put in
         trueLive = true;
-
-        int pos = listView.getFirstVisiblePosition();
-        if (pos < 200) {
-            try {
-                if (pos > 50) {
-                    listView.setSelectionFromTop(0, 0);
-                    hideToastBar(400);
-                } else {
-                    listView.smoothScrollToPosition(0);
-                }
-            } catch (Exception e) {
-                listView.setSelectionFromTop(0, 0);
-            }
-        } else {
-            listView.setSelectionFromTop(0,0);
-            hideToastBar(400);
-        }
+        super.toTop();
     }
 
-    public boolean only50 = false;
     public boolean manualRefresh = false;
-    public int over50Unread = 0;
 
     public int doRefresh() {
         int numberNew = 0;
@@ -634,7 +404,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             long afterDownload = Calendar.getInstance().getTimeInMillis();
             Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
 
-            only50 = false;
             manualRefresh = false;
 
             if (statuses.size() > 0) {
@@ -722,9 +491,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             @Override
             protected void onPostExecute(Boolean result) {
                 hideToastBar(400);
-                if (!only50) {
-                    MainActivity.canSwitch = true;
-                }
+
+                MainActivity.canSwitch = true;
+
                 if (result) {
                     try {
                         getLoaderManager().restartLoader(0, null, HomeFragment.this);
@@ -829,9 +598,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                                 mPullToRefreshLayout.setRefreshComplete();
                             }
 
-                            if (!only50) {
-                                DrawerActivity.canSwitch = true;
-                            }
+                            DrawerActivity.canSwitch = true;
 
                             newTweets = false;
 
@@ -946,22 +713,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     };
 
     @Override
-    public void onDestroy() {
-        try {
-            cursorAdapter.getCursor().close();
-        } catch (Exception e) {
-
-        }
-
-        super.onDestroy();
-    }
-
-    @Override
     public void onPause() {
         markReadForLoad();
 
         context.unregisterReceiver(pullReceiver);
-        context.unregisterReceiver(jumpTopReceiver);
         context.unregisterReceiver(markRead);
 
         super.onPause();
@@ -1010,10 +765,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         context.registerReceiver(pullReceiver, filter);
 
         filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
-        context.registerReceiver(jumpTopReceiver, filter);
-
-        filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.MARK_POSITION");
         context.registerReceiver(markRead, filter);
 
@@ -1045,7 +796,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                             !DrawerActivity.settings.tweetmarker) {
 
                         mPullToRefreshLayout.setRefreshing(true);
-                        onRefreshStarted(view);
+                        onRefreshStarted(null);
                     }
 
                     waitOnRefresh.removeCallbacks(applyRefresh);
@@ -1066,7 +817,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 @Override
                 public void run() {
                     mPullToRefreshLayout.setRefreshing(true);
-                    onRefreshStarted(view);
+                    onRefreshStarted(null);
                 }
             }, 600);
         }
@@ -1074,37 +825,12 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
     }
 
-
-    public int toDP(int px) {
-        try {
-            return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
-        } catch (Exception e) {
-            return px;
-        }
-    }
-
-    public void showStatusBar() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-            }
-        }, 000);
-    }
-
-    public void hideStatusBar() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                DrawerActivity.statusBar.setVisibility(View.GONE);
-            }
-        }, 000); // 200 would be better
-    }
-
     public boolean trueLive = false;
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
+        currentAccount = sharedPrefs.getInt("current_account", 1);
 
         if (!trueLive && !initial) {
             Log.v("talon_tweetmarker", "true live");
@@ -1123,7 +849,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
                 HomeContentProvider.CONTENT_URI,
                 projection,
                 null,
-                new String[] { currentAccount + "" },
+                new String[] {currentAccount + ""},
                 null );
         return cursorLoader;
     }
@@ -1134,13 +860,9 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 
-        currCursor = cursor;
+        Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
 
-        /*if (cursor.getCount() == 0) {
-            // restart loader i guess?
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
-            return;
-        }*/
+        currCursor = cursor;
 
         Cursor c = null;
         if (cursorAdapter != null) {
@@ -1209,6 +931,10 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
             spinner.setVisibility(View.GONE);
         }
 
+        if (listView.getVisibility() == View.GONE) {
+            listView.setVisibility(View.VISIBLE);
+        }
+
         if (viewPressed) {
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
@@ -1223,9 +949,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         liveUnread = 0;
         viewPressed = false;
 
-        if (!only50) {
-            mPullToRefreshLayout.setRefreshComplete();
-        }
+        mPullToRefreshLayout.setRefreshComplete();
 
         try {
             new Handler().postDelayed(new Runnable() {
@@ -1280,28 +1004,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         getLoaderManager().restartLoader(0, null, HomeFragment.this);
     }
 
-    private boolean isToastShowing = false;
-    private boolean infoBar = false;
-
-    private View toastBar;
-    private TextView toastDescription;
-    private TextView toastButton;
-
-    private void setUpToastBar(View view) {
-        toastBar = view.findViewById(R.id.toastBar);
-        toastDescription = (TextView) view.findViewById(R.id.toastDescription);
-        toastButton = (TextView) view.findViewById(R.id.toastButton);
-
-        try {
-            if (DrawerActivity.settings.addonTheme) {
-                LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
-                toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
     public Handler handler = new Handler();
     public Runnable hideToast = new Runnable() {
         @Override
@@ -1312,7 +1014,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
     };
     public long mLength;
 
-    private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+    public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
         if (quit) {
             infoBar = true;
         } else {
@@ -1354,7 +1056,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
         }
     }
 
-    private void hideToastBar(long length) {
+    public void hideToastBar(long length) {
         mLength = length;
 
         if (!isToastShowing) {
@@ -1394,37 +1096,6 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     public void markReadForLoad() {
         Log.v("talon_tweetmarker", "marking read for account " + currentAccount);
-
-        try {
-            Cursor cursor = currCursor;
-            int current = listView.getFirstVisiblePosition();
-
-            HomeDataSource.getInstance(context).markAllRead(currentAccount);
-
-            if (cursor.moveToPosition(cursor.getCount() - current)) {
-                Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
-                final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-            } else {
-                if (cursor.moveToLast()) {
-                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                }
-            }
-        } catch (Exception e) {
-            // cursor adapter is null because the loader was reset for some reason
-            e.printStackTrace();
-        }
-    }
-
-    public void markReadForLoad(int currentAccount) {
-
-        Log.v("talon_tweetmarker", "marking read for account " + currentAccount + " from the intent");
-
-        if (currentAccount == 0) {
-            markReadForLoad();
-            return;
-        }
 
         try {
             Cursor cursor = currCursor;
