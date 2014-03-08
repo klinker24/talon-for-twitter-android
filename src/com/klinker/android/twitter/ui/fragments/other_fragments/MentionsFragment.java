@@ -1,214 +1,48 @@
-package com.klinker.android.twitter.ui.fragments;
+package com.klinker.android.twitter.ui.fragments.other_fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
-import android.widget.CursorAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.MentionsRefreshService;
-import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.fragments.MainFragment;
 import com.klinker.android.twitter.utils.Utils;
-
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.Date;
 import java.util.List;
 
 import twitter4j.Paging;
-import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class MentionsFragment extends Fragment implements OnRefreshListener {
+public class MentionsFragment extends MainFragment {
 
     public static final int MENTIONS_REFRESH_ID = 127;
 
-    private Twitter twitter;
-
-    private AsyncListView listView;
-    private CursorAdapter cursorAdapter;
-
-    private SharedPreferences sharedPrefs;
-
-    private PullToRefreshLayout mPullToRefreshLayout;
-    private LinearLayout spinner;
-
-    private static int unread;
-
-    private boolean landscape;
-
-    static Activity context;
-
-    private ActionBar actionBar;
-    private int mActionBarSize;
-
-    private String fromTop;
-    private String jumpToTop;
-    private String allRead;
-
-    private View.OnClickListener toTopListener;
+    public int unread = 0;
 
     public BroadcastReceiver refrehshMentions = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            getCursorAdapter();
-        }
-    };
-
-    public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            toTop();
+            getCursorAdapter(false);
         }
     };
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
-        actionBar = context.getActionBar();
-    }
-
-    @Override
-    public void onDestroy() {
-
-        try {
-            cursorAdapter.getCursor().close();
-        } catch (Exception e) {
-
-        }
-
-        super.onDestroy();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        Log.v("setting_fragments", "mentions fragment");
-
-        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        fromTop = getResources().getString(R.string.from_top);
-        jumpToTop = getResources().getString(R.string.jump_to_top);
-        allRead = getResources().getString(R.string.all_read);
-
-        try{
-            final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-                    new int[] { android.R.attr.actionBarSize });
-            mActionBarSize = (int) styledAttributes.getDimension(0, 0);
-            styledAttributes.recycle();
-        } catch (Exception e) {
-            // a default just in case i guess...
-            mActionBarSize = toDP(48);
-        }
-
-        View layout = inflater.inflate(R.layout.main_fragments, null);
-
-        sharedPrefs.edit().putInt("mentions_unread_" + sharedPrefs.getInt("current_account", 1), 0).commit();
-
-        listView = (AsyncListView) layout.findViewById(R.id.listView);
-
-        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
-        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
-
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(context)
-                // set up the scroll distance
-                .options(Options.create().scrollDistance(.3f).build())
-                // Mark All Children as pullable
-                .allChildrenArePullable()
-                        // Set the OnRefreshListener
-                .listener(this)
-                        // Finally commit the setup to our PullToRefreshLayout
-                .setup(mPullToRefreshLayout);
-
-        DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-        if (DrawerActivity.settings.addonTheme) {
-            transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
-        }
-        transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        CursorListLoader loader = new CursorListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-        builder.setThreadPoolSize(2);
-
-        listView.setItemManager(builder.build());
-
-        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
-        listView.setHeaderDividersEnabled(false);
-
-        if (DrawerActivity.translucent) {
-            if (Utils.hasNavBar(context)) {
-                View footer = new View(context);
-                footer.setOnClickListener(null);
-                footer.setOnLongClickListener(null);
-                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-                footer.setLayoutParams(params);
-                listView.addFooterView(footer);
-                listView.setFooterDividersEnabled(false);
-            }
-
-            if (!MainActivity.isPopup) {
-                View view = new View(context);
-                view.setOnClickListener(null);
-                view.setOnLongClickListener(null);
-                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
-                view.setLayoutParams(params2);
-                listView.addHeaderView(view);
-                listView.setHeaderDividersEnabled(false);
-            }
-        }
-
-        getCursorAdapter();
+    public void setUpListScroll() {
 
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
@@ -276,29 +110,6 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                 }
             }
         });
-
-        setUpToastBar(layout);
-
-        toTopListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toTop();
-            }
-        };
-
-        return layout;
-    }
-
-    public void toTop() {
-        try {
-            if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
-                listView.setSelection(0);
-            } else {
-                listView.smoothScrollToPosition(0);
-            }
-        } catch (Exception e) {
-            listView.smoothScrollToPosition(0);
-        }
     }
 
     @Override
@@ -385,7 +196,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
                         cursor,
                         false);
 
-                refreshCursor();
+                attachCursor();
 
                 try {
                     if (update) {
@@ -419,7 +230,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onResume();
 
         if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
-            getCursorAdapter();
+            getCursorAdapter(false);
             sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
         }
 
@@ -444,7 +255,7 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onStop();
     }
 
-    public void getCursorAdapter() {
+    public void getCursorAdapter(boolean showSpinner) {
         try {
             spinner.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
@@ -502,19 +313,10 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         context.unregisterReceiver(refrehshMentions);
         context.unregisterReceiver(jumpTopReceiver);
 
-
         super.onPause();
     }
 
-    public void refreshCursor() {
-        try {
-            listView.setAdapter(cursorAdapter);
-        } catch (Exception e) {
 
-        }
-    }
-
-    @SuppressWarnings("deprecation")
     public void attachCursor() {
         try {
             listView.setAdapter(cursorAdapter);
@@ -538,108 +340,5 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(newTweets, size);
         }
-    }
-
-    public int toDP(int px) {
-        try {
-            return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
-        } catch (Exception e) {
-            return px;
-        }
-    }
-
-    public void showStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.GONE);
-    }
-
-    private boolean isToastShowing = false;
-    private boolean infoBar = false;
-
-    private View toastBar;
-    private TextView toastDescription;
-    private TextView toastButton;
-
-    private void setUpToastBar(View view) {
-        toastBar = view.findViewById(R.id.toastBar);
-        toastDescription = (TextView) view.findViewById(R.id.toastDescription);
-        toastButton = (TextView) view.findViewById(R.id.toastButton);
-        if (DrawerActivity.settings.addonTheme) {
-            LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
-            toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
-        }
-    }
-
-    private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
-        toastDescription.setText(description);
-        toastButton.setText(buttonText);
-        toastButton.setOnClickListener(listener);
-
-        toastBar.setVisibility(View.VISIBLE);
-
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                isToastShowing = true;
-
-                if (quit) {
-                    infoBar = true;
-                }
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (quit) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideToastBar(length);
-                            infoBar = false;
-                        }
-                    }, 3000);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
-    }
-
-    private void hideToastBar(long length) {
-        if (!isToastShowing) {
-            return;
-        }
-
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                isToastShowing = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                toastBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
-    }
-
-    public void updateToastText(String text) {
-        toastDescription.setText(text);
     }
 }

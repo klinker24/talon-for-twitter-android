@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.fragments;
+package com.klinker.android.twitter.ui.fragments.home_fragments;
 
 import android.app.AlarmManager;
 import android.app.LoaderManager;
@@ -30,6 +30,7 @@ import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.fragments.MainFragment;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 
@@ -641,8 +642,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                 twitter.verifyCredentials();
-                MentionsDataSource mentions = new MentionsDataSource(context);
-                mentions.open();
+                MentionsDataSource mentions = MentionsDataSource.getInstance(context);
                 long[] lastId = mentions.getLastIds(currentAccount);
                 Paging paging;
                 paging = new Paging(1, 200);
@@ -669,8 +669,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                 }
 
                 sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
-
-                mentions.close();
 
             } catch (TwitterException e) {
                 // Error in updating status

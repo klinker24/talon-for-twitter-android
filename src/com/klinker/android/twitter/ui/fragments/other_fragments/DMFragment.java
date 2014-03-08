@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.fragments;
+package com.klinker.android.twitter.ui.fragments.other_fragments;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -19,6 +19,7 @@ import com.klinker.android.twitter.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.fragments.MainFragment;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;

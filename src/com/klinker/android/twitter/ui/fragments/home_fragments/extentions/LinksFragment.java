@@ -1,10 +1,10 @@
-package com.klinker.android.twitter.ui.fragments.extension_fragments;
+package com.klinker.android.twitter.ui.fragments.home_fragments.extentions;
 
 
 import android.database.Cursor;
 
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.ui.fragments.HomeExtensionFragment;
+import com.klinker.android.twitter.ui.fragments.home_fragments.HomeExtensionFragment;
 
 public class LinksFragment extends HomeExtensionFragment {
 
