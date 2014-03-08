@@ -9,6 +9,7 @@
     - interactions with dashclock
     - scheduling tweets
     - attach pictures from the talon pull compose
+    - search fragment on main timelines
 
 - Bugs:
     - video sound stops after one time playing it
