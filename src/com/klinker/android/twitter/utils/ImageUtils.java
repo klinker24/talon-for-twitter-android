@@ -76,8 +76,13 @@ public class ImageUtils {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(scale,
-                scale, Bitmap.Config.ARGB_8888);
+        Bitmap output;
+        try {
+            output = Bitmap.createBitmap(scale,
+                    scale, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
 
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
@@ -626,7 +631,11 @@ public class ImageUtils {
                     }
 
                     // Add to cache
-                    result = mCache.put(url, b);
+                    if (b != null) {
+                        result = mCache.put(url, b);
+                    } else {
+                        return null;
+                    }
 
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
