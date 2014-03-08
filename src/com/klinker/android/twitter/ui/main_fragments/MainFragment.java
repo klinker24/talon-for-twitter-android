@@ -54,6 +54,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
     protected TextView toastButton;
     protected PullToRefreshLayout mPullToRefreshLayout;
     protected LinearLayout spinner;
+    protected DefaultHeaderTransformer transformer;
 
     protected SharedPreferences sharedPrefs;
     protected Activity context;
@@ -163,7 +164,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
                         // Finally commit the setup to our PullToRefreshLayout
                 .setup(mPullToRefreshLayout);
 
-        DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
+        transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
         if (DrawerActivity.settings.addonTheme) {
             transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
         }
