@@ -122,8 +122,7 @@ public class NotificationUtils {
 
                     Log.v("username_for_noti", title[1]);
                     sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
-                    MentionsDataSource data = new MentionsDataSource(context);
-                    data.open();
+                    MentionsDataSource data = MentionsDataSource.getInstance(context);
                     long id = data.getLastIds(currentAccount)[0];
                     PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
                     sharedPrefs.edit().putLong("from_notification_long", id).commit();
@@ -234,11 +233,9 @@ public class NotificationUtils {
 
         HomeDataSource data = HomeDataSource.getInstance(context);
         int homeTweets = data.getUnreadCount(currentAccount);
-        data.close();
 
         MentionsDataSource mentions = MentionsDataSource.getInstance(context);
         int mentionsTweets = mentions.getUnreadCount(currentAccount);
-        mentions.close();
 
         int dmTweets = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
 
@@ -254,17 +251,13 @@ public class NotificationUtils {
 
         // they only have a new mention
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) {
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             name = mentions.getNewestName(currentAccount);
             text = context.getResources().getString(R.string.mentioned_by) + " @" + name;
-            mentions.close();
         } else if (homeTweets == 0 && mentionsTweets == 0 && dmTweets == 1) { // they have 1 new direct message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             name = dm.getNewestName(currentAccount);
             text = context.getResources().getString(R.string.message_from) + " @" + name;
-            dm.close();
         } else { // other cases we will just put talon
             text = context.getResources().getString(R.string.app_name);
         }
@@ -279,15 +272,11 @@ public class NotificationUtils {
         int dmTweets = unreadCount[2];
 
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             text = mentions.getNewestMessage(currentAccount);
-            mentions.close();
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             text = dm.getNewestMessage(currentAccount);
-            dm.close();
         } else if (homeTweets > 0 && mentionsTweets == 0 && dmTweets == 0) { // it is just tweets being displayed, so put new out front
             text = homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets));
         } else {
@@ -320,15 +309,11 @@ public class NotificationUtils {
         int dmTweets = unreadCount[2];
 
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             body = mentions.getNewestMessage(currentAccount);
-            mentions.close();
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             body = dm.getNewestMessage(currentAccount);
-            dm.close();
         } else {
             if (homeTweets > 0) {
                 body += "<b>" + context.getResources().getString(R.string.timeline) + ": </b>" + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "<br>" : "");
@@ -353,15 +338,11 @@ public class NotificationUtils {
         int dmTweets = unreadCount[2];
 
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             body = mentions.getNewestMessage(currentAccount);
-            mentions.close();
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             body = dm.getNewestMessage(currentAccount);
-            dm.close();
         } else {
             if (homeTweets > 0) {
                 body += context.getResources().getString(R.string.timeline) + ": " + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "\n" : "");
@@ -420,12 +401,10 @@ public class NotificationUtils {
 
         ArrayList<String[]> tweets = new ArrayList<String[]>();
 
-        HomeDataSource data = new HomeDataSource(context);
-        data.open();
+        HomeDataSource data = HomeDataSource.getInstance(context);
         Cursor cursor = data.getUnreadCursor(account);
 
-        FavoriteUsersDataSource favs = new FavoriteUsersDataSource(context);
-        favs.open();
+        FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
 
         if(cursor.moveToFirst()) {
             do {
@@ -478,8 +457,6 @@ public class NotificationUtils {
         }
 
         cursor.close();
-        favs.close();
-        data.close();
 
         if (tweets.size() > 0) {
             if (tweets.size() == 1) {
@@ -629,9 +606,8 @@ public class NotificationUtils {
     }
 
     public static void notifySecondMentions(Context context, int secondAccount) {
-        MentionsDataSource data = new MentionsDataSource(context);
-        data.open();
-        int numberNew = 2;//data.getUnreadCount(secondAccount);
+        MentionsDataSource data = MentionsDataSource.getInstance(context);
+        int numberNew = data.getUnreadCount(secondAccount);
 
         int smallIcon = R.drawable.ic_stat_icon;
         Bitmap largeIcon;
