@@ -133,6 +133,8 @@ public class FavoriteUsersDataSource {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+
         return names;
     }
 

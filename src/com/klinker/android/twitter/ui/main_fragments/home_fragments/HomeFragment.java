@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.fragments.home_fragments;
+package com.klinker.android.twitter.ui.main_fragments.home_fragments;
 
 import android.app.AlarmManager;
 import android.app.LoaderManager;
@@ -30,7 +30,7 @@ import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.fragments.MainFragment;
+import com.klinker.android.twitter.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 

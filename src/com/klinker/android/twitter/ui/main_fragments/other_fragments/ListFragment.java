@@ -1,6 +1,5 @@
-package com.klinker.android.twitter.ui.fragments.other_fragments;
+package com.klinker.android.twitter.ui.main_fragments.other_fragments;
 
-import android.app.Activity;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -17,7 +16,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.fragments.MainFragment;
+import com.klinker.android.twitter.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
