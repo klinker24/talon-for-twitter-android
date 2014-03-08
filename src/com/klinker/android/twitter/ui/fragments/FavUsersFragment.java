@@ -50,10 +50,10 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class FavUsersFragment extends Fragment implements OnRefreshListener {
 
-    private static AsyncListView listView;
-    private static CursorAdapter cursorAdapter;
+    private AsyncListView listView;
+    private CursorAdapter cursorAdapter;
 
-    private static SharedPreferences sharedPrefs;
+    private SharedPreferences sharedPrefs;
 
     private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;

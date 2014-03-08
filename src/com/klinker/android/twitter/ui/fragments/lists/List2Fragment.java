@@ -62,7 +62,7 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
 
-    public static AsyncListView listView;
+    public AsyncListView listView;
     private TimeLineCursorAdapter cursorAdapter;
 
     private SharedPreferences sharedPrefs;
@@ -71,14 +71,11 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
     public DefaultHeaderTransformer transformer;
     private LinearLayout spinner;
 
-    private static int unread;
-
     static Activity context;
 
     private ActionBar actionBar;
     private int mActionBarSize;
 
-    private boolean initial = true;
     private boolean landscape;
     public boolean newTweets = false;
 

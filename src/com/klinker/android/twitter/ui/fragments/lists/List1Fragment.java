@@ -62,7 +62,7 @@ public class List1Fragment extends Fragment implements OnRefreshListener {
 
     private static Twitter twitter;
 
-    public static AsyncListView listView;
+    public AsyncListView listView;
     private TimeLineCursorAdapter cursorAdapter;
 
     private SharedPreferences sharedPrefs;

@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements OnRefreshListener, LoaderM
 
     private static Twitter twitter;
 
-    public static AsyncListView listView;
+    public AsyncListView listView;
     private TimeLineCursorAdapter cursorAdapter;
 
     private SharedPreferences sharedPrefs;

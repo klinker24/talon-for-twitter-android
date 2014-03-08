@@ -65,12 +65,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
 
     public static final int MENTIONS_REFRESH_ID = 127;
 
-    private static Twitter twitter;
+    private Twitter twitter;
 
-    private static AsyncListView listView;
-    private static CursorAdapter cursorAdapter;
+    private AsyncListView listView;
+    private CursorAdapter cursorAdapter;
 
-    private static SharedPreferences sharedPrefs;
+    private SharedPreferences sharedPrefs;
 
     private PullToRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
@@ -114,12 +114,11 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onDestroy() {
 
-        // can't do this here because the cursor adapter is static, causes a ton of illegal state exceptions
-        /*try {
+        try {
             cursorAdapter.getCursor().close();
         } catch (Exception e) {
 
-        }*/
+        }
 
         super.onDestroy();
     }
@@ -507,19 +506,12 @@ public class MentionsFragment extends Fragment implements OnRefreshListener {
         super.onPause();
     }
 
-    /*public static void swapCursors() {
-        cursorAdapter.swapCursor(MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1)));
-        cursorAdapter.notifyDataSetChanged();
-    }*/
-
-    public static void refreshCursor() {
+    public void refreshCursor() {
         try {
             listView.setAdapter(cursorAdapter);
         } catch (Exception e) {
 
         }
-
-        //swapCursors();
     }
 
     @SuppressWarnings("deprecation")
