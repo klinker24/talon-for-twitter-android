@@ -587,7 +587,7 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                         }
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
 
-                        final int position = getPosition(cursorAdapter.getCursor(), sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
+                        final int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
 
                         if (bSpinner) {
                             try {

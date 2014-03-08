@@ -82,8 +82,6 @@ public class SecondMentionsRefreshService extends IntentService {
                 NotificationUtils.notifySecondMentions(context, currentAccount);
             }
 
-            dataSource.close();
-
         } catch (TwitterException e) {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());

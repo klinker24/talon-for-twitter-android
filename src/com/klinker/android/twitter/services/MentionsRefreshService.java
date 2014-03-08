@@ -71,8 +71,6 @@ public class MentionsRefreshService extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-            dataSource.close();
-
             if (settings.notifications) {
                 NotificationUtils.refreshNotification(context);
             }
