@@ -10,13 +10,12 @@ import android.util.Log;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
-import com.klinker.android.twitter.ui.fragments.FavUsersFragment;
+import com.klinker.android.twitter.ui.fragments.extension_fragments.FavUsersFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
-import com.klinker.android.twitter.ui.fragments.LinksFragment;
-import com.klinker.android.twitter.ui.fragments.lists.List1Fragment;
-import com.klinker.android.twitter.ui.fragments.lists.List2Fragment;
+import com.klinker.android.twitter.ui.fragments.extension_fragments.LinksFragment;
+import com.klinker.android.twitter.ui.fragments.ListFragment;
 import com.klinker.android.twitter.ui.fragments.MentionsFragment;
-import com.klinker.android.twitter.ui.fragments.PicFragment;
+import com.klinker.android.twitter.ui.fragments.extension_fragments.PicFragment;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
@@ -66,10 +65,10 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         if(numExtraPages == 2) {
             switch (i) {
                 case 0:
-                    frag = getFrag(page1Type, list1Id, 1);
+                    frag = getFrag(page1Type, list1Id);
                     break;
                 case 1:
-                    frag = getFrag(page2Type, list2Id, 2);
+                    frag = getFrag(page2Type, list2Id);
                     break;
                 case 2:
                     frag = new HomeFragment();
@@ -85,9 +84,9 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
             switch (i) {
                 case 0:
                     if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-                        frag = getFrag(page1Type, list1Id, 1);
+                        frag = getFrag(page1Type, list1Id);
                     } else {
-                        frag = getFrag(page2Type, list2Id, 1);
+                        frag = getFrag(page2Type, list2Id);
                     }
                     break;
                 case 1:
@@ -177,14 +176,10 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         return 3 + numExtraPages;
     }
 
-    public Fragment getFrag(int type, int listId, int listPage) {
+    public Fragment getFrag(int type, int listId) {
         switch (type) {
             case AppSettings.PAGE_TYPE_LIST:
-                if (listPage == 1) {
-                    return new List1Fragment(listId);
-                } else {
-                    return new List2Fragment(listId);
-                }
+                return new ListFragment(listId);
             case AppSettings.PAGE_TYPE_LINKS:
                 return new LinksFragment();
             case AppSettings.PAGE_TYPE_PICS:

@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.fragments.lists;
+package com.klinker.android.twitter.ui.fragments;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -58,9 +58,9 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class List2Fragment extends Fragment implements OnRefreshListener {
+public class ListFragment extends Fragment implements OnRefreshListener {
 
-    private static Twitter twitter;
+    private Twitter twitter;
 
     public AsyncListView listView;
     private TimeLineCursorAdapter cursorAdapter;
@@ -71,11 +71,12 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
     public DefaultHeaderTransformer transformer;
     private LinearLayout spinner;
 
-    static Activity context;
+    public Activity context;
 
     private ActionBar actionBar;
     private int mActionBarSize;
 
+    private boolean initial = true;
     private boolean landscape;
     public boolean newTweets = false;
 
@@ -95,11 +96,11 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
         }
     };
 
-    public List2Fragment() {
+    public ListFragment() {
         this.listId = 0;
     }
 
-    public List2Fragment(int listId) {
+    public ListFragment(int listId) {
         this.listId = listId;
     }
 
@@ -123,8 +124,6 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
-        Log.v("talon_lists", "loaded list page");
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
@@ -355,8 +354,8 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
             User user = twitter.verifyCredentials();
-            long[] lastId;
-            lastId = ListDataSource.getInstance(context).getLastIds(listId);
+            long[] lastId = ListDataSource.getInstance(context).getLastIds(listId);
+
 
             final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -374,12 +373,6 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                     if (!foundStatus) {
                         paging.setPage(i + 1);
                         List<Status> list = twitter.getUserListStatuses(listId, paging);
-
-                        if (list.size() > 185) {
-                            foundStatus = false;
-                        } else {
-                            foundStatus = true;
-                        }
 
                         statuses.addAll(list);
                     }
@@ -469,9 +462,10 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                         }
                     } else {
                         final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
+
                         new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
+                            @Override
+                            public void run() {
                                 try {
                                     Looper.prepare();
                                 } catch (Exception e) {
@@ -513,7 +507,6 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
 
     public int currentAccount;
     public int listId;
-
 
     @Override
     public void onResume() {
@@ -575,7 +568,6 @@ public class List2Fragment extends Fragment implements OnRefreshListener {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         Cursor c = null;
                         try {
                             c = cursorAdapter.getCursor();

@@ -10,20 +10,16 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,11 +27,7 @@ import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
-import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.Utils;
@@ -47,33 +39,43 @@ import twitter4j.Twitter;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class PicFragment extends Fragment implements OnRefreshListener {
+public abstract class MainFragment extends Fragment implements OnRefreshListener {
 
-    private AsyncListView listView;
-    private CursorAdapter cursorAdapter;
+    protected Twitter twitter;
 
-    private SharedPreferences sharedPrefs;
+    protected AsyncListView listView;
+    protected CursorAdapter cursorAdapter;
+    protected View toastBar;
+    protected TextView toastDescription;
+    protected TextView toastButton;
+    protected PullToRefreshLayout mPullToRefreshLayout;
+    protected LinearLayout spinner;
 
-    private PullToRefreshLayout mPullToRefreshLayout;
-    private LinearLayout spinner;
+    protected SharedPreferences sharedPrefs;
+    protected Activity context;
 
-    private boolean landscape;
+    protected ActionBar actionBar;
+    protected int mActionBarSize;
 
-    static Activity context;
+    protected boolean landscape;
+    protected boolean isToastShowing = false;
+    protected boolean infoBar = false;
 
-    private ActionBar actionBar;
-    private int mActionBarSize;
+    protected String fromTop;
+    protected String jumpToTop;
+    protected String toMentions;
+    protected String allRead;
 
-    private String fromTop;
-    private String jumpToTop;
-    private String allRead;
-
-    private View.OnClickListener toTopListener;
+    protected View.OnClickListener toTopListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            toTop();
+        }
+    };
 
     public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
         @Override
@@ -93,9 +95,17 @@ public class PicFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onPause() {
+
         context.unregisterReceiver(jumpTopReceiver);
 
         super.onPause();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
+        actionBar = context.getActionBar();
     }
 
     @Override
@@ -109,32 +119,29 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
-        actionBar = context.getActionBar();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
-        Log.v("setting_fragments", "pic fragment");
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
+        SharedPreferences.Editor e = sharedPrefs.edit();
+        e.putInt("dm_unread_" + sharedPrefs.getInt("current_account", 1), 0);
+        e.putBoolean("refresh_me", false);
+        e.commit();
+
         fromTop = getResources().getString(R.string.from_top);
         jumpToTop = getResources().getString(R.string.jump_to_top);
         allRead = getResources().getString(R.string.all_read);
+        toMentions = getResources().getString(R.string.mentions);
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
                     new int[] { android.R.attr.actionBarSize });
             mActionBarSize = (int) styledAttributes.getDimension(0, 0);
             styledAttributes.recycle();
-        } catch (Exception e) {
+        } catch (Exception x) {
             // a default just in case i guess...
             mActionBarSize = toDP(48);
         }
@@ -149,7 +156,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         ActionBarPullToRefresh.from(context)
                 // set up the scroll distance
                 .options(Options.create().scrollDistance(.3f).build())
-                // Mark All Children as pullable
+                        // Mark All Children as pullable
                 .allChildrenArePullable()
                         // Set the OnRefreshListener
                 .listener(this)
@@ -197,88 +204,14 @@ public class PicFragment extends Fragment implements OnRefreshListener {
             }
         }
 
-        //new GetCursorAdapter(true).execute();
         getCursorAdapter(true);
-
-        final int currentAccount = sharedPrefs.getInt("current_account", 1);
-        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            int mLastFirstVisibleItem = 0;
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-                if (i == SCROLL_STATE_IDLE) {
-                    MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
-                    MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
-                } else {
-                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
-                    MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                if (DrawerActivity.settings.uiExtras) {
-                    // show and hide the action bar
-                    if (firstVisibleItem != 0) {
-                        if (MainActivity.canSwitch) {
-                            // used to show and hide the action bar
-                            if (firstVisibleItem < 3) {
-
-                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                if (!landscape && !isTablet) {
-                                    actionBar.hide();
-                                }
-                                if (!isToastShowing && DrawerActivity.settings.useToast) {
-                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
-                                }
-                            } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                if (!landscape && !isTablet) {
-                                    actionBar.show();
-                                }
-                                if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
-                                    hideToastBar(400);
-                                }
-                            }
-
-                            mLastFirstVisibleItem = firstVisibleItem;
-                        }
-                    } else {
-                        if (!landscape && !isTablet) {
-                            actionBar.show();
-                        }
-                        if (!infoBar && DrawerActivity.settings.useToast) {
-                            hideToastBar(400);
-                        }
-                    }
-
-                    if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
-                        updateToastText(firstVisibleItem + " " + fromTop);
-                    }
-
-                    if (MainActivity.translucent && actionBar.isShowing()) {
-                        showStatusBar();
-                    } else if (MainActivity.translucent) {
-                        hideStatusBar();
-                    }
-                }
-            }
-        });
-
+        setUpListScroll();
         setUpToastBar(layout);
-
-        toTopListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toTop();
-            }
-        };
 
         return layout;
     }
+
+    public abstract void setUpListScroll();
 
     public void toTop() {
         try {
@@ -295,78 +228,10 @@ public class PicFragment extends Fragment implements OnRefreshListener {
     @Override
     public void onRefreshStarted(View view) {
         mPullToRefreshLayout.setRefreshing(true);
-        //new GetCursorAdapter(false).execute();
         getCursorAdapter(false);
     }
 
-    public void getCursorAdapter(final boolean bspinner) {
-        if (bspinner) {
-            try {
-                spinner.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-            } catch (Exception e) { }
-        }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (!bspinner) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-
-                    }
-                }
-
-                final Cursor cursor = HomeDataSource.getInstance(context).getPicsCursor(sharedPrefs.getInt("current_account", 1));
-
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Cursor c = null;
-                        try {
-                            c = cursorAdapter.getCursor();
-                        } catch (Exception e) {
-
-                        }
-                        cursorAdapter = new TimeLineCursorAdapter(context,
-                            cursor,
-                            false);
-                        if (bspinner) {
-                            try {
-                                spinner.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
-                            } catch (Exception e) { }
-                        }
-
-                        attachCursor();
-                        mPullToRefreshLayout.setRefreshComplete();
-
-                        try {
-                            c.close();
-                        } catch (Exception e) {
-
-                        }
-                    }
-                });
-            }
-        }).start();
-    }
-
-    /*public static void swapCursors() {
-        cursorAdapter.swapCursor(HomeDataSource.getInstance(context).getPicsCursor(sharedPrefs.getInt("current_account", 1)));
-        cursorAdapter.notifyDataSetChanged();
-    }*/
-
-    public void attachCursor() {
-        try {
-            listView.setAdapter(cursorAdapter);
-        } catch (Exception e) {
-            
-        }
-
-        //swapCursors();
-    }
+    public abstract void getCursorAdapter(boolean showSpinner);
 
     public int toDP(int px) {
         try {
@@ -384,14 +249,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         DrawerActivity.statusBar.setVisibility(View.GONE);
     }
 
-    private boolean isToastShowing = false;
-    private boolean infoBar = false;
-
-    private View toastBar;
-    private TextView toastDescription;
-    private TextView toastButton;
-
-    private void setUpToastBar(View view) {
+    public void setUpToastBar(View view) {
         toastBar = view.findViewById(R.id.toastBar);
         toastDescription = (TextView) view.findViewById(R.id.toastDescription);
         toastButton = (TextView) view.findViewById(R.id.toastButton);
@@ -401,7 +259,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         }
     }
 
-    private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+    public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
         toastDescription.setText(description);
         toastButton.setText(buttonText);
         toastButton.setOnClickListener(listener);
@@ -441,7 +299,7 @@ public class PicFragment extends Fragment implements OnRefreshListener {
         toastBar.startAnimation(anim);
     }
 
-    private void hideToastBar(long length) {
+    public void hideToastBar(long length) {
         if (!isToastShowing) {
             return;
         }
