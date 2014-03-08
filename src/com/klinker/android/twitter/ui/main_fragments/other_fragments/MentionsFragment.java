@@ -127,8 +127,6 @@ public class MentionsFragment extends MainFragment {
             @Override
             protected Cursor doInBackground(Void... params) {
                 try {
-                    int currentAccount = sharedPrefs.getInt("current_account", 1);
-
                     twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
                     User user = twitter.verifyCredentials();
@@ -299,7 +297,6 @@ public class MentionsFragment extends MainFragment {
         int mUnread = listView.getFirstVisiblePosition();
 
         if (unread > 0) {
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
             MentionsDataSource.getInstance(context).markMultipleRead(mUnread, currentAccount);
 
             unread = mUnread;
@@ -318,9 +315,6 @@ public class MentionsFragment extends MainFragment {
 
         }
 
-        //swapCursors();
-
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
         int newTweets;
 
         try {

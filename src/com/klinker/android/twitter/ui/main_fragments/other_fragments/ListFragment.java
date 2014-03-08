@@ -265,10 +265,7 @@ public class ListFragment extends MainFragment {
         super.onPause();
     }
 
-    public int currentAccount;
     public int listId;
-
-    public View layout;
 
     public void getCursorAdapter(final boolean bSpinner) {
 

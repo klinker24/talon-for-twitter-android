@@ -10,6 +10,6 @@ public class LinksFragment extends HomeExtensionFragment {
 
     @Override
     public Cursor getCursor() {
-        return HomeDataSource.getInstance(context).getLinksCursor(sharedPrefs.getInt("current_account", 1));
+        return HomeDataSource.getInstance(context).getLinksCursor(currentAccount);
     }
 }

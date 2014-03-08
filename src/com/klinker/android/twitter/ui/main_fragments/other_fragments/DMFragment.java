@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.AbsListView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.DirectMessageListArrayAdapter;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
@@ -43,6 +45,12 @@ public class DMFragment extends MainFragment {
             getCursorAdapter(false);
         }
     };
+
+    @Override
+    public void setBuilder() {
+        // we don't want one at all.
+        // The array adapter will take care of it for us this time
+    }
 
     @Override
     public void setUpListScroll() {
@@ -132,7 +140,7 @@ public class DMFragment extends MainFragment {
                     twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
                     User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), 0);
+                    long lastId = sharedPrefs.getLong("last_direct_message_id_" + currentAccount, 0);
                     Paging paging;
                     if (lastId != 0) {
                         paging = new Paging(1).sinceId(lastId);
@@ -144,7 +152,7 @@ public class DMFragment extends MainFragment {
                     List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
 
                     if (dm.size() != 0) {
-                        sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).commit();
                         update = true;
                         numberNew = dm.size();
                     } else {
@@ -156,19 +164,19 @@ public class DMFragment extends MainFragment {
 
                     for (DirectMessage directMessage : dm) {
                         try {
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            dataSource.createDirectMessage(directMessage, currentAccount);
                         } catch (IllegalStateException e) {
                             dataSource = DMDataSource.getInstance(context);
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            dataSource.createDirectMessage(directMessage, currentAccount);
                         }
                     }
 
                     for (DirectMessage directMessage : sent) {
                         try {
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            dataSource.createDirectMessage(directMessage, currentAccount);
                         } catch (Exception e) {
                             dataSource = DMDataSource.getInstance(context);
-                            dataSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+                            dataSource.createDirectMessage(directMessage, currentAccount);
                         }
                     }
 
@@ -219,8 +227,6 @@ public class DMFragment extends MainFragment {
                     // fragment not attached to activity
                 }
 
-
-
                 DrawerActivity.canSwitch = true;
             }
         }.execute();
@@ -233,16 +239,10 @@ public class DMFragment extends MainFragment {
 
     class GetCursorAdapter extends AsyncTask<Void, Void, String> {
 
-        protected void onPreExecute() {
-            try {
-                spinner.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-            } catch (Exception e) { }
-        }
-
         protected String doInBackground(Void... args) {
+            Log.v("direct_message", "getting adapter");
 
-            Cursor cursor = DMDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
+            Cursor cursor = DMDataSource.getInstance(context).getCursor(currentAccount);
 
             ArrayList<com.klinker.android.twitter.data.DirectMessage> messageList = new ArrayList<com.klinker.android.twitter.data.DirectMessage>();
             ArrayList<String> names = new ArrayList<String>();
@@ -301,7 +301,7 @@ public class DMFragment extends MainFragment {
             getCursorAdapter(false);
         }
 
-        sharedPrefs.edit().putInt("dm_unread_" + DrawerActivity.settings.currentAccount, 0).commit();
+        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.UPDATE_DM");

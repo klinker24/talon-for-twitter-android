@@ -76,7 +76,6 @@ public class MainActivity extends DrawerActivity {
                 });
                 anim.setDuration(300);
                 sendLayout.startAnimation(anim);
-                //sendLayout.setVisibility(View.VISIBLE);
             }
         }
     };
@@ -104,7 +103,6 @@ public class MainActivity extends DrawerActivity {
                 });
                 anim.setDuration(300);
                 sendLayout.startAnimation(anim);
-                //sendLayout.setVisibility(View.GONE);
             }
         }
     };
