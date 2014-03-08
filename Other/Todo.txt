@@ -15,6 +15,7 @@
     - video sound stops after one time playing it
     - random avatar changes
     - sideways pictures
+    - searches go away after changing orientation
 
 
 -- For Release --

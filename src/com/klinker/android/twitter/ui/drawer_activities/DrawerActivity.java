@@ -772,6 +772,8 @@ public abstract class DrawerActivity extends Activity {
             recreate();
         }
 
+        sharedPrefs.edit().putBoolean("new_notification", true);
+
         invalidateOptionsMenu();
     }
 

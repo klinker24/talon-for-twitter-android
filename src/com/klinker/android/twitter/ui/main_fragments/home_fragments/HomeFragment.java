@@ -49,8 +49,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
     public static final int HOME_REFRESH_ID = 121;
 
-    public DefaultHeaderTransformer transformer;
-
     private int unread;
 
     private boolean initial = true;

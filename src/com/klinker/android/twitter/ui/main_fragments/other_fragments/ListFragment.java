@@ -30,8 +30,6 @@ import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class ListFragment extends MainFragment {
 
-    public DefaultHeaderTransformer transformer;
-
     public boolean newTweets = false;
 
     public ListFragment() {
@@ -39,7 +37,6 @@ public class ListFragment extends MainFragment {
     }
 
     public ListFragment(int listId) {
-        Log.v("talon_list", "running real constructor");
         this.listId = listId;
     }
 
