@@ -5,6 +5,7 @@
     &#8226; New Discover tab in the drawer for trends, suggested users, and nearby tweets<br/>
     &#8226; Pictures page on a users profile<br/>
     &#8226; Custom Light Flow support (In future Light Flow update)<br/>
+    &#8226; Favorite users timeline is now an option for the extra pages<br/>
     &#8226; Animations for opening new pages and windows<br/>
     &#8226; Post tweets from different accounts in the compose window<br/>
     &#8226; Notifications button in the action bar for Talon Pull interations<br/>
