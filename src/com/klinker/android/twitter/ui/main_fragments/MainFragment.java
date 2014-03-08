@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.fragments;
+package com.klinker.android.twitter.ui.main_fragments;
 
 import android.app.ActionBar;
 import android.app.Activity;

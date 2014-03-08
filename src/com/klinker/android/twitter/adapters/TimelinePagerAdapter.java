@@ -9,13 +9,13 @@ import android.util.Log;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.fragments.other_fragments.DMFragment;
-import com.klinker.android.twitter.ui.fragments.home_fragments.extentions.FavUsersFragment;
-import com.klinker.android.twitter.ui.fragments.home_fragments.HomeFragment;
-import com.klinker.android.twitter.ui.fragments.home_fragments.extentions.LinksFragment;
-import com.klinker.android.twitter.ui.fragments.other_fragments.ListFragment;
-import com.klinker.android.twitter.ui.fragments.other_fragments.MentionsFragment;
-import com.klinker.android.twitter.ui.fragments.home_fragments.extentions.PicFragment;
+import com.klinker.android.twitter.ui.main_fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter.ui.main_fragments.home_fragments.extentions.FavUsersFragment;
+import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter.ui.main_fragments.home_fragments.extentions.LinksFragment;
+import com.klinker.android.twitter.ui.main_fragments.other_fragments.ListFragment;
+import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter.ui.main_fragments.home_fragments.extentions.PicFragment;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 

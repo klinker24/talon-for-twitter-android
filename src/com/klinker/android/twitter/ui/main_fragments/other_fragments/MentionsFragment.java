@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.fragments.other_fragments;
+package com.klinker.android.twitter.ui.main_fragments.other_fragments;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -18,7 +18,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.fragments.MainFragment;
+import com.klinker.android.twitter.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.Date;
@@ -247,7 +247,6 @@ public class MentionsFragment extends MainFragment {
     @Override
     public void onStop() {
         MentionsDataSource.getInstance(context).markAllRead(sharedPrefs.getInt("current_account", 1));
-
         super.onStop();
     }
 
