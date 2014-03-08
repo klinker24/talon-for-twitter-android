@@ -796,9 +796,6 @@ public abstract class DrawerActivity extends Activity {
 
     private SearchView searchView;
 
-    public static ImageButton notifCount;
-    public static int mNotifCount = 0;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
