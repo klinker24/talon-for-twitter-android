@@ -39,9 +39,9 @@ import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.fragments.DMFragment;
-import com.klinker.android.twitter.ui.fragments.HomeFragment;
-import com.klinker.android.twitter.ui.fragments.MentionsFragment;
+import com.klinker.android.twitter.ui.fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter.ui.fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter.ui.fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.Date;

@@ -11,13 +11,12 @@ import android.util.Log;
 import com.klinker.android.twitter.services.CatchupPull;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
-import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.fragments.DMFragment;
-import com.klinker.android.twitter.ui.fragments.HomeFragment;
-import com.klinker.android.twitter.ui.fragments.MentionsFragment;
+import com.klinker.android.twitter.ui.fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter.ui.fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter.ui.fragments.other_fragments.MentionsFragment;
 
 import java.util.Date;
 
