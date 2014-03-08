@@ -12,7 +12,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -34,7 +33,6 @@ import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.Utils;
@@ -45,12 +43,12 @@ import org.lucasr.smoothie.ItemManager;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class LinksFragment extends Fragment implements OnRefreshListener{
+
+public class FavUsersFragment extends Fragment implements OnRefreshListener {
 
     private static AsyncListView listView;
     private static CursorAdapter cursorAdapter;
@@ -149,7 +147,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
         ActionBarPullToRefresh.from(context)
                 // set up the scroll distance
                 .options(Options.create().scrollDistance(.3f).build())
-                // Mark All Children as pullable
+                        // Mark All Children as pullable
                 .allChildrenArePullable()
                         // Set the OnRefreshListener
                 .listener(this)
@@ -353,7 +351,7 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
     }
 
     public Cursor getCursor() {
-        return HomeDataSource.getInstance(context).getLinksCursor(sharedPrefs.getInt("current_account", 1));
+        return HomeDataSource.getInstance(context).getFavUsersCursor(sharedPrefs.getInt("current_account", 1));
     }
 
     @SuppressWarnings("deprecation")
@@ -363,8 +361,6 @@ public class LinksFragment extends Fragment implements OnRefreshListener{
         } catch (Exception e) {
 
         }
-
-        //swapCursors();
     }
 
     public int toDP(int px) {

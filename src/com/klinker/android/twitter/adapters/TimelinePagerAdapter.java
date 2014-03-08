@@ -10,6 +10,7 @@ import android.util.Log;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.fragments.DMFragment;
+import com.klinker.android.twitter.ui.fragments.FavUsersFragment;
 import com.klinker.android.twitter.ui.fragments.HomeFragment;
 import com.klinker.android.twitter.ui.fragments.LinksFragment;
 import com.klinker.android.twitter.ui.fragments.lists.List1Fragment;
@@ -188,6 +189,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                 return new LinksFragment();
             case AppSettings.PAGE_TYPE_PICS:
                 return new PicFragment();
+            case AppSettings.PAGE_TYPE_FAV_USERS:
+                return new FavUsersFragment();
         }
 
         return null;
@@ -201,6 +204,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                 return context.getResources().getString(R.string.links);
             case AppSettings.PAGE_TYPE_PICS:
                 return context.getResources().getString(R.string.pictures);
+            case AppSettings.PAGE_TYPE_FAV_USERS:
+                return context.getString(R.string.favorite_users);
         }
 
         return null;

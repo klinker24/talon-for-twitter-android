@@ -535,6 +535,72 @@ public class HomeDataSource {
         return cursor;
     }
 
+    public Cursor getFavUsersCursor(int account) {
+
+        String screennames = FavoriteUsersDataSource.getInstance(context).getNames(account);
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (";
+
+        if (!screennames.equals("")) {
+            String[] split = screennames.split("  ");
+            for (int i = 0; i <split.length; i++) {
+                String s = split[i];
+                if (i != 0) {
+                    where += " OR ";
+                }
+                where += HomeSQLiteHelper.COLUMN_SCREEN_NAME + " LIKE '" + s + "'";
+            }
+
+            for (String s : split) {
+                where += " OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " LIKE '" + s + "'";
+            }
+        } else {
+            where += HomeSQLiteHelper.COLUMN_SCREEN_NAME + " = '' OR " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " is NULL";
+        }
+
+        where += ")";
+
+        Log.v("talon_fav_users", "where: " + where);
+        if (database == null) {
+            open();
+        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
+            open();
+        }
+
+        Cursor cursor;
+
+        try {
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
+            if (false) {//count > 200) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
+        } catch (Exception e) {
+            try {
+                database.close();
+            } catch (Exception x) {
+
+            }
+            open();
+            String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
+            if (count > 200) {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
+            } else {
+                cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
+        }
+
+        return cursor;
+    }
+
     public int getUnreadCount(int account) {
 
         Cursor cursor = getUnreadCursor(account);

@@ -66,11 +66,19 @@ public abstract class ChooserFragment extends Fragment {
             }
         });
 
+        Button favUsers = (Button) layout.findViewById(R.id.use_fav_users);
+        favUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.favorite_users));
+                setType(AppSettings.PAGE_TYPE_FAV_USERS);
+            }
+        });
+
         Button list = (Button) layout.findViewById(R.id.use_list);
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //current.setText(getResources().getString(R.string.current) + ": \n" + getResources().getString(R.string.list_page));
                 Intent chooser = new Intent(context, ListChooser.class);
                 startActivityForResult(chooser, REQUEST_LIST);
             }
