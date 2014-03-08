@@ -237,10 +237,6 @@ public class MentionsFragment extends MainFragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
         context.registerReceiver(refrehshMentions, filter);
-
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
-        context.registerReceiver(jumpTopReceiver, filter);
     }
 
     @Override
@@ -311,7 +307,6 @@ public class MentionsFragment extends MainFragment {
         }
 
         context.unregisterReceiver(refrehshMentions);
-        context.unregisterReceiver(jumpTopReceiver);
 
         super.onPause();
     }
