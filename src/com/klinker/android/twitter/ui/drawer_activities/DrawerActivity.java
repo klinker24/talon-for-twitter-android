@@ -181,15 +181,13 @@ public abstract class DrawerActivity extends Activity {
                     actionBar.setTitle(getResources().getString(R.string.app_name));
 
                     try {
-                        if(sharedPrefs.getBoolean("new_notification", false)) {
-                            notificationAdapter = new InteractionsCursorAdapter(context,
-                                    InteractionsDataSource.getInstance(context).getUnreadCursor(settings.currentAccount));
-                            notificationList.setAdapter(notificationAdapter);
-                            notificationList.enableSwipeToDismiss();
-                            oldInteractions.setText(getResources().getString(R.string.old_interactions));
-                            readButton.setImageResource(openMailResource);
-                            sharedPrefs.edit().putBoolean("new_notification", false).commit();
-                        }
+                        notificationAdapter = new InteractionsCursorAdapter(context,
+                                InteractionsDataSource.getInstance(context).getUnreadCursor(settings.currentAccount));
+                        notificationList.setAdapter(notificationAdapter);
+                        notificationList.enableSwipeToDismiss();
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
+                        sharedPrefs.edit().putBoolean("new_notification", false).commit();
                     } catch (Exception e) {
                         // don't have talon pull on
                     }
@@ -771,8 +769,6 @@ public abstract class DrawerActivity extends Activity {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
         }
-
-        sharedPrefs.edit().putBoolean("new_notification", true);
 
         invalidateOptionsMenu();
     }
