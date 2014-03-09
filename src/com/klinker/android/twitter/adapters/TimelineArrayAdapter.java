@@ -932,7 +932,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                 String f = s.replace("...", "").replace("http", "");
 
                                 for (int x = 0; x < otherLinks.length; x++) {
-                                    Log.v("recreating_links", "other link first: " + otherLinks[x]);
                                     if (otherLinks[x].contains(f)) {
                                         changed = true;
                                         // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
@@ -940,6 +939,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                             otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
                                         }
                                         f = otherLinks[x];
+                                        otherLinks[x] = "";
                                         break;
                                     }
                                 }
@@ -956,24 +956,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         }
                     }
 
-                    Log.v("talon_picture", ":" + webpage + ":");
-
                     if (!webpage.equals("")) {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
                             s = s.replace("...", "");
 
-                            Log.v("talon_links", s);
-
                             if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
                                 String replace = otherLinks[otherLinks.length - 1];
-                                Log.v("talon_links", ":" + replace + ":");
                                 if (replace.replace(" ", "").equals("")) {
                                     replace = webpage;
                                 }
                                 split[i] = replace;
                                 changed = true;
-                                Log.v("talon_picture", split[i]);
                             }
                         }
                     }
