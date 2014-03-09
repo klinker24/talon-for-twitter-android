@@ -184,6 +184,7 @@ public class TalonPullNotificationService extends Service {
 
                     do {
                         idObject = twitter.getFriendsIDs(settings.myId, currCursor);
+
                         long[] lIds = idObject.getIDs();
                         ids = new ArrayList<Long>();
                         for (int i = 0; i < lIds.length; i++) {
@@ -202,6 +203,23 @@ public class TalonPullNotificationService extends Service {
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                 } catch (Exception e) {
                     e.printStackTrace();
+                    TalonPullNotificationService.isRunning = false;
+
+                    // schedule an alarm to try to restart again since this one failed, probably no data connection
+                    AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+
+                    long now = Calendar.getInstance().getTimeInMillis();
+                    long alarm = now + 60000; // schedule it to begin in 1 min
+
+                    PendingIntent pendingIntent = PendingIntent.getService(mContext, 236, new Intent(mContext, CatchupPull.class), 0);
+
+                    am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
+                    am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+
+                    pullUnread = 0;
+
+                    stopSelf();
+                } catch (OutOfMemoryError e) {
                     TalonPullNotificationService.isRunning = false;
 
                     // schedule an alarm to try to restart again since this one failed, probably no data connection
@@ -281,7 +299,7 @@ public class TalonPullNotificationService extends Service {
         }
     };
 
-    public static int pullUnread = 0;
+    public int pullUnread = 0;
 
     public BroadcastReceiver updateNotification = new BroadcastReceiver() {
         @Override

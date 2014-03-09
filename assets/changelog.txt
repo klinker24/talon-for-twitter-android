@@ -42,6 +42,7 @@
     &#8226; Remade the tweet viewer layout<br/>
     &#8226; Much better image sizing on tweet viewer<br/>
     &#8226; Photo viewer tweeks<br/>
+    &#8226; Unread count for live streaming<br/>
     &#8226; New time format on tweets for better sizing<br/>
     &#8226; Changed the conversation and discussion style<br/>
     &#8226; Opening notifications will now take you to the correct place<br/>
