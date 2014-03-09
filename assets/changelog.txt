@@ -68,6 +68,7 @@
     &#8226; Swipe to dismiss updates for the interactions drawer<br/>
     &#8226; Updated all of the translations<br/>
     &#8226; Styling of Pebble notifications<br/>
+    &#8226; Translation updates<br/>
 <br/>
 <b>FIXES:</b><br/>
     &#8226; Images won't get mixed up between people or tweets anymore<br/>
