@@ -42,7 +42,7 @@ public class CatchupPull extends IntentService {
 
         Context context = getApplicationContext();
 
-        int unreadNow = TalonPullNotificationService.pullUnread;
+        int unreadNow = sharedPrefs.getInt("pull_unread", 0);
 
         // stop it just in case
         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
