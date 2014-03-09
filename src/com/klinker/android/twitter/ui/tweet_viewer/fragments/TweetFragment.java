@@ -1384,6 +1384,7 @@ public class TweetFragment extends Fragment {
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
                     if (currText != null) {
                         reply.setText(currText);
+                        charRemaining.setText("0");
                     }
 
                     replyButton.performClick();
