@@ -102,13 +102,13 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        if (database == null) {
+        try {
+            database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
+        } catch (Exception e) {
+            close();
             open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
+            database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
         }
-
-        database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
     }
 
     public void createTweet(Status status, int account) {
@@ -138,37 +138,40 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        if (database == null) {
+        try {
+            database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
+        } catch (Exception e) {
+            close();
             open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
+            database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
         }
-
-        database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
     }
 
     public void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        if (database == null) {
+        try {
+            database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_TWEET_ID
+                    + " = " + id, null);
+        } catch (Exception e) {
+            close();
             open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
+            database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_TWEET_ID
+                    + " = " + id, null);
         }
-
-        database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_TWEET_ID
-                + " = " + id, null);
     }
 
     public void deleteAllTweets(int account) {
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }
 
-        database.delete(MentionsSQLiteHelper.TABLE_MENTIONS,
-                MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        try {
+            database.delete(MentionsSQLiteHelper.TABLE_MENTIONS,
+                    MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        } catch (Exception e) {
+            close();
+            open();
+            database.delete(MentionsSQLiteHelper.TABLE_MENTIONS,
+                    MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        }
     }
 
     public Cursor getCursor(int account) {
@@ -199,22 +202,12 @@ public class MentionsDataSource {
             }
         }
 
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }
-
         Cursor cursor;
         try {
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                     allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         } catch (Exception e) {
-            try {
-                database.close();
-            } catch (Exception x) {
-
-            }
+            close();
             open();
 
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
@@ -252,22 +245,12 @@ public class MentionsDataSource {
             }
         }
 
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }
-
         Cursor cursor;
         try {
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                     allColumns, where, new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         } catch (Exception e) {
-            try {
-                database.close();
-            } catch (Exception x) {
-
-            }
+            close();
             open();
 
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
@@ -286,27 +269,6 @@ public class MentionsDataSource {
         cursor.close();
 
         return count;
-    }
-
-    public void markRead(int account, int position) {
-        Cursor cursor = getUnreadCursor(account);
-
-        if (cursor.moveToPosition(position)) {
-            long tweetId = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
-
-            ContentValues cv = new ContentValues();
-            cv.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
-
-            if (database == null) {
-                open();
-            } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-                open();
-            }
-
-            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-        }
-
-        cursor.close();
     }
 
     // true is unread
@@ -346,13 +308,13 @@ public class MentionsDataSource {
         ContentValues cv = new ContentValues();
         cv.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
 
-        if (database == null) {
+        try {
+            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+        } catch (Exception e) {
+            close();
             open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
+            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
         }
-
-        database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
     }
 
     public String getNewestName(int account) {
@@ -428,13 +390,14 @@ public class MentionsDataSource {
     }
 
     public void deleteDups(int account) {
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }
 
-        database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+        try {
+            database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+        } catch (Exception e) {
+            close();
+            open();
+            database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+        }
     }
 
     public void removeHTML(long tweetId, String text) {
