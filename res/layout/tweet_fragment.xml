@@ -241,12 +241,13 @@
 
                         <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                             android:layout_height="37dp"
-                            android:layout_width="wrap_content"
-                            android:layout_marginLeft="-5dp"
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="-4dp"
                             android:layout_marginBottom="2dp"
                             android:textSize="13dp"
                             android:singleLine="true"
-                            android:gravity="bottom"
+                            android:paddingRight="3dp"
+                            android:gravity="bottom|right"
                             android:id="@+id/fav_count" />
                     </LinearLayout>
 
@@ -262,9 +263,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="37dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_weight="1">
 
                     <ImageButton
                         android:id="@+id/retweet"
@@ -291,12 +290,13 @@
 
                         <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                             android:layout_height="37dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_marginLeft="-4dp"
                             android:layout_marginBottom="2dp"
+                            android:paddingRight="3dp"
                             android:textSize="13dp"
                             android:singleLine="true"
-                            android:gravity="bottom"
+                            android:gravity="bottom|right"
                             android:id="@+id/retweet_count" />
 
                     </LinearLayout>
