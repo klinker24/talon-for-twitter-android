@@ -64,6 +64,7 @@ Here is just a little something to make this horrible Monday a little bit better
 - Set up so themers could use a transparent action bar if they would like
 - Retweets from Talon Pull in interactions drawer, they now stack on top of each other instead of creating an instance for every new one
 - Theme selection
+- Better support for multiple links in tweets
 - Typos and casing in settings
 - Bad search icon on some of the pages
 - Cleaned up advanced settings
