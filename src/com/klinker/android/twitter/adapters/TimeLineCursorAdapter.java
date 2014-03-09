@@ -438,7 +438,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 View.OnLongClickListener click = new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        if (holder.expandArea.getVisibility() == View.GONE) {
+
+                        if (holder.expandArea.getVisibility() != View.VISIBLE) {
                             addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                         } else {
                             removeExpansionWithAnimation(holder);
