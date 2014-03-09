@@ -613,7 +613,11 @@ public class ImageUtils {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (OutOfMemoryError e) {
+                    return null;
+                }
 
                 if (null == result || largeProfile) {
                     Log.d("ImageUrlAsyncTask", "Downloading: " + url);

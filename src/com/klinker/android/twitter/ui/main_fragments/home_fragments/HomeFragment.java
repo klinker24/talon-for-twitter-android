@@ -466,8 +466,17 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                     showStatusBar();
                     actionBar.show();
                 }
-                transformer.setRefreshingText(getResources().getString(R.string.finding_tweetmarker) + "...");
-                mPullToRefreshLayout.setRefreshing(true);
+                try {
+                    transformer.setRefreshingText(getResources().getString(R.string.finding_tweetmarker) + "...");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // fragment not attached?
+                }
+                try {
+                    mPullToRefreshLayout.setRefreshing(true);
+                } catch (Exception e) {
+                    // same thing
+                }
                 MainActivity.canSwitch = false;
             }
 

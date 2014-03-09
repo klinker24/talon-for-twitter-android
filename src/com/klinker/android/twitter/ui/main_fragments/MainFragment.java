@@ -265,7 +265,11 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         toastButton = (TextView) view.findViewById(R.id.toastButton);
         if (DrawerActivity.settings.addonTheme) {
             LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
-            toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
+            try {
+                toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
+            } catch (Exception e) {
+                // they messed up the theme
+            }
         }
     }
 
