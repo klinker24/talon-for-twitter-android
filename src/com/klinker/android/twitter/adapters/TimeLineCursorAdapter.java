@@ -959,25 +959,31 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     String full = text;
 
                     String[] split = text.split("\\s");
+                    String[] otherLink = new String[otherLinks.length];
+
+                    for (int i = 0; i < otherLinks.length; i++) {
+                        otherLink[i] = "" + otherLinks[i];
+                    }
+
 
                     boolean changed = false;
 
-                    if (otherLinks.length > 0) {
+                    if (otherLink.length > 0) {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
 
                             if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
                                 String f = s.replace("...", "").replace("http", "");
 
-                                for (int x = 0; x < otherLinks.length; x++) {
-                                    if (otherLinks[x].contains(f)) {
+                                for (int x = 0; x < otherLink.length; x++) {
+                                    if (otherLink[x].contains(f)) {
                                         changed = true;
                                         // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        if (otherLinks[x].substring(otherLinks[x].length() - 1, otherLinks[x].length()).equals("/")) {
-                                            otherLinks[x] = otherLinks[x].substring(0, otherLinks[x].length() - 1);
+                                        if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
+                                            otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
                                         }
-                                        f = otherLinks[x];
-                                        otherLinks[x] = "";
+                                        f = otherLink[x];
+                                        otherLink[x] = "";
                                         break;
                                     }
                                 }
