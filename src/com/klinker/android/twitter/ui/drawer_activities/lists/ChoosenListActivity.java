@@ -215,7 +215,12 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
 
                 }
 
-                mPullToRefreshLayout.setRefreshComplete();
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
+                });
             }
         }).start();
     }
