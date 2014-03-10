@@ -309,6 +309,12 @@ public class ListDataSource {
         ContentValues cv = new ContentValues();
         cv.put(ListSQLiteHelper.COLUMN_TEXT, text);
 
-        database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        try {
+            database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        } catch (Exception e) {
+            close();
+            open();
+            database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        }
     }
 }

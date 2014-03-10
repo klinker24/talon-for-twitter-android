@@ -404,7 +404,13 @@ public class MentionsDataSource {
         ContentValues cv = new ContentValues();
         cv.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
 
-        database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        try {
+            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        } catch (Exception e) {
+            close();
+            open();
+            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        }
 
     }
 }

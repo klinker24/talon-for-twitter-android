@@ -174,7 +174,6 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
 
         // mark it read in the sql database
         data.markRead(sharedPreferences.getInt("current_account", 1), i);
-        data.close();
 
         // tell the system to refresh the notifications when the user opens the drawer again
         sharedPreferences.edit().putBoolean("new_notification", true).commit();
