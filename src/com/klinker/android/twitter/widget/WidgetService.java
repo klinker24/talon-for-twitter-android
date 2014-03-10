@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -107,6 +108,16 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             card.setTextViewText(R.id.contactName, settings.displayScreenName ? "@" + mWidgetItems.get(arg0).getScreenName() : mWidgetItems.get(arg0).getName());
             card.setTextViewText(R.id.contactText, mWidgetItems.get(arg0).getTweet());
             card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext));
+
+            if (mContext.getResources().getBoolean(R.bool.expNotifications)) {
+                try {
+                    card.setTextViewTextSize(R.id.contactName, TypedValue.COMPLEX_UNIT_DIP, settings.textSize + 2);
+                    card.setTextViewTextSize(R.id.contactText, TypedValue.COMPLEX_UNIT_DIP, settings.textSize);
+                    card.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_DIP, settings.textSize - 2);
+                } catch (Throwable t) {
+
+                }
+            }
 
             final int arg = arg0;
 
