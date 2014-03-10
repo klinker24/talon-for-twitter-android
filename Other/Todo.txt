@@ -1,13 +1,11 @@
 - Features:
     - instapaper mobilizer
     - translation of tweets (probably won't be happening)
-    - pictures on direct messages
     - addon package for full screen themes
     - auto-complete hashtags
     - mute by source
     - text feedback when clicked
     - interactions with dashclock
-    - scheduling tweets
     - attach pictures from the talon pull compose
     - search fragment on main timelines
 
@@ -17,3 +15,8 @@
 
 
 -- For Release --
+
+Version 2.1.0
+    - Drafts
+    - Scheduled Tweets
+    - Direct Message pictures
