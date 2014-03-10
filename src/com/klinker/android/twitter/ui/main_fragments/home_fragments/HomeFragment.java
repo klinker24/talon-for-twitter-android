@@ -562,12 +562,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                                 if (unread > 0) {
                                     final CharSequence text;
 
-                                    // append a plus on the end if it is 50
-                                    if (unread != 50) {
-                                        text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                                    } else {
-                                        text = numberNew + "+ " + getResources().getString(R.string.new_tweets);
-                                    }
+                                    text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
 
                                     if (!tweetMarkerUpdate) {
                                         new Handler().postDelayed(new Runnable() {
