@@ -21,6 +21,6 @@ limitations under the License.
     android:minHeight="40dp"
     android:updatePeriodMillis="3600000"
     android:initialLayout="@layout/widget_unread_trans_black"
-    android:resizeMode="none"
+    android:resizeMode="horizontal"
     android:widgetCategory="home_screen">
 </appwidget-provider>
