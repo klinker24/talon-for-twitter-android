@@ -1251,7 +1251,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             } else {
                 sharedPrefs.edit().putBoolean("follower_notifications", false).commit();
             }
-        } else if (key.equals("widget_theme")) {
+        } else if (key.equals("widget_theme") || key.equals("text_size")) {
             context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
         }
 
