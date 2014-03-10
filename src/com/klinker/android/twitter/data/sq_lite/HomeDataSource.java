@@ -266,7 +266,6 @@ public class HomeDataSource {
             }
         }
 
-
         return cursor;
     }
 
@@ -716,6 +715,12 @@ public class HomeDataSource {
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_TEXT, text);
 
-        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        try {
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        } catch (Exception e) {
+            close();
+            open();
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{tweetId + ""});
+        }
     }
 }

@@ -480,8 +480,6 @@ public class LoginActivity extends Activity {
                     }
                 }
 
-                mentionsSource.close();
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
