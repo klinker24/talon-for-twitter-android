@@ -310,7 +310,7 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     public void onDestroy() {
-        /*try {
+        try {
             HomeDataSource.getInstance(context).close();
         } catch (Exception e) { }
         try {
@@ -330,7 +330,7 @@ public class MainActivity extends DrawerActivity {
         } catch (Exception e) { }
         try {
             InteractionsDataSource.getInstance(context).close();
-        } catch (Exception e) { }*/
+        } catch (Exception e) { }
 
         super.onDestroy();
     }

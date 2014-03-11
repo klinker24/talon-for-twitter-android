@@ -75,6 +75,8 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
     protected String toMentions;
     protected String allRead;
 
+    protected boolean isHome = false;
+
     protected View.OnClickListener toTopListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -123,9 +125,15 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         super.onDestroy();
     }
 
+    public void setHome() {
+        isHome = false;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        setHome();
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
@@ -203,7 +211,17 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
             }
         }
 
-        getCursorAdapter(true);
+        if (isHome) {
+            getCursorAdapter(true);
+        } else {
+            // delay it a tiny bit so that the main fragment has priority
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getCursorAdapter(true);
+                }
+            }, 500);
+        }
         setUpListScroll();
         setUpToastBar(layout);
 

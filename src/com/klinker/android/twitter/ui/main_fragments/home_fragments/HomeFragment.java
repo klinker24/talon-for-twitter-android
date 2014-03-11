@@ -54,6 +54,11 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
     private boolean initial = true;
     public boolean newTweets = false;
 
+    @Override
+    public void setHome() {
+        isHome = true;
+    }
+
     private View.OnClickListener toMentionsListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
