@@ -45,7 +45,7 @@ public class HomeContentProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public synchronized Uri insert(Uri uri, ContentValues values) {
         Log.d(TAG, "insert uri: " + uri.toString());
 
         Uri result = null;
@@ -74,7 +74,7 @@ public class HomeContentProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(Uri uri, ContentValues[] allValues) {
+    public synchronized int bulkInsert(Uri uri, ContentValues[] allValues) {
         return insertMultiple(allValues);
     }
 
@@ -168,7 +168,7 @@ public class HomeContentProvider extends ContentProvider {
     // arg[0] is the account
     // arg[1] is the position
     @Override
-    public int update(Uri uri, ContentValues values, String selection,
+    public synchronized int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         Log.d(TAG, "update uri: " + uri.toString());
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -193,7 +193,7 @@ public class HomeContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String id, String[] selectionArgs) {
+    public synchronized int delete(Uri uri, String id, String[] selectionArgs) {
         Log.d(TAG, "delete uri: " + uri.toString());
         SQLiteDatabase db = helper.getWritableDatabase();
         int count;
@@ -213,7 +213,7 @@ public class HomeContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
+    public synchronized Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
         Log.d(TAG, "query with uri: " + uri.toString());
 
