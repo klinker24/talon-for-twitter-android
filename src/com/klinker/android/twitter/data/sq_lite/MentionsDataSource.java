@@ -26,12 +26,7 @@ public class MentionsDataSource {
     public static MentionsDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
-                dataSource = new MentionsDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (Exception e) {
+        if (dataSource == null) {
             dataSource = new MentionsDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -74,7 +69,7 @@ public class MentionsDataSource {
         return dbHelper;
     }
 
-    public void createTweet(Status status, int account, boolean initial) {
+    public synchronized void createTweet(Status status, int account, boolean initial) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long id = status.getId();
@@ -102,16 +97,18 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        try {
+        database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
+
+        /*try {
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
         } catch (Exception e) {
             close();
             open();
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
-        }
+        }*/
     }
 
-    public void createTweet(Status status, int account) {
+    public synchronized void createTweet(Status status, int account) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long id = status.getId();
@@ -138,19 +135,24 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        try {
+        database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
+
+        /*try {
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
         } catch (Exception e) {
             close();
             open();
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
-        }
+        }*/
     }
 
-    public void deleteTweet(long tweetId) {
+    public synchronized void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        try {
+        database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_TWEET_ID
+                + " = " + id, null);
+
+        /*try {
             database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_TWEET_ID
                     + " = " + id, null);
         } catch (Exception e) {
@@ -158,12 +160,15 @@ public class MentionsDataSource {
             open();
             database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_TWEET_ID
                     + " = " + id, null);
-        }
+        }*/
     }
 
-    public void deleteAllTweets(int account) {
+    public synchronized void deleteAllTweets(int account) {
 
-        try {
+        database.delete(MentionsSQLiteHelper.TABLE_MENTIONS,
+                MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+
+        /*try {
             database.delete(MentionsSQLiteHelper.TABLE_MENTIONS,
                     MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
         } catch (Exception e) {
@@ -171,10 +176,10 @@ public class MentionsDataSource {
             open();
             database.delete(MentionsSQLiteHelper.TABLE_MENTIONS,
                     MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
-        }
+        }*/
     }
 
-    public Cursor getCursor(int account) {
+    public synchronized Cursor getCursor(int account) {
 
         String users = sharedPrefs.getString("muted_users", "");
         String hashtags = sharedPrefs.getString("muted_hashtags", "");
@@ -203,7 +208,10 @@ public class MentionsDataSource {
         }
 
         Cursor cursor;
-        try {
+        cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
+                allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        /*try {
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                     allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         } catch (Exception e) {
@@ -212,12 +220,12 @@ public class MentionsDataSource {
 
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                     allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
-        }
+        }*/
 
         return cursor;
     }
 
-    public Cursor getUnreadCursor(int account) {
+    public synchronized Cursor getUnreadCursor(int account) {
 
         String users = sharedPrefs.getString("muted_users", "");
         String hashtags = sharedPrefs.getString("muted_hashtags", "");
@@ -246,7 +254,10 @@ public class MentionsDataSource {
         }
 
         Cursor cursor;
-        try {
+        cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
+                allColumns, where, new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        /*try {
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                     allColumns, where, new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         } catch (Exception e) {
@@ -255,7 +266,7 @@ public class MentionsDataSource {
 
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                     allColumns, where, new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
-        }
+        }*/
 
         return cursor;
     }
@@ -273,7 +284,7 @@ public class MentionsDataSource {
 
     // true is unread
     // false have been read
-    public void markMultipleRead(int current, int account) {
+    public synchronized void markMultipleRead(int current, int account) {
 
         Cursor cursor = getUnreadCursor(account);
 
@@ -286,11 +297,11 @@ public class MentionsDataSource {
                     ContentValues cv = new ContentValues();
                     cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-                    if (database == null) {
+                    /*if (database == null) {
                         open();
                     } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
                         open();
-                    }
+                    }*/
 
                     database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
 
@@ -303,18 +314,20 @@ public class MentionsDataSource {
         cursor.close();
     }
 
-    public void markAllRead(int account) {
+    public synchronized void markAllRead(int account) {
 
         ContentValues cv = new ContentValues();
         cv.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
 
-        try {
+        database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+
+        /*try {
             database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
         } catch (Exception e) {
             close();
             open();
             database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
-        }
+        }*/
     }
 
     public String getNewestName(int account) {
@@ -375,12 +388,12 @@ public class MentionsDataSource {
         return ids;
     }
 
-    public boolean tweetExists(long tweetId, int account) {
-        if (database == null) {
+    public synchronized boolean tweetExists(long tweetId, int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                 allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + MentionsSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -389,15 +402,16 @@ public class MentionsDataSource {
         return exists;
     }
 
-    public void deleteDups(int account) {
+    public synchronized void deleteDups(int account) {
+        database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
 
-        try {
+        /*try {
             database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
         } catch (Exception e) {
             close();
             open();
             database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
-        }
+        }*/
     }
 
     public void removeHTML(long tweetId, String text) {

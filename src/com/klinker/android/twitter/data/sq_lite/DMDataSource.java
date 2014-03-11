@@ -27,12 +27,7 @@ public class DMDataSource {
     public static DMDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
-                dataSource = new DMDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (Exception e) {
+        if (dataSource == null) {
             dataSource = new DMDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -73,7 +68,7 @@ public class DMDataSource {
         return dbHelper;
     }
 
-    public void createDirectMessage(DirectMessage status, int account) {
+    public synchronized void createDirectMessage(DirectMessage status, int account) {
         ContentValues values = new ContentValues();
         long time = status.getCreatedAt().getTime();
 
@@ -100,19 +95,24 @@ public class DMDataSource {
             values.put(DMSQLiteHelper.COLUMN_URL, url.getExpandedURL());
         }
 
-        try {
+        database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+
+        /*try {
             database.insert(DMSQLiteHelper.TABLE_DM, null, values);
         } catch (Exception e) {
             close();
             open();
             database.insert(DMSQLiteHelper.TABLE_DM, null, values);
-        }
+        }*/
     }
 
-    public void deleteTweet(long tweetId) {
+    public synchronized void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        try {
+        database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
+                + " = " + id, null);
+
+        /*try {
             database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
                     + " = " + id, null);
         } catch (Exception e) {
@@ -120,23 +120,27 @@ public class DMDataSource {
             open();
             database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
                     + " = " + id, null);
-        }
+        }*/
     }
 
-    public void deleteAllTweets(int account) {
+    public synchronized void deleteAllTweets(int account) {
 
-        try {
+        database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+
+        /*try {
             database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
         } catch (Exception e) {
             close();
             open();
             database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
-        }
+        }*/
     }
 
-    public Cursor getCursor(int account) {
+    public synchronized Cursor getCursor(int account) {
         Cursor cursor;
-        try {
+        cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
+        /*try {
             cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
                     allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
         } catch (Exception e) {
@@ -144,14 +148,17 @@ public class DMDataSource {
             open();
             cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
                     allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
-        }
+        }*/
 
         return cursor;
     }
 
-    public Cursor getConvCursor(String name, int account) {
+    public synchronized Cursor getConvCursor(String name, int account) {
         Cursor cursor;
-        try {
+        cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+
+        /*try {
             cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
                     allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
         } catch (Exception e) {
@@ -160,7 +167,7 @@ public class DMDataSource {
             cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
                     allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
 
-        }
+        }*/
 
         return cursor;
     }
@@ -201,28 +208,32 @@ public class DMDataSource {
         return message;
     }
 
-    public void deleteDups(int account) {
-        try {
+    public synchronized void deleteDups(int account) {
+        database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+
+        /*try {
             database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
         } catch (Exception e) {
             close();
             open();
             database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
 
-        }
+        }*/
     }
 
-    public void removeHTML(long tweetId, String text) {
+    public synchronized void removeHTML(long tweetId, String text) {
         ContentValues cv = new ContentValues();
         cv.put(DMSQLiteHelper.COLUMN_TEXT, text);
 
-        try {
+        database.update(DMSQLiteHelper.TABLE_DM, cv, DMSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+
+        /*try {
             database.update(DMSQLiteHelper.TABLE_DM, cv, DMSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         } catch (Exception e) {
             close();
             open();
             database.update(DMSQLiteHelper.TABLE_DM, cv, DMSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
-        }
+        }*/
 
     }
 }

@@ -22,12 +22,7 @@ public class FavoriteUsersDataSource {
     public static FavoriteUsersDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
-                dataSource = new FavoriteUsersDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (Exception e) {
+        if (dataSource == null) {
             dataSource = new FavoriteUsersDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -62,7 +57,7 @@ public class FavoriteUsersDataSource {
         return dbHelper;
     }
 
-    public void createUser(User user, int account) {
+    public synchronized void createUser(User user, int account) {
         ContentValues values = new ContentValues();
 
         long id = user.getId();
@@ -76,45 +71,45 @@ public class FavoriteUsersDataSource {
         values.put(FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC, proPicUrl);
         values.put(FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME, screenName);
 
-        if (database == null) {
+        /*if (database == null) {
             open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
+        } else if (!database.isOpen()) {
             open();
-        }
+        }*/
 
         database.insert(FavoriteUsersSQLiteHelper.TABLE_HOME, null, values);
     }
 
-    public void deleteUser(long userId) {
+    public synchronized void deleteUser(long userId) {
         long id = userId;
 
-        if (database == null) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, FavoriteUsersSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
-    public void deleteAllUsers(int account) {
-        if (database == null) {
+    public synchronized void deleteAllUsers(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
                 FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
-    public Cursor getCursor(int account) {
-        if (database == null) {
+    public synchronized Cursor getCursor(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
                 allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
@@ -122,7 +117,7 @@ public class FavoriteUsersDataSource {
         return cursor;
     }
 
-    public String  getNames(int account) {
+    public String getNames(int account) {
         String names = "";
 
         Cursor cursor = getCursor(account);

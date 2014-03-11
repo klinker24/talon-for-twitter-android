@@ -22,12 +22,7 @@ public class FollowersDataSource {
     public static FollowersDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
-                dataSource = new FollowersDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (Exception e) {
+        if (dataSource == null) {
             dataSource = new FollowersDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -62,7 +57,7 @@ public class FollowersDataSource {
         return dbHelper;
     }
 
-    public void createUser(User user, int account) {
+    public synchronized void createUser(User user, int account) {
         ContentValues values = new ContentValues();
 
         long id = user.getId();
@@ -76,44 +71,44 @@ public class FollowersDataSource {
         values.put(FollowersSQLiteHelper.COLUMN_PRO_PIC, proPicUrl);
         values.put(FollowersSQLiteHelper.COLUMN_SCREEN_NAME, screenName);
 
-        if (database == null) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.insert(FollowersSQLiteHelper.TABLE_HOME, null, values);
     }
 
-    public void deleteUser(long userId) {
+    public synchronized void deleteUser(long userId) {
         long id = userId;
-        if (database == null) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
             open();
-        }
+        }*/
 
         database.delete(FollowersSQLiteHelper.TABLE_HOME, FollowersSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
-    public void deleteAllUsers(int account) {
-        if (database == null) {
+    public synchronized void deleteAllUsers(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.delete(FollowersSQLiteHelper.TABLE_HOME,
                 FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
-    public Cursor getCursor(int account, String name) {
-        if (database == null) {
+    public synchronized Cursor getCursor(int account, String name) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(FollowersSQLiteHelper.TABLE_HOME,
                 allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
