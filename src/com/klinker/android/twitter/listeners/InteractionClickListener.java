@@ -2,12 +2,10 @@ package com.klinker.android.twitter.listeners;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
@@ -19,13 +17,11 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
-import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout;
 
 public class InteractionClickListener implements AdapterView.OnItemClickListener {
 
@@ -135,7 +131,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                 public void onClick(DialogInterface dialog, int item) {
                     String touched = fItems[item];
 
-                    Intent user = new Intent(context, UserProfileActivity.class);
+                    Intent user = new Intent(context, ProfilePager.class);
                     user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
                     user.putExtra("proPic", "");
                     context.startActivity(user);
@@ -156,7 +152,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
 
-            Intent user = new Intent(context, UserProfileActivity.class);
+            Intent user = new Intent(context, ProfilePager.class);
             user.putExtra("screenname", username);
             user.putExtra("proPic", "");
             context.startActivity(user);
@@ -170,7 +166,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
 
-            Intent user = new Intent(context, UserProfileActivity.class);
+            Intent user = new Intent(context, ProfilePager.class);
             user.putExtra("screenname", username);
             user.putExtra("proPic", "");
             context.startActivity(user);
@@ -178,7 +174,6 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
 
         // mark it read in the sql database
         data.markRead(sharedPreferences.getInt("current_account", 1), i);
-        data.close();
 
         // tell the system to refresh the notifications when the user opens the drawer again
         sharedPreferences.edit().putBoolean("new_notification", true).commit();

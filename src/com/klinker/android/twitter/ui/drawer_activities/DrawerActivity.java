@@ -31,26 +31,24 @@ import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
-import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
-import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
-import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
+import com.klinker.android.twitter.utils.MySuggestionsProvider;
+import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.SettingsPagerActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.UserProfileActivity;
-import com.klinker.android.twitter.ui.widgets.ActionBarDrawerToggle;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
-import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -59,7 +57,6 @@ import de.timroes.android.listview.EnhancedListView;
 import org.lucasr.smoothie.AsyncListView;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 public abstract class DrawerActivity extends Activity {
 
@@ -120,7 +117,7 @@ public abstract class DrawerActivity extends Activity {
         HoloTextView name = (HoloTextView) mDrawer.findViewById(R.id.name);
         HoloTextView screenName = (HoloTextView) mDrawer.findViewById(R.id.screen_name);
         final NetworkedCacheableImageView backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
-        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic);
+        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic_contact);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
@@ -184,15 +181,13 @@ public abstract class DrawerActivity extends Activity {
                     actionBar.setTitle(getResources().getString(R.string.app_name));
 
                     try {
-                        if(sharedPrefs.getBoolean("new_notification", false)) {
-                            notificationAdapter = new InteractionsCursorAdapter(context,
-                                    InteractionsDataSource.getInstance(context).getUnreadCursor(settings.currentAccount));
-                            notificationList.setAdapter(notificationAdapter);
-                            notificationList.enableSwipeToDismiss();
-                            oldInteractions.setText(getResources().getString(R.string.old_interactions));
-                            readButton.setImageResource(openMailResource);
-                            sharedPrefs.edit().putBoolean("new_notification", false).commit();
-                        }
+                        notificationAdapter = new InteractionsCursorAdapter(context,
+                                InteractionsDataSource.getInstance(context).getUnreadCursor(settings.currentAccount));
+                        notificationList.setAdapter(notificationAdapter);
+                        notificationList.enableSwipeToDismiss();
+                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
+                        readButton.setImageResource(openMailResource);
+                        sharedPrefs.edit().putBoolean("new_notification", false).commit();
                     } catch (Exception e) {
                         // don't have talon pull on
                     }
@@ -259,7 +254,7 @@ public abstract class DrawerActivity extends Activity {
         final String profilePicUrl = settings.myProfilePicUrl;
 
         if (!backgroundUrl.equals("")) {
-            backgroundPic.loadImage(backgroundUrl, false, null, NetworkedCacheableImageView.BLUR);
+            backgroundPic.loadImage(backgroundUrl, false, null);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.default_header_background);
             backgroundPic.setImageBitmap(ImageUtils.blur(b));
@@ -277,7 +272,7 @@ public abstract class DrawerActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                        Intent viewProfile = new Intent(context, ProfilePager.class);
                         viewProfile.putExtra("name", sName);
                         viewProfile.putExtra("screenname", sScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
@@ -304,7 +299,7 @@ public abstract class DrawerActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                        Intent viewProfile = new Intent(context, ProfilePager.class);
                         viewProfile.putExtra("name", sName);
                         viewProfile.putExtra("screenname", sScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
@@ -382,6 +377,7 @@ public abstract class DrawerActivity extends Activity {
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
 
                         Intent login = new Intent(context, LoginActivity.class);
+                        AppSettings.invalidate();
                         finish();
                         startActivity(login);
                     }
@@ -421,6 +417,7 @@ public abstract class DrawerActivity extends Activity {
                                     }
                                     sharedPrefs.edit().putInt("current_account", 2).commit();
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
                                     startActivity(next);
@@ -461,6 +458,7 @@ public abstract class DrawerActivity extends Activity {
 
                                     sharedPrefs.edit().putInt("current_account", 1).commit();
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
                                     startActivity(next);
@@ -602,6 +600,10 @@ public abstract class DrawerActivity extends Activity {
                     oldInteractions.setText(getResources().getString(R.string.old_interactions));
                     readButton.setImageResource(openMailResource);
 
+                    if (notificationAdapter.getCount() == 0) {
+                        setNotificationFilled(false);
+                    }
+
                     return null;
                 }
             });
@@ -633,7 +635,7 @@ public abstract class DrawerActivity extends Activity {
 
         Utils.setUpTheme(context, settings);
 
-        if (settings.addonTheme) {
+        /*if (settings.addonTheme) {
             getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
         } else {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
@@ -641,7 +643,7 @@ public abstract class DrawerActivity extends Activity {
             a.recycle();
 
             getWindow().getDecorView().setBackgroundResource(resource);
-        }
+        }*/
 
         // this is a super hacky workaround for the theme problems that some people were having... but it works ok
         int actionBarTitleId = 0;
@@ -677,6 +679,7 @@ public abstract class DrawerActivity extends Activity {
                 break;
         }
 
+        Utils.setActionBar(context, true);
     }
 
     @Override
@@ -737,6 +740,8 @@ public abstract class DrawerActivity extends Activity {
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
         suggestions.clearHistory();
 
+        AppSettings.invalidate();
+
         if (currentAccount == 1 && login2) {
             e.putInt("current_account", 2).commit();
             finish();
@@ -764,6 +769,8 @@ public abstract class DrawerActivity extends Activity {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
         }
+
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -775,23 +782,6 @@ public abstract class DrawerActivity extends Activity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        /*if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
-            sharedPrefs.edit().putBoolean("check_overlay", false).commit();
-            recreate();
-        }*/
-
-        /*if (sharedPrefs.getBoolean("test_twitlong_22", true)) {
-            sharedPrefs.edit().putBoolean("test_twitlong_22", false).commit();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    TwitLongerHelper helper = new TwitLongerHelper("@TalonAndroid Hey! finally got this working and it is working well! Some problems, mostly because I had no clue what i was doing, but all is worked out now, and Twitlonger will be coming to Talon very soon :)", Utils.getTwitter(context, settings));
-                    long id = helper.createPost();
-                    Log.v("twitlonger", id + "");
-                }
-            }).start();
-        }*/
-
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("new_followers", 0);
         e.putInt("new_favorites", 0);
@@ -799,32 +789,7 @@ public abstract class DrawerActivity extends Activity {
         e.putString("old_interaction_text", "");
         e.commit();
 
-        DrawerActivity.settings = new AppSettings(context);
-
-        /*if (sharedPrefs.getBoolean("need_new_dm", true)) {
-            Utils.newDMRefresh(context);
-        }*/
-
-        if (sharedPrefs.getBoolean("need_clean_databases_version_1_3_0", true)) {
-            sharedPrefs.edit().putBoolean("auto_trim", true).commit();
-            Utils.needCleanTimeline(context);
-        }
-
-        if (sharedPrefs.getBoolean("version_1_3_2", true)) {
-            sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
-            if (Integer.parseInt(sharedPrefs.getString("timeline_size", "500")) > 2000) {
-                sharedPrefs.edit().putString("timeline_size", "2000").commit();
-            }
-        }
-
-        // for testing
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                NotificationUtils.refreshNotification(context);
-                //NotificationUtils.notifySecondMentions(context, 1);
-            }
-        }).start();*/
+        DrawerActivity.settings = AppSettings.getInstance(context);
     }
 
     private SearchView searchView;
@@ -850,30 +815,57 @@ public abstract class DrawerActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+
+        final int DISMISS = 0;
+        final int SEARCH = 1;
+        final int COMPOSE = 2;
+        final int NOTIFICATIONS = 3;
+        final int DM = 4;
+        final int SETTINGS = 5;
+        final int TOFIRST = 6;
+
         if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
-            menu.getItem(0).setVisible(true);
-            menu.getItem(1).setVisible(false);
-            menu.getItem(2).setVisible(false);
-            menu.getItem(3).setVisible(false);
-            menu.getItem(5).setVisible(false);
+            menu.getItem(DISMISS).setVisible(true);
+
+            menu.getItem(SEARCH).setVisible(false);
+            menu.getItem(COMPOSE).setVisible(false);
+            menu.getItem(DM).setVisible(false);
+            menu.getItem(TOFIRST).setVisible(false);
+
+            if (settings.pushNotifications) {
+                menu.getItem(NOTIFICATIONS).setVisible(true);
+            } else {
+                menu.getItem(NOTIFICATIONS).setVisible(false);
+            }
+
         } else {
-            menu.getItem(0).setVisible(false);
-            menu.getItem(1).setVisible(true);
-            menu.getItem(2).setVisible(true);
-            menu.getItem(3).setVisible(true);
-            menu.getItem(5).setVisible(false);
+            menu.getItem(DISMISS).setVisible(false);
+
+            menu.getItem(SEARCH).setVisible(true);
+            menu.getItem(COMPOSE).setVisible(true);
+            menu.getItem(DM).setVisible(true);
+
+            if (!settings.pushNotifications) {
+                menu.getItem(NOTIFICATIONS).setVisible(false);
+            } else {
+                if (settings.floatingCompose || getResources().getBoolean(R.bool.isTablet)) {
+                    menu.getItem(NOTIFICATIONS).setVisible(true);
+                } else {
+                    menu.getItem(NOTIFICATIONS).setVisible(false);
+                }
+            }
         }
 
         // to first button in overflow instead of the toast
         if (MainDrawerArrayAdapter.current > 2 || (settings.uiExtras && settings.useToast)) {
-            menu.getItem(5).setVisible(false);
+            menu.getItem(TOFIRST).setVisible(false);
         } else {
-            menu.getItem(5).setVisible(true);
+            menu.getItem(TOFIRST).setVisible(true);
         }
 
         if (MainActivity.isPopup) {
-            menu.getItem(4).setVisible(false); // hide the settings button if the popup is up
-            menu.getItem(1).setVisible(false); // hide the search button in popup
+            menu.getItem(SETTINGS).setVisible(false); // hide the settings button if the popup is up
+            menu.getItem(SEARCH).setVisible(false); // hide the search button in popup
 
             // disable the left drawer so they can't switch activities in the popup.
             // causes problems with the layouts
@@ -883,7 +875,30 @@ public abstract class DrawerActivity extends Activity {
             actionBar.setHomeButtonEnabled(false);
         }
 
+        noti = menu.getItem(NOTIFICATIONS);
+
+        if (InteractionsDataSource.getInstance(context).getUnreadCount(settings.currentAccount) > 0) {
+            setNotificationFilled(true);
+        } else {
+            setNotificationFilled(false);
+        }
+
         return true;
+    }
+
+    public MenuItem noti;
+    public void setNotificationFilled(boolean isFilled) {
+        if (isFilled) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            noti.setIcon(resource);
+        } else {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button_empty});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            noti.setIcon(resource);
+        }
     }
 
     public static final int SETTINGS_RESULT = 101;
@@ -893,6 +908,9 @@ public abstract class DrawerActivity extends Activity {
 
         try {
             if (mDrawerToggle.onOptionsItemSelected(item)) {
+                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+                    mDrawerLayout.closeDrawer(Gravity.END);
+                }
                 return true;
             }
         } catch (Exception e) {
@@ -923,6 +941,7 @@ public abstract class DrawerActivity extends Activity {
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 finish();
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
                 startActivity(settings);
                 return super.onOptionsItemSelected(item);
 
@@ -932,6 +951,19 @@ public abstract class DrawerActivity extends Activity {
                 mDrawerLayout.closeDrawer(Gravity.END);
                 notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                 notificationList.setAdapter(notificationAdapter);
+
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_notifications:
+                if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+                    mDrawerLayout.closeDrawer(Gravity.START);
+                }
+
+                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+                    mDrawerLayout.closeDrawer(Gravity.END);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.END);
+                }
 
                 return super.onOptionsItemSelected(item);
 

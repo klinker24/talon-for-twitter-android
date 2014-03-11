@@ -6,11 +6,9 @@ import android.content.res.TypedArray;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListPopupWindow;
@@ -19,8 +17,8 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
-import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 
 public class ComposeDMActivity extends Compose {
 
@@ -31,7 +29,7 @@ public class ComposeDMActivity extends Compose {
 
         setUpSimilar();
 
-        contactEntry = (HoloEditText) findViewById(R.id.contact_entry);
+        contactEntry = (EditText) findViewById(R.id.contact_entry);
         contactEntry.setVisibility(View.VISIBLE);
 
         String screenname = getIntent().getStringExtra("screenname");
@@ -43,7 +41,7 @@ public class ComposeDMActivity extends Compose {
 
         autocomplete = new ListPopupWindow(context);
         autocomplete.setAnchorView(contactEntry);
-        autocomplete.setHeight(toDP(110));
+        autocomplete.setHeight(toDP(150));
         autocomplete.setWidth(toDP(275));
         autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
@@ -203,6 +201,16 @@ public class ComposeDMActivity extends Compose {
     }
 
     public boolean doneClick() {
+
+        if (emojiKeyboard.isShowing()) {
+            emojiKeyboard.setVisibility(false);
+
+            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            emojiButton.setImageResource(resource);
+        }
+
         EditText editText = (EditText) findViewById(R.id.tweet_content);
         String status = editText.getText().toString();
 

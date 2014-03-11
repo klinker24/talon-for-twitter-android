@@ -1,6 +1,9 @@
 package com.klinker.android.twitter.widget;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,15 +14,32 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.NotificationUtils;
 
 
 public class TalonDashClockExtension extends DashClockExtension {
 
+    public BroadcastReceiver update = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            publishUpdate(getUpdateData());
+        }
+    };
+
     @Override
     protected void onInitialize(boolean isReconnect) {
         super.onInitialize(isReconnect);
+
+        try {
+            unregisterReceiver(update);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.talon.UPDATE_WIDGET");
+        registerReceiver(update, filter);
 
         String[] watcher = {"content://" + HomeContentProvider.AUTHORITY};
         this.addWatchContentUris(watcher);
@@ -28,7 +48,10 @@ public class TalonDashClockExtension extends DashClockExtension {
 
     @Override
     protected void onUpdateData(int arg0) {
+        publishUpdate(getUpdateData());
+    }
 
+    public ExtensionData getUpdateData() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -42,13 +65,13 @@ public class TalonDashClockExtension extends DashClockExtension {
         int mentionsTweets = unreads[1];
         int dmTweets = unreads[2];
 
-        if (!sharedPrefs.getBoolean("timeline_notifications", true)) {
+        if (!sharedPrefs.getBoolean("dashclock_timeline", true)) {
             homeTweets = 0;
         }
-        if (!sharedPrefs.getBoolean("mentions_notifications", true)) {
+        if (!sharedPrefs.getBoolean("dashclock_mentions", true)) {
             mentionsTweets = 0;
         }
-        if (!sharedPrefs.getBoolean("direct_message_notifications", true)) {
+        if (!sharedPrefs.getBoolean("dashclock_dms", true)) {
             dmTweets = 0;
         }
 
@@ -60,16 +83,16 @@ public class TalonDashClockExtension extends DashClockExtension {
             b.putBoolean("dashclock", true);
             intent.putExtras(b);
 
-            publishUpdate(new ExtensionData()
+            return new ExtensionData()
                     .visible(true)
                     .icon(R.drawable.ic_stat_icon)
                     .status(homeTweets + mentionsTweets + dmTweets + "")
                     .expandedTitle(NotificationUtils.getTitle(unreads, this, currentAccount)[0])
-                    .expandedBody(HtmlUtils.removeColorHtml(NotificationUtils.getLongTextNoHtml(unreads, this, currentAccount), new AppSettings(this)))
-                    .clickIntent(intent));
+                    .expandedBody(TweetLinkUtils.removeColorHtml(NotificationUtils.getLongTextNoHtml(unreads, this, currentAccount), AppSettings.getInstance(this)))
+                    .clickIntent(intent);
         } else {
-            publishUpdate(new ExtensionData()
-                    .visible(false));
+            return new ExtensionData()
+                    .visible(false);
         }
     }
 }

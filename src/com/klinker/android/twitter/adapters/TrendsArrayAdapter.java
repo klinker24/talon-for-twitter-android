@@ -3,7 +3,6 @@ package com.klinker.android.twitter.adapters;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,16 @@ import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
+import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 
 import java.util.ArrayList;
 
 import twitter4j.User;
 
-/**
- * Created by luke on 11/27/13.
- */
+
 public class TrendsArrayAdapter extends ArrayAdapter<User> {
 
-    private Context context;
+    protected Context context;
 
     private ArrayList<String> text;
 
@@ -40,7 +37,7 @@ public class TrendsArrayAdapter extends ArrayAdapter<User> {
         this.context = context;
         this.text = text;
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
 
     }
@@ -105,5 +102,9 @@ public class TrendsArrayAdapter extends ArrayAdapter<User> {
         bindView(v, context, text.get(position));
 
         return v;
+    }
+
+    public String getElement(int pos) {
+        return text.get(pos);
     }
 }

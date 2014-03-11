@@ -29,7 +29,7 @@
             android:src="?read_button"
             />
 
-        <com.klinker.android.twitter.ui.widgets.HoloTextView
+        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
             android:id="@+id/old_interactions_text"
             android:layout_width="0dp"
             android:layout_weight="1"

@@ -22,6 +22,7 @@ limitations under the License.
     <color name="holo_blue">#33B5E5</color>
     <color name="holo_blue_alpha">#4433B5E5</color>
     <color name="pressed_white">#55ffffff</color>
+    <color name="pressed_dark">#55000000</color>
     <color name="toast_color">#DDFF8800</color>
     <color name="image_darken">#25222222</color>
     <color name="photo_dialog_background">#90000000</color>
@@ -38,6 +39,8 @@ limitations under the License.
     <color name="circle_outline_light">#AA444444</color>
     <color name="action_bar_light">#DDDDDD</color>
     <color name="light_message">#FFFFFF</color>
+    <color name="border_light">#18222222</color>
+    <color name="icon_light">#CC5c5c5c</color>
 
     <!-- Dark Theme -->
     <color name="dark_background">#262626</color>
@@ -49,9 +52,18 @@ limitations under the License.
     <color name="circle_outline_dark">#AAAAAAAA</color>
     <color name="action_bar_dark">#1B1B1B</color>
     <color name="dark_message">#404040</color>
+    <color name="border_dark">#18FFFFFF</color>
+    <color name="icon_dark">#CCebebeb</color>
 
     <!-- Black Theme -->
     <color name="action_bar_black">@android:color/black</color>
     <color name="black_message">#171717</color>
+
+
+    <!-- Widgets -->
+    <color name="widget_dark_trans_ab">#99000000</color>
+    <color name="widget_dark_trans_list">#66000000</color>
+    <color name="widget_light_trans_ab">#99FFFFFF</color>
+    <color name="widget_light_trans_list">#66FFFFFF</color>
 
 </resources>

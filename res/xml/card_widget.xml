@@ -19,8 +19,8 @@ limitations under the License.
     android:minWidth="180dp"
     android:minHeight="180dp"
     android:updatePeriodMillis="3600000"
-    android:initialLayout="@layout/widget_light"
+    android:initialLayout="@layout/widget_trans_black"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
-    android:initialKeyguardLayout="@layout/widget_light" >
+    android:initialKeyguardLayout="@layout/widget_trans_black" >
 </appwidget-provider>

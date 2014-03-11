@@ -30,14 +30,11 @@ import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.DirectMessageConversation;
-import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -71,7 +68,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         this.context = context;
         this.messages = messages;
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
 
         setUpLayout();
@@ -276,7 +273,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
             DMDataSource data = DMDataSource.getInstance(context);
 
             try {
-                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
+                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
 
                 Cursor cursor = data.getConvCursor(name, settings.currentAccount);
 
@@ -305,8 +302,13 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         }
 
         protected void onPostExecute(Boolean deleted) {
-            pDialog.dismiss();
-            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            try {
+                pDialog.dismiss();
+                Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            } catch (IllegalStateException e) {
+                // view not attached
+            }
+
             context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
             sharedPrefs.edit().putLong("last_direct_message_id_" + settings.currentAccount, 0).commit();
         }

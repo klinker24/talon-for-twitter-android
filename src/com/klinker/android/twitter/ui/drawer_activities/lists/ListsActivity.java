@@ -20,9 +20,9 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ListsArrayAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -32,7 +32,6 @@ import java.util.Comparator;
 
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
-import twitter4j.User;
 import twitter4j.UserList;
 
 public class ListsActivity extends DrawerActivity {
@@ -43,7 +42,7 @@ public class ListsActivity extends DrawerActivity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
@@ -87,6 +86,16 @@ public class ListsActivity extends DrawerActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        final int NOTIFICATIONS = 3;
+        menu.getItem(NOTIFICATIONS).setVisible(false);
+
+        return true;
     }
 
     private boolean clicked = false;
@@ -172,8 +181,18 @@ public class ListsActivity extends DrawerActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            listView.setAdapter(new ListsArrayAdapter(context, lists));
-                            listView.setVisibility(View.VISIBLE);
+                            if(lists.size() > 0) {
+                                listView.setAdapter(new ListsArrayAdapter(context, lists));
+                                listView.setVisibility(View.VISIBLE);
+                            } else {
+                                LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
+                                try {
+                                    nothing.setVisibility(View.VISIBLE);
+                                } catch (Exception e) {
+
+                                }
+                                listView.setVisibility(View.GONE);
+                            }
 
                             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);
@@ -184,6 +203,10 @@ public class ListsActivity extends DrawerActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
+                            nothing.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+
                             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                             spinner.setVisibility(View.GONE);
                         }

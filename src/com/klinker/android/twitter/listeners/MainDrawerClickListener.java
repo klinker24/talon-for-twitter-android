@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -21,10 +20,10 @@ import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.FavoriteUsersActivity;
 import com.klinker.android.twitter.ui.drawer_activities.FavoritesActivity;
 import com.klinker.android.twitter.ui.drawer_activities.RetweetActivity;
-import com.klinker.android.twitter.ui.drawer_activities.Search;
+import com.klinker.android.twitter.ui.drawer_activities.SavedSearchesActivity;
+import com.klinker.android.twitter.ui.drawer_activities.discover.DiscoverPager;
 import com.klinker.android.twitter.ui.drawer_activities.lists.ListsActivity;
-import com.klinker.android.twitter.ui.drawer_activities.trends.TrendsPager;
-import com.klinker.android.twitter.ui.widgets.NotificationDrawerLayout;
+import com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout;
 
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {
 
@@ -128,7 +127,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
                     switch (pos) {
                         case 3:
-                            intent = new Intent(context, TrendsPager.class);
+                            intent = new Intent(context, DiscoverPager.class);
                             break;
                         case 4:
                             intent = new Intent(context, ListsActivity.class);
@@ -143,7 +142,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                             intent = new Intent(context, FavoritesActivity.class);
                             break;
                         case 8:
-                            intent = new Intent(context, Search.class);
+                            intent = new Intent(context, SavedSearchesActivity.class);
                             break;
                     }
 

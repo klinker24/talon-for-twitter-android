@@ -18,7 +18,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.configure_pages.fragments.PageOneFragment;
 import com.klinker.android.twitter.settings.configure_pages.fragments.PageTwoFragment;
-import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 
@@ -37,7 +37,7 @@ public class ConfigurePagerActivity extends Activity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);

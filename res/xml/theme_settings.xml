@@ -28,6 +28,15 @@
             android:defaultValue="false"
             />
 
+        <ListPreference
+            android:key="widget_theme"
+            android:title="@string/widget_theme"
+            android:summary="@string/widget_theme_summary"
+            android:defaultValue="3"
+            android:entries="@array/widget_themes"
+            android:entryValues="@array/widget_themes_inserted"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -55,10 +64,10 @@
         android:title="@string/addon_themes" >
 
 
-        <CheckBoxPreference
+        <Preference
             android:key="addon_themes"
             android:title="@string/use_addon_themes"
-            android:defaultValue="false"
+            android:defaultValue="@null"
             />
 
         <Preference
@@ -94,6 +103,13 @@
         <CheckBoxPreference
             android:key="use_toast"
             android:title="@string/use_toast"
+            android:defaultValue="true"
+            android:dependency="ui_extras"
+            />
+
+        <CheckBoxPreference
+            android:key="floating_compose"
+            android:title="@string/floating_compose"
             android:defaultValue="true"
             android:dependency="ui_extras"
             />

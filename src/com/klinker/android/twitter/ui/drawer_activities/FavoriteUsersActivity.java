@@ -1,8 +1,6 @@
 package com.klinker.android.twitter.ui.drawer_activities;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -11,22 +9,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.FavoriteUsersCursorAdapter;
-import com.klinker.android.twitter.adapters.PeopleCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -38,6 +33,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
     private static Context sContext;
     private static SharedPreferences sSharedPrefs;
     private static LinearLayout spinner;
+    private static LinearLayout nothing;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +45,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
         sContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         sSharedPrefs = sharedPrefs;
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
@@ -68,6 +64,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
         }
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
+        nothing = (LinearLayout) findViewById(R.id.no_content);
 
         listView = (AsyncListView) findViewById(R.id.listView);
         list = listView;
@@ -179,9 +176,18 @@ public class FavoriteUsersActivity extends DrawerActivity {
 
             Log.v("fav_users", cursor.getCount() + "");
 
-            people = new FavoriteUsersCursorAdapter(sContext, cursor);
-            list.setAdapter(people);
-            list.setVisibility(View.VISIBLE);
+            if (cursor.getCount() > 0) {
+                people = new FavoriteUsersCursorAdapter(sContext, cursor);
+                list.setAdapter(people);
+                list.setVisibility(View.VISIBLE);
+            } else {
+                try {
+                    nothing.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+
+                }
+                list.setVisibility(View.GONE);
+            }
 
             spinner.setVisibility(View.GONE);
         }
@@ -201,5 +207,23 @@ public class FavoriteUsersActivity extends DrawerActivity {
         overridePendingTransition(0, 0);
         startActivity(restart);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        final int DISMISS = 0;
+        final int SEARCH = 1;
+        final int COMPOSE = 2;
+        final int NOTIFICATIONS = 3;
+        final int DM = 4;
+        final int SETTINGS = 5;
+        final int TOFIRST = 6;
+
+        menu.getItem(NOTIFICATIONS).setVisible(false);
+
+        return true;
+    }
+
 
 }

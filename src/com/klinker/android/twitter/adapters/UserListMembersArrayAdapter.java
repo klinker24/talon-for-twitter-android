@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.ProfileFragment;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -34,20 +35,37 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
     public void bindView(final View view, Context mContext, final User user) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
+        final long id = user.getId();
+        holder.userId = id;
+
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
-        //holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+        final String url = user.getBiggerProfileImageURL();
         if(settings.roundContactImages) {
-            ImageUtils.loadCircleImage(context, holder.picture, user.getBiggerProfileImageURL(), mCache);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (holder.userId == id) {
+                        loadCircleImage(context, holder, url, mCache, id);
+                    }
+                }
+            }, 500);
         } else {
-            ImageUtils.loadImage(context, holder.picture, user.getBiggerProfileImageURL(), mCache);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (holder.userId == id) {
+                        loadImage(context, holder, url, mCache, id);
+                    }
+                }
+            }, 500);
         }
 
         holder.picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", user.getName());
                 viewProfile.putExtra("screenname", user.getScreenName());
                 viewProfile.putExtra("proPic", user.getBiggerProfileImageURL());

@@ -30,7 +30,7 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
         mCache = cache;
         this.context = context;
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         // if the layout is talon's, then they should have circle images
         circleImages = settings.roundContactImages;

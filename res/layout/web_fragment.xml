@@ -12,7 +12,8 @@
         android:visibility="gone"
         android:layout_marginTop="-3dp" />
 
-    <WebView android:id="@+id/webview"
+    <com.klinker.android.twitter.manipulations.widgets.HTML5WebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

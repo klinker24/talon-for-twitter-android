@@ -3,9 +3,7 @@ package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,7 @@ import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -31,9 +29,12 @@ import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
+/**
+ * This fragment is not used anymore. It was combined with the ConversationFragment for unified
+ * conversations in the tweet viewer.
+ */
 public class DiscussionFragment extends Fragment {
     private Context context;
     private View layout;

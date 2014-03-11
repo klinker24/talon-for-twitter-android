@@ -10,7 +10,11 @@ public class MainActivityPopup extends MainActivity {
 
     @Override
     public void setUpWindow() {
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        try {
+            requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        } catch (Exception e) {
+            recreate();
+        }
 
         // Gets the display size so that you can set the window to a percent of that
         Display display = getWindowManager().getDefaultDisplay();

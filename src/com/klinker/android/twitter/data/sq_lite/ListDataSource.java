@@ -4,12 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 
 import twitter4j.Status;
 
@@ -79,7 +81,11 @@ public class ListDataSource {
     }
 
     public void close() {
-        dbHelper.close();
+        try {
+            dbHelper.close();
+        } catch (Exception e) {
+
+        }
         database = null;
     }
 
@@ -102,7 +108,7 @@ public class ListDataSource {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = HtmlUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getHtmlStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -122,16 +128,11 @@ public class ListDataSource {
         values.put(ListSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(ListSQLiteHelper.COLUMN_LIST_ID, listId);
 
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }
-
         try {
             database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
         } catch (Exception e) {
-            database = dbHelper.getWritableDatabase();
+            close();
+            open();
             database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
         }
     }
@@ -139,38 +140,36 @@ public class ListDataSource {
     public void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        if (database == null) {
+        try {
+            database.delete(ListSQLiteHelper.TABLE_HOME, ListSQLiteHelper.COLUMN_TWEET_ID
+                    + " = " + id, null);
+        } catch (Exception e) {
+            close();
             open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
+            database.delete(ListSQLiteHelper.TABLE_HOME, ListSQLiteHelper.COLUMN_TWEET_ID
+                    + " = " + id, null);
         }
-
-        database.delete(ListSQLiteHelper.TABLE_HOME, ListSQLiteHelper.COLUMN_TWEET_ID
-                + " = " + id, null);
     }
 
     public void deleteAllTweets(int listNumber) {
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }
 
-        database.delete(ListSQLiteHelper.TABLE_HOME,
-                ListSQLiteHelper.COLUMN_LIST_ID + " = " + listNumber, null);
+        try {
+            database.delete(ListSQLiteHelper.TABLE_HOME,
+                    ListSQLiteHelper.COLUMN_LIST_ID + " = " + listNumber, null);
+        } catch (Exception e) {
+            close();
+            open();
+            database.delete(ListSQLiteHelper.TABLE_HOME,
+                    ListSQLiteHelper.COLUMN_LIST_ID + " = " + listNumber, null);
+        }
     }
 
     public Cursor getCursor(int listId) {
 
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
-            open();
-        }
-
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
-        String where = ListSQLiteHelper.COLUMN_LIST_ID + " = ?";
+        String expressions = sharedPreferences.getString("muted_regex", "");
+        String where = ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
 
         if (!users.equals("")) {
             String[] split = users.split(" ");
@@ -190,26 +189,82 @@ public class ListDataSource {
             }
         }
 
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + ListSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
         if (noRetweets) {
             where += " AND " + ListSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + ListSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
-        if (database == null) {
+        Cursor cursor;
+        try {
+            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + where;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
+            Log.v("talon_database", "list database has " + count + " entries");
+            if (count > 400) {
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns,
+                        where,
+                        null,
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC",
+                        (count - 400) + "," + 400);
+            } else {
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns,
+                        where,
+                        null,
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
+        } catch (Exception e) {
+            close();
             open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
+            String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + where;
+            SQLiteStatement statement = database.compileStatement(sql);
+            long count = statement.simpleQueryForLong();
+            Log.v("talon_database", "list database has " + count + " entries");
+            if (count > 400) {
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns,
+                        where,
+                        null,
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC",
+                        (count - 400) + "," + 400);
+            } else {
+                cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                        allColumns,
+                        where,
+                        null,
+                        null,
+                        null,
+                        ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+            }
         }
 
-        Cursor cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                allColumns, where, new String[] {"" + listId}, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        return cursor;
+    }
 
-        if (cursor.getCount() > timelineSize) {
+    public Cursor getWholeCursor() {
+
+        Cursor cursor;
+        try {
             cursor = database.query(ListSQLiteHelper.TABLE_HOME,
-                    allColumns,
-                    where,
-                    new String[] {"" + listId},
-                    null,
-                    null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC", (cursor.getCount() - timelineSize) + "," + timelineSize);
+                    allColumns, null, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        } catch (Exception e) {
+            close();
+            open();
+            cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                    allColumns, null, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         }
 
         return cursor;
@@ -236,14 +291,30 @@ public class ListDataSource {
     }
 
     public void deleteDups(int list) {
-        if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }
 
-        database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +
-                " WHERE _id NOT IN (SELECT MIN(_id) FROM " + ListSQLiteHelper.TABLE_HOME +
-                " GROUP BY " + ListSQLiteHelper.COLUMN_TWEET_ID + ") AND " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + list);
+        try {
+            database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +
+                    " WHERE _id NOT IN (SELECT MIN(_id) FROM " + ListSQLiteHelper.TABLE_HOME +
+                    " GROUP BY " + ListSQLiteHelper.COLUMN_TWEET_ID + ") AND " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + list);
+        } catch (Exception e) {
+            close();
+            open();
+            database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +
+                    " WHERE _id NOT IN (SELECT MIN(_id) FROM " + ListSQLiteHelper.TABLE_HOME +
+                    " GROUP BY " + ListSQLiteHelper.COLUMN_TWEET_ID + ") AND " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + list);
+        }
+    }
+
+    public void removeHTML(long tweetId, String text) {
+        ContentValues cv = new ContentValues();
+        cv.put(ListSQLiteHelper.COLUMN_TEXT, text);
+
+        try {
+            database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        } catch (Exception e) {
+            close();
+            open();
+            database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        }
     }
 }

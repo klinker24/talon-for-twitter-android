@@ -46,12 +46,15 @@ limitations under the License.
         <item name="drawerDividerColor">@color/dark_text_drawer</item>
         <item name="dateColor">@color/dark_date</item>
         <item name="drawerBackground">@color/dark_drawer</item>
+        <item name="oppDrawerBackground">@color/light_drawer</item>
         <item name="headerTextColor">@android:color/white</item>
         <item name="textShadowColor">@android:color/black</item>
         <item name="windowBackground">@color/dark_background</item>
         <item name="emojiDivider">@color/emoji_divider_dark</item>
         <item name="circle_border">@color/circle_outline_dark</item>
         <item name="message_color">@color/dark_message</item>
+        <item name="border_color">@color/border_dark</item>
+        <item name="icon_color">@color/icon_dark</item>
 
         <item name="myTweetBackground">@drawable/sent_background_dark</item>
         <item name="tweetBackground">@drawable/received_background_dark</item>
@@ -85,6 +88,10 @@ limitations under the License.
         <item name="read_button">@drawable/ic_action_read_dark</item>
         <item name="unread_button">@drawable/ic_action_unread_dark</item>
         <item name="quote_button">@drawable/ic_action_reply_all_dark</item>
+        <item name="check_box">@drawable/twitter_btn_check_holo_dark</item>
+        <item name="background_card">@drawable/send_card_dark</item>
+        <item name="notification_button">@drawable/ic_action_notification_dark</item>
+        <item name="notification_button_empty">@drawable/ic_action_notification_none_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>

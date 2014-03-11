@@ -122,6 +122,22 @@ public class FavoriteUsersDataSource {
         return cursor;
     }
 
+    public String  getNames(int account) {
+        String names = "";
+
+        Cursor cursor = getCursor(account);
+
+        if (cursor.moveToFirst()) {
+            do {
+                names += cursor.getString(cursor.getColumnIndex(FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME)) + "  ";
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        return names;
+    }
+
     public boolean isFavUser(int account, String username) {
         Cursor check = getCursor(account);
 

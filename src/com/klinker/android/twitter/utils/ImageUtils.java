@@ -1,8 +1,6 @@
 package com.klinker.android.twitter.utils;
 
-import android.app.ActivityManager;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -23,8 +20,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.manipulations.SDK11;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -44,18 +39,15 @@ public class ImageUtils {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(scale,
-                scale, Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(output);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, scale,
-                scale);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        Rect rect = new Rect(0, 0, scale, scale);
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawCircle(scale / 2,
-                scale / 2, (scale / 2) - (scale / 25), paint);
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         try {
             canvas.drawBitmap(bitmap, null, rect, paint);
@@ -75,8 +67,50 @@ public class ImageUtils {
             paint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
         }
 
-        canvas.drawCircle(scale / 2,
-                scale / 2, (scale / 2) - (scale / 25), paint);
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
+
+        return output;
+    }
+
+    public static Bitmap getBiggerCircle(Bitmap currentImage, Context context) {
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, context.getResources().getDisplayMetrics());
+
+        Bitmap bitmap = currentImage;
+        Bitmap output;
+        try {
+            output = Bitmap.createBitmap(scale,
+                    scale, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
+
+        Canvas canvas = new Canvas(output);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        Rect rect = new Rect(0, 0, scale, scale);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        try {
+            canvas.drawBitmap(bitmap, null, rect, paint);
+        } catch (Exception e) {
+            // bitmap is null i guess
+
+        }
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.contact_picture_border));
+
+        try {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circle_border});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            paint.setColor(context.getResources().getColor(resource));
+        } catch (Exception e) {
+            paint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+        }
+
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
 
         return output;
     }
@@ -322,9 +356,9 @@ public class ImageUtils {
 
     public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache) {
         // First check whether there's already a task running, if so cancel it
-        /*if (null != mCurrentTask) {
+        if (null != mCurrentTask) {
             mCurrentTask.cancel(true);
-        }*/
+        }
 
         if (url == null) {
             return;
@@ -363,14 +397,14 @@ public class ImageUtils {
         private Context context;
         private final WeakReference<ImageView> mImageViewRef;
         public ImageView iv;
-        private boolean thumbnail;
+        public boolean largerProfile;
 
-        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean thumbnail) {
+        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean profile) {
             this.context = context;
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             iv = imageView;
-            this.thumbnail = thumbnail;
+            this.largerProfile = profile;
         }
 
         @Override
@@ -387,7 +421,7 @@ public class ImageUtils {
 
                 result = mCache.get(url, null);
 
-                if (null == result) {
+                if (null == result || largerProfile) {
 
                     // The bitmap isn't cached so download from the web
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -416,48 +450,6 @@ public class ImageUtils {
             return null;
         }
 
-        public Bitmap decodeSampledBitmapFromResourceMemOpt(
-                InputStream inputStream, int reqWidth, int reqHeight) {
-
-            byte[] byteArr = new byte[0];
-            byte[] buffer = new byte[1024];
-            int len;
-            int count = 0;
-
-            try {
-                while ((len = inputStream.read(buffer)) > -1) {
-                    if (len != 0) {
-                        if (count + len > byteArr.length) {
-                            byte[] newbuf = new byte[(count + len) * 2];
-                            System.arraycopy(byteArr, 0, newbuf, 0, count);
-                            byteArr = newbuf;
-                        }
-
-                        System.arraycopy(buffer, 0, byteArr, count, len);
-                        count += len;
-                    }
-                }
-
-                final BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-                options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                        reqHeight);
-                options.inPurgeable = true;
-                options.inInputShareable = true;
-                options.inJustDecodeBounds = false;
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-                return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                return null;
-            }
-        }
-
         @Override
         protected void onPostExecute(CacheableBitmapDrawable result) {
             super.onPostExecute(result);
@@ -477,6 +469,49 @@ public class ImageUtils {
             }
         }
     }
+
+    public static Bitmap decodeSampledBitmapFromResourceMemOpt(
+            InputStream inputStream, int reqWidth, int reqHeight) {
+
+        byte[] byteArr = new byte[0];
+        byte[] buffer = new byte[1024];
+        int len;
+        int count = 0;
+
+        try {
+            while ((len = inputStream.read(buffer)) > -1) {
+                if (len != 0) {
+                    if (count + len > byteArr.length) {
+                        byte[] newbuf = new byte[(count + len) * 2];
+                        System.arraycopy(byteArr, 0, newbuf, 0, count);
+                        byteArr = newbuf;
+                    }
+
+                    System.arraycopy(buffer, 0, byteArr, count, len);
+                    count += len;
+                }
+            }
+
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            options.inSampleSize = calculateInSampleSize(options, reqWidth,
+                    reqHeight);
+            options.inPurgeable = true;
+            options.inInputShareable = true;
+            options.inJustDecodeBounds = false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
 
     public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -531,6 +566,24 @@ public class ImageUtils {
         }
     }
 
+    public static void loadCircleImage(Context context, final ImageView iv, String url, BitmapLruCache mCache, boolean largerProfile) {
+
+        // don't want to find the cached one
+        iv.setImageDrawable(null);
+
+        ImageUrlCircleAsyncTask mCurrentTask = new ImageUrlCircleAsyncTask(context, iv, mCache, largerProfile);
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                SDK11.executeOnThreadPool(mCurrentTask, url);
+            } else {
+                mCurrentTask.execute(url);
+            }
+        } catch (RejectedExecutionException e) {
+            // This shouldn't happen, but might.
+        }
+    }
+
     private static class ImageUrlCircleAsyncTask
             extends AsyncTask<String, Void, CacheableBitmapDrawable> {
 
@@ -538,14 +591,14 @@ public class ImageUtils {
         private Context context;
         private final WeakReference<ImageView> mImageViewRef;
         private ImageView iv;
-        private boolean thumbnail;
+        private boolean largeProfile;
 
-        ImageUrlCircleAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean thumbnail) {
+        ImageUrlCircleAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean profile) {
             this.context = context;
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             iv = imageView;
-            this.thumbnail = thumbnail;
+            largeProfile = profile;
         }
 
         @Override
@@ -560,24 +613,33 @@ public class ImageUtils {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (OutOfMemoryError e) {
+                    return null;
+                }
 
-                if (null == result) {
+                if (null == result || largeProfile) {
                     Log.d("ImageUrlAsyncTask", "Downloading: " + url);
 
                     // The bitmap isn't cached so download from the web
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    Bitmap b = BitmapFactory.decodeStream(is);
-                    b = getCircle(b, context);
-
-                    if (thumbnail) {
-                        b = ImageUtils.overlayPlay(b, context);
+                    Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 400, 400);
+                    if (largeProfile) {
+                        Log.v("talon_picture", "bigger profile image");
+                        b = getBiggerCircle(b, context);
+                    } else {
+                        b = getCircle(b, context);
                     }
 
                     // Add to cache
-                    result = mCache.put(url, b);
+                    if (b != null) {
+                        result = mCache.put(url, b);
+                    } else {
+                        return null;
+                    }
 
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);

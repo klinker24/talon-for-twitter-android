@@ -42,7 +42,7 @@ public class ListsArrayAdapter extends ArrayAdapter<UserList> {
         this.context = context;
         this.lists = lists;
 
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
 
     }

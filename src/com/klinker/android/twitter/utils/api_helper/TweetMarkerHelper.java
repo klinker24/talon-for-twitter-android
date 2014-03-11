@@ -87,7 +87,7 @@ public class TweetMarkerHelper extends APIHelper {
         }
     }
 
-    public void sendCurrentId(String collection, long id) {
+    public boolean sendCurrentId(String collection, long id) {
         try {
             HttpPost post = new HttpPost(postURL);
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
@@ -118,11 +118,21 @@ public class TweetMarkerHelper extends APIHelper {
                 response = client.execute(post);
                 responseCode = response.getStatusLine().getStatusCode();
                 Log.v("talon_tweetmarker", "sending response code: " + responseCode);
+
+                if (responseCode == 200) {
+                    // success, return true
+                    return true;
+                }
+
+            } else {
+                return true;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     public long getLastStatus(String collection, int lastVersion, SharedPreferences sharedPrefs) {
@@ -152,7 +162,7 @@ public class TweetMarkerHelper extends APIHelper {
                 if (timeline != null) {
 
                     long val = Long.parseLong(timeline.getString("id"));
-                    int version = timeline.getInt("version");
+                    int version = Integer.parseInt(timeline.getString("version"));
                     Log.v("talon_tweetmarker", "getting tweetmarker, version: " + version + " id: " + val + " screename: " + screenname);
 
                     if (version != lastVersion) {
@@ -190,8 +200,8 @@ public class TweetMarkerHelper extends APIHelper {
 
                     if (timeline != null) {
 
-                        long val = timeline.getLong("id");
-                        int version = timeline.getInt("version");
+                        long val = Long.parseLong(timeline.getString("id"));
+                        int version = Integer.parseInt(timeline.getString("version"));
                         Log.v("talon_tweetmarker", "getting tweetmarker, version: " + version + " id: " + val + " screename: " + screenname);
 
                         if (version != lastVersion) {

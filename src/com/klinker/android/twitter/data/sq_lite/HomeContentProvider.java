@@ -7,16 +7,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.Settings.System;
 import android.util.Log;
 
-import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import twitter4j.Status;
@@ -107,7 +104,12 @@ public class HomeContentProvider extends ContentProvider {
         } catch (NullPointerException x)  {
             // i don't understand why this would happen
             db = HomeDataSource.getInstance(getContext()).getDatabase();
-            db.beginTransaction();
+            try {
+                db.beginTransaction();
+            } catch (Exception e) {
+                // what the hell... :/
+                return 0;
+            }
 
             for (ContentValues initialValues : allValues) {
                 values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
@@ -122,12 +124,17 @@ public class HomeContentProvider extends ContentProvider {
             }
 
             db.setTransactionSuccessful();
-        } catch (SQLiteDatabaseLockedException e ) {
+        } catch (SQLiteDatabaseLockedException e) {
 
             HomeDataSource.getInstance(getContext()).close();
 
             db = HomeDataSource.getInstance(getContext()).getDatabase();
-            db.beginTransaction();
+            try {
+                db.beginTransaction();
+            } catch (Exception x) {
+                // what the hell... :/
+                return 0;
+            }
 
             for (ContentValues initialValues : allValues) {
                 values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
@@ -232,7 +239,7 @@ public class HomeContentProvider extends ContentProvider {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = HtmlUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getHtmlStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -278,7 +285,7 @@ public class HomeContentProvider extends ContentProvider {
                     status = status.getRetweetedStatus();
                 }
 
-                String[] html = HtmlUtils.getHtmlStatus(status);
+                String[] html = TweetLinkUtils.getHtmlStatus(status);
                 String text = html[0];
                 String media = html[1];
                 String url = html[2];

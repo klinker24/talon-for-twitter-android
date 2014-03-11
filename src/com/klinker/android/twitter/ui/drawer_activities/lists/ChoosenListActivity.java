@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -23,8 +21,7 @@ import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.LoginActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -33,8 +30,6 @@ import org.lucasr.smoothie.ItemManager;
 import java.util.ArrayList;
 
 import twitter4j.Paging;
-import twitter4j.Query;
-import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -62,12 +57,20 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
     private LinearLayout spinner;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         if (settings.advanceWindowed) {
             setUpWindow();
@@ -103,6 +106,7 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
         if (settings.addonTheme) {
             DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
             transformer.setProgressBarColor(settings.accentInt);
+            transformer.setRefreshingText(getResources().getString(R.string.loading));
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
@@ -137,6 +141,8 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
         actionBar.setTitle(listName);
 
         getLists();
+
+        Utils.setActionBar(context);
 
     }
 
@@ -208,6 +214,13 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
                     e.printStackTrace();
 
                 }
+
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
+                });
             }
         }).start();
     }

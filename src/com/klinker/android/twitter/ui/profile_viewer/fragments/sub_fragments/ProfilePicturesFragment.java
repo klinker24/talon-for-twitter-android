@@ -1,0 +1,253 @@
+package com.klinker.android.twitter.ui.profile_viewer.fragments.sub_fragments;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+
+import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.ArrayListLoader;
+import com.klinker.android.twitter.adapters.PicturesArrayAdapter;
+import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
+import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
+import com.klinker.android.twitter.utils.Utils;
+
+import org.lucasr.smoothie.AsyncListView;
+import org.lucasr.smoothie.ItemManager;
+
+import java.util.ArrayList;
+
+import twitter4j.Paging;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import uk.co.senab.bitmapcache.BitmapLruCache;
+
+/**
+ * Created by luke on 3/4/14.
+ */
+public class ProfilePicturesFragment extends Fragment {
+
+    public View layout;
+    public Context context;
+    public AppSettings settings;
+    public SharedPreferences sharedPrefs;
+
+    public AsyncListView listView;
+    public LinearLayout spinner;
+
+    public String screenName;
+
+    public ProfilePicturesFragment(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public ProfilePicturesFragment() {
+        this.screenName = "";
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        settings = AppSettings.getInstance(context);
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        inflater = LayoutInflater.from(context);
+
+        layout = inflater.inflate(R.layout.pictures_fragment, null);
+
+        listView = (AsyncListView) layout.findViewById(R.id.listView);
+        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int lastItem = firstVisibleItem + visibleItemCount;
+
+                if(lastItem == totalItemCount && canRefresh) {
+                    getMore();
+                }
+            }
+        });
+
+        final LinearLayout getTweets = (LinearLayout) layout.findViewById(R.id.load_tweets);
+        final Button getPics = (Button) layout.findViewById(R.id.get_pics);
+        getPics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getTweets.setVisibility(View.GONE);
+                spinner.setVisibility(View.VISIBLE);
+                doSearch();
+            }
+        });
+
+        return layout;
+    }
+
+    public ArrayList<Status> tweets = new ArrayList<Status>();
+    public ArrayList<String> pics = new ArrayList<String>();
+    public Paging paging = new Paging(1, 60);
+    public boolean hasMore = true;
+    public boolean canRefresh = false;
+    public PicturesArrayAdapter adapter;
+
+    public void doSearch() {
+        spinner.setVisibility(View.VISIBLE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter = Utils.getTwitter(context, settings);
+
+                    ResponseList<Status> result = twitter.getUserTimeline(screenName, paging);
+
+                    tweets.clear();
+
+                    for (twitter4j.Status status : result) {
+                        tweets.add(status);
+                    }
+
+                    if (result.size() > 17) {
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
+                    }
+
+                    for (Status s : tweets) {
+                        String[] links = TweetLinkUtils.getHtmlStatus(s);
+                        if (!links[1].equals("")) {
+                            pics.add(links[1]);
+                        }
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter = new PicturesArrayAdapter(context, pics);
+                            listView.setAdapter(adapter);
+                            listView.setVisibility(View.VISIBLE);
+
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = true;
+
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                        }
+                    });
+
+                }
+
+            }
+        }).start();
+    }
+
+    public void getMore() {
+        canRefresh = false;
+        spinner.setVisibility(View.VISIBLE);
+
+        if (destroyed) {
+            hasMore = false;
+            return;
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter = Utils.getTwitter(context, settings);
+
+                    paging.setPage(paging.getPage() + 1);
+
+                    ResponseList<Status> result = twitter.getUserTimeline(screenName, paging);
+
+                    tweets.clear();
+
+                    for (twitter4j.Status status : result) {
+                        tweets.add(status);
+                    }
+
+                    if (result.size() > 17) {
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
+                    }
+
+                    final int lastPicSize = pics.size();
+
+                    for (Status s : tweets) {
+                        String[] links = TweetLinkUtils.getHtmlStatus(s);
+                        if (!links[1].equals("")) {
+                            pics.add(links[1]);
+                        }
+                    }
+
+                    if (pics.size() > lastPicSize) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                                canRefresh = true;
+
+                                spinner.setVisibility(View.GONE);
+                            }
+                        });
+                    } else {
+                        canRefresh = true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            canRefresh = false;
+                            hasMore = false;
+
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
+
+                }
+
+            }
+        }).start();
+    }
+
+    public boolean destroyed = false;
+
+    @Override
+    public void onDestroy() {
+        destroyed = true;
+        super.onDestroy();
+    }
+}

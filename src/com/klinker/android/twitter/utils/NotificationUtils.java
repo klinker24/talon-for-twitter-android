@@ -30,6 +30,12 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.NotificationCompose;
+import com.klinker.android.twitter.ui.tweet_viewer.NotiTweetPager;
+import com.klinker.android.twitter.utils.redirects.RedirectToDMs;
+import com.klinker.android.twitter.utils.redirects.RedirectToDrawer;
+import com.klinker.android.twitter.utils.redirects.RedirectToMentions;
+import com.klinker.android.twitter.utils.redirects.RedirectToPopup;
+import com.klinker.android.twitter.utils.redirects.SwitchAccountsRedirect;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -46,25 +52,7 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 public class NotificationUtils {
 
     public static void refreshNotification(Context context) {
-        AppSettings settings = new AppSettings(context);
-
-        /*RemoteViews remoteView = new RemoteViews("com.klinker.android.talon", R.layout.custom_notification);
-        Intent popup = new Intent(context, MainActivityPopup.class);
-        popup.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        popup.putExtra("from_notification", true);
-        PendingIntent popupPending =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        popup,
-                        0
-                );
-        remoteView.setOnClickPendingIntent(R.id.popup_button, popupPending);
-        remoteView.setTextViewText(R.id.content, numberNew == 1 ? numberNew + " " + getResources().getString(R.string.new_tweet) : numberNew + " " + getResources().getString(R.string.new_tweets));
-
-        remoteView.setImageViewResource(R.id.icon, R.drawable.timeline_dark);
-
-        use .setContent(remoteView) to make the notification using this instead*/
+        AppSettings settings = AppSettings.getInstance(context);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
@@ -96,8 +84,17 @@ public class NotificationUtils {
             boolean useExpanded = useExp(context);
             boolean addButton = addBtn(unreadCounts);
 
-            Intent resultIntent = new Intent(context, MainActivity.class);
-            resultIntent.putExtra("from_notification", true);
+            Intent resultIntent;
+
+            if (unreadCounts[1] != 0 && unreadCounts[0] == 0) {
+                // it is a mention notification (could also have a direct message)
+                resultIntent = new Intent(context, RedirectToMentions.class);
+            } else if (unreadCounts[2] != 0 && unreadCounts[0] == 0 && unreadCounts[1] == 0) {
+                // it is a direct message
+                resultIntent = new Intent(context, RedirectToDMs.class);
+            } else {
+                resultIntent = new Intent(context, MainActivity.class);
+            }
 
             PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
@@ -106,12 +103,12 @@ public class NotificationUtils {
             if (useExpanded) {
                 mBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle(title[0])
-                        .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                         .setContentIntent(resultPendingIntent)
                         .setAutoCancel(true)
-                        .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setDeleteIntent(readPending)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
@@ -125,8 +122,7 @@ public class NotificationUtils {
 
                     Log.v("username_for_noti", title[1]);
                     sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
-                    MentionsDataSource data = new MentionsDataSource(context);
-                    data.open();
+                    MentionsDataSource data = MentionsDataSource.getInstance(context);
                     long id = data.getLastIds(currentAccount)[0];
                     PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
                     sharedPrefs.edit().putLong("from_notification_long", id).commit();
@@ -146,28 +142,22 @@ public class NotificationUtils {
             } else {
                 mBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle(title[0])
-                        .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                         .setContentIntent(resultPendingIntent)
-                        .setTicker(HtmlUtils.removeColorHtml(shortText, settings))
+                        .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setDeleteIntent(readPending)
                         .setAutoCancel(true);
             }
 
             // Pebble notification
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title[0]);
-                pebbleData.put("body", HtmlUtils.removeColorHtml(shortText, settings));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title[0], shortText);
             }
+
+            // Light Flow notification
+            sendToLightFlow(context, title[0], shortText);
 
             int homeTweets = unreadCounts[0];
             int mentionsTweets = unreadCounts[1];
@@ -241,15 +231,11 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        HomeDataSource data = new HomeDataSource(context);
-        data.open();
+        HomeDataSource data = HomeDataSource.getInstance(context);
         int homeTweets = data.getUnreadCount(currentAccount);
-        data.close();
 
-        MentionsDataSource mentions = new MentionsDataSource(context);
-        mentions.open();
+        MentionsDataSource mentions = MentionsDataSource.getInstance(context);
         int mentionsTweets = mentions.getUnreadCount(currentAccount);
-        mentions.close();
 
         int dmTweets = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
 
@@ -265,17 +251,13 @@ public class NotificationUtils {
 
         // they only have a new mention
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) {
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             name = mentions.getNewestName(currentAccount);
             text = context.getResources().getString(R.string.mentioned_by) + " @" + name;
-            mentions.close();
         } else if (homeTweets == 0 && mentionsTweets == 0 && dmTweets == 1) { // they have 1 new direct message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             name = dm.getNewestName(currentAccount);
             text = context.getResources().getString(R.string.message_from) + " @" + name;
-            dm.close();
         } else { // other cases we will just put talon
             text = context.getResources().getString(R.string.app_name);
         }
@@ -290,15 +272,11 @@ public class NotificationUtils {
         int dmTweets = unreadCount[2];
 
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             text = mentions.getNewestMessage(currentAccount);
-            mentions.close();
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             text = dm.getNewestMessage(currentAccount);
-            dm.close();
         } else if (homeTweets > 0 && mentionsTweets == 0 && dmTweets == 0) { // it is just tweets being displayed, so put new out front
             text = homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets));
         } else {
@@ -331,15 +309,11 @@ public class NotificationUtils {
         int dmTweets = unreadCount[2];
 
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             body = mentions.getNewestMessage(currentAccount);
-            mentions.close();
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             body = dm.getNewestMessage(currentAccount);
-            dm.close();
         } else {
             if (homeTweets > 0) {
                 body += "<b>" + context.getResources().getString(R.string.timeline) + ": </b>" + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "<br>" : "");
@@ -364,15 +338,11 @@ public class NotificationUtils {
         int dmTweets = unreadCount[2];
 
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             body = mentions.getNewestMessage(currentAccount);
-            mentions.close();
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
             body = dm.getNewestMessage(currentAccount);
-            dm.close();
         } else {
             if (homeTweets > 0) {
                 body += context.getResources().getString(R.string.timeline) + ": " + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "\n" : "");
@@ -403,7 +373,7 @@ public class NotificationUtils {
             Log.v("notifications_talon", "in screenname");
             String url;
             try {
-                url = Utils.getTwitter(context, new AppSettings(context)).showUser(screenname).getBiggerProfileImageURL();
+                url = Utils.getTwitter(context, AppSettings.getInstance(context)).showUser(screenname).getBiggerProfileImageURL();
                 CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
 
                 Log.v("notifications_talon", "got wrapper");
@@ -431,12 +401,10 @@ public class NotificationUtils {
 
         ArrayList<String[]> tweets = new ArrayList<String[]>();
 
-        HomeDataSource data = new HomeDataSource(context);
-        data.open();
+        HomeDataSource data = HomeDataSource.getInstance(context);
         Cursor cursor = data.getUnreadCursor(account);
 
-        FavoriteUsersDataSource favs = new FavoriteUsersDataSource(context);
-        favs.open();
+        FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
 
         if(cursor.moveToFirst()) {
             do {
@@ -445,30 +413,95 @@ public class NotificationUtils {
                 if (favs.isFavUser(account, screenname)) {
                     String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
                     String text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+                    String time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)) + "";
+                    String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+                    String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
+                    String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
+                    String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
+                    String id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "";
+                    String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
+                    String otherUrls = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
+                    String userss = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
+                    String hashtagss = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
+                    String retweeter;
+                    try {
+                        retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
+                    } catch (Exception e) {
+                        retweeter = "";
+                    }
+                    String link = "";
 
-                    tweets.add(new String[] {name, text, screenname});
+                    boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+                    if (displayPic) {
+                        link = picUrl;
+                    } else {
+                        link = otherUrls.split("  ")[0];
+                    }
+
+                    tweets.add(new String[] {
+                            name,
+                            text,
+                            screenname,
+                            time,
+                            retweeter,
+                            link,
+                            displayPic ? "true" : "false",
+                            id,
+                            profilePic,
+                            userss,
+                            hashtagss,
+                            otherUrls
+                    });
                 }
             } while (cursor.moveToNext());
         }
 
         cursor.close();
-        favs.close();
-        data.close();
 
         if (tweets.size() > 0) {
-            makeFavsNotification(tweets, context);
+            if (tweets.size() == 1) {
+                makeFavsNotificationToActivity(tweets, context);
+            } else {
+                makeFavsNotification(tweets, context, true);
+            }
         }
     }
 
-    public static void makeFavsNotification(ArrayList<String[]> tweets, Context context) {
+    public static void makeFavsNotificationToActivity(ArrayList<String[]> tweets, Context context) {
+
+        SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(context).edit();
+
+        e.putString("fav_user_tweet_name", tweets.get(0)[0]);
+        e.putString("fav_user_tweet_text", tweets.get(0)[1]);
+        e.putString("fav_user_tweet_screenname", tweets.get(0)[2]);
+        e.putLong("fav_user_tweet_time", Long.parseLong(tweets.get(0)[3]));
+        e.putString("fav_user_tweet_retweeter", tweets.get(0)[4]);
+        e.putString("fav_user_tweet_webpage", tweets.get(0)[5]);
+        e.putBoolean("fav_user_tweet_picture", tweets.get(0)[6].equals("true") ? true : false);
+        e.putLong("fav_user_tweet_tweet_id", Long.parseLong(tweets.get(0)[7]));
+        e.putString("fav_user_tweet_pro_pic", tweets.get(0)[8]);
+        e.putString("fav_user_tweet_users", tweets.get(0)[9]);
+        e.putString("fav_user_tweet_hashtags", tweets.get(0)[10]);
+        e.putString("fav_user_tweet_links", tweets.get(0)[11]);
+        e.commit();
+
+        makeFavsNotification(tweets, context, false);
+    }
+
+    public static void makeFavsNotification(ArrayList<String[]> tweets, Context context, boolean toDrawer) {
         String shortText;
         String longText;
         String title;
         int smallIcon = R.drawable.ic_stat_icon;
         Bitmap largeIcon;
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.putExtra("from_notification", true);
+        Intent resultIntent;
+
+        if (toDrawer) {
+            resultIntent = new Intent(context, RedirectToDrawer.class);
+        } else {
+            resultIntent = new Intent(context, NotiTweetPager.class);
+        }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
@@ -492,12 +525,12 @@ public class NotificationUtils {
 
         NotificationCompat.Builder mBuilder;
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -506,7 +539,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(shortText, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -542,17 +575,11 @@ public class NotificationUtils {
 
             // Pebble notification
             if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? shortText.replaceAll("FF8800", settings.accentColor) : shortText));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title, shortText);
             }
+
+            // Light Flow notification
+            sendToLightFlow(context, title, shortText);
         }
     }
 
@@ -560,7 +587,7 @@ public class NotificationUtils {
         BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
         String url;
         try {
-            url = Utils.getTwitter(context, new AppSettings(context)).showUser(screenname).getBiggerProfileImageURL();
+            url = Utils.getTwitter(context, AppSettings.getInstance(context)).showUser(screenname).getBiggerProfileImageURL();
             CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
 
             if (wrapper == null) {
@@ -579,9 +606,8 @@ public class NotificationUtils {
     }
 
     public static void notifySecondMentions(Context context, int secondAccount) {
-        MentionsDataSource data = new MentionsDataSource(context);
-        data.open();
-        int numberNew = 2;//data.getUnreadCount(secondAccount);
+        MentionsDataSource data = MentionsDataSource.getInstance(context);
+        int numberNew = data.getUnreadCount(secondAccount);
 
         int smallIcon = R.drawable.ic_stat_icon;
         Bitmap largeIcon;
@@ -611,12 +637,12 @@ public class NotificationUtils {
         Intent markRead = new Intent(context, MarkReadService.class);
         PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(message, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -626,7 +652,7 @@ public class NotificationUtils {
         } else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(HtmlUtils.removeColorHtml(messageLong, settings))
+                    .setContentText(TweetLinkUtils.removeColorHtml(messageLong, settings))
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
@@ -662,18 +688,11 @@ public class NotificationUtils {
 
             // Pebble notification
             if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title, messageLong);
             }
 
+            // Light Flow notification
+            sendToLightFlow(context, title, messageLong);
         }
 
 
@@ -688,9 +707,9 @@ public class NotificationUtils {
         String smallText = "";
         Bitmap icon = null;
 
-        AppSettings settings = new AppSettings(context);
+        AppSettings settings = AppSettings.getInstance(context);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
+        Intent resultIntent = new Intent(context, RedirectToDrawer.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
         int newFollowers = sharedPrefs.getInt("new_followers", 0);
@@ -794,17 +813,36 @@ public class NotificationUtils {
 
             // Pebble notification
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
-                Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-                Map pebbleData = new HashMap();
-                pebbleData.put("title", title);
-                pebbleData.put("body", Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text));
-                JSONObject jsonData = new JSONObject(pebbleData);
-                String notificationData = new JSONArray().put(jsonData).toString();
-                pebble.putExtra("messageType", "PEBBLE_ALERT");
-                pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-                pebble.putExtra("notificationData", notificationData);
-                context.sendBroadcast(pebble);
+                sendAlertToPebble(context, title, text);
             }
+
+            // Light Flow notification
+            sendToLightFlow(context, title, text);
         }
+    }
+
+    public static void sendAlertToPebble(Context context, String title, String body) {
+        final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
+
+        final Map data = new HashMap();
+        data.put("title", TweetLinkUtils.removeColorHtml(title, AppSettings.getInstance(context)));
+        data.put("body", TweetLinkUtils.removeColorHtml(body, AppSettings.getInstance(context)));
+        final JSONObject jsonData = new JSONObject(data);
+        final String notificationData = new JSONArray().put(jsonData).toString();
+
+        i.putExtra("messageType", "PEBBLE_ALERT");
+        i.putExtra("sender", "talon_for_twitter");
+        i.putExtra("notificationData", notificationData);
+
+        Log.v("talon_pebble", "About to send a modal alert to Pebble: " + notificationData);
+        context.sendBroadcast(i);
+    }
+
+    public static void sendToLightFlow(Context context, String title, String message) {
+        Intent data = new Intent("com.klinker.android.twitter.NEW_NOTIFICATION");
+        data.putExtra("title", title);
+        data.putExtra("message", message);
+
+        context.sendBroadcast(data);
     }
 }

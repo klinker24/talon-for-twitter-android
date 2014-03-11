@@ -19,11 +19,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -31,8 +33,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,20 +46,17 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.EmojiKeyboard;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,8 +75,8 @@ public abstract class Compose extends Activity implements
     public Context context;
     public SharedPreferences sharedPrefs;
 
-    public HoloEditText contactEntry;
-    public HoloEditText reply;
+    public EditText contactEntry;
+    public EditText reply;
     public ImageView attachImage;
     public ImageButton attachButton;
     public ImageButton emojiButton;
@@ -82,6 +84,12 @@ public abstract class Compose extends Activity implements
     public ImageButton overflow;
     public TextView charRemaining;
     public ListPopupWindow autocomplete;
+
+    public LinearLayout selectAccounts;
+    public CheckBox accountOneCheck;
+    public CheckBox accountTwoCheck;
+    public HoloTextView accountOneName;
+    public HoloTextView accountTwoName;
 
     public String attachedUri = "";
 
@@ -93,11 +101,53 @@ public abstract class Compose extends Activity implements
 
     public int currentAccount;
 
+    final Pattern p = Patterns.WEB_URL;
+
+    public Handler countHandler;
+    public Runnable getCount = new Runnable() {
+        @Override
+        public void run() {
+            String text = reply.getText().toString();
+
+            if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
+                try {
+                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
+                } catch (Exception e) {
+                    charRemaining.setText("0");
+                }
+            } else {
+                int count = text.length();
+                Matcher m = p.matcher(text);
+                while(m.find()) {
+                    String url = m.group();
+                    count -= url.length(); // take out the length of the url
+                    count += 22; // add 22 for the shortened url
+                }
+
+                if (!attachedUri.equals("")) {
+                    count += 22;
+                }
+
+                charRemaining.setText(140 - count + "");
+            }
+        }
+    };
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new AppSettings(this);
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+
+        countHandler = new Handler();
+
+        settings = AppSettings.getInstance(this);
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -115,6 +165,8 @@ public abstract class Compose extends Activity implements
         if (reply.getText().toString().contains(" RT @")) {
             reply.setSelection(0);
         }
+
+        Utils.setActionBar(context, false);
     }
 
     public void setUpWindow() {
@@ -198,6 +250,9 @@ public abstract class Compose extends Activity implements
                     public void onClick(View v) {
                         discardClicked = true;
                         sharedPrefs.edit().putString("draft", "").commit();
+                        if (emojiKeyboard.isShowing()) {
+                            onBackPressed();
+                        }
                         onBackPressed();
                     }
                 });
@@ -218,12 +273,11 @@ public abstract class Compose extends Activity implements
         attachButton = (ImageButton) findViewById(R.id.attach);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
-        reply = (HoloEditText) findViewById(R.id.tweet_content);
+        reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
         charRemaining.setText(140 - reply.getText().length() + "");
-        String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-        final Pattern p = Pattern.compile(regex);
+
         reply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -237,29 +291,8 @@ public abstract class Compose extends Activity implements
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String text = reply.getText().toString();
-
-                if (!text.contains("http")) { // no links, normal tweet
-                    try {
-                        charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
-                    } catch (Exception e) {
-                        charRemaining.setText("0");
-                    }
-                } else {
-                    int count = text.length();
-                    Matcher m = p.matcher(text);
-                    while(m.find()) {
-                        String url = m.group();
-                        count -= url.length(); // take out the length of the url
-                        count += 22; // add 22 for the shortened url
-                    }
-
-                    if (!attachedUri.equals("")) {
-                        count += 22;
-                    }
-
-                    charRemaining.setText(140 - count + "");
-                }
+                countHandler.removeCallbacks(getCount);
+                countHandler.postDelayed(getCount, 300);
             }
         });
 
@@ -299,7 +332,11 @@ public abstract class Compose extends Activity implements
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             //String filePath = IOUtils.getPath(imageUri, context);
-            attachImage.setImageURI(imageUri);
+            try {
+                attachImage.setImageURI(imageUri);
+            } catch (OutOfMemoryError e) {
+                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
             attachedUri = imageUri.toString();
         }
     }
@@ -374,7 +411,11 @@ public abstract class Compose extends Activity implements
 
                         Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
 
-                        attachImage.setImageURI(selectedImage);
+                        try {
+                            attachImage.setImageURI(selectedImage);
+                        } catch (OutOfMemoryError e) {
+                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
                         attachedUri = selectedImage.toString();
                     } catch (Throwable e) {
                         e.printStackTrace();
@@ -387,7 +428,11 @@ public abstract class Compose extends Activity implements
                     try {
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
 
-                        attachImage.setImageURI(selectedImage);
+                        try {
+                            attachImage.setImageURI(selectedImage);
+                        } catch (OutOfMemoryError e) {
+                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        }
                         attachedUri = selectedImage.toString();
 
                     } catch (Throwable e) {
@@ -400,11 +445,18 @@ public abstract class Compose extends Activity implements
                 if (resultCode == Activity.RESULT_OK) {
                     String path = imageReturnedIntent.getStringExtra("RESULT");
                     attachedUri = Uri.fromFile(new File(path)).toString();
-                    attachImage.setImageURI(Uri.parse(attachedUri));
+                    try {
+                        attachImage.setImageURI(Uri.parse(attachedUri));
+                    } catch (OutOfMemoryError e) {
+
+                    }
 
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
+                    Log.v("pwiccer_text", currText);
                     if (currText != null) {
                         reply.setText(currText);
+                    } else {
+                        reply.setText(reply.getText().toString().substring(0, 114) + "...");
                     }
 
                     doneClick();
@@ -494,37 +546,81 @@ public abstract class Compose extends Activity implements
             String status = args[0];
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
+                Twitter twitter2 = Utils.getSecondTwitter(getApplicationContext());
 
                 if (remaining < 0) {
                     // twitlonger goes here
-                    TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
-                    if (notiId != 0) {
-                        helper.setInReplyToStatusId(notiId);
-                    }
+                    boolean isDone = false;
 
-                    if (addLocation) {
-                        int wait = 0;
-                        while (!mLocationClient.isConnected() && wait < 4) {
-                            try {
-                                Thread.sleep(1500);
-                            } catch (Exception e) {
+                    if (accountOneCheck.isChecked()) {
+                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
+
+                        if (notiId != 0) {
+                            helper.setInReplyToStatusId(notiId);
+                        }
+
+                        if (addLocation) {
+                            int wait = 0;
+                            while (!mLocationClient.isConnected() && wait < 4) {
+                                try {
+                                    Thread.sleep(1500);
+                                } catch (Exception e) {
+                                    return false;
+                                }
+
+                                wait++;
+                            }
+
+                            if (wait == 4) {
                                 return false;
                             }
 
-                            wait++;
+                            Location location = mLocationClient.getLastLocation();
+                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+
+                            helper.setLocation(geolocation);
                         }
 
-                        if (wait == 4) {
-                            return false;
+                        if (helper.createPost() != 0) {
+                            isDone = true;
                         }
-
-                        Location location = mLocationClient.getLastLocation();
-                        GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-
-                        helper.setLocation(geolocation);
                     }
 
-                    return helper.createPost() != 0;
+                    if (accountTwoCheck.isChecked()) {
+                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter2);
+
+                        if (notiId != 0) {
+                            helper.setInReplyToStatusId(notiId);
+                        }
+
+                        if (addLocation) {
+                            int wait = 0;
+                            while (!mLocationClient.isConnected() && wait < 4) {
+                                try {
+                                    Thread.sleep(1500);
+                                } catch (Exception e) {
+                                    return false;
+                                }
+
+                                wait++;
+                            }
+
+                            if (wait == 4) {
+                                return false;
+                            }
+
+                            Location location = mLocationClient.getLastLocation();
+                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+
+                            helper.setLocation(geolocation);
+                        }
+
+                        if (helper.createPost() != 0) {
+                            isDone = true;
+                        }
+                    }
+
+                    return isDone;
                 } else {
                     StatusUpdate media = new StatusUpdate(status);
 
@@ -540,7 +636,12 @@ public abstract class Compose extends Activity implements
                             media.setLocation(geolocation);
                         }
 
-                        twitter.updateStatus(media);
+                        if (accountOneCheck.isChecked()) {
+                            twitter.updateStatus(media);
+                        }
+                        if (accountTwoCheck.isChecked()) {
+                            twitter2.updateStatus(media);
+                        }
 
                         return true;
 
@@ -548,29 +649,62 @@ public abstract class Compose extends Activity implements
                         stream = getContentResolver().openInputStream(Uri.parse(attachedUri));
 
                         if (settings.twitpic) {
-                            TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
-                            if (addLocation) {
-                                int wait = 0;
-                                while (!mLocationClient.isConnected() && wait < 4) {
-                                    try {
-                                        Thread.sleep(1500);
-                                    } catch (Exception e) {
+                            boolean isDone = false;
+                            if (accountOneCheck.isChecked()) {
+                                TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
+                                if (addLocation) {
+                                    int wait = 0;
+                                    while (!mLocationClient.isConnected() && wait < 4) {
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (Exception e) {
+                                            return false;
+                                        }
+
+                                        wait++;
+                                    }
+
+                                    if (wait == 4) {
                                         return false;
                                     }
 
-                                    wait++;
-                                }
+                                    Location location = mLocationClient.getLastLocation();
+                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
 
-                                if (wait == 4) {
-                                    return false;
+                                    helper.setLocation(geolocation);
                                 }
-
-                                Location location = mLocationClient.getLastLocation();
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-                                
-                                helper.setLocation(geolocation);
+                                if (helper.createPost() != 0) {
+                                    isDone = true;
+                                }
                             }
-                            return helper.createPost() != 0;
+                            if (accountTwoCheck.isChecked()) {
+                                TwitPicHelper helper = new TwitPicHelper(twitter2, text, stream, context);
+                                if (addLocation) {
+                                    int wait = 0;
+                                    while (!mLocationClient.isConnected() && wait < 4) {
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (Exception e) {
+                                            return false;
+                                        }
+
+                                        wait++;
+                                    }
+
+                                    if (wait == 4) {
+                                        return false;
+                                    }
+
+                                    Location location = mLocationClient.getLastLocation();
+                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+
+                                    helper.setLocation(geolocation);
+                                }
+                                if (helper.createPost() != 0) {
+                                    isDone = true;
+                                }
+                            }
+                            return isDone;
                         } else {
                             //media.setMedia(f);
                             try {
@@ -600,7 +734,12 @@ public abstract class Compose extends Activity implements
                                 media.setLocation(geolocation);
                             }
 
-                            twitter.updateStatus(media);
+                            if (accountOneCheck.isChecked()) {
+                                twitter.updateStatus(media);
+                            }
+                            if (accountTwoCheck.isChecked()) {
+                                twitter2.updateStatus(media);
+                            }
 
                             return true;
                         }

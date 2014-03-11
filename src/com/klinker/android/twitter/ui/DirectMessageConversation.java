@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.MenuItem;
@@ -32,8 +31,9 @@ import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -60,12 +60,20 @@ public class DirectMessageConversation extends Activity {
     private String listName;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         if (settings.advanceWindowed) {
             setUpWindow();
@@ -138,6 +146,8 @@ public class DirectMessageConversation extends Activity {
                 }
             }
         });
+
+        Utils.setActionBar(context);
     }
 
     public void setUpWindow() {
@@ -189,15 +199,30 @@ public class DirectMessageConversation extends Activity {
         protected void onPostExecute(Cursor cursor) {
 
             if (cursor != null) {
-                listView.setAdapter(new TimeLineCursorAdapter(context, cursor, true));
+                Cursor c = null;
+                try {
+                    c = cursorAdapter.getCursor();
+                } catch (Exception e) {
+
+                }
+                cursorAdapter = new TimeLineCursorAdapter(context, cursor, true);
+                listView.setAdapter(cursorAdapter);
                 listView.setVisibility(View.VISIBLE);
                 listView.setStackFromBottom(true);
+
+                try {
+                    c.close();
+                } catch (Exception e) {
+
+                }
             }
 
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
     }
+
+    public TimeLineCursorAdapter cursorAdapter;
 
     class SendDirectMessage extends AsyncTask<String, String, Boolean> {
 

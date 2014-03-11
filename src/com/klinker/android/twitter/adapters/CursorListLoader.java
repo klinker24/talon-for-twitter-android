@@ -32,7 +32,7 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
         this.context = context;
 
         // if the layout is talon's, then they should have circle images
-        circleImages = (new AppSettings(context)).roundContactImages;
+        circleImages = (AppSettings.getInstance(context)).roundContactImages;
     }
 
     @Override

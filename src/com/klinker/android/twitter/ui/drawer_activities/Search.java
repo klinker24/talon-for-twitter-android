@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -23,27 +22,26 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
-import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
+import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.SettingsPagerActivity;
-import com.klinker.android.twitter.ui.LoginActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 import twitter4j.Query;
@@ -51,6 +49,7 @@ import twitter4j.QueryResult;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.User;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
@@ -74,12 +73,20 @@ public class Search extends Activity implements OnRefreshListener {
     private PullToRefreshLayout mPullToRefreshLayout;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
@@ -124,6 +131,7 @@ public class Search extends Activity implements OnRefreshListener {
         if (settings.addonTheme) {
             DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
             transformer.setProgressBarColor(settings.accentInt);
+            transformer.setRefreshingText(getResources().getString(R.string.loading));
         }
 
         try {
@@ -207,6 +215,7 @@ public class Search extends Activity implements OnRefreshListener {
 
         handleIntent(getIntent());
 
+        Utils.setActionBar(context);
     }
 
     @Override
@@ -248,7 +257,14 @@ public class Search extends Activity implements OnRefreshListener {
             Uri uri = intent.getData();
             String uriString = uri.toString();
             if (uriString.contains("status/")) {
-                long id = Long.parseLong(uriString.substring(uriString.indexOf("status")).replace("status/", "").replaceAll("photo/*", ""));
+                long id;
+                String replace = uriString.substring(uriString.indexOf("status")).replace("status/", "").replaceAll("photo/*", "");
+                if (replace.contains("/")) {
+                    replace = replace.substring(0, replace.indexOf("/"));
+                } else if (replace.contains("?")) {
+                    replace = replace.substring(0, replace.indexOf("?"));
+                }
+                id = Long.parseLong(replace);
                 findStatus(id);
             } else if (!uriString.contains("q=")) { // going to try searching for users i guess
                 String name = uriString.substring(uriString.indexOf(".com/"));
@@ -297,10 +313,22 @@ public class Search extends Activity implements OnRefreshListener {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
 
+        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+        ImageView view = (ImageView) searchView.findViewById(searchImgId);
+        view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
+
+        if (searchQuery.contains("@")) {
+            // user search and we should hide the filters
+            menu.getItem(3).setVisible(false); // pictures
+            menu.getItem(4).setVisible(false); // retweets
+        }
+
         return true;
     }
 
     public static final int SETTINGS_RESULT = 101;
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -316,6 +344,28 @@ public class Search extends Activity implements OnRefreshListener {
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
 
+            case R.id.menu_save_search:
+                Toast.makeText(context, getString(R.string.saving_search), Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+                            twitter.createSavedSearch(searchQuery);
+
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, getString(R.string.success), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (TwitterException e) {
+                            // something went wrong
+                        }
+                    }
+                }).start();
+                return super.onOptionsItemSelected(item);
+
             case R.id.menu_compose_with_search:
                 Intent compose = new Intent(context, ComposeActivity.class);
                 compose.putExtra("user", searchQuery);
@@ -326,6 +376,30 @@ public class Search extends Activity implements OnRefreshListener {
                 overridePendingTransition(0,0);
                 finish();
                 overridePendingTransition(0,0);
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_pic_filter:
+                listView.setVisibility(View.GONE);
+                if (!item.isChecked()) {
+                    searchQuery += " filter:links twitter.com";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace("filter:links", "").replace("twitter.com", "");
+                    item.setChecked(false);
+                }
+                doSearch(searchQuery);
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_remove_rt:
+                listView.setVisibility(View.GONE);
+                if (!item.isChecked()) {
+                    searchQuery += " -RT";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace(" -RT", "");
+                    item.setChecked(false);
+                }
+                doSearch(searchQuery);
                 return super.onOptionsItemSelected(item);
 
             default:
@@ -532,6 +606,8 @@ public class Search extends Activity implements OnRefreshListener {
         overridePendingTransition(0,0);
         finish();
         Intent restart = new Intent(context, Search.class);
+        restart.putExtra(SearchManager.QUERY, searchQuery);
+        restart.setAction(Intent.ACTION_SEARCH);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         overridePendingTransition(0, 0);
         startActivity(restart);
