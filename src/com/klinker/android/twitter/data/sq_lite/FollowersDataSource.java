@@ -45,7 +45,12 @@ public class FollowersDataSource {
     }
 
     public void close() {
-        dbHelper.close();
+        try {
+            dbHelper.close();
+        } catch (Exception e) {
+
+        }
+
         database = null;
     }
 
@@ -77,7 +82,11 @@ public class FollowersDataSource {
             open();
         }*/
 
-        database.insert(FollowersSQLiteHelper.TABLE_HOME, null, values);
+        try {
+            database.insert(FollowersSQLiteHelper.TABLE_HOME, null, values);
+        } catch (Exception e) {
+            // already exist. primary key must be unique
+        }
     }
 
     public synchronized void deleteUser(long userId) {

@@ -213,13 +213,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         transparent = new ColorDrawable(android.R.color.transparent);
 
-        mHandler = new Handler[4];
-        for (int i = 0; i < 4; i++) {
+        mHandler = new Handler[10];
+        for (int i = 0; i < 10; i++) {
             mHandler[i] = new Handler();
         }
         currHandler = 0;
-
-        emojiHandler = new Handler();
     }
 
     @Override
@@ -543,29 +541,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             Date date = new Date(time);
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
-
-        /*if (tweetText.contains("<font")) {
-            if (settings.addonTheme) {
-                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
-            } else {
-                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("\n", "<br/>")));
-            }
-        } else {
-            holder.tweet.setText(tweetText);
-        }*/
+        
         holder.tweet.setText(tweetText);
-        emojiHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (id == holder.tweetId) {
-                    if (settings.addonTheme) {
-                        holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
-                    } else {
-                        holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
-                    }
-                }
-            }
-        }, 500);
+
+        boolean picture = false;
 
         if(settings.inlinePics) {
             if (holder.picUrl.equals("")) {
@@ -618,40 +597,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     holder.image.setImageDrawable(transparent);
 
-                    mHandler[currHandler].removeCallbacksAndMessages(null);
-                    mHandler[currHandler].postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (holder.tweetId == id) {
-                                loadImage(context, holder, holder.picUrl, mCache, id);
-                            }
-                        }
-                    }, 350);
-
-                    currHandler++;
-
-                    if (currHandler == 4) {
-                        currHandler = 0;
-                    }
+                    picture = true;
 
                 } else {
                     holder.image.setImageDrawable(transparent);
 
-                    mHandler[currHandler].removeCallbacksAndMessages(null);
-                    mHandler[currHandler].postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (holder.tweetId == id) {
-                                loadImage(context, holder, holder.picUrl, mCache, id);
-                            }
-                        }
-                    }, 350);
-
-                    currHandler++;
-
-                    if (currHandler == 4) {
-                        currHandler = 0;
-                    }
+                    picture = true;
 
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
@@ -692,19 +643,36 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
-            String text = holder.tweet.getText().toString();
-            if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                emojiHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (holder.tweetId == id) {
+        final boolean hasPicture = picture;
+        mHandler[currHandler].removeCallbacksAndMessages(null);
+        mHandler[currHandler].postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (holder.tweetId == id) {
+                    if (hasPicture) {
+                        loadImage(context, holder, holder.picUrl, mCache, id);
+                    }
+
+                    if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+                        String text = holder.tweet.getText().toString();
+                        if (EmojiUtils.emojiPattern.matcher(text).find()) {
                             final Spannable span = EmojiUtils.getSmiledText(context, holder.tweet.getText());
                             holder.tweet.setText(span);
                         }
                     }
-                }, 350);
+
+                    if (settings.addonTheme) {
+                        holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
+                    } else {
+                        holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
+                    }
+                }
             }
+        }, 400);
+        currHandler++;
+
+        if (currHandler == 10) {
+            currHandler = 0;
         }
     }
 
