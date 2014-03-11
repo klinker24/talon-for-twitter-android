@@ -111,7 +111,7 @@ public abstract class Compose extends Activity implements
 
             if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
                 try {
-                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
+                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 23) + "");
                 } catch (Exception e) {
                     charRemaining.setText("0");
                 }
@@ -121,11 +121,11 @@ public abstract class Compose extends Activity implements
                 while(m.find()) {
                     String url = m.group();
                     count -= url.length(); // take out the length of the url
-                    count += 22; // add 22 for the shortened url
+                    count += 23; // add 23 for the shortened url
                 }
 
                 if (!attachedUri.equals("")) {
-                    count += 22;
+                    count += 23;
                 }
 
                 charRemaining.setText(140 - count + "");
