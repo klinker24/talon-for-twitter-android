@@ -97,6 +97,10 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
+        if (database == null) {
+            open();
+        }
+
         database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
 
         /*try {
@@ -135,6 +139,10 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
+        if (database == null) {
+            open();
+        }
+
         database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
 
         /*try {
@@ -148,6 +156,10 @@ public class MentionsDataSource {
 
     public synchronized void deleteTweet(long tweetId) {
         long id = tweetId;
+
+        if (database == null) {
+            open();
+        }
 
         database.delete(MentionsSQLiteHelper.TABLE_MENTIONS, MentionsSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
@@ -164,6 +176,10 @@ public class MentionsDataSource {
     }
 
     public synchronized void deleteAllTweets(int account) {
+
+        if (database == null) {
+            open();
+        }
 
         database.delete(MentionsSQLiteHelper.TABLE_MENTIONS,
                 MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
@@ -205,6 +221,14 @@ public class MentionsDataSource {
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
+        }
+
+        if (database == null) {
+            open();
+        }
+
+        if (database == null) {
+            open();
         }
 
         Cursor cursor;
@@ -251,6 +275,10 @@ public class MentionsDataSource {
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
+        }
+
+        if (database == null) {
+            open();
         }
 
         Cursor cursor;
@@ -303,6 +331,10 @@ public class MentionsDataSource {
                         open();
                     }*/
 
+                    if (database == null) {
+                        open();
+                    }
+
                     database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
 
                 } while (cursor.moveToNext());
@@ -318,6 +350,10 @@ public class MentionsDataSource {
 
         ContentValues cv = new ContentValues();
         cv.put(MentionsSQLiteHelper.COLUMN_UNREAD, 0);
+
+        if (database == null) {
+            open();
+        }
 
         database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
 
@@ -395,6 +431,10 @@ public class MentionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
                 allColumns, MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + MentionsSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         boolean exists = cursor.getCount() > 0;
@@ -403,6 +443,11 @@ public class MentionsDataSource {
     }
 
     public synchronized void deleteDups(int account) {
+
+        if (database == null) {
+            open();
+        }
+
         database.execSQL("DELETE FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + MentionsSQLiteHelper.TABLE_MENTIONS + " GROUP BY " + MentionsSQLiteHelper.COLUMN_TWEET_ID + ") AND " + MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
 
         /*try {

@@ -122,6 +122,10 @@ public class ListDataSource {
         values.put(ListSQLiteHelper.COLUMN_USERS, users);
         values.put(ListSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(ListSQLiteHelper.COLUMN_LIST_ID, listId);
+        
+        if (database == null) {
+            open();
+        }
 
         database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
 
@@ -136,6 +140,10 @@ public class ListDataSource {
 
     public synchronized void deleteTweet(long tweetId) {
         long id = tweetId;
+
+        if (database == null) {
+            open();
+        }
 
         database.delete(ListSQLiteHelper.TABLE_HOME, ListSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
@@ -152,6 +160,11 @@ public class ListDataSource {
     }
 
     public synchronized void deleteAllTweets(int listNumber) {
+
+        if (database == null) {
+            open();
+        }
+
         database.delete(ListSQLiteHelper.TABLE_HOME,
                 ListSQLiteHelper.COLUMN_LIST_ID + " = " + listNumber, null);
 
@@ -200,6 +213,10 @@ public class ListDataSource {
 
         if (noRetweets) {
             where += " AND " + ListSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + ListSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        }
+
+        if (database == null) {
+            open();
         }
 
         Cursor cursor;
@@ -281,6 +298,10 @@ public class ListDataSource {
 
     public synchronized Cursor getWholeCursor() {
 
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor;
         cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                 allColumns, null, null, null, null, ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -320,6 +341,10 @@ public class ListDataSource {
 
     public void deleteDups(int list) {
 
+        if (database == null) {
+            open();
+        }
+
         database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +
                 " WHERE _id NOT IN (SELECT MIN(_id) FROM " + ListSQLiteHelper.TABLE_HOME +
                 " GROUP BY " + ListSQLiteHelper.COLUMN_TWEET_ID + ") AND " + ListSQLiteHelper.COLUMN_LIST_ID + " = " + list);
@@ -340,6 +365,10 @@ public class ListDataSource {
     public void removeHTML(long tweetId, String text) {
         ContentValues cv = new ContentValues();
         cv.put(ListSQLiteHelper.COLUMN_TEXT, text);
+
+        if (database == null) {
+            open();
+        }
 
         try {
             database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});

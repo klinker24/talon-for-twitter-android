@@ -82,6 +82,10 @@ public class FollowersDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         try {
             database.insert(FollowersSQLiteHelper.TABLE_HOME, null, values);
         } catch (Exception e) {
@@ -97,6 +101,10 @@ public class FollowersDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         database.delete(FollowersSQLiteHelper.TABLE_HOME, FollowersSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
@@ -108,6 +116,10 @@ public class FollowersDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         database.delete(FollowersSQLiteHelper.TABLE_HOME,
                 FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
@@ -118,6 +130,10 @@ public class FollowersDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }*/
+
+        if (database == null) {
+            open();
+        }
 
         Cursor cursor = database.query(FollowersSQLiteHelper.TABLE_HOME,
                 allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
