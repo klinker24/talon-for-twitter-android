@@ -1345,8 +1345,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             try {
                 int currentAccount = settings.currentAccount;
 
-                HomeDataSource dataSource = new HomeDataSource(context);
-                dataSource.open();
+                HomeDataSource dataSource = HomeDataSource.getInstance(context);
 
                 Twitter twitter = Utils.getTwitter(context, DrawerActivity.settings);
                 twitter.verifyCredentials();
@@ -1369,8 +1368,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 dataSource.deleteDups(currentAccount);
 
                 dataSource.markUnreadFilling(currentAccount);
-
-                dataSource.close();
 
                 PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
 
@@ -1423,8 +1420,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }
 
         protected Boolean doInBackground(String... urls) {
-            FollowersDataSource followers = new FollowersDataSource(context);
-            followers.open();
+            FollowersDataSource followers = FollowersDataSource.getInstance(context);
 
             followers.deleteAllUsers(sharedPrefs.getInt("current_account", 1));
 
@@ -1455,7 +1451,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 // something wrong haha
             }
 
-            followers.close();
             return true;
         }
 

@@ -988,6 +988,7 @@ public class EmojiUtils {
             addSmiles(context, spannable);
             return spannable;
         } catch (Exception e) {
+            e.printStackTrace();
             return new SpannableString("");
         }
     }

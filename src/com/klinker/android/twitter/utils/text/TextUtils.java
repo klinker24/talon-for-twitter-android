@@ -25,6 +25,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
 
+import com.klinker.android.twitter.utils.EmojiUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,7 +48,11 @@ public class TextUtils {
         Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder);
     }
 
-    public static Spannable colorText(String tweet, int color) {
+    public static Spannable colorText(Context context, String tweet, int color) {
+        return colorText(context, tweet, color, false);
+    }
+
+    public static Spannable colorText(Context context, String tweet, int color, boolean emojis) {
         Spannable finish = new SpannableString(tweet);
 
         Matcher m = Regex.MENTION_PATTERN.matcher(tweet);
@@ -60,6 +66,10 @@ public class TextUtils {
         m = Patterns.WEB_URL.matcher(tweet);
         while (m.find()) {
             finish = changeText(finish, m.group(0), color);
+        }
+
+        if (emojis) {
+            EmojiUtils.addSmiles(context, finish);
         }
 
         return finish;

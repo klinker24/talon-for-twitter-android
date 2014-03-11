@@ -644,23 +644,23 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         loadImage(context, holder, holder.picUrl, mCache, id);
                     }
 
+                    boolean emojis = false;
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
                         String text = holder.tweet.getText().toString();
                         if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                            final Spannable span = EmojiUtils.getSmiledText(context, holder.tweet.getText());
-                            holder.tweet.setText(span);
+                            emojis = true;
                         }
                     }
 
                     if (settings.addonTheme) {
                         if (!isDM) {
-                            holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
+                            holder.tweet.setText(TextUtils.colorText(context, tweetText, settings.accentInt, emojis));
                         } else {
                             TextUtils.linkifyText(context, holder.tweet, holder.background, false);
                         }
                     } else {
                         if (!isDM) {
-                            holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
+                            holder.tweet.setText(TextUtils.colorText(context, tweetText, context.getResources().getColor(R.color.app_color), emojis));
                         } else {
                             TextUtils.linkifyText(context, holder.tweet, holder.background, false);
                         }
