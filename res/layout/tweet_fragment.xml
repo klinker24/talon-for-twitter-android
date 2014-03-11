@@ -239,16 +239,23 @@
                             android:scaleType="fitCenter" android:adjustViewBounds="true"
                             android:maxWidth="32dp" android:maxHeight="32dp" />
 
-                        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                            android:layout_height="37dp"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginLeft="-4dp"
-                            android:layout_marginBottom="2dp"
-                            android:textSize="13dp"
-                            android:singleLine="true"
-                            android:paddingRight="3dp"
-                            android:gravity="bottom|right"
-                            android:id="@+id/fav_count" />
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom|right">
+
+                            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                                android:layout_height="37dp"
+                                android:layout_width="wrap_content"
+                                android:layout_marginLeft="-4dp"
+                                android:layout_marginBottom="2dp"
+                                android:textSize="13dp"
+                                android:singleLine="true"
+                                android:paddingRight="3dp"
+                                android:id="@+id/fav_count" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </RelativeLayout>
