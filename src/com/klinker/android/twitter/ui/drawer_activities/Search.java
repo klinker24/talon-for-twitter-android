@@ -166,17 +166,6 @@ public class Search extends Activity implements OnRefreshListener {
             }
         });
 
-        if (searchQuery != null && !searchQuery.equals("") && !searchQuery.contains("@")) {
-            BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-            ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-            ItemManager.Builder builder = new ItemManager.Builder(loader);
-            builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-            builder.setThreadPoolSize(4);
-
-            listView.setItemManager(builder.build());
-        }
-
         View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
 
@@ -214,6 +203,17 @@ public class Search extends Activity implements OnRefreshListener {
         spinner.setVisibility(View.GONE);
 
         handleIntent(getIntent());
+
+        if (searchQuery != null && !searchQuery.equals("") && !searchQuery.contains("@")) {
+            BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+            ArrayListLoader loader = new ArrayListLoader(cache, context);
+
+            ItemManager.Builder builder = new ItemManager.Builder(loader);
+            builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
+            builder.setThreadPoolSize(4);
+
+            listView.setItemManager(builder.build());
+        }
 
         Utils.setActionBar(context);
     }
@@ -265,10 +265,12 @@ public class Search extends Activity implements OnRefreshListener {
                     replace = replace.substring(0, replace.indexOf("?"));
                 }
                 id = Long.parseLong(replace);
+                searchQuery = id + "";
                 findStatus(id);
             } else if (!uriString.contains("q=")) { // going to try searching for users i guess
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
+                searchQuery = name;
                 Log.v("searching_twitter", "username: " + name);
                 doUserSearch(name);
             } else {
