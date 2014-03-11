@@ -501,6 +501,8 @@ public class PeopleCursorAdapter extends CursorAdapter {
 
             } catch (IOException e) {
                 Log.e("ImageUrlAsyncTask", e.toString());
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
             }
 
             return null;

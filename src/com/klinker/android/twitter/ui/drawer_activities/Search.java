@@ -500,7 +500,14 @@ public class Search extends Activity implements OnRefreshListener {
                             spinner.setVisibility(View.GONE);
                         }
                     });
-
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
                 }
             }
         }).start();
