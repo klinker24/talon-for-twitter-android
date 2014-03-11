@@ -25,7 +25,7 @@
                 android:gravity="center"
                 android:layout_gravity="center" />
 
-            <com.klinker.android.twitter.ui.widgets.HoloEditText
+            <com.klinker.android.twitter.manipulations.widgets.HoloEditText
                 android:id="@+id/contact_entry"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -54,7 +54,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"  >
 
-            <com.klinker.android.twitter.ui.widgets.HoloEditText
+            <com.klinker.android.twitter.manipulations.widgets.HoloEditText
                 android:id="@+id/tweet_content"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
@@ -72,7 +72,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical">
 
-                <com.klinker.android.twitter.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:id="@+id/char_remaining"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
 
-                <com.klinker.android.twitter.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:layout_width="0dp"
                     android:layout_weight="1.5"
                     android:layout_height="match_parent"
@@ -130,7 +130,7 @@
                     android:background="@android:color/white"
                     android:alpha="20"/>
 
-                <com.klinker.android.twitter.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"

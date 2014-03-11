@@ -1,17 +1,25 @@
 package com.klinker.android.twitter.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
@@ -23,41 +31,92 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.services.CatchupPull;
+import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
+import com.klinker.android.twitter.ui.setup.TutorialActivity;
+import com.klinker.android.twitter.ui.setup.Version2Setup;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Calendar;
 
 public class MainActivity extends DrawerActivity {
 
     public static boolean isPopup;
+    public static Context sContext;
+
+    public static ImageButton sendButton;
+    public static LinearLayout sendLayout;
+    public static boolean showIsRunning = false;
+    public static boolean hideIsRunning = false;
+    public static Handler sendHandler;
+    public static Runnable showSend = new Runnable() {
+        @Override
+        public void run() {
+            if (settings.floatingCompose && sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_in_left);
+                anim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        showIsRunning = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        sendLayout.setVisibility(View.VISIBLE);
+                        showIsRunning = false;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                anim.setDuration(300);
+                sendLayout.startAnimation(anim);
+            }
+        }
+    };
+    public static Runnable hideSend = new Runnable() {
+        @Override
+        public void run() {
+            if (settings.floatingCompose && sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_out_right);
+                anim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        hideIsRunning = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        sendLayout.setVisibility(View.GONE);
+                        hideIsRunning = false;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                anim.setDuration(300);
+                sendLayout.startAnimation(anim);
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = this;
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        DrawerActivity.settings = new AppSettings(context);
+        MainActivity.sendHandler = new Handler();
 
-        /*if(sharedPrefs.getBoolean("pebble_notification", false)) {
-            Log.v("talon_pebble", "sending pebble notification");
-            Intent pebble = new Intent("com.getpebble.action.SEND_NOTIFICATION");
-            Map pebbleData = new HashMap();
-            pebbleData.put("title", "Test from Talon");
-            pebbleData.put("body", "This is just a test that will run whenever the main activity is created.");
-            JSONObject jsonData = new JSONObject(pebbleData);
-            String notificationData = new JSONArray().put(jsonData).toString();
-            pebble.putExtra("messageType", "PEBBLE_ALERT");
-            pebble.putExtra("sender", context.getResources().getString(R.string.app_name));
-            pebble.putExtra("notificationData", notificationData);
-            context.sendBroadcast(pebble);
-        }*/
+        context = this;
+        sContext = this;
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        DrawerActivity.settings = AppSettings.getInstance(context);
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -73,13 +132,26 @@ public class MainActivity extends DrawerActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
+        MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
+        MainActivity.sendHandler.postDelayed(showSend, 1000);
+        MainActivity.sendButton = (ImageButton) findViewById(R.id.send_button);
+        MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent compose = new Intent(context, ComposeActivity.class);
+                startActivity(compose);
+            }
+        });
+
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.timeline));
-
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
+        } else if (!sharedPrefs.getBoolean("setup_v_two", false)) {
+            Intent setupV2 = new Intent(context, Version2Setup.class);
+            startActivity(setupV2);
         }
 
         mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs);
@@ -87,13 +159,6 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
-
-        if (getIntent().getBooleanExtra("from_drawer", false)) {
-            int page = getIntent().getIntExtra("page_to_open", 0);
-            String title = "" + mSectionsPagerAdapter.getPageTitle(page);
-            actionBar.setTitle(title);
-            mViewPager.setCurrentItem(page);
-        }
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
@@ -107,6 +172,7 @@ public class MainActivity extends DrawerActivity {
                         statusBar.setVisibility(View.VISIBLE);
                     }
                 }
+                MainActivity.sendHandler.post(showSend);
             }
 
             public void onPageSelected(int position) {
@@ -221,8 +287,30 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        MainActivity.showIsRunning = false;
+        MainActivity.hideIsRunning = false;
+        MainActivity.sendHandler.postDelayed(showSend, 1000);
+
+        if (sharedPrefs.getBoolean("open_a_page", false)) {
+            sharedPrefs.edit().putBoolean("open_a_page", false).commit();
+            int page = sharedPrefs.getInt("open_what_page", 3);
+            String title = "" + mSectionsPagerAdapter.getPageTitle(page);
+            actionBar.setTitle(title);
+            mViewPager.setCurrentItem(page);
+        }
+
+        if (sharedPrefs.getBoolean("open_interactions", false)) {
+            sharedPrefs.edit().putBoolean("open_interactions", false).commit();
+            mDrawerLayout.openDrawer(Gravity.END);
+        }
+    }
+
+    @Override
     public void onDestroy() {
-        try {
+        /*try {
             HomeDataSource.getInstance(context).close();
         } catch (Exception e) { }
         try {
@@ -242,9 +330,44 @@ public class MainActivity extends DrawerActivity {
         } catch (Exception e) { }
         try {
             InteractionsDataSource.getInstance(context).close();
-        } catch (Exception e) { }
+        } catch (Exception e) { }*/
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
+            recreate();
+        }
+
+        if(DrawerActivity.settings.pushNotifications) {
+            if (!TalonPullNotificationService.isRunning) {
+                context.startService(new Intent(context, TalonPullNotificationService.class));
+            }
+        } else {
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+        }
+
+        // cancel the alarm to start the catchup service
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 236, new Intent(context, CatchupPull.class), 0);
+        am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
+
+        // clear the pull unread
+        sharedPrefs.edit().putInt("pull_unread", 0).commit();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        if (settings.floatingCompose) {
+            menu.getItem(2).setVisible(false); // hide the compose button here
+        }
+
+        return true;
     }
 
 }

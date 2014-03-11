@@ -25,10 +25,18 @@ public class BrowserActivity extends Activity {
     private WebView browser;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new AppSettings(this);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+
+        settings = AppSettings.getInstance(this);
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         Utils.setUpTheme(this, settings);
@@ -68,6 +76,8 @@ public class BrowserActivity extends Activity {
         browser.loadUrl(url);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Utils.setActionBar(this);
     }
 
     @Override

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 import java.util.ArrayList;
 
@@ -34,12 +34,12 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 context1.getResources().getString(R.string.timeline),
                 context1.getResources().getString(R.string.mentions),
                 context1.getResources().getString(R.string.direct_messages),
-                context1.getResources().getString(R.string.trends),
+                context1.getResources().getString(R.string.discover),
                 context1.getResources().getString(R.string.lists),
                 context1.getResources().getString(R.string.favorite_users),
                 context1.getResources().getString(R.string.retweets),
-                context1.getResources().getString(R.string.favorite_tweets) };
-                //context1.getResources().getString(R.string.search) };
+                context1.getResources().getString(R.string.favorite_tweets),
+                context1.getResources().getString(R.string.saved_searches) };
 
         return items;
     }
@@ -50,7 +50,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         this.text = text;
         this.sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        textSize = 15;//Integer.parseInt(sharedPrefs.getString("text_size", "14"));
+        textSize = 15;
     }
 
     @Override
@@ -81,17 +81,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         holder.name.setText(settingName);
         holder.name.setTextSize(18);
 
-        if (text.get(position).equals(context.getResources().getString(R.string.links))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.pictures))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.picturePlaceholder});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
+        if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.timelineItem});
             int resource = a.getResourceId(0, 0);
             a.recycle();
@@ -121,8 +111,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.trends))) {
-            //TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.worldTrends});
+        } else if (text.get(position).equals(context.getResources().getString(R.string.discover))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
             int resource = a.getResourceId(0, 0);
             a.recycle();
@@ -134,6 +123,11 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
             holder.icon.setImageResource(resource);
         } else if (text.get(position).equals(context.getResources().getString(R.string.lists))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.listIcon});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
+        } else if (text.get(position).equals(context.getResources().getString(R.string.saved_searches))) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.searchIcon});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);

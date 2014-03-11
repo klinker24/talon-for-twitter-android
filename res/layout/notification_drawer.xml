@@ -5,8 +5,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:animateLayoutChanges="true"
-              android:background="?windowBackground" >
+              android:animateLayoutChanges="true">
 
     <View android:id="@+id/drawer_status_bar_2"
           android:layout_width="match_parent"
@@ -21,6 +20,7 @@
     <de.timroes.android.listview.EnhancedListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/notificationList"/>
+            android:id="@+id/notificationList"
+            android:background="?windowBackground" />
 
 </LinearLayout>

@@ -3,7 +3,6 @@ package com.klinker.android.twitter.ui.tweet_viewer;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -24,6 +23,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,12 +39,8 @@ import com.klinker.android.twitter.adapters.TweetPagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.BrowserActivity;
-import com.klinker.android.twitter.ui.UserProfileActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
-import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
-import com.klinker.android.twitter.utils.HtmlUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -58,27 +54,31 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private TweetPagerAdapter mSectionsPagerAdapter;
     private ViewPager pager;
-    private Context context;
-    private AppSettings settings;
+    public Context context;
+    public AppSettings settings;
 
-    private String name;
-    private String screenName;
-    private String tweet;
-    private long time;
-    private String retweeter;
-    private String webpage;
-    private String proPic;
-    private boolean picture;
-    private long tweetId;
-    private String[] users;
-    private String[] hashtags;
-    private String[] otherLinks;
-    private boolean isMyTweet = false;
-    private boolean isMyRetweet = true;
+    public String name;
+    public String screenName;
+    public String tweet;
+    public long time;
+    public String retweeter;
+    public String webpage;
+    public String proPic;
+    public boolean picture;
+    public long tweetId;
+    public String[] users;
+    public String[] hashtags;
+    public String[] otherLinks;
+    public boolean isMyTweet = false;
+    public boolean isMyRetweet = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -89,7 +89,7 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         context = this;
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         getFromIntent();
         Utils.setUpPopupTheme(context, settings);
@@ -123,13 +123,13 @@ public class TweetPager extends YouTubeBaseActivity {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         switch (numberOfPages) {
-            case 3:
+            case 2:
                 pager.setCurrentItem(0);
                 break;
-            case 4:
+            case 3:
                 pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 1);
                 break;
-            case 5:
+            case 4:
                 pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 2);
                 break;
         }
@@ -179,6 +179,8 @@ public class TweetPager extends YouTubeBaseActivity {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
             strip.setBackgroundColor(settings.accentInt);
         }
+
+        Utils.setActionBar(context);
     }
 
     public void setUpWindow(boolean youtube) {
@@ -249,6 +251,8 @@ public class TweetPager extends YouTubeBaseActivity {
         } else if (screenName.equals(retweeter)) {
             isMyRetweet = true;
         }
+
+        tweet = restoreLinks(tweet);
     }
 
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
@@ -342,8 +346,6 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private Intent getShareIntent() {
         String text1 = tweet;
-        text1 = HtmlUtils.removeColorHtml(text1, settings);
-        text1 = restoreLinks(text1);
         text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -395,8 +397,6 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_share:
                 String text1 = tweet;
-                text1 = HtmlUtils.removeColorHtml(text1, settings);
-                text1 = restoreLinks(text1);
                 text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
                 Log.v("my_text_on_share", text1);
                 Intent share = new Intent(Intent.ACTION_SEND);
@@ -408,7 +408,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_copy_text:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("tweet_text", restoreLinks(HtmlUtils.removeColorHtml(tweet, settings)));
+                ClipData clip = ClipData.newPlainText("tweet_text", tweet);
                 clipboard.setPrimaryClip(clip);
                 return true;
 
@@ -498,9 +498,6 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_quote:
                 String text = tweet;
-
-                text = HtmlUtils.removeColorHtml(text, settings);
-                text = restoreLinks(text);
 
                 if (!settings.preferRT) {
                     text = "\"@" + screenName + ": " + text + "\" ";
@@ -625,22 +622,31 @@ public class TweetPager extends YouTubeBaseActivity {
     public String restoreLinks(String text) {
         String full = text;
 
-        String[] split = text.split(" ");
+        String[] split = text.split("\\s");
+        String[] otherLink = new String[otherLinks.length];
+
+        for (int i = 0; i < otherLinks.length; i++) {
+            otherLink[i] = "" + otherLinks[i];
+        }
 
         boolean changed = false;
 
-        if (otherLinks.length > 0) {
+        if (otherLink.length > 0) {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
 
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
                     String f = s.replace("...", "").replace("http", "");
 
-                    for (int x = 0; x < otherLinks.length; x++) {
-                        Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                        if (otherLinks[x].contains(f)) {
+                    for (int x = 0; x < otherLink.length; x++) {
+                        if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
                             changed = true;
-                            f = otherLinks[x];
+                            // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
+                            if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
+                                otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                            }
+                            f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
+                            otherLink[x] = "";
                             break;
                         }
                     }
@@ -657,18 +663,18 @@ public class TweetPager extends YouTubeBaseActivity {
             }
         }
 
-        Log.v("talon_picture", ":" + webpage + ":");
-
         if (!webpage.equals("")) {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
+                s = s.replace("...", "");
 
-                Log.v("talon_picture_", s);
-
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    split[i] = webpage;
+                if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                    String replace = otherLinks[otherLinks.length - 1];
+                    if (replace.replace(" ", "").equals("")) {
+                        replace = webpage;
+                    }
+                    split[i] = replace;
                     changed = true;
-                    Log.v("talon_picture", split[i]);
                 }
             }
         }
@@ -685,5 +691,11 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         return full;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
     }
 }

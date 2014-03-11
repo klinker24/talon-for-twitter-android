@@ -1,38 +1,22 @@
 - Features:
-    - scheduling tweets
-    - widget with just the unread numbers on it
     - instapaper mobilizer
-    - nearby tweets
-    - pick where the local trends are
-    - picture searching
-    - translation
-    - pictures on direct messages
-    - discover tab
+    - translation of tweets (probably won't be happening)
+    - addon package for full screen themes
+    - auto-complete hashtags
+    - mute by source
+    - text feedback when clicked
+    - interactions with dashclock
+    - attach pictures from the talon pull compose
+    - search fragment on main timelines
 
 - Bugs:
-    - doesn't display pictures full screen when clicking on tweet
-    - vines on lower version of android
-    - compose not always shutting?
-    - small images have the spinner behind them..
-    - quoting with an image give the pbs.twimg url
-    - random avatar changes
+    - video sound stops after one time playing it
     - sideways pictures
 
 
 -- For Release --
 
-- 1.4
-    - RTL support
-
-
-- 1.5
-    -- users favorites, mentions, and pictures on profile
-        - pics can go in a header view above the timeline
-        - mentions and favorites will have to get their own pages
-    -- post from different accounts on compose window
-    -- theme the action bar
-    -- mute regex and via sources
-
-
-- 1.6
-    -- new widget stuff
+Version 2.1.0
+    - Drafts
+    - Scheduled Tweets
+    - Direct Message pictures

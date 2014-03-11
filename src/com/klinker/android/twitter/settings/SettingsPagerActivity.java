@@ -14,12 +14,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +34,8 @@ public class SettingsPagerActivity extends FragmentActivity {
     SharedPreferences sharedPrefs;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
+    private ListView otherList;
+    private ListView settingsList;
     private LinearLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -41,12 +44,23 @@ public class SettingsPagerActivity extends FragmentActivity {
     public static boolean inOtherLinks = true;
 
     private String[] linkItems;
+    private String[] settingsItems;
 
     public static ViewPager mViewPager;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+
+        AppSettings.invalidate();
 
         setUpTheme();
 
@@ -54,15 +68,19 @@ public class SettingsPagerActivity extends FragmentActivity {
 
         DrawerArrayAdapter.current = 0;
 
-        linkItems = new String[]{getResources().getString(R.string.theme_settings),
-                getResources().getString(R.string.timelines_settings),
-                getResources().getString(R.string.sync_settings),
-                getResources().getString(R.string.notification_settings),
-                getResources().getString(R.string.advanced_settings),
+        linkItems = new String[]{
                 getResources().getString(R.string.get_help_settings),
                 getResources().getString(R.string.other_apps),
                 getResources().getString(R.string.whats_new),
                 getResources().getString(R.string.rate_it)};
+
+        settingsItems = new String[] {
+                getResources().getString(R.string.ui_settings),
+                getResources().getString(R.string.timelines_settings),
+                getResources().getString(R.string.sync_settings),
+                getResources().getString(R.string.notification_settings),
+                getResources().getString(R.string.advanced_settings),
+        };
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -127,7 +145,7 @@ public class SettingsPagerActivity extends FragmentActivity {
         }
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(
-                getFragmentManager(), this, mDrawerList);
+                getFragmentManager(), this, otherList);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -135,14 +153,50 @@ public class SettingsPagerActivity extends FragmentActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
-        mDrawerList = (ListView) findViewById(R.id.links_list);
+        otherList = (ListView) findViewById(R.id.other_list);
+        settingsList = (ListView) findViewById(R.id.settings_list);
         mDrawer = (LinearLayout) findViewById(R.id.drawer);
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new DrawerArrayAdapter(this,
+        otherList.setAdapter(new DrawerArrayAdapter(this,
                 new ArrayList<String>(Arrays.asList(linkItems))));
+        settingsList.setAdapter(new DrawerArrayAdapter(this,
+                new ArrayList<String>(Arrays.asList(settingsItems))));
         // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new SettingsDrawerClickListener(this, mDrawerLayout, mDrawerList, mViewPager, mDrawer));
+        settingsList.setOnItemClickListener(new SettingsDrawerClickListener(this, mDrawerLayout, settingsList, mViewPager, mDrawer));
+        otherList.setOnItemClickListener(new SettingsLinkDrawerClickListener(this, mDrawerLayout, otherList, mViewPager, mDrawer));
+
+        findViewById(R.id.settingsLinks).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToSettingsList(true);
+                settingsLinksActive = true;
+                findViewById(R.id.settingsSelector).setVisibility(View.VISIBLE);
+                findViewById(R.id.otherSelector).setVisibility(View.INVISIBLE);
+            }
+        });
+
+        findViewById(R.id.otherLinks).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToSettingsList(false);
+                settingsLinksActive = false;
+                findViewById(R.id.settingsSelector).setVisibility(View.INVISIBLE);
+                findViewById(R.id.otherSelector).setVisibility(View.VISIBLE);
+            }
+        });
+
+        if (settingsLinksActive) {
+            settingsList.setVisibility(View.VISIBLE);
+            otherList.setVisibility(View.GONE);
+            findViewById(R.id.settingsSelector).setVisibility(View.VISIBLE);
+            findViewById(R.id.otherSelector).setVisibility(View.INVISIBLE);
+        } else {
+            settingsList.setVisibility(View.GONE);
+            otherList.setVisibility(View.VISIBLE);
+            findViewById(R.id.settingsSelector).setVisibility(View.INVISIBLE);
+            findViewById(R.id.otherSelector).setVisibility(View.VISIBLE);
+        }
 
         TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -161,17 +215,6 @@ public class SettingsPagerActivity extends FragmentActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        try {
-            if (getIntent().getBooleanExtra("mms", false)) {
-                mViewPager.setCurrentItem(6, true);
-            }
-
-            int pageNumber = getIntent().getIntExtra("page_number", 0);
-            mViewPager.setCurrentItem(pageNumber, true);
-        } catch (Exception e) {
-
-        }
-
         userKnows = sharedPrefs.getBoolean("user_knows_navigation_drawer", false);
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -183,7 +226,8 @@ public class SettingsPagerActivity extends FragmentActivity {
 
             public void onPageSelected(int position) {
                 DrawerArrayAdapter.current = position;
-                mDrawerList.invalidateViews();
+                otherList.invalidateViews();
+                settingsList.invalidateViews();
             }
         });
 
@@ -219,7 +263,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public void setUpTheme() {
 
-        AppSettings settings = new AppSettings(this);
+        AppSettings settings = AppSettings.getInstance(this);
 
         switch (settings.theme) {
             case AppSettings.THEME_LIGHT:
@@ -285,8 +329,89 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        AppSettings.invalidate();
         Intent main = new Intent(this, MainActivity.class);
         startActivity(main);
         finish();
+    }
+
+    private static final int ANIM_TIME = 300;
+
+    private void switchToSettingsList(boolean settings) {
+        if (settings && settingsList.getVisibility() != View.VISIBLE) {
+            // animate the settings list showing and other list hiding
+            Animation in = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+            Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
+            in.setDuration(ANIM_TIME * 2);
+            out.setDuration(ANIM_TIME);
+            in.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    settingsList.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            out.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    otherList.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    otherList.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            settingsList.startAnimation(in);
+            otherList.startAnimation(out);
+        } else if (!settings && otherList.getVisibility() != View.VISIBLE) {
+            // animate the other list showing and settings list hiding
+            Animation in = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+            Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
+            in.setDuration(ANIM_TIME * 2);
+            out.setDuration(ANIM_TIME);
+            in.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    otherList.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            out.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    settingsList.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    settingsList.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            settingsList.startAnimation(out);
+            otherList.startAnimation(in);
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.klinker.android.twitter.settings;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -31,7 +32,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -44,20 +45,21 @@ import com.klinker.android.twitter.data.Item;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.manipulations.MySuggestionsProvider;
+import com.klinker.android.twitter.utils.LocalTrendsUtils;
+import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.settings.configure_pages.ConfigurePagerActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.UserProfileActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.fragments.DMFragment;
-import com.klinker.android.twitter.ui.fragments.HomeFragment;
-import com.klinker.android.twitter.ui.fragments.MentionsFragment;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.ui.main_fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
@@ -149,6 +151,44 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             showHandle.setEnabled(false);
         }
 
+        final Preference newRegexMute = findPreference("mute_regex");
+        newRegexMute.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.insert_regex_dialog);
+                dialog.setTitle(getResources().getString(R.string.mute_expression) + ":");
+
+                final HoloEditText expTV = (HoloEditText) dialog.findViewById(R.id.expression);
+
+                Button cancel = (Button) dialog.findViewById(R.id.cancel);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button change = (Button) dialog.findViewById(R.id.ok);
+                change.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String exp = expTV.getText().toString();
+                        if (!exp.equals("")) {
+                            String newRegex = sharedPrefs.getString("muted_regex", "") + exp + "   ";
+                            sharedPrefs.edit().putString("muted_regex", newRegex).commit();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(context, getResources().getString(R.string.no_expression), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                dialog.show();
+                return false;
+            }
+        });
+
         final Preference both = findPreference("both_handle_name");
         both.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -173,6 +213,39 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference mutedRegex = findPreference("manage_regex_mute");
+        mutedRegex.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] exps = sharedPrefs.getString("muted_regex", "").split("   ");
+
+                if (exps.length == 0 || (exps.length == 1 && exps[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_expression), Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(exps, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String newExps = "";
+
+                            for (int i = 0; i < exps.length; i++) {
+                                if (i != item) {
+                                    newExps += exps[i] + "   ";
+                                }
+                            }
+
+                            sharedPrefs.edit().putString("muted_regex", newExps).commit();
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                return false;
+            }
+        });
+
         Preference muted = findPreference("manage_mutes");
         muted.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -187,7 +260,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         public void onClick(DialogInterface dialog, int item) {
                             String touched = users[item];
 
-                            Intent user = new Intent(context, UserProfileActivity.class);
+                            Intent user = new Intent(context, ProfilePager.class);
                             user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
                             user.putExtra("proPic", "");
                             context.startActivity(user);
@@ -245,7 +318,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        Preference deviceFont = findPreference("font_type");
+        final Preference deviceFont = findPreference("font_type");
         deviceFont.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -310,7 +383,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         });
 
         Preference download = findPreference("download_portal");
-        download.setSummary(context.getResources().getString(R.string.download_portal_summary) + "\n\nCurrently in BETA.");
+        download.setSummary(context.getResources().getString(R.string.download_portal_summary) + "\n\n" + context.getResources().getString(R.string.currently_in_beta));
         download.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -365,10 +438,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             nightMode.setEnabled(false);
             layout.setEnabled(false);
             theme.setEnabled(false);
+            deviceFont.setEnabled(false);
         } else {
             nightMode.setEnabled(true);
             layout.setEnabled(true);
             theme.setEnabled(true);
+            deviceFont.setEnabled(true);
         }
 
         final Preference addonTheme = findPreference("addon_themes");
@@ -382,17 +457,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         }
 
-        addonTheme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        addonTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (sharedPrefs.getBoolean("addon_themes", false)) {
-                    sharedPrefs.edit().putBoolean("addon_themes", false).commit();
-                    sharedPrefs.edit().putString("addon_theme_package", null).commit();
-                    addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
-                    new TrimCache(null).execute();
-                    context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                    return true;
-                }
+            public boolean onPreferenceClick(Preference preference) {
 
                 final PackageManager pm = context.getPackageManager();
                 final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
@@ -414,10 +481,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     }
                 }
 
-                final Item[] items = new Item[packages.size()];
+                final Item[] items = new Item[packages.size() + 1];
 
-                for (int i = 0; i < items.length; i++) {
-                    items[i] = new Item(packages.get(i).loadLabel(pm).toString(), pm.getApplicationIcon(packages.get(i)));
+                items[0] = new Item(getString(R.string.none), getResources().getDrawable(R.mipmap.ic_launcher));
+                for (int i = 0; i < packages.size(); i++) {
+                    items[i + 1] = new Item(packages.get(i).loadLabel(pm).toString(), pm.getApplicationIcon(packages.get(i)));
                 }
 
                 ListAdapter adapter = new ArrayAdapter<Item>(
@@ -441,21 +509,40 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        sharedPrefs.edit().putString("addon_theme_package", packages.get(arg1).packageName).commit();
-                        try {
-                            String pack = packages.get(arg1).packageName;
-                            addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
-                        } catch (Exception e) {
-                            sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
+                        if (arg1 == 0) {
+                            sharedPrefs.edit().putBoolean("addon_themes", false).commit();
+                            sharedPrefs.edit().putString("addon_theme_package", null).commit();
+                            addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
+                            layout.setEnabled(true);
+                            theme.setEnabled(true);
+                            nightMode.setEnabled(true);
+                            deviceFont.setEnabled(true);
+                        } else {
+                            arg1 -= 1;
+                            layout.setEnabled(false);
+                            theme.setEnabled(false);
+                            nightMode.setEnabled(false);
+                            deviceFont.setEnabled(false);
+                            sharedPrefs.edit()
+                                    .putString("addon_theme_package", packages.get(arg1).packageName)
+                                    .putBoolean("addon_themes", true)
+                                    .commit();
+                            try {
+                                String pack = packages.get(arg1).packageName;
+                                addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
+                            } catch (Exception e) {
+                                sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
+                            }
                         }
 
-                        new TrimCache(null).execute();
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                        new TrimCache(null).execute();
                     }
 
                 });
 
                 attachBuilder.create().show();
+
                 return true;
             }
         });
@@ -588,7 +675,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     public void setUpSyncSettings() {
         final Context context = getActivity();
 
-        final AppSettings settings = new AppSettings(context);
+        final AppSettings settings = AppSettings.getInstance(context);
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         final Preference timeline = findPreference("timeline_sync_interval");
@@ -734,6 +821,59 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     public void setUpAdvancedSettings() {
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        /*final Preference country = findPreference("country");
+        String currCountry = sharedPrefs.getString("country", "");
+
+        if (!currCountry.equals("")) {
+            country.setSummary(currCountry);
+        }
+
+        country.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                country.setSummary(sharedPrefs.getString("country", ""));
+                return true;
+            }
+        });*/
+
+        final Preference cities = findPreference("city");
+
+        if (sharedPrefs.getBoolean("manually_config_location", false)) {
+            cities.setSummary(sharedPrefs.getString("location", "Chicago"));
+        }
+        cities.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                String country = sharedPrefs.getString("country", "United States");
+                final String[][] full = LocalTrendsUtils.getArray(country);
+                String[] names = new String[full.length];
+
+                for (int i = 0; i <names.length; i++) {
+                    String[] s = full[i];
+                    names[i] = s[0];
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(names, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        String id = full[item][1];
+                        String name = full[item][0];
+
+                        sharedPrefs.edit().putInt("woeid", Integer.parseInt(id)).commit();
+                        sharedPrefs.edit().putString("location", name).commit();
+
+                        cities.setSummary(name);
+
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                return false;
+            }
+        });
 
         final Preference emojis = findPreference("use_emojis");
         emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -1111,6 +1251,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             } else {
                 sharedPrefs.edit().putBoolean("follower_notifications", false).commit();
             }
+        } else if (key.equals("widget_theme") || key.equals("text_size")) {
+            context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
         }
 
     }
@@ -1198,7 +1340,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }
 
         protected Boolean doInBackground(String... urls) {
-            AppSettings settings = new AppSettings(context);
+            AppSettings settings = AppSettings.getInstance(context);
 
             try {
                 int currentAccount = settings.currentAccount;
@@ -1288,7 +1430,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
             try {
 
-                Twitter twitter = Utils.getTwitter(context, new AppSettings(context));
+                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
 
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 PagableResponseList<User> friendsPaging = twitter.getFriendsList(screenName, -1);
@@ -1458,7 +1600,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         followTalon.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent profile = new Intent(getActivity(), UserProfileActivity.class);
+                Intent profile = new Intent(getActivity(), ProfilePager.class);
                 profile.putExtra("screenname", "TalonAndroid");
                 profile.putExtra("proPic", "");
                 startActivity(profile);

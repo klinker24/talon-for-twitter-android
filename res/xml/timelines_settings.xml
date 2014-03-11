@@ -51,23 +51,22 @@
             android:summary="@string/muted_hashtags_summary"
             />
 
+        <Preference
+            android:key="mute_regex"
+            android:title="@string/mute_expression"
+            android:summary="@string/regex_disclaimer"
+            />
+
+        <Preference
+            android:key="manage_regex_mute"
+            android:title="@string/view_muted_expressions"
+            />
+
         <CheckBoxPreference
             android:key="ignore_retweets"
             android:title="@string/ignore_retweets"
             android:summary="@string/ignore_retweets_summary"
             android:defaultValue="false"
-            />
-
-        <!--<CheckBoxPreference
-            android:key="extra_pages"
-            android:title="@string/extra_pages"
-            android:summary="@string/extra_pages_summary"
-            android:defaultValue="true"
-            />-->
-
-        <Preference
-            android:key="pages"
-            android:title="@string/configure_pages"
             />
 
         </PreferenceCategory>
@@ -80,6 +79,11 @@
             android:title="@string/reverse_click_actions"
             android:summary="@string/reverse_click_actions_summary"
             android:defaultValue="true"
+            />
+
+        <Preference
+            android:key="pages"
+            android:title="@string/configure_pages"
             />
 
         </PreferenceCategory>

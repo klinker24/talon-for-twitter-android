@@ -22,13 +22,37 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="advanced_other"
-        android:title="@string/other_options" >
+        android:title="@string/local_trend_options" >
+
+        <CheckBoxPreference
+            android:key="manually_config_location"
+            android:title="@string/manually_config_location"
+            android:defaultValue="false"
+            />
+
+        <ListPreference
+            android:key="country"
+            android:title="@string/country_region"
+            android:defaultValue="United States"
+            android:entries="@array/countries"
+            android:entryValues="@array/countries"
+            android:dependency="manually_config_location"
+            />
+
+        <Preference
+            android:key="city"
+            android:title="@string/city"
+            android:dependency="manually_config_location" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="third_party"
+        android:title="@string/third_party_services" >
 
         <CheckBoxPreference
             android:key="tweetmarker"
             android:title="@string/use_tweetmarker"
-            android:summary="@string/tweetmarker_summary"
             android:defaultValue="false"
             />
 
@@ -46,6 +70,12 @@
             android:defaultValue="false"
             />
 
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="display_other"
+        android:title="@string/display_options" >
+
         <CheckBoxPreference
             android:key="use_emojis"
             android:title="@string/enable_emojis"
@@ -58,6 +88,19 @@
             android:summary="@string/advance_windowed_summary"
             android:defaultValue="true"
             />
+
+        <CheckBoxPreference
+            android:key="open_keyboard"
+            android:title="@string/open_keyboard"
+            android:summary="@string/open_keyboard_summary"
+            android:defaultValue="false"
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="advanced_other"
+        android:title="@string/other_options" >
 
         <CheckBoxPreference
             android:key="prefer_rt"

@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.services;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -18,7 +19,6 @@ import android.util.Log;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
@@ -26,11 +26,12 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.WidgetCompose;
 import com.klinker.android.twitter.utils.NotificationUtils;
-import com.klinker.android.twitter.utils.RedirectToPopup;
+import com.klinker.android.twitter.utils.redirects.RedirectToPopup;
 import com.klinker.android.twitter.utils.Utils;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
@@ -73,9 +74,11 @@ public class TalonPullNotificationService extends Service {
 
         TalonPullNotificationService.isRunning = true;
 
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        pullUnread = sharedPreferences.getInt("pull_unread", 0);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -181,6 +184,7 @@ public class TalonPullNotificationService extends Service {
 
                     do {
                         idObject = twitter.getFriendsIDs(settings.myId, currCursor);
+
                         long[] lIds = idObject.getIDs();
                         ids = new ArrayList<Long>();
                         for (int i = 0; i < lIds.length; i++) {
@@ -200,6 +204,37 @@ public class TalonPullNotificationService extends Service {
                 } catch (Exception e) {
                     e.printStackTrace();
                     TalonPullNotificationService.isRunning = false;
+
+                    // schedule an alarm to try to restart again since this one failed, probably no data connection
+                    AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+
+                    long now = Calendar.getInstance().getTimeInMillis();
+                    long alarm = now + 60000; // schedule it to begin in 1 min
+
+                    PendingIntent pendingIntent = PendingIntent.getService(mContext, 236, new Intent(mContext, CatchupPull.class), 0);
+
+                    am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
+                    am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+
+                    pullUnread = 0;
+
+                    stopSelf();
+                } catch (OutOfMemoryError e) {
+                    TalonPullNotificationService.isRunning = false;
+
+                    // schedule an alarm to try to restart again since this one failed, probably no data connection
+                    AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+
+                    long now = Calendar.getInstance().getTimeInMillis();
+                    long alarm = now + 60000; // schedule it to begin in 1 min
+
+                    PendingIntent pendingIntent = PendingIntent.getService(mContext, 236, new Intent(mContext, CatchupPull.class), 0);
+
+                    am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
+                    am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+
+                    pullUnread = 0;
+
                     stopSelf();
                 }
 
@@ -209,6 +244,14 @@ public class TalonPullNotificationService extends Service {
         start.setPriority(Thread.MAX_PRIORITY - 1);
         start.start();
 
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+        return START_STICKY;
     }
 
     public boolean idsLoaded = false;
@@ -247,6 +290,8 @@ public class TalonPullNotificationService extends Service {
                     } catch (Exception e) {
                         // it isn't running
                     }
+
+                    pullUnread = 0;
                 }
             });
 
@@ -273,6 +318,7 @@ public class TalonPullNotificationService extends Service {
         public void onReceive(Context context, Intent intent) {
 
             pullUnread = 0;
+            sharedPreferences.edit().putInt("pull_unread", 0).commit();
 
             mBuilder.setContentText(getResources().getString(R.string.new_tweets_upper) + ": " + pullUnread);
 
@@ -317,6 +363,9 @@ public class TalonPullNotificationService extends Service {
             TalonPullNotificationService.isRunning = false;
             thisInstanceOn = false;
 
+            sharedPreferences.edit().putInt("pull_unread", pullUnread).commit();
+            pullUnread = 0;
+
             stopSelf();
 
         }
@@ -338,7 +387,7 @@ public class TalonPullNotificationService extends Service {
                         }
                     }
 
-                    settings = new AppSettings(mContext);
+                    settings = AppSettings.getInstance(mContext);
                     pushStream = Utils.getStreamingTwitter(mContext, settings);
 
                     String myName = settings.myScreenName;
@@ -415,6 +464,7 @@ public class TalonPullNotificationService extends Service {
                     }
 
                     pullUnread++;
+                    sharedPreferences.edit().putInt("pull_unread", pullUnread);
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));

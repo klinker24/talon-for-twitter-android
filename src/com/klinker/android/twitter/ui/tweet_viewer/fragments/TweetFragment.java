@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,49 +30,49 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
-import com.klinker.android.twitter.ui.UserProfileActivity;
-import com.klinker.android.twitter.ui.drawer_activities.trends.SearchedTrendsActivity;
-import com.klinker.android.twitter.ui.widgets.EmojiKeyboard;
-import com.klinker.android.twitter.ui.widgets.HoloEditText;
-import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
-import com.klinker.android.twitter.ui.widgets.QustomDialogBuilder;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
+import com.klinker.android.twitter.manipulations.EmojiKeyboard;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.HtmlUtils;
-import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
+import com.klinker.android.twitter.utils.text.Regex;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -115,8 +114,43 @@ public class TweetFragment extends Fragment {
     private String[] otherLinks;
     private boolean isMyTweet;
 
+    private ListPopupWindow autocomplete;
+
     private boolean addonTheme;
 
+    private TextView charRemaining;
+
+    final Pattern p = Patterns.WEB_URL;
+
+    private Handler countHandler;
+    private Runnable getCount = new Runnable() {
+        @Override
+        public void run() {
+            String text = reply.getText().toString();
+
+            if (!text.contains("http")) { // no links, normal tweet
+                try {
+                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
+                } catch (Exception e) {
+                    charRemaining.setText("0");
+                }
+            } else {
+                int count = text.length();
+                Matcher m = p.matcher(text);
+                while(m.find()) {
+                    String url = m.group();
+                    count -= url.length(); // take out the length of the url
+                    count += 22; // add 22 for the shortened url
+                }
+
+                if (!attachedUri.equals("")) {
+                    count += 22;
+                }
+
+                charRemaining.setText(140 - count + "");
+            }
+        }
+    };
 
     public TweetFragment(AppSettings settings, String name, String screenName, String tweet, long time, String retweeter, String webpage,
                          String proPic, long tweetId, boolean picture, String[] users, String[] hashtags, String[] links,
@@ -167,11 +201,13 @@ public class TweetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        countHandler = new Handler();
+
         layout = inflater.inflate(R.layout.tweet_fragment, null);
         addonTheme = false;
 
         if(settings == null) {
-            settings = new AppSettings(context);
+            settings = AppSettings.getInstance(context);
         }
 
         if (settings.addonTheme) {
@@ -212,6 +248,7 @@ public class TweetFragment extends Fragment {
         ImageButton attachButton;
         ImageButton at;
         ImageButton quote = null;
+        ImageButton viewRetweeters = null;
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
@@ -222,7 +259,6 @@ public class TweetFragment extends Fragment {
         final TextView retweetCount;
         final ImageButton overflow;
         final LinearLayout buttons;
-        final TextView charRemaining;
 
         if (!addonTheme) {
             nametv = (TextView) layout.findViewById(R.id.name);
@@ -231,7 +267,7 @@ public class TweetFragment extends Fragment {
             retweetertv = (TextView) layout.findViewById(R.id.retweeter);
             background = (LinearLayout) layout.findViewById(R.id.linLayout);
             expand = (ImageButton) layout.findViewById(R.id.expand);
-            profilePic = (ImageView) layout.findViewById(R.id.profile_pic);
+            profilePic = (ImageView) layout.findViewById(R.id.profile_pic_contact);
             favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
             quote = (ImageButton) layout.findViewById(R.id.quote_button);
             retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
@@ -249,6 +285,7 @@ public class TweetFragment extends Fragment {
             timetv = (TextView) layout.findViewById(R.id.time);
             pictureIv = (ImageView) layout.findViewById(R.id.imageView);
             attachImage = (ImageView) layout.findViewById(R.id.attach);
+            viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
         } else {
             Resources res;
             try {
@@ -265,11 +302,6 @@ public class TweetFragment extends Fragment {
             expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
             profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
             favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-            try {
-                quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
-            } catch (Exception e) {
-                // didn't exist when the theme was created.
-            }
             retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
             favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
             retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
@@ -285,15 +317,86 @@ public class TweetFragment extends Fragment {
             timetv = (TextView) layout.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
             pictureIv = (ImageView) layout.findViewById(res.getIdentifier("imageView", "id", settings.addonThemePackage));
             attachImage = (ImageView) layout.findViewById(res.getIdentifier("attach", "id", settings.addonThemePackage));
+            try {
+                viewRetweeters = (ImageButton) layout.findViewById(res.getIdentifier("view_retweeters", "id", settings.addonThemePackage));
+            } catch (Exception e) {
+                // it doesn't exist in the theme;
+            }
+            try {
+                quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
+            } catch (Exception e) {
+                // didn't exist when the theme was created.
+            }
         }
+
+        autocomplete = new ListPopupWindow(context);
+        autocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
+        autocomplete.setHeight(Utils.toDP(100, context));
+        autocomplete.setWidth(Utils.toDP(275, context));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
+        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autocomplete.dismiss();
+            }
+        });
+
+        reply.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                String searchText = reply.getText().toString();
+
+                try {
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                        autocomplete.show();
+
+                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                        autocomplete.dismiss();
+                    } else if (autocomplete.isShowing()) {
+                        String[] split = reply.getText().toString().split(" ");
+                        String adapterText;
+                        if (split.length > 1) {
+                            adapterText = split[split.length - 1];
+                        } else {
+                            adapterText = split[0];
+                        }
+                        adapterText = adapterText.replace("@", "");
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
+                    }
+                } catch (Exception e) {
+                    // there is no text
+                    try {
+                        autocomplete.dismiss();
+                    } catch (Exception x) {
+                        // something went really wrong i guess haha
+                    }
+                }
+
+            }
+        });
 
         nametv.setTextSize(settings.textSize +2);
         screennametv.setTextSize(settings.textSize);
         tweettv.setTextSize(settings.textSize);
         timetv.setTextSize(settings.textSize - 3);
         retweetertv.setTextSize(settings.textSize - 3);
-        favoriteCount.setTextSize(settings.textSize + 1);
-        retweetCount.setTextSize(settings.textSize + 1);
+        favoriteCount.setTextSize(13);
+        retweetCount.setTextSize(13);
         reply.setTextSize(settings.textSize);
 
         if (settings.addonTheme) {
@@ -306,14 +409,23 @@ public class TweetFragment extends Fragment {
             }
         }
 
+        if (viewRetweeters != null) {
+            viewRetweeters.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //open up the activity to see who retweeted it
+                    Intent viewRetweeters = new Intent(context, ViewRetweeters.class);
+                    viewRetweeters.putExtra("id", tweetId);
+                    startActivity(viewRetweeters);
+                }
+            });
+        }
+
         if (quote != null) {
             quote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String text = tweet;
-
-                    text = HtmlUtils.removeColorHtml(text, settings);
-                    text = restoreLinks(text);
 
                     if (!settings.preferRT) {
                         text = "\"@" + screenName + ": " + text + "\" ";
@@ -359,7 +471,7 @@ public class TweetFragment extends Fragment {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenName);
                 viewProfile.putExtra("proPic", proPic);
@@ -408,131 +520,13 @@ public class TweetFragment extends Fragment {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        if (settings.addonTheme) {
-            tweettv.setText(Html.fromHtml(tweet.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
-        } else {
-            tweettv.setText(Html.fromHtml(tweet.replaceAll("\n", "<br/>")));
-        }
+        tweettv.setText(tweet);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
                 final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet.replaceAll("\n", "<br/>")));
                 tweettv.setText(span);
             }
-        }
-
-        // sets the click listener to display the dialog for the highlighted text
-        if (tweet.contains("<font")) {
-            tweettv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    ArrayList<String> strings = new ArrayList<String>();
-
-                    if (users != null) {
-                        for (String s : users) {
-                            if (!s.equals("")) {
-                                strings.add("@" + s);
-                            }
-                        }
-                    }
-
-                    if (hashtags != null) {
-                        for (String s : hashtags) {
-                            if (!s.equals("")) {
-                                strings.add("#" + s);
-                            }
-                        }
-                    }
-
-                    if (otherLinks != null) {
-                        for (String s : otherLinks) {
-                            if (!s.equals("")) {
-                                strings.add(s);
-                            }
-                        }
-                    }
-
-                    if (!webpage.equals("") && !webpage.contains("youtu") && !webpage.contains("insta") && picture) {
-                        strings.add(webpage);
-                    }
-
-                    CharSequence[] items = new CharSequence[strings.size()];
-
-                    for (int i = 0; i < items.length; i++) {
-                        String s = strings.get(i);
-                        if (s != null) {
-                            items[i] = s;
-                        }
-                    }
-
-                    final CharSequence[] fItems = items;
-
-                    if (fItems.length > 1) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setItems(items, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
-                                String touched = fItems[item] + "";
-
-                                if (touched.contains("http")) { //weblink
-                                    sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                                    if (touched.contains("play.google.com")) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(touched)));
-                                    } else {
-                                        if (settings.inAppBrowser) {
-                                            Intent launchBrowser = new Intent(context, BrowserActivity.class);
-                                            launchBrowser.putExtra("url", touched);
-                                            startActivity(launchBrowser);
-                                        } else {
-                                            Uri weburi = Uri.parse(touched);
-                                            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                                            startActivity(launchBrowser);
-                                        }
-                                    }
-                                } else if (touched.contains("@")) { //username
-                                    Intent user = new Intent(context, UserProfileActivity.class);
-                                    user.putExtra("screenname", touched.replace("@", ""));
-                                    user.putExtra("proPic", "");
-                                    context.startActivity(user);
-                                } else { // hashtag
-                                    Intent search = new Intent(context, SearchedTrendsActivity.class);
-                                    search.setAction(Intent.ACTION_SEARCH);
-                                    search.putExtra(SearchManager.QUERY, touched);
-                                    context.startActivity(search);
-                                }
-
-                                dialog.dismiss();
-                            }
-                        });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    } else {
-                        String touched = fItems[0] + "";
-
-                        if (touched.contains("http")) { //weblink
-                            if (settings.inAppBrowser) {
-                                Intent launchBrowser = new Intent(context, BrowserActivity.class);
-                                launchBrowser.putExtra("url", touched);
-                                startActivity(launchBrowser);
-                            } else {
-                                Uri weburi = Uri.parse(touched);
-                                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                                startActivity(launchBrowser);
-                            }
-                        } else if (touched.contains("@")) { //username
-                            Intent user = new Intent(context, UserProfileActivity.class);
-                            user.putExtra("screenname", touched.replace("@", ""));
-                            user.putExtra("proPic", "");
-                            context.startActivity(user);
-                        } else { // hashtag
-                            Intent search = new Intent(context, SearchedTrendsActivity.class);
-                            search.setAction(Intent.ACTION_SEARCH);
-                            search.putExtra(SearchManager.QUERY, touched);
-                            context.startActivity(search);
-                        }
-                    }
-                }
-            });
         }
 
         //Date tweetDate = new Date(time);
@@ -610,7 +604,7 @@ public class TweetFragment extends Fragment {
             }
         }
 
-        if (retweeter != null && !retweeter.equals("") && !retweeter.equals(settings.myScreenName)) {
+        if (retweeter != null && !retweeter.equals("") && !retweeter.equals(settings.myScreenName) && !extraNames.contains(retweeter)) {
              extraNames += "@" + retweeter + " ";
         }
 
@@ -634,12 +628,12 @@ public class TweetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) <= 140 || settings.twitlonger) {
-                        if (reply.getText().length() + (attachedUri.equals("") ? 0 : 22) > 140) {
+                    if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
+                        if (Integer.parseInt(charRemaining.getText().toString()) < 0) {
                             new AlertDialog.Builder(context)
                                     .setTitle(context.getResources().getString(R.string.tweet_to_long))
                                     .setMessage(context.getResources().getString(R.string.select_shortening_service))
-                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
@@ -727,11 +721,20 @@ public class TweetFragment extends Fragment {
             }
         });
 
+        if (settings.openKeyboard) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    reply.requestFocus();
+                    InputMethodManager inputMethodManager=(InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.toggleSoftInputFromWindow(reply.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+                }
+            }, 500);
+        }
+
         charRemaining.setText(140 - reply.getText().length() + "");
 
         reply.setHint(context.getResources().getString(R.string.reply));
-        String regex = "\\(?\\b(http://|www[.]|https://)[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-        final Pattern p = Pattern.compile(regex);
         reply.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -745,29 +748,8 @@ public class TweetFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String text = reply.getText().toString();
-
-                if (!text.contains("http")) { // no links, normal tweet
-                    try {
-                        charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 22) + "");
-                    } catch (Exception e) {
-                        charRemaining.setText("0");
-                    }
-                } else {
-                    int count = text.length();
-                    Matcher m = p.matcher(text);
-                    while(m.find()) {
-                        String url = m.group();
-                        count -= url.length(); // take out the length of the url
-                        count += 22; // add 22 for the shortened url
-                    }
-
-                    if (!attachedUri.equals("")) {
-                        count += 22;
-                    }
-
-                    charRemaining.setText(140 - count + "");
-                }
+                countHandler.removeCallbacks(getCount);
+                countHandler.postDelayed(getCount, 200);
             }
         });
 
@@ -862,6 +844,9 @@ public class TweetFragment extends Fragment {
                 overflow.performClick();
             }
         });
+
+        TextUtils.linkifyText(context, retweetertv, null, true);
+        TextUtils.linkifyText(context, tweettv, null, true);
 
     }
 
@@ -1399,6 +1384,7 @@ public class TweetFragment extends Fragment {
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
                     if (currText != null) {
                         reply.setText(currText);
+                        charRemaining.setText("0");
                     }
 
                     replyButton.performClick();
@@ -1470,70 +1456,5 @@ public class TweetFragment extends Fragment {
         }
 
         return inSampleSize;
-    }
-
-    public String restoreLinks(String text) {
-        String full = text;
-
-        String[] split = text.split(" ");
-
-        boolean changed = false;
-
-        if (otherLinks.length > 0) {
-            for (int i = 0; i < split.length; i++) {
-                String s = split[i];
-
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    String f = s.replace("...", "").replace("http", "");
-
-                    for (int x = 0; x < otherLinks.length; x++) {
-                        Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                        if (otherLinks[x].contains(f)) {
-                            changed = true;
-                            f = otherLinks[x];
-                            break;
-                        }
-                    }
-
-                    if (changed) {
-                        split[i] = f;
-                    } else {
-                        split[i] = s;
-                    }
-                } else {
-                    split[i] = s;
-                }
-
-            }
-        }
-
-        Log.v("talon_picture", ":" + webpage + ":");
-
-        if (!webpage.equals("")) {
-            for (int i = 0; i < split.length; i++) {
-                String s = split[i];
-
-                Log.v("talon_picture_", s);
-
-                if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                    split[i] = webpage;
-                    changed = true;
-                    Log.v("talon_picture", split[i]);
-                }
-            }
-        }
-
-
-
-        if(changed) {
-            full = "";
-            for (String p : split) {
-                full += p + " ";
-            }
-
-            full = full.substring(0, full.length() - 1);
-        }
-
-        return full;
     }
 }

@@ -185,6 +185,9 @@ public class InteractionsDataSource {
     }
 
     public void updateInteraction(Context context, User source, Status status, int account, int type) {
+        if (type == TYPE_RETWEET) {
+            status = status.getRetweetedStatus();
+        }
         Cursor cursor = interactionExists(status.getId(), account);
 
         if (cursor.getCount() > 0) { // it does exist

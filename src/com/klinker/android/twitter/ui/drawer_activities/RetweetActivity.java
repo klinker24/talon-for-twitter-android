@@ -3,9 +3,9 @@ package com.klinker.android.twitter.ui.drawer_activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
@@ -17,7 +17,7 @@ import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.LoginActivity;
+import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -44,7 +44,7 @@ public class RetweetActivity extends DrawerActivity {
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
@@ -184,9 +184,15 @@ public class RetweetActivity extends DrawerActivity {
                         public void run() {
 
                             if (adapter == null) {
-                                adapter = new TimelineArrayAdapter(context, statuses, TimelineArrayAdapter.RETWEET);
-                                listView.setAdapter(adapter);
-                                listView.setVisibility(View.VISIBLE);
+                                if (statuses.size() > 0) {
+                                    adapter = new TimelineArrayAdapter(context, statuses, TimelineArrayAdapter.RETWEET);
+                                    listView.setAdapter(adapter);
+                                    listView.setVisibility(View.VISIBLE);
+                                } else {
+                                    LinearLayout nothing = (LinearLayout) findViewById(R.id.no_content);
+                                    nothing.setVisibility(View.VISIBLE);
+                                    listView.setVisibility(View.GONE);
+                                }
                             } else {
                                 adapter.notifyDataSetChanged();
                             }
@@ -231,5 +237,22 @@ public class RetweetActivity extends DrawerActivity {
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         overridePendingTransition(0, 0);
         startActivity(restart);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        final int DISMISS = 0;
+        final int SEARCH = 1;
+        final int COMPOSE = 2;
+        final int NOTIFICATIONS = 3;
+        final int DM = 4;
+        final int SETTINGS = 5;
+        final int TOFIRST = 6;
+
+        menu.getItem(NOTIFICATIONS).setVisible(false);
+
+        return true;
     }
 }

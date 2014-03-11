@@ -54,12 +54,20 @@ public class ViewUsers extends Activity {
     private boolean bigEnough = false;
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = new AppSettings(this);
+        settings = AppSettings.getInstance(this);
 
         listName = getIntent().getStringExtra("list_name");
 
@@ -110,6 +118,7 @@ public class ViewUsers extends Activity {
 
         new GetUsers().execute();
 
+        Utils.setActionBar(context);
     }
 
     public void setUpWindow() {

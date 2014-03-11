@@ -61,7 +61,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
         holder.name.setText(settingName);
         holder.name.setTextSize(18);
 
-        if (text.get(position).equals(context.getResources().getString(R.string.theme_settings))) {
+        if (text.get(position).equals(context.getResources().getString(R.string.ui_settings))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.themeSettings});
             int resource = a.getResourceId(0, 0);
             a.recycle();
@@ -108,17 +108,35 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
             holder.icon.setImageResource(resource);
         }
 
-        if (current == position) {
-            holder.icon.setColorFilter(context.getResources().getColor(R.color.app_color));
-            holder.name.setTextColor(context.getResources().getColor(R.color.app_color));
+        /*if (SettingsPagerActivity.inOtherLinks) {
+            if (current == position-5) {
+                holder.icon.setColorFilter(context.getResources().getColor(R.color.app_color));
+                holder.name.setTextColor(context.getResources().getColor(R.color.app_color));
+            } else {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                int resource = a.getResourceId(0, 0);
+
+                holder.icon.setColorFilter(context.getResources().getColor(resource));
+                holder.name.setTextColor(context.getResources().getColor(resource));
+            }
         } else {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-            int resource = a.getResourceId(0, 0);
+            if (current == position) {
+                holder.icon.setColorFilter(context.getResources().getColor(R.color.app_color));
+                holder.name.setTextColor(context.getResources().getColor(R.color.app_color));
+            } else {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                int resource = a.getResourceId(0, 0);
 
-            holder.icon.setColorFilter(context.getResources().getColor(resource));
-            holder.name.setTextColor(context.getResources().getColor(resource));
-        }
+                holder.icon.setColorFilter(context.getResources().getColor(resource));
+                holder.name.setTextColor(context.getResources().getColor(resource));
+            }
+        }*/
 
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+        int resource = a.getResourceId(0, 0);
+
+        holder.icon.setColorFilter(context.getResources().getColor(resource));
+        holder.name.setTextColor(context.getResources().getColor(resource));
         return rowView;
     }
 }

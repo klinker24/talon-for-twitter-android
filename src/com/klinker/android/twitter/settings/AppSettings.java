@@ -3,7 +3,9 @@ package com.klinker.android.twitter.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.preference.PreferenceGroup;
@@ -16,6 +18,19 @@ import java.util.Calendar;
 
 public class AppSettings {
 
+    public static AppSettings settings;
+
+    public static AppSettings getInstance(Context context) {
+        if (settings == null) {
+            settings = new AppSettings(context);
+        }
+        return settings;
+    }
+
+    public static void invalidate() {
+        settings = null;
+    }
+
     public SharedPreferences sharedPrefs;
 
     public static String TWITTER_CONSUMER_KEY = "V9yijGrKf79jlYi0l3ekpA";
@@ -27,10 +42,16 @@ public class AppSettings {
     public static final int THEME_DARK = 1;
     public static final int THEME_BLACK = 2;
 
+    public static final int WIDGET_LIGHT = 0;
+    public static final int WIDGET_DARK = 1;
+    public static final int WIDGET_TRANS_LIGHT = 2;
+    public static final int WIDGET_TRANS_BLACK = 3;
+
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
     public static final int PAGE_TYPE_LINKS = 2;
     public static final int PAGE_TYPE_LIST = 3;
+    public static final int PAGE_TYPE_FAV_USERS = 4;
 
     public static final int LAYOUT_TALON = 0;
     public static final int LAYOUT_HANGOUT = 1;
@@ -40,6 +61,7 @@ public class AppSettings {
     public String secondAuthToken;
     public String secondAuthTokenSecret;
     public String myScreenName;
+    public String secondScreenName;
     public String myName;
     public String myBackgroundUrl;
     public String myProfilePicUrl;
@@ -79,6 +101,8 @@ public class AppSettings {
     public boolean twitpic;
     public boolean tweetmarker;
     public boolean jumpingWorkaround;
+    public boolean floatingCompose;
+    public boolean openKeyboard;
 
     // notifications
     public boolean timelineNot;
@@ -97,6 +121,8 @@ public class AppSettings {
     public boolean translateProfileHeader;
     public String accentColor;
     public int accentInt;
+    public Drawable actionBar = null;
+    public Drawable customBackground = null;
 
     public int theme;
     public int layout;
@@ -112,6 +138,7 @@ public class AppSettings {
     public long dmRefresh;
     public long myId;
 
+
     public AppSettings(Context context) {
         Log.v("talon_settings", "getting talon settings");
 
@@ -124,6 +151,7 @@ public class AppSettings {
             secondAuthToken = sharedPrefs.getString("authentication_token_2", "none");
             secondAuthTokenSecret = sharedPrefs.getString("authentication_token_secret_2", "none");
             myScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
+            secondScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
             myName = sharedPrefs.getString("twitter_users_name_1", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_1", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
@@ -135,6 +163,7 @@ public class AppSettings {
             secondAuthToken = sharedPrefs.getString("authentication_token_1", "none");
             secondAuthTokenSecret = sharedPrefs.getString("authentication_token_secret_1", "none");
             myScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
+            secondScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
             myName = sharedPrefs.getString("twitter_users_name_2", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_2", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
@@ -181,6 +210,12 @@ public class AppSettings {
         twitpic = sharedPrefs.getBoolean("twitpic", false);
         tweetmarker = sharedPrefs.getBoolean("tweetmarker", false);
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
+        floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
+        openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
+
+        if (!uiExtras) {
+            floatingCompose = false;
+        }
 
         ringtone = sharedPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
@@ -293,9 +328,23 @@ public class AppSettings {
                 } else {
                     this.theme = THEME_LIGHT;
                 }
+
+                Resources res = context.getPackageManager().getResourcesForApplication(addonThemePackage);
+                try {
+                    actionBar = res.getDrawable(res.getIdentifier("ab_background", "drawable", addonThemePackage));
+                } catch (Exception e) {
+                    actionBar = null;
+                }
+                try {
+                    customBackground = res.getDrawable(res.getIdentifier("wallpaper", "drawable", addonThemePackage));
+                } catch (Exception e) {
+                    customBackground = null;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();
+                actionBar = null;
             }
         } else {
             addonTheme = false;

@@ -13,7 +13,7 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 
 public class TweetYouTubeFragment extends YouTubePlayerFragment implements

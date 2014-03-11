@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -36,6 +37,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.Utils;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,7 +68,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         darkTheme = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mContext).getString("theme", "1")) != 0;
 
         mCache = App.getInstance(context).getBitmapCache();
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
     }
 
     @Override
@@ -83,16 +85,40 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public RemoteViews getViewAt(int arg0) {
-        final RemoteViews card = new RemoteViews(mContext.getPackageName(), darkTheme ? R.layout.widget_conversation_dark : R.layout.widget_conversation_light);
+        int res = 0;
+        switch (Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(mContext).getString("widget_theme", "3"))) {
+            case 0:
+                res = R.layout.widget_conversation_light;
+                break;
+            case 1:
+                res = R.layout.widget_conversation_dark;
+                break;
+            case 2:
+                res = R.layout.widget_conversation_light;
+                break;
+            default:
+                res = R.layout.widget_conversation_dark;
+                break;
+        }
+
+        final RemoteViews card = new RemoteViews(mContext.getPackageName(), res);
 
         try {
             Log.v("talon_widget", "starting getviewat");
             card.setTextViewText(R.id.contactName, settings.displayScreenName ? "@" + mWidgetItems.get(arg0).getScreenName() : mWidgetItems.get(arg0).getName());
-            card.setTextViewText(R.id.contactText, Html.fromHtml(settings.addonTheme ? mWidgetItems.get(arg0).getTweet().replaceAll("FF8800", settings.accentColor) : mWidgetItems.get(arg0).getTweet()));
-            if (settings.theme > 0) {
-                card.setTextColor(R.id.contactName, mContext.getResources().getColor(android.R.color.white));
-                card.setTextColor(R.id.contactName, mContext.getResources().getColor(android.R.color.white));
+            card.setTextViewText(R.id.contactText, mWidgetItems.get(arg0).getTweet());
+            card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext));
+
+            if (mContext.getResources().getBoolean(R.bool.expNotifications)) {
+                try {
+                    card.setTextViewTextSize(R.id.contactName, TypedValue.COMPLEX_UNIT_DIP, settings.textSize + 2);
+                    card.setTextViewTextSize(R.id.contactText, TypedValue.COMPLEX_UNIT_DIP, settings.textSize);
+                    card.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_DIP, settings.textSize - 2);
+                } catch (Throwable t) {
+
+                }
             }
+
             final int arg = arg0;
 
             card.setImageViewBitmap(R.id.contactPicture, getCachedPic(mWidgetItems.get(arg).getPicUrl()));

@@ -26,6 +26,10 @@ public class MarkReadService extends IntentService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(1);
 
+        // clear custom light flow broadcast
+        Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
+        this.sendBroadcast(lightFlow);
+
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Context context = getApplicationContext();
         int currentAccount = sharedPrefs.getInt("current_account", 1);

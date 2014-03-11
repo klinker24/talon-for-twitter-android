@@ -33,13 +33,70 @@
                 android:layout_above="@+id/bottom_bar"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="bottom"
                 android:layout_margin="5dp"
                 android:layout_marginBottom="10dp"
                 android:visibility="gone">
 
-            <ImageButton
+            <!-- checkboxes at the top for the different accounts -->
+            <LinearLayout
+                android:id="@+id/select_account"
+                android:layout_above="@+id/bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/account_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left">
+
+                    <CheckBox
+                        android:id="@+id/account_one_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"/>
+
+                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                        android:id="@+id/account_one_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/account_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left">
+
+                    <CheckBox
+                        android:id="@+id/account_two_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"/>
+
+                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                        android:id="@+id/account_two_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
                     android:id="@+id/at_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
@@ -49,7 +106,7 @@
                     android:gravity="center"
                     android:layout_gravity="center" />
 
-            <ImageButton
+                <ImageButton
                     android:id="@+id/location"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
@@ -60,7 +117,7 @@
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp" />
 
-            <ImageButton
+                <ImageButton
                     android:id="@+id/attach"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
@@ -71,7 +128,7 @@
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp" />
 
-            <ImageButton
+                <ImageButton
                     android:id="@+id/emoji"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
@@ -82,6 +139,8 @@
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp" />
 
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -91,7 +150,7 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
-            <com.klinker.android.twitter.ui.widgets.HoloEditText
+            <com.klinker.android.twitter.manipulations.widgets.HoloEditText
                     android:id="@+id/tweet_content"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
@@ -99,7 +158,7 @@
                     android:maxLines="5"
                     android:minLines="2"
                     android:hint="@string/compose_tweet_hint"
-                    android:inputType="textCapSentences|textMultiLine"/>
+                    android:inputType="textCapSentences|textMultiLine" />
 
             <LinearLayout
                     android:id="@+id/overflow"
@@ -107,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <com.klinker.android.twitter.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                         android:id="@+id/char_remaining"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
@@ -144,7 +203,7 @@
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
 
-                <com.klinker.android.twitter.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:layout_width="0dp"
                     android:layout_weight="1.5"
                     android:layout_height="match_parent"
@@ -165,7 +224,7 @@
                     android:background="@android:color/white"
                     android:alpha="20"/>
 
-                <com.klinker.android.twitter.ui.widgets.HoloTextView
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.VideoView;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.HTML5WebView;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.ArrayList;
@@ -51,7 +53,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         context = getActivity();
 
-        layout = inflater.inflate(R.layout.web_fragment, null);
+        /*layout = inflater.inflate(R.layout.web_fragment, null);
         webView = (WebView) layout.findViewById(R.id.webview);
         progressBar = (ProgressBar) layout.findViewById(R.id.progress_bar);
         progressBar.setProgress(0);
@@ -96,9 +98,19 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
             webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
         }
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient());*/
 
-        if (webpages.size() > 0) {
+        webView = new HTML5WebView(context);
+
+        try {
+            webView.loadUrl(webpages.get(0));
+        } catch (Exception e) {
+
+        }
+
+        return webView;
+
+        /*if (webpages.size() > 0) {
             webView.loadUrl(webpages.get(0));
         }
 
@@ -117,7 +129,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
             spinner.setVisibility(View.GONE);
         }
 
-        return layout;
+        return layout;*/
     }
 
     @Override
@@ -138,5 +150,23 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
     public void onDestroy() {
         webView.loadUrl("");
         super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if (webpages.get(0).contains("vine")) {
+                ((AudioManager)context.getSystemService(
+                        Context.AUDIO_SERVICE)).requestAudioFocus(
+                        new AudioManager.OnAudioFocusChangeListener() {
+                            @Override
+                            public void onAudioFocusChange(int focusChange) {}
+                        }, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+            }
+        } catch (Exception e) {
+
+        }
     }
 }

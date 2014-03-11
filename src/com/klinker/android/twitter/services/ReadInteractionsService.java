@@ -20,6 +20,10 @@ public class ReadInteractionsService extends IntentService {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Context context = getApplicationContext();
 
+        // clear custom light flow broadcast
+        Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
+        this.sendBroadcast(lightFlow);
+
         sharedPrefs.edit().putBoolean("new_notification", false).commit();
         sharedPrefs.edit().putInt("new_retweets", 0).commit();
         sharedPrefs.edit().putInt("new_favorites", 0).commit();

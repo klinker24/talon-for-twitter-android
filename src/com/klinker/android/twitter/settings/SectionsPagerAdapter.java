@@ -43,7 +43,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return context.getResources().getString(R.string.theme_settings);
+                return context.getResources().getString(R.string.ui_settings);
             case 1:
                 return context.getResources().getString(R.string.timelines_settings);
             case 2:

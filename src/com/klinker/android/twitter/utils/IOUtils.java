@@ -220,11 +220,10 @@ public class IOUtils {
 
     public static boolean trimDatabase(Context context, int account) {
         try {
-            AppSettings settings = new AppSettings(context);
+            AppSettings settings = AppSettings.getInstance(context);
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-            InteractionsDataSource interactions = new InteractionsDataSource(context);
-            interactions.open();
+            InteractionsDataSource interactions = InteractionsDataSource.getInstance(context);
             Cursor inters = interactions.getCursor(account);
 
             if (inters.getCount() > 50) {
@@ -235,11 +234,9 @@ public class IOUtils {
                 }
             }
 
-            interactions.close();
             inters.close();
 
-            HomeDataSource home = new HomeDataSource(context);
-            home.open();
+            HomeDataSource home = HomeDataSource.getInstance(context);
 
             home.deleteDups(settings.currentAccount);
 
@@ -257,11 +254,10 @@ public class IOUtils {
                 }
             }
 
-            home.close();
+            timeline.close();
 
             // trimming the lists
-            ListDataSource lists = new ListDataSource(context);
-            lists.open();
+            ListDataSource lists = ListDataSource.getInstance(context);
 
             int account1List1 = sharedPrefs.getInt("account_" + account + "_list_1", 0);
             int account1List2 = sharedPrefs.getInt("account_" + account + "_list_2", 0);
@@ -282,6 +278,8 @@ public class IOUtils {
                     } while (list1.moveToPrevious());
                 }
             }
+            list1.close();
+
             Cursor list2 = lists.getCursor(account1List2);
 
             Log.v("trimming", "lists size: " + list2.getCount());
@@ -296,10 +294,9 @@ public class IOUtils {
                 }
             }
 
-            lists.close();
+            list2.close();
 
-            MentionsDataSource mentions = new MentionsDataSource(context);
-            mentions.open();
+            MentionsDataSource mentions = MentionsDataSource.getInstance(context);
 
             mentions.deleteDups(settings.currentAccount);
 
@@ -316,10 +313,9 @@ public class IOUtils {
                 }
             }
 
-            mentions.close();
+            timeline.close();
 
-            DMDataSource dm = new DMDataSource(context);
-            dm.open();
+            DMDataSource dm = DMDataSource.getInstance(context);
 
             dm.deleteDups(settings.currentAccount);
 
@@ -337,7 +333,7 @@ public class IOUtils {
             }
 
             timeline.close();
-            dm.close();
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();

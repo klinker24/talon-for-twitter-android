@@ -12,20 +12,23 @@ import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.Editable;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
@@ -40,25 +43,29 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
-import com.klinker.android.twitter.manipulations.NetworkedCacheableImageView;
+import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
-import com.klinker.android.twitter.ui.UserProfileActivity;
-import com.klinker.android.twitter.ui.compose.Compose;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
-import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
-import com.klinker.android.twitter.ui.widgets.PhotoViewerDialog;
+import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.HtmlUtils;
+import com.klinker.android.twitter.utils.SDK11;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
-import java.text.DateFormat;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Pattern;
+import java.util.concurrent.RejectedExecutionException;
 
 import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
@@ -135,7 +142,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
         
-        settings = new AppSettings(context);
+        settings = AppSettings.getInstance(context);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -341,7 +348,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if(!settings.reverseClickActions) {
             final String fRetweeter = retweeter;
             if (!isDM) {
-                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                View.OnLongClickListener click = new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
                         String link;
@@ -371,11 +378,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         return true;
                     }
-                });
+                };
+                holder.background.setOnLongClickListener(click);
+                //holder.tweet.setOnLongClickListener(click);
             }
 
             if (!isDM) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
+                View.OnClickListener click = new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
@@ -385,12 +394,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             removeKeyboard(holder);
                         }
                     }
-                });
+                };
+                holder.background.setOnClickListener(click);
+                //holder.tweet.setOnClickListener(click);
             }
         } else {
             final String fRetweeter = retweeter;
             if (!isDM) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
+                View.OnClickListener click = new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String link = "";
@@ -418,14 +429,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         context.startActivity(viewTweet);
                     }
-                });
+                };
+                holder.background.setOnClickListener(click);
+                //holder.tweet.setOnClickListener(click);
             }
 
             if (!isDM) {
-                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                View.OnLongClickListener click = new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        if (holder.expandArea.getVisibility() == View.GONE) {
+
+                        if (holder.expandArea.getVisibility() != View.VISIBLE) {
                             addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                         } else {
                             removeExpansionWithAnimation(holder);
@@ -434,7 +448,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         return true;
                     }
-                });
+                };
+
+                holder.background.setOnLongClickListener(click);
+                //holder.tweet.setOnLongClickListener(click);
             }
         }
 
@@ -466,7 +483,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             });
 
             if (otherUrl != null && !otherUrl.equals("")) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
+                holder.tweet.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent browser = new Intent(context, BrowserActivity.class);
@@ -480,7 +497,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
                 viewProfile.putExtra("proPic", profilePic);
@@ -497,7 +514,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public boolean onLongClick(View view) {
 
-                Intent viewProfile = new Intent(context, UserProfileActivity.class);
+                Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
                 viewProfile.putExtra("proPic", profilePic);
@@ -527,15 +544,29 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             Date date = new Date(longTime);
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
-        if (tweetText.contains("<font")) {
-            if (settings.addonTheme) {
-                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("FF8800", settings.accentColor).replaceAll("\n", "<br/>")));
-            } else {
-                holder.tweet.setText(Html.fromHtml(tweetText.replaceAll("\n", "<br/>")));
+
+        holder.tweet.setText(tweetText);
+        //TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+        emojiHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (id == holder.tweetId) {
+                    if (settings.addonTheme) {
+                        if (!isDM) {
+                            holder.tweet.setText(TextUtils.colorText(tweetText, settings.accentInt));
+                        } else {
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+                        }
+                    } else {
+                        if (!isDM) {
+                            holder.tweet.setText(TextUtils.colorText(tweetText, context.getResources().getColor(R.color.app_color)));
+                        } else {
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+                        }
+                    }
+                }
             }
-        } else {
-            holder.tweet.setText(tweetText);
-        }
+        }, 500);
 
         if(settings.inlinePics && holder.picUrl != null) {
             if (holder.picUrl.equals("")) {
@@ -596,7 +627,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         @Override
                         public void run() {
                             if (holder.tweetId == id) {
-                                ImageUtils.loadImage(context, holder.image, holder.picUrl, mCache);
+                                loadImage(context, holder, holder.picUrl, mCache, id);
                             }
                         }
                     }, 350);
@@ -626,7 +657,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         @Override
                         public void run() {
                             if (holder.tweetId == id) {
-                                ImageUtils.loadImage(context, holder.image, holder.picUrl, mCache);
+                                loadImage(context, holder, holder.picUrl, mCache, id);
                             }
                         }
                     }, 350);
@@ -671,8 +702,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (!cursor.moveToPosition(cursor.getCount() - 1 - position)) {
-            throw new IllegalStateException("couldn't move cursor to position " + position);
+        try {
+            if (!cursor.moveToPosition(cursor.getCount() - 1 - position)) {
+                throw new IllegalStateException("couldn't move cursor to position " + position);
+            }
+        } catch (Exception e) {
+            ((Activity)context).recreate();
+            return null;
         }
 
         View v;
@@ -686,7 +722,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             final ViewHolder holder = (ViewHolder) v.getTag();
 
             holder.profilePic.setImageDrawable(context.getResources().getDrawable(border));
-            holder.image.setVisibility(View.GONE);
+            if (holder.image.getVisibility() == View.VISIBLE) {
+                holder.image.setVisibility(View.GONE);
+            }
         }
 
         bindView(v, context, cursor);
@@ -737,7 +775,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
 
             try {
-                if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                if (holder.retweeter.getVisibility() == View.VISIBLE && !extraNames.contains(holder.retweeterName)) {
                     extraNames += "@" + holder.retweeterName + " ";
                 }
             } catch (NullPointerException e) {
@@ -906,14 +944,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
-                    text = HtmlUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
-                    if (!settings.preferRT) {
-                        text = "\"@" + name + ": " + text + "\" ";
-                    } else {
-                        text = " RT @" + name + ": " + text;
-                    }
+                    text = "@" + name + ": " + text;
+
+                    Log.v("talon_sharing", "text: " + text);
+
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                     intent.putExtra(Intent.EXTRA_TEXT, text);
                     context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
@@ -922,22 +958,32 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 public String restoreLinks(String text) {
                     String full = text;
 
-                    String[] split = text.split(" ");
+                    String[] split = text.split("\\s");
+                    String[] otherLink = new String[otherLinks.length];
+
+                    for (int i = 0; i < otherLinks.length; i++) {
+                        otherLink[i] = "" + otherLinks[i];
+                    }
+
 
                     boolean changed = false;
 
-                    if (otherLinks.length > 0) {
+                    if (otherLink.length > 0) {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
 
-                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
+                            if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
                                 String f = s.replace("...", "").replace("http", "");
 
-                                for (int x = 0; x < otherLinks.length; x++) {
-                                    Log.v("recreating_links", "other link first: " + otherLinks[x]);
-                                    if (otherLinks[x].contains(f)) {
+                                for (int x = 0; x < otherLink.length; x++) {
+                                    if (otherLink[x].contains(f)) {
                                         changed = true;
-                                        f = otherLinks[x];
+                                        // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
+                                        if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
+                                            otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                        }
+                                        f = otherLink[x];
+                                        otherLink[x] = "";
                                         break;
                                     }
                                 }
@@ -954,18 +1000,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     }
 
-                    Log.v("talon_picture", ":" + webpage + ":");
-
                     if (!webpage.equals("")) {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
+                            s = s.replace("...", "");
 
-                            Log.v("talon_picture_", s);
-
-                            if (s.contains("http") && s.contains("...")) { // we know the link is cut off
-                                split[i] = webpage;
+                            if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                                String replace = otherLinks[otherLinks.length - 1];
+                                if (replace.replace(" ", "").equals("")) {
+                                    replace = webpage;
+                                }
+                                split[i] = replace;
                                 changed = true;
-                                Log.v("talon_picture", split[i]);
                             }
                         }
                     }
@@ -993,7 +1039,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
-                    text = HtmlUtils.removeColorHtml(text, settings);
+                    text = TweetLinkUtils.removeColorHtml(text, settings);
                     text = restoreLinks(text);
 
                     if (!settings.preferRT) {
@@ -1443,12 +1489,183 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
     }
 
-    static class UpdateTextViewListener
-            implements NetworkedCacheableImageView.OnImageLoadedListener {
+    // used to place images on the timeline
+    public static ImageUrlAsyncTask mCurrentTask;
+
+    public void loadImage(Context context, final ViewHolder holder, final String url, BitmapLruCache mCache, final long tweetId) {
+        // First check whether there's already a task running, if so cancel it
+        /*if (null != mCurrentTask) {
+            mCurrentTask.cancel(true);
+        }*/
+
+        if (url == null) {
+            return;
+        }
+
+        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
+
+        if (null != wrapper && holder.image.getVisibility() != View.GONE) {
+            // The cache has it, so just display it
+            holder.image.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+            holder.image.startAnimation(fadeInAnimation);
+        } else {
+            // Memory Cache doesn't have the URL, do threaded request...
+            holder.image.setImageDrawable(null);
+
+            mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId);
+
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    SDK11.executeOnThreadPool(mCurrentTask, url);
+                } else {
+                    mCurrentTask.execute(url);
+                }
+            } catch (RejectedExecutionException e) {
+                // This shouldn't happen, but might.
+            }
+
+        }
+    }
+
+    private static class ImageUrlAsyncTask
+            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
+
+        private BitmapLruCache mCache;
+        private Context context;
+        private ViewHolder holder;
+        private long id;
+
+        ImageUrlAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long tweetId) {
+            this.context = context;
+            mCache = cache;
+            this.holder = holder;
+            this.id = tweetId;
+        }
 
         @Override
-        public void onImageLoaded(CacheableBitmapDrawable result) {
+        protected CacheableBitmapDrawable doInBackground(String... params) {
+            try {
+                if (holder.tweetId != id) {
+                    return null;
+                }
+                final String url = params[0];
 
+                // Now we're not on the main thread we can check all caches
+                CacheableBitmapDrawable result;
+
+                result = mCache.get(url, null);
+
+                if (null == result) {
+
+                    // The bitmap isn't cached so download from the web
+                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                    InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = false;
+
+                    Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                    // Add to cache
+                    if (b != null) {
+                        result = mCache.put(url, b);
+                    }
+
+                }
+
+                return result;
+
+            } catch (IOException e) {
+                Log.e("ImageUrlAsyncTask", e.toString());
+            } catch (OutOfMemoryError e) {
+                Log.v("ImageUrlAsyncTask", "Out of memory error here");
+            }
+
+            return null;
+        }
+
+        public Bitmap decodeSampledBitmapFromResourceMemOpt(
+                InputStream inputStream, int reqWidth, int reqHeight) {
+
+            byte[] byteArr = new byte[0];
+            byte[] buffer = new byte[1024];
+            int len;
+            int count = 0;
+
+            try {
+                while ((len = inputStream.read(buffer)) > -1) {
+                    if (len != 0) {
+                        if (count + len > byteArr.length) {
+                            byte[] newbuf = new byte[(count + len) * 2];
+                            System.arraycopy(byteArr, 0, newbuf, 0, count);
+                            byteArr = newbuf;
+                        }
+
+                        System.arraycopy(buffer, 0, byteArr, count, len);
+                        count += len;
+                    }
+                }
+
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+                options.inSampleSize = calculateInSampleSize(options, reqWidth,
+                        reqHeight);
+                options.inPurgeable = true;
+                options.inInputShareable = true;
+                options.inJustDecodeBounds = false;
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                return null;
+            }
+        }
+
+        public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
+            // Raw height and width of image
+            final int height = opt.outHeight;
+            final int width = opt.outWidth;
+            int inSampleSize = 1;
+
+            if (height > reqHeight || width > reqWidth) {
+
+                final int halfHeight = height / 2;
+                final int halfWidth = width / 2;
+
+                // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+                // height and width larger than the requested height and width.
+                while ((halfHeight / inSampleSize) > reqHeight
+                        && (halfWidth / inSampleSize) > reqWidth) {
+                    inSampleSize *= 2;
+                }
+            }
+
+            return inSampleSize;
+        }
+
+        @Override
+        protected void onPostExecute(CacheableBitmapDrawable result) {
+            super.onPostExecute(result);
+
+            try {
+                if (result != null && holder.tweetId == id) {
+                    holder.image.setImageDrawable(result);
+                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
+
+                    if (holder.tweetId == id) {
+                        holder.image.startAnimation(fadeInAnimation);
+                    }
+                }
+
+            } catch (Exception e) {
+
+            }
         }
     }
 }
