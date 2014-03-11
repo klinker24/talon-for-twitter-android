@@ -3,6 +3,7 @@
     &#8226; More optimization for timelines for better speed<br/>
     &#8226; Fixed profile pictures not always showing on searches<br/>
     &#8226; Fixed some RTL errors<br/>
+    &#8226; Some fixes for saved searches not displaying content<br/>
     &#8226; A few more tweeks for Tweetmarker<br/>
     &#8226; Better prevention of duplicates<br/>
     &#8226; Fixed a small bug for uploading images<br/>
