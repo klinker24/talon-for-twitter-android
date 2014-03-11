@@ -97,6 +97,10 @@ public class InteractionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         database.insert(InteractionsSQLiteHelper.TABLE_INTERACTIONS, null, values);
     }
 
@@ -126,6 +130,10 @@ public class InteractionsDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }*/
+
+        if (database == null) {
+            open();
+        }
 
         database.insert(InteractionsSQLiteHelper.TABLE_INTERACTIONS, null, values);
     }
@@ -176,6 +184,10 @@ public class InteractionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         database.insert(InteractionsSQLiteHelper.TABLE_INTERACTIONS, null, values);
     }
 
@@ -215,6 +227,10 @@ public class InteractionsDataSource {
                     open();
                 }*/
 
+                if (database == null) {
+                    open();
+                }
+
                 database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {status.getId() + ""});
             }
         } else {
@@ -230,6 +246,10 @@ public class InteractionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{account + "", tweetId + ""}, null, null, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
@@ -243,6 +263,10 @@ public class InteractionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         database.delete(InteractionsSQLiteHelper.TABLE_INTERACTIONS, InteractionsSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
@@ -254,6 +278,10 @@ public class InteractionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         database.delete(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
@@ -264,6 +292,10 @@ public class InteractionsDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }*/
+
+        if (database == null) {
+            open();
+        }
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " ASC");
@@ -278,6 +310,10 @@ public class InteractionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " DESC");
 
@@ -291,6 +327,10 @@ public class InteractionsDataSource {
             open();
         }*/
 
+        if (database == null) {
+            open();
+        }
+
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[]{account + "", "1"}, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " ASC");
 
@@ -303,6 +343,10 @@ public class InteractionsDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }*/
+
+        if (database == null) {
+            open();
+        }
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[]{account + "", "1"}, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " DESC");
@@ -334,6 +378,10 @@ public class InteractionsDataSource {
             } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
                 open();
             }*/
+
+            if (database == null) {
+                open();
+            }
 
             database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_ID + " = ?", new String[] {id + ""});
         }
@@ -371,6 +419,10 @@ public class InteractionsDataSource {
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
         }*/
+
+        if (database == null) {
+            open();
+        }
 
         database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
     }
