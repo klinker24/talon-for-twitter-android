@@ -8,6 +8,9 @@
     - interactions with dashclock
     - attach pictures from the talon pull compose
     - search fragment on main timelines
+    - user lists on their profiles
+    - QSlide for LG
+    - open the pictures on profiles to the tweets, not the photoviewer
 
 - Bugs:
     - video sound stops after one time playing it
