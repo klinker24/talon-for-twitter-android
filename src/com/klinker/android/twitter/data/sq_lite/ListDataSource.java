@@ -71,7 +71,7 @@ public class ListDataSource {
         try {
             database = dbHelper.getWritableDatabase();
         } catch (Exception e) {
-
+            database = null;
         }
     }
 

@@ -324,14 +324,18 @@ public class ListFragment extends MainFragment {
     public int getPosition(Cursor cursor, long id) {
         int pos = 0;
 
-        if (cursor.moveToLast()) {
-            do {
-                if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
-                    break;
-                } else {
-                    pos++;
-                }
-            } while (cursor.moveToPrevious());
+        try {
+            if (cursor.moveToLast()) {
+                do {
+                    if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
+                        break;
+                    } else {
+                        pos++;
+                    }
+                } while (cursor.moveToPrevious());
+            }
+        } catch (Exception e) {
+
         }
 
         return pos;
