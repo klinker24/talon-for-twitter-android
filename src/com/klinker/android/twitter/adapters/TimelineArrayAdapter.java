@@ -541,7 +541,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             Date date = new Date(time);
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
-        
+
         holder.tweet.setText(tweetText);
 
         boolean picture = false;
