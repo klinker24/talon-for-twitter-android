@@ -213,7 +213,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
-            String query = searchQuery.replace("@", "from:");
+            String query = searchQuery;//searchQuery.replace("@", "from:");
             doSearch(query);
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
