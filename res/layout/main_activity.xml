@@ -46,6 +46,7 @@ android:layout_height="match_parent">
                 android:padding="6dp"
                 android:paddingRight="10dp"
                 android:src="?sendButton"
+                android:contentDescription="New Tweet"
                 android:background="@drawable/pressed_toast"/>
 
         </LinearLayout>

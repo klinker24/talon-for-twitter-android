@@ -1,4 +1,4 @@
-<b>Version 2.0.1:</b><br/><br/>
+<b>Version 2.0.2:</b><br/><br/>
     &#8226; Safer database reads and writes for better stability<br/>
     &#8226; More optimization for timelines for better speed<br/>
     &#8226; Fixed profile pictures not always showing on searches<br/>
