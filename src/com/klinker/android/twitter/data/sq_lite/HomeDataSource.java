@@ -29,17 +29,9 @@ public class HomeDataSource {
     public static HomeDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null ||
-                    !dataSource.getDatabase().isOpen() ||
-                    !dataSource.getDatabase().isDbLockedByCurrentThread()) {
-
-                dataSource = new HomeDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (Exception e) {
-            dataSource = new HomeDataSource(context);
-            dataSource.open();
+        if (dataSource == null) {
+            dataSource = new HomeDataSource(context); // create the database
+            dataSource.open(); // open the database
         }
 
         return dataSource;
@@ -90,7 +82,7 @@ public class HomeDataSource {
         return dbHelper;
     }
 
-    public void createTweet(Status status, int account) {
+    public synchronized void createTweet(Status status, int account) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long time = status.getCreatedAt().getTime();
@@ -122,16 +114,17 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        try {
+        database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+        /*try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
         } catch (Exception e) {
-            close();
-            open();
+            //close();
+            //open();
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-        }
+        }*/
     }
 
-    public void createTweet(Status status, int account, boolean initial) {
+    public synchronized void createTweet(Status status, int account, boolean initial) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long time = status.getCreatedAt().getTime();
@@ -163,19 +156,22 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        try {
+        database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+        /*try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
         } catch (Exception e) {
             close();
             open();
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-        }
+        }*/
     }
 
-    public void deleteTweet(long tweetId) {
+    public synchronized void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        try {
+        database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
+                + " = " + id, null);
+        /*try {
             database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
                     + " = " + id, null);
         } catch (Exception e) {
@@ -183,12 +179,14 @@ public class HomeDataSource {
             open();
             database.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
                     + " = " + id, null);
-        }
+        }*/
     }
 
-    public void deleteAllTweets(int account) {
+    public synchronized void deleteAllTweets(int account) {
 
-        try {
+        database.delete(HomeSQLiteHelper.TABLE_HOME,
+                HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        /*try {
             database.delete(HomeSQLiteHelper.TABLE_HOME,
                     HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
         } catch (Exception e) {
@@ -196,10 +194,10 @@ public class HomeDataSource {
             open();
             database.delete(HomeSQLiteHelper.TABLE_HOME,
                     HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
-        }
+        }*/
     }
 
-    public Cursor getCursor(int account) {
+    public synchronized Cursor getCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -237,7 +235,19 @@ public class HomeDataSource {
 
         Cursor cursor;
 
-        try {
+        String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+        SQLiteStatement statement = database.compileStatement(sql);
+        long count = statement.simpleQueryForLong();
+        Log.v("talon_database", "home database has " + count + " entries");
+        if (count > timelineSize) {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - timelineSize) + "," + timelineSize);
+        } else {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        }
+
+        /*try {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
@@ -264,12 +274,12 @@ public class HomeDataSource {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
-        }
+        }*/
 
         return cursor;
     }
 
-    public Cursor getWidgetCursor(int account) {
+    public synchronized Cursor getWidgetCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -306,7 +316,10 @@ public class HomeDataSource {
         }
 
         Cursor cursor;
-        try {
+        cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", "150");
+
+        /*try {
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", "150");
         } catch (Exception e) {
@@ -314,12 +327,12 @@ public class HomeDataSource {
             open();
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", "150");
-        }
+        }*/
 
         return cursor;
     }
 
-    public Cursor getUnreadCursor(int account) {
+    public synchronized Cursor getUnreadCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -356,7 +369,10 @@ public class HomeDataSource {
         }
 
         Cursor cursor;
-        try {
+        cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, where, new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        /*try {
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns, where, new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         } catch (Exception e) {
@@ -364,12 +380,12 @@ public class HomeDataSource {
             open();
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns, where, new String[] {account + "", "1"}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
-        }
+        }*/
 
         return cursor;
     }
 
-    public Cursor getPicsCursor(int account) {
+    public synchronized Cursor getPicsCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -409,7 +425,18 @@ public class HomeDataSource {
 
         Cursor cursor;
 
-        try {
+        String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+        SQLiteStatement statement = database.compileStatement(sql);
+        long count = statement.simpleQueryForLong();
+        if (count > 200) {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
+        } else {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        }
+
+        /*try {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
@@ -433,12 +460,12 @@ public class HomeDataSource {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
-        }
+        }*/
 
         return cursor;
     }
 
-    public Cursor getLinksCursor(int account) {
+    public synchronized Cursor getLinksCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -476,7 +503,18 @@ public class HomeDataSource {
 
         Cursor cursor;
 
-        try {
+        String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+        SQLiteStatement statement = database.compileStatement(sql);
+        long count = statement.simpleQueryForLong();
+        if (count > 200) {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
+        } else {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        }
+
+        /*try {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
@@ -500,12 +538,12 @@ public class HomeDataSource {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
-        }
+        }*/
 
         return cursor;
     }
 
-    public Cursor getFavUsersCursor(int account) {
+    public synchronized Cursor getFavUsersCursor(int account) {
 
         String screennames = FavoriteUsersDataSource.getInstance(context).getNames(account);
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (";
@@ -531,7 +569,18 @@ public class HomeDataSource {
 
         Cursor cursor;
 
-        try {
+        String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+        SQLiteStatement statement = database.compileStatement(sql);
+        long count = statement.simpleQueryForLong();
+        if (false) {//count > 200) {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
+        } else {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        }
+
+        /*try {
             String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
             SQLiteStatement statement = database.compileStatement(sql);
             long count = statement.simpleQueryForLong();
@@ -555,7 +604,7 @@ public class HomeDataSource {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                         allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
             }
-        }
+        }*/
 
         return cursor;
     }
@@ -571,12 +620,14 @@ public class HomeDataSource {
         return count;
     }
 
-    public void markAllRead(int account) {
+    public synchronized void markAllRead(int account) {
 
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-        try {
+        database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+
+        /*try {
             database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
         } catch (Exception e) {
             close();
@@ -586,10 +637,10 @@ public class HomeDataSource {
             } catch (Exception x) {
 
             }
-        }
+        }*/
     }
 
-    public void markUnreadFilling(int account) {
+    public synchronized void markUnreadFilling(int account) {
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
 
@@ -641,10 +692,20 @@ public class HomeDataSource {
         return id;
     }
 
-    public boolean tweetExists(long tweetId, int account) {
+    public synchronized boolean tweetExists(long tweetId, int account) {
 
         Cursor cursor;
-        try {
+        cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns,
+                HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId,
+                null,
+                null,
+                null,
+                HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC",
+                "1"
+        );
+
+        /*try {
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns,
                     HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_TWEET_ID + " = " + tweetId,
@@ -666,7 +727,7 @@ public class HomeDataSource {
                     HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC",
                     "1"
             );
-        }
+        }*/
 
         if (cursor.moveToFirst()) {
             cursor.close();
@@ -677,9 +738,13 @@ public class HomeDataSource {
         }
     }
 
-    public void deleteDups(int account) {
+    public synchronized void deleteDups(int account) {
 
-        try {
+        database.execSQL("DELETE FROM " + HomeSQLiteHelper.TABLE_HOME +
+                " WHERE _id NOT IN (SELECT MIN(_id) FROM " + HomeSQLiteHelper.TABLE_HOME +
+                " GROUP BY " + HomeSQLiteHelper.COLUMN_TWEET_ID + ") AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+
+        /*try {
             database.execSQL("DELETE FROM " + HomeSQLiteHelper.TABLE_HOME +
                     " WHERE _id NOT IN (SELECT MIN(_id) FROM " + HomeSQLiteHelper.TABLE_HOME +
                     " GROUP BY " + HomeSQLiteHelper.COLUMN_TWEET_ID + ") AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
@@ -689,7 +754,7 @@ public class HomeDataSource {
             database.execSQL("DELETE FROM " + HomeSQLiteHelper.TABLE_HOME +
                     " WHERE _id NOT IN (SELECT MIN(_id) FROM " + HomeSQLiteHelper.TABLE_HOME +
                     " GROUP BY " + HomeSQLiteHelper.COLUMN_TWEET_ID + ") AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
-        }
+        }*/
     }
 
     public int getPosition(int account, long id) {
@@ -711,7 +776,7 @@ public class HomeDataSource {
         return pos;
     }
 
-    public void removeHTML(long tweetId, String text) {
+    public synchronized void removeHTML(long tweetId, String text) {
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_TEXT, text);
 

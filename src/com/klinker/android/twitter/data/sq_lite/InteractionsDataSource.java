@@ -28,12 +28,7 @@ public class InteractionsDataSource {
     public static InteractionsDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null || !dataSource.getDatabase().isOpen()) {
-                dataSource = new InteractionsDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (Exception e) {
+        if (dataSource == null || !dataSource.getDatabase().isOpen()) {
             dataSource = new InteractionsDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -75,7 +70,7 @@ public class InteractionsDataSource {
         return dbHelper;
     }
 
-    public void createMention(Context context, Status status, int account) {
+    public synchronized void createMention(Context context, Status status, int account) {
         ContentValues values = new ContentValues();
         long id = status.getId();
         long time = new GregorianCalendar().getTime().getTime(); // current time
@@ -96,16 +91,16 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_TYPE, type);
         values.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
 
-        if (database == null) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.insert(InteractionsSQLiteHelper.TABLE_INTERACTIONS, null, values);
     }
 
-    public void createFavoriteUserInter(Context context, Status status, int account) {
+    public synchronized void createFavoriteUserInter(Context context, Status status, int account) {
         ContentValues values = new ContentValues();
         long id = status.getId();
         long time = new GregorianCalendar().getTime().getTime(); // current time
@@ -126,16 +121,16 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_TYPE, type);
         values.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
 
-        if (database == null) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.insert(InteractionsSQLiteHelper.TABLE_INTERACTIONS, null, values);
     }
 
-    public void createInteraction(Context context, User source, Status status, int account, int type) {
+    public synchronized void createInteraction(Context context, User source, Status status, int account, int type) {
         ContentValues values = new ContentValues();
         long id;
         if (status != null) {
@@ -175,16 +170,16 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_TYPE, type);
         values.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
 
-        if (database == null) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.insert(InteractionsSQLiteHelper.TABLE_INTERACTIONS, null, values);
     }
 
-    public void updateInteraction(Context context, User source, Status status, int account, int type) {
+    public synchronized void updateInteraction(Context context, User source, Status status, int account, int type) {
         if (type == TYPE_RETWEET) {
             status = status.getRetweetedStatus();
         }
@@ -214,11 +209,11 @@ public class InteractionsDataSource {
                 cv.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getBiggerProfileImageURL());
                 cv.put(InteractionsSQLiteHelper.COLUMN_TIME, new GregorianCalendar().getTimeInMillis());
 
-                if (database == null) {
+                /*if (database == null) {
                     open();
                 } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
                     open();
-                }
+                }*/
 
                 database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {status.getId() + ""});
             }
@@ -228,12 +223,12 @@ public class InteractionsDataSource {
         }
     }
 
-    public Cursor interactionExists(long tweetId, int account) {
-        if (database == null) {
+    public synchronized Cursor interactionExists(long tweetId, int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{account + "", tweetId + ""}, null, null, InteractionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -241,34 +236,34 @@ public class InteractionsDataSource {
         return cursor;
     }
 
-    public void deleteInteraction(long id) {
-        if (database == null) {
+    public synchronized void deleteInteraction(long id) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.delete(InteractionsSQLiteHelper.TABLE_INTERACTIONS, InteractionsSQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
-    public void deleteAllInteractions(int account) {
-        if (database == null) {
+    public synchronized void deleteAllInteractions(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.delete(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
-    public Cursor getCursor(int account) {
-        if (database == null) {
+    public synchronized Cursor getCursor(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " ASC");
@@ -276,12 +271,12 @@ public class InteractionsDataSource {
         return cursor;
     }
 
-    public Cursor getBackwordCursor(int account) {
-        if (database == null) {
+    public synchronized Cursor getBackwordCursor(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " DESC");
@@ -289,12 +284,12 @@ public class InteractionsDataSource {
         return cursor;
     }
 
-    public Cursor getUnreadCursor(int account) {
-        if (database == null) {
+    public synchronized Cursor getUnreadCursor(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[]{account + "", "1"}, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " ASC");
@@ -302,12 +297,12 @@ public class InteractionsDataSource {
         return cursor;
     }
 
-    public Cursor getUnreadBackwordCursor(int account) {
-        if (database == null) {
+    public synchronized Cursor getUnreadBackwordCursor(int account) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         Cursor cursor = database.query(InteractionsSQLiteHelper.TABLE_INTERACTIONS,
                 allColumns, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[]{account + "", "1"}, null, null, InteractionsSQLiteHelper.COLUMN_TIME + " DESC");
@@ -326,7 +321,7 @@ public class InteractionsDataSource {
         return count;
     }
 
-    public void markRead(int account, int position) {
+    public synchronized void markRead(int account, int position) {
         Cursor cursor = getUnreadBackwordCursor(account);
 
         if (cursor.moveToPosition(position)) {
@@ -334,11 +329,11 @@ public class InteractionsDataSource {
             ContentValues cv = new ContentValues();
             cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 0);
 
-            if (database == null) {
+            /*if (database == null) {
                 open();
             } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
                 open();
-            }
+            }*/
 
             database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_ID + " = ?", new String[] {id + ""});
         }
@@ -366,16 +361,16 @@ public class InteractionsDataSource {
         return users;
     }
 
-    public void markAllRead(int account) {
+    public synchronized void markAllRead(int account) {
 
         ContentValues cv = new ContentValues();
         cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 0);
 
-        if (database == null) {
+        /*if (database == null) {
             open();
         } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
             open();
-        }
+        }*/
 
         database.update(InteractionsSQLiteHelper.TABLE_INTERACTIONS, cv, InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + InteractionsSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
     }
