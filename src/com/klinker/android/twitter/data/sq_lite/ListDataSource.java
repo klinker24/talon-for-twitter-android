@@ -122,7 +122,7 @@ public class ListDataSource {
         values.put(ListSQLiteHelper.COLUMN_USERS, users);
         values.put(ListSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(ListSQLiteHelper.COLUMN_LIST_ID, listId);
-        
+
         if (database == null) {
             open();
         }
