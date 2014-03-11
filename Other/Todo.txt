@@ -16,11 +16,9 @@
 
 -- For Release --
 
-- convert to one handler on the main timelines
-- emojis not displaying
-- links at the beginning of tweets
+    - links at the beginning of tweets
 
-Version 2.1.0
-    - Drafts
-    - Scheduled Tweets
-    - Direct Message pictures
+    Version 2.1.0
+        - Drafts
+        - Scheduled Tweets
+        - Direct Message pictures
