@@ -58,7 +58,7 @@ android:layout_height="match_parent">
          android:id="@+id/left_drawer"
          android:layout_width="@dimen/drawer_size_port"
          android:layout_height="match_parent"
-         android:layout_gravity="start" >
+         android:layout_gravity="left" >
 
 </include>
 
@@ -66,6 +66,6 @@ android:layout_height="match_parent">
          android:id="@+id/right_drawer"
          android:layout_width="@dimen/drawer_size_port"
          android:layout_height="match_parent"
-         android:layout_gravity="end"/>
+         android:layout_gravity="right"/>
 
 </com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout>

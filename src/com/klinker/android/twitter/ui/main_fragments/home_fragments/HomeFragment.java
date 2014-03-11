@@ -112,8 +112,9 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
 
-                HomeDataSource dataSource = HomeDataSource.getInstance(context);
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                //HomeDataSource dataSource = HomeDataSource.getInstance(context);
+                //sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l)).commit();
 
                 trueLive = true;
 
@@ -154,7 +155,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                                 sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
                                 Utils.getTwitter(context, new AppSettings(context)));
 
-                        long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                        long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
 
                         boolean success = helper.sendCurrentId("timeline", currentId);
 
@@ -360,7 +361,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             Paging paging = new Paging(1, 200);
 
             try {
-                if (lastId[0] != 0) {
+                /*if (lastId[0] != 0) {
                     paging.setSinceId(lastId[0]);
                 } else if (cursorAdapter != null) {
                     Cursor cursor = cursorAdapter.getCursor();
@@ -368,9 +369,9 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                         long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                         paging.setSinceId(id);
                     }
-                } else {
+                } else {*/
                     paging.setSinceId(sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0));
-                }
+                //}
             } catch (IllegalArgumentException e) {
                 // they hit this before actually getting the shared pref set... It would happen if the list isn't loaded and they refresh on startup
                 return 0;
@@ -452,7 +453,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
         Log.v("talon_tweetmarker", "tweetmarker status: " + tweetmarkerStatus);
 
-        if (tweetmarkerStatus != 0) {
+        if (tweetmarkerStatus > 0) {
             sharedPrefs.edit().putLong("current_position_" + currentAccount, tweetmarkerStatus).commit();
             Log.v("talon_tweetmarker", "updating with tweetmarker");
             trueLive = true;
@@ -870,6 +871,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
         initial = false;
 
         long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+        boolean update = true;
         int numTweets;
         if (id == 0) {
             numTweets = 0;
@@ -903,6 +905,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
                         if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
                             numTweets = 0;
+                            update = false;
                         }
                     }
                 }
@@ -922,23 +925,27 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
         final int tweets = numTweets;
 
-        listView.setAdapter(cursorAdapter);
-
         if (spinner.getVisibility() == View.VISIBLE) {
             spinner.setVisibility(View.GONE);
         }
 
-        listView.setVisibility(View.VISIBLE);
+        if (listView.getVisibility() != View.VISIBLE) {
+            listView.setVisibility(View.VISIBLE);
+        }
 
-        if (viewPressed) {
-            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-        } else if (tweets != 0) {
-            unread = tweets;
-            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-        } else {
-            listView.setSelectionFromTop(0, 0);
+        if (update) {
+            listView.setAdapter(cursorAdapter);
+
+            if (viewPressed) {
+                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+            } else if (tweets != 0) {
+                unread = tweets;
+                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+            } else {
+                listView.setSelectionFromTop(0, 0);
+            }
         }
 
         liveUnread = 0;
@@ -957,10 +964,12 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             newTweets = false;
         }
 
-        try {
-            c.close();
-        } catch (Exception e) {
+        if (update) {
+            try {
+                c.close();
+            } catch (Exception e) {
 
+            }
         }
     }
 

@@ -1,4 +1,14 @@
 <b>Version 2.0.1:</b><br/><br/>
+    &#8226; Safer database reads and writes for better stability<br/>
+    &#8226; More optimization for timelines for better speed<br/>
+    &#8226; Fixed profile pictures not always showing on searches<br/>
+    &#8226; Fixed some RTL errors<br/>
+    &#8226; A few more tweeks for Tweetmarker<br/>
+    &#8226; Better prevention of duplicates<br/>
+    &#8226; Fixed a small bug for uploading images<br/>
+</br><br/>
+
+<b>Version 2.0.1:</b><br/><br/>
     &#8226; Slight style changes on the bar widget<br/>
     &#8226; Some reported bugs from 2.0.0 fixed<br/>
 </br><br/>
