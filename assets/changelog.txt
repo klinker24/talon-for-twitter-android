@@ -5,7 +5,6 @@
     &#8226; Fixed some RTL errors<br/>
     &#8226; Some fixes for saved searches not displaying content<br/>
     &#8226; A few more tweeks for Tweetmarker<br/>
-    &#8226; Better prevention of duplicates<br/>
     &#8226; Fixed Pwiccer<br/>
     &#8226; Fixed emojis not appearing correctly<br/>
     &#8226; Fixed a small bug for uploading images<br/>
