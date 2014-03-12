@@ -36,7 +36,7 @@
     <!-- Muting -->
     <string name="mute">Mute</string>
     <string name="unmute">Un-Mute</string>
-    <string name="muted_users">Utilisateur(s) muté(s) </string>
+    <string name="muted_users">Utilisateurs mutés</string>
     <string name="no_users">Aucun utilisateur</string>
     <!-- Main Activity -->
     <string name="links">Liens</string>
@@ -248,7 +248,7 @@
     <string name="themeing_complete_summary">\"Talon\" va maintenant se fermer \n\n
 Retirez \"Talon\" de la liste des applications récentes pour que les modifications apportées soient visibles sur vos timelines. \n\n
 Si votre image de profil ne montre pas ce que vous souhaitez (ex: cercle ou carré), vous devez supprimer et ré-ajouter le widget. </string>
-    <string name="layout_summary">Modifier ceci va vider le cache de l\'application.</string>
+    <string name="layout_summary">Modifier ceci videra le cache de l\'application.</string>
     <string name="text_size">Taille du texte</string>
     <string name="night_mode">Mode nuit</string>
     <string name="night_mode_night">Paramètrer le mode nuit</string>
@@ -298,8 +298,8 @@ NOTE: Les Emojis continuerons de fonctionner dans cette application même si la 
     <string name="dm_sync_interval">Taux de rafraichissement des Messages Privés</string>
     <string name="sync_friends">Synchroniser les données des amis</string>
     <string name="sync_friends_summary2">Re-synchroniser les données des amis lors de la composition d\'un tweet.</string>
-    <string name="sync_friends_summary">Synchroniser manuellement la liste d\'amis.\n\n Ceci a été fait pour vous à votre login et ils sont ajoutés automatiquement quand vous suivez quelqu\'un depuis Talon, mais cette option va rréactualiser votre liste d\'amis. \n\n
-Ces données sont utilisées lors de la recherche pour les utilisateurs lors de la composition d\'un tweet</string>
+    <string name="sync_friends_summary">Synchroniser manuellement la liste d\'amis.\n\n Ceci a été fait pour vous à votre login et ils sont ajoutés automatiquement quand vous suivez quelqu\'un depuis Talon, mais cette option va réactualiser votre liste d\'amis. \n\n
+Ces données sont utilisées lors de la recherche d\'utilisateurs lors de la composition d\'un tweet</string>
     <string name="sync_success">Synchronisation réussie</string>
     <string name="sync_failed">Échec de la synchronisation</string>
     <string name="push_notification_options">"Réglage du \"Push\""</string>
@@ -308,7 +308,7 @@ Ces données sont utilisées lors de la recherche pour les utilisateurs lors de 
     <string name="push_notification_warning">Pour en savoir plus sur cette option, cliquez ici.</string>
     <string name="notification_settings">Réglages des notifcations</string>
     <string name="pebble_notifications">Notifications Pebble</string>
-    <string name="pebble_notifications_summary">Utilisé avec la montre Pebble.</string>
+    <string name="pebble_notifications_summary">Fonctionne avec la montre Pebble.</string>
     <string name="advanced_settings">Réglages avancés</string>
     <string name="app_feel_category">App Feel Options</string>
     <string name="advance_windowed">Fenêtre avancée</string>
@@ -324,17 +324,17 @@ Défaut (quand c\'est désactivé) \n
     <string name="extra_pages_summary">Ajouter la page des liens et des photos à gauche de votre timeline..</string>
     <string name="live_streaming">Rafraichissement en temps réel</string>
     <string name="memory_management">Options de gestion de la mémoire</string>
-    <string name="delete_cache">Supprimer le Cache Maintenant</string>
+    <string name="delete_cache">Supprimer le cache maintenant</string>
     <string name="cache_dialog">Supprimer le Cache ?</string>
     <string name="not_cache">Ceci ne s\'applique pas dans le cache de l\'application.</string>
     <string name="current_cache_size">Taille actuelle du cache</string>
     <string name="cache_dialog_summary">Cette action ne peut être annulée</string>
     <string name="timeline_size">Taille de la Timeline</string>
     <string name="timeline_size_summary">Nombre maximum de tweets stockés dans la base de données</string>
-    <string name="mentions_size">Taille des Mentions</string>
+    <string name="mentions_size">Taille des Mention</string>
     <string name="mentions_size_summary">Nombre maximum de mentions stockées dans la base de données</string>
-    <string name="dm_size">Taille des messages privées</string>
-    <string name="dm_size_summary">Nombre maximum de messages privée stocker dans la base de donnée</string>
+    <string name="dm_size">Taille des Messages Privées</string>
+    <string name="dm_size_summary">Nombre maximum de messages privée stockés dans la base de données</string>
     <string name="auto_trim">Réduction automatique de la base de données</string>
     <string name="trim_now">Diminuer la taille de la base de données</string>
     <string name="trim_dialog">Diminuer maintenant la taille de la base de données ?</string>
@@ -412,7 +412,7 @@ Défaut (quand c\'est désactivé) \n
     <string name="auto_insert_hashtags">Insertion automatique des Hastags</string>
     <string name="to_replies">Insérer n\'importe quel hastags qui se trouve dans le tweet auquel vous répondez</string>
     <string name="clean_now">Vider les bases de données maintenant</string>
-    <string name="clean_now_summary">Comprend la réduction et la suppression des doublons dans votre base de données.</string>
+    <string name="clean_now_summary">Comprend la réduction et la suppression des doublons de votre base de données.</string>
     <string name="delete_conversation">Effacer la conversation ?</string>
     <string name="deleting_messages">Effacement des messages</string>
     <string name="type_message">Type de message...</string>
@@ -428,7 +428,7 @@ Défaut (quand c\'est désactivé) \n
     <string name="roboto_condensed">Roboto Condensed</string>
     <string name="font_type">Type de police</string>
     <string name="our_website">Site web</string>
-    <string name="alert_types">Types d\'alerte</string>
+    <string name="alert_types">Type d\'alerte</string>
     <string name="timeline_notifications">Notifications de la Timeline</string>
     <string name="interactions_notifications">Notifications pour les interactions</string>
     <string name="timelines_settings">Paramètres de la Timeline</string>
@@ -468,13 +468,13 @@ Défaut (quand c\'est désactivé) \n
     <string name="page_1">Page 1</string>
     <string name="page_2">Page 2</string>
     <string name="load_tweets">Charger les tweets</string>
-    <string name="download_portal">Télécharger l\'application regroupant des thèmes</string>
-    <string name="download_portal_summary">Cette application vous permet de rester à jour avec les dernières nouvelles ainsi que de trouver tous les meilleurs thèmes pour Talon et EvolveSMS en un seul endroit!</string>
+    <string name="download_portal">Télécharger l\'appli "Theme Portal"</string>
+    <string name="download_portal_summary">Cette application vous permet d\'être au courant des dernières nouvelles et de trouver les meilleurs thèmes pour Talon et EvolveSMS au même endroit !</string>
     <string name="compose_dm_hint">Tapez votre message privé ici... </string>
     <string name="pwiccer">Pwiccer</string>
     <string name="select_shortening_service">Sélectionnez un service de raccourcissement ou modifier le tweet.</string>
     <string name="use_shortening_service">Utiliser le service de raccourcissement</string>
-    <string name="use_shortening_service_summary">Vous serez en mesure de sélectionner l\'une ou l\'autre, TwitLonger ou Pwiccer (un service qui convertit votre long tweet par une image).</string>
+    <string name="use_shortening_service_summary">Vous serez en mesure de sélectionner l\'une ou l\'autre, TwitLonger ou Pwiccer (un service qui convertit les longs tweets par une image).</string>
     <string name="view_retweeters">Retweeters</string>
     <string name="no_tweets">Pas de Tweets</string>
     <string name="only_7_days">Seulement disponible 7 jours</string>
@@ -507,11 +507,11 @@ Défaut (quand c\'est désactivé) \n
     <string name="city">Ville</string>
     <string name="menu_apply_picture_filter">Appliquer un filtre image</string>
     <string name="menu_remove_rt">Supprimer le Retweet</string>
-    <string name="input_expression">Mise en sourdine de l\'expressions</string>
+    <string name="input_expression">Mise en sourdine de l\'expression</string>
     <string name="mute_expression">Mettre en sourdine une expression</string>
     <string name="view_muted_expressions">Supprimer les expressions mises en sourdines</string>
     <string name="no_expression">Pas d\'expression !</string>
-    <string name="regex_disclaimer">Mettre en sourdine trop d\'expressions peut affecter le démarrage et le temps de rafraîchissement.</string>
+    <string name="regex_disclaimer">Mettre en sourdine trop d\'expressions peut affecter le temps de démarrage et de rafraîchissement.</string>
     <string name="cleaning_cache">Nettoyage du cache...</string>
     <string name="floating_compose">Bouton de nouveau tweet flottant </string>
     <string name="settings_links">Paramètres</string>
@@ -526,7 +526,7 @@ Défaut (quand c\'est désactivé) \n
     <string name="load_pictures">Charger des photos</string>
     <string name="pic_search_disclaimer">Parcours la timeline de l\'utilisateur à la recherche d\'images. Cela peut nécessiter plus de temps suivant l\'ancienneté des images. </string>
     <string name="widget_theme">Thème du widget</string>
-    <string name="widget_theme_summary">Appliqué au widget de votre écran d\'accueil</string>
+    <string name="widget_theme_summary">Sera appliqué au widget de votre écran d\'accueil</string>
     <string name="widget_light">Thème clair</string>
     <string name="widget_dark">Thème sombre</string>
     <string name="widget_trans_light">Thème clair transparent</string>
