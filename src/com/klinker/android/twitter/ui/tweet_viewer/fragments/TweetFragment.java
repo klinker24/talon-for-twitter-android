@@ -1196,7 +1196,7 @@ public class TweetFragment extends Fragment {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
-                if (remainingChars < 0) {
+                if (remainingChars < 0 && !pwiccer) {
                     // twitlonger goes here
                     TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
                     helper.setInReplyToStatusId(tweetId);
@@ -1343,6 +1343,8 @@ public class TweetFragment extends Fragment {
     private static final int CAPTURE_IMAGE = 101;
     private static final int PWICCER = 420;
 
+    public boolean pwiccer = false;
+
     public void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -1386,6 +1388,11 @@ public class TweetFragment extends Fragment {
                         reply.setText(currText);
                         charRemaining.setText("0");
                     }
+
+                    Log.v("talon_pwiccer", "length = " + currText.length());
+                    Log.v("talon_pwiccer", currText);
+
+                    pwiccer = true;
 
                     replyButton.performClick();
                 } else {

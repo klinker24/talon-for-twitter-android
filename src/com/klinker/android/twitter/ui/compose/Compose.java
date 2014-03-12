@@ -397,6 +397,8 @@ public abstract class Compose extends Activity implements
     public static final int CAPTURE_IMAGE = 101;
     public static final int PWICCER = 420;
 
+    public boolean pwiccer = false;
+
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -453,11 +455,14 @@ public abstract class Compose extends Activity implements
 
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
                     Log.v("pwiccer_text", currText);
+                    Log.v("pwiccer_text", "length: " + currText.length());
                     if (currText != null) {
                         reply.setText(currText);
                     } else {
                         reply.setText(reply.getText().toString().substring(0, 114) + "...");
                     }
+
+                    pwiccer = true;
 
                     doneClick();
                     onBackPressed();
@@ -548,8 +553,11 @@ public abstract class Compose extends Activity implements
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
                 Twitter twitter2 = Utils.getSecondTwitter(getApplicationContext());
 
-                if (remaining < 0) {
+                if (remaining < 0 && !pwiccer) {
                     // twitlonger goes here
+
+                    Log.v("pwiccer_text", "twitlonger running: " + remaining);
+
                     boolean isDone = false;
 
                     if (accountOneCheck.isChecked()) {
