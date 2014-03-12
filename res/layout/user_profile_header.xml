@@ -109,7 +109,7 @@
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="-30dp"
-        android:textSize="15dp"
+        android:textSize="13dp"
         android:layout_below="@+id/profile_pic"
         android:layout_alignLeft="@+id/profile_pic"
         android:shadowColor="?textShadowColor"

@@ -64,12 +64,14 @@ public class LongClickableSpan extends ClickableSpan {
                 Intent intent = new Intent(Intent.ACTION_VIEW).setData(
                         Uri.parse("http://" + data)
                 );
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             } else {
                 String data = mValue.replace("http://", "").replace("https://", "").replace("\"", "");
 
                 Uri weburi = Uri.parse("http://" + data);
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(launchBrowser);
             }
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
