@@ -68,8 +68,6 @@ public class HomeContentProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(result, null);
         }
 
-        db.close();
-
         return Uri.parse(BASE_PATH + "/" + rowID);
     }
 
@@ -101,55 +99,10 @@ public class HomeContentProvider extends ContentProvider {
             }
 
             db.setTransactionSuccessful();
-        } catch (NullPointerException x)  {
-            // i don't understand why this would happen
-            db = HomeDataSource.getInstance(getContext()).getDatabase();
-            try {
-                db.beginTransaction();
-            } catch (Exception e) {
-                // what the hell... :/
-                return 0;
-            }
-
-            for (ContentValues initialValues : allValues) {
-                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
-                try {
-                    rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-                } catch (IllegalStateException e) {
-                    db = HomeDataSource.getInstance(context).getDatabase();
-                    rowId = 0;
-                }
-                if (rowId > 0)
-                    rowsAdded++;
-            }
-
-            db.setTransactionSuccessful();
+        } catch (NullPointerException e)  {
+            e.printStackTrace();
         } catch (SQLiteDatabaseLockedException e) {
-
-            HomeDataSource.getInstance(getContext()).close();
-
-            db = HomeDataSource.getInstance(getContext()).getDatabase();
-            try {
-                db.beginTransaction();
-            } catch (Exception x) {
-                // what the hell... :/
-                return 0;
-            }
-
-            for (ContentValues initialValues : allValues) {
-                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
-                try {
-                    rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-                } catch (IllegalStateException x) {
-                    db = HomeDataSource.getInstance(context).getDatabase();
-                    rowId = 0;
-                }
-                if (rowId > 0)
-                    rowsAdded++;
-            }
-
-            db.setTransactionSuccessful();
-
+            e.printStackTrace();
         } catch (IllegalStateException e) {
             // caught setting up the transaction I guess, shouldn't ever happen now.
             e.printStackTrace();
@@ -185,8 +138,6 @@ public class HomeContentProvider extends ContentProvider {
             db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
 
-        db.close();
-
         context.getContentResolver().notifyChange(uri, null);
 
         return 1;
@@ -208,7 +159,6 @@ public class HomeContentProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
-        db.close();
         return count;
     }
 
