@@ -988,7 +988,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             }
         } catch (Exception e) {
             getLoaderManager().restartLoader(0, null, HomeFragment.this);
-            HomeDataSource.getInstance(context).close();
             return -1;
         }
 
@@ -999,11 +998,6 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         // data is not available anymore, delete reference
         Log.v("talon_timeline", "had to restart the loader for some reason, it was reset");
-        try {
-            cursorAdapter.swapCursor(null).close();
-        } catch (Exception e) {
-
-        }
 
         getLoaderManager().restartLoader(0, null, HomeFragment.this);
     }
