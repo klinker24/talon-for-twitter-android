@@ -3,6 +3,7 @@
     &#8226; Fixed some links not appearing properly<br/>
     &#8226; More crash fixes<br/>
     &#8226; More RTL fixes<br/>
+    &#8226; Some duplication fixes<br/>
 </br><br/>
 
 <b>Version 2.0.2:</b><br/><br/>
