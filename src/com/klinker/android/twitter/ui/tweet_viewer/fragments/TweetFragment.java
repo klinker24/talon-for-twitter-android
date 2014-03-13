@@ -203,7 +203,7 @@ public class TweetFragment extends Fragment {
 
         countHandler = new Handler();
 
-        layout = inflater.inflate(R.layout.tweet_fragment, null);
+        layout = inflater.inflate(R.layout.tweet_fragment, null, false);
         addonTheme = false;
 
         if(settings == null) {

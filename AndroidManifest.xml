@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
-            android:name="com.klinker.android.twitter.data.App"
+            android:name=".data.App"
             android:label="@string/app_name"
             android:icon="@mipmap/ic_launcher"
             android:hardwareAccelerated="true"
@@ -34,14 +34,14 @@
             android:value="@integer/google_play_services_version" />
 
         <provider
-            android:name="com.klinker.android.twitter.data.sq_lite.HomeContentProvider"
+            android:name=".data.sq_lite.HomeContentProvider"
             android:multiprocess="true"
             android:authorities="com.klinker.android.twitter.provider" />
 
         <activity android:name=".ui.setup.TutorialActivity"
             android:theme="@style/Theme.Tutorial"/>
 
-        <activity android:name="com.klinker.android.twitter.ui.MainActivity"
+        <activity android:name=".ui.MainActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
@@ -64,7 +64,7 @@
                 android:resource="@xml/searchable"/>
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.RetweetActivity"
+        <activity android:name=".ui.drawer_activities.RetweetActivity"
                   android:label="@string/retweets"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize"
@@ -75,49 +75,49 @@
                     android:configChanges="orientation|screenSize"
                     android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.FavoritesActivity"
+        <activity android:name=".ui.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize"
                   android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.FavoriteUsersActivity"
+        <activity android:name=".ui.drawer_activities.FavoriteUsersActivity"
             android:label="@string/favorite_users"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.lists.ViewUsers"
+        <activity android:name=".ui.drawer_activities.lists.ViewUsers"
             android:label="@string/favorite_users"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonDark.Popup" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.discover.DiscoverPager"
+        <activity android:name=".ui.drawer_activities.discover.DiscoverPager"
             android:label="@string/local_trends"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.lists.ListsActivity"
+        <activity android:name=".ui.drawer_activities.lists.ListsActivity"
             android:label="@string/lists"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.SavedSearchesActivity"
+        <activity android:name=".ui.drawer_activities.SavedSearchesActivity"
             android:label="@string/saved_searches"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.lists.ChoosenListActivity"
+        <activity android:name=".ui.drawer_activities.lists.ChoosenListActivity"
             android:label="@string/lists"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
@@ -141,7 +141,7 @@
             android:theme="@style/Theme.TalonDark"
             />
 
-        <activity android:name="com.klinker.android.twitter.ui.drawer_activities.Search"
+        <activity android:name=".ui.drawer_activities.Search"
             android:label="@string/search"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
@@ -232,12 +232,12 @@
             android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.BrowserActivity"
+        <activity android:name=".ui.BrowserActivity"
             android:label="@string/app_name_full"
             android:theme="@style/Theme.TalonDark.Popup" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.ui.MainActivityPopup"
+        <activity android:name=".ui.MainActivityPopup"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
@@ -394,7 +394,7 @@
                   android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 
-        <activity android:name="com.klinker.android.twitter.settings.SettingsPagerActivity"
+        <activity android:name=".settings.SettingsPagerActivity"
             android:label="@string/talon_settings"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
@@ -411,28 +411,28 @@
         <service android:name=".services.StopPull">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.MarkReadService">
+        <service android:name=".services.MarkReadService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.ReadInteractionsService">
+        <service android:name=".services.ReadInteractionsService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.TimelineRefreshService">
+        <service android:name=".services.TimelineRefreshService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.WidgetRefreshService">
+        <service android:name=".services.WidgetRefreshService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.MentionsRefreshService">
+        <service android:name=".services.MentionsRefreshService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.SecondMentionsRefreshService">
+        <service android:name=".services.SecondMentionsRefreshService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.DirectMessageRefreshService">
+        <service android:name=".services.DirectMessageRefreshService">
         </service>
 
-        <service android:name="com.klinker.android.twitter.services.TrimDataService">
+        <service android:name=".services.TrimDataService">
         </service>
 
         <receiver android:name=".receivers.BootReceiver">
@@ -451,7 +451,7 @@
             android:authorities="com.klinker.android.MySuggestionsProvider" />
 
         <!-- Widget -->
-        <receiver android:name="com.klinker.android.twitter.widget.WidgetProvider" >
+        <receiver android:name=".widget.WidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -465,7 +465,7 @@
         </receiver>
 
         <!-- unread widget -->
-        <receiver android:name="com.klinker.android.twitter.widget.UnreadWidgetProvider" >
+        <receiver android:name=".widget.UnreadWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -479,7 +479,7 @@
         </receiver>
 
 
-        <activity android:name="com.klinker.android.twitter.widget.WidgetProxyActivity"
+        <activity android:name=".widget.WidgetProxyActivity"
             android:theme="@style/Theme.TalonDark"/>
         <service android:name="com.klinker.android.twitter.widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
@@ -487,7 +487,7 @@
         <service android:name="com.klinker.android.twitter.widget.UnreadWidgetProvider$UnreadWidgetService" />
 
         <!-- DashClock -->
-        <service android:name="com.klinker.android.twitter.widget.TalonDashClockExtension"
+        <service android:name=".widget.TalonDashClockExtension"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name_full"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >

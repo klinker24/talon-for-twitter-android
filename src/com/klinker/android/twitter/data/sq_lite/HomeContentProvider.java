@@ -101,8 +101,10 @@ public class HomeContentProvider extends ContentProvider {
             db.setTransactionSuccessful();
         } catch (NullPointerException e)  {
             e.printStackTrace();
+            return rowsAdded;
         } catch (SQLiteDatabaseLockedException e) {
             e.printStackTrace();
+            return rowsAdded;
         } catch (IllegalStateException e) {
             // caught setting up the transaction I guess, shouldn't ever happen now.
             e.printStackTrace();
@@ -213,7 +215,7 @@ public class HomeContentProvider extends ContentProvider {
         context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
 
-    public static void insertTweets(List<Status> statuses, int currentAccount, Context context, long[] lastIds) {
+    public static int insertTweets(List<Status> statuses, int currentAccount, Context context, long[] lastIds) {
         ArrayList<Long> ids = new ArrayList<Long>();
         for (int i = 0; i < lastIds.length; i++) {
             ids.add(lastIds[i]);
@@ -262,7 +264,7 @@ public class HomeContentProvider extends ContentProvider {
             }
         }
 
-        context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
+        return context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
     }
 
 }

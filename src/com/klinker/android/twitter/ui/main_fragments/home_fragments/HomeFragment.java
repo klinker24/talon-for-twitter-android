@@ -332,6 +332,11 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
     public int doRefresh() {
         int numberNew = 0;
 
+        if (TimelineRefreshService.isRunning) {
+            // quit if it is running in the background
+            return 0;
+        }
+
         try {
             Cursor cursor = cursorAdapter.getCursor();
             if (cursor.moveToLast()) {
@@ -408,15 +413,15 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
             manualRefresh = false;
 
-            if (statuses.size() > 0) {
+            numberNew = HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+
+            if (numberNew > 0 && statuses.size() > 0) {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
             }
 
-            HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
-
             Log.v("talon_inserting", "inserted tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
 
-            numberNew = statuses.size();
+            //numberNew = statuses.size();
             unread = numberNew;
 
             statuses.clear();

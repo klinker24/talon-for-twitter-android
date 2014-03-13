@@ -26,6 +26,7 @@ import twitter4j.User;
 public class TimelineRefreshService extends IntentService {
 
     SharedPreferences sharedPrefs;
+    public static boolean isRunning = false;
 
     public TimelineRefreshService() {
         super("TimelineRefreshService");
@@ -34,6 +35,7 @@ public class TimelineRefreshService extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
         if (MainActivity.canSwitch) {
+            TimelineRefreshService.isRunning = true;
             sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
             Context context = getApplicationContext();
@@ -93,11 +95,11 @@ public class TimelineRefreshService extends IntentService {
                     }
                 }
 
-                if (statuses.size() > 0) {
+                int inserted = HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+
+                if (inserted > 0 && statuses.size() > 0) {
                     sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
                 }
-
-                HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
 
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
@@ -110,6 +112,8 @@ public class TimelineRefreshService extends IntentService {
             }
 
             context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+
+            TimelineRefreshService.isRunning = false;
         }
     }
 }

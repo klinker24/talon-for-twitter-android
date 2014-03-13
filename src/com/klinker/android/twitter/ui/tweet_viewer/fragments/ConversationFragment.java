@@ -68,7 +68,7 @@ public class ConversationFragment extends Fragment {
 
         isRunning = true;
 
-        layout = inflater.inflate(R.layout.conversation_fragment, null);
+        layout = inflater.inflate(R.layout.conversation_fragment, null, false);
         final AsyncListView replyList = (AsyncListView) layout.findViewById(R.id.listView);
         final LinearLayout progressSpinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         final HoloTextView none = (HoloTextView) layout.findViewById(R.id.no_conversation);
