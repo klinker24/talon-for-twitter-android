@@ -14,6 +14,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
@@ -62,56 +63,54 @@ public class WidgetRefreshService  extends IntentService {
         try {
             Twitter twitter = Utils.getTwitter(context, settings);
 
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
-
             HomeDataSource dataSource = HomeDataSource.getInstance(context);
+
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             User user = twitter.verifyCredentials();
             long[] lastId = dataSource.getLastIds(currentAccount);
-            List<Status> statuses = new ArrayList<Status>();
+            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
             boolean foundStatus = false;
-            int lastJ = 0;
+
+            Paging paging = new Paging(1, 200);
+                /*if (lastId[0] != 0) {
+                    paging.setSinceId(lastId[0]);
+                } else {*/
+            long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0);
+            if (id != 0) {
+                paging.setSinceId(id);
+            } else {
+                return;
+            }
+            //}
 
             for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                if (foundStatus) {
-                    break;
-                } else {
-                    statuses.addAll(getList(i + 1, twitter));
-                }
-
                 try {
-                    for (int j = lastJ; j < statuses.size(); j++) {
-                        long id = statuses.get(j).getId();
-                        if (id == lastId[0] || id == lastId[1] || id == lastId[2] || id == lastId[3] || id == lastId[4]) {
-                            statuses = statuses.subList(0, j);
+                    if (!foundStatus) {
+                        paging.setPage(i + 1);
+                        List<Status> list = twitter.getHomeTimeline(paging);
+
+                        if (list.size() > 185) { // close to the 200 lol
+                            foundStatus = false;
+                        } else {
                             foundStatus = true;
-                            break;
                         }
+
+                        statuses.addAll(list);
                     }
                 } catch (Exception e) {
+                    // the page doesn't exist
                     foundStatus = true;
+                } catch (OutOfMemoryError o) {
+                    // don't know why...
                 }
-
-                lastJ = statuses.size();
             }
 
-            if (statuses.size() != 0) {
-                try {
-                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, statuses.get(1).getId()).commit();
-                } catch (Exception e) {
-                    sharedPrefs.edit().putLong("second_last_tweet_id_" + currentAccount, sharedPrefs.getLong("last_tweet_id_" + currentAccount, 0)).commit();
-                }
-                sharedPrefs.edit().putLong("last_tweet_id_" + currentAccount, statuses.get(0).getId()).commit();
-            }
+            int inserted = HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
 
-            for (twitter4j.Status status : statuses) {
-                try {
-                    HomeContentProvider.insertTweet(status, currentAccount, context);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
-                }
+            if (inserted > 0 && statuses.size() > 0) {
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
             }
 
         } catch (TwitterException e) {
@@ -122,14 +121,5 @@ public class WidgetRefreshService  extends IntentService {
         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
         mNotificationManager.cancel(6);
-    }
-
-    public List<twitter4j.Status> getList(int page, Twitter twitter) {
-        try {
-            return twitter.getHomeTimeline(new Paging(page, 200));
-        } catch (Exception e) {
-            Log.v("timeline_refreshing", "caught: " + e.getMessage());
-            return new ArrayList<twitter4j.Status>();
-        }
     }
 }

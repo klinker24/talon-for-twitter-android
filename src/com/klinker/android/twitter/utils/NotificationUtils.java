@@ -694,10 +694,6 @@ public class NotificationUtils {
             // Light Flow notification
             sendToLightFlow(context, title, messageLong);
         }
-
-
-
-        data.close();
     }
 
     // type is either " retweeted your status", " favorited your status", or " followed you"

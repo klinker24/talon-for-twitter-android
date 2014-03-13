@@ -876,7 +876,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             c = cursorAdapter.getCursor();
         }
 
-        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
 
         initial = false;
 
@@ -940,7 +940,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
         }
 
         if (listView.getVisibility() != View.VISIBLE) {
-            update = true; // we want to do this to ensure there just isn't a blank list shown... 
+            update = true; // we want to do this to ensure there just isn't a blank list shown...
             listView.setVisibility(View.VISIBLE);
         }
 
