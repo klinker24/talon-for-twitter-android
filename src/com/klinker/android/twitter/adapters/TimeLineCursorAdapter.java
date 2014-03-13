@@ -103,6 +103,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public java.text.DateFormat dateFormatter;
     public java.text.DateFormat timeFormatter;
 
+    public boolean isHomeTimeline;
+
     public static class ViewHolder {
         public TextView name;
         public TextView screenTV;
@@ -133,8 +135,66 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     }
 
+    public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
+        super(context, cursor, 0);
+
+        this.isHomeTimeline = isHomeTimeline;
+
+        this.cursor = cursor;
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.isDM = isDM;
+
+        settings = AppSettings.getInstance(context);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
+        cancelButton = a.getResourceId(0, 0);
+        a.recycle();
+
+        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+
+        if (settings.addonTheme) {
+            try {
+                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+
+        TypedArray b;
+        if (settings.roundContactImages) {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        } else {
+            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
+        }
+        border = b.getResourceId(0, 0);
+        b.recycle();
+
+        mCache = App.getInstance(context).getBitmapCache();
+
+        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
+
+        transparent = new ColorDrawable(android.R.color.transparent);
+
+        mHandlers = new Handler[10];
+        for (int i = 0; i < 10; i++) {
+            mHandlers[i] = new Handler();
+        }
+    }
+
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM) {
         super(context, cursor, 0);
+
+        this.isHomeTimeline = false;
 
         this.cursor = cursor;
         this.context = context;
@@ -372,6 +432,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("users", users);
                         viewTweet.putExtra("hashtags", hashtags);
 
+                        if (isHomeTimeline) {
+                            sharedPrefs.edit()
+                                    .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                    .commit();
+                        }
+
                         context.startActivity(viewTweet);
 
                         return true;
@@ -424,6 +490,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("proPic", profilePic);
                         viewTweet.putExtra("users", users);
                         viewTweet.putExtra("hashtags", hashtags);
+
+                        if (isHomeTimeline) {
+                            sharedPrefs.edit()
+                                    .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                    .commit();
+                        }
 
                         context.startActivity(viewTweet);
                     }
@@ -486,6 +558,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public void onClick(View view) {
                         Intent browser = new Intent(context, BrowserActivity.class);
                         browser.putExtra("url", otherUrl);
+
                         context.startActivity(browser);
                     }
                 });
@@ -503,6 +576,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
                 viewProfile.putExtra("long_click", false);
 
+                if (isHomeTimeline) {
+                    sharedPrefs.edit()
+                            .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                            .commit();
+                }
+
                 context.startActivity(viewProfile);
             }
         });
@@ -519,6 +598,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewProfile.putExtra("tweetid", holder.tweetId);
                 viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
                 viewProfile.putExtra("long_click", true);
+
+                if (isHomeTimeline) {
+                    sharedPrefs.edit()
+                            .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                            .commit();
+                }
 
                 context.startActivity(viewProfile);
 
@@ -595,6 +680,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             viewTweet.putExtra("hashtags", hashtags);
                             viewTweet.putExtra("clicked_youtube", true);
 
+                            if (isHomeTimeline) {
+                                sharedPrefs.edit()
+                                        .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                        .commit();
+                            }
+
                             context.startActivity(viewTweet);
                         }
                     });
@@ -612,6 +703,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
+                            if (isHomeTimeline) {
+                                sharedPrefs.edit()
+                                        .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                        .commit();
+                            }
+
                             context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
                         }
                     });
@@ -909,6 +1007,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     
                 }
                 compose.putExtra("id", holder.tweetId);
+
+                if (isHomeTimeline) {
+                    sharedPrefs.edit()
+                            .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                            .commit();
+                }
+
                 context.startActivity(compose);
             }
         });
@@ -931,6 +1036,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                     intent.putExtra(Intent.EXTRA_TEXT, text);
+
+                    if (isHomeTimeline) {
+                        sharedPrefs.edit()
+                                .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                .commit();
+                    }
+
                     context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
                 }
 
@@ -1029,6 +1141,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         text = " RT @" + name + ": " + text;
                     }
                     intent.putExtra("user", text);
+
+                    if (isHomeTimeline) {
+                        sharedPrefs.edit()
+                                .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                .commit();
+                    }
+
                     context.startActivity(intent);
                 }
 
@@ -1135,10 +1254,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             try {
                 long tweetId = Long.parseLong(urls[0]);
 
-                DMDataSource source = new DMDataSource(context);
-                source.open();
+                DMDataSource source = DMDataSource.getInstance(context);
                 source.deleteTweet(tweetId);
-                source.close();
 
                 twitter.destroyDirectMessage(tweetId);
 
