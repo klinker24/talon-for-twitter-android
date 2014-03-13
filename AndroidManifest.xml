@@ -361,6 +361,7 @@
             android:label="@string/app_name"
             android:configChanges="orientation"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.TalonDark.Popup">
         </activity>
