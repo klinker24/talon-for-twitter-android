@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,6 +29,7 @@ import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.FollowersSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.ListDataSource;
@@ -39,6 +42,7 @@ import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.setup.TutorialActivity;
 import com.klinker.android.twitter.ui.setup.Version2Setup;
+import com.klinker.android.twitter.utils.MySuggestionsProvider;
 
 import java.util.Calendar;
 
@@ -348,6 +352,33 @@ public class MainActivity extends DrawerActivity {
             }
         } else {
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+        }
+
+        if (sharedPrefs.getBoolean("insert_users_to_search", true)) {
+            final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+
+                    }
+                    Cursor cursor = FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, "");
+                    if (cursor.moveToFirst()) {
+                        do {
+                            suggestions.saveRecentQuery(
+                                    "@" + cursor.getString(cursor.getColumnIndex(FollowersSQLiteHelper.COLUMN_SCREEN_NAME)),
+                                    null);
+                        } while (cursor.moveToNext());
+                    }
+
+                    sharedPrefs.edit().putBoolean("insert_users_to_search", false).commit();
+
+                }
+            }).start();
+
         }
 
         // cancel the alarm to start the catchup service
