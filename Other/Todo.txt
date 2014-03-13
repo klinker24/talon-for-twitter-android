@@ -24,6 +24,7 @@
 -- For Release --
 
     - long links not matched
+    - show position option for dashclock instead of "new tweets"
 
     Version 2.1.0
         - Drafts
