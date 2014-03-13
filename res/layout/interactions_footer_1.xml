@@ -26,6 +26,8 @@
             android:id="@+id/read_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
             android:src="?read_button"
             />
 
@@ -35,8 +37,6 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/old_interactions"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp"
             android:gravity="center"
             android:textSize="19dp"
             android:layout_gravity="right|center_vertical"/>

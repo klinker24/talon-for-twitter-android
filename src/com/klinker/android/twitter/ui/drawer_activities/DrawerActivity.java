@@ -265,9 +265,6 @@ public abstract class DrawerActivity extends Activity {
                     anim2.setDuration(300);
                     logoutLayout.startAnimation(anim2);
 
-                    //drawerList.setVisibility(View.GONE);
-                    //logoutLayout.setVisibility(View.VISIBLE);
-
                     logoutVisible = true;
                 } else {
                     Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
@@ -311,9 +308,6 @@ public abstract class DrawerActivity extends Activity {
                     });
                     anim2.setDuration(300);
                     logoutLayout.startAnimation(anim2);
-
-                    //logoutLayout.setVisibility(View.GONE);
-                    //drawerList.setVisibility(View.VISIBLE);
 
                     logoutVisible = false;
                 }
