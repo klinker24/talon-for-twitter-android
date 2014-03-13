@@ -49,7 +49,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        layout = inflater.inflate(R.layout.youtube_fragment, null);
+        layout = inflater.inflate(R.layout.youtube_fragment, null, false);
         player = (YouTubePlayerView) layout.findViewById(R.id.youtube_view);
         error = (HoloTextView) layout.findViewById(R.id.error);
 

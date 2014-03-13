@@ -537,7 +537,7 @@
     <string name="mute_expression">Mute Expression</string>
     <string name="view_muted_expressions">Remove Muted Expressions</string>
     <string name="no_expression">No Expression!</string>
-    <string name="regex_disclaimer">Muting to many expressions may affect startup and refresh times.</string>
+    <string name="regex_disclaimer">Muting too many expressions may affect startup and refresh times.</string>
     <string name="cleaning_cache">Cleaning cache...</string>
     <string name="floating_compose">Floating Compose Button</string>
     <string name="settings_links">Settings Links</string>

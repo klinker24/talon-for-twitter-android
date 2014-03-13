@@ -63,7 +63,7 @@ public class DiscussionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        layout = inflater.inflate(R.layout.conversation_fragment, null);
+        layout = inflater.inflate(R.layout.conversation_fragment, null, false);
         final AsyncListView replyList = (AsyncListView) layout.findViewById(R.id.listView);
         final LinearLayout progressSpinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         final HoloTextView none = (HoloTextView) layout.findViewById(R.id.no_conversation);

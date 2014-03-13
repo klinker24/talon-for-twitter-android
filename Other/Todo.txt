@@ -11,6 +11,8 @@
     - user lists on their profiles
     - QSlide for LG
     - open the pictures on profiles to the tweets, not the photoviewer
+    - second account mentions page on timeline
+    - accept followers from a protected account
 
 - Bugs:
     - video sound stops after one time playing it
@@ -21,7 +23,7 @@
 
 -- For Release --
 
-    - links at the beginning of tweets
+    - long links not matched
 
     Version 2.1.0
         - Drafts
