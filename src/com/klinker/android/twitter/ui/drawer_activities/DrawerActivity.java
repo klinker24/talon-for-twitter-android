@@ -227,8 +227,46 @@ public abstract class DrawerActivity extends Activity {
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    drawerList.setVisibility(View.GONE);
-                    logoutLayout.setVisibility(View.VISIBLE);
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                    anim.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            drawerList.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    anim.setDuration(300);
+                    drawerList.startAnimation(anim);
+
+                    Animation anim2 = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    anim2.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            logoutLayout.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    anim2.setDuration(300);
+                    logoutLayout.startAnimation(anim2);
+
+                    //drawerList.setVisibility(View.GONE);
+                    //logoutLayout.setVisibility(View.VISIBLE);
 
                     logoutVisible = true;
                 } else {
@@ -236,8 +274,46 @@ public abstract class DrawerActivity extends Activity {
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    logoutLayout.setVisibility(View.GONE);
-                    drawerList.setVisibility(View.VISIBLE);
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    anim.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            drawerList.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    anim.setDuration(300);
+                    drawerList.startAnimation(anim);
+
+                    Animation anim2 = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                    anim2.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            logoutLayout.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    anim2.setDuration(300);
+                    logoutLayout.startAnimation(anim2);
+
+                    //logoutLayout.setVisibility(View.GONE);
+                    //drawerList.setVisibility(View.VISIBLE);
 
                     logoutVisible = false;
                 }
