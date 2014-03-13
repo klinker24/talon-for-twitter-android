@@ -29,6 +29,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
@@ -37,6 +38,7 @@ import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
+import com.klinker.android.twitter.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -53,6 +55,7 @@ import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import de.timroes.android.listview.EnhancedListView;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import org.lucasr.smoothie.AsyncListView;
 
@@ -61,7 +64,7 @@ import java.util.*;
 public abstract class DrawerActivity extends Activity {
 
     public static AppSettings settings;
-    public Context context;
+    public Activity context;
     public SharedPreferences sharedPrefs;
 
     public ActionBar actionBar;
@@ -253,8 +256,11 @@ public abstract class DrawerActivity extends Activity {
         final String backgroundUrl = settings.myBackgroundUrl;
         final String profilePicUrl = settings.myProfilePicUrl;
 
+        final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
+
         if (!backgroundUrl.equals("")) {
             backgroundPic.loadImage(backgroundUrl, false, null);
+            ImageUtils.loadImage(context, backgroundPic, backgroundUrl, mCache);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.default_header_background);
             backgroundPic.setImageBitmap(ImageUtils.blur(b));
@@ -326,9 +332,11 @@ public abstract class DrawerActivity extends Activity {
 
         try {
             if(settings.roundContactImages) {
-                profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+                //profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+                ImageUtils.loadCircleImage(context, profilePic, profilePicUrl, mCache);
             } else {
                 profilePic.loadImage(profilePicUrl, false, null);
+                ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
             }
         } catch (Exception e) {
             // empty path again
@@ -389,9 +397,11 @@ public abstract class DrawerActivity extends Activity {
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
                 try {
                     if(settings.roundContactImages) {
-                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+                        ImageUtils.loadCircleImage(context, proPic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
                     } else {
-                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null);
+                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null);
+                        ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
                     }
                 } catch (Exception e) {
 
@@ -432,9 +442,11 @@ public abstract class DrawerActivity extends Activity {
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
                 try {
                     if(settings.roundContactImages) {
-                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null, NetworkedCacheableImageView.CIRCLE);
+                        ImageUtils.loadCircleImage(context, proPic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
                     } else {
-                        proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null);
+                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null);
+                        ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
                     }
                 } catch (Exception e) {
 
