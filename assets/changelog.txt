@@ -1,4 +1,5 @@
 <b>Version 2.0.4:</b><br/><br/>
+    &#8226; Search friends by screenname from the Action Bar<br/>
     &#8226; Fixed some problems with the drawer<br/>
     &#8226; Fixed some links not appearing properly<br/>
     &#8226; More crash fixes<br/>
