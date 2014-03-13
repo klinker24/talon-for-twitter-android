@@ -81,56 +81,60 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         holder.name.setText(settingName);
         holder.name.setTextSize(18);
 
-        if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.timelineItem});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.mentions))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.mentionItem});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.direct_messages))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.directMessageItem});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.retweets))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.retweetButton});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_tweets))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_users))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favUser});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.discover))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.search))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.searchIcon});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.lists))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.listIcon});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
-        } else if (text.get(position).equals(context.getResources().getString(R.string.saved_searches))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.searchIcon});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            holder.icon.setImageResource(resource);
+        try {
+            if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.timelineItem});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.mentions))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.mentionItem});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.direct_messages))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.directMessageItem});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.retweets))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.retweetButton});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_tweets))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_users))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favUser});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.discover))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.search))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.searchIcon});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.lists))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.listIcon});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            } else if (text.get(position).equals(context.getResources().getString(R.string.saved_searches))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.searchIcon});
+                int resource = a.getResourceId(0, 0);
+                a.recycle();
+                holder.icon.setImageResource(resource);
+            }
+        } catch (OutOfMemoryError e) {
+
         }
 
         if (current == position) {

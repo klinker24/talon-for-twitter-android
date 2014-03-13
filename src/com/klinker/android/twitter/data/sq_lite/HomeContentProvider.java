@@ -50,7 +50,7 @@ public class HomeContentProvider extends ContentProvider {
 
         Uri result = null;
 
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
         long rowID;
         try {
             rowID = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -91,8 +91,9 @@ public class HomeContentProvider extends ContentProvider {
                 try {
                     rowId = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
                 } catch (IllegalStateException e) {
-                    db = HomeDataSource.getInstance(context).getDatabase();
-                    rowId = 0;
+                    return rowsAdded;
+                    //db = HomeDataSource.getInstance(context).getDatabase();
+                    //rowId = 0;
                 }
                 if (rowId > 0)
                     rowsAdded++;
@@ -126,7 +127,7 @@ public class HomeContentProvider extends ContentProvider {
     public synchronized int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
         Log.d(TAG, "update uri: " + uri.toString());
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
 
         HomeDataSource dataSource = HomeDataSource.getInstance(context);
         Cursor cursor = dataSource.getUnreadCursor(Integer.parseInt(selectionArgs[0]));
@@ -148,7 +149,7 @@ public class HomeContentProvider extends ContentProvider {
     @Override
     public synchronized int delete(Uri uri, String id, String[] selectionArgs) {
         Log.d(TAG, "delete uri: " + uri.toString());
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
         int count;
 
         String segment = uri.getLastPathSegment();
@@ -169,7 +170,7 @@ public class HomeContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         Log.d(TAG, "query with uri: " + uri.toString());
 
-        SQLiteDatabase db = helper.getWritableDatabase();
+        //SQLiteDatabase db = helper.getWritableDatabase();
 
         // A convenience class to help build the query
         HomeDataSource data = HomeDataSource.getInstance(context);
