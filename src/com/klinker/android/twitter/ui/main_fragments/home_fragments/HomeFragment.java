@@ -416,7 +416,12 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             numberNew = HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
 
             if (numberNew > 0 && statuses.size() > 0) {
-                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                if (numberNew == statuses.size()) {
+                    sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                } else {
+                    long id = HomeDataSource.getInstance(context).getLastIds(currentAccount)[0];
+                    sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", id).commit();
+                }
             }
 
             Log.v("talon_inserting", "inserted tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
