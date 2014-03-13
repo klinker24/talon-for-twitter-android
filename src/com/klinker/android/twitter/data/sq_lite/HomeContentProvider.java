@@ -156,7 +156,6 @@ public class HomeContentProvider extends ContentProvider {
         count = db.delete(HomeSQLiteHelper.TABLE_HOME, HomeSQLiteHelper.COLUMN_TWEET_ID
                 + " = " + id, null);
 
-
         if (count > 0) {
             // Notify the Context's ContentResolver of the change
             getContext().getContentResolver().notifyChange(uri, null);
