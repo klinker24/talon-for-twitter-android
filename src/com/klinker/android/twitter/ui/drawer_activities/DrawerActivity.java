@@ -990,8 +990,8 @@ public abstract class DrawerActivity extends Activity {
 
         try {
             if (mDrawerToggle.onOptionsItemSelected(item)) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
-                    mDrawerLayout.closeDrawer(Gravity.END);
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
                 }
                 return true;
             }
@@ -1030,21 +1030,21 @@ public abstract class DrawerActivity extends Activity {
             case R.id.menu_dismiss:
                 InteractionsDataSource data = InteractionsDataSource.getInstance(context);
                 data.markAllRead(DrawerActivity.settings.currentAccount);
-                mDrawerLayout.closeDrawer(Gravity.END);
+                mDrawerLayout.closeDrawer(Gravity.RIGHT);
                 notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
                 notificationList.setAdapter(notificationAdapter);
 
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_notifications:
-                if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-                    mDrawerLayout.closeDrawer(Gravity.START);
+                if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                 }
 
-                if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
-                    mDrawerLayout.closeDrawer(Gravity.END);
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
                 } else {
-                    mDrawerLayout.openDrawer(Gravity.END);
+                    mDrawerLayout.openDrawer(Gravity.RIGHT);
                 }
 
                 return super.onOptionsItemSelected(item);
