@@ -1,3 +1,7 @@
+<b>Version 2.0.7:</b><br/><br/>
+    &#8226; Faster and more stable method for accessing and saving tweets<br/>
+</br><br/>
+
 <b>Version 2.0.5:</b><br/><br/>
     &#8226; Search friends by screenname from the Action Bar<br/>
     &#8226; Fixed some problems with the drawer<br/>
