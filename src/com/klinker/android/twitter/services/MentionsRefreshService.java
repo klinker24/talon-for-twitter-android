@@ -59,14 +59,16 @@ public class MentionsRefreshService extends IntentService {
 
             List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
-            for (twitter4j.Status status : statuses) {
+            /*for (twitter4j.Status status : statuses) {
                 try {
                     dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
                     dataSource = MentionsDataSource.getInstance(context);
                     dataSource.createTweet(status, currentAccount);
                 }
-            }
+            }*/
+
+            dataSource.insertTweets(statuses, currentAccount);
 
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();

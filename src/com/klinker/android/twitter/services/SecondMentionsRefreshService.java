@@ -69,14 +69,16 @@ public class SecondMentionsRefreshService extends IntentService {
 
             List<Status> statuses = twitter.getMentionsTimeline(paging);
 
-            for (twitter4j.Status status : statuses) {
+            /*for (twitter4j.Status status : statuses) {
                 try {
                     dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
                     dataSource = MentionsDataSource.getInstance(context);
                     dataSource.createTweet(status, currentAccount);
                 }
-            }
+            }*/
+
+            dataSource.insertTweets(statuses, currentAccount);
 
             if (numberNew > 0) {
                 NotificationUtils.notifySecondMentions(context, currentAccount);
