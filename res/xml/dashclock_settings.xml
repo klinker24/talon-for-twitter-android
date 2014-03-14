@@ -25,6 +25,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/other_options" >
+
+        <CheckBoxPreference
+            android:key="dashclock_show_pos"
+            android:title="@string/show_pos_dashclock"
+            android:summary="@string/show_pos_dashclock_summary"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
     <!-- <PreferenceCategory
         android:title="@string/interactions_notifications" >
 
