@@ -69,6 +69,7 @@ public class MentionsDataSource {
 
         }
         database = null;
+        dataSource = null;
     }
 
     public SQLiteDatabase getDatabase() {

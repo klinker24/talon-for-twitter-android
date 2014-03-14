@@ -62,6 +62,7 @@ public class FollowersDataSource {
         }
 
         database = null;
+        dataSource = null;
     }
 
     public SQLiteDatabase getDatabase() {

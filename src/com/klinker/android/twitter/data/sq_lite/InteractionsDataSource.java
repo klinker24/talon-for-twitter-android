@@ -67,8 +67,13 @@ public class InteractionsDataSource {
     }
 
     public void close() {
-        dbHelper.close();
+        try {
+            dbHelper.close();
+        } catch (Exception e) {
+
+        }
         database = null;
+        dataSource = null;
     }
 
     public SQLiteDatabase getDatabase() {

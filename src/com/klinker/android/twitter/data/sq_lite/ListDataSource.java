@@ -91,6 +91,7 @@ public class ListDataSource {
 
         }
         database = null;
+        dataSource = null;
     }
 
     public SQLiteDatabase getDatabase() {

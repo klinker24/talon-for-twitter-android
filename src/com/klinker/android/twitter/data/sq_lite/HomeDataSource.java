@@ -81,6 +81,7 @@ public class HomeDataSource {
 
         }
         database = null;
+        dataSource = null;
     }
 
     public SQLiteDatabase getDatabase() {
