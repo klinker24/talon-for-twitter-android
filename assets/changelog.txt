@@ -4,6 +4,7 @@
     &#8226; Fixes for the dashclock settings<br/>
     &#8226; Show position option for dashclock<br/>
     &#8226; Fixed trimming the databases<br/>
+    &#8226; Open play store or YouTube links from the in-app browser to the correct app<br/>
 </br><br/>
 
 <b>Version 2.0.5:</b><br/><br/>

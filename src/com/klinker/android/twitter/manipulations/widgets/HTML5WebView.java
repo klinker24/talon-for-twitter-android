@@ -185,8 +185,11 @@ public class HTML5WebView extends WebView {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             ((Activity) mContext).getWindow().setFeatureInt(Window.FEATURE_PROGRESS, newProgress*100);
-            if (newProgress > 90) {
+            Log.v("talon_webview", "progress: " + newProgress);
+            if (newProgress == 100) {
                 setBackgroundColor(getResources().getColor(android.R.color.white));
+            } else {
+                setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
         }
 
