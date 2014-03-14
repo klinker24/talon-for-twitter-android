@@ -73,16 +73,12 @@ public class WidgetRefreshService  extends IntentService {
             boolean foundStatus = false;
 
             Paging paging = new Paging(1, 200);
-                /*if (lastId[0] != 0) {
-                    paging.setSinceId(lastId[0]);
-                } else {*/
-            long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0);
+            long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
             if (id != 0) {
                 paging.setSinceId(id);
             } else {
                 return;
             }
-            //}
 
             for (int i = 0; i < settings.maxTweetsRefresh; i++) {
                 try {
