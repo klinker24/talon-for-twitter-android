@@ -13,9 +13,6 @@ import com.klinker.android.twitter.utils.IOUtils;
 
 import java.util.Date;
 
-/**
- * Created by luke on 11/26/13.
- */
 public class TrimDataService extends IntentService {
 
     SharedPreferences sharedPrefs;

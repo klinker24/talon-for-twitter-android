@@ -516,7 +516,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             boolean foundStatus = false;
 
             Paging paging = new Paging(1, 200);
-            paging.setSinceId(sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0));
+            paging.setSinceId(sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l));
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
