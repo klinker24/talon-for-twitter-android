@@ -87,13 +87,7 @@ public class FollowersDataSource {
         values.put(FollowersSQLiteHelper.COLUMN_PRO_PIC, proPicUrl);
         values.put(FollowersSQLiteHelper.COLUMN_SCREEN_NAME, screenName);
 
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
-
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -106,13 +100,8 @@ public class FollowersDataSource {
 
     public synchronized void deleteUser(long userId) {
         long id = userId;
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || database.isDbLockedByOtherThreads()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -121,13 +110,8 @@ public class FollowersDataSource {
     }
 
     public synchronized void deleteAllUsers(int account) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -136,13 +120,8 @@ public class FollowersDataSource {
     }
 
     public synchronized Cursor getCursor(int account, String name) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
