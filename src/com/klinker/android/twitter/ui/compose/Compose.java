@@ -757,9 +757,14 @@ public abstract class Compose extends Activity implements
 
             } catch (Exception e) {
                 e.printStackTrace();
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                outofmem = true;
             }
             return false;
         }
+
+        boolean outofmem = false;
 
         protected void onPostExecute(Boolean success) {
             // dismiss the dialog after getting all products
@@ -774,6 +779,8 @@ public abstract class Compose extends Activity implements
                         getResources().getString(R.string.tweet_success),
                         Toast.LENGTH_SHORT)
                         .show();
+            } else if (outofmem) {
+                Toast.makeText(context, "Error attaching image!", Toast.LENGTH_SHORT).show();
             } else {
                 makeFailedNotification(text);
             }

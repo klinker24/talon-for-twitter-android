@@ -58,6 +58,8 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
     protected LinearLayout spinner;
     protected DefaultHeaderTransformer transformer;
 
+    public static BitmapLruCache mCache;
+
     protected SharedPreferences sharedPrefs;
     protected Activity context;
 
@@ -231,8 +233,8 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
     public abstract void setUpListScroll();
 
     public void setBuilder() {
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        CursorListLoader loader = new CursorListLoader(cache, context);
+        mCache = App.getInstance(context).getBitmapCache();
+        CursorListLoader loader = new CursorListLoader(mCache, context);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
         builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);

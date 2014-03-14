@@ -4,8 +4,7 @@
               android:id="@+id/left_drawer"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:animateLayoutChanges="true" >
+              android:layout_height="match_parent" >
 
     <View android:id="@+id/drawer_status_bar"
         android:layout_width="match_parent"
@@ -29,15 +28,13 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="?drawerBackground"
-        android:orientation="vertical"
-        android:animateLayoutChanges="true">
+        android:orientation="vertical" >
 
         <LinearLayout
                 android:id="@+id/logoutLayout"
                 android:orientation="vertical"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:animateLayoutChanges="true"
                 android:visibility="gone" >
 
             <!-- second profile stuff -->
@@ -97,7 +94,6 @@
                 android:layout_height="60dp"
                 android:layout_width="match_parent"
                 android:text="@string/menu_logout"
-                android:animateLayoutChanges="true"
                 android:contentDescription="Logout from Twitter"
                 android:background="@drawable/pressed_button"/>
 
@@ -109,7 +105,6 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:dividerHeight="1dp"
-            android:animateLayoutChanges="true"
             android:divider="?drawerDividerColor"
             android:scrollbars="none"
             android:overScrollMode="never"

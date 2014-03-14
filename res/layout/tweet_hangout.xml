@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="left"
     android:paddingLeft="6dp"
     android:paddingRight="6dp"
     android:paddingTop="5dp">
@@ -51,6 +52,7 @@
                 android:textStyle="bold"
                 android:textSize="18dp"
                 android:text="Name"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="8dp"/>
 
@@ -61,6 +63,7 @@
                 android:layout_below="@+id/name"
                 android:layout_marginLeft="20dp"
                 android:textColor="?dateColor"
+                android:layout_alignParentLeft="true"
                 android:visibility="gone"/>
 
             <com.klinker.android.twitter.manipulations.widgets.HoloTextView

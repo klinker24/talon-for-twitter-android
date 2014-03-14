@@ -26,15 +26,13 @@ public class HomeContentProvider extends ContentProvider {
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
 
     private Context context;
-    private HomeSQLiteHelper helper;
 
     @Override
     public boolean onCreate() {
         Log.d(TAG, "onCreate");
         context = getContext();
-        helper = new HomeSQLiteHelper(context);
 
-        return (helper == null) ? false : true;
+        return true;
     }
 
     @Override
