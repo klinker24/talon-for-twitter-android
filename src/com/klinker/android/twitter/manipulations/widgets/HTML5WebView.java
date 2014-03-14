@@ -196,20 +196,26 @@ public class HTML5WebView extends WebView {
         }
     }
 
-    private class MyWebViewClient extends WebViewClient {
+    static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS =
+            new FrameLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+    public class MyWebViewClient extends WebViewClient {
         @Override
+
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.v("talon_webpage", "override url: " + url);
-            /*if (url.contains("play.google.com")) { // we want to take them to the play store app
+            Log.v("talon_url", "url: " + url);
+
+            view.loadUrl(url);
+            if (url.contains("play.google.com") || url.contains("youtube.com") || url.contains("youtu.be")) {
                 Uri weburi;
                 weburi = Uri.parse(url);
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                 getContext().startActivity(launchBrowser);
-            }*/
-            return false;
-        }
-    }
+            }
 
-    static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS =
-            new FrameLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            return true;
+
+        }
+
+    }
 }
