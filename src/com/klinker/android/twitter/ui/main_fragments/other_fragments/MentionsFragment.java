@@ -149,15 +149,15 @@ public class MentionsFragment extends MainFragment {
                     }
 
                     MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
-                    for (twitter4j.Status status : statuses) {
+                    /*for (twitter4j.Status status : statuses) {
                         try {
                             dataSource.createTweet(status, currentAccount);
                         } catch (Exception e) {
                             break;
                         }
-                    }
+                    }*/
 
-                    numberNew = statuses.size();
+                    numberNew = dataSource.insertTweets(statuses, currentAccount);//statuses.size();
                     unread = numberNew;
 
                 } catch (TwitterException e) {

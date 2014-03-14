@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.klinker.android.twitter.utils.TweetLinkUtils;
+
+import java.util.List;
 
 import twitter4j.Status;
 
@@ -147,6 +150,92 @@ public class MentionsDataSource {
         }
 
         database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
+    }
+
+    public int insertTweets(List<Status> statuses, int account) {
+
+        ContentValues[] valueses = new ContentValues[statuses.size()];
+
+        for (int i = 0; i < statuses.size(); i++) {
+            Status status = statuses.get(i);
+
+            ContentValues values = new ContentValues();
+            String originalName = "";
+            long id = status.getId();
+            long time = status.getCreatedAt().getTime();
+
+            String[] html = TweetLinkUtils.getHtmlStatus(status);
+            String text = html[0];
+            String media = html[1];
+            String otherUrl = html[2];
+            String hashtags = html[3];
+            String users = html[4];
+
+            values.put(MentionsSQLiteHelper.COLUMN_ACCOUNT, account);
+            values.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
+            values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
+            values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+            values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+            values.put(MentionsSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+            values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
+            values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
+            values.put(MentionsSQLiteHelper.COLUMN_UNREAD, 1);
+            values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, media);
+            values.put(MentionsSQLiteHelper.COLUMN_URL, otherUrl);
+            values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
+            values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+
+            valueses[i] = values;
+        }
+
+        return insertMultiple(valueses);
+    }
+
+    private synchronized int insertMultiple(ContentValues[] allValues) {
+        int rowsAdded = 0;
+        long rowId;
+        ContentValues values;
+
+        if (database == null || !database.isOpen()) {
+            open();
+        }
+
+        try {
+            database.beginTransaction();
+
+            for (ContentValues initialValues : allValues) {
+                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
+                try {
+                    rowId = database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
+                } catch (IllegalStateException e) {
+                    return rowsAdded;
+                    //db = HomeDataSource.getInstance(context).getDatabase();
+                    //rowId = 0;
+                }
+                if (rowId > 0)
+                    rowsAdded++;
+            }
+
+            database.setTransactionSuccessful();
+        } catch (NullPointerException e)  {
+            e.printStackTrace();
+            return rowsAdded;
+        } catch (SQLiteDatabaseLockedException e) {
+            e.printStackTrace();
+            return rowsAdded;
+        } catch (IllegalStateException e) {
+            // caught setting up the transaction I guess, shouldn't ever happen now.
+            e.printStackTrace();
+            return rowsAdded;
+        } finally {
+            try {
+                database.endTransaction();
+            } catch (Exception e) {
+                // shouldn't happen unless it gets caught above from an illegal state
+            }
+        }
+
+        return rowsAdded;
     }
 
     public synchronized void deleteTweet(long tweetId) {

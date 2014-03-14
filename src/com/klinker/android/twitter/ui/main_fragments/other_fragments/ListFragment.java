@@ -153,11 +153,11 @@ public class ListFragment extends MainFragment {
             manualRefresh = false;
 
             ListDataSource dataSource = ListDataSource.getInstance(context);
-            for (twitter4j.Status status : statuses) {
+            /*for (twitter4j.Status status : statuses) {
                 dataSource.createTweet(status, listId);
-            }
+            }*/
 
-            numberNew = statuses.size();
+            numberNew = dataSource.insertTweets(statuses, listId);//statuses.size();
 
             return numberNew;
 
