@@ -30,16 +30,10 @@ public class MentionsDataSource {
     public static MentionsDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null) {
-                dataSource = new MentionsDataSource(context); // create the database
-                dataSource.open(); // open the database
-            } else if (!dataSource.getDatabase().isOpen()) {
-                dataSource = new MentionsDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (NullPointerException e) {
-            Log.v("talon_database", "null pointer in mentions");
+        if (dataSource == null ||
+                dataSource.getDatabase() == null ||
+                !dataSource.getDatabase().isOpen()) {
+
             dataSource = new MentionsDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -286,6 +280,21 @@ public class MentionsDataSource {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
             }
         }
+
+        if (database == null || !database.isOpen()) {
+            open();
+        }
+
+        Cursor cursor;
+        cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
+                allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
+        return cursor;
+    }
+
+    public synchronized Cursor getTrimmingCursor(int account) {
+
+        String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (database == null || !database.isOpen()) {
             open();

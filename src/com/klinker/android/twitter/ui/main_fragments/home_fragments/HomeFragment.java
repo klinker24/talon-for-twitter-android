@@ -336,7 +336,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
+                        try {
+                            Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
+                        } catch (Exception e) {
+                            // the database is locked for some reason... we are going to close it then try again
+                            HomeDataSource.getInstance(context).close();
+                            getCursorAdapter(false);
+
+                            // don't want it to go any further, so return
+                            return;
+                        }
 
                         currCursor = cursor;
 

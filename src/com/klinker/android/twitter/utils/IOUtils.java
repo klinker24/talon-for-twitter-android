@@ -240,7 +240,7 @@ public class IOUtils {
 
             home.deleteDups(settings.currentAccount);
 
-            Cursor timeline = home.getCursor(account);
+            Cursor timeline = home.getTrimmingCursor(account);
 
             Log.v("trimming", "timeline size: " + timeline.getCount());
             Log.v("trimming", "timeline settings size: " + settings.timelineSize);
@@ -265,11 +265,11 @@ public class IOUtils {
             lists.deleteDups(account1List1);
             lists.deleteDups(account1List2);
 
-            Cursor list1 = lists.getCursor(account1List1);
+            Cursor list1 = lists.getTrimmingCursor(account1List1);
 
             Log.v("trimming", "lists size: " + list1.getCount());
-            Log.v("trimming", "lists settings size: " + settings.timelineSize);
-            if (list1.getCount() > settings.timelineSize) {
+            Log.v("trimming", "lists settings size: " + 400);
+            if (list1.getCount() > 400) {
 
                 if(list1.moveToPosition(list1.getCount() - settings.timelineSize)) {
                     Log.v("trimming", "in the trim section");
@@ -280,11 +280,11 @@ public class IOUtils {
             }
             list1.close();
 
-            Cursor list2 = lists.getCursor(account1List2);
+            Cursor list2 = lists.getTrimmingCursor(account1List2);
 
             Log.v("trimming", "lists size: " + list2.getCount());
-            Log.v("trimming", "lists settings size: " + settings.timelineSize);
-            if (list2.getCount() > settings.timelineSize) {
+            Log.v("trimming", "lists settings size: " + 400);
+            if (list2.getCount() > 400) {
 
                 if(list2.moveToPosition(list2.getCount() - settings.timelineSize)) {
                     Log.v("trimming", "in the trim section");
@@ -300,7 +300,7 @@ public class IOUtils {
 
             mentions.deleteDups(settings.currentAccount);
 
-            timeline = mentions.getCursor(account);
+            timeline = mentions.getTrimmingCursor(account);
 
             Log.v("trimming", "mentions size: " + timeline.getCount());
             Log.v("trimming", "mentions settings size: " + settings.mentionsSize);

@@ -34,16 +34,10 @@ public class ListDataSource {
     public static ListDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null) {
-                dataSource = new ListDataSource(context); // create the database
-                dataSource.open(); // open the database
-            } else if (!dataSource.getDatabase().isOpen()) {
-                dataSource = new ListDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (NullPointerException e) {
-            Log.v("talon_database", "null pointer in lists");
+        if (dataSource == null ||
+                dataSource.getDatabase() == null ||
+                !dataSource.getDatabase().isOpen()) {
+
             dataSource = new ListDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -318,6 +312,32 @@ public class ListDataSource {
                     null,
                     ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         }
+
+        return cursor;
+    }
+
+    public synchronized Cursor getTrimmingCursor(int listId) {
+
+        String where = ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
+
+
+        if (database == null || !database.isOpen()) {
+            open();
+        }
+
+        Cursor cursor;
+        String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + where;
+        SQLiteStatement statement = database.compileStatement(sql);
+        long count = statement.simpleQueryForLong();
+        Log.v("talon_database", "list database has " + count + " entries");
+        cursor = database.query(ListSQLiteHelper.TABLE_HOME,
+                allColumns,
+                where,
+                null,
+                null,
+                null,
+                ListSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+
 
         return cursor;
     }
