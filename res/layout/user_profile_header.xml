@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/background_image"
         android:background="?windowBackground"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layoutDirection="ltr">
 
         <com.klinker.android.twitter.manipulations.widgets.HoloTextView
             android:id="@+id/username"
@@ -96,6 +97,7 @@
         android:layout_below="@+id/background_image"
         android:id="@+id/profile_pic"
         android:src="?circleBorder"
+        android:layout_alignParentLeft="true"
         android:minHeight="96dp" android:minWidth="96dp"
         android:scaleType="fitCenter" android:adjustViewBounds="true"
         android:maxWidth="96dp" android:maxHeight="96dp"
@@ -131,6 +133,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="-70dp"
         android:indeterminateOnly="true"
+        android:layout_alignParentLeft="true"
         android:visibility="gone"/>
 
 </RelativeLayout>
