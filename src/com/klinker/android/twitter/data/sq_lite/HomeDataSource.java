@@ -128,7 +128,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -167,7 +167,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -231,7 +231,7 @@ public class HomeDataSource {
         long rowId;
         ContentValues values;
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -276,7 +276,7 @@ public class HomeDataSource {
     public synchronized void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -286,7 +286,7 @@ public class HomeDataSource {
 
     public synchronized void deleteAllTweets(int account) {
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -330,7 +330,7 @@ public class HomeDataSource {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -393,7 +393,7 @@ public class HomeDataSource {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -440,7 +440,7 @@ public class HomeDataSource {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -489,7 +489,7 @@ public class HomeDataSource {
 
         where += " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " NOT LIKE " + "'%youtu%'";
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -545,7 +545,7 @@ public class HomeDataSource {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
         }
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -595,7 +595,7 @@ public class HomeDataSource {
 
         where += ")";
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -637,7 +637,7 @@ public class HomeDataSource {
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -668,7 +668,7 @@ public class HomeDataSource {
 
                     if (startUnreads) {
 
-                        if (database == null) {
+                        if (database == null || !database.isOpen()) {
                             open();
                         }
 
@@ -704,7 +704,7 @@ public class HomeDataSource {
 
     public synchronized boolean tweetExists(long tweetId, int account) {
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -730,7 +730,7 @@ public class HomeDataSource {
 
     public synchronized void deleteDups(int account) {
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -763,7 +763,7 @@ public class HomeDataSource {
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_TEXT, text);
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 

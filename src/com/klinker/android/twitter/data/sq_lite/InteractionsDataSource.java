@@ -105,13 +105,7 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_TYPE, type);
         values.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
 
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
-
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -139,13 +133,7 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_TYPE, type);
         values.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
 
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
-
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -192,13 +180,7 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_TYPE, type);
         values.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
 
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
-
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -235,13 +217,7 @@ public class InteractionsDataSource {
                 cv.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getBiggerProfileImageURL());
                 cv.put(InteractionsSQLiteHelper.COLUMN_TIME, new GregorianCalendar().getTimeInMillis());
 
-                /*if (database == null) {
-                    open();
-                } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-                    open();
-                }*/
-
-                if (database == null) {
+                if (database == null || !database.isOpen()) {
                     open();
                 }
 
@@ -254,13 +230,8 @@ public class InteractionsDataSource {
     }
 
     public synchronized Cursor interactionExists(long tweetId, int account) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -271,13 +242,8 @@ public class InteractionsDataSource {
     }
 
     public synchronized void deleteInteraction(long id) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -286,13 +252,8 @@ public class InteractionsDataSource {
     }
 
     public synchronized void deleteAllInteractions(int account) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -301,13 +262,8 @@ public class InteractionsDataSource {
     }
 
     public synchronized Cursor getCursor(int account) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -318,13 +274,8 @@ public class InteractionsDataSource {
     }
 
     public synchronized Cursor getBackwordCursor(int account) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -335,13 +286,8 @@ public class InteractionsDataSource {
     }
 
     public synchronized Cursor getUnreadCursor(int account) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -352,13 +298,8 @@ public class InteractionsDataSource {
     }
 
     public synchronized Cursor getUnreadBackwordCursor(int account) {
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
 
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
@@ -387,13 +328,7 @@ public class InteractionsDataSource {
             ContentValues cv = new ContentValues();
             cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 0);
 
-            /*if (database == null) {
-                open();
-            } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-                open();
-            }*/
-
-            if (database == null) {
+            if (database == null || !database.isOpen()) {
                 open();
             }
 
@@ -428,13 +363,7 @@ public class InteractionsDataSource {
         ContentValues cv = new ContentValues();
         cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 0);
 
-        /*if (database == null) {
-            open();
-        } else if (!database.isOpen() || !database.isDbLockedByCurrentThread()) {
-            open();
-        }*/
-
-        if (database == null) {
+        if (database == null || !database.isOpen()) {
             open();
         }
 
