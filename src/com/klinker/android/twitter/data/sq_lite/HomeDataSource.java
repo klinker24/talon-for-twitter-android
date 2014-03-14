@@ -33,16 +33,10 @@ public class HomeDataSource {
     public static HomeDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null) {
-                dataSource = new HomeDataSource(context); // create the database
-                dataSource.open(); // open the database
-            } else if (!dataSource.getDatabase().isOpen()) {
-                dataSource = new HomeDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (NullPointerException e) {
-            Log.v("talon_database", "null pointer in home");
+        if (dataSource == null ||
+                dataSource.getDatabase() == null ||
+                !dataSource.getDatabase().isOpen()) {
+
             dataSource = new HomeDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -353,6 +347,28 @@ public class HomeDataSource {
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         }
+
+        return cursor;
+    }
+
+
+    public synchronized Cursor getTrimmingCursor(int account) {
+
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+
+        if (database == null || !database.isOpen()) {
+            open();
+        }
+
+        Cursor cursor;
+
+        String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+        SQLiteStatement statement;
+        statement = database.compileStatement(sql);
+
+        long count = statement.simpleQueryForLong();
+        cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
 
         return cursor;
     }

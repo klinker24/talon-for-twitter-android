@@ -23,16 +23,10 @@ public class FollowersDataSource {
     public static FollowersDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        try {
-            if (dataSource == null) {
-                dataSource = new FollowersDataSource(context); // create the database
-                dataSource.open(); // open the database
-            } else if (!dataSource.getDatabase().isOpen()) {
-                dataSource = new FollowersDataSource(context); // create the database
-                dataSource.open(); // open the database
-            }
-        } catch (NullPointerException e) {
-            Log.v("talon_database", "null pointer in followers");
+        if (dataSource == null ||
+                dataSource.getDatabase() == null ||
+                !dataSource.getDatabase().isOpen()) {
+
             dataSource = new FollowersDataSource(context); // create the database
             dataSource.open(); // open the database
         }
