@@ -997,25 +997,31 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         otherLink[i] = "" + otherLinks[i];
                     }
 
-
                     boolean changed = false;
 
                     if (otherLink.length > 0) {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
 
-                            if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
+                            //if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
+                            if (s.contains("...")) { // we know the link is cut off
                                 String f = s.replace("...", "").replace("http", "");
 
+                                Log.v("talon_links", ":" + s + ":");
+
                                 for (int x = 0; x < otherLink.length; x++) {
-                                    if (otherLink[x].contains(f)) {
+                                    if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
                                         changed = true;
                                         // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                            otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                        try {
+                                            if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
+                                                otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                            }
+                                            f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
+                                            otherLink[x] = "";
+                                        } catch (Exception e) {
+
                                         }
-                                        f = otherLink[x];
-                                        otherLink[x] = "";
                                         break;
                                     }
                                 }

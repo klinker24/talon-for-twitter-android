@@ -67,6 +67,7 @@ public class DMDataSource {
 
         }
         database = null;
+        dataSource = null;
     }
 
     public SQLiteDatabase getDatabase() {
