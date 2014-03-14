@@ -25,17 +25,15 @@ import com.klinker.android.twitter.R;
 
 public class HTML5WebView extends WebView {
 
-    private Context 							mContext;
-    private MyWebChromeClient					mWebChromeClient;
-    private View								mCustomView;
-    private FrameLayout							mCustomViewContainer;
-    private WebChromeClient.CustomViewCallback 	mCustomViewCallback;
+    private Context mContext;
+    private MyWebChromeClient mWebChromeClient;
+    private View mCustomView;
+    private FrameLayout	mCustomViewContainer;
+    private WebChromeClient.CustomViewCallback mCustomViewCallback;
 
-    private FrameLayout							mContentView;
-    private FrameLayout							mBrowserFrameLayout;
-    private FrameLayout							mLayout;
-
-    static final String LOGTAG = "HTML5WebView";
+    private FrameLayout mContentView;
+    private FrameLayout	mBrowserFrameLayout;
+    private FrameLayout	mLayout;
 
     private void init(Context context) {
         mContext = context;
@@ -154,32 +152,6 @@ public class HTML5WebView extends WebView {
             HTML5WebView.this.setVisibility(View.VISIBLE);
 
             //Log.i(LOGTAG, "set it to webVew");
-        }
-
-        /*@Override
-        public Bitmap getDefaultVideoPoster() {
-            //Log.i(LOGTAG, "here in on getDefaultVideoPoster");
-            if (mDefaultVideoPoster == null) {
-                mDefaultVideoPoster = BitmapFactory.decodeResource(
-                        getResources(), R.drawable.default_video_poster);
-            }
-            return mDefaultVideoPoster;
-        }
-
-        @Override
-        public View getVideoLoadingProgressView() {
-            //Log.i(LOGTAG, "here in on getVideoLoadingPregressView");
-
-            if (mVideoProgressView == null) {
-                LayoutInflater inflater = LayoutInflater.from(mContext);
-                //mVideoProgressView = inflater.inflate(R.layout.video_loading_progress, null);
-            }
-            return mVideoProgressView;
-        }*/
-
-        @Override
-        public void onReceivedTitle(WebView view, String title) {
-            //((Activity) mContext).setTitle(title);
         }
 
         @Override

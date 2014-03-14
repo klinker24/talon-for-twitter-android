@@ -1,8 +1,8 @@
 <b>Version 2.0.7:</b><br/><br/>
     &#8226; Faster and more stable method for accessing and saving tweets<br/>
     &#8226; In-app browser background adjusts according to theme<br/>
-    &#8226; Fixes for the dashclock settings<br/>
-    &#8226; Show position option for dashclock<br/>
+    &#8226; Fixes for the Dashclock settings<br/>
+    &#8226; Show position option for Dashclock<br/>
     &#8226; Fixed trimming the databases<br/>
     &#8226; Open play store or YouTube links from the in-app browser to the correct app<br/>
 </br><br/>
