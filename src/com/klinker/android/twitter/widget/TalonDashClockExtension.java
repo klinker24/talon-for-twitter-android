@@ -66,12 +66,15 @@ public class TalonDashClockExtension extends DashClockExtension {
 
         if (!sharedPrefs.getBoolean("dashclock_timeline", true)) {
             homeTweets = 0;
+            unreads[0] = 0;
         }
         if (!sharedPrefs.getBoolean("dashclock_mentions", true)) {
             mentionsTweets = 0;
+            unreads[1] = 0;
         }
         if (!sharedPrefs.getBoolean("dashclock_dms", true)) {
             dmTweets = 0;
+            unreads[2] = 0;
         }
 
         if (homeTweets > 0 || mentionsTweets > 0 || dmTweets > 0) {
