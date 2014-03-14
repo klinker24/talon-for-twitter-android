@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import twitter4j.User;
 
@@ -22,10 +23,16 @@ public class FollowersDataSource {
     public static FollowersDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null) {
-            dataSource = new FollowersDataSource(context); // create the database
-            dataSource.open(); // open the database
-        } else if (!dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null) {
+                dataSource = new FollowersDataSource(context); // create the database
+                dataSource.open(); // open the database
+            } else if (!dataSource.getDatabase().isOpen()) {
+                dataSource = new FollowersDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (NullPointerException e) {
+            Log.v("talon_database", "null pointer in followers");
             dataSource = new FollowersDataSource(context); // create the database
             dataSource.open(); // open the database
         }
