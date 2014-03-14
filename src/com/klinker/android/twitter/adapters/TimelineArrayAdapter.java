@@ -911,11 +911,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                     if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
                                         changed = true;
                                         // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                            otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                        try {
+                                            if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
+                                                otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                            }
+                                            f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
+                                            otherLink[x] = "";
+                                        } catch (Exception e) {
+
                                         }
-                                        f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
-                                        otherLink[x] = "";
                                         break;
                                     }
                                 }
@@ -1009,11 +1013,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                     if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
                                         changed = true;
                                         // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                            otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                        try {
+                                            if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
+                                                otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                            }
+                                            f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
+                                            otherLink[x] = "";
+                                        } catch (Exception e) {
+
                                         }
-                                        f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
-                                        otherLink[x] = "";
                                         break;
                                     }
                                 }
