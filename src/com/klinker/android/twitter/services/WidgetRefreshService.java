@@ -11,7 +11,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.NotificationUtils;
@@ -107,7 +106,7 @@ public class WidgetRefreshService  extends IntentService {
                 }
             }
 
-            int inserted = HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+            int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
             if (inserted > 0 && statuses.size() > 0) {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();

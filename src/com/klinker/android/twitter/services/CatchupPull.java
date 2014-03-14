@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -107,7 +106,7 @@ public class CatchupPull extends IntentService {
                     unreadNow += statuses.size();
                 }
 
-                HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+                dataSource.insertTweets(statuses, currentAccount, lastId);
 
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             }
