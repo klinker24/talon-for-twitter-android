@@ -28,7 +28,16 @@ public class InteractionsDataSource {
     public static InteractionsDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null) {
+        try {
+            if (dataSource == null) {
+                dataSource = new InteractionsDataSource(context); // create the database
+                dataSource.open(); // open the database
+            } else if (!dataSource.getDatabase().isOpen()) {
+                dataSource = new InteractionsDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (NullPointerException e) {
+            Log.v("talon_database", "null pointer in interactions");
             dataSource = new InteractionsDataSource(context); // create the database
             dataSource.open(); // open the database
         }
@@ -58,8 +67,13 @@ public class InteractionsDataSource {
     }
 
     public void close() {
-        dbHelper.close();
+        try {
+            dbHelper.close();
+        } catch (Exception e) {
+
+        }
         database = null;
+        dataSource = null;
     }
 
     public SQLiteDatabase getDatabase() {

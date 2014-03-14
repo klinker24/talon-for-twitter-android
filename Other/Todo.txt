@@ -17,13 +17,11 @@
 - Bugs:
     - video sound stops after one time playing it
     - sideways pictures
-    - left drawer items sometimes get mixed up... because of the automatic animations i think. Make my own animations to fix
     - check out the loading of the profile picture and background. They don't seem to work right
 
 
 -- For Release --
 
-    - long links not matched
     - show position option for dashclock instead of "new tweets"
 
     Version 2.1.0

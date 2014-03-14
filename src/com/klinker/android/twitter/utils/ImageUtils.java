@@ -543,6 +543,7 @@ public class ImageUtils {
 
         if (null != wrapper && iv.getVisibility() != View.GONE) {
             // The cache has it, so just display it
+            Log.v("talon_image_cache", "got image from cache");
             iv.setImageDrawable(wrapper);
             Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
@@ -614,13 +615,15 @@ public class ImageUtils {
                 CacheableBitmapDrawable result;
 
                 try {
-                    result = mCache.get(url, null);
+                    result = mCache.get(url);
                 } catch (OutOfMemoryError e) {
                     return null;
                 }
 
+                Log.v("talon_image_cache", "result: " + result);
+
                 if (null == result || largeProfile) {
-                    Log.d("ImageUrlAsyncTask", "Downloading: " + url);
+                    Log.d("talon_image_cache", "Downloading: " + url);
 
                     // The bitmap isn't cached so download from the web
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
@@ -642,13 +645,13 @@ public class ImageUtils {
                     }
 
                 } else {
-                    Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
+                    Log.d("talon_image_cache", "Got from Cache: " + url);
                 }
 
                 return result;
 
             } catch (IOException e) {
-                Log.e("ImageUrlAsyncTask", e.toString());
+                Log.e("talon_image_cache", e.toString());
             }
 
             return null;

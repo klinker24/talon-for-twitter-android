@@ -41,7 +41,8 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:textDirection="ltr">
 
                             <include layout="@layout/contact_info"
                                 android:id="@+id/contact_info"
@@ -229,7 +230,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_horizontal|bottom"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layoutDirection="ltr">
 
                         <ImageView
                             android:id="@+id/favorite"
@@ -242,7 +244,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="bottom|right">
+                            android:gravity="bottom|right"
+                            android:layoutDirection="ltr">
 
                             <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                                 android:layout_height="wrap_content"
@@ -284,7 +287,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_horizontal|bottom"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layoutDirection="ltr">
 
                         <ImageView
                             android:id="@+id/retweet"
@@ -298,7 +302,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="bottom|right">
+                            android:gravity="bottom|right"
+                            android:layoutDirection="ltr">
 
                             <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                                 android:layout_height="wrap_content"
