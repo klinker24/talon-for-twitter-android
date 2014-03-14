@@ -203,16 +203,17 @@ public class ProfilePicturesFragment extends Fragment {
                         hasMore = false;
                     }
 
-                    final int lastPicSize = pics.size();
+                    boolean update = false;
 
                     for (Status s : tweets) {
                         String[] links = TweetLinkUtils.getHtmlStatus(s);
                         if (!links[1].equals("")) {
                             pics.add(links[1]);
+                            update = true;
                         }
                     }
 
-                    if (pics.size() > lastPicSize) {
+                    if (update) {
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

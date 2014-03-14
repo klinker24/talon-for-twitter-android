@@ -516,6 +516,7 @@ public class ProfilePager extends Activity {
 
             case R.id.menu_block:
                 new BlockUser().execute();
+                sharedPrefs.edit().putBoolean("just_muted", true).commit();
                 return true;
 
             case R.id.menu_unblock:
@@ -558,6 +559,7 @@ public class ProfilePager extends Activity {
                 String current = sharedPrefs.getString("muted_users", "");
                 sharedPrefs.edit().putString("muted_users", current + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("just_muted", true).commit();
                 finish();
                 return true;
 
@@ -566,6 +568,7 @@ public class ProfilePager extends Activity {
                 muted = muted.replace(screenName + " ", "");
                 sharedPrefs.edit().putString("muted_users", muted).commit();
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("just_muted", true).commit();
                 finish();
                 return true;
 

@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Adapter;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -31,7 +33,6 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
         mCache = cache;
         this.context = context;
 
-        // if the layout is talon's, then they should have circle images
         circleImages = (AppSettings.getInstance(context)).roundContactImages;
     }
 
@@ -42,10 +43,18 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
 
     @Override
     public String getItemParams(Adapter adapter, int position) {
-        Cursor cursor = (Cursor) adapter.getItem(0);
-        cursor.moveToPosition(cursor.getCount() - position - 1);
-        String url = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
-        return url;
+        try {
+            Cursor cursor = (Cursor) adapter.getItem(0);
+            cursor.moveToPosition(cursor.getCount() - position - 1);
+            String url = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
+            return url;
+        } catch (Exception e) {
+            e.printStackTrace();
+            HomeDataSource.getInstance(context).close();
+            ((Activity) context).recreate();
+            return "";
+        }
+
     }
 
     @Override
@@ -80,21 +89,5 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
         }
 
         holder.profilePic.setImageDrawable(result);
-        /*Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
-        holder.profilePic.setVisibility(View.INVISIBLE);
-        fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationEnd(Animation arg0) {
-
-                // let make your image visible
-                holder.profilePic.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-            @Override
-            public void onAnimationStart(Animation animation) {}
-        });
-        holder.profilePic.startAnimation(fadeInAnimation);*/
     }
 }

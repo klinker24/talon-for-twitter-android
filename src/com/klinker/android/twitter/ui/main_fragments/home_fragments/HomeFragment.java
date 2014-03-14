@@ -364,24 +364,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             boolean foundStatus = false;
 
             Paging paging = new Paging(1, 200);
-
-            try {
-                /*if (lastId[0] != 0) {
-                    paging.setSinceId(lastId[0]);
-                } else if (cursorAdapter != null) {
-                    Cursor cursor = cursorAdapter.getCursor();
-                    if (cursor.moveToLast()) {
-                        long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                        paging.setSinceId(id);
-                    }
-                } else {*/
-                    paging.setSinceId(sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0));
-                //}
-            } catch (IllegalArgumentException e) {
-                // they hit this before actually getting the shared pref set... It would happen if the list isn't loaded and they refresh on startup
-                return 0;
-            }
-
+            paging.setSinceId(sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0));
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
@@ -915,11 +898,13 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
                         if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
                             numTweets = 0;
-                            update = false;
+                            update = sharedPrefs.getBoolean("just_muted", false);
                         }
                     }
                 }
             }
+
+            sharedPrefs.edit().putBoolean("just_muted", false).commit();
 
             Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
 
