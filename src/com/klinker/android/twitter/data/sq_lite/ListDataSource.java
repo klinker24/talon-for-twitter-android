@@ -30,10 +30,16 @@ public class ListDataSource {
     public static ListDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null) {
-            dataSource = new ListDataSource(context); // create the database
-            dataSource.open(); // open the database
-        } else if (!dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null) {
+                dataSource = new ListDataSource(context); // create the database
+                dataSource.open(); // open the database
+            } else if (!dataSource.getDatabase().isOpen()) {
+                dataSource = new ListDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (NullPointerException e) {
+            Log.v("talon_database", "null pointer in lists");
             dataSource = new ListDataSource(context); // create the database
             dataSource.open(); // open the database
         }

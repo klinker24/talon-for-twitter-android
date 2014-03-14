@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 
@@ -26,10 +27,16 @@ public class MentionsDataSource {
     public static MentionsDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null) {
-            dataSource = new MentionsDataSource(context); // create the database
-            dataSource.open(); // open the database
-        } else if (!dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null) {
+                dataSource = new MentionsDataSource(context); // create the database
+                dataSource.open(); // open the database
+            } else if (!dataSource.getDatabase().isOpen()) {
+                dataSource = new MentionsDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (NullPointerException e) {
+            Log.v("talon_database", "null pointer in mentions");
             dataSource = new MentionsDataSource(context); // create the database
             dataSource.open(); // open the database
         }

@@ -29,10 +29,16 @@ public class HomeDataSource {
     public static HomeDataSource getInstance(Context context) {
 
         // if the datasource isn't open or it the object is null
-        if (dataSource == null) {
-            dataSource = new HomeDataSource(context); // create the database
-            dataSource.open(); // open the database
-        } else if (!dataSource.getDatabase().isOpen()) {
+        try {
+            if (dataSource == null) {
+                dataSource = new HomeDataSource(context); // create the database
+                dataSource.open(); // open the database
+            } else if (!dataSource.getDatabase().isOpen()) {
+                dataSource = new HomeDataSource(context); // create the database
+                dataSource.open(); // open the database
+            }
+        } catch (NullPointerException e) {
+            Log.v("talon_database", "null pointer in home");
             dataSource = new HomeDataSource(context); // create the database
             dataSource.open(); // open the database
         }
