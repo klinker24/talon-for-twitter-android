@@ -30,6 +30,9 @@ public class DMDataSource {
         if (dataSource == null) {
             dataSource = new DMDataSource(context); // create the database
             dataSource.open(); // open the database
+        } else if (!dataSource.getDatabase().isOpen()) {
+            dataSource = new DMDataSource(context); // create the database
+            dataSource.open(); // open the database
         }
 
         return dataSource;

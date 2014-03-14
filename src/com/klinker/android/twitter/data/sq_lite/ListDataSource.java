@@ -33,6 +33,9 @@ public class ListDataSource {
         if (dataSource == null) {
             dataSource = new ListDataSource(context); // create the database
             dataSource.open(); // open the database
+        } else if (!dataSource.getDatabase().isOpen()) {
+            dataSource = new ListDataSource(context); // create the database
+            dataSource.open(); // open the database
         }
 
         return dataSource;
