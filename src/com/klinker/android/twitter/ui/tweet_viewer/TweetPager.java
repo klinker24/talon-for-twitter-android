@@ -393,6 +393,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_delete_tweet:
                 new DeleteTweet().execute();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("just_muted", true).commit();
                 return true;
 
             case R.id.menu_share:
@@ -513,6 +514,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_spam:
                 new MarkSpam().execute();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("just_muted", true).commit();
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_mute_hashtags:
@@ -564,6 +566,8 @@ public class TweetPager extends YouTubeBaseActivity {
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.no_hashtags), Toast.LENGTH_SHORT).show();
                 }
+
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("just_muted", true).commit();
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_share_links:
