@@ -29,6 +29,9 @@ public class MentionsDataSource {
         if (dataSource == null) {
             dataSource = new MentionsDataSource(context); // create the database
             dataSource.open(); // open the database
+        } else if (!dataSource.getDatabase().isOpen()) {
+            dataSource = new MentionsDataSource(context); // create the database
+            dataSource.open(); // open the database
         }
 
         return dataSource;
