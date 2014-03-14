@@ -9,7 +9,9 @@
         android:layout_height="30dp"
         android:layout_width="30dp"
         android:scaleType="fitCenter"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:paddingRight="13dp"
+        android:paddingEnd="13dp" />
 
     <com.klinker.android.twitter.manipulations.widgets.HoloTextView
         android:id="@+id/title"
@@ -19,8 +21,6 @@
         android:singleLine="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:layout_marginRight="5dp"
-        android:paddingLeft="13dp"
-        android:paddingStart="13dp"/>
+        android:layout_marginRight="5dp"/>
 
 </LinearLayout>

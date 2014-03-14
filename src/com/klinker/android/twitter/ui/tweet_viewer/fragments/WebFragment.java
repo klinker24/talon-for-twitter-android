@@ -101,6 +101,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
         webView.setWebViewClient(new WebViewClient());*/
 
         webView = new HTML5WebView(context);
+        webView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         try {
             webView.loadUrl(webpages.get(0));
