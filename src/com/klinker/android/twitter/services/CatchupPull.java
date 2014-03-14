@@ -97,12 +97,12 @@ public class CatchupPull extends IntentService {
 
                 Log.v("talon_pull", "got statuses, new = " + statuses.size());
 
-                if (statuses.size() > 0) {
+                int inserted = dataSource.insertTweets(statuses, currentAccount, lastId);
+
+                if (inserted > 0 && statuses.size() > 0) {
                     sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
                     unreadNow += statuses.size();
                 }
-
-                dataSource.insertTweets(statuses, currentAccount, lastId);
 
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             }
@@ -129,14 +129,16 @@ public class CatchupPull extends IntentService {
 
             List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
-            for (twitter4j.Status status : statuses) {
+            /*for (twitter4j.Status status : statuses) {
                 try {
                     dataSource.createTweet(status, currentAccount);
                 } catch (Exception e) {
                     dataSource = MentionsDataSource.getInstance(context);
                     dataSource.createTweet(status, currentAccount);
                 }
-            }
+            }*/
+
+            dataSource.insertTweets(statuses, currentAccount);
 
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
