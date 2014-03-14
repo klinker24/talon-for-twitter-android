@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.ui.main_fragments.home_fragments;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.LoaderManager;
 import android.app.PendingIntent;
@@ -23,7 +24,6 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
@@ -45,7 +45,7 @@ import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class HomeFragment extends MainFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class HomeFragment extends MainFragment { // implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int HOME_REFRESH_ID = 121;
 
@@ -86,7 +86,8 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
             viewPressed = true;
             trueLive = true;
             manualRefresh = false;
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            getCursorAdapter(false);
             listView.setSelectionFromTop(0, 0);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -119,7 +120,8 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                 trueLive = true;
 
                 try {
-                    getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                    //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                    getCursorAdapter(false);
                 } catch (Exception e) {
                     // fragment not attached to activity?
                 }
@@ -317,8 +319,149 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
 
     @Override
-    public void getCursorAdapter(boolean spinner) {
-        getLoaderManager().initLoader(0, null, this);
+    public void getCursorAdapter(boolean none) {
+        //getLoaderManager().initLoader(0, null, this);
+
+        Thread getCursor = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (!trueLive && !initial) {
+                    Log.v("talon_tweetmarker", "true live");
+                    markReadForLoad();
+                }
+
+                final Cursor cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
+
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
+
+                        currCursor = cursor;
+
+                        Cursor c = null;
+                        if (cursorAdapter != null) {
+                            c = cursorAdapter.getCursor();
+                        }
+
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
+
+                        initial = false;
+
+                        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                        boolean update = true;
+                        int numTweets;
+                        if (id == 0) {
+                            numTweets = 0;
+                        } else {
+                            numTweets = getPosition(cursor, id);
+                            if (numTweets == -1) {
+                                return;
+                            }
+
+                            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+                            // so this is to error trap that
+                            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+
+                                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
+                                numTweets = getPosition(cursor, id + 1);
+                                if (numTweets == -1) {
+                                    return;
+                                }
+
+                                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                    numTweets = getPosition(cursor, id + 2);
+                                    if (numTweets == -1) {
+                                        return;
+                                    }
+
+                                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                        numTweets = getPosition(cursor, id - 1);
+                                        if (numTweets == -1) {
+                                            return;
+                                        }
+
+                                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                            numTweets = 0;
+                                            update = sharedPrefs.getBoolean("just_muted", false);
+                                        }
+                                    }
+                                }
+                            }
+
+                            sharedPrefs.edit().putBoolean("just_muted", false).commit();
+
+                            Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
+
+                            switch (currentAccount) {
+                                case 1:
+                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 2, 0) + " for account " + 2);
+                                    break;
+                                case 2:
+                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 1, 0) + " for account " + 1);
+                                    break;
+                            }
+                        }
+
+                        final int tweets = numTweets;
+
+                        if (spinner.getVisibility() == View.VISIBLE) {
+                            spinner.setVisibility(View.GONE);
+                        }
+
+                        if (listView.getVisibility() != View.VISIBLE) {
+                            update = true; // we want to do this to ensure there just isn't a blank list shown...
+                            listView.setVisibility(View.VISIBLE);
+                        }
+
+                        if (update) {
+                            listView.setAdapter(cursorAdapter);
+
+                            if (viewPressed) {
+                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            } else if (tweets != 0) {
+                                unread = tweets;
+                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            } else {
+                                listView.setSelectionFromTop(0, 0);
+                            }
+                        }
+
+                        liveUnread = 0;
+                        viewPressed = false;
+
+                        mPullToRefreshLayout.setRefreshComplete();
+
+                        try {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    newTweets = false;
+                                }
+                            }, 500);
+                        } catch (Exception e) {
+                            newTweets = false;
+                        }
+
+                        if (update) {
+                            try {
+                                c.close();
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        getCursor.setPriority(8);
+        getCursor.start();
+
+
     }
 
     public void toTop() {
@@ -396,7 +539,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
             manualRefresh = false;
 
-            numberNew = HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+            numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
             if (numberNew > 0 && statuses.size() > 0) {
                 if (numberNew == statuses.size()) {
@@ -499,7 +642,8 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
                 if (result) {
                     try {
-                        getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                        //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                        getCursorAdapter(false);
                     } catch (IllegalStateException e) {
                         // fragment not attached?
                         try {
@@ -556,7 +700,8 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                     public void run() {
                         try {
                             if (result) {
-                                getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                                //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                                getCursorAdapter(false);
 
                                 if (unread > 0) {
                                     final CharSequence text;
@@ -760,7 +905,8 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
         context.registerReceiver(markRead, filter);
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            getCursorAdapter(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         }
     }
@@ -774,7 +920,8 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
         justStarted = true;
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            getCursorAdapter(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         } else { // otherwise, if there are no new ones, it should start the refresh (this is what was causing the jumping before)
             new Handler().postDelayed(new Runnable() {
@@ -818,7 +965,7 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
 
     public boolean trueLive = false;
 
-    @Override
+    /*@Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         if (!trueLive && !initial) {
@@ -842,132 +989,131 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                 null );
 
         return cursorLoader;
-    }
+    }*/
 
     public boolean viewPressed = false;
     public Cursor currCursor;
 
-    @Override
+    /*@Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
 
-        Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
+                        currCursor = cursor;
 
-        currCursor = cursor;
-
-        Cursor c = null;
-        if (cursorAdapter != null) {
-            c = cursorAdapter.getCursor();
-        }
-
-        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
-
-        initial = false;
-
-        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
-        boolean update = true;
-        int numTweets;
-        if (id == 0) {
-            numTweets = 0;
-        } else {
-            numTweets = getPosition(cursor, id);
-            if (numTweets == -1) {
-                return;
-            }
-
-            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
-            // so this is to error trap that
-            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-
-                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
-                numTweets = getPosition(cursor, id + 1);
-                if (numTweets == -1) {
-                    return;
-                }
-
-                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                    numTweets = getPosition(cursor, id + 2);
-                    if (numTweets == -1) {
-                        return;
-                    }
-
-                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
-                        numTweets = getPosition(cursor, id - 1);
-                        if (numTweets == -1) {
-                            return;
+                        Cursor c = null;
+                        if (cursorAdapter != null) {
+                            c = cursorAdapter.getCursor();
                         }
 
-                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
+
+                        initial = false;
+
+                        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                        boolean update = true;
+                        int numTweets;
+                        if (id == 0) {
                             numTweets = 0;
-                            update = sharedPrefs.getBoolean("just_muted", false);
+                        } else {
+                            numTweets = getPosition(cursor, id);
+                            if (numTweets == -1) {
+                                return;
+                            }
+
+                            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+                            // so this is to error trap that
+                            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+
+                                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
+                                numTweets = getPosition(cursor, id + 1);
+                                if (numTweets == -1) {
+                                    return;
+                                }
+
+                                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                    numTweets = getPosition(cursor, id + 2);
+                                    if (numTweets == -1) {
+                                        return;
+                                    }
+
+                                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                        numTweets = getPosition(cursor, id - 1);
+                                        if (numTweets == -1) {
+                                            return;
+                                        }
+
+                                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                            numTweets = 0;
+                                            update = sharedPrefs.getBoolean("just_muted", false);
+                                        }
+                                    }
+                                }
+                            }
+
+                            sharedPrefs.edit().putBoolean("just_muted", false).commit();
+
+                            Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
+
+                            switch (currentAccount) {
+                                case 1:
+                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 2, 0) + " for account " + 2);
+                                    break;
+                                case 2:
+                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 1, 0) + " for account " + 1);
+                                    break;
+                            }
                         }
-                    }
-                }
-            }
 
-            sharedPrefs.edit().putBoolean("just_muted", false).commit();
+                        final int tweets = numTweets;
 
-            Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
+                        if (spinner.getVisibility() == View.VISIBLE) {
+                            spinner.setVisibility(View.GONE);
+                        }
 
-            switch (currentAccount) {
-                case 1:
-                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 2, 0) + " for account " + 2);
-                    break;
-                case 2:
-                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 1, 0) + " for account " + 1);
-                    break;
-            }
-        }
+                        if (listView.getVisibility() != View.VISIBLE) {
+                            update = true; // we want to do this to ensure there just isn't a blank list shown...
+                            listView.setVisibility(View.VISIBLE);
+                        }
 
-        final int tweets = numTweets;
+                        if (update) {
+                            listView.setAdapter(cursorAdapter);
 
-        if (spinner.getVisibility() == View.VISIBLE) {
-            spinner.setVisibility(View.GONE);
-        }
+                            if (viewPressed) {
+                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            } else if (tweets != 0) {
+                                unread = tweets;
+                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            } else {
+                                listView.setSelectionFromTop(0, 0);
+                            }
+                        }
 
-        if (listView.getVisibility() != View.VISIBLE) {
-            update = true; // we want to do this to ensure there just isn't a blank list shown...
-            listView.setVisibility(View.VISIBLE);
-        }
+                        liveUnread = 0;
+                        viewPressed = false;
 
-        if (update) {
-            listView.setAdapter(cursorAdapter);
+                        mPullToRefreshLayout.setRefreshComplete();
 
-            if (viewPressed) {
-                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-            } else if (tweets != 0) {
-                unread = tweets;
-                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-            } else {
-                listView.setSelectionFromTop(0, 0);
-            }
-        }
+                        try {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    newTweets = false;
+                                }
+                            }, 500);
+                        } catch (Exception e) {
+                            newTweets = false;
+                        }
 
-        liveUnread = 0;
-        viewPressed = false;
+                        if (update) {
+                            try {
+                                c.close();
+                            } catch (Exception e) {
 
-        mPullToRefreshLayout.setRefreshComplete();
-
-        try {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    newTweets = false;
-                }
-            }, 500);
-        } catch (Exception e) {
-            newTweets = false;
-        }
-
-        if (update) {
-            try {
-                c.close();
-            } catch (Exception e) {
-
-            }
-        }
-    }
+                            }
+                        }
+    }*/
 
     public int getPosition(Cursor cursor, long id) {
         int pos = 0;
@@ -983,20 +1129,22 @@ public class HomeFragment extends MainFragment implements LoaderManager.LoaderCa
                 } while (cursor.moveToPrevious());
             }
         } catch (Exception e) {
-            getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            getCursorAdapter(false);
             return -1;
         }
 
         return pos;
     }
 
-    @Override
+    /*@Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         // data is not available anymore, delete reference
         Log.v("talon_timeline", "had to restart the loader for some reason, it was reset");
 
-        getLoaderManager().restartLoader(0, null, HomeFragment.this);
-    }
+        //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+        getCursorAdapter(false);
+    }*/
 
     public Handler handler = new Handler();
     public Runnable hideToast = new Runnable() {

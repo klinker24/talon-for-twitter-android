@@ -43,7 +43,6 @@ import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.Item;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.utils.LocalTrendsUtils;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
@@ -1358,7 +1357,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                 for (twitter4j.Status status : statuses) {
                     try {
-                        HomeContentProvider.insertTweet(status, currentAccount, context);
+                        HomeDataSource.getInstance(context).createTweet(status, currentAccount, false);
                     } catch (Exception e) {
                         e.printStackTrace();
                         break;

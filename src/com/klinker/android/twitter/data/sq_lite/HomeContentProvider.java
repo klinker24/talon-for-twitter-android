@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.data.sq_lite;
+/*package com.klinker.android.twitter.data.sq_lite;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -266,3 +266,4 @@ public class HomeContentProvider extends ContentProvider {
     }
 
 }
+*/

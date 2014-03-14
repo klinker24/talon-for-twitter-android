@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -95,7 +94,7 @@ public class TimelineRefreshService extends IntentService {
                     }
                 }
 
-                int inserted = HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+                int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
                 if (inserted > 0 && statuses.size() > 0) {
                     sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();

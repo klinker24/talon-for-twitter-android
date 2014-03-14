@@ -7,11 +7,15 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.klinker.android.twitter.utils.TweetLinkUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import twitter4j.Status;
 
@@ -168,13 +172,105 @@ public class HomeDataSource {
         }
 
         database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-        /*try {
-            database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-        } catch (Exception e) {
-            close();
+    }
+
+    public int insertTweets(List<Status> statuses, int currentAccount, long[] lastIds) {
+        ArrayList<Long> ids = new ArrayList<Long>();
+        for (int i = 0; i < lastIds.length; i++) {
+            ids.add(lastIds[i]);
+        }
+
+        ContentValues[] valueses = new ContentValues[statuses.size()];
+
+        for (int i = 0; i < statuses.size(); i++) {
+            Status status = statuses.get(i);
+            Long id = status.getId();
+            if (!ids.contains(id)) { // something has always gone wrong in the past for duplicates... so double check i guess
+                ContentValues values = new ContentValues();
+                String originalName = "";
+                long mId = status.getId();
+                long time = status.getCreatedAt().getTime();
+
+                if(status.isRetweet()) {
+                    originalName = status.getUser().getScreenName();
+                    status = status.getRetweetedStatus();
+                }
+
+                String[] html = TweetLinkUtils.getHtmlStatus(status);
+                String text = html[0];
+                String media = html[1];
+                String url = html[2];
+                String hashtags = html[3];
+                String users = html[4];
+
+                values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
+                values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
+                values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, mId);
+                values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+                values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+                values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+                values.put(HomeSQLiteHelper.COLUMN_TIME, time);
+                values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
+                values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
+                values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
+                values.put(HomeSQLiteHelper.COLUMN_URL, url);
+                values.put(HomeSQLiteHelper.COLUMN_USERS, users);
+                values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+
+                valueses[i] = values;
+            } else {
+                break;
+            }
+        }
+
+        return insertMultiple(valueses);
+    }
+
+    private synchronized int insertMultiple(ContentValues[] allValues) {
+        int rowsAdded = 0;
+        long rowId;
+        ContentValues values;
+
+        if (database == null) {
             open();
-            database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-        }*/
+        }
+
+        try {
+            database.beginTransaction();
+
+            for (ContentValues initialValues : allValues) {
+                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
+                try {
+                    rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                } catch (IllegalStateException e) {
+                    return rowsAdded;
+                    //db = HomeDataSource.getInstance(context).getDatabase();
+                    //rowId = 0;
+                }
+                if (rowId > 0)
+                    rowsAdded++;
+            }
+
+            database.setTransactionSuccessful();
+        } catch (NullPointerException e)  {
+            e.printStackTrace();
+            return rowsAdded;
+        } catch (SQLiteDatabaseLockedException e) {
+            e.printStackTrace();
+            return rowsAdded;
+        } catch (IllegalStateException e) {
+            // caught setting up the transaction I guess, shouldn't ever happen now.
+            e.printStackTrace();
+            return rowsAdded;
+        } finally {
+            try {
+                database.endTransaction();
+            } catch (Exception e) {
+                // shouldn't happen unless it gets caught above from an illegal state
+            }
+        }
+
+        return rowsAdded;
     }
 
     public synchronized void deleteTweet(long tweetId) {

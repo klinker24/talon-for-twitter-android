@@ -33,10 +33,10 @@
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <provider
+        <!--<provider
             android:name=".data.sq_lite.HomeContentProvider"
             android:multiprocess="true"
-            android:authorities="com.klinker.android.twitter.provider" />
+            android:authorities="com.klinker.android.twitter.provider" />-->
 
         <activity android:name=".ui.setup.TutorialActivity"
             android:theme="@style/Theme.Tutorial"/>

@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
@@ -41,9 +40,9 @@ public class TalonDashClockExtension extends DashClockExtension {
         filter.addAction("com.klinker.android.talon.UPDATE_WIDGET");
         registerReceiver(update, filter);
 
-        String[] watcher = {"content://" + HomeContentProvider.AUTHORITY};
-        this.addWatchContentUris(watcher);
-        this.setUpdateWhenScreenOn(true);
+        /*String[] watcher = {"content://" + HomeContentProvider.AUTHORITY};
+        this.addWatchContentUris(watcher);*/
+        this.setUpdateWhenScreenOn(false);
     }
 
     @Override
