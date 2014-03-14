@@ -558,5 +558,7 @@
     <string name="widget_trans_light">Transparent Light Theme</string>
     <string name="widget_trans_black">Transparent Black Theme</string>
     <string name="ui_settings">UI Settings</string>
+    <string name="show_pos_dashclock">Show Timeline Position</string>
+    <string name="show_pos_dashclock_summary">Show the current position on the home timeline instead of the number of new tweets.</string>
 
 </resources>

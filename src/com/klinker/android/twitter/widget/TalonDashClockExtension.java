@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
@@ -63,6 +64,12 @@ public class TalonDashClockExtension extends DashClockExtension {
         int homeTweets = unreads[0];
         int mentionsTweets = unreads[1];
         int dmTweets = unreads[2];
+
+        if (sharedPrefs.getBoolean("dashclock_show_pos", false)) {
+            homeTweets = HomeDataSource.getInstance(this).getPosition(currentAccount,
+                    sharedPrefs.getLong("current_position_" + currentAccount, 0));
+            unreads[0] = homeTweets;
+        }
 
         if (!sharedPrefs.getBoolean("dashclock_timeline", true)) {
             homeTweets = 0;

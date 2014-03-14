@@ -2,6 +2,8 @@
     &#8226; Faster and more stable method for accessing and saving tweets<br/>
     &#8226; In-app browser background adjusts according to theme<br/>
     &#8226; Fixes for the dashclock settings<br/>
+    &#8226; Show position option for dashclock<br/>
+    &#8226; Fixed trimming the databases<br/>
 </br><br/>
 
 <b>Version 2.0.5:</b><br/><br/>
