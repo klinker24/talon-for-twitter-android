@@ -44,10 +44,12 @@ import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -707,13 +709,8 @@ public class ProfilePager extends Activity {
                 break;
             case SELECT_BANNER:
                 if(resultCode == RESULT_OK){
-                    try {
-                        Uri selectedImage = imageReturnedIntent.getData();
-                        new UpdateBanner(getContentResolver().openInputStream(selectedImage)).execute();
-
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                    }
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    new UpdateBanner(selectedImage).execute();
                 }
         }
     }
@@ -782,10 +779,47 @@ public class ProfilePager extends Activity {
         return inSampleSize;
     }
 
+    private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input = getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 800) ? (originalSize / 800) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
+    }
+
     class UpdateBanner extends AsyncTask<String, Void, Boolean> {
 
         ProgressDialog pDialog;
-        private InputStream stream;
+        private Uri image = null;
+        private InputStream stream = null;
+
+        public UpdateBanner(Uri image) {
+            this.image = image;
+        }
 
         public UpdateBanner(InputStream stream) {
             this.stream = stream;
@@ -804,7 +838,25 @@ public class ProfilePager extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
-                twitter.updateProfileBanner(stream);
+                if (stream == null) {
+                    //create a file to write bitmap data
+                    File outputDir = context.getCacheDir(); // context being the Activity pointer
+                    File f = File.createTempFile("compose", "picture", outputDir);
+
+                    Bitmap bitmap = getBitmapToSend(image);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+
+                    twitter.updateProfileBanner(f);
+                } else {
+                    twitter.updateProfileBanner(stream);
+                }
 
                 String profileURL = thisUser.getProfileBannerURL();
                 sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
@@ -837,9 +889,14 @@ public class ProfilePager extends Activity {
 
         ProgressDialog pDialog;
         private InputStream stream;
+        private Uri image;
 
         public UpdateProPic(InputStream stream) {
             this.stream = stream;
+        }
+
+        public UpdateProPic(Uri image) {
+            this.image = image;
         }
 
         protected void onPreExecute() {
@@ -856,7 +913,29 @@ public class ProfilePager extends Activity {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
-                User user = twitter.updateProfileImage(stream);
+                User user;
+
+                if (stream != null) {
+                    user = twitter.updateProfileImage(stream);
+                } else {
+                    //create a file to write bitmap data
+                    File outputDir = context.getCacheDir(); // context being the Activity pointer
+                    File f = File.createTempFile("compose", "picture", outputDir);
+
+                    Bitmap bitmap = getBitmapToSend(image);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+
+                    user = twitter.updateProfileImage(f);
+                }
+
+
                 String profileURL = user.getBiggerProfileImageURL();
                 sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
 
