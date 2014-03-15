@@ -259,6 +259,14 @@ public class MentionsFragment extends MainFragment {
             public void run() {
                 final Cursor cursor = MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
 
+                try {
+                    Log.v("talon_databases", "mentions cursor size: " + cursor.getCount());
+                } catch (Exception e) {
+                    MentionsDataSource.getInstance(context).close();
+                    getCursorAdapter(false);
+                    return;
+                }
+
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

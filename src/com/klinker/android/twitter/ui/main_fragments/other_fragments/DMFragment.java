@@ -247,31 +247,37 @@ public class DMFragment extends MainFragment {
             ArrayList<com.klinker.android.twitter.data.DirectMessage> messageList = new ArrayList<com.klinker.android.twitter.data.DirectMessage>();
             ArrayList<String> names = new ArrayList<String>();
 
-            if (cursor.moveToLast()) {
-                do {
-                    String screenname = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
-                    String otherName = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_RETWEETER));
+            try {
+                if (cursor.moveToLast()) {
+                    do {
+                        String screenname = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                        String otherName = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_RETWEETER));
 
-                    if (!names.contains(screenname) && !screenname.equals(DrawerActivity.settings.myScreenName)) {
-                        Log.v("direct_message", "adding screenname: " + screenname);
-                        names.add(screenname);
+                        if (!names.contains(screenname) && !screenname.equals(DrawerActivity.settings.myScreenName)) {
+                            Log.v("direct_message", "adding screenname: " + screenname);
+                            names.add(screenname);
 
-                        String name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_NAME));
-                        String message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
-                        String profilePic = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_PRO_PIC));
+                            String name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_NAME));
+                            String message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                            String profilePic = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_PRO_PIC));
 
-                        messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, screenname, message, profilePic));
-                    } else if (screenname.equals(DrawerActivity.settings.myScreenName) && !names.contains(otherName)) {
+                            messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, screenname, message, profilePic));
+                        } else if (screenname.equals(DrawerActivity.settings.myScreenName) && !names.contains(otherName)) {
 
-                        names.add(otherName);
+                            names.add(otherName);
 
-                        String name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_TWO));
-                        String message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
-                        String profilePic = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_ONE));
+                            String name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_TWO));
+                            String message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                            String profilePic = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_ONE));
 
-                        messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, otherName, message, profilePic));
-                    }
-                } while (cursor.moveToPrevious());
+                            messageList.add(new com.klinker.android.twitter.data.DirectMessage(name, otherName, message, profilePic));
+                        }
+                    } while (cursor.moveToPrevious());
+                }
+            } catch (Exception e) {
+                DMDataSource.getInstance(context).close();
+                getCursorAdapter(false);
+                return null;
             }
 
             cursor.close();
@@ -288,7 +294,11 @@ public class DMFragment extends MainFragment {
                 listView.setVisibility(View.VISIBLE);
             } catch (Exception e) { }
 
-            listView.setAdapter(arrayAdapter);
+            try {
+                listView.setAdapter(arrayAdapter);
+            } catch (Exception e) {
+
+            }
         }
 
     }
