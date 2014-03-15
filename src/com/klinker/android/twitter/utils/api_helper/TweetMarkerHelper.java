@@ -189,7 +189,7 @@ public class TweetMarkerHelper extends APIHelper {
 
         }
 
-        sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId);
+        sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId).commit();
 
         return updated;
     }
