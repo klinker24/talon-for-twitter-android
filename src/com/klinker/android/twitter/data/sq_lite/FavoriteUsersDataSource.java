@@ -80,42 +80,50 @@ public class FavoriteUsersDataSource {
         values.put(FavoriteUsersSQLiteHelper.COLUMN_PRO_PIC, proPicUrl);
         values.put(FavoriteUsersSQLiteHelper.COLUMN_SCREEN_NAME, screenName);
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.insert(FavoriteUsersSQLiteHelper.TABLE_HOME, null, values);
+        } catch (Exception e) {
             open();
+            database.insert(FavoriteUsersSQLiteHelper.TABLE_HOME, null, values);
         }
-
-        database.insert(FavoriteUsersSQLiteHelper.TABLE_HOME, null, values);
     }
 
     public synchronized void deleteUser(long userId) {
         long id = userId;
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, FavoriteUsersSQLiteHelper.COLUMN_ID
+                    + " = " + id, null);
+        } catch (Exception e) {
             open();
+            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, FavoriteUsersSQLiteHelper.COLUMN_ID
+                    + " = " + id, null);
         }
-
-        database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, FavoriteUsersSQLiteHelper.COLUMN_ID
-                + " = " + id, null);
     }
 
     public synchronized void deleteAllUsers(int account) {
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
+                    FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        } catch (Exception e) {
             open();
+            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
+                    FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
         }
-
-        database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
-                FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public synchronized Cursor getCursor(int account) {
 
-        if (database == null || !database.isOpen()) {
+        Cursor cursor;
+        try {
+            cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
+                    allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
+        } catch (Exception e) {
             open();
+            cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
+                    allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
         }
-
-        Cursor cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
-                allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
 
         return cursor;
     }
