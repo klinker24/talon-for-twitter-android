@@ -335,7 +335,7 @@ public class HomeDataSource {
         try {
             statement = database.compileStatement(sql);
         } catch (Exception e) {
-            where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            open();
             statement = database.compileStatement(sql);
         }
         long count = statement.simpleQueryForLong();
@@ -370,11 +370,6 @@ public class HomeDataSource {
 
         Cursor cursor;
 
-        String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
-        SQLiteStatement statement;
-        statement = database.compileStatement(sql);
-
-        long count = statement.simpleQueryForLong();
         try {
             cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
                     allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
@@ -526,7 +521,13 @@ public class HomeDataSource {
         Cursor cursor;
 
         String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
-        SQLiteStatement statement = database.compileStatement(sql);
+        SQLiteStatement statement;
+        try {
+            statement = database.compileStatement(sql);
+        } catch (Exception e) {
+            open();
+            statement = database.compileStatement(sql);
+        }
         long count = statement.simpleQueryForLong();
         if (count > 200) {
             try {
@@ -594,7 +595,7 @@ public class HomeDataSource {
         try {
             statement = database.compileStatement(sql);
         } catch (Exception e) {
-            where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            open();
             statement = database.compileStatement(sql);
         }
         long count = statement.simpleQueryForLong();
@@ -652,7 +653,7 @@ public class HomeDataSource {
         try {
             statement = database.compileStatement(sql);
         } catch (Exception e) {
-            where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+            open();
             statement = database.compileStatement(sql);
         }
         long count = statement.simpleQueryForLong();

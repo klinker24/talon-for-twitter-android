@@ -16,6 +16,7 @@ import com.klinker.android.twitter.utils.TweetLinkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import twitter4j.Status;
 
@@ -290,7 +291,13 @@ public class ListDataSource {
 
         Cursor cursor;
         String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + where;
-        SQLiteStatement statement = database.compileStatement(sql);
+        SQLiteStatement statement;
+        try {
+            statement = database.compileStatement(sql);
+        } catch (Exception e) {
+            open();
+            statement = database.compileStatement(sql);
+        }
         long count = statement.simpleQueryForLong();
         Log.v("talon_database", "list database has " + count + " entries");
         if (count > 400) {
@@ -343,10 +350,7 @@ public class ListDataSource {
         String where = ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
 
         Cursor cursor;
-        String sql = "SELECT COUNT(*) FROM " + ListSQLiteHelper.TABLE_HOME + " WHERE " + where;
-        SQLiteStatement statement = database.compileStatement(sql);
-        long count = statement.simpleQueryForLong();
-        Log.v("talon_database", "list database has " + count + " entries");
+
         try {
             cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                     allColumns,
