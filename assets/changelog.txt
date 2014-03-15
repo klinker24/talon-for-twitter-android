@@ -5,6 +5,7 @@
     &#8226; Show position option for Dashclock<br/>
     &#8226; Fixed trimming the databases<br/>
     &#8226; Open play store or YouTube links from the in-app browser to the correct app<br/>
+    &#8226; More TweetMarker fixes<br/>
 </br><br/>
 
 <b>Version 2.0.5:</b><br/><br/>
