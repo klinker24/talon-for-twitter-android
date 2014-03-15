@@ -14,6 +14,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -55,7 +56,11 @@ import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -326,18 +331,76 @@ public abstract class Compose extends Activity implements
         }
     }
 
+    private Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input = getContentResolver().openInputStream(uri);
 
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 100) ? (originalSize / 100) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input = getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 575) ? (originalSize / 575) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
+    }
 
     void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             //String filePath = IOUtils.getPath(imageUri, context);
             try {
-                attachImage.setImageURI(imageUri);
-            } catch (OutOfMemoryError e) {
-                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                attachImage.setImageBitmap(getThumbnail(imageUri));
+                attachedUri = imageUri.toString();
+            } catch (FileNotFoundException e) {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+            } catch (IOException e) {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
             }
-            attachedUri = imageUri.toString();
         }
     }
 
@@ -414,11 +477,13 @@ public abstract class Compose extends Activity implements
                         Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
 
                         try {
-                            attachImage.setImageURI(selectedImage);
-                        } catch (OutOfMemoryError e) {
-                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            attachImage.setImageBitmap(getThumbnail(selectedImage));
+                            attachedUri = selectedImage.toString();
+                        } catch (FileNotFoundException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        } catch (IOException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                         }
-                        attachedUri = selectedImage.toString();
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -431,11 +496,13 @@ public abstract class Compose extends Activity implements
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
 
                         try {
-                            attachImage.setImageURI(selectedImage);
-                        } catch (OutOfMemoryError e) {
-                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            attachImage.setImageBitmap(getThumbnail(selectedImage));
+                            attachedUri = selectedImage.toString();
+                        } catch (FileNotFoundException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        } catch (IOException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                         }
-                        attachedUri = selectedImage.toString();
 
                     } catch (Throwable e) {
                         e.printStackTrace();
@@ -447,10 +514,13 @@ public abstract class Compose extends Activity implements
                 if (resultCode == Activity.RESULT_OK) {
                     String path = imageReturnedIntent.getStringExtra("RESULT");
                     attachedUri = Uri.fromFile(new File(path)).toString();
-                    try {
-                        attachImage.setImageURI(Uri.parse(attachedUri));
-                    } catch (OutOfMemoryError e) {
 
+                    try {
+                        attachImage.setImageBitmap(getThumbnail(Uri.parse(attachedUri)));
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                    } catch (IOException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                     }
 
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
@@ -654,12 +724,25 @@ public abstract class Compose extends Activity implements
                         return true;
 
                     } else {
-                        stream = getContentResolver().openInputStream(Uri.parse(attachedUri));
+                        //stream = getContentResolver().openInputStream(Uri.parse(attachedUri));
+                        //create a file to write bitmap data
+                        File outputDir = context.getCacheDir(); // context being the Activity pointer
+                        File f = File.createTempFile("compose", "picture", outputDir);
+
+                        Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+
+                        FileOutputStream fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
 
                         if (settings.twitpic) {
                             boolean isDone = false;
                             if (accountOneCheck.isChecked()) {
-                                TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
+                                TwitPicHelper helper = new TwitPicHelper(twitter, text, f, context);
                                 if (addLocation) {
                                     int wait = 0;
                                     while (!mLocationClient.isConnected() && wait < 4) {
@@ -686,7 +769,7 @@ public abstract class Compose extends Activity implements
                                 }
                             }
                             if (accountTwoCheck.isChecked()) {
-                                TwitPicHelper helper = new TwitPicHelper(twitter2, text, stream, context);
+                                TwitPicHelper helper = new TwitPicHelper(twitter2, text, f, context);
                                 if (addLocation) {
                                     int wait = 0;
                                     while (!mLocationClient.isConnected() && wait < 4) {
@@ -714,12 +797,12 @@ public abstract class Compose extends Activity implements
                             }
                             return isDone;
                         } else {
-                            //media.setMedia(f);
-                            try {
+                            media.setMedia(f);
+                            /*try {
                                 media.setMedia("Pic from Talon", stream);
                             } catch (Exception e) {
                                 e.printStackTrace();
-                            }
+                            }*/
 
                             if(addLocation) {
                                 int wait = 0;

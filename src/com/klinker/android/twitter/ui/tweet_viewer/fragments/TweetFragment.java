@@ -69,7 +69,10 @@ import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 import com.klinker.android.twitter.utils.text.Regex;
 import com.klinker.android.twitter.utils.text.TextUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -1207,14 +1210,27 @@ public class TweetFragment extends Fragment {
                     reply.setInReplyToStatusId(tweetId);
 
                     if (!attachedUri.equals("")) {
-                        stream = context.getContentResolver().openInputStream(Uri.parse(attachedUri));
+                        //stream = context.getContentResolver().openInputStream(Uri.parse(attachedUri));
+
+                        File outputDir = context.getCacheDir(); // context being the Activity pointer
+                        File f = File.createTempFile("compose", "picture", outputDir);
+
+                        Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+
+                        FileOutputStream fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
 
                         if (!settings.twitpic) {
-                            reply.setMedia("Pic from Talon", stream);
+                            reply.setMedia(f);
                             twitter.updateStatus(reply);
                             return true;
                         } else {
-                            TwitPicHelper helper = new TwitPicHelper(twitter, text, stream, context);
+                            TwitPicHelper helper = new TwitPicHelper(twitter, text, f, context);
                             helper.setInReplyToStatusId(tweetId);
                             return helper.createPost() != 0;
                         }
@@ -1339,6 +1355,64 @@ public class TweetFragment extends Fragment {
         }
     }
 
+    private Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input = context.getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 150) ? (originalSize / 150) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = context.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input = context.getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 575) ? (originalSize / 575) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = context.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
+    }
+
     private static final int SELECT_PHOTO = 100;
     private static final int CAPTURE_IMAGE = 101;
     private static final int PWICCER = 420;
@@ -1354,26 +1428,32 @@ public class TweetFragment extends Fragment {
                 if(resultCode == ((Activity)context).RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
 
-                    attachImage.setImageURI(selectedImage);
-                    attachImage.setVisibility(View.VISIBLE);
+                    try {
+                        attachImage.setImageBitmap(getThumbnail(selectedImage));
+                        attachedUri = selectedImage.toString();
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                    } catch (IOException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                    }
 
-                    attachedUri = selectedImage.toString();
+                    attachImage.setVisibility(View.VISIBLE);
                 }
                 break;
             case CAPTURE_IMAGE:
                 if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
+
                     try {
-                        Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
-
-                        attachImage.setImageURI(selectedImage);
-                        attachImage.setVisibility(View.VISIBLE);
-
+                        attachImage.setImageBitmap(getThumbnail(selectedImage));
                         attachedUri = selectedImage.toString();
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        attachImage.setVisibility(View.GONE);
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                    } catch (IOException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                     }
+
+                    attachImage.setVisibility(View.VISIBLE);
                 }
                 break;
 
@@ -1381,7 +1461,14 @@ public class TweetFragment extends Fragment {
                 if (resultCode == Activity.RESULT_OK) {
                     String path = imageReturnedIntent.getStringExtra("RESULT");
                     attachedUri = Uri.fromFile(new File(path)).toString();
-                    attachImage.setImageURI(Uri.parse(attachedUri));
+
+                    try {
+                        attachImage.setImageBitmap(getThumbnail(Uri.parse(attachedUri)));
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                    } catch (IOException e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                    }
 
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
                     if (currText != null) {

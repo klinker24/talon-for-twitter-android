@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:scaleType="centerInside"
                 android:layout_margin="15dp"
+                android:adjustViewBounds="true"
                 android:padding="4dp"/>
 
         <LinearLayout
