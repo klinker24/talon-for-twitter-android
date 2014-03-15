@@ -99,56 +99,64 @@ public class DMDataSource {
             values.put(DMSQLiteHelper.COLUMN_URL, url.getExpandedURL());
         }
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+        } catch (Exception e) {
             open();
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
         }
-
-        database.insert(DMSQLiteHelper.TABLE_DM, null, values);
 
     }
 
     public synchronized void deleteTweet(long tweetId) {
         long id = tweetId;
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
+                    + " = " + id, null);
+        } catch (Exception e) {
             open();
+            database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
+                    + " = " + id, null);
         }
-
-        database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_TWEET_ID
-                + " = " + id, null);
     }
 
     public synchronized void deleteAllTweets(int account) {
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        } catch (Exception e) {
             open();
+            database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
         }
-
-        database.delete(DMSQLiteHelper.TABLE_DM, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public synchronized Cursor getCursor(int account) {
 
-        if (database == null || !database.isOpen()) {
-            open();
-        }
-
         Cursor cursor;
-        cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
-                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
+        try {
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
+        } catch (Exception e) {
+            open();
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", null);
+        }
         
         return cursor;
     }
 
     public synchronized Cursor getConvCursor(String name, int account) {
 
-        if (database == null || !database.isOpen()) {
-            open();
-        }
-
         Cursor cursor;
-        cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
-                allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+        try {
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+        } catch (Exception e) {
+            open();
+            cursor = database.query(true, DMSQLiteHelper.TABLE_DM,
+                    allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
+        }
 
 
         return cursor;
@@ -192,11 +200,12 @@ public class DMDataSource {
 
     public synchronized void deleteDups(int account) {
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
+        } catch (Exception e) {
             open();
+            database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
         }
-
-        database.execSQL("DELETE FROM " + DMSQLiteHelper.TABLE_DM + " WHERE _id NOT IN (SELECT MIN(_id) FROM " + DMSQLiteHelper.TABLE_DM + " GROUP BY " + DMSQLiteHelper.COLUMN_TWEET_ID + ") AND " + DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account);
 
     }
 

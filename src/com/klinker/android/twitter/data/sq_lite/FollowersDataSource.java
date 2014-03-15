@@ -95,38 +95,51 @@ public class FollowersDataSource {
     public synchronized void deleteUser(long userId) {
         long id = userId;
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.delete(FollowersSQLiteHelper.TABLE_HOME, FollowersSQLiteHelper.COLUMN_ID
+                    + " = " + id, null);
+        } catch (Exception e) {
             open();
+            database.delete(FollowersSQLiteHelper.TABLE_HOME, FollowersSQLiteHelper.COLUMN_ID
+                    + " = " + id, null);
         }
-
-        database.delete(FollowersSQLiteHelper.TABLE_HOME, FollowersSQLiteHelper.COLUMN_ID
-                + " = " + id, null);
     }
 
     public synchronized void deleteAllUsers(int account) {
 
-        if (database == null || !database.isOpen()) {
+        try {
+            database.delete(FollowersSQLiteHelper.TABLE_HOME,
+                    FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+        } catch (Exception e) {
             open();
+            database.delete(FollowersSQLiteHelper.TABLE_HOME,
+                    FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
         }
-
-        database.delete(FollowersSQLiteHelper.TABLE_HOME,
-                FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
     }
 
     public synchronized Cursor getCursor(int account, String name) {
 
-        if (database == null || !database.isOpen()) {
-            open();
-        }
-
-        Cursor cursor = database.query(FollowersSQLiteHelper.TABLE_HOME,
-                allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+        Cursor cursor;
+        try {
+            cursor = database.query(FollowersSQLiteHelper.TABLE_HOME,
+                    allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
                     FollowersSQLiteHelper.COLUMN_NAME + " LIKE '%" + name + "%'" + " OR " +
                     FollowersSQLiteHelper.COLUMN_SCREEN_NAME + " LIKE '%" + name + "%'",
-                null,
-                null,
-                null,
-                FollowersSQLiteHelper.COLUMN_NAME + " DESC");
+                    null,
+                    null,
+                    null,
+                    FollowersSQLiteHelper.COLUMN_NAME + " DESC");
+        } catch (Exception e) {
+            open();
+            cursor = database.query(FollowersSQLiteHelper.TABLE_HOME,
+                    allColumns, FollowersSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                    FollowersSQLiteHelper.COLUMN_NAME + " LIKE '%" + name + "%'" + " OR " +
+                    FollowersSQLiteHelper.COLUMN_SCREEN_NAME + " LIKE '%" + name + "%'",
+                    null,
+                    null,
+                    null,
+                    FollowersSQLiteHelper.COLUMN_NAME + " DESC");
+        }
 
         return cursor;
     }
