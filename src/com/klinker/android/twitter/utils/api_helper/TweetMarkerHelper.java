@@ -4,39 +4,19 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
+import com.klinker.android.twitter.settings.AppSettings;
+
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.SingleClientConnManager;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import twitter4j.Twitter;
 
@@ -48,43 +28,16 @@ public class TweetMarkerHelper extends APIHelper {
     private String screenname;
     private String postURL;
     private Twitter twitter;
+    private SharedPreferences sharedPrefs;
 
-    public TweetMarkerHelper(int currentAccount, String screenname, Twitter twitter) {
+    public TweetMarkerHelper(int currentAccount, String screenname, Twitter twitter, SharedPreferences sharedPrefs) {
         this.currentAccount = currentAccount;
         this.screenname = screenname;
         this.twitter = twitter;
+        this.sharedPrefs = sharedPrefs;
 
         postURL = "http://api.tweetmarker.net/v2/lastread?api_key=" + Uri.encode(TWEETMARKER_API_KEY) +
                 "&username=" + Uri.encode(screenname);
-    }
-
-    public void authorize() {
-        try {
-            String url = "http://api.tweetmarker.net/v2/auth?api_key=" + Uri.encode(TWEETMARKER_API_KEY) +
-                    "&username=" + Uri.encode(screenname);
-
-            HttpClient client = new DefaultHttpClient();
-            HttpGet get = new HttpGet(url);
-
-            Log.v("talon_tweetmarker", "authorizing");
-
-            HttpResponse response = client.execute(get);
-            Log.v("talon_tweetmarker", "response code: " + response.getStatusLine().getStatusCode());
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-
-            String line;
-            StringBuilder builder = new StringBuilder();
-            while ((line = rd.readLine()) != null) {
-                Log.v("talon_tweetmarker", line);
-                builder.append(line);
-            }
-
-            Log.v("talon_tweetmarker", "done authorizing");
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public boolean sendCurrentId(String collection, long id) {
@@ -121,10 +74,14 @@ public class TweetMarkerHelper extends APIHelper {
 
                 if (responseCode == 200) {
                     // success, return true
+                    int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
                     return true;
                 }
 
             } else {
+                int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+                sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
                 return true;
             }
 
@@ -135,7 +92,12 @@ public class TweetMarkerHelper extends APIHelper {
         return false;
     }
 
-    public long getLastStatus(String collection, int lastVersion, SharedPreferences sharedPrefs) {
+    public boolean getLastStatus(String collection) {
+
+        long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
+
+        boolean updated = false;
+
         try {
             HttpGet get = new HttpGet(postURL + "&" + collection);
             get.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
@@ -147,6 +109,7 @@ public class TweetMarkerHelper extends APIHelper {
             Log.v("talon_tweetmarker", "getting id response code: " + response.getStatusLine().getStatusCode() + " for " + screenname);
 
             StatusLine statusLine = response.getStatusLine();
+
             if (statusLine.getStatusCode() == 200) { // request ok
                 BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
@@ -160,20 +123,21 @@ public class TweetMarkerHelper extends APIHelper {
                 JSONObject timeline = jsonObject.getJSONObject(collection);
 
                 if (timeline != null) {
-
-                    long val = Long.parseLong(timeline.getString("id"));
+                    currentId = Long.parseLong(timeline.getString("id"));
                     int version = Integer.parseInt(timeline.getString("version"));
-                    Log.v("talon_tweetmarker", "getting tweetmarker, version: " + version + " id: " + val + " screename: " + screenname);
 
-                    if (version != lastVersion) {
-                        // don't want to move the timeline if the version is the same
+                    Log.v("talon_tweetmarker", "getting tweetmarker," +
+                            " version: " + version +
+                            " id: " + currentId +
+                            " screename: " + screenname);
 
-                        // this increments the version from shared prefs
-                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
-                        return val; // returns the long id from tweetmarker
+                    int lastVer = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+
+                    if (lastVer != version) {
+                        updated = true;
                     }
-                } else {
-                    Log.v("talon_tweetmarker", "timeline is null for the response");
+
+                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
                 }
             } else { // there was an error, we will retry once
                 // wait first
@@ -200,17 +164,21 @@ public class TweetMarkerHelper extends APIHelper {
 
                     if (timeline != null) {
 
-                        long val = Long.parseLong(timeline.getString("id"));
+                        currentId = Long.parseLong(timeline.getString("id"));
                         int version = Integer.parseInt(timeline.getString("version"));
-                        Log.v("talon_tweetmarker", "getting tweetmarker, version: " + version + " id: " + val + " screename: " + screenname);
 
-                        if (version != lastVersion) {
-                            // don't want to move the timeline if the version is the same
+                        Log.v("talon_tweetmarker", "getting tweetmarker," +
+                                " version: " + version +
+                                " id: " + currentId +
+                                " screename: " + screenname);
 
-                            // this increments the version from shared prefs
-                            sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
-                            return val; // returns the long id from tweetmarker
+                        int lastVer = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+
+                        if (lastVer != version) {
+                            updated = true;
                         }
+
+                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
                     }
                 }
             }
@@ -221,6 +189,8 @@ public class TweetMarkerHelper extends APIHelper {
 
         }
 
-        return 0;
+        sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId);
+
+        return updated;
     }
 }
