@@ -440,6 +440,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                         mPullToRefreshLayout.setRefreshComplete();
 
+                        isRefreshing = false;
+
                         try {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
@@ -485,14 +487,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             return 0;
         }
 
-        try {
-            Cursor cursor = cursorAdapter.getCursor();
-            if (cursor.moveToLast()) {
-                long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-            }
-        } catch (Exception e) {
+        if (!DrawerActivity.settings.tweetmarker) {
+            try {
+                Cursor cursor = cursorAdapter.getCursor();
+                if (cursor.moveToLast()) {
+                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                }
+            } catch (Exception e) {
 
+            }
         }
 
         try {
@@ -694,7 +698,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 if (DrawerActivity.settings.tweetmarker) {
                     tweetMarkerUpdate = getTweet();
-                    Log.v("talon_tweetmarker", "tweet marker update" + tweetMarkerUpdate);
+                    Log.v("talon_tweetmarker", "tweet marker update " + tweetMarkerUpdate);
                 }
 
                 final boolean result = numberNew > 0 || tweetMarkerUpdate;
@@ -759,8 +763,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 // not attached to the activity i guess, don't know how or why that would be though
                             }
                         }
-
-                        isRefreshing = false;
                     }
                 });
             }
