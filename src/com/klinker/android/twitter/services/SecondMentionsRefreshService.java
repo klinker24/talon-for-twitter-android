@@ -63,7 +63,7 @@ public class SecondMentionsRefreshService extends IntentService {
             long lastId = dataSource.getLastIds(currentAccount)[0];
             Paging paging;
             paging = new Paging(1, 200);
-            if (lastId != 0) {
+            if (lastId > 0) {
                 paging.sinceId(lastId);
             }
 
