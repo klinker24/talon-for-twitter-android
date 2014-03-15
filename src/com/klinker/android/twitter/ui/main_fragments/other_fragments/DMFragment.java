@@ -242,7 +242,14 @@ public class DMFragment extends MainFragment {
         protected String doInBackground(Void... args) {
             Log.v("direct_message", "getting adapter");
 
-            Cursor cursor = DMDataSource.getInstance(context).getCursor(currentAccount);
+            Cursor cursor;
+            try {
+                cursor = DMDataSource.getInstance(getActivity()).getCursor(DrawerActivity.settings.currentAccount);
+            } catch (Exception e) {
+                DMDataSource.getInstance(getActivity()).close();
+                getCursorAdapter(false);
+                return "";
+            }
 
             ArrayList<com.klinker.android.twitter.data.DirectMessage> messageList = new ArrayList<com.klinker.android.twitter.data.DirectMessage>();
             ArrayList<String> names = new ArrayList<String>();
