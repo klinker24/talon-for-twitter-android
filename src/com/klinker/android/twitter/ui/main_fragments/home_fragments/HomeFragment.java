@@ -345,6 +345,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
                     HomeDataSource.getInstance(context).close();
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     getCursorAdapter(true);
                     return;
                 }
@@ -358,6 +359,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             // the database is locked for some reason... we are going to close it then try again
                             HomeDataSource.getInstance(context).close();
                             getCursorAdapter(true);
+
+                            // broadcast to the other home based fragments so that they can reset themselves
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
 
                             // don't want it to go any further, so return
                             return;
@@ -576,6 +580,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             if (needClose) {
                 HomeDataSource.getInstance(context).close();
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             }
 
             numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);

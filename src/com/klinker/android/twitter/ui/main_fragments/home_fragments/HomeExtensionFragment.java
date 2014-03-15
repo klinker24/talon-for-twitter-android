@@ -140,13 +140,17 @@ public abstract class HomeExtensionFragment extends MainFragment {
                     cursor = getCursor();
                 }catch (Exception e) {
                     HomeDataSource.getInstance(context).close();
-                    getCursorAdapter(false);
+                    getCursorAdapter(true);
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
 
                 try {
                     Log.v("talon_database", "home extension fragment count: " + cursor.getCount());
                 } catch (Exception e) {
+                    HomeDataSource.getInstance(context).close();
+                    getCursorAdapter(true);
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
 
