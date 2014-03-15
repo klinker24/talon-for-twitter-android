@@ -2,11 +2,13 @@ package com.klinker.android.twitter.ui.main_fragments.home_fragments;
 
 
 import android.database.Cursor;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.MainFragment;
@@ -107,6 +109,12 @@ public abstract class HomeExtensionFragment extends MainFragment {
                 }
 
                 final Cursor cursor = getCursor();
+
+                try {
+                    Log.v("talon_database", "home extension fragment count: " + cursor.getCount());
+                } catch (Exception e) {
+                    return;
+                }
 
                 context.runOnUiThread(new Runnable() {
                     @Override

@@ -303,7 +303,13 @@ public class ListFragment extends MainFragment {
                             } catch (Exception e) { }
                         }
 
-                        Log.v("talon_lists", "getting list: " + cursorAdapter.getCount());
+                        try {
+                            Log.v("talon_lists", "getting list: " + cursorAdapter.getCount());
+                        } catch (Exception e) {
+                            ListDataSource.getInstance(context).close();
+                            getCursorAdapter(true);
+                            return;
+                        }
 
                         listView.setAdapter(cursorAdapter);
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
