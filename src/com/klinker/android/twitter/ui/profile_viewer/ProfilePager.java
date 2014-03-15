@@ -496,7 +496,7 @@ public class ProfilePager extends Activity {
                 AppSettings.invalidate();
             }
         } catch (Exception e) {
-            
+
         }
         overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
     }
