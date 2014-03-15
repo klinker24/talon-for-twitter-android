@@ -135,7 +135,7 @@ public class MentionsFragment extends MainFragment {
                     Paging paging;
                     paging = new Paging(1, 200);
                     if (lastId[0] != 0) {
-                        paging.sinceId(lastId[0]);
+                        paging.setSinceId(lastId[0]);
                     }
 
                     List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
