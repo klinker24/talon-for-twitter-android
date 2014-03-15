@@ -153,19 +153,15 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+
                         TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                                 sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                                Utils.getTwitter(context, new AppSettings(context)));
+                                Utils.getTwitter(context, new AppSettings(context)),
+                                sharedPrefs);
 
                         long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
+                        helper.sendCurrentId("timeline", currentId);
 
-                        boolean success = helper.sendCurrentId("timeline", currentId);
-
-                        if (success) {
-                            // then want to write the new version into shared prefs
-                            int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
-                            sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
-                        }
                     }
                 }).start();
             }
@@ -358,7 +354,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                         initial = false;
 
-                        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
                         boolean update = true;
                         int numTweets;
                         if (id == 0) {
@@ -589,18 +585,17 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }
 
     public boolean getTweet() {
-        int lastVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
+
         TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                 sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                Utils.getTwitter(context, new AppSettings(context)));
+                Utils.getTwitter(context, new AppSettings(context)),
+                sharedPrefs);
 
-        long tweetmarkerStatus = helper.getLastStatus("timeline", lastVersion, sharedPrefs);
+        boolean updated = helper.getLastStatus("timeline");
 
-        Log.v("talon_tweetmarker", "tweetmarker status: " + tweetmarkerStatus);
+        Log.v("talon_tweetmarker", "tweetmarker status: " + updated);
 
-        if (tweetmarkerStatus > 0) {
-            sharedPrefs.edit().putLong("current_position_" + currentAccount, tweetmarkerStatus).commit();
-            Log.v("talon_tweetmarker", "updating with tweetmarker");
+        if (updated) {
             trueLive = true;
             return true;
         } else {
@@ -879,19 +874,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+
                     TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                             sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                            Utils.getTwitter(context, new AppSettings(context)));
+                            Utils.getTwitter(context, new AppSettings(context)), sharedPrefs);
 
                     long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                    helper.sendCurrentId("timeline", currentId);
 
-                    boolean success = helper.sendCurrentId("timeline", currentId);
-
-                    if (success) {
-                        // then want to write the new version into shared prefs
-                        int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
-                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
-                    }
                 }
             }).start();
         }
