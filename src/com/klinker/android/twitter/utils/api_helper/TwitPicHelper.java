@@ -36,7 +36,8 @@ public class TwitPicHelper extends APIHelper {
 
     private Twitter twitter;
     private String message;
-    private InputStream stream;
+    private InputStream stream = null;
+    private File file = null;
     private long replyToStatusId = 0;
     private GeoLocation location = null;
     private Context context;
@@ -45,6 +46,13 @@ public class TwitPicHelper extends APIHelper {
         this.twitter = twitter;
         this.message = message;
         this.stream = stream;
+        this.context = context;
+    }
+
+    public TwitPicHelper(Twitter twitter, String message, File file, Context context) {
+        this.twitter = twitter;
+        this.message = message;
+        this.file = file;
         this.context = context;
     }
 
@@ -100,8 +108,14 @@ public class TwitPicHelper extends APIHelper {
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
             post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
 
-            String filePath = saveStreamTemp(stream);
-            File file = new File(filePath);
+            if (file == null) {
+                // only the input stream was sent, so we need to convert it to a file
+                Log.v("talon_twitpic", "converting to file from input stream");
+                String filePath = saveStreamTemp(stream);
+                file = new File(filePath);
+            } else {
+                Log.v("talon_twitpic", "already have the file, going right to send it");
+            }
 
             MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
             entity.addPart("key", new StringBody(TWITPIC_API_KEY));
