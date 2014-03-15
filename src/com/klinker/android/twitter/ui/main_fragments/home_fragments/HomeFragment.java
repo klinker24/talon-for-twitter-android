@@ -168,6 +168,13 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
     };
 
+    public BroadcastReceiver homeClosed = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            getCursorAdapter(true);
+        }
+    };
+
     @Override
     public void setUpListScroll() {
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
@@ -315,8 +322,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
 
     @Override
-    public void getCursorAdapter(boolean none) {
+    public void getCursorAdapter(boolean showSpinner) {
         //getLoaderManager().initLoader(0, null, this);
+        if (showSpinner) {
+            try {
+                spinner.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            } catch (Exception e) { }
+        }
 
         Thread getCursor = new Thread(new Runnable() {
             @Override
@@ -327,7 +340,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     markReadForLoad();
                 }
 
-                final Cursor cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
+                final Cursor cursor;
+                try {
+                    cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
+                } catch (Exception e) {
+                    HomeDataSource.getInstance(context).close();
+                    getCursorAdapter(true);
+                    return;
+                }
 
                 context.runOnUiThread(new Runnable() {
                     @Override
@@ -337,7 +357,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         } catch (Exception e) {
                             // the database is locked for some reason... we are going to close it then try again
                             HomeDataSource.getInstance(context).close();
-                            getCursorAdapter(false);
+                            getCursorAdapter(true);
 
                             // don't want it to go any further, so return
                             return;
@@ -501,8 +521,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         try {
 
+            boolean needClose = false;
+
             if (!sharedPrefs.getBoolean("refresh_me", false)) {
-                HomeDataSource.getInstance(context).markAllRead(currentAccount);
+                try {
+                    HomeDataSource.getInstance(context).markAllRead(currentAccount);
+                } catch (Exception e) {
+                    needClose = true;
+                }
             }
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
@@ -547,6 +573,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
 
             manualRefresh = false;
+
+            if (needClose) {
+                HomeDataSource.getInstance(context).close();
+            }
 
             numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
@@ -871,6 +901,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         context.unregisterReceiver(pullReceiver);
         context.unregisterReceiver(markRead);
+        context.unregisterReceiver(homeClosed);
 
         super.onPause();
     }
@@ -909,6 +940,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.NEW_TWEET");
         context.registerReceiver(pullReceiver, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.RESET_HOME");
+        context.registerReceiver(homeClosed, filter);
 
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.MARK_POSITION");

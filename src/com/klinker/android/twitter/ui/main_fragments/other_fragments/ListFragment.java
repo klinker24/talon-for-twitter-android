@@ -281,7 +281,14 @@ public class ListFragment extends MainFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final Cursor cursor = ListDataSource.getInstance(context).getCursor(listId);
+                final Cursor cursor;
+                try {
+                    cursor = ListDataSource.getInstance(context).getCursor(listId);
+                } catch (Exception e) {
+                    ListDataSource.getInstance(context).close();
+                    getCursorAdapter(true);
+                    return;
+                }
 
                 context.runOnUiThread(new Runnable() {
                     @Override

@@ -1,6 +1,10 @@
 package com.klinker.android.twitter.ui.main_fragments.home_fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +18,29 @@ import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.MainFragment;
 
 public abstract class HomeExtensionFragment extends MainFragment {
+
+    public BroadcastReceiver homeClosed = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            getCursorAdapter(true);
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.RESET_HOME");
+        context.registerReceiver(homeClosed, filter);
+    }
+
+    @Override
+    public void onPause() {
+        context.unregisterReceiver(homeClosed);
+
+        super.onPause();
+    }
 
     public abstract Cursor getCursor();
 
@@ -108,7 +135,14 @@ public abstract class HomeExtensionFragment extends MainFragment {
                     }
                 }
 
-                final Cursor cursor = getCursor();
+                final Cursor cursor;
+                try {
+                    cursor = getCursor();
+                }catch (Exception e) {
+                    HomeDataSource.getInstance(context).close();
+                    getCursorAdapter(false);
+                    return;
+                }
 
                 try {
                     Log.v("talon_database", "home extension fragment count: " + cursor.getCount());
