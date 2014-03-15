@@ -628,6 +628,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     // same thing
                 }
                 MainActivity.canSwitch = false;
+                isRefreshing = true;
             }
 
             @Override
@@ -659,9 +660,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         } catch (Exception x) {
                             // something went very wrong,but they closed the app i think
                         }
+                        isRefreshing = false;
                     }
                 } else {
                     mPullToRefreshLayout.setRefreshComplete();
+                    isRefreshing = false;
                 }
 
             }
@@ -747,6 +750,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 }
 
                                 mPullToRefreshLayout.setRefreshComplete();
+                                isRefreshing = false;
                             }
 
                             DrawerActivity.canSwitch = true;
@@ -762,6 +766,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             } catch (Exception x) {
                                 // not attached to the activity i guess, don't know how or why that would be though
                             }
+                            isRefreshing = false;
                         }
                     }
                 });

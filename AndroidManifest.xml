@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.klinker.android.twitter"
 
-          android:versionCode="78"
+          android:versionCode="79"
           android:versionName="2.0.7" >
 
     <uses-sdk
