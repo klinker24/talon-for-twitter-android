@@ -50,6 +50,10 @@ public class ProfileFavoritesFragment extends Fragment {
         this.screenName = screenName;
     }
 
+    public ProfileFavoritesFragment() {
+        this.screenName = "";
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

@@ -74,7 +74,7 @@ public class WidgetRefreshService  extends IntentService {
 
             Paging paging = new Paging(1, 200);
             long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
-            if (id != 0) {
+            if (id > 0) {
                 paging.setSinceId(id);
             } else {
                 return;

@@ -65,7 +65,7 @@ public class CatchupPull extends IntentService {
 
                 Paging paging = new Paging(1, 200);
                 long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
-                if (id != 0) {
+                if (id > 0) {
                     paging.setSinceId(id);
                 } else {
                     return;
@@ -123,7 +123,7 @@ public class CatchupPull extends IntentService {
             long[] lastId = dataSource.getLastIds(currentAccount);
             Paging paging;
             paging = new Paging(1, 200);
-            if (lastId[0] != 0) {
+            if (lastId[0] > 0) {
                 paging.sinceId(lastId[0]);
             }
 

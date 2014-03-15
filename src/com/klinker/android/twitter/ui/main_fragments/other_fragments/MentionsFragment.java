@@ -134,7 +134,7 @@ public class MentionsFragment extends MainFragment {
 
                     Paging paging;
                     paging = new Paging(1, 200);
-                    if (lastId[0] != 0) {
+                    if (lastId[0] > 0) {
                         paging.setSinceId(lastId[0]);
                     }
 

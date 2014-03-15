@@ -51,6 +51,10 @@ public class ProfileMentionsFragment extends Fragment {
         this.screenName = screenName;
     }
 
+    public ProfileMentionsFragment() {
+        this.screenName = "";
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
