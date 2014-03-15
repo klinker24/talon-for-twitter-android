@@ -219,6 +219,11 @@ public class ProfilePager extends Activity {
     class GetActionBarInfo extends AsyncTask<String, Void, Void> {
         protected Void doInBackground(String... urls) {
             if (isMyProfile) {
+                if (thisUser != null) {
+                    // put in the banner and profile pic to shared prefs
+                    sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getBiggerProfileImageURL()).commit();
+                    sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getProfileBannerURL()).commit();
+                }
                 return null;
             } else {
                 try {
@@ -486,6 +491,13 @@ public class ProfilePager extends Activity {
     @Override
     public void finish() {
         super.finish();
+        try {
+            if (isMyProfile) {
+                AppSettings.invalidate();
+            }
+        } catch (Exception e) {
+            
+        }
         overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
     }
 
