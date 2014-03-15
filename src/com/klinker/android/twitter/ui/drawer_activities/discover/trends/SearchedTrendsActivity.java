@@ -342,7 +342,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
             public void run() {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
-                    query = new Query(searchQuery.replace("@", "from:"));
+                    query = new Query(searchQuery);
                     QueryResult result = twitter.search(query);
 
                     tweets.clear();
