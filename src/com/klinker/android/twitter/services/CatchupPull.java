@@ -110,6 +110,8 @@ public class CatchupPull extends IntentService {
         } catch (TwitterException e) {
             Log.v("talon_pull", "caught while refreshing the messages in the catchup service");
             e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+
         }
 
         try {

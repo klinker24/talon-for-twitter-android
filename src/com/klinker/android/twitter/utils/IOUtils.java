@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -271,7 +272,7 @@ public class IOUtils {
             Log.v("trimming", "lists settings size: " + 400);
             if (list1.getCount() > 400) {
 
-                if(list1.moveToPosition(list1.getCount() - settings.timelineSize)) {
+                if(list1.moveToPosition(list1.getCount() - 400)) {
                     Log.v("trimming", "in the trim section");
                     do {
                         lists.deleteTweet(list1.getLong(list1.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
@@ -286,7 +287,7 @@ public class IOUtils {
             Log.v("trimming", "lists settings size: " + 400);
             if (list2.getCount() > 400) {
 
-                if(list2.moveToPosition(list2.getCount() - settings.timelineSize)) {
+                if(list2.moveToPosition(list2.getCount() - 400)) {
                     Log.v("trimming", "in the trim section");
                     do {
                         lists.deleteTweet(list2.getLong(list2.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));

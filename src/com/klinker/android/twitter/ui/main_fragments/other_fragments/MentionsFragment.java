@@ -249,21 +249,30 @@ public class MentionsFragment extends MainFragment {
     }
 
     public void getCursorAdapter(boolean showSpinner) {
-        try {
-            spinner.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.GONE);
-        } catch (Exception e) { }
+        if (showSpinner) {
+            try {
+                spinner.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            } catch (Exception e) { }
+        }
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final Cursor cursor = MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
+                final Cursor cursor;
+                try {
+                    cursor = MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
+                } catch (Exception e) {
+                    MentionsDataSource.getInstance(context).close();
+                    getCursorAdapter(true);
+                    return;
+                }
 
                 try {
                     Log.v("talon_databases", "mentions cursor size: " + cursor.getCount());
                 } catch (Exception e) {
                     MentionsDataSource.getInstance(context).close();
-                    getCursorAdapter(false);
+                    getCursorAdapter(true);
                     return;
                 }
 

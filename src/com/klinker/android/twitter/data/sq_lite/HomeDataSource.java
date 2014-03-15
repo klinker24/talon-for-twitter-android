@@ -338,7 +338,13 @@ public class HomeDataSource {
             open();
             statement = database.compileStatement(sql);
         }
-        long count = statement.simpleQueryForLong();
+        long count;
+        try {
+            count = statement.simpleQueryForLong();
+        } catch (Exception e) {
+            open();
+            count = statement.simpleQueryForLong();
+        }
         Log.v("talon_database", "home database has " + count + " entries");
         if (count > timelineSize) {
             try {

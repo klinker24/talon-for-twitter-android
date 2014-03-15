@@ -711,7 +711,7 @@ public class ProfilePager extends Activity {
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
 
-                        new UpdateProPic(getContentResolver().openInputStream(selectedImage)).execute();
+                        new UpdateProPic(selectedImage).execute();
 
                     } catch (Exception e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -887,7 +887,11 @@ public class ProfilePager extends Activity {
 
             }
 
-            pDialog.dismiss();
+            try {
+                pDialog.dismiss();
+            } catch (Exception e) {
+
+            }
 
             if (uploaded) {
                 Toast.makeText(context, getResources().getString(R.string.uploaded), Toast.LENGTH_SHORT).show();
@@ -965,7 +969,11 @@ public class ProfilePager extends Activity {
 
             }
 
-            pDialog.dismiss();
+            try {
+                pDialog.dismiss();
+            } catch (Exception e) {
+
+            }
 
             if (uploaded) {
                 Toast.makeText(context, getResources().getString(R.string.uploaded), Toast.LENGTH_SHORT).show();
@@ -1009,18 +1017,25 @@ public class ProfilePager extends Activity {
                     names.add(l.getName());
                 }
 
-                pDialog.dismiss();
+                try {
+                    pDialog.dismiss();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setItems(names.toArray(new CharSequence[lists.size()]), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
-                    }
-                });
-                builder.setTitle(getResources().getString(R.string.choose_list) + ":");
-                builder.create();
-                builder.show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(names.toArray(new CharSequence[lists.size()]), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
+                        }
+                    });
+                    builder.setTitle(getResources().getString(R.string.choose_list) + ":");
+                    builder.create();
+                    builder.show();
+
+                } catch (Exception e) {
+                    // closed the window
+                }
+
+
             } else {
                 Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
