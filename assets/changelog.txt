@@ -1,5 +1,7 @@
 <b>Version 2.0.8:</b><br/><br/>
     &#8226; Fixes for uploading images<br/>
+    &#8226; Fix for the second accounts mentions<br/>
+    &#8226; More crash fixes<br/>
 </br><br/>
 
 <b>Version 2.0.7:</b><br/><br/>
