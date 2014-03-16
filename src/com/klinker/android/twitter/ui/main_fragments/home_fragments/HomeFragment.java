@@ -956,7 +956,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-            getCursorAdapter(false);
+            getCursorAdapter(true);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         }
     }

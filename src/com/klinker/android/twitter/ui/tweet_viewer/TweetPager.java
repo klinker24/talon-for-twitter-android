@@ -321,6 +321,8 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 }
 
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
