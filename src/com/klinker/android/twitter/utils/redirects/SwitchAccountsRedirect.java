@@ -42,6 +42,9 @@ public class SwitchAccountsRedirect extends Activity {
         sharedPrefs.edit().putBoolean("open_a_page", true).commit();
         sharedPrefs.edit().putInt("open_what_page", extraPages + 1).commit();
 
+        // close talon pull if it is on. will be restarted when the activity starts
+        sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+
         Intent main = new Intent(this, MainActivity.class);
         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         AppSettings.invalidate();

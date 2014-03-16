@@ -55,6 +55,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import twitter4j.Relationship;
 import twitter4j.ResponseList;
@@ -1024,6 +1026,12 @@ public class ProfilePager extends Activity {
                 for(UserList l : lists) {
                     names.add(l.getName());
                 }
+
+                Collections.sort(names, new Comparator<String>() {
+                    public int compare(String result1, String result2) {
+                        return result1.compareTo(result2);
+                    }
+                });
 
                 try {
                     pDialog.dismiss();
