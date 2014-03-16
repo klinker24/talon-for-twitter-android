@@ -21,8 +21,10 @@ public class SwitchAccountsRedirect extends Activity {
 
         if (currentAccount == 1) {
             sharedPrefs.edit().putInt("current_account", 2).commit();
+            currentAccount = 2;
         } else {
             sharedPrefs.edit().putInt("current_account", 1).commit();
+            currentAccount = 1;
         }
 
         int page1Type = sharedPrefs.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
