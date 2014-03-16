@@ -310,8 +310,9 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 try {
                     twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));
-                } catch (Exception m) {
-
+                } catch (Throwable t) {
+                    // for somme reason this causes a big "naitive crash" on some devices
+                    // with a ton of random letters on play store reports... :/ hmm
                 }
 
                 try {

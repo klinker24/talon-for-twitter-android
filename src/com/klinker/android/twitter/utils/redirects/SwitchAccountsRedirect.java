@@ -42,6 +42,7 @@ public class SwitchAccountsRedirect extends Activity {
 
         Intent main = new Intent(this, MainActivity.class);
         main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppSettings.invalidate();
         main.putExtra("switch_account", true);
         overridePendingTransition(0, 0);
         finish();
