@@ -16,6 +16,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.MentionsRefreshService;
+import com.klinker.android.twitter.services.SecondMentionsRefreshService;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.MainFragment;
@@ -176,6 +177,11 @@ public class MentionsFragment extends MainFragment {
                     am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.mentionsRefresh, pendingIntent);
                 else
                     am.cancel(pendingIntent);
+
+                if (DrawerActivity.settings.syncSecondMentions) {
+                    // refresh the second account
+                    context.startService(new Intent(context, SecondMentionsRefreshService.class));
+                }
 
                 return MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
             }
