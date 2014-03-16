@@ -18,6 +18,8 @@
     - video sound stops after one time playing it
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
+    - crash on spam
+    - check what conditions it refreshes on resume and make sure everything works as expected there
 
 
 -- For Release --
