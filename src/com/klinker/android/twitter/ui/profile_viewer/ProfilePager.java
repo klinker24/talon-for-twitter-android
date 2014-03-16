@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Display;
@@ -36,12 +37,14 @@ import com.klinker.android.twitter.adapters.ProfilePagerAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.FollowersSQLiteHelper;
 import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
@@ -203,9 +206,14 @@ public class ProfilePager extends Activity {
                 if (thisUser != null) {
                     try {
                         FollowersDataSource.getInstance(context).createUser(thisUser, sharedPrefs.getInt("current_account", 1));
+
                     } catch (Exception e) {
                         // the user already exists. don't know if this is more efficient than querying the db or not.
                     }
+
+                    final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
+                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+                    suggestions.saveRecentQuery("@" + thisUser.getScreenName(), null);
                 }
 
                 new GetActionBarInfo().execute();
