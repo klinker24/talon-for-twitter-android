@@ -27,7 +27,9 @@ import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.services.CatchupPull;
 import com.klinker.android.twitter.services.TimelineRefreshService;
+import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -507,7 +509,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public int doRefresh() {
         int numberNew = 0;
 
-        if (TimelineRefreshService.isRunning) {
+        if (TimelineRefreshService.isRunning || WidgetRefreshService.isRunning || CatchupPull.isRunning) {
             // quit if it is running in the background
             return 0;
         }
@@ -540,7 +542,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
             User user = twitter.verifyCredentials();
-            long[] lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
 
             final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
@@ -590,6 +591,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 HomeDataSource.getInstance(context).close();
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             }
+
+            long[] lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
 
             numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 

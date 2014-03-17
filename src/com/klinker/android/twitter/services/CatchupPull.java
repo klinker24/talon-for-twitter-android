@@ -11,10 +11,12 @@ import android.util.Log;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import twitter4j.Paging;
@@ -28,12 +30,18 @@ public class CatchupPull extends IntentService {
 
     SharedPreferences sharedPrefs;
 
+    public static boolean isRunning = false;
+
     public CatchupPull() {
         super("CatchupPullService");
     }
 
     @Override
     public void onHandleIntent(Intent intent) {
+        if (CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || !MainActivity.canSwitch) {
+            return;
+        }
+        CatchupPull.isRunning = true;
 
         Log.v("talon_pull", "catchup pull started");
 
@@ -58,7 +66,6 @@ public class CatchupPull extends IntentService {
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                 User user = twitter.verifyCredentials();
-                long[] lastId = dataSource.getLastIds(currentAccount);
                 List<Status> statuses = new ArrayList<Status>();
 
                 boolean foundStatus = false;
@@ -96,6 +103,17 @@ public class CatchupPull extends IntentService {
                 }
 
                 Log.v("talon_pull", "got statuses, new = " + statuses.size());
+
+                // hash set to remove duplicates I guess
+                HashSet hs = new HashSet();
+                hs.addAll(statuses);
+                statuses.clear();
+                statuses.addAll(hs);
+
+                Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
+
+                long[] lastId = dataSource.getLastIds(currentAccount);
 
                 int inserted = dataSource.insertTweets(statuses, currentAccount, lastId);
 
@@ -160,5 +178,7 @@ public class CatchupPull extends IntentService {
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
 
         Log.v("talon_pull", "finished with the catchup service");
+
+        CatchupPull.isRunning = false;
     }
 }

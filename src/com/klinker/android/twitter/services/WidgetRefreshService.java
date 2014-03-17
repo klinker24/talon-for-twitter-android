@@ -13,10 +13,12 @@ import android.util.Log;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import twitter4j.Paging;
@@ -28,6 +30,7 @@ import twitter4j.User;
 public class WidgetRefreshService  extends IntentService {
 
     SharedPreferences sharedPrefs;
+    public static boolean isRunning = false;
 
     public WidgetRefreshService() {
         super("WidgetRefreshService");
@@ -35,6 +38,11 @@ public class WidgetRefreshService  extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+        // it is refreshing elsewhere, so don't start
+        if (WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || CatchupPull.isRunning || !MainActivity.canSwitch) {
+            return;
+        }
+        WidgetRefreshService.isRunning = true;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         NotificationCompat.Builder mBuilder =
@@ -67,7 +75,6 @@ public class WidgetRefreshService  extends IntentService {
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
             User user = twitter.verifyCredentials();
-            long[] lastId = dataSource.getLastIds(currentAccount);
             List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
             boolean foundStatus = false;
@@ -102,6 +109,18 @@ public class WidgetRefreshService  extends IntentService {
                 }
             }
 
+            Log.v("talon_pull", "got statuses, new = " + statuses.size());
+
+            // hash set to remove duplicates I guess
+            HashSet hs = new HashSet();
+            hs.addAll(statuses);
+            statuses.clear();
+            statuses.addAll(hs);
+
+            Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
+            long[] lastId = dataSource.getLastIds(currentAccount);
+
             int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
             if (inserted > 0 && statuses.size() > 0) {
@@ -116,5 +135,7 @@ public class WidgetRefreshService  extends IntentService {
         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
         mNotificationManager.cancel(6);
+
+        WidgetRefreshService.isRunning = false;
     }
 }
