@@ -76,11 +76,12 @@ public class ListDataSource {
     }
 
     public void open() throws SQLException {
-        try {
-            database = dbHelper.getWritableDatabase();
-        } catch (Exception e) {
-            database = null;
+        if (dbHelper == null) {
+            close();
+            return;
         }
+
+        database = dbHelper.getWritableDatabase();
     }
 
     public void close() {

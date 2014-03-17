@@ -57,6 +57,11 @@ public class InteractionsDataSource {
     }
 
     public void open() throws SQLException {
+
+        if (dbHelper == null) {
+            close();
+            return;
+        }
         database = dbHelper.getWritableDatabase();
     }
 
