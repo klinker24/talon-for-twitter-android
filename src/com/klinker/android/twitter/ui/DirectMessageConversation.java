@@ -241,7 +241,9 @@ public class DirectMessageConversation extends Activity {
 
                 twitter4j.DirectMessage message = twitter.sendDirectMessage(sendTo, status);
 
-                DMDataSource.getInstance(context).createDirectMessage(message, settings.currentAccount);
+                if (!settings.pushNotifications) {
+                    DMDataSource.getInstance(context).createDirectMessage(message, settings.currentAccount);
+                }
 
                 sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), message.getId()).commit();
                 sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();

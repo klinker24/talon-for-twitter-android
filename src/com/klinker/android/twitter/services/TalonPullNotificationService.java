@@ -595,7 +595,7 @@ public class TalonPullNotificationService extends Service {
                 return;
             }
 
-            if (!directMessage.getSender().getScreenName().equals(settings.myScreenName)) {
+            //if (!directMessage.getSender().getScreenName().equals(settings.myScreenName)) {
                 Log.v("twitter_stream_push", "onDirectMessage text:"
                         + directMessage.getText());
 
@@ -611,10 +611,13 @@ public class TalonPullNotificationService extends Service {
 
                 sharedPreferences.edit().putLong("last_direct_message_id_" + sharedPreferences.getInt("current_account", 1), directMessage.getId()).commit();
 
-                if (settings.notifications && settings.dmsNot) {
+                if (!directMessage.getSender().getScreenName().equals(settings.myScreenName) &&
+                        settings.notifications &&
+                        settings.dmsNot) {
+
                     NotificationUtils.refreshNotification(mContext);
                 }
-            }
+            //}
         }
 
         @Override
