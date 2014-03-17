@@ -2,6 +2,7 @@
     &#8226; Fixes for uploading images<br/>
     &#8226; Fix for the second accounts mentions notifications<br/>
     &#8226; Will now refresh the second accounts mentions by pulling to refresh on the mentions page (if that option is enabled)<br/>
+    &#8226; Better duplicate prevention<br/>
     &#8226; More crash fixes<br/>
 </br><br/>
 
