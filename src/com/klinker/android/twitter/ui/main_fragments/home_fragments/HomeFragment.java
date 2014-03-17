@@ -38,6 +38,7 @@ import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import twitter4j.Paging;
@@ -576,6 +577,13 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             long afterDownload = Calendar.getInstance().getTimeInMillis();
             Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
 
+            HashSet hs = new HashSet();
+            hs.addAll(statuses);
+            statuses.clear();
+            statuses.addAll(hs);
+
+            Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
             manualRefresh = false;
 
             if (needClose) {
@@ -594,7 +602,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 }
             }
 
-            Log.v("talon_inserting", "inserted tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
+            Log.v("talon_inserting", "inserted " + numberNew + " tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
 
             //numberNew = statuses.size();
             unread = numberNew;
