@@ -192,6 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:textSize="15dp"
+                    android:text="-"
                     android:id="@+id/fav_count" />
 
                 <ImageButton
@@ -212,6 +213,7 @@
                     android:layout_marginLeft="3dp"
                     android:gravity="center_vertical"
                     android:textSize="15dp"
+                    android:text="-"
                     android:id="@+id/retweet_count" />
 
 

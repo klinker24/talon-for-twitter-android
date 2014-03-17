@@ -374,8 +374,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (holder.expandArea.getVisibility() == View.VISIBLE) {
             removeExpansionNoAnimation(holder);
-            holder.retweetCount.setText("");
-            holder.favCount.setText("");
+            holder.retweetCount.setText(" -");
+            holder.favCount.setText(" -");
             holder.reply.setText("");
             holder.retweet.clearColorFilter();
             holder.favorite.clearColorFilter();
@@ -869,14 +869,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.reply.setSelection(holder.reply.getText().length());
 
         if (holder.favCount.getText().toString().length() <= 2) {
-            holder.favCount.setText("");
-            holder.retweetCount.setText("");
+            holder.favCount.setText(" -");
+            holder.retweetCount.setText(" -");
         }
 
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.startAnimation(expandAni);
 
-        if (holder.favCount.getText().toString().equals("")) {
+        if (holder.favCount.getText().toString().equals(" -")) {
             getCounts(holder, tweetId);
         }
 

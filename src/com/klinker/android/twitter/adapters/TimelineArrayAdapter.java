@@ -349,8 +349,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if (holder.expandArea.getVisibility() == View.VISIBLE) {
             removeExpansionNoAnimation(holder);
-            holder.retweetCount.setText("");
-            holder.favCount.setText("");
+            holder.retweetCount.setText(" -");
+            holder.favCount.setText(" -");
             holder.reply.setText("");
             holder.retweet.clearColorFilter();
             holder.favorite.clearColorFilter();
@@ -752,8 +752,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.reply.setSelection(holder.reply.getText().length());
 
         if (holder.favCount.getText().toString().length() <= 2) {
-            holder.favCount.setText(" ");
-            holder.retweetCount.setText(" ");
+            holder.favCount.setText(" -");
+            holder.retweetCount.setText(" -");
         }
 
         ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
