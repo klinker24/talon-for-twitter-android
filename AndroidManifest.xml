@@ -452,7 +452,8 @@
             android:authorities="com.klinker.android.MySuggestionsProvider" />
 
         <!-- Widget -->
-        <receiver android:name=".widget.WidgetProvider" >
+        <receiver android:name=".widget.WidgetProvider"
+            android:label="@string/talon_large_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -466,7 +467,8 @@
         </receiver>
 
         <!-- unread widget -->
-        <receiver android:name=".widget.UnreadWidgetProvider" >
+        <receiver android:name=".widget.UnreadWidgetProvider"
+            android:label="@string/unread_bar_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
