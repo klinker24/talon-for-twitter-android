@@ -13,6 +13,8 @@
     - open the pictures on profiles to the tweets, not the photoviewer
     - second account mentions page on timeline
     - accept followers from a protected account
+    - gallery of picture on searching
+    - give the widgets preview pictures
 
 - Bugs:
     - video sound stops after one time playing it
