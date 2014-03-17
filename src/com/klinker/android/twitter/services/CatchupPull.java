@@ -71,12 +71,22 @@ public class CatchupPull extends IntentService {
                 boolean foundStatus = false;
 
                 Paging paging = new Paging(1, 200);
-                long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
-                if (id > 0) {
-                    paging.setSinceId(id);
-                } else {
+
+                long[] lastId;
+                long id;
+
+                try {
+                    lastId = dataSource.getLastIds(currentAccount);
+                    id = lastId[0];
+                } catch (Exception e) {
+                    id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
+                }
+
+                if (id == 1l) {
                     return;
                 }
+
+                paging.setSinceId(id);
 
                 for (int i = 0; i < settings.maxTweetsRefresh; i++) {
                     try {
@@ -113,7 +123,7 @@ public class CatchupPull extends IntentService {
                 Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
 
 
-                long[] lastId = dataSource.getLastIds(currentAccount);
+                lastId = dataSource.getLastIds(currentAccount);
 
                 int inserted = dataSource.insertTweets(statuses, currentAccount, lastId);
 
