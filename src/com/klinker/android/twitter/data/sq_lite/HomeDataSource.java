@@ -534,7 +534,13 @@ public class HomeDataSource {
             open();
             statement = database.compileStatement(sql);
         }
-        long count = statement.simpleQueryForLong();
+        long count;
+        try {
+            count = statement.simpleQueryForLong();
+        } catch (Exception e) {
+            open();
+            count = statement.simpleQueryForLong();
+        }
         if (count > 200) {
             try {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -604,7 +610,13 @@ public class HomeDataSource {
             open();
             statement = database.compileStatement(sql);
         }
-        long count = statement.simpleQueryForLong();
+        long count;
+        try {
+            count = statement.simpleQueryForLong();
+        } catch (Exception e) {
+            open();
+            count = statement.simpleQueryForLong();
+        }
         if (count > 200) {
             try {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
@@ -662,7 +674,13 @@ public class HomeDataSource {
             open();
             statement = database.compileStatement(sql);
         }
-        long count = statement.simpleQueryForLong();
+        long count;
+        try {
+            count = statement.simpleQueryForLong();
+        } catch (Exception e) {
+            open();
+            count = statement.simpleQueryForLong();
+        }
         if (count > 200) {
             try {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
