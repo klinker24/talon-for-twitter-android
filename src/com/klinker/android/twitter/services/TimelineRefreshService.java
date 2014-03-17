@@ -14,6 +14,7 @@ import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import twitter4j.Paging;
@@ -33,6 +34,9 @@ public class TimelineRefreshService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+        if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
+            return;
+        }
         if (MainActivity.canSwitch) {
             TimelineRefreshService.isRunning = true;
             sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -55,7 +59,6 @@ public class TimelineRefreshService extends IntentService {
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
 
                 User user = twitter.verifyCredentials();
-                long[] lastId = dataSource.getLastIds(currentAccount);
                 List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
                 boolean foundStatus = false;
@@ -89,6 +92,18 @@ public class TimelineRefreshService extends IntentService {
                         // don't know why...
                     }
                 }
+
+                Log.v("talon_pull", "got statuses, new = " + statuses.size());
+
+                // hash set to check for duplicates I guess
+                HashSet hs = new HashSet();
+                hs.addAll(statuses);
+                statuses.clear();
+                statuses.addAll(hs);
+
+                Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
+                long[] lastId = dataSource.getLastIds(currentAccount);
 
                 int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
