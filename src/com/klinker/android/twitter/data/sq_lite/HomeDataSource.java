@@ -235,23 +235,42 @@ public class HomeDataSource {
                 try {
                     rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
                 } catch (IllegalStateException e) {
-                    return rowsAdded;
+                    open();
+                    try {
+                        rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                    } catch (Exception x) {
+                        return rowsAdded;
+                    }
                 }
                 if (rowId > 0)
                     rowsAdded++;
             }
 
             database.setTransactionSuccessful();
-        } catch (NullPointerException e)  {
+        } catch (Exception e)  {
             e.printStackTrace();
-            return rowsAdded;
-        } catch (SQLiteDatabaseLockedException e) {
-            e.printStackTrace();
-            return rowsAdded;
-        } catch (IllegalStateException e) {
-            // caught setting up the transaction I guess, shouldn't ever happen now.
-            e.printStackTrace();
-            return rowsAdded;
+            open();
+
+            database.beginTransaction();
+
+            for (ContentValues initialValues : allValues) {
+                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
+                try {
+                    rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                } catch (IllegalStateException x) {
+                    open();
+                    try {
+                        rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
+                    } catch (Exception m) {
+                        return rowsAdded;
+                    }
+                }
+                if (rowId > 0)
+                    rowsAdded++;
+            }
+
+            database.setTransactionSuccessful();
+
         } finally {
             try {
                 database.endTransaction();
