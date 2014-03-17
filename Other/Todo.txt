@@ -21,6 +21,8 @@
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
 
+    - enhanced list view 648 try catch
+
 
 -- For Release --
 

@@ -883,14 +883,20 @@ public abstract class DrawerActivity extends Activity {
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, Search.class)));
-        searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+        try {
+            searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+            // Assumes current activity is the searchable activity
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, Search.class)));
+            searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
-        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-        ImageView view = (ImageView) searchView.findViewById(searchImgId);
-        view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
+            int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+            ImageView view = (ImageView) searchView.findViewById(searchImgId);
+            view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
+
+        } catch (Exception e) {
+
+        }
+
 
         return super.onCreateOptionsMenu(menu);
     }
