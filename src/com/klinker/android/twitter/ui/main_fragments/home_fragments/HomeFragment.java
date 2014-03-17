@@ -327,12 +327,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     @Override
     public void getCursorAdapter(boolean showSpinner) {
         //getLoaderManager().initLoader(0, null, this);
-        if (showSpinner) {
+        /*if (showSpinner) {
             try {
                 spinner.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
             } catch (Exception e) { }
-        }
+        }*/
 
         Thread getCursor = new Thread(new Runnable() {
             @Override
