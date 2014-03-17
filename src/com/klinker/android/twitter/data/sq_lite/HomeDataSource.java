@@ -171,17 +171,13 @@ public class HomeDataSource {
     }
 
     public int insertTweets(List<Status> statuses, int currentAccount, long[] lastIds) {
-        ArrayList<Long> ids = new ArrayList<Long>();
-        for (int i = 0; i < lastIds.length; i++) {
-            ids.add(lastIds[i]);
-        }
 
         ContentValues[] valueses = new ContentValues[statuses.size()];
 
         for (int i = 0; i < statuses.size(); i++) {
             Status status = statuses.get(i);
             Long id = status.getId();
-            if (!ids.contains(id)) { // something has always gone wrong in the past for duplicates... so double check i guess
+            if (id > lastIds[0]) { // something has always gone wrong in the past for duplicates... so double check i guess
                 ContentValues values = new ContentValues();
                 String originalName = "";
                 long mId = status.getId();
