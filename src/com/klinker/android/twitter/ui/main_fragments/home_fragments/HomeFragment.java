@@ -548,7 +548,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             boolean foundStatus = false;
 
             Paging paging = new Paging(1, 200);
-            paging.setSinceId(sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l));
+
+            long[] lastId;
+            long id;
+            try {
+                lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+                id = lastId[0];
+            } catch (Exception e) {
+                id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
+            }
+            paging.setSinceId(id);
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
@@ -592,17 +601,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             }
 
-            long[] lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+            lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
 
             numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
             if (numberNew > 0 && statuses.size() > 0) {
-                if (numberNew == statuses.size()) {
-                    sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
-                } else {
-                    long id = HomeDataSource.getInstance(context).getLastIds(currentAccount)[0];
-                    sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", id).commit();
-                }
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
             }
 
             Log.v("talon_inserting", "inserted " + numberNew + " tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));

@@ -178,13 +178,14 @@ public class HomeDataSource {
         for (int i = 0; i < statuses.size(); i++) {
             Status status = statuses.get(i);
             Long id = status.getId();
-            if (id > lastIds[0]) { // something has always gone wrong in the past for duplicates... so double check i guess
-                ContentValues values = new ContentValues();
+            ContentValues values = new ContentValues();
+
+            if (id > lastIds[0]) {
                 String originalName = "";
                 long mId = status.getId();
                 long time = status.getCreatedAt().getTime();
 
-                if(status.isRetweet()) {
+                if (status.isRetweet()) {
                     originalName = status.getUser().getScreenName();
                     status = status.getRetweetedStatus();
                 }
@@ -209,11 +210,12 @@ public class HomeDataSource {
                 values.put(HomeSQLiteHelper.COLUMN_URL, url);
                 values.put(HomeSQLiteHelper.COLUMN_USERS, users);
                 values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-
-                valueses[i] = values;
             } else {
-                break;
+                values = null;
             }
+
+            valueses[i] = values;
+
         }
 
         return insertMultiple(valueses);
@@ -231,20 +233,25 @@ public class HomeDataSource {
         try {
             database.beginTransaction();
 
+            Log.v("talon_inserting", "starting insert, number of values: " + allValues.length);
+
             for (ContentValues initialValues : allValues) {
-                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
-                try {
-                    rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-                } catch (IllegalStateException e) {
-                    open();
+
+                if (initialValues != null) {
                     try {
-                        rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-                    } catch (Exception x) {
-                        return rowsAdded;
+                        rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, initialValues);
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                        open();
+                        try {
+                            rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, initialValues);
+                        } catch (Exception x) {
+                            return rowsAdded;
+                        }
                     }
+                    if (rowId > 0)
+                        rowsAdded++;
                 }
-                if (rowId > 0)
-                    rowsAdded++;
             }
 
             database.setTransactionSuccessful();
@@ -255,19 +262,20 @@ public class HomeDataSource {
             database.beginTransaction();
 
             for (ContentValues initialValues : allValues) {
-                values = initialValues == null ? new ContentValues() : new ContentValues(initialValues);
-                try {
-                    rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-                } catch (IllegalStateException x) {
-                    open();
+                if (initialValues != null) {
                     try {
-                        rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
-                    } catch (Exception m) {
-                        return rowsAdded;
+                        rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, initialValues);
+                    } catch (IllegalStateException x) {
+                        open();
+                        try {
+                            rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, initialValues);
+                        } catch (Exception m) {
+                            return rowsAdded;
+                        }
                     }
+                    if (rowId > 0)
+                        rowsAdded++;
                 }
-                if (rowId > 0)
-                    rowsAdded++;
             }
 
             database.setTransactionSuccessful();

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.klinker.android.twitter"
 
-          android:versionCode="82"
-          android:versionName="2.0.8 Beta 2" >
+          android:versionCode="83"
+          android:versionName="2.0.8 Beta 3" >
 
     <uses-sdk
             android:minSdkVersion="14"
