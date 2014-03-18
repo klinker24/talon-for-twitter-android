@@ -558,7 +558,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             try {
                 paging.setSinceId(id);
             } catch (Exception e) {
-                paging.setSinceId(1l);
+                // 0 for some reason, so dont set one and let the database sort which should show and which shouldn't
             }
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
