@@ -46,7 +46,11 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
 
         if (rowView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
-            rowView = inflater.inflate(R.layout.drawer_list_item, null);
+            try {
+                rowView = inflater.inflate(R.layout.drawer_list_item, null);
+            } catch (Exception e) {
+                return null;
+            }
 
             ViewHolder viewHolder = new ViewHolder();
 

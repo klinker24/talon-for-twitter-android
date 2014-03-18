@@ -119,7 +119,12 @@ public class ProfileFavoritesFragment extends Fragment {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
 
-                    ResponseList<Status> result = twitter.getFavorites(screenName, paging);
+                    ResponseList<Status> result;
+                    try {
+                        result = twitter.getFavorites(screenName, paging);
+                    } catch (OutOfMemoryError e) {
+                        return;
+                    }
 
                     tweets.clear();
 
