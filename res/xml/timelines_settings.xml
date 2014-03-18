@@ -69,6 +69,12 @@
             android:defaultValue="false"
             />
 
+        <CheckBoxPreference
+            android:key="show_muted_mentions"
+            android:title="@string/show_muted_mentions"
+            android:defaultValue="false"
+            />
+
         </PreferenceCategory>
 
     <PreferenceCategory

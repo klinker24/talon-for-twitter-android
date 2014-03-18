@@ -51,11 +51,11 @@ public class DMDataSource {
     }
 
     public void open() throws SQLException {
-        if (dbHelper == null) {
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (Exception e) {
             close();
-            return;
         }
-        database = dbHelper.getWritableDatabase();
     }
 
     public void close() {
