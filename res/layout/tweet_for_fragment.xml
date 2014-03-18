@@ -34,7 +34,6 @@
                     android:layout_marginRight="2dp"
                     android:layout_marginStart="8dp"
                     android:textSize="11dp"
-                    android:textStyle="italic"
                     android:layout_below="@id/tweet"
                     android:textColor="?dateColor"  />
 
