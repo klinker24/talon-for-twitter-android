@@ -722,7 +722,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }
 
 
-    int numberNew;
+    public int numberNew;
     boolean tweetMarkerUpdate;
 
     private boolean isRefreshing = false;

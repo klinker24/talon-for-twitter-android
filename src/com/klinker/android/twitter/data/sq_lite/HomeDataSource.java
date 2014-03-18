@@ -215,16 +215,24 @@ public class HomeDataSource {
             }
 
             valueses[i] = values;
-
         }
 
-        return insertMultiple(valueses);
+        ArrayList<ContentValues> vals = new ArrayList<ContentValues>();
+
+        for (ContentValues v : valueses) {
+            if (v != null) {
+                vals.add(v);
+            }
+        }
+
+        insertMultiple(valueses);
+
+        return vals.size();
     }
 
     private synchronized int insertMultiple(ContentValues[] allValues) {
         int rowsAdded = 0;
         long rowId;
-        ContentValues values;
 
         if (database == null || !database.isOpen()) {
             open();
@@ -249,8 +257,9 @@ public class HomeDataSource {
                             return rowsAdded;
                         }
                     }
-                    if (rowId > 0)
+                    if (rowId > 0) {
                         rowsAdded++;
+                    }
                 }
             }
 
@@ -273,8 +282,9 @@ public class HomeDataSource {
                             return rowsAdded;
                         }
                     }
-                    if (rowId > 0)
+                    if (rowId > 0) {
                         rowsAdded++;
+                    }
                 }
             }
 
