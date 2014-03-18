@@ -514,16 +514,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             return 0;
         }
 
-        if (!DrawerActivity.settings.tweetmarker) {
-            try {
-                Cursor cursor = cursorAdapter.getCursor();
-                if (cursor.moveToLast()) {
-                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                }
-            } catch (Exception e) {
-
+        try {
+            Cursor cursor = cursorAdapter.getCursor();
+            if (cursor.moveToLast()) {
+                long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
             }
+        } catch (Exception e) {
+
         }
 
         try {
