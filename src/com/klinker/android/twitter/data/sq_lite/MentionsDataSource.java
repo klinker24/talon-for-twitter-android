@@ -57,11 +57,11 @@ public class MentionsDataSource {
 
     public void open() throws SQLException {
 
-        if (dbHelper == null) {
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (Exception e) {
             close();
-            return;
         }
-        database = dbHelper.getWritableDatabase();
     }
 
     public void close() {
@@ -264,12 +264,13 @@ public class MentionsDataSource {
 
     public synchronized Cursor getCursor(int account) {
 
+        boolean mutedMentions = sharedPrefs.getBoolean("show_muted_mentions", false);
         String users = sharedPrefs.getString("muted_users", "");
         String hashtags = sharedPrefs.getString("muted_hashtags", "");
         String expressions = sharedPrefs.getString("muted_regex", "");
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
-        if (!users.equals("")) {
+        if (!users.equals("") && mutedMentions) {
             String[] split = users.split(" ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
@@ -322,12 +323,13 @@ public class MentionsDataSource {
 
     public synchronized Cursor getUnreadCursor(int account) {
 
+        boolean mutedMentions = sharedPrefs.getBoolean("show_muted_mentions", false);
         String users = sharedPrefs.getString("muted_users", "");
         String hashtags = sharedPrefs.getString("muted_hashtags", "");
         String expressions = sharedPrefs.getString("muted_regex", "");
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?";
 
-        if (!users.equals("")) {
+        if (!users.equals("") && mutedMentions) {
             String[] split = users.split(" ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";

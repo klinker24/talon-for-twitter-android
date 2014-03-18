@@ -562,4 +562,5 @@
     <string name="show_pos_dashclock_summary">Show the current position on the home timeline instead of the number of new tweets.</string>
     <string name="talon_large_widget">Talon - Timeline</string>
     <string name="unread_bar_widget">Talon - Unread Bar</string>
+    <string name="show_muted_mentions">Show Muted Mentions</string>
 </resources>
