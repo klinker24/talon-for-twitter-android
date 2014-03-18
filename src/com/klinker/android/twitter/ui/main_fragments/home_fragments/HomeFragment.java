@@ -530,13 +530,13 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             boolean needClose = false;
 
-            if (!sharedPrefs.getBoolean("refresh_me", false)) {
+            /*if (!sharedPrefs.getBoolean("refresh_me", false)) {
                 try {
                     HomeDataSource.getInstance(context).markAllRead(currentAccount);
                 } catch (Exception e) {
                     needClose = true;
                 }
-            }
+            }*/
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
@@ -549,7 +549,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             Paging paging = new Paging(1, 200);
 
-            long[] lastId;
+            long[] lastId = null;
             long id;
             try {
                 lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
@@ -601,7 +601,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             }
 
-            lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+            if (lastId == null) {
+                lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+            }
 
             numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
