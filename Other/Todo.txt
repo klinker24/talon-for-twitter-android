@@ -15,16 +15,21 @@
     - accept followers from a protected account
     - gallery of picture on searching
     - give the widgets preview pictures
+    - tweetmarker in lists
 
 - Bugs:
     - video sound stops after one time playing it
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
+    - retweet and favorite counts on the main timelines
+    - toast bar needs redone on the home fragment so it doesn't ever get stuck
 
     - enhanced list view 648 try catch
 
 
 -- For Release --
+
+
 
     Version 2.1.0
         - Drafts
