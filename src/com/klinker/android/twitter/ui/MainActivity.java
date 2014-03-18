@@ -280,6 +280,9 @@ public class MainActivity extends DrawerActivity {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
+        sharedPrefs.edit().putBoolean("open_a_page", true).commit();
+        sharedPrefs.edit().putInt("open_what_page", mViewPager.getCurrentItem()).commit();
+
         overridePendingTransition(0, 0);
         finish();
         Intent restart = new Intent(context, MainActivity.class);
