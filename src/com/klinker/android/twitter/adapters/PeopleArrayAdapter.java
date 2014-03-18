@@ -480,7 +480,11 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (Exception e) {
+                    return null;
+                }
 
                 if (null == result) {
                     Log.d("ImageUrlAsyncTask", "Downloading: " + url);

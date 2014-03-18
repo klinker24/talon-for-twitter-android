@@ -116,7 +116,7 @@ public class TweetPager extends YouTubeBaseActivity {
         mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,
                 name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
         pager.setAdapter(mSectionsPagerAdapter);
-        pager.setOffscreenPageLimit(3);
+        pager.setOffscreenPageLimit(5);
 
         final int numberOfPages = mSectionsPagerAdapter.getCount();
 

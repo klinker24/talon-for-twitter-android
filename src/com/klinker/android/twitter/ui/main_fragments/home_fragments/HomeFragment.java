@@ -557,7 +557,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             } catch (Exception e) {
                 id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
             }
-            paging.setSinceId(id);
+            try {
+                paging.setSinceId(id);
+            } catch (Exception e) {
+                paging.setSinceId(1l);
+            }
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
@@ -849,12 +853,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 long[] lastId = mentions.getLastIds(currentAccount);
                 Paging paging;
                 paging = new Paging(1, 200);
-                if (lastId[0] != 0) {
-                    try {
-                        paging.setSinceId(lastId[0]);
-                    } catch (Exception e) {
-                        return false;
+                try {
+                    if (lastId[0] != 0) {
+                        try {
+                            paging.setSinceId(lastId[0]);
+                        } catch (Exception e) {
+                            return false;
+                        }
                     }
+                } catch (NullPointerException e) {
+                    return false;
                 }
 
                 List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
