@@ -267,13 +267,13 @@ public class Search extends Activity implements OnRefreshListener {
                 id = Long.parseLong(replace);
                 searchQuery = id + "";
                 findStatus(id);
-            } else if (!uriString.contains("q=")) { // going to try searching for users i guess
+            } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D")) { // going to try searching for users i guess
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 searchQuery = name;
                 Log.v("searching_twitter", "username: " + name);
                 doUserSearch(name);
-            } else {
+            } else if (uriString.contains("q=")){
                 try {
                     String search = uri.getQueryParameter("q");
                     Log.v("searching_twitter", "" + search);
@@ -287,6 +287,27 @@ public class Search extends Activity implements OnRefreshListener {
                             String query = searchQuery;
                             doSearch(query);
                         }
+                    }
+
+                    SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+                    suggestions.saveRecentQuery(searchQuery, null);
+                } catch (Exception e) {
+
+                }
+            } else {
+                try {
+                    String search = uriString;
+
+                    search = search.substring(search.indexOf("screen_name%3D") + 14);
+                    search = search.substring(0, search.indexOf("%"));
+
+                    Log.v("searching_twitter", "" + search);
+
+                    if (search != null) {
+                        searchQuery = search;
+                        String query = searchQuery.replace("@", "");
+                        doUserSearch(query);
                     }
 
                     SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
