@@ -170,6 +170,21 @@ public class ProfileMentionsFragment extends Fragment {
                         }
                     });
 
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+
+                            if (!hasMore) {
+                                View footer = inflater.inflate(R.layout.mentions_footer, null);
+                                listView.addFooterView(footer);
+                                listView.setFooterDividersEnabled(false);
+                            }
+                        }
+                    });
                 }
 
             }

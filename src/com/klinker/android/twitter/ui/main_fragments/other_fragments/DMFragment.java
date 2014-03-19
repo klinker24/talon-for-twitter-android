@@ -246,8 +246,11 @@ public class DMFragment extends MainFragment {
             try {
                 cursor = DMDataSource.getInstance(getActivity()).getCursor(DrawerActivity.settings.currentAccount);
             } catch (Exception e) {
-                DMDataSource.getInstance(getActivity()).close();
-                getCursorAdapter(false);
+                try {
+                    DMDataSource.getInstance(getActivity()).close();
+                } catch (Exception x) {
+                    // null pointer here...
+                }
                 return "";
             }
 

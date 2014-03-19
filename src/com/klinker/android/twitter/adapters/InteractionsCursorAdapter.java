@@ -435,7 +435,11 @@ public class InteractionsCursorAdapter extends CursorAdapter {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (OutOfMemoryError e) {
+                    return null;
+                }
 
                 if (null == result) {
                     Log.d("ImageUrlAsyncTask", "Downloading: " + url);

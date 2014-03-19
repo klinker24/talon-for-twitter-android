@@ -307,6 +307,8 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
                 Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
             } catch (IllegalStateException e) {
                 // view not attached
+            } catch (IllegalArgumentException e) {
+
             }
 
             context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
