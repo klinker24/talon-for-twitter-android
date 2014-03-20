@@ -98,7 +98,7 @@ public class TweetPager extends YouTubeBaseActivity {
             // methods for advancing windowed
             boolean settingsVal = settings.advanceWindowed;
             boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
-            boolean youtube = webpage.contains("youtu");
+            final boolean youtube = webpage.contains("youtu") || linkString.contains("youtu");
 
             // cases: (youtube will ALWAYS be full screen...)
             // from widget
@@ -148,22 +148,26 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 @Override
                 public void onPageSelected(int i) {
-                    if (mSectionsPagerAdapter.getHasYoutube()) {
-                        switch (numberOfPages) {
-                            case 4:
-                                if (i != 0) {
-                                    TweetYouTubeFragment.pause();
-                                } else {
-                                    TweetYouTubeFragment.resume();
-                                }
-                                break;
-                            case 5:
-                                if (i != 1) {
-                                    TweetYouTubeFragment.pause();
-                                } else {
-                                    TweetYouTubeFragment.resume();
-                                }
-                                break;
+                    if (youtube) {
+                        try {
+                            switch (numberOfPages) {
+                                case 4:
+                                    if (i != 0) {
+                                        TweetYouTubeFragment.pause();
+                                    } else {
+                                        TweetYouTubeFragment.resume();
+                                    }
+                                    break;
+                                case 5:
+                                    if (i != 1) {
+                                        TweetYouTubeFragment.pause();
+                                    } else {
+                                        TweetYouTubeFragment.resume();
+                                    }
+                                    break;
+                            }
+                        } catch (Exception e) {
+
                         }
                     }
                 }

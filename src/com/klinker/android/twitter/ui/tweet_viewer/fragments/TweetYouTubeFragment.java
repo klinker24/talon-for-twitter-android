@@ -21,7 +21,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
 
     private AppSettings settings;
     private Context context;
-    private View layout;
+    public static View layout;
     private String url;
 
     private static YouTubePlayerView player;
@@ -112,6 +112,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
 
     public static void pause() {
         player.setVisibility(View.GONE);
+        layout.setVisibility(View.GONE);
 
         if (realPlayer != null) {
             realPlayer.release();
@@ -119,9 +120,8 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     }
 
     public static void resume() {
-        if (error.getVisibility() != View.VISIBLE) {
-            player.setVisibility(View.VISIBLE);
-        }
+        player.setVisibility(View.VISIBLE);
+        layout.setVisibility(View.VISIBLE);
 
         if (realPlayer != null) {
             player.initialize(AppSettings.YOUTUBE_API_KEY, listener);
