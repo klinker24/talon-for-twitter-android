@@ -116,7 +116,7 @@ public class ImageUtils {
     }
 
     public static Bitmap notificationResize(Context context, Bitmap currentImage) {
-        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 500, context.getResources().getDisplayMetrics());
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
         Bitmap output = Bitmap.createBitmap(scale,
