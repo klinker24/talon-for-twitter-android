@@ -16,6 +16,7 @@
     - gallery of picture on searching
     - give the widgets preview pictures
     - tweetmarker in lists
+    - "search timeline" option for searching
 
 - Bugs:
     - video sound stops after one time playing it
@@ -29,7 +30,7 @@
 
 -- For Release --
 
-
+    -
 
     Version 2.1.0
         - Drafts

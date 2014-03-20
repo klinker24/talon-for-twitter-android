@@ -1395,7 +1395,7 @@ public class TweetFragment extends Fragment {
 
         int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
 
-        double ratio = (originalSize > 575) ? (originalSize / 575) : 1.0;
+        double ratio = (originalSize > 1000) ? (originalSize / 1000) : 1.0;
 
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
