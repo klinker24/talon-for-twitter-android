@@ -149,7 +149,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     @Override
     public void onDestroy() {
-        webView.loadUrl("");
+        webView.destroy();
         super.onDestroy();
     }
 
