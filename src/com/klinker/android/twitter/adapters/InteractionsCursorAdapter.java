@@ -310,7 +310,11 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
                     // Add to cache
                     if (b != null) {
-                        result = mCache.put(url, b);
+                        try {
+                            result = mCache.put(url, b);
+                        } catch (Exception e) {
+                            result = null;
+                        }
                     }
 
                 }

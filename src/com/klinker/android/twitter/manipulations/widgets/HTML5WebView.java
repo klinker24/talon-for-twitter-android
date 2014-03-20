@@ -41,7 +41,11 @@ public class HTML5WebView extends WebView {
 
         mLayout = new FrameLayout(context);
 
-        mBrowserFrameLayout = (FrameLayout) LayoutInflater.from(a).inflate(R.layout.html_web_view, null);
+        try {
+            mBrowserFrameLayout = (FrameLayout) LayoutInflater.from(a).inflate(R.layout.html_web_view, null);
+        } catch (Exception e) {
+            return;
+        }
         mContentView = (FrameLayout) mBrowserFrameLayout.findViewById(R.id.main_content);
         mCustomViewContainer = (FrameLayout) mBrowserFrameLayout.findViewById(R.id.fullscreen_custom_content);
 
@@ -63,6 +67,7 @@ public class HTML5WebView extends WebView {
         s.setSaveFormData(true);
         s.setJavaScriptEnabled(true);
         s.setAppCacheEnabled(false);
+        s.setPluginState(WebSettings.PluginState.OFF);
 
         // enable navigator.geolocation
         s.setGeolocationEnabled(true);
@@ -119,8 +124,9 @@ public class HTML5WebView extends WebView {
         @Override
         public void onShowCustomView(View view, WebChromeClient.CustomViewCallback callback)
         {
-            //Log.i(LOGTAG, "here in on ShowCustomView");
-            HTML5WebView.this.setVisibility(View.GONE);
+            Log.v("talon_webview", "showing custom view of youtube");
+
+            /*HTML5WebView.this.setVisibility(View.GONE);
 
             // if a view already exists then immediately terminate the new one
             if (mCustomView != null) {
@@ -131,13 +137,13 @@ public class HTML5WebView extends WebView {
             mCustomViewContainer.addView(view);
             mCustomView = view;
             mCustomViewCallback = callback;
-            mCustomViewContainer.setVisibility(View.VISIBLE);
+            mCustomViewContainer.setVisibility(View.VISIBLE);*/
         }
 
         @Override
         public void onHideCustomView() {
 
-            if (mCustomView == null)
+            /*if (mCustomView == null)
                 return;
 
             // Hide the custom view.
@@ -151,13 +157,12 @@ public class HTML5WebView extends WebView {
 
             HTML5WebView.this.setVisibility(View.VISIBLE);
 
-            //Log.i(LOGTAG, "set it to webVew");
+            //Log.i(LOGTAG, "set it to webVew");*/
         }
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             ((Activity) mContext).getWindow().setFeatureInt(Window.FEATURE_PROGRESS, newProgress*100);
-            Log.v("talon_webview", "progress: " + newProgress);
             if (newProgress == 100) {
                 setBackgroundColor(getResources().getColor(android.R.color.white));
             } else {
@@ -180,12 +185,13 @@ public class HTML5WebView extends WebView {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             Log.v("talon_url", "url: " + url);
 
-            view.loadUrl(url);
             if (url.contains("play.google.com") || url.contains("youtube.com") || url.contains("youtu.be")) {
                 Uri weburi;
                 weburi = Uri.parse(url);
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                 getContext().startActivity(launchBrowser);
+            } else {
+                view.loadUrl(url);
             }
 
             return true;

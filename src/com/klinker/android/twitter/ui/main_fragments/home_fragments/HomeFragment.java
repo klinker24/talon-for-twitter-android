@@ -347,9 +347,13 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 try {
                     cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
-                    HomeDataSource.getInstance(context).close();
-                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-                    getCursorAdapter(true);
+                    try {
+                        HomeDataSource.getInstance(context).close();
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                        getCursorAdapter(true);
+                    } catch (Exception x) {
+
+                    }
                     return;
                 }
 
