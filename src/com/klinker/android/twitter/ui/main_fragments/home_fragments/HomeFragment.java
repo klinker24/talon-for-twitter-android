@@ -757,10 +757,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 tweetMarkerUpdate = false;
 
-                if (DrawerActivity.settings.tweetmarker) {
+                if (DrawerActivity.settings.tweetmarker && refreshTweetmarker) {
                     tweetMarkerUpdate = getTweet();
                     Log.v("talon_tweetmarker", "tweet marker update " + tweetMarkerUpdate);
                 }
+
+                refreshTweetmarker = false;
 
                 final boolean result = numberNew > 0 || tweetMarkerUpdate;
 
@@ -988,6 +990,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
     }
 
+    public boolean refreshTweetmarker = false;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -1011,6 +1015,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             !DrawerActivity.settings.tweetmarker) {
 
                         mPullToRefreshLayout.setRefreshing(true);
+                        refreshTweetmarker = true;
                         onRefreshStarted(null);
                     }
 
@@ -1032,6 +1037,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 @Override
                 public void run() {
                     mPullToRefreshLayout.setRefreshing(true);
+                    refreshTweetmarker = true;
                     onRefreshStarted(null);
                 }
             }, 600);
