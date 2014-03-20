@@ -36,3 +36,4 @@
         - Drafts
         - Scheduled Tweets
         - Direct Message pictures
+        - clickable links on the timeline

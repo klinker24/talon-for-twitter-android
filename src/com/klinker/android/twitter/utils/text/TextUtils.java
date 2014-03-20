@@ -19,6 +19,7 @@ package com.klinker.android.twitter.utils.text;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
@@ -84,6 +85,8 @@ public class TextUtils {
         while (true) {
             startSpan = vString.indexOf(target, endSpan);
             ForegroundColorSpan foreColour = new ForegroundColorSpan(colour);
+            //BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(colour);
+
             // Need a NEW span object every loop, else it just moves the span
             if (startSpan < 0)
                 break;
