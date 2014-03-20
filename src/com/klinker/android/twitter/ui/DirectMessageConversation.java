@@ -206,7 +206,18 @@ public class DirectMessageConversation extends Activity {
 
                 }
                 cursorAdapter = new TimeLineCursorAdapter(context, cursor, true);
-                listView.setAdapter(cursorAdapter);
+                try {
+                    listView.setAdapter(cursorAdapter);
+                } catch (Exception e) {
+                    // database is closed
+                    try {
+                        DMDataSource.getInstance(context).close();
+                    } catch (Exception x) {
+
+                    }
+                    new GetList().execute();
+                    return;
+                }
                 listView.setVisibility(View.VISIBLE);
                 listView.setStackFromBottom(true);
 

@@ -128,7 +128,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
             player.setVisibility(View.VISIBLE);
             layout.setVisibility(View.VISIBLE);
         } catch (Exception e) {
-            
+
         }
 
         if (realPlayer != null) {
