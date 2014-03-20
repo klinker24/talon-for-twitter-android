@@ -371,7 +371,7 @@ public abstract class Compose extends Activity implements
 
         int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
 
-        double ratio = (originalSize > 575) ? (originalSize / 575) : 1.0;
+        double ratio = (originalSize > 1000) ? (originalSize / 1000) : 1.0;
 
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
@@ -724,9 +724,8 @@ public abstract class Compose extends Activity implements
                         return true;
 
                     } else {
-                        //stream = getContentResolver().openInputStream(Uri.parse(attachedUri));
-                        //create a file to write bitmap data
-                        File outputDir = context.getCacheDir(); // context being the Activity pointer
+
+                        File outputDir = context.getCacheDir();
                         File f = File.createTempFile("compose", "picture", outputDir);
 
                         Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
