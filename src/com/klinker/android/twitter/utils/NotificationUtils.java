@@ -40,6 +40,9 @@ import com.klinker.android.twitter.utils.redirects.SwitchAccountsRedirect;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -592,8 +595,16 @@ public class NotificationUtils {
 
             if (wrapper == null) {
 
-                URL mUrl = new URL(url);
-                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                // The bitmap isn't cached so download from the web
+                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = false;
+
+                Bitmap image = ImageUtils.decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                // sets the size to 500 x 500
                 image = ImageUtils.notificationResize(context, image);
                 mCache.put(url + "_notification", image);
                 return image;
