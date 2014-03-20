@@ -815,7 +815,7 @@ public class ProfilePager extends Activity {
 
         int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
 
-        double ratio = (originalSize > 800) ? (originalSize / 800) : 1.0;
+        double ratio = (originalSize > 500) ? (originalSize / 500) : 1.0;
 
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
@@ -914,7 +914,7 @@ public class ProfilePager extends Activity {
     class UpdateProPic extends AsyncTask<String, Void, Boolean> {
 
         ProgressDialog pDialog;
-        private InputStream stream;
+        private InputStream stream = null;
         private Uri image;
 
         public UpdateProPic(InputStream stream) {
@@ -967,6 +967,7 @@ public class ProfilePager extends Activity {
 
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 return false;
             }
         }
