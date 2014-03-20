@@ -111,8 +111,12 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     }
 
     public static void pause() {
-        player.setVisibility(View.GONE);
-        layout.setVisibility(View.GONE);
+        try {
+            player.setVisibility(View.GONE);
+            layout.setVisibility(View.GONE);
+        } catch (Exception e) {
+
+        }
 
         if (realPlayer != null) {
             realPlayer.release();
@@ -120,8 +124,12 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     }
 
     public static void resume() {
-        player.setVisibility(View.VISIBLE);
-        layout.setVisibility(View.VISIBLE);
+        try {
+            player.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            
+        }
 
         if (realPlayer != null) {
             player.initialize(AppSettings.YOUTUBE_API_KEY, listener);
