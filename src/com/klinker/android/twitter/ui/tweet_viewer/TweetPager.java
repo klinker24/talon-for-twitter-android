@@ -77,110 +77,123 @@ public class TweetPager extends YouTubeBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+        try {
+            overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+            getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }
-
-        context = this;
-        settings = AppSettings.getInstance(this);
-
-        getFromIntent();
-        Utils.setUpPopupTheme(context, settings);
-
-        // methods for advancing windowed
-        boolean settingsVal = settings.advanceWindowed;
-        boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
-        boolean youtube = webpage.contains("youtu");
-
-        // cases: (youtube will ALWAYS be full screen...)
-        // from widget
-        // the user set the preference to advance windowed
-        // has a webview and want to advance windowed
-        if (fromWidget || settingsVal) {
-            setUpWindow(youtube);
-        }
-
-        if (settings.addonTheme) {
-            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
-        }
-
-        setContentView(R.layout.tweet_pager);
-        pager = (ViewPager) findViewById(R.id.pager);
-        mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,
-                name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
-        pager.setAdapter(mSectionsPagerAdapter);
-        pager.setOffscreenPageLimit(5);
-
-        final int numberOfPages = mSectionsPagerAdapter.getCount();
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        switch (numberOfPages) {
-            case 2:
-                pager.setCurrentItem(0);
-                break;
-            case 3:
-                pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 1);
-                break;
-            case 4:
-                pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 2);
-                break;
-        }
-
-        if (getIntent().getBooleanExtra("clicked_youtube", false)) {
-            pager.setCurrentItem(0);
-        }
-
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i2) {
-
+            int currentOrientation = getResources().getConfiguration().orientation;
+            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            } else {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
             }
 
-            @Override
-            public void onPageSelected(int i) {
-                if (mSectionsPagerAdapter.getHasYoutube()) {
-                    switch (numberOfPages) {
-                        case 4:
-                            if (i != 0) {
-                                TweetYouTubeFragment.pause();
-                            } else {
-                                TweetYouTubeFragment.resume();
-                            }
-                            break;
-                        case 5:
-                            if (i != 1) {
-                                TweetYouTubeFragment.pause();
-                            } else {
-                                TweetYouTubeFragment.resume();
-                            }
-                            break;
+            context = this;
+            settings = AppSettings.getInstance(this);
+
+            getFromIntent();
+            Utils.setUpPopupTheme(context, settings);
+
+            // methods for advancing windowed
+            boolean settingsVal = settings.advanceWindowed;
+            boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
+            boolean youtube = webpage.contains("youtu");
+
+            // cases: (youtube will ALWAYS be full screen...)
+            // from widget
+            // the user set the preference to advance windowed
+            // has a webview and want to advance windowed
+            if (fromWidget || settingsVal) {
+                setUpWindow(youtube);
+            }
+
+            if (settings.addonTheme) {
+                getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
+            }
+
+            setContentView(R.layout.tweet_pager);
+            pager = (ViewPager) findViewById(R.id.pager);
+            mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,
+                    name, screenName, tweet, time, retweeter, webpage, proPic, tweetId,
+                    picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
+            pager.setAdapter(mSectionsPagerAdapter);
+            pager.setOffscreenPageLimit(5);
+
+            final int numberOfPages = mSectionsPagerAdapter.getCount();
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            switch (numberOfPages) {
+                case 2:
+                    pager.setCurrentItem(0);
+                    break;
+                case 3:
+                    pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 1);
+                    break;
+                case 4:
+                    pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 2);
+                    break;
+            }
+
+            if (getIntent().getBooleanExtra("clicked_youtube", false)) {
+                pager.setCurrentItem(0);
+            }
+
+            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int i, float v, int i2) {
+
+                }
+
+                @Override
+                public void onPageSelected(int i) {
+                    if (mSectionsPagerAdapter.getHasYoutube()) {
+                        switch (numberOfPages) {
+                            case 4:
+                                if (i != 0) {
+                                    TweetYouTubeFragment.pause();
+                                } else {
+                                    TweetYouTubeFragment.resume();
+                                }
+                                break;
+                            case 5:
+                                if (i != 1) {
+                                    TweetYouTubeFragment.pause();
+                                } else {
+                                    TweetYouTubeFragment.resume();
+                                }
+                                break;
+                        }
                     }
                 }
+
+                @Override
+                public void onPageScrollStateChanged(int i) {
+
+                }
+            });
+
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setDisplayShowHomeEnabled(true);
+
+            if (settings.addonTheme) {
+                PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+                strip.setBackgroundColor(settings.accentInt);
             }
 
-            @Override
-            public void onPageScrollStateChanged(int i) {
+            Utils.setActionBar(context);
+        } catch (Throwable t) {
 
-            }
-        });
+            t.printStackTrace();
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
+            // i do not understand this one... it throws an illegal state exception in
+            // here somewhere because "the specified child already has a partent. You must call remoteview() on
+            // it first..."
+            // so we are just going to try to recreate and see if that does anything for it....
 
-        if (settings.addonTheme) {
-            PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-            strip.setBackgroundColor(settings.accentInt);
+            recreate();
         }
-
-        Utils.setActionBar(context);
     }
 
     public void setUpWindow(boolean youtube) {

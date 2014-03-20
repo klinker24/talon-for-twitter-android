@@ -193,7 +193,7 @@ public class ProfilePicturesFragment extends Fragment {
 
                     tweets.clear();
 
-                    for (twitter4j.Status status : result) {
+                    for (Status status : result) {
                         tweets.add(status);
                     }
 
@@ -233,6 +233,12 @@ public class ProfilePicturesFragment extends Fragment {
                         public void run() {
                             canRefresh = false;
                             hasMore = false;
+
+                            try {
+                                adapter.notifyDataSetChanged();
+                            } catch (Exception e) {
+
+                            }
 
                             spinner.setVisibility(View.GONE);
                         }
