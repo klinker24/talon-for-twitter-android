@@ -741,7 +741,13 @@ public class HomeDataSource {
 
         Cursor cursor = getUnreadCursor(account);
 
-        int count = cursor.getCount();
+        int count;
+        try {
+            count = cursor.getCount();
+        } catch (Exception e) {
+            e.printStackTrace();
+            count = 0;
+        }
 
         cursor.close();
 

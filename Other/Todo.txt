@@ -34,4 +34,4 @@
         - Drafts
         - Scheduled Tweets
         - Direct Message pictures
-        - clickable links on the timeline
+        - open pics in picture timeline to that tweet
