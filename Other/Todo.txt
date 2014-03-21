@@ -30,7 +30,6 @@
 
 -- For Release --
 
-    - update translations
     - tell themers to remove their margins on the tweet expansion, update example theme
 
     Version 2.1.0

@@ -90,7 +90,6 @@
     <string name="refreshing">Frissítés</string>
     <string name="refreshing_widget">Widget frissítése</string>
     <string name="downloading">Letöltés</string>
-    <string name="saving_picture">Kép mentése</string>
     <string name="new_interaction_upper">Új esemény</string>
     <string name="new_interactions_lower">új esemény</string>
     <string name="new_interactions">Új esemény</string>
@@ -207,6 +206,7 @@
     <string name="open_what">Megnyitás</string>
     <string name="youtube_error">Hiba a videó lejátszásakor</string>
     <string name="no_conversation">Nincsenek régebbi tweetek</string>
+    <string name="saving_picture">Kép mentése</string>
     <string name="saved_picture">Kép mentése sikerült</string>
     <string name="retweet_success">Sikeres Retweet</string>
     <string name="favorite_success">Kedvenc hozzáadása sikerült</string>
