@@ -73,7 +73,7 @@ public class MentionsRefreshService extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-            if (settings.notifications) {
+            if (settings.notifications && statuses.size() > 0) {
                 NotificationUtils.refreshNotification(context);
             }
 
