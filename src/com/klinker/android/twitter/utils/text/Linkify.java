@@ -308,10 +308,22 @@ class Linkify {
         String[] otherUrls = allUrls.split("  ");
         shortUrl = shortUrl.replace("...", "");
 
-        for (String s : otherUrls) {
-            if (s.contains(shortUrl)) {
-                url = s;
-                break;
+        Log.v("talon_all_links", allUrls);
+
+        if (shortUrl.contains("twitter.com/")) {
+            // safe to assume picture
+            // the link will be the last one in the array
+            if (otherUrls.length == 1) {
+                url = otherUrls[0];
+            } else {
+                url = otherUrls[otherUrls.length - 1];
+            }
+        } else {
+            for (String s : otherUrls) {
+                if (s.contains(shortUrl)) {
+                    url = s;
+                    break;
+                }
             }
         }
 

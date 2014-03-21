@@ -64,19 +64,20 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
                     Selection.setSelection(buffer,
                             buffer.getSpanStart(link[0]),
                             buffer.getSpanEnd(link[0]));
-                    link[0].setHighlighted(true, widget);
+                    //link[0].setHighlighted(true, widget);
                 } else if (action == MotionEvent.ACTION_UP) {
-                    link[0].setHighlighted(false, widget);
+                    //link[0].setHighlighted(false, widget);
                     link[0].onClick(widget);
                 } else {
-                    link[0].setHighlighted(false, widget);
+                    //link[0].setHighlighted(false, widget);
                 }
                 lastLink = link;
                 return true;
             } else {
+                Selection.removeSelection(buffer);
                 try {
                     Log.v("talon_spans", "length is zero");
-                    lastLink[0].setHighlighted(false, widget);
+                    //lastLink[0].setHighlighted(false, widget);
                 } catch (Exception e) {
 
                 }
@@ -84,12 +85,12 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
 
             return true;
         } else {
-            if (lastLink != null) {
+            /*if (lastLink != null) {
                 lastLink[0].setHighlighted(false, widget);
-            }
+            }*/
         }
 
-        return false;
+        return super.onTouchEvent(widget, buffer, event);
     }
 
 
