@@ -21,8 +21,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.MovementMethod;
-import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -220,9 +218,9 @@ class Linkify {
     private static void addLinkMovementMethod(TextView t) {
         MovementMethod m = t.getMovementMethod();
 
-        if ((m == null) || !(m instanceof LongClickLinkMovementMethod)) {
+        if ((m == null) || !(m instanceof TouchableMovementMethod)) {
             if (t.getLinksClickable()) {
-                t.setMovementMethod(LongClickLinkMovementMethod.getInstance());
+                t.setMovementMethod(TouchableMovementMethod.getInstance());
             }
         }
     }
@@ -345,7 +343,7 @@ class Linkify {
             }
         });*/
 
-        LongClickableSpan span = new LongClickableSpan(context, url);
+        TouchableSpan span = new TouchableSpan(context, url);
         text.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 

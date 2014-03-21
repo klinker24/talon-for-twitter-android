@@ -35,15 +35,12 @@ import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 
-public class LongClickableSpan extends ClickableSpan {
+public class TouchableSpan extends ClickableSpan {
 
-    public LongClickableSpan(Context context, Link value) {
+    public TouchableSpan(Context context, Link value) {
         mContext = context;
         mValue = value.getShort();
         full = value.getLong();
-
-        //Log.v("talon_clickable_string", "short: " + mValue);
-        //Log.v("talon_clickable_string", "long: " + full);
 
         settings = AppSettings.getInstance(context);
 
@@ -99,53 +96,9 @@ public class LongClickableSpan extends ClickableSpan {
             user.putExtra("proPic", "");
             mContext.startActivity(user);
         }
-
-        /*highlight = false;
-        updateDrawState(unhighlighed);*/
     }
 
-    //public TextPaint unhighlighed = null;
-    //public boolean colorSet = false;
-
-    @Override
-    public void updateDrawState(TextPaint ds) {
-
-        //super.updateDrawState(ds);
-
-        ds.setUnderlineText(false);
-        ds.setColor(mThemeColor);
-
-        /*if (unhighlighed == null) {
-            unhighlighed = ds;
-        }
-
-        if (highlight && !colorSet) {
-            Log.v("talon_spans", "adding color");
-            ds.bgColor = mColorString;
-            colorSet = true;
-        } else if (!highlight) {
-            Log.v("talon_spans", "taking away color");
-            ds = unhighlighed;
-            colorSet = false;
-        }*/
-    }
-
-    /*public boolean highlight = false;
-    public View widget = null;*/
-
-    /*public void setHighlighted(boolean highlighted, View widget) {
-        Log.v("talon_spans", "highlight: " + highlighted);
-        this.widget = widget;
-        this.highlight = highlighted;
-        updateDrawState(unhighlighed);
-        widget.invalidate();
-    }*/
-    /*public boolean highlighted = false;
-    public void setPressed(boolean isSelected, View view) {
-        highlighted = isSelected;
-        updateDrawState(unhighlighed);
-        view.invalidate();
-    }
+    public boolean touched = false;
 
     @Override
     public void updateDrawState(TextPaint ds) {
@@ -153,19 +106,10 @@ public class LongClickableSpan extends ClickableSpan {
 
         ds.setUnderlineText(false);
         ds.setColor(mThemeColor);
-
-        if (unhighlighed == null) {
-            unhighlighed = ds;
-        }
-
-        if (highlighted) {
-            ds.bgColor = mColorString;
-        } else {
-            ds = unhighlighed;
-        }
+        ds.bgColor = touched ? mColorString : Color.TRANSPARENT;
     }
 
-    public void onLongClick(View v) {
-        // do nothing on a long click
-    }*/
+    public void setTouched(boolean isTouched) {
+        touched = isTouched;
+    }
 }
