@@ -30,6 +30,9 @@
 
 -- For Release --
 
+    - Mark read when you swipe away the second accounts mentions
+    - update translations
+
     Version 2.1.0
         - Drafts
         - Scheduled Tweets
