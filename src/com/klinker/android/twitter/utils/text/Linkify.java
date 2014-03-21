@@ -292,8 +292,8 @@ class Linkify {
                 String shortUrl = makeUrl(m.group(0), m, transformFilter);
                 String longUrl = getLongUrl(shortUrl, allUrls);
 
-                Log.v("talon_replace", "longurl: " + longUrl);
-                Log.v("talon_replace", "shorturl: " + shortUrl);
+                //Log.v("talon_replace", "longurl: " + longUrl);
+                //Log.v("talon_replace", "shorturl: " + shortUrl);
 
                 applyLink(context, tv, holder, new Link(shortUrl, longUrl), start, end, s);
                 hasMatches = true;
@@ -307,8 +307,6 @@ class Linkify {
         String url = "";
         String[] otherUrls = allUrls.split("  ");
         shortUrl = shortUrl.replace("...", "");
-
-        Log.v("talon_all_links", allUrls);
 
         if (shortUrl.contains("twitter.com/")) {
             // safe to assume picture
