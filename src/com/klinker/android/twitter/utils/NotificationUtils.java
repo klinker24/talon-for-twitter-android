@@ -600,13 +600,8 @@ public class NotificationUtils {
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = false;
-
-                Bitmap image = BitmapFactory.decodeStream(is);//ImageUtils.decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-
-                // sets the size to 500 x 500
-                image = ImageUtils.notificationResize(context, image);
+                Bitmap image = BitmapFactory.decodeStream(is);
+                
                 mCache.put(url + "_notification", image);
                 return image;
             } else {
