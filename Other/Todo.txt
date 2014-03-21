@@ -32,6 +32,7 @@
 
     - Mark read when you swipe away the second accounts mentions
     - update translations
+    - tell themers to remove their margins on the tweet expansion, update example theme
 
     Version 2.1.0
         - Drafts
