@@ -32,7 +32,6 @@ public class TouchableMovementMethod extends LinkMovementMethod {
     @Override
     public boolean onTouchEvent(TextView textView, Spannable spannable, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Log.v("talon_touchable", "down action");
             mPressedSpan = getPressedSpan(textView, spannable, event);
             if (mPressedSpan != null) {
                 mPressedSpan.setTouched(true);
@@ -40,7 +39,6 @@ public class TouchableMovementMethod extends LinkMovementMethod {
                         spannable.getSpanEnd(mPressedSpan));
             }
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            Log.v("talon_touchable", "move action");
             TouchableSpan touchedSpan = getPressedSpan(textView, spannable, event);
             if (mPressedSpan != null && touchedSpan != mPressedSpan) {
                 mPressedSpan.setTouched(false);
@@ -48,10 +46,8 @@ public class TouchableMovementMethod extends LinkMovementMethod {
                 Selection.removeSelection(spannable);
             }
         } else if(event.getAction() == MotionEvent.ACTION_UP) {
-            Log.v("talon_touchable", "up action");
             TouchableSpan touchedSpan = getPressedSpan(textView, spannable, event);
             if (mPressedSpan != null) {
-                Log.v("talon_touchable", "inside the up action");
                 mPressedSpan.onClick(textView);
                 mPressedSpan.setTouched(false);
                 mPressedSpan = null;
