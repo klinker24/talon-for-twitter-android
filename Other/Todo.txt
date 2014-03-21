@@ -30,8 +30,6 @@
 
 -- For Release --
 
-    - tell themers to remove their margins on the tweet expansion, update example theme
-
     Version 2.1.0
         - Drafts
         - Scheduled Tweets
