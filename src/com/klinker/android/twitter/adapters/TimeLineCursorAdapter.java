@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -756,7 +757,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
                         String text = holder.tweet.getText().toString();
                         if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                            emojis = true;
+                            final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweetText));
+                            holder.tweet.setText(span);
                         }
                     }
 
