@@ -752,17 +752,35 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     if (settings.addonTheme) {
                         if (!isDM) {
-                            holder.tweet.setText(TextUtils.colorText(context, tweetText, settings.accentInt, emojis));
+                            //holder.tweet.setText(TextUtils.colorText(context, tweetText, settings.accentInt, emojis));
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
                         } else {
-                            TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
                         }
                     } else {
                         if (!isDM) {
-                            holder.tweet.setText(TextUtils.colorText(context, tweetText, context.getResources().getColor(R.color.app_color), emojis));
+                            //holder.tweet.setText(TextUtils.colorText(context, tweetText, context.getResources().getColor(R.color.app_color), emojis));
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
                         } else {
-                            TextUtils.linkifyText(context, holder.tweet, holder.background, false);
+                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
                         }
                     }
+
+                    holder.tweet.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            holder.background.performClick();
+                        }
+                    });
+
+                    holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            holder.background.performLongClick();
+                            return false;
+                        }
+                    });
+
                 }
             }
         }, 400);

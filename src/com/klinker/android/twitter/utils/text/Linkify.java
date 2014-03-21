@@ -22,9 +22,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.MovementMethod;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import com.klinker.android.twitter.data.Link;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -172,7 +175,7 @@ class Linkify {
      * attached to the Spannable, to avoid problems if you call it
      * repeatedly on the same text.
      */
-    private static boolean addLinks(Context context, Spannable text, int mask, TextView tv, View holder) {
+    /*private static boolean addLinks(Context context, Spannable text, int mask, TextView tv, View holder) {
         if (mask == 0) {
             return false;
         }
@@ -212,7 +215,7 @@ class Linkify {
         }
 
         return true;
-    }
+    }*/
 
     private static void addLinkMovementMethod(TextView t) {
         MovementMethod m = t.getMovementMethod();
@@ -234,7 +237,7 @@ class Linkify {
      * @param pattern Regex pattern to be used for finding links
      */
     public static void addLinks(Context context, TextView text, Pattern pattern) {
-        addLinks(context, text, pattern, null, null, null, null);
+        addLinks(context, text, pattern, null, null, null, null, "");
     }
 
     /**
@@ -250,10 +253,10 @@ class Linkify {
      *                    to be converted into links.
      */
     public static void addLinks(Context context, TextView text, Pattern p,
-                                MatchFilter matchFilter, TransformFilter transformFilter, TextView tv, View holder) {
+                                MatchFilter matchFilter, TransformFilter transformFilter, TextView tv, View holder, String allUrls) {
         SpannableString s = SpannableString.valueOf(text.getText());
 
-        if (addLinks(context, s, p, matchFilter, transformFilter, tv, holder)) {
+        if (addLinks(context, s, p, matchFilter, transformFilter, tv, holder, allUrls)) {
             text.setText(s);
             addLinkMovementMethod(text);
         }
@@ -272,7 +275,7 @@ class Linkify {
      */
     private static boolean addLinks(Context context, Spannable s, Pattern p,
                                     MatchFilter matchFilter,
-                                    TransformFilter transformFilter, TextView tv, View holder) {
+                                    TransformFilter transformFilter, TextView tv, View holder, String allUrls) {
         boolean hasMatches = false;
         Matcher m = p.matcher(s);
 
@@ -286,9 +289,13 @@ class Linkify {
             }
 
             if (allowed) {
-                String url = makeUrl(m.group(0), m, transformFilter);
+                String shortUrl = makeUrl(m.group(0), m, transformFilter);
+                String longUrl = getLongUrl(shortUrl, allUrls);
 
-                applyLink(context, tv, holder, url, start, end, s);
+                Log.v("talon_replace", "longurl: " + longUrl);
+                Log.v("talon_replace", "shorturl: " + shortUrl);
+
+                applyLink(context, tv, holder, new Link(shortUrl, longUrl), start, end, s);
                 hasMatches = true;
             }
         }
@@ -296,8 +303,27 @@ class Linkify {
         return hasMatches;
     }
 
-    private static void applyLink(Context context, TextView tv, final View holder, String url, final int start, final int end, final Spannable text) {
-        tv.setOnLongClickListener(new View.OnLongClickListener() {
+    private static String getLongUrl(String shortUrl, String allUrls) {
+        String url = "";
+        String[] otherUrls = allUrls.split("  ");
+        shortUrl = shortUrl.replace("...", "");
+
+        for (String s : otherUrls) {
+            if (s.contains(shortUrl)) {
+                url = s;
+                break;
+            }
+        }
+
+        if (url.equals("")) {
+            url = shortUrl;
+        }
+
+        return url;
+    }
+
+    private static void applyLink(Context context, TextView tv, final View holder, Link url, final int start, final int end, final Spannable text) {
+        /*tv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 try {
@@ -307,7 +333,7 @@ class Linkify {
                 }
                 return false;
             }
-        });
+        });*/
 
         LongClickableSpan span = new LongClickableSpan(context, url);
         text.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
