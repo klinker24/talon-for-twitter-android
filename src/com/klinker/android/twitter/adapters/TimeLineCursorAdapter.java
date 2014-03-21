@@ -26,6 +26,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -769,6 +770,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
+                            // we need to manually set the background for click feedback because the spannable
+                            // absorbs the click on the background
+                            if (!holder.preventNextClick) {
+                                holder.background.getBackground().setState(new int[] {android.R.attr.state_pressed});
+                            }
+
                             holder.background.performClick();
                         }
                     });
@@ -781,6 +789,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return false;
                         }
                     });
+
+
 
                 }
             }
