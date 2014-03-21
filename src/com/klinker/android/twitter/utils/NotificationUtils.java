@@ -24,6 +24,7 @@ import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.services.MarkReadSecondAccService;
 import com.klinker.android.twitter.services.MarkReadService;
 import com.klinker.android.twitter.services.ReadInteractionsService;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -645,7 +646,7 @@ public class NotificationUtils {
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
         }
 
-        Intent markRead = new Intent(context, MarkReadService.class);
+        Intent markRead = new Intent(context, MarkReadSecondAccService.class);
         PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
 
         AppSettings settings = AppSettings.getInstance(context);
@@ -667,6 +668,7 @@ public class NotificationUtils {
                     .setSmallIcon(smallIcon)
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
+                    .setDeleteIntent(readPending)
                     .setAutoCancel(true);
         }
 

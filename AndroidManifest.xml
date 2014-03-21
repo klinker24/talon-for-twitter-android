@@ -415,6 +415,9 @@
         <service android:name=".services.MarkReadService">
         </service>
 
+        <service android:name=".services.MarkReadSecondAccService">
+        </service>
+
         <service android:name=".services.ReadInteractionsService">
         </service>
 
