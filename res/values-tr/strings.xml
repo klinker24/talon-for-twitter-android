@@ -531,4 +531,5 @@ Standart (devre dışı bırakıldığında):\n
     <string name="widget_dark">Koyu Renk Tema</string>
     <string name="widget_trans_light">Şeffaf Açık Renk Tema</string>
     <string name="widget_trans_black">Şeffaf Siyah Renk Tema</string>
+    <string name="ui_settings">Kullanıcı Arayüzü Ayarları</string>
 </resources>

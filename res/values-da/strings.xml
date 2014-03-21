@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon for Twitter</string>
-    <string name="extension_description">Viser antallet af ulæste tweets, meninger og direkte beskeder, efterhånden som de bliver opdateret</string>
+    <string name="extension_description">Viser antallet af ulæste tweets, meninger og direkte beskeder efterhånden som de bliver opdateret</string>
     <!-- Action Bar -->
     <string name="menu_refresh">Opdater tidslinje</string>
     <string name="menu_compose">Nyt tweet</string>
@@ -51,7 +51,7 @@
     <string name="local_trends">Lokale trends</string>
     <string name="world_trends">Globale trends</string>
     <string name="search">Søg</string>
-    <string name="lists">Liste(r)</string>
+    <string name="lists">Lister</string>
     <string name="search_hint">\@brugernavn</string>
     <string name="new_tweet">Nyt tweet</string>
     <string name="new_tweets">Nye tweets</string>
@@ -104,7 +104,7 @@
     <string name="login_to_twitter">Log ind på Twitter</string>
     <string name="first_welcome">Velkommen til Talon!</string>
     <string name="second_welcome">Synkroniserer data...</string>
-    <string name="third_welcome">Færdig!</string>
+    <string name="third_welcome">Det var dét!</string>
     <string name="back_to_timeline">Vis mig min tidslinje!</string>
     <string name="initial_sync">Synkronisér nu!</string>
     <string name="first_info">Før vi kommer igang, så lad os få dig logget ind. </string>
@@ -115,11 +115,11 @@
     <string name="syncing_direct_messages">Synkroniserer direkte beskeder...</string>
     <string name="syncing_user">Synkroniserer venner...</string>
     <string name="done_syncing">Færdig med synkronisering.</string>
-    <string name="login_error">Noget gik galt... Prøv venligst igen!</string>
+    <string name="login_error">Noget gik galt... - prøv venligst igen!</string>
     <string name="no_network">Der er ingen forbindelse til internettet</string>
     <string name="no_thanks">Ikke nu</string>
     <string name="follow_me">Følg!</string>
-    <string name="follow_me_description">Følg @TalonAndroid og @lukeklinker for at få besked om alle de nyeste funktioner og support!</string>
+    <string name="follow_me_description">Følg @TalonAndroid og @lukeklinker for at få besked om de nyeste funktioner og support!</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Nyt tweet</string>
     <string name="compose_tweet_hint">Skriv tweet...</string>
@@ -210,14 +210,14 @@
     <string name="saved_picture">Billede gemt</string>
     <string name="retweet_success">Retweetet</string>
     <string name="favorite_success">Favorit</string>
-    <string name="success">Fjernet</string>
+    <string name="success">Slettet</string>
     <!-- User Lists -->
     <string name="view_users">Vis brugere</string>
     <string name="delete_list">Slet lister</string>
     <string name="remove_user">Fjern bruger</string>
     <string name="remove">Fjern</string>
     <string name="from_list">fra liste</string>
-    <string name="removed_user">Fjernet bruger</string>
+    <string name="removed_user">Bruger fjernet</string>
     <string name="create_new_list">Tilføj ny liste</string>
     <string name="list_name">Liste navn...</string>
     <string name="list_description">Liste beskrivelse (valgfrit)</string>
@@ -248,7 +248,7 @@
     <string name="themeing_complete_summary">\"Talon\" lukker nu ned.\n\n
 Du skal swipe \"Talon\" ud af dine senest brugte apps for at dine ændringer slår fuldt igennem på din Tidslinje \n\n
 Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant, skal du fjerne widget\'en og tilføje den igen</string>
-    <string name="layout_summary">Skift af layout\'et vil slette app´ens cache</string>
+    <string name="layout_summary">Skift af layout vil slette app´ens cache</string>
     <string name="text_size">Tekst størrelse</string>
     <string name="night_mode">Nat tilstand</string>
     <string name="night_mode_night">Vælg starttidspunkt for nat tilstand</string>
@@ -350,7 +350,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="restore_settings">Gendan indstillinger</string>
     <string name="restore_settings_summary">Sletter cache for at tilføje ændringer i tema</string>
     <string name="get_help_settings">Hjælp</string>
-    <string name="rerun_tutorial">Vis opstarts introduktion</string>
+    <string name="rerun_tutorial">Vis starts introduktion</string>
     <string name="faq">FAQ\'s</string>
     <string name="features_explained">Funktioner beskrevet</string>
     <string name="youtube">YouTube Video</string>
@@ -511,11 +511,11 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="mute_expression">Mute ord</string>
     <string name="view_muted_expressions">Fjern muted ord</string>
     <string name="no_expression">Ingen ord tilføjet</string>
-    <string name="regex_disclaimer">Mute af mange ord kan påvirke tiden for start og opdatering af applikationen</string>
+    <string name="regex_disclaimer">Mute af mange ord kan forlænge tiden for opstart og opdatering af applikationen</string>
     <string name="cleaning_cache">Rydder op i cache...</string>
     <string name="floating_compose">Vis flydende "Skriv tweet" knap</string>
-    <string name="settings_links">Links indstillinger</string>
-    <string name="other_links">Andre links</string>
+    <string name="settings_links">Indstillinger</string>
+    <string name="other_links">Andet</string>
     <string name="display_options">Vis indstillinger</string>
     <string name="third_party_services">Tredje parts indstillinger</string>
     <string name="open_keyboard">Åbn automatisk</string>

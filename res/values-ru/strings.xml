@@ -467,7 +467,7 @@
     <string name="dont_use">Не используется</string>
     <string name="page_1">Страница 1</string>
     <string name="page_2">Страница 2</string>
-    <string name="load_tweets">Загрузить твитытвиты</string>
+    <string name="load_tweets">Загрузить твиты</string>
     <string name="download_portal">Загрузить портал тем</string>
     <string name="download_portal_summary">Приложение Klinker Apps сделано для того, чтобы быть в курсе последних новостей, а также находить лучшие темы для Talon и EvolveSMS в одном месте!</string>
     <string name="compose_dm_hint">Введите сообщение...</string>
