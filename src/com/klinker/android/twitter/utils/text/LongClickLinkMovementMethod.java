@@ -21,6 +21,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
     private Long lastClickTime = 0l;
     private int lastX = 0;
     private int lastY = 0;
+    private LongClickableSpan[] lastLink;
+
     @Override
     public boolean onTouchEvent(TextView widget, Spannable buffer,
                                 MotionEvent event) {
@@ -36,6 +39,7 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
 
         if (action == MotionEvent.ACTION_UP ||
                 action == MotionEvent.ACTION_DOWN) {
+
             int x = (int) event.getX();
             int y = (int) event.getY();
             lastX = x;
@@ -56,24 +60,36 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
             LongClickableSpan[] link = buffer.getSpans(off, off, LongClickableSpan.class);
 
             if (link.length != 0) {
-                if (action == MotionEvent.ACTION_UP) {
-                    if (System.currentTimeMillis() - lastClickTime < 800)
-                        link[0].onClick(widget);
-                    else if (deltaX < 10 && deltaY < 10)
-                        link[0].onLongClick(widget);
-                } else if (action == MotionEvent.ACTION_DOWN) {
+                if (action == MotionEvent.ACTION_DOWN) {
                     Selection.setSelection(buffer,
                             buffer.getSpanStart(link[0]),
                             buffer.getSpanEnd(link[0]));
-                    lastClickTime = System.currentTimeMillis();
+                    link[0].setHighlighted(true, widget);
+                } else if (action == MotionEvent.ACTION_UP) {
+                    link[0].setHighlighted(false, widget);
+                    link[0].onClick(widget);
+                } else {
+                    link[0].setHighlighted(false, widget);
                 }
+                lastLink = link;
                 return true;
+            } else {
+                try {
+                    Log.v("talon_spans", "length is zero");
+                    lastLink[0].setHighlighted(false, widget);
+                } catch (Exception e) {
+
+                }
             }
 
             return true;
+        } else {
+            if (lastLink != null) {
+                lastLink[0].setHighlighted(false, widget);
+            }
         }
 
-        return super.onTouchEvent(widget, buffer, event);
+        return false;
     }
 
 

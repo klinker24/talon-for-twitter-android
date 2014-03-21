@@ -19,6 +19,8 @@ package com.klinker.android.twitter.utils.text;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
@@ -27,6 +29,7 @@ import android.util.Patterns;
 import android.view.View;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.Link;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
@@ -34,23 +37,31 @@ import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 
 public class LongClickableSpan extends ClickableSpan {
 
-    public LongClickableSpan(Context context, String value) {
+    public LongClickableSpan(Context context, Link value) {
         mContext = context;
-        mValue = value;
+        mValue = value.getShort();
+        full = value.getLong();
+
+        Log.v("talon_clickable_string", "short: " + mValue);
+        Log.v("talon_clickable_string", "long: " + full);
 
         settings = AppSettings.getInstance(context);
 
         if (settings.addonTheme) {
             mThemeColor = settings.accentInt;
+            mColorString = Color.parseColor("#44" + settings.accentColor);
         } else {
             mThemeColor = context.getResources().getColor(R.color.app_color);
+            mColorString = context.getResources().getColor(R.color.pressed_app_color);
         }
     }
 
     private AppSettings settings;
     private final Context mContext;
     private final String mValue;
+    private final String full;
     private int mThemeColor;
+    private int mColorString;
 
     @Override
     public void onClick(View widget) {
@@ -60,14 +71,14 @@ public class LongClickableSpan extends ClickableSpan {
             Log.v("talon_link", "web");
             if (mValue.contains("play.google.com")) {
                 // open to the play store
-                String data = mValue.replace("http://", "").replace("https://", "").replace("\"", "");
+                String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
                 Intent intent = new Intent(Intent.ACTION_VIEW).setData(
                         Uri.parse("http://" + data)
                 );
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             } else {
-                String data = mValue.replace("http://", "").replace("https://", "").replace("\"", "");
+                String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
 
                 Uri weburi = Uri.parse("http://" + data);
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
@@ -79,25 +90,82 @@ public class LongClickableSpan extends ClickableSpan {
             // found a hashtag, so open the hashtag search
             Intent search = new Intent(mContext, SearchedTrendsActivity.class);
             search.setAction(Intent.ACTION_SEARCH);
-            search.putExtra(SearchManager.QUERY, mValue);
+            search.putExtra(SearchManager.QUERY, full);
             mContext.startActivity(search);
         } else if (Regex.MENTION_PATTERN.matcher(mValue).find()) {
             Log.v("talon_link", "mention");
             Intent user = new Intent(mContext, ProfilePager.class);
-            user.putExtra("screenname", mValue.replace("@", "").replaceAll(" ", ""));
+            user.putExtra("screenname", full.replace("@", "").replaceAll(" ", ""));
             user.putExtra("proPic", "");
             mContext.startActivity(user);
         }
+
+        highlight = false;
+        updateDrawState(unhighlighed);
+    }
+
+    public TextPaint unhighlighed = null;
+    public boolean colorSet = false;
+
+    @Override
+    public void updateDrawState(TextPaint ds) {
+
+        //super.updateDrawState(ds);
+
+        ds.setUnderlineText(false);
+        ds.setColor(mThemeColor);
+
+        if (unhighlighed == null) {
+            unhighlighed = ds;
+        }
+
+        if (highlight && !colorSet) {
+            Log.v("talon_spans", "adding color");
+            ds.bgColor = mColorString;
+            colorSet = true;
+        } else if (!highlight) {
+            Log.v("talon_spans", "taking away color");
+            ds = unhighlighed;
+            colorSet = false;
+        }
+    }
+
+    public boolean highlight = false;
+    public View widget = null;
+
+    public void setHighlighted(boolean highlighted, View widget) {
+        Log.v("talon_spans", "highlight: " + highlighted);
+        this.widget = widget;
+        this.highlight = highlighted;
+        updateDrawState(unhighlighed);
+        widget.invalidate();
+    }
+    /*public boolean highlighted = false;
+    public void setPressed(boolean isSelected, View view) {
+        highlighted = isSelected;
+        updateDrawState(unhighlighed);
+        view.invalidate();
     }
 
     @Override
     public void updateDrawState(TextPaint ds) {
         super.updateDrawState(ds);
-        ds.setUnderlineText(true);
+
+        ds.setUnderlineText(false);
         ds.setColor(mThemeColor);
+
+        if (unhighlighed == null) {
+            unhighlighed = ds;
+        }
+
+        if (highlighted) {
+            ds.bgColor = mColorString;
+        } else {
+            ds = unhighlighed;
+        }
     }
 
     public void onLongClick(View v) {
         // do nothing on a long click
-    }
+    }*/
 }

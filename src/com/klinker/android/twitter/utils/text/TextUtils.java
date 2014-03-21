@@ -33,20 +33,20 @@ import java.util.regex.Pattern;
 
 public class TextUtils {
 
-    public static void linkifyText(Context context, TextView textView, View holder, boolean clickable) {
+    public static void linkifyText(Context context, TextView textView, View holder, boolean clickable, String allLinks) {
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
             public final String transformUrl(final Matcher match, String url) {
                 return match.group();
             }
         };
 
-        textView.setLinksClickable(clickable);
+        textView.setLinksClickable(true);
 
         //Linkify.addLinks(context, textView, Patterns.PHONE, null, filter, textView, holder);
-        Linkify.addLinks(context, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder);
-        Linkify.addLinks(context, textView, Patterns.WEB_URL, null, filter, textView, holder);
-        Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder);
-        Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder);
+        Linkify.addLinks(context, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks);
+        Linkify.addLinks(context, textView, Patterns.WEB_URL, null, filter, textView, holder, allLinks);
+        Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks);
+        Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks);
     }
 
     public static Spannable colorText(Context context, String tweet, int color) {

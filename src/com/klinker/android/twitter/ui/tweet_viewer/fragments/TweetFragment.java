@@ -848,8 +848,8 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        TextUtils.linkifyText(context, retweetertv, null, true);
-        TextUtils.linkifyText(context, tweettv, null, true);
+        TextUtils.linkifyText(context, retweetertv, null, true, "");
+        TextUtils.linkifyText(context, tweettv, null, true, "");
 
     }
 
