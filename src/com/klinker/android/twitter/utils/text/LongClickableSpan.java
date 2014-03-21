@@ -42,8 +42,8 @@ public class LongClickableSpan extends ClickableSpan {
         mValue = value.getShort();
         full = value.getLong();
 
-        Log.v("talon_clickable_string", "short: " + mValue);
-        Log.v("talon_clickable_string", "long: " + full);
+        //Log.v("talon_clickable_string", "short: " + mValue);
+        //Log.v("talon_clickable_string", "long: " + full);
 
         settings = AppSettings.getInstance(context);
 
