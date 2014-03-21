@@ -16,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
 import android.util.Patterns;
@@ -130,6 +131,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public String picUrl;
         public String retweeterName;
 
+        public boolean preventNextClick = false;
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses) {
@@ -431,6 +433,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (holder.preventNextClick) {
+                        holder.preventNextClick = false;
+                        return;
+                    }
                     if (holder.expandArea.getVisibility() == View.GONE) {
                         addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                     } else {
@@ -445,6 +451,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (holder.preventNextClick) {
+                        holder.preventNextClick = false;
+                        return;
+                    }
 
                     String link;
 
@@ -657,15 +667,30 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
                         String text = holder.tweet.getText().toString();
                         if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                            emojis = true;
+                            final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweetText));
+                            holder.tweet.setText(span);
                         }
                     }
 
-                    if (settings.addonTheme) {
-                        holder.tweet.setText(TextUtils.colorText(context, tweetText, settings.accentInt, emojis));
-                    } else {
-                        holder.tweet.setText(TextUtils.colorText(context, tweetText, context.getResources().getColor(R.color.app_color), emojis));
-                    }
+                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl);
+
+                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "");
+
+                    holder.tweet.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            holder.background.performClick();
+                        }
+                    });
+
+                    holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            holder.background.performLongClick();
+                            holder.preventNextClick = true;
+                            return false;
+                        }
+                    });
                 }
             }
         }, 400);
