@@ -133,6 +133,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public String picUrl;
         public String retweeterName;
 
+        public boolean preventNextClick = false;
+
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
@@ -451,6 +453,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 View.OnClickListener click = new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (holder.preventNextClick) {
+                            holder.preventNextClick = false;
+                            return;
+                        }
                         if (holder.expandArea.getVisibility() == View.GONE) {
                             addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
                         } else {
@@ -468,6 +474,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 View.OnClickListener click = new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (holder.preventNextClick) {
+                            holder.preventNextClick = false;
+                            return;
+                        }
                         String link = "";
 
                         boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
@@ -628,7 +638,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
 
-        holder.tweet.setText(tweetText);
+        holder.tweet.setText(tweetText.replace(holder.picUrl, ""));
 
         boolean picture = false;
 
@@ -750,21 +760,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     }
 
-                    if (settings.addonTheme) {
-                        if (!isDM) {
-                            //holder.tweet.setText(TextUtils.colorText(context, tweetText, settings.accentInt, emojis));
-                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
-                        } else {
-                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
-                        }
-                    } else {
-                        if (!isDM) {
-                            //holder.tweet.setText(TextUtils.colorText(context, tweetText, context.getResources().getColor(R.color.app_color), emojis));
-                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
-                        } else {
-                            TextUtils.linkifyText(context, holder.tweet, holder.background, false, otherUrl + "  " + picUrl);
-                        }
-                    }
+                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl);
+
+                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "");
 
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -777,6 +775,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         @Override
                         public boolean onLongClick(View view) {
                             holder.background.performLongClick();
+                            holder.preventNextClick = true;
                             return false;
                         }
                     });

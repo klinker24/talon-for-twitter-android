@@ -100,12 +100,12 @@ public class LongClickableSpan extends ClickableSpan {
             mContext.startActivity(user);
         }
 
-        highlight = false;
-        updateDrawState(unhighlighed);
+        /*highlight = false;
+        updateDrawState(unhighlighed);*/
     }
 
-    public TextPaint unhighlighed = null;
-    public boolean colorSet = false;
+    //public TextPaint unhighlighed = null;
+    //public boolean colorSet = false;
 
     @Override
     public void updateDrawState(TextPaint ds) {
@@ -115,7 +115,7 @@ public class LongClickableSpan extends ClickableSpan {
         ds.setUnderlineText(false);
         ds.setColor(mThemeColor);
 
-        if (unhighlighed == null) {
+        /*if (unhighlighed == null) {
             unhighlighed = ds;
         }
 
@@ -127,19 +127,19 @@ public class LongClickableSpan extends ClickableSpan {
             Log.v("talon_spans", "taking away color");
             ds = unhighlighed;
             colorSet = false;
-        }
+        }*/
     }
 
-    public boolean highlight = false;
-    public View widget = null;
+    /*public boolean highlight = false;
+    public View widget = null;*/
 
-    public void setHighlighted(boolean highlighted, View widget) {
+    /*public void setHighlighted(boolean highlighted, View widget) {
         Log.v("talon_spans", "highlight: " + highlighted);
         this.widget = widget;
         this.highlight = highlighted;
         updateDrawState(unhighlighed);
         widget.invalidate();
-    }
+    }*/
     /*public boolean highlighted = false;
     public void setPressed(boolean isSelected, View view) {
         highlighted = isSelected;

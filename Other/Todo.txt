@@ -30,7 +30,8 @@
 
 -- For Release --
 
-    -
+    - put emojis into the array and timeline adapters again
+    - merge new links stuff to array adapter
 
     Version 2.1.0
         - Drafts
