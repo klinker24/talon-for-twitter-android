@@ -394,7 +394,9 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void run() {
                             statement.append("\n" + fUrl);
-                            TextUtils.linkifyText(context, statement, null, true, "");
+
+                            // don't open in external browser
+                            TextUtils.linkifyText(context, statement, null, true, "", false);
                         }
                     });
                 }

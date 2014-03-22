@@ -234,8 +234,8 @@ class Linkify {
      * @param text    TextView whose text is to be marked-up with links
      * @param pattern Regex pattern to be used for finding links
      */
-    public static void addLinks(Context context, TextView text, Pattern pattern) {
-        addLinks(context, text, pattern, null, null, null, null, "");
+    public static void addLinks(Context context, TextView text, Pattern pattern, boolean extBrowser) {
+        addLinks(context, text, pattern, null, null, null, null, "", extBrowser);
     }
 
     /**
@@ -251,10 +251,10 @@ class Linkify {
      *                    to be converted into links.
      */
     public static void addLinks(Context context, TextView text, Pattern p,
-                                MatchFilter matchFilter, TransformFilter transformFilter, TextView tv, View holder, String allUrls) {
+                                MatchFilter matchFilter, TransformFilter transformFilter, TextView tv, View holder, String allUrls, boolean extBrowser) {
         SpannableString s = SpannableString.valueOf(text.getText());
 
-        if (addLinks(context, s, p, matchFilter, transformFilter, tv, holder, allUrls)) {
+        if (addLinks(context, s, p, matchFilter, transformFilter, tv, holder, allUrls, extBrowser)) {
             text.setText(s);
             addLinkMovementMethod(text);
         }
@@ -273,7 +273,7 @@ class Linkify {
      */
     private static boolean addLinks(Context context, Spannable s, Pattern p,
                                     MatchFilter matchFilter,
-                                    TransformFilter transformFilter, TextView tv, View holder, String allUrls) {
+                                    TransformFilter transformFilter, TextView tv, View holder, String allUrls, boolean extBrowser) {
         boolean hasMatches = false;
         Matcher m = p.matcher(s);
 
@@ -293,7 +293,7 @@ class Linkify {
                 //Log.v("talon_replace", "longurl: " + longUrl);
                 //Log.v("talon_replace", "shorturl: " + shortUrl);
 
-                applyLink(context, tv, holder, new Link(shortUrl, longUrl), start, end, s);
+                applyLink(context, tv, holder, new Link(shortUrl, longUrl), start, end, s, extBrowser);
                 hasMatches = true;
             }
         }
@@ -330,7 +330,7 @@ class Linkify {
         return url;
     }
 
-    private static void applyLink(Context context, TextView tv, final View holder, Link url, final int start, final int end, final Spannable text) {
+    private static void applyLink(Context context, TextView tv, final View holder, Link url, final int start, final int end, final Spannable text, boolean extBrowser) {
         /*tv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -343,7 +343,7 @@ class Linkify {
             }
         });*/
 
-        TouchableSpan span = new TouchableSpan(context, url);
+        TouchableSpan span = new TouchableSpan(context, url, extBrowser);
         text.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
