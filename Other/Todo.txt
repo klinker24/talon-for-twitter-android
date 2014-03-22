@@ -15,6 +15,7 @@
     - give the widgets preview pictures
     - tweetmarker in lists
     - "search timeline" option for searching
+    - options for themes to hide or show the retweet and favorite button without expansion
 
 - Bugs:
     - video sound stops after one time playing it
