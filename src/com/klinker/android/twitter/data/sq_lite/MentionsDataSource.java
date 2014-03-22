@@ -270,7 +270,7 @@ public class MentionsDataSource {
         String expressions = sharedPrefs.getString("muted_regex", "");
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
-        if (!users.equals("") && mutedMentions) {
+        if (!users.equals("") && !mutedMentions) {
             String[] split = users.split(" ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
@@ -329,7 +329,7 @@ public class MentionsDataSource {
         String expressions = sharedPrefs.getString("muted_regex", "");
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?";
 
-        if (!users.equals("") && mutedMentions) {
+        if (!users.equals("") && !mutedMentions) {
             String[] split = users.split(" ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
