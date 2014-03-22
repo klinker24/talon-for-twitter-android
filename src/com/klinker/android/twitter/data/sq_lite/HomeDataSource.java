@@ -242,12 +242,13 @@ public class HomeDataSource {
 
             Log.v("talon_inserting", "starting insert, number of values: " + allValues.length);
 
-            for (ContentValues initialValues : allValues) {
+            for (int i = 0; i < allValues.length; i++) {
+                ContentValues initialValues = allValues[i];
 
                 if (initialValues != null) {
                     try {
                         rowId = database.insert(HomeSQLiteHelper.TABLE_HOME, null, initialValues);
-                    } catch (IllegalStateException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         open();
                         try {
@@ -260,12 +261,18 @@ public class HomeDataSource {
                         rowsAdded++;
                     }
                 }
+
+                allValues[i] = null;
             }
 
             database.setTransactionSuccessful();
         } catch (Exception e)  {
             e.printStackTrace();
             open();
+
+            if (database == null) {
+                return 0;
+            }
 
             database.beginTransaction();
 
