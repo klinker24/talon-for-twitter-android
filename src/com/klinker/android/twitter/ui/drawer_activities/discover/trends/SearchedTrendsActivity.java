@@ -340,6 +340,14 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+                final long topId;
+                if (tweets.size() > 0) {
+                    topId = tweets.get(0).getId();
+                } else {
+                    topId = 0;
+                }
+
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     query = new Query(searchQuery);
@@ -361,9 +369,18 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            int top = 0;
+                            for (int i = 0; i < tweets.size(); i++) {
+                                if (tweets.get(i).getId() == topId) {
+                                    top = i;
+                                    break;
+                                }
+                            }
+
                             adapter = new TimelineArrayAdapter(context, tweets);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
+                            listView.setSelection(top);
 
                             spinner.setVisibility(View.GONE);
 
