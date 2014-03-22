@@ -601,7 +601,7 @@ public class NotificationUtils {
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
                 Bitmap image = BitmapFactory.decodeStream(is);
-                
+
                 mCache.put(url + "_notification", image);
                 return image;
             } else {
