@@ -31,6 +31,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.NotificationCompose;
+import com.klinker.android.twitter.ui.compose.NotificationDMCompose;
 import com.klinker.android.twitter.ui.tweet_viewer.NotiTweetPager;
 import com.klinker.android.twitter.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter.utils.redirects.RedirectToDrawer;
@@ -121,7 +122,7 @@ public class NotificationUtils {
                     if (unreadCounts[1] == 1) {
                         reply = new Intent(context, NotificationCompose.class);
                     } else {
-                        reply = new Intent(context, ComposeDMActivity.class);
+                        reply = new Intent(context, NotificationDMCompose.class);
                     }
 
                     Log.v("username_for_noti", title[1]);
@@ -601,6 +602,7 @@ public class NotificationUtils {
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
                 Bitmap image = BitmapFactory.decodeStream(is);
+                image = ImageUtils.notificationResize(context, image);
 
                 mCache.put(url + "_notification", image);
                 return image;
