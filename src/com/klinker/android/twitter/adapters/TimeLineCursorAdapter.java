@@ -640,7 +640,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
 
-        holder.tweet.setText(tweetText.replace(holder.picUrl, ""));
+        holder.tweet.setText(tweetText);
 
         boolean picture = false;
 
@@ -775,6 +775,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             // absorbs the click on the background
                             if (!holder.preventNextClick) {
                                 holder.background.getBackground().setState(new int[] {android.R.attr.state_pressed});
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        holder.background.getBackground().setState(new int[] {android.R.attr.state_empty});
+                                    }
+                                }, 25);
                             }
 
                             holder.background.performClick();

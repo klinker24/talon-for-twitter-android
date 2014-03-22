@@ -116,7 +116,7 @@ public class ImageUtils {
     }
 
     public static Bitmap notificationResize(Context context, Bitmap currentImage) {
-        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
         Bitmap output = Bitmap.createBitmap(scale,
@@ -124,8 +124,7 @@ public class ImageUtils {
 
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, scale,
-                scale);
+        Rect rect = new Rect(0, 0, scale, scale);
 
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
