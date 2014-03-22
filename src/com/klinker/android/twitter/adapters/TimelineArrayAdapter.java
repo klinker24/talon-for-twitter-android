@@ -781,7 +781,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
-        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
+        holder.expandArea.setVisibility(View.VISIBLE);//startAnimation(expandAni);
 
         getCounts(holder, id);
 
