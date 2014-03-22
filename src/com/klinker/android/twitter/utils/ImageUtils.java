@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -354,6 +355,10 @@ public class ImageUtils {
     static ImageUrlAsyncTask mCurrentTask;
 
     public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache) {
+        loadImage(context, iv, url, mCache, false);
+    }
+
+    public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache, boolean broadcastDone) {
         // First check whether there's already a task running, if so cancel it
         if (null != mCurrentTask) {
             mCurrentTask.cancel(true);
@@ -374,7 +379,7 @@ public class ImageUtils {
             // Memory Cache doesn't have the URL, do threaded request...
             iv.setImageDrawable(null);
 
-            mCurrentTask = new ImageUrlAsyncTask(context, iv, mCache, false);
+            mCurrentTask = new ImageUrlAsyncTask(context, iv, mCache, false, broadcastDone);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -397,13 +402,15 @@ public class ImageUtils {
         private final WeakReference<ImageView> mImageViewRef;
         public ImageView iv;
         public boolean largerProfile;
+        public boolean broadcastDone;
 
-        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean profile) {
+        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean profile, boolean broadcastDone) {
             this.context = context;
             mCache = cache;
             mImageViewRef = new WeakReference<ImageView>(imageView);
             iv = imageView;
             this.largerProfile = profile;
+            this.broadcastDone = broadcastDone;
         }
 
         @Override
@@ -461,6 +468,10 @@ public class ImageUtils {
                     Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
                     iv.startAnimation(fadeInAnimation);
+
+                    if (broadcastDone) {
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.FINISHED_IMAGE"));
+                    }
                 }
 
             } catch (Exception e) {

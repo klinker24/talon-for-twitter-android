@@ -3,7 +3,7 @@
           package="com.klinker.android.twitter"
 
           android:versionCode="87"
-          android:versionName="2.1.1" >
+          android:versionName="2.1.2" >
 
     <uses-sdk
             android:minSdkVersion="14"

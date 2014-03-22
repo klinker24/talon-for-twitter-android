@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -54,6 +56,7 @@ import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
@@ -154,6 +157,29 @@ public class TweetFragment extends Fragment {
             }
         }
     };
+
+    public BroadcastReceiver reloadPic = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.v("talon_picture_loading", "reloading the image that has been put in the cache");
+            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.FINISHED_IMAGE");
+        context.registerReceiver(reloadPic, filter);
+    }
+
+    @Override
+    public void onPause() {
+        context.unregisterReceiver(reloadPic);
+        super.onPause();
+    }
 
     public TweetFragment(AppSettings settings, String name, String screenName, String tweet, long time, String retweeter, String webpage,
                          String proPic, long tweetId, boolean picture, String[] users, String[] hashtags, String[] links,
@@ -488,8 +514,7 @@ public class TweetFragment extends Fragment {
         if(picture) { // if there is a picture already loaded
 
             pictureIv.setVisibility(View.VISIBLE);
-            //pictureIv.loadImage(webpage, false, null);
-            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
+            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache(), true);
 
             mAttacher = new PhotoViewAttacher(pictureIv);
             mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
