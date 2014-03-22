@@ -103,9 +103,14 @@ public class BrowserActivity extends Activity {
                 return true;
 
             case R.id.menu_open_web:
-                Uri weburi = Uri.parse(url);
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                startActivity(launchBrowser);
+                try {
+                    Uri weburi = Uri.parse(url);
+                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                    startActivity(launchBrowser);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // it is a picture link that they clicked from the timeline i think...
+                }
                 return true;
 
             default:

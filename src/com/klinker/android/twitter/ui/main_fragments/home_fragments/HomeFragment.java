@@ -348,7 +348,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
                     try {
-                        HomeDataSource.getInstance(context).close();
+                        try {
+                            HomeDataSource.getInstance(context).close();
+                        } catch (Exception x) {
+
+                        }
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                         getCursorAdapter(true);
                     } catch (Exception x) {
@@ -364,7 +368,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                         } catch (Exception e) {
                             // the database is locked for some reason... we are going to close it then try again
-                            HomeDataSource.getInstance(context).close();
+                            try {
+                                HomeDataSource.getInstance(context).close();
+                            } catch (Exception x) {
+
+                            }
                             getCursorAdapter(true);
 
                             // broadcast to the other home based fragments so that they can reset themselves

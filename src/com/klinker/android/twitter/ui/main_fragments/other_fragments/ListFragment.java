@@ -285,7 +285,11 @@ public class ListFragment extends MainFragment {
                 try {
                     cursor = ListDataSource.getInstance(context).getCursor(listId);
                 } catch (Exception e) {
-                    ListDataSource.getInstance(context).close();
+                    try {
+                        ListDataSource.getInstance(context).close();
+                    } catch (Exception x) {
+
+                    }
                     getCursorAdapter(true);
                     return;
                 }
