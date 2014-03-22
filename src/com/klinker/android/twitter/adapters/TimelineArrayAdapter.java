@@ -672,9 +672,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         }
                     }
 
-                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl);
+                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
 
-                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "");
+                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override

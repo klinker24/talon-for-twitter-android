@@ -33,20 +33,20 @@ import java.util.regex.Pattern;
 
 public class TextUtils {
 
-    public static void linkifyText(Context context, TextView textView, View holder, boolean clickable, String allLinks) {
+    public static void linkifyText(Context context, TextView textView, View holder, boolean clickable, String allLinks, boolean extBrowser) {
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
             public final String transformUrl(final Matcher match, String url) {
                 return match.group();
             }
         };
 
-        textView.setLinksClickable(true);
+        textView.setLinksClickable(clickable);
 
         //Linkify.addLinks(context, textView, Patterns.PHONE, null, filter, textView, holder);
-        Linkify.addLinks(context, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks);
-        Linkify.addLinks(context, textView, Patterns.WEB_URL, null, filter, textView, holder, allLinks);
-        Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks);
-        Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks);
+        Linkify.addLinks(context, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, textView, Patterns.WEB_URL, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
     }
 
     public static Spannable colorText(Context context, String tweet, int color) {

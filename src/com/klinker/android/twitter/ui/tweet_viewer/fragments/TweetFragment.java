@@ -848,8 +848,9 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        TextUtils.linkifyText(context, retweetertv, null, true, "");
-        TextUtils.linkifyText(context, tweettv, null, true, "");
+        // last bool is whether it should open in the external browser or not
+        TextUtils.linkifyText(context, retweetertv, null, true, "", true);
+        TextUtils.linkifyText(context, tweettv, null, true, "", true);
 
     }
 

@@ -37,10 +37,11 @@ import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 
 public class TouchableSpan extends ClickableSpan {
 
-    public TouchableSpan(Context context, Link value) {
+    public TouchableSpan(Context context, Link value, boolean extBrowser) {
         mContext = context;
         mValue = value.getShort();
         full = value.getLong();
+        this.extBrowser = extBrowser;
 
         settings = AppSettings.getInstance(context);
 
@@ -59,6 +60,7 @@ public class TouchableSpan extends ClickableSpan {
     private final String full;
     private int mThemeColor;
     private int mColorString;
+    private boolean extBrowser;
 
     @Override
     public void onClick(View widget) {
@@ -66,7 +68,7 @@ public class TouchableSpan extends ClickableSpan {
         if (Patterns.WEB_URL.matcher(mValue).find()) {
             // open the in-app browser or the regular browser
             Log.v("talon_link", "web");
-            if (mValue.contains("play.google.com")) {
+            if (mValue.contains("play.google.com") || mValue.contains("youtu")) {
                 // open to the play store
                 String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
                 Intent intent = new Intent(Intent.ACTION_VIEW).setData(
@@ -75,12 +77,17 @@ public class TouchableSpan extends ClickableSpan {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             } else {
-                String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
-
-                Uri weburi = Uri.parse("http://" + data);
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(launchBrowser);
+                if (extBrowser || !settings.inAppBrowser) {
+                    String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
+                    Uri weburi = Uri.parse("http://" + data);
+                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                    launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(launchBrowser);
+                } else {
+                    Intent launchBrowser = new Intent(mContext, BrowserActivity.class);
+                    launchBrowser.putExtra("url", full);
+                    mContext.startActivity(launchBrowser);
+                }
             }
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
             Log.v("talon_link", "hashtag");
