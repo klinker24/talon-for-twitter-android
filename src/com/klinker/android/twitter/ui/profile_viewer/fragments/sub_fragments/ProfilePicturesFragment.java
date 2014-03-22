@@ -109,6 +109,7 @@ public class ProfilePicturesFragment extends Fragment {
 
     public ArrayList<Status> tweets = new ArrayList<Status>();
     public ArrayList<String> pics = new ArrayList<String>();
+    public ArrayList<Status> tweetsWithPics = new ArrayList<Status>();
     public Paging paging = new Paging(1, 60);
     public boolean hasMore = true;
     public boolean canRefresh = false;
@@ -141,13 +142,14 @@ public class ProfilePicturesFragment extends Fragment {
                         String[] links = TweetLinkUtils.getHtmlStatus(s);
                         if (!links[1].equals("")) {
                             pics.add(links[1]);
+                            tweetsWithPics.add(s);
                         }
                     }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter = new PicturesArrayAdapter(context, pics);
+                            adapter = new PicturesArrayAdapter(context, pics, tweetsWithPics);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
 
@@ -209,6 +211,7 @@ public class ProfilePicturesFragment extends Fragment {
                         String[] links = TweetLinkUtils.getHtmlStatus(s);
                         if (!links[1].equals("")) {
                             pics.add(links[1]);
+                            tweetsWithPics.add(s);
                             update = true;
                         }
                     }

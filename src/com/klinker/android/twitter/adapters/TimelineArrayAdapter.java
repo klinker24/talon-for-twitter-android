@@ -726,14 +726,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     }
 
     public void removeExpansionWithAnimation(ViewHolder holder) {
-        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
-        holder.expandArea.startAnimation(expandAni);
+        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
+        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
     }
 
     public void removeExpansionNoAnimation(ViewHolder holder) {
-
-        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 10);
-        holder.expandArea.startAnimation(expandAni);
+        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 10);
+        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
     }
 
     public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage, final long id) {
@@ -781,8 +780,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.retweetCount.setText(" -");
         }
 
-        ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
-        holder.expandArea.startAnimation(expandAni);
+        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
+        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
 
         getCounts(holder, id);
 
