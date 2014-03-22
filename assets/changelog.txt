@@ -4,7 +4,6 @@
     &#8226; Crash fixes<br/>
 </br><br/>
 
-
 <b>Version 2.1.1:</b><br/><br/>
     &#8226; Feedback for link clicks<br/>
     &#8226; Better handling of clicks on pictures in a profile<br/>
