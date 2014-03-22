@@ -679,6 +679,16 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            if (!holder.preventNextClick) {
+                                holder.background.getBackground().setState(new int[] {android.R.attr.state_pressed});
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        holder.background.getBackground().setState(new int[] {android.R.attr.state_empty});
+                                    }
+                                }, 25);
+                            }
+                            
                             holder.background.performClick();
                         }
                     });
