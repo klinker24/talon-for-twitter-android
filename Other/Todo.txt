@@ -4,13 +4,11 @@
     - addon package for full screen themes
     - auto-complete hashtags
     - mute by source
-    - text feedback when clicked
     - interactions with dashclock
     - attach pictures from the talon pull compose
-    - search fragment on main timelines
+    - search fragment (with search box and saved search) on main timelines
     - user lists on their profiles
     - QSlide for LG
-    - open the pictures on profiles to the tweets, not the photoviewer
     - second account mentions page on timeline
     - accept followers from a protected account
     - gallery of picture on searching
@@ -24,13 +22,14 @@
     - check out the loading of the profile picture and background. They don't seem to work right
     - retweet and favorite counts on the main timelines
     - toast bar needs redone on the home fragment so it doesn't ever get stuck
+    - fix opening pictures in the in app browser
 
     - enhanced list view 648 try catch
 
 
 -- For Release --
 
-    Version 2.1.0
+    Version 2.2.0
         - Drafts
         - Scheduled Tweets
         - Direct Message pictures

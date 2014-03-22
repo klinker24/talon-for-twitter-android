@@ -688,7 +688,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                     }
                                 }, 25);
                             }
-                            
+
                             holder.background.performClick();
                         }
                     });
