@@ -155,7 +155,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
                     try {
                         HomeDataSource.getInstance(context).close();
                     } catch (Exception x) {
-                        
+
                     }
                     getCursorAdapter(true);
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
