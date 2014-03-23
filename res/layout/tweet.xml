@@ -103,7 +103,6 @@
                     android:layout_marginStart="8dp"
                     android:gravity="right"
                     android:paddingBottom="8dp"
-                    android:textStyle="italic"
                     android:textColor="?dateColor"
                     android:text="@string/placeholder"
                     android:visibility="gone" />
