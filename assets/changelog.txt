@@ -1,3 +1,10 @@
+<b>Version 2.1.3:</b><br/><br/>
+    &#8226; Bug fixes for the clickable links<br/>
+    &#8226; Change the background of the internal browser to match the theme<br/>
+    &#8226; In-line previews for any direct image links<br/>
+    &#8226; Crash fixes<br/>
+</br><br/>
+
 <b>Version 2.1.2:</b><br/><br/>
     &#8226; Fix showing muted mentions<br/>
     &#8226; Fixed pictures not showing correctly if they weren't loaded before opening the tweet<br/>

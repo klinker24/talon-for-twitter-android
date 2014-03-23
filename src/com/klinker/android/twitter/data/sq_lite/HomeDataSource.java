@@ -383,7 +383,11 @@ public class HomeDataSource {
             count = statement.simpleQueryForLong();
         } catch (Exception e) {
             open();
-            count = statement.simpleQueryForLong();
+            try {
+                count = statement.simpleQueryForLong();
+            } catch (Exception x) {
+                return null;
+            }
         }
         Log.v("talon_database", "home database has " + count + " entries");
         if (count > timelineSize) {
@@ -579,7 +583,11 @@ public class HomeDataSource {
             count = statement.simpleQueryForLong();
         } catch (Exception e) {
             open();
-            count = statement.simpleQueryForLong();
+            try {
+                count = statement.simpleQueryForLong();
+            } catch (Exception x) {
+                return null;
+            }
         }
         if (count > 200) {
             try {
@@ -655,7 +663,11 @@ public class HomeDataSource {
             count = statement.simpleQueryForLong();
         } catch (Exception e) {
             open();
-            count = statement.simpleQueryForLong();
+            try {
+                count = statement.simpleQueryForLong();
+            } catch (Exception x) {
+                return null;
+            }
         }
         if (count > 200) {
             try {
@@ -719,7 +731,11 @@ public class HomeDataSource {
             count = statement.simpleQueryForLong();
         } catch (Exception e) {
             open();
-            count = statement.simpleQueryForLong();
+            try {
+                count = statement.simpleQueryForLong();
+            } catch (Exception x) {
+                return null;
+            }
         }
         if (count > 200) {
             try {

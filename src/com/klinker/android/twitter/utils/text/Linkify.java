@@ -302,6 +302,10 @@ class Linkify {
     }
 
     private static String getLongUrl(String shortUrl, String allUrls) {
+        if (allUrls == null) {
+            return shortUrl;
+        }
+
         String url = "";
         String[] otherUrls = allUrls.split("  ");
         shortUrl = shortUrl.replace("...", "");
