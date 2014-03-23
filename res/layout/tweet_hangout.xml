@@ -74,7 +74,6 @@
                 android:layout_marginRight="2dp"
                 android:layout_marginStart="5dp"
                 android:maxLines="1"
-                android:textStyle="italic"
                 android:textColor="?dateColor"
                 android:layout_toRightOf="@id/name"
                 android:layout_alignBaseline="@id/name" />
@@ -102,7 +101,6 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="8dp"
                 android:paddingBottom="10dp"
-                android:textStyle="italic"
                 android:textColor="?dateColor"
                 android:text="@string/placeholder"
                 android:visibility="gone" />
