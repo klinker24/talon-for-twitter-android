@@ -616,7 +616,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             }
 
             if (lastId == null) {
-                lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+                try {
+                    lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+                } catch (Exception e) {
+                    // let the 
+                    lastId = new long[] {0,0,0,0,0};
+                }
             }
 
             numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
