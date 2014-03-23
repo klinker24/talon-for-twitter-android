@@ -331,7 +331,7 @@ public class InteractionsDataSource {
         return cursor;
     }
 
-    public int getUnreadCount(int account) {
+    public synchronized int getUnreadCount(int account) {
 
         Cursor cursor = getUnreadCursor(account);
 
@@ -361,7 +361,7 @@ public class InteractionsDataSource {
         cursor.close();
     }
 
-    public String getUsers(int account, int position, boolean unread) {
+    public synchronized String getUsers(int account, int position, boolean unread) {
         Cursor cursor;
 
         if (unread) {

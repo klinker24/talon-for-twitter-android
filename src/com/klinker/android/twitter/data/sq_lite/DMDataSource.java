@@ -166,7 +166,7 @@ public class DMDataSource {
         return cursor;
     }
 
-    public String getNewestName(int account) {
+    public synchronized String getNewestName(int account) {
 
         Cursor cursor = getCursor(account);
         String name = "";
@@ -184,7 +184,7 @@ public class DMDataSource {
         return name;
     }
 
-    public String getNewestMessage(int account) {
+    public synchronized String getNewestMessage(int account) {
 
         Cursor cursor = getCursor(account);
         String message = "";

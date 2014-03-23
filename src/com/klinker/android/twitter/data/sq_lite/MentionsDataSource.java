@@ -153,7 +153,7 @@ public class MentionsDataSource {
         }
     }
 
-    public int insertTweets(List<Status> statuses, int account) {
+    public synchronized int insertTweets(List<Status> statuses, int account) {
 
         ContentValues[] valueses = new ContentValues[statuses.size()];
 
@@ -363,7 +363,7 @@ public class MentionsDataSource {
         return cursor;
     }
 
-    public int getUnreadCount(int account) {
+    public synchronized int getUnreadCount(int account) {
 
         Cursor cursor = getUnreadCursor(account);
 
@@ -418,7 +418,7 @@ public class MentionsDataSource {
         }
     }
 
-    public String getNewestName(int account) {
+    public synchronized String getNewestName(int account) {
 
         Cursor cursor = getUnreadCursor(account);
         String name = "";
@@ -436,7 +436,7 @@ public class MentionsDataSource {
         return name;
     }
 
-    public String getNewestMessage(int account) {
+    public synchronized String getNewestMessage(int account) {
 
         Cursor cursor = getUnreadCursor(account);
         String message = "";
@@ -454,10 +454,15 @@ public class MentionsDataSource {
         return message;
     }
 
-    public long[] getLastIds(int account) {
+    public synchronized long[] getLastIds(int account) {
         long[] ids = new long[] {0, 0};
 
-        Cursor cursor = getCursor(account);
+        Cursor cursor;
+        try {
+            cursor = getCursor(account);
+        } catch (Exception e) {
+            return ids;
+        }
 
         try {
             if (cursor.moveToLast()) {
@@ -502,7 +507,7 @@ public class MentionsDataSource {
         }
     }
 
-    public void removeHTML(long tweetId, String text) {
+    public synchronized void removeHTML(long tweetId, String text) {
         ContentValues cv = new ContentValues();
         cv.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
 

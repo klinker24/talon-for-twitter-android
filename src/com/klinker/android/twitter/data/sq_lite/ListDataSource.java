@@ -394,10 +394,15 @@ public class ListDataSource {
         return cursor;
     }
 
-    public long[] getLastIds(int listId) {
-        long id[] = new long[5];
+    public synchronized long[] getLastIds(int listId) {
+        long id[] = new long[] {0,0,0,0,0};
 
-        Cursor cursor = getCursor(listId);
+        Cursor cursor;
+        try {
+            cursor = getCursor(listId);
+        } catch (Exception e) {
+            return id;
+        }
 
         try {
             if (cursor.moveToFirst()) {
@@ -414,7 +419,7 @@ public class ListDataSource {
         return id;
     }
 
-    public void deleteDups(int list) {
+    public synchronized void deleteDups(int list) {
 
         try {
             database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +
@@ -428,7 +433,7 @@ public class ListDataSource {
         }
     }
 
-    public void removeHTML(long tweetId, String text) {
+    public synchronized void removeHTML(long tweetId, String text) {
         ContentValues cv = new ContentValues();
         cv.put(ListSQLiteHelper.COLUMN_TEXT, text);
 
