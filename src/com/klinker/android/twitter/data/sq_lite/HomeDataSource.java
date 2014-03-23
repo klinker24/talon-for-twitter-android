@@ -170,7 +170,7 @@ public class HomeDataSource {
         }
     }
 
-    public int insertTweets(List<Status> statuses, int currentAccount, long[] lastIds) {
+    public synchronized int insertTweets(List<Status> statuses, int currentAccount, long[] lastIds) {
 
         ContentValues[] valueses = new ContentValues[statuses.size()];
 
@@ -744,7 +744,7 @@ public class HomeDataSource {
         return cursor;
     }
 
-    public int getUnreadCount(int account) {
+    public synchronized int getUnreadCount(int account) {
 
         Cursor cursor = getUnreadCursor(account);
 
@@ -812,10 +812,15 @@ public class HomeDataSource {
         unread.close();
     }
 
-    public long[] getLastIds(int account) {
-        long id[] = new long[5];
+    public synchronized long[] getLastIds(int account) {
+        long id[] = new long[] {0,0,0,0,0};
 
-        Cursor cursor = getCursor(account);
+        Cursor cursor;
+        try {
+            cursor = getCursor(account);
+        } catch (Exception e) {
+            return id;
+        }
 
         try {
             if (cursor.moveToFirst()) {
@@ -883,7 +888,7 @@ public class HomeDataSource {
 
     }
 
-    public int getPosition(int account, long id) {
+    public synchronized int getPosition(int account, long id) {
         int pos = 0;
 
         Cursor cursor = getCursor(account);
