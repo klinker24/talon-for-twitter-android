@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Handler;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -64,10 +65,10 @@ public class TouchableSpan extends ClickableSpan {
 
     @Override
     public void onClick(View widget) {
+        Log.v("talon_clickable", "clicked on the span");
         Log.v("talon_link", full);
         if (Patterns.WEB_URL.matcher(mValue).find()) {
             // open the in-app browser or the regular browser
-            Log.v("talon_link", "web");
             if (mValue.contains("play.google.com") || mValue.contains("youtu")) {
                 // open to the play store
                 String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
@@ -91,19 +92,24 @@ public class TouchableSpan extends ClickableSpan {
                 }
             }
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
-            Log.v("talon_link", "hashtag");
             // found a hashtag, so open the hashtag search
             Intent search = new Intent(mContext, SearchedTrendsActivity.class);
             search.setAction(Intent.ACTION_SEARCH);
             search.putExtra(SearchManager.QUERY, full);
             mContext.startActivity(search);
         } else if (Regex.MENTION_PATTERN.matcher(mValue).find()) {
-            Log.v("talon_link", "mention");
             Intent user = new Intent(mContext, ProfilePager.class);
             user.putExtra("screenname", full.replace("@", "").replaceAll(" ", ""));
             user.putExtra("proPic", "");
             mContext.startActivity(user);
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TouchableMovementMethod.touched = false;
+            }
+        }, 500);
     }
 
     public boolean touched = false;

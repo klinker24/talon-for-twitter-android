@@ -35,6 +35,7 @@ public class TouchableMovementMethod extends LinkMovementMethod {
             mPressedSpan = getPressedSpan(textView, spannable, event);
             if (mPressedSpan != null) {
                 mPressedSpan.setTouched(true);
+                touched = true;
                 Selection.setSelection(spannable, spannable.getSpanStart(mPressedSpan),
                         spannable.getSpanEnd(mPressedSpan));
             }
@@ -42,11 +43,11 @@ public class TouchableMovementMethod extends LinkMovementMethod {
             TouchableSpan touchedSpan = getPressedSpan(textView, spannable, event);
             if (mPressedSpan != null && touchedSpan != mPressedSpan) {
                 mPressedSpan.setTouched(false);
+                touched = false;
                 mPressedSpan = null;
                 Selection.removeSelection(spannable);
             }
         } else if(event.getAction() == MotionEvent.ACTION_UP) {
-            TouchableSpan touchedSpan = getPressedSpan(textView, spannable, event);
             if (mPressedSpan != null) {
                 mPressedSpan.onClick(textView);
                 mPressedSpan.setTouched(false);
@@ -56,6 +57,7 @@ public class TouchableMovementMethod extends LinkMovementMethod {
         } else {
             if (mPressedSpan != null) {
                 mPressedSpan.setTouched(false);
+                touched = false;
                 super.onTouchEvent(textView, spannable, event);
             }
             mPressedSpan = null;
@@ -96,6 +98,7 @@ public class TouchableMovementMethod extends LinkMovementMethod {
     }
 
     private static TouchableMovementMethod sInstance;
+    public static boolean touched = false;
 
     public static MovementMethod getInstance() {
         if (sInstance == null)

@@ -23,7 +23,6 @@
     - check out the loading of the profile picture and background. They don't seem to work right
     - retweet and favorite counts on the main timelines
     - toast bar needs redone on the home fragment so it doesn't ever get stuck
-    - fix opening pictures in the in app browser
 
     - enhanced list view 648 try catch
 

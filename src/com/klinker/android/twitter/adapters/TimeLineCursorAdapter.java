@@ -58,6 +58,7 @@ import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.text.TextUtils;
+import com.klinker.android.twitter.utils.text.TouchableMovementMethod;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -754,7 +755,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         loadImage(context, holder, holder.picUrl, mCache, id);
                     }
 
-                    boolean emojis = false;
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
                         String text = holder.tweet.getText().toString();
                         if (EmojiUtils.emojiPattern.matcher(text).find()) {
@@ -763,43 +763,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     }
 
-                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
-
-                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
-
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
-                            // we need to manually set the background for click feedback because the spannable
-                            // absorbs the click on the background
-                            if (!holder.preventNextClick) {
-                                holder.background.getBackground().setState(new int[] {android.R.attr.state_pressed});
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        holder.background.getBackground().setState(new int[] {android.R.attr.state_empty});
-                                    }
-                                }, 25);
-                            }
-
-                            holder.background.performClick();
-                        }
-                    });
-
-                    holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            holder.background.performLongClick();
-                            holder.preventNextClick = true;
-                            return false;
-                        }
-                    });
-
-                    if (holder.retweeter.getVisibility() == View.VISIBLE) {
-                        holder.retweeter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                            if (!TouchableMovementMethod.touched) {
+                                Log.v("talon_clickable", "clicked in the cursor adapter");
+                                // we need to manually set the background for click feedback because the spannable
+                                // absorbs the click on the background
                                 if (!holder.preventNextClick) {
                                     holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
                                     new Handler().postDelayed(new Runnable() {
@@ -812,17 +782,54 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                                 holder.background.performClick();
                             }
+                        }
+                    });
+
+                    holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            if (!TouchableMovementMethod.touched) {
+                                holder.background.performLongClick();
+                                holder.preventNextClick = true;
+                            }
+                            return false;
+                        }
+                    });
+
+                    if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                        holder.retweeter.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (!TouchableMovementMethod.touched) {
+                                    if (!holder.preventNextClick) {
+                                        holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
+                                            }
+                                        }, 25);
+                                    }
+
+                                    holder.background.performClick();
+                                }
+                            }
                         });
 
                         holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View view) {
-                                holder.background.performLongClick();
-                                holder.preventNextClick = true;
+                                if (!TouchableMovementMethod.touched) {
+                                    holder.background.performLongClick();
+                                    holder.preventNextClick = true;
+                                }
                                 return false;
                             }
                         });
                     }
+
+                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
+                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
                 }
             }
