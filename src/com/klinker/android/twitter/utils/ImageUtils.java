@@ -506,8 +506,7 @@ public class ImageUtils {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(byteArr, 0, count, options);
 
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
             options.inPurgeable = true;
             options.inInputShareable = true;
             options.inJustDecodeBounds = false;

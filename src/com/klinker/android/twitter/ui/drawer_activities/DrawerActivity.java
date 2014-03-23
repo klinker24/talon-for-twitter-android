@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.ui.main_fragments.MainFragment;
+import com.klinker.android.twitter.ui.profile_viewer.fragments.sub_fragments.ProfileFavoritesFragment;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -95,6 +97,9 @@ public abstract class DrawerActivity extends Activity {
     public static HoloTextView oldInteractions;
     public ImageView readButton;
 
+    private NetworkedCacheableImageView backgroundPic;
+    private NetworkedCacheableImageView profilePic;
+
     public void setUpDrawer(int number, final String actName) {
 
         actionBar = getActionBar();
@@ -119,8 +124,8 @@ public abstract class DrawerActivity extends Activity {
 
         HoloTextView name = (HoloTextView) mDrawer.findViewById(R.id.name);
         HoloTextView screenName = (HoloTextView) mDrawer.findViewById(R.id.screen_name);
-        final NetworkedCacheableImageView backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
-        final NetworkedCacheableImageView profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic_contact);
+        backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
+        profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic_contact);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
@@ -696,6 +701,20 @@ public abstract class DrawerActivity extends Activity {
             notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager));
         }
     }
+
+    /*@Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+
+        if (level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_RUNNING_LOW) {
+            try {
+                ((BitmapDrawable)backgroundPic.getDrawable()).getBitmap().recycle();
+            } catch (Exception e) { }
+            try {
+                ((BitmapDrawable) profilePic.getDrawable()).getBitmap().recycle();
+            } catch (Exception e) { }
+        }
+    }*/
 
     public void setUpTheme() {
 
