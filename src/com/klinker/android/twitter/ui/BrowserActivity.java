@@ -53,6 +53,7 @@ public class BrowserActivity extends Activity {
         browser.getSettings().setUseWideViewPort(true);
         browser.getSettings().setDisplayZoomControls(false);
         browser.getSettings().setSupportZoom(true);
+        browser.setBackgroundResource(android.R.color.transparent);
 
         if (Build.VERSION.SDK_INT >= 17) {
             browser.getSettings().setMediaPlaybackRequiresUserGesture(false);
@@ -64,6 +65,12 @@ public class BrowserActivity extends Activity {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
                 activity.setProgress(progress * 100);
+
+                if (progress == 100) {
+                    browser.setBackgroundColor(getResources().getColor(android.R.color.white));
+                } else {
+                    browser.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                }
             }
         });
 
