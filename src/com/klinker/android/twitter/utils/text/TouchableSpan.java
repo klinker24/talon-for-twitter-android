@@ -64,7 +64,7 @@ public class TouchableSpan extends ClickableSpan {
 
     @Override
     public void onClick(View widget) {
-        Log.v("talon_link", mValue);
+        Log.v("talon_link", full);
         if (Patterns.WEB_URL.matcher(mValue).find()) {
             // open the in-app browser or the regular browser
             Log.v("talon_link", "web");
@@ -84,8 +84,9 @@ public class TouchableSpan extends ClickableSpan {
                     launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(launchBrowser);
                 } else {
+                    String data = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
                     Intent launchBrowser = new Intent(mContext, BrowserActivity.class);
-                    launchBrowser.putExtra("url", full);
+                    launchBrowser.putExtra("url", data);
                     mContext.startActivity(launchBrowser);
                 }
             }
