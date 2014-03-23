@@ -16,6 +16,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -180,6 +181,18 @@ public class TweetFragment extends Fragment {
         context.unregisterReceiver(reloadPic);
         super.onPause();
     }
+
+    /*@Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+
+        if (level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_RUNNING_LOW) {
+            Log.v("talon_recycling", "trimming picture in tweet viewer");
+            try {
+                ((BitmapDrawable)pictureIv.getDrawable()).getBitmap().recycle();
+            } catch (Exception e) { }
+        }
+    }*/
 
     public TweetFragment(AppSettings settings, String name, String screenName, String tweet, long time, String retweeter, String webpage,
                          String proPic, long tweetId, boolean picture, String[] users, String[] hashtags, String[] links,

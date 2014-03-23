@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -107,6 +108,20 @@ public class ProfileFragment extends Fragment {
         super.onAttach(activity);
         context = activity;
     }
+
+    /*@Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+
+        if (level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_RUNNING_LOW) {
+            try {
+                ((BitmapDrawable)background.getDrawable()).getBitmap().recycle();
+            } catch (Exception e) { }
+            try {
+                ((BitmapDrawable)profilePicture.getDrawable()).getBitmap().recycle();
+            } catch (Exception e) { }
+        }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
