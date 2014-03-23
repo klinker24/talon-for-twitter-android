@@ -162,8 +162,10 @@ public class TweetLinkUtils {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("ow.ly/i")) {
-                    Log.v("talon_owly", exp);
                     imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
+                    otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains(".jpg") || exp.toLowerCase().contains(".png")) {
+                    imageUrl = exp;
                     otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
@@ -330,6 +332,9 @@ public class TweetLinkUtils {
                 } else if (exp.toLowerCase().contains("ow.ly/i")) {
                     Log.v("talon_owly", exp);
                     imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
+                    otherUrl += exp + "  ";
+                } else if (exp.toLowerCase().contains(".jpg") || exp.toLowerCase().contains(".png")) {
+                    imageUrl = exp;
                     otherUrl += exp + "  ";
                 } else {
                     otherUrl += exp + "  ";
