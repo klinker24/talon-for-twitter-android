@@ -117,7 +117,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         actionBar = context.getActionBar();
     }
 
-    /*@Override
+    @Override
     public void onDestroy() {
         try {
             cursorAdapter.getCursor().close();
@@ -125,7 +125,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
 
         }
         super.onDestroy();
-    }*/
+    }
 
     public void setHome() {
         isHome = false;

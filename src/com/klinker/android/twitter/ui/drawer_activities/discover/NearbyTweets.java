@@ -208,7 +208,11 @@ public class NearbyTweets extends Fragment implements
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, getString(R.id.error), Toast.LENGTH_SHORT).show();
+                            try {
+                                Toast.makeText(context, getString(R.id.error), Toast.LENGTH_SHORT).show();
+                            } catch (IllegalStateException e) {
+                                // not attached to activity
+                            }
                         }
                     });
                 }

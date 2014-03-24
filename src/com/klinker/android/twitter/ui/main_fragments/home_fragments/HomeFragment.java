@@ -624,7 +624,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 }
             }
 
-            numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+            try {
+                numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+            } catch (NullPointerException e) {
+                return 0;
+            }
 
             if (numberNew > 0 && statuses.size() > 0) {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
