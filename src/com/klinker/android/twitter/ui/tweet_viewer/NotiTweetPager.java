@@ -34,7 +34,8 @@ public class NotiTweetPager extends TweetPager {
         }
 
         try {
-            otherLinks = sharedPrefs.getString("fav_user_tweet_links", "").split("  ");
+            linkString = sharedPrefs.getString("fav_user_tweet_links", "");
+            otherLinks = linkString.split("  ");
         } catch (Exception e) {
             otherLinks = null;
         }

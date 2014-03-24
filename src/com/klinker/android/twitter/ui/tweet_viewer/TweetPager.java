@@ -89,7 +89,12 @@ public class TweetPager extends YouTubeBaseActivity {
         // methods for advancing windowed
         boolean settingsVal = settings.advanceWindowed;
         boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
-        final boolean youtube = webpage.contains("youtu") || linkString.contains("youtu");
+        final boolean youtube;
+        if (webpage != null && linkString != null) {
+            youtube = webpage.contains("youtu") || linkString.contains("youtu");
+        } else {
+            youtube = true;
+        }
 
         // cases: (youtube will ALWAYS be full screen...)
         // from widget

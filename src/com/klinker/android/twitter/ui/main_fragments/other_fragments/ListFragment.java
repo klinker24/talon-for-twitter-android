@@ -317,7 +317,11 @@ public class ListFragment extends MainFragment {
                         try {
                             Log.v("talon_lists", "getting list: " + cursorAdapter.getCount());
                         } catch (Exception e) {
-                            ListDataSource.getInstance(context).close();
+                            try {
+                                ListDataSource.getInstance(context).close();
+                            } catch (Exception x) {
+
+                            }
                             getCursorAdapter(true);
                             return;
                         }
