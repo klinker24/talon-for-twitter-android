@@ -49,7 +49,7 @@ public class HTML5WebView extends WebView {
         mContentView = (FrameLayout) mBrowserFrameLayout.findViewById(R.id.main_content);
         mCustomViewContainer = (FrameLayout) mBrowserFrameLayout.findViewById(R.id.fullscreen_custom_content);
 
-        mLayout.addView(mBrowserFrameLayout, COVER_SCREEN_PARAMS);
+        mLayout = mBrowserFrameLayout;
 
         mWebChromeClient = new MyWebChromeClient();
         setWebChromeClient(mWebChromeClient);

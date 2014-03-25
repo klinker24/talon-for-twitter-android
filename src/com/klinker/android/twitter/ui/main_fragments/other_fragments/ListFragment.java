@@ -195,7 +195,7 @@ public class ListFragment extends MainFragment {
                 try {
                     super.onPostExecute(result);
 
-                    if (true) {//result) {
+                    if (result) {
                         getCursorAdapter(false);
 
                         if (numberNew > 0) {
@@ -322,6 +322,8 @@ public class ListFragment extends MainFragment {
                                 e.printStackTrace();
                             }
                         }
+
+                        mPullToRefreshLayout.setRefreshComplete();
                     }
                 });
             }
