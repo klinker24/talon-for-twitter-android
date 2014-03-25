@@ -88,12 +88,6 @@ public class BrowserActivity extends Activity {
     }
 
     @Override
-    public void onStop() {
-        browser.loadUrl("");
-        super.onStop();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.browser_activity, menu);

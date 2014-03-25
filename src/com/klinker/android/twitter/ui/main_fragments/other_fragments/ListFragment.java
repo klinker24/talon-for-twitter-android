@@ -26,7 +26,6 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class ListFragment extends MainFragment {
 
@@ -153,11 +152,7 @@ public class ListFragment extends MainFragment {
             manualRefresh = false;
 
             ListDataSource dataSource = ListDataSource.getInstance(context);
-            /*for (twitter4j.Status status : statuses) {
-                dataSource.createTweet(status, listId);
-            }*/
-
-            numberNew = dataSource.insertTweets(statuses, listId);//statuses.size();
+            numberNew = dataSource.insertTweets(statuses, listId);
 
             return numberNew;
 
@@ -200,18 +195,13 @@ public class ListFragment extends MainFragment {
                 try {
                     super.onPostExecute(result);
 
-                    if (result) {
+                    if (true) {//result) {
                         getCursorAdapter(false);
 
                         if (numberNew > 0) {
                             final CharSequence text;
 
-                            // append a plus on the end if it is 50
-                            if (numberNew != 50) {
-                                text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                            } else {
-                                text = numberNew + "+ " + getResources().getString(R.string.new_tweets);
-                            }
+                            text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
 
                             new Handler().postDelayed(new Runnable() {
                                 @Override
@@ -290,51 +280,47 @@ public class ListFragment extends MainFragment {
                     } catch (Exception x) {
 
                     }
-                    getCursorAdapter(true);
+                    //getCursorAdapter(true);
                     return;
                 }
 
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         Cursor c = null;
-                        try {
+                        if (cursorAdapter != null) {
                             c = cursorAdapter.getCursor();
-                        } catch (Exception e) {
-
+                            Log.v("talon_cursor", c.getCount() + " tweets in old list");
                         }
+
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-
-                        final int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
-
-                        if (bSpinner) {
-                            try {
-                                spinner.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
-                            } catch (Exception e) { }
-                        }
-
-                        try {
-                            Log.v("talon_lists", "getting list: " + cursorAdapter.getCount());
-                        } catch (Exception e) {
-                            try {
-                                ListDataSource.getInstance(context).close();
-                            } catch (Exception x) {
-
-                            }
-                            getCursorAdapter(true);
-                            return;
-                        }
-
                         listView.setAdapter(cursorAdapter);
-                        int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                        listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-                        mPullToRefreshLayout.setRefreshComplete();
+
+                        int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
+
+                        if (position > 0) {
+                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            mPullToRefreshLayout.setRefreshComplete();
+                        }
 
                         try {
-                            c.close();
+                            spinner.setVisibility(View.GONE);
+                        } catch (Exception e) { }
+
+                        try {
+                            listView.setVisibility(View.VISIBLE);
                         } catch (Exception e) {
 
+                        }
+
+                        if (c != null) {
+                            try {
+                                c.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -410,6 +396,7 @@ public class ListFragment extends MainFragment {
 
                 }
             });
+
             anim.setDuration(length);
             toastBar.startAnimation(anim);
         }
@@ -446,6 +433,7 @@ public class ListFragment extends MainFragment {
 
     public void updateToastText(String text, String button) {
         if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
+            infoBar = false;
             toastDescription.setText(text);
             toastButton.setText(button);
         } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
@@ -460,7 +448,6 @@ public class ListFragment extends MainFragment {
             int current = listView.getFirstVisiblePosition();
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
-
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).commit();
             } else {

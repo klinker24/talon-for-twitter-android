@@ -1,18 +1,13 @@
 package com.klinker.android.twitter.ui.main_fragments.home_fragments;
 
-import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.LoaderManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -20,7 +15,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
@@ -326,13 +320,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     @Override
     public void getCursorAdapter(boolean showSpinner) {
-        //getLoaderManager().initLoader(0, null, this);
-        /*if (showSpinner) {
-            try {
-                spinner.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-            } catch (Exception e) { }
-        }*/
 
         Thread getCursor = new Thread(new Runnable() {
             @Override
@@ -354,7 +341,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                         }
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-                        getCursorAdapter(true);
+                        //getCursorAdapter(true);
                     } catch (Exception x) {
 
                     }
@@ -381,8 +368,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             // don't want it to go any further, so return
                             return;
                         }
-
-                        currCursor = cursor;
 
                         Cursor c = null;
                         if (cursorAdapter != null) {
@@ -455,7 +440,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         if (listView.getVisibility() != View.VISIBLE) {
-                            update = true; // we want to do this to ensure there just isn't a blank list shown...
+                            update = true;
                             listView.setVisibility(View.VISIBLE);
                         }
 
@@ -471,6 +456,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                             } else {
                                 listView.setSelectionFromTop(0, 0);
+                            }
+
+                            try {
+                                c.close();
+                            } catch (Exception e) {
+
                             }
                         }
 
@@ -490,14 +481,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             }, 500);
                         } catch (Exception e) {
                             newTweets = false;
-                        }
-
-                        if (update) {
-                            try {
-                                c.close();
-                            } catch (Exception e) {
-
-                            }
                         }
                     }
                 });
@@ -1092,7 +1075,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }*/
 
     public boolean viewPressed = false;
-    public Cursor currCursor;
 
     /*@Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
@@ -1329,6 +1311,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
 
     public void updateToastText(String text, String button) {
         if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
+            infoBar = false;
             toastDescription.setText(text);
             toastButton.setText(button);
         } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
@@ -1340,7 +1323,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         Log.v("talon_tweetmarker", "marking read for account " + currentAccount);
 
         try {
-            Cursor cursor = currCursor;
+            Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
 
             HomeDataSource.getInstance(context).markAllRead(currentAccount);

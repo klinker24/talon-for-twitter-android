@@ -41,6 +41,16 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ComposeActivity extends Compose {
 
+    @Override
+    public void onDestroy() {
+        try {
+            ((AutoCompetePeopleAdapter)autocomplete.getListView().getAdapter()).getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
+    }
+
     public void setUpLayout() {
         setContentView(R.layout.compose_activity);
 
