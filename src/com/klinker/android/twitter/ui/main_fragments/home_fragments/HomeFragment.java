@@ -351,23 +351,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
-                        } catch (Exception e) {
-                            // the database is locked for some reason... we are going to close it then try again
-                            try {
-                                HomeDataSource.getInstance(context).close();
-                            } catch (Exception x) {
-
-                            }
-                            getCursorAdapter(true);
-
-                            // broadcast to the other home based fragments so that they can reset themselves
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-
-                            // don't want it to go any further, so return
-                            return;
-                        }
 
                         Cursor c = null;
                         if (cursorAdapter != null) {
@@ -420,17 +403,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             }
 
                             sharedPrefs.edit().putBoolean("just_muted", false).commit();
-
-                            Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
-
-                            switch (currentAccount) {
-                                case 1:
-                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 2, 0) + " for account " + 2);
-                                    break;
-                                case 2:
-                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 1, 0) + " for account " + 1);
-                                    break;
-                            }
                         }
 
                         final int tweets = numTweets;
@@ -523,13 +495,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             boolean needClose = false;
 
-            /*if (!sharedPrefs.getBoolean("refresh_me", false)) {
-                try {
-                    HomeDataSource.getInstance(context).markAllRead(currentAccount);
-                } catch (Exception e) {
-                    needClose = true;
-                }
-            }*/
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);

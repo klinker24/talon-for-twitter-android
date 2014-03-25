@@ -144,7 +144,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
                     } catch (Exception x) {
 
                     }
-                    getCursorAdapter(true);
+                    //getCursorAdapter(true);
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
@@ -157,7 +157,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
                     } catch (Exception x) {
 
                     }
-                    getCursorAdapter(true);
+                    //getCursorAdapter(true);
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }

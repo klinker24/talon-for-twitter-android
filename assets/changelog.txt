@@ -1,3 +1,10 @@
+<b>Version 2.1.4:</b><br/><br/>
+    &#8226; Toast bar shouldn't get stuck anymore<br/>
+    &#8226; Internal browser updates<br/>
+    &#8226; Some crash fixes<br/>
+    &#8226; Translation updates<br/>
+</br><br/>
+
 <b>Version 2.1.3:</b><br/><br/>
     &#8226; Bug fixes for the clickable links<br/>
     &#8226; Change the background of the internal browser to match the theme<br/>

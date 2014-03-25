@@ -24,8 +24,6 @@
     - retweet and favorite counts on the main timelines
     - toast bar needs redone on the home fragment so it doesn't ever get stuck
 
-    - enhanced list view 648 try catch
-
 
 -- For Release --
 

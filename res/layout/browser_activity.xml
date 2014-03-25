@@ -4,7 +4,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView android:id="@+id/webview"
+    <com.klinker.android.twitter.manipulations.widgets.HTML5WebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="2dp" />
