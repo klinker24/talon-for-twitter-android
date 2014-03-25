@@ -212,9 +212,14 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 } while (query.moveToNext());
             }
 
-            query.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        try {
+            query.close();
+        } catch (Exception e) {
+
         }
 
         Log.v("talon_widget", "size of " + mWidgetItems.size());

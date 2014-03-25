@@ -376,6 +376,7 @@ public class MainActivity extends DrawerActivity {
                                     null);
                         } while (cursor.moveToNext());
                     }
+                    cursor.close();
 
                     sharedPrefs.edit().putBoolean("insert_users_to_search", false).commit();
 

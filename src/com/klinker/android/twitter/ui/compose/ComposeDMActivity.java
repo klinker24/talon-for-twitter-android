@@ -22,6 +22,16 @@ import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 
 public class ComposeDMActivity extends Compose {
 
+    @Override
+    public void onDestroy() {
+        try {
+            ((AutoCompetePeopleAdapter)autocomplete.getListView().getAdapter()).getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
+    }
+
     public void setUpLayout() {
         isDM = true;
 
