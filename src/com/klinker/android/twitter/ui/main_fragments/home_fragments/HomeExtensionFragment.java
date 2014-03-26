@@ -22,6 +22,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
     public BroadcastReceiver homeClosed = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
+            Log.v("talon_home_ext", "received the reset home broadcast on a home extension timeline");
             getCursorAdapter(true);
         }
     };
@@ -145,6 +146,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
 
                     }
                     //getCursorAdapter(true);
+                    Log.v("talon_home_ext", "sending the reset home, caught in getcursoradapter");
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
@@ -152,11 +154,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
                 try {
                     Log.v("talon_database", "home extension fragment count: " + cursor.getCount());
                 } catch (Exception e) {
-                    try {
-                        HomeDataSource.getInstance(context).close();
-                    } catch (Exception x) {
-
-                    }
+                    HomeDataSource.dataSource = null;
                     //getCursorAdapter(true);
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;

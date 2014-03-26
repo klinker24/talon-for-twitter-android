@@ -246,11 +246,7 @@ public class DMFragment extends MainFragment {
             try {
                 cursor = DMDataSource.getInstance(getActivity()).getCursor(DrawerActivity.settings.currentAccount);
             } catch (Exception e) {
-                try {
-                    DMDataSource.getInstance(getActivity()).close();
-                } catch (Exception x) {
-                    // null pointer here...
-                }
+                DMDataSource.dataSource = null;
                 return "";
             }
 
@@ -285,7 +281,7 @@ public class DMFragment extends MainFragment {
                     } while (cursor.moveToPrevious());
                 }
             } catch (Exception e) {
-                DMDataSource.getInstance(context).close();
+                DMDataSource.dataSource = null;
                 getCursorAdapter(false);
                 return null;
             }

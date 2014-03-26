@@ -270,11 +270,7 @@ public class MentionsFragment extends MainFragment {
                 try {
                     cursor = MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
                 } catch (Exception e) {
-                    try {
-                        MentionsDataSource.getInstance(context).close();
-                    } catch (Exception x) {
-
-                    }
+                    MentionsDataSource.dataSource = null;
                     //getCursorAdapter(true);
                     return;
                 }
@@ -282,11 +278,7 @@ public class MentionsFragment extends MainFragment {
                 try {
                     Log.v("talon_databases", "mentions cursor size: " + cursor.getCount());
                 } catch (Exception e) {
-                    try {
-                        MentionsDataSource.getInstance(context).close();
-                    } catch (Exception x) {
-
-                    }
+                    MentionsDataSource.dataSource = null;
                     //getCursorAdapter(true);
                     return;
                 }
