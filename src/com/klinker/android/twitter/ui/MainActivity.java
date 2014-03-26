@@ -345,8 +345,17 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onStart() {
         super.onStart();
+
         if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
-            recreate();
+            Log.v("talon_theme", "no action bar overlay found, recreating");
+
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(new Intent(context, MainActivity.class));
+            overridePendingTransition(0, 0);
+
+            // return so that it doesn't start the background refresh, that is what caused the dups.
+            return;
         }
 
         if(DrawerActivity.settings.pushNotifications) {
