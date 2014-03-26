@@ -22,7 +22,6 @@
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
     - retweet and favorite counts on the main timelines
-    - toast bar needs redone on the home fragment so it doesn't ever get stuck
 
 
 -- For Release --
@@ -31,3 +30,4 @@
         - Drafts
         - Scheduled Tweets
         - Direct Message pictures
+        - mute users for a time period
