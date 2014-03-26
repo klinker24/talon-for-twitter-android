@@ -336,17 +336,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
                     Log.v("talon_home_frag", "caught getting the cursor on the home timeline, sending reset home");
-                    try {
-                        try {
-                            HomeDataSource.dataSource = null;
-                        } catch (Exception x) {
+                    HomeDataSource.dataSource = null;
+                    //context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                    //getCursorAdapter(true);
 
-                        }
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-                        //getCursorAdapter(true);
-                    } catch (Exception x) {
-
-                    }
                     return;
                 }
 
@@ -561,8 +554,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             manualRefresh = false;
 
             if (needClose) {
-                HomeDataSource.getInstance(context).close();
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                HomeDataSource.dataSource = null;
+                Log.v("talon_home_frag", "sending the reset home broadcase in needclose section");
+                //context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             }
 
             if (lastId == null) {
