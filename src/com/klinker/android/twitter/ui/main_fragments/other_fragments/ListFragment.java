@@ -1,5 +1,9 @@
 package com.klinker.android.twitter.ui.main_fragments.other_fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -37,6 +41,22 @@ public class ListFragment extends MainFragment {
 
     public ListFragment(int listId) {
         this.listId = listId;
+    }
+
+    public BroadcastReceiver resetLists = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getCursorAdapter(true);
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.RESET_LISTS");
+        context.registerReceiver(resetLists, filter);
     }
 
     @Override
@@ -252,6 +272,7 @@ public class ListFragment extends MainFragment {
     @Override
     public void onPause() {
         markReadForLoad();
+        context.unregisterReceiver(resetLists);
         super.onPause();
     }
 
@@ -276,7 +297,7 @@ public class ListFragment extends MainFragment {
                     cursor = ListDataSource.getInstance(context).getCursor(listId);
                 } catch (Exception e) {
                     ListDataSource.dataSource = null;
-                    //getCursorAdapter(true);
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
                     return;
                 }
 
@@ -290,6 +311,15 @@ public class ListFragment extends MainFragment {
                             Log.v("talon_cursor", c.getCount() + " tweets in old list");
                         }
 
+                        try {
+                            Log.v("talon_list", "number of tweets in list: " + cursor.getCount());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            // the cursor or database is closed, so we will null out the datasource and restart the get cursor method
+                            ListDataSource.dataSource = null;
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
+                            return;
+                        }
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
                         listView.setAdapter(cursorAdapter);
 

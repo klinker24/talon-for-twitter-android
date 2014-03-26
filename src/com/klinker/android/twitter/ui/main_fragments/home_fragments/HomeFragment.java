@@ -109,19 +109,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-
-                //HomeDataSource dataSource = HomeDataSource.getInstance(context);
-                //sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l)).commit();
 
                 trueLive = true;
 
-                try {
-                    //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                    getCursorAdapter(false);
-                } catch (Exception e) {
-                    // fragment not attached to activity?
-                }
+                getCursorAdapter(false);
             } else {
                 liveUnread++;
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
@@ -169,7 +161,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         @Override
         public void onReceive(final Context context, Intent intent) {
             Log.v("talon_home_frag", "home closed broadcast received on home fragment");
-            getCursorAdapter(true);
+            if (!dontGetCursor) {
+                getCursorAdapter(true);
+            }
+            dontGetCursor = false;
         }
     };
 
@@ -337,9 +332,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 } catch (Exception e) {
                     Log.v("talon_home_frag", "caught getting the cursor on the home timeline, sending reset home");
                     HomeDataSource.dataSource = null;
-                    //context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-                    //getCursorAdapter(true);
-
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
 
@@ -353,6 +346,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
+
+                        try {
+                            Log.v("talon_databases", "size of adapter cursor on home fragment: " + cursor.getCount());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            HomeDataSource.dataSource = null;
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                        }
 
                         initial = false;
 
@@ -467,6 +468,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }
 
     public boolean manualRefresh = false;
+    public boolean dontGetCursor = false;
 
     public int doRefresh() {
         int numberNew = 0;
@@ -556,7 +558,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             if (needClose) {
                 HomeDataSource.dataSource = null;
                 Log.v("talon_home_frag", "sending the reset home broadcase in needclose section");
-                //context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                dontGetCursor = true;
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             }
 
             if (lastId == null) {
@@ -1166,8 +1169,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         } catch (Exception e) {
             Log.v("talon_home_frag", "caught getting position on home timeline, getting the cursor adapter again");
             e.printStackTrace();
-            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-            getCursorAdapter(false);
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             return -1;
         }
 

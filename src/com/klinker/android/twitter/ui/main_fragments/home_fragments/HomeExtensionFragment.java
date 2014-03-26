@@ -140,14 +140,10 @@ public abstract class HomeExtensionFragment extends MainFragment {
                 try {
                     cursor = getCursor();
                 }catch (Exception e) {
-                    try {
-                        HomeDataSource.getInstance(context).close();
-                    } catch (Exception x) {
-
-                    }
+                    HomeDataSource.dataSource = null;
                     //getCursorAdapter(true);
                     Log.v("talon_home_ext", "sending the reset home, caught in getcursoradapter");
-                    //context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
 
@@ -157,7 +153,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
                     HomeDataSource.dataSource = null;
                     //getCursorAdapter(true);
                     Log.v("talon_home_ext", "sending the reset home, caught getting cursoradapter at the second spot");
-                    //context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
 
