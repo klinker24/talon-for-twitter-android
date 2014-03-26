@@ -18,7 +18,6 @@
     - options for themes to hide or show the retweet and favorite button without expansion
 
 - Bugs:
-    - video sound stops after one time playing it
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
     - retweet and favorite counts on the main timelines
