@@ -1,7 +1,9 @@
 package com.klinker.android.twitter.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,10 +53,10 @@ public class BrowserActivity extends Activity {
 
         browser.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
-        try {
+        if (url.contains("youtu") || url.contains("play.google.com")) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } else {
             browser.loadUrl(url);
-        } catch (Exception e) {
-
         }
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -90,6 +92,24 @@ public class BrowserActivity extends Activity {
 
             default:
                 return true;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if (url.contains("vine")) {
+                ((AudioManager)getSystemService(
+                        Context.AUDIO_SERVICE)).requestAudioFocus(
+                        new AudioManager.OnAudioFocusChangeListener() {
+                            @Override
+                            public void onAudioFocusChange(int focusChange) {}
+                        }, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+            }
+        } catch (Exception e) {
+
         }
     }
 }
