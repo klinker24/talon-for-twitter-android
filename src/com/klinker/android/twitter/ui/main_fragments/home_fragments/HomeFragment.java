@@ -168,6 +168,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public BroadcastReceiver homeClosed = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
+            Log.v("talon_home_frag", "home closed broadcast received on home fragment");
             getCursorAdapter(true);
         }
     };
@@ -334,9 +335,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 try {
                     cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
+                    Log.v("talon_home_frag", "caught getting the cursor on the home timeline, sending reset home");
                     try {
                         try {
-                            HomeDataSource.getInstance(context).close();
+                            HomeDataSource.dataSource = null;
                         } catch (Exception x) {
 
                         }
@@ -673,18 +675,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 MainActivity.canSwitch = true;
 
                 if (result) {
-                    try {
-                        //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                        getCursorAdapter(false);
-                    } catch (IllegalStateException e) {
-                        // fragment not attached?
-                        try {
-                            mPullToRefreshLayout.setRefreshComplete();
-                        } catch (Exception x) {
-                            // something went very wrong,but they closed the app i think
-                        }
-                        isRefreshing = false;
-                    }
+                    getCursorAdapter(false);
                 } else {
                     mPullToRefreshLayout.setRefreshComplete();
                     isRefreshing = false;
@@ -737,6 +728,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         try {
                             if (result) {
                                 //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                                Log.v("talon_home_frag", "getting cursor adapter in onrefreshstarted");
                                 getCursorAdapter(false);
 
                                 if (unread > 0) {
@@ -950,6 +942,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            Log.v("talon_home_frag", "getting cursor adapter in on resume");
             getCursorAdapter(true);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         }
@@ -967,6 +960,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            Log.v("talon_home_frag", "getting cursor adapter in on start");
             getCursorAdapter(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         } else { // otherwise, if there are no new ones, it should start the refresh (this is what was causing the jumping before)
@@ -1176,6 +1170,8 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 } while (cursor.moveToPrevious());
             }
         } catch (Exception e) {
+            Log.v("talon_home_frag", "caught getting position on home timeline, getting the cursor adapter again");
+            e.printStackTrace();
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
             getCursorAdapter(false);
             return -1;
@@ -1303,9 +1299,15 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
                 }
             }
-        } catch (Exception e) {
-            // cursor adapter is null because the loader was reset for some reason
+        } catch (IllegalStateException e) {
+            // Home datasource is not open, so we manually close it to null out values and reset it
             e.printStackTrace();
+            try {
+                HomeDataSource.dataSource = null;
+            } catch (Exception x) {
+
+            }
+            markReadForLoad();
         }
     }
 
