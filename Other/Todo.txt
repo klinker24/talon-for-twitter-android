@@ -25,6 +25,9 @@
 
 -- For Release --
 
+    - replying from the notification shade should include all names
+    - focus on the message edittext when creating a direct message if the text in the upper one isn't blank
+
     Version 2.2.0
         - Drafts
         - Scheduled Tweets
