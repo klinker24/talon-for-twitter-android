@@ -1023,16 +1023,16 @@ public class ProfilePager extends Activity {
         protected void onPostExecute(final ResponseList<UserList> lists) {
 
             if (lists != null) {
+                Collections.sort(lists, new Comparator<UserList>() {
+                    public int compare(UserList result1, UserList result2) {
+                        return result1.getName().compareTo(result2.getName());
+                    }
+                });
+
                 ArrayList<String> names = new ArrayList<String>();
                 for(UserList l : lists) {
                     names.add(l.getName());
                 }
-
-                Collections.sort(names, new Comparator<String>() {
-                    public int compare(String result1, String result2) {
-                        return result1.compareTo(result2);
-                    }
-                });
 
                 try {
                     pDialog.dismiss();
