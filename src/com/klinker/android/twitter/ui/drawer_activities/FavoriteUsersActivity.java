@@ -187,7 +187,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
             if (cursor == null) {
                 return;
             }
-            
+
             Log.v("fav_users", cursor.getCount() + "");
 
             if (cursor.getCount() > 0) {
