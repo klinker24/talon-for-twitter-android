@@ -204,6 +204,10 @@ public class ComposeDMActivity extends Compose {
             });
         }
 
+        if (contactEntry.getText().toString().length() != 0) {
+            reply.requestFocus();
+        }
+
     }
 
     public void setUpReplyText() {

@@ -2,6 +2,7 @@
     &#8226; Fixed black loading screen and duplicates occuring from it<br/>
     &#8226; Toast bar shouldn't get stuck anymore<br/>
     &#8226; Internal browser updates<br/>
+    &#8226; Removed echo sound when clicking a tweet from the timeline<br/>
     &#8226; Some crash fixes<br/>
     &#8226; Translation updates<br/>
 </br><br/>

@@ -672,6 +672,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         }
                     }
 
+                    holder.tweet.setSoundEffectsEnabled(false);
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -706,6 +707,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     });
 
                     if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                        holder.retweeter.setSoundEffectsEnabled(false);
                         holder.retweeter.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
