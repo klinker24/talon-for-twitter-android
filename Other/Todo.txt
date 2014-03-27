@@ -26,7 +26,6 @@
 -- For Release --
 
     - replying from the notification shade should include all names
-    - turn the size of links up to 30
 
     Version 2.2.0
         - Drafts

@@ -436,6 +436,23 @@ public class MentionsDataSource {
         return name;
     }
 
+    public synchronized String getNewestNames(int account) {
+        Cursor cursor = getUnreadCursor(account);
+        String name = "";
+
+        try {
+            if (cursor.moveToFirst()) {
+                name = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_USERS));
+            }
+        } catch (Exception e) {
+
+        }
+
+        cursor.close();
+
+        return name;
+    }
+
     public synchronized String getNewestMessage(int account) {
 
         Cursor cursor = getUnreadCursor(account);
