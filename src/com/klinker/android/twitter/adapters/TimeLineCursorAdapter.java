@@ -763,6 +763,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     }
 
+                    holder.tweet.setSoundEffectsEnabled(false);
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -797,6 +798,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     });
 
                     if (holder.retweeter.getVisibility() == View.VISIBLE) {
+                        holder.retweeter.setSoundEffectsEnabled(false);
                         holder.retweeter.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
