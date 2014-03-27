@@ -3,6 +3,7 @@
     &#8226; Toast bar shouldn't get stuck anymore<br/>
     &#8226; Internal browser updates<br/>
     &#8226; Removed echo sound when clicking a tweet from the timeline<br/>
+    &#8226; Reply to all screennames from a mention notification<br/>
     &#8226; Some crash fixes<br/>
     &#8226; Translation updates<br/>
 </br><br/>
