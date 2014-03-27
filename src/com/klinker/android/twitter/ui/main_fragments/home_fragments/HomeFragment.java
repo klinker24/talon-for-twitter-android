@@ -1303,7 +1303,6 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
             } catch (Exception x) {
 
             }
-            markReadForLoad();
         } catch (NullPointerException e) {
             e.printStackTrace();
             // the cursoradapter is null
