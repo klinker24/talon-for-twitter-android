@@ -25,7 +25,16 @@
 
 -- For Release --
 
-    - replying from the notification shade should include all names
+    try {
+        ViewConfiguration config = ViewConfiguration.get(this);
+        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+        if(menuKeyField != null) {
+            menuKeyField.setAccessible(true);
+            menuKeyField.setBoolean(config, false);
+        }
+    } catch (Exception ex) {
+        // Ignore
+    }
 
     Version 2.2.0
         - Drafts
