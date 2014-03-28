@@ -36,6 +36,8 @@
         // Ignore
     }
 
+    sound on link clicks
+
     Version 2.2.0
         - Drafts
         - Scheduled Tweets

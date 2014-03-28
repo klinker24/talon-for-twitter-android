@@ -951,8 +951,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public void onStart() {
         super.onStart();
 
-        initial = true;
+        if (MainActivity.caughtstarting) {
+            return;
+        }
 
+        initial = true;
         justStarted = true;
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets

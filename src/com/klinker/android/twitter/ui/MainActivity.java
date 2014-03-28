@@ -342,6 +342,8 @@ public class MainActivity extends DrawerActivity {
         super.onDestroy();
     }
 
+    public static boolean caughtstarting = false;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -353,6 +355,20 @@ public class MainActivity extends DrawerActivity {
             overridePendingTransition(0, 0);
             startActivity(new Intent(context, MainActivity.class));
             overridePendingTransition(0, 0);
+
+            MainActivity.caughtstarting = true;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (Exception e) {
+
+                    }
+
+                    MainActivity.caughtstarting = false;
+                }
+            }).start();
 
             // return so that it doesn't start the background refresh, that is what caused the dups.
             return;
