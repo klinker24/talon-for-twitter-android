@@ -43,3 +43,4 @@
         - Scheduled Tweets
         - Direct Message pictures
         - mute users for a time period
+        - live streaming on mentions
