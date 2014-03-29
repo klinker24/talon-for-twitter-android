@@ -952,6 +952,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         super.onStart();
 
         if (MainActivity.caughtstarting) {
+            MainActivity.caughtstarting = false;
             return;
         }
 
