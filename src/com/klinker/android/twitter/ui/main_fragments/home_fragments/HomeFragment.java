@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.database.StaleDataException;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -1310,6 +1311,9 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         } catch (NullPointerException e) {
             e.printStackTrace();
             // the cursoradapter is null
+        } catch (StaleDataException e) {
+            e.printStackTrace();
+            // do nothing here i guess
         }
     }
 

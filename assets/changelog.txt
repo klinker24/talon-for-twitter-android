@@ -1,4 +1,9 @@
 <b>Version 2.1.5:</b><br/><br/>
+    &#8226; More duplication fixes<br/>
+    &#8226; Crash fixes<br/>
+</br><br/>
+
+<b>Version 2.1.5:</b><br/><br/>
     &#8226; Fixed black loading screen and duplicates occuring from it<br/>
     &#8226; Toast bar shouldn't get stuck anymore<br/>
     &#8226; Internal browser updates<br/>

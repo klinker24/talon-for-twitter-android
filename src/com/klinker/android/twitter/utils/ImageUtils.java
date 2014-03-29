@@ -40,7 +40,12 @@ public class ImageUtils {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
+        Bitmap output;
+        try {
+            output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
 
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
