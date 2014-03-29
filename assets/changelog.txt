@@ -1,6 +1,7 @@
 <b>Version 2.1.5:</b><br/><br/>
     &#8226; More duplication fixes<br/>
     &#8226; Crash fixes<br/>
+    &#8226; Translation updates<br/>
 </br><br/>
 
 <b>Version 2.1.5:</b><br/><br/>
