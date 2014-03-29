@@ -267,6 +267,13 @@ public class ConversationFragment extends Fragment {
                             });
                         }
 
+                        try {
+                            Thread.sleep(250);
+                        } catch (Exception e) {
+                            // since we are changing the arraylist for the adapter in the background, we need to make sure it
+                            // gets updated before continuing
+                        }
+
                         query = result.nextQuery();
 
                         if (query != null)
