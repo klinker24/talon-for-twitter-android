@@ -84,6 +84,13 @@
         android:title="@string/display_options" >
 
         <CheckBoxPreference
+            android:key="force_overflow"
+            android:title="@string/force_overflow"
+            android:summary="@string/force_overflow_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
             android:key="use_emojis"
             android:title="@string/enable_emojis"
             android:defaultValue="false"

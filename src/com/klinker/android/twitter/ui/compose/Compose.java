@@ -31,6 +31,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -51,6 +52,7 @@ import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
@@ -62,6 +64,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -155,6 +158,19 @@ public abstract class Compose extends Activity implements
         settings = AppSettings.getInstance(this);
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (settings.forceOverflow) {
+            try {
+                ViewConfiguration config = ViewConfiguration.get(this);
+                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+                if(menuKeyField != null) {
+                    menuKeyField.setAccessible(true);
+                    menuKeyField.setBoolean(config, false);
+                }
+            } catch (Exception ex) {
+                // Ignore
+            }
+        }
 
         currentAccount = sharedPrefs.getInt("current_account", 1);
 
