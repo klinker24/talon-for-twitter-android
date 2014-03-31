@@ -413,6 +413,8 @@
 
     <!-- added after release -->
     <string name="use_inapp_browser">Use In-App Browser</string>
+    <string name="use_inapp_browser_summary">Applied to clicks from the timeline.</string>
+    <string name="use_browser_on_tweet">Use Browser Page on Tweet</string>
     <string name="dismiss_all">Dismiss All</string>
     <string name="handle_and_name">Display Handle and Name</string>
     <string name="notification_types">Notification Types</string>
