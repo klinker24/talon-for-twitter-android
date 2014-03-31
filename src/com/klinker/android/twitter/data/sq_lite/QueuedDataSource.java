@@ -46,6 +46,7 @@ public class QueuedDataSource {
         try {
             database = dbHelper.getWritableDatabase();
         } catch (Exception e) {
+            e.printStackTrace();
             close();
         }
     }
@@ -88,12 +89,14 @@ public class QueuedDataSource {
     public synchronized void deleteDraft(String message) {
 
         try {
-            database.delete(QueuedSQLiteHelper.TABLE_QUEUED, QueuedSQLiteHelper.COLUMN_TEXT
-                    + " = " + message, null);
+            database.delete(QueuedSQLiteHelper.TABLE_QUEUED,
+                    QueuedSQLiteHelper.COLUMN_TEXT + " = ?",
+                    new String[] {message});
         } catch (Exception e) {
             open();
-            database.delete(QueuedSQLiteHelper.TABLE_QUEUED, QueuedSQLiteHelper.COLUMN_TEXT
-                    + " = " + message, null);
+            database.delete(QueuedSQLiteHelper.TABLE_QUEUED,
+                    QueuedSQLiteHelper.COLUMN_TEXT + " = ?",
+                    new String[] {message});
         }
     }
 
@@ -124,14 +127,17 @@ public class QueuedDataSource {
         return cursor;
     }
 
-    public String getDrafts() {
-        String names = "";
+    public String[] getDrafts() {
 
         Cursor cursor = getDraftsCursor();
 
+        String[] names = new String[cursor.getCount()];
+
         if (cursor.moveToFirst()) {
+            int i = 0;
             do {
-                names += cursor.getString(cursor.getColumnIndex(QueuedSQLiteHelper.COLUMN_TEXT)) + " || ";
+                names[i] = cursor.getString(cursor.getColumnIndex(QueuedSQLiteHelper.COLUMN_TEXT));
+                i++;
             } while (cursor.moveToNext());
         }
 
