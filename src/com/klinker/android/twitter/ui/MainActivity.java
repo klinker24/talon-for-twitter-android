@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -44,6 +45,7 @@ import com.klinker.android.twitter.ui.setup.TutorialActivity;
 import com.klinker.android.twitter.ui.setup.Version2Setup;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 
+import java.lang.reflect.Field;
 import java.util.Calendar;
 
 public class MainActivity extends DrawerActivity {
@@ -121,6 +123,19 @@ public class MainActivity extends DrawerActivity {
         sContext = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = AppSettings.getInstance(context);
+
+        if (DrawerActivity.settings.forceOverflow) {
+            try {
+                ViewConfiguration config = ViewConfiguration.get(this);
+                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+                if(menuKeyField != null) {
+                    menuKeyField.setAccessible(true);
+                    menuKeyField.setBoolean(config, false);
+                }
+            } catch (Exception ex) {
+                // Ignore
+            }
+        }
 
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
