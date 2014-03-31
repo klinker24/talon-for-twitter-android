@@ -1,5 +1,6 @@
 <b>Version 2.2.0:</b><br/><br/>
     &#8226; Seperate options for in app browser from timeline and on tweets<br/>
+    &#8226; Better handling of refreshing tweets, taking into account the mutes<br/>
 </br><br/>
 
 <b>Version 2.1.6:</b><br/><br/>
