@@ -601,7 +601,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             else
                 am.cancel(pendingIntent);
 
-            return numberNew;
+            return HomeDataSource.getInstance(context).getUnreadCount(currentAccount);
 
         } catch (TwitterException e) {
             // Error in updating status
