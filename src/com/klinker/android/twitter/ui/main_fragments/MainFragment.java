@@ -245,7 +245,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
 
     public void toTop() {
         try {
-            if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 40) {
+            if (listView.getFirstVisiblePosition() > 40) {
                 listView.setSelection(0);
                 new Handler().postDelayed(new Runnable() {
                     @Override
