@@ -1,4 +1,8 @@
-<b>Version 2.1.5:</b><br/><br/>
+<b>Version 2.2.0:</b><br/><br/>
+    &#8226; Seperate options for in app browser from timeline and on tweets<br/>
+</br><br/>
+
+<b>Version 2.1.6:</b><br/><br/>
     &#8226; More duplication fixes<br/>
     &#8226; Crash fixes<br/>
     &#8226; Translation updates<br/>
