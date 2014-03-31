@@ -11,7 +11,7 @@ public class QueuedSQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_QUEUED = "queued";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_ACCOUNT = "account";
-    public static final String COLUMN_TEXT = "text";
+    public static final String COLUMN_TEXT = "_text";
     public static final String COLUMN_TIME = "time";
     public static final String COLUMN_ALARM_ID = "alarm_id";
     public static final String COLUMN_TYPE = "type";
@@ -27,8 +27,8 @@ public class QueuedSQLiteHelper extends SQLiteOpenHelper {
             + TABLE_QUEUED + "(" + COLUMN_ID
             + " integer primary key, " + COLUMN_ACCOUNT
             + " integer account num, " + COLUMN_TEXT
-            + " text to send, " + COLUMN_TIME
-            + " integer time to send tweet, " + COLUMN_TYPE
+            + " text send, " + COLUMN_TIME
+            + " integer send tweet, " + COLUMN_TYPE
             + " integer type of queued tweet, " + COLUMN_ALARM_ID
             + " integer alarm identifier); ";
 

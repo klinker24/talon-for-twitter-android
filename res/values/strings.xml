@@ -567,4 +567,10 @@
     <string name="force_overflow">Force Overflow</string>
     <string name="show_muted_mentions">Show Muted Mentions</string>
     <string name="force_overflow_summary">Always show the 3-Dot \"Overflow Menu\" in the Action Bar. Used for phones with a physical menu button.</string>
+    <string name="menu_view_drafts">View Drafts</string>
+    <string name="menu_schedule_tweet">Schedule a Tweet</string>
+    <string name="menu_save_draft">Save Draft</string>
+    <string name="saved_draft">Saved Draft</string>
+    <string name="delete_draft">Delete Draft</string>
+    <string name="no_tweet">No Tweet!</string>
 </resources>

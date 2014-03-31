@@ -13,6 +13,9 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,9 +32,11 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.utils.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -253,7 +258,6 @@ public class ComposeActivity extends Compose {
             @Override
             public void onClick(View view) {
                 if (!addLocation) {
-                    //Toast.makeText(context, getResources().getString(R.string.finding_location), Toast.LENGTH_SHORT);
                     Toast.makeText(context, getResources().getString(R.string.location_connected), Toast.LENGTH_SHORT).show();
 
                     addLocation = true;
@@ -520,5 +524,69 @@ public class ComposeActivity extends Compose {
         });
         anim.setDuration(length);
         toastBar.startAnimation(anim);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.compose_activity, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_save_draft:
+                if (reply.getText().length() > 0) {
+                    QueuedDataSource.getInstance(this).createDraft(reply.getText().toString(), currentAccount);
+                    Toast.makeText(this, getResources().getString(R.string.saved_draft), Toast.LENGTH_SHORT).show();
+                    reply.setText("");
+                    finish();
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.no_tweet), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.menu_view_drafts:
+                final String[] drafts = QueuedDataSource.getInstance(this).getDrafts();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(drafts, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int item) {
+
+                        new AlertDialog.Builder(context)
+                                .setTitle(context.getResources().getString(R.string.apply))
+                                .setMessage(drafts[item])
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        reply.setText(drafts[item]);
+                                        reply.setSelection(reply.getText().length());
+                                        QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .create()
+                                .show();
+
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            case R.id.menu_schedule_tweet:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
