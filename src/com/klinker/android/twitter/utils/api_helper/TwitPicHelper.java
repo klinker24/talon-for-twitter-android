@@ -101,6 +101,11 @@ public class TwitPicHelper extends APIHelper {
         return statusId;
     }
 
+    public String uploadForUrl() {
+        TwitPicStatus status = uploadToTwitPic();
+        return status.getPicUrl();
+    }
+
     private TwitPicStatus uploadToTwitPic() {
         try {
             HttpClient client = new DefaultHttpClient();
@@ -168,6 +173,9 @@ public class TwitPicHelper extends APIHelper {
 
         public String getText() {
             return totalTweet;
+        }
+        public String getPicUrl() {
+            return picUrl;
         }
     }
 
