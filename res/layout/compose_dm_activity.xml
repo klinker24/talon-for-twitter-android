@@ -47,6 +47,24 @@
             android:padding="4dp"/>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_above="@+id/bottom_bar" >
+
+            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                android:id="@+id/number_attached"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:gravity="center"
+                android:background="@drawable/background_card"
+                android:textColor="@android:color/black"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

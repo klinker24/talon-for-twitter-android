@@ -16,6 +16,7 @@
     - tweetmarker in lists
     - "search timeline" option for searching
     - options for themes to hide or show the retweet and favorite button without expansion
+    - queue tweets to send when connected to a data connection if they weren't before
 
 - Bugs:
     - sideways pictures
