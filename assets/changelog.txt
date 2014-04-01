@@ -1,6 +1,8 @@
 <b>Version 2.2.0:</b><br/><br/>
     &#8226; New draft system for composing tweets<br/>
+    &#8226; Tweet mulitple images (images count for 22 characters - just for reference)<br/>
     &#8226; Send pictures though direct messages with TwitPic<br/>
+    &#8226; Post a notification while a tweet is in the process of sending<br/>
     &#8226; Seperate options for in app browser from timeline and on tweets<br/>
     &#8226; Better handling of refreshing tweets, taking into account the mutes<br/>
     &#8226; Live streaming of mentions<br/>

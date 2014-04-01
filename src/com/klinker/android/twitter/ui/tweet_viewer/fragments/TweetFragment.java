@@ -55,6 +55,7 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -1212,6 +1213,46 @@ public class TweetFragment extends Fragment {
         imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
     }
 
+    public void makeTweetingNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_stat_icon)
+                        .setContentTitle(getResources().getString(R.string.sending_tweet))
+                        .setTicker(getResources().getString(R.string.sending_tweet))
+                        .setOngoing(true)
+                        .setProgress(100, 0, true);
+
+        Intent resultIntent = new Intent(context, MainActivity.class);
+
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        context,
+                        0,
+                        resultIntent,
+                        0
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(6, mBuilder.build());
+    }
+
+    public void finishedTweetingNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_stat_icon)
+                        .setContentTitle(getResources().getString(R.string.tweet_success))
+                        .setOngoing(false)
+                        .setTicker(getResources().getString(R.string.tweet_success));
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(6, mBuilder.build());
+        // cancel it immediately, the ticker will just go off
+        mNotificationManager.cancel(6);
+    }
+
     class ReplyToStatus extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
@@ -1232,6 +1273,7 @@ public class TweetFragment extends Fragment {
             removeKeyboard(message);
             Toast.makeText(context, getResources().getString(R.string.sending) + "...", Toast.LENGTH_SHORT).show();
             ((Activity)context).finish();
+            makeTweetingNotification();
         }
 
         protected Boolean doInBackground(String... urls) {
@@ -1292,7 +1334,7 @@ public class TweetFragment extends Fragment {
             }
 
             if (sent) {
-                Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
+                finishedTweetingNotification();
             } else {
                 makeFailedNotification(text);
             }
