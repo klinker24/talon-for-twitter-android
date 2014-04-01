@@ -1,18 +1,14 @@
 package com.klinker.android.twitter.ui.main_fragments.home_fragments;
 
-import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.LoaderManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.Loader;
 import android.database.Cursor;
+import android.database.StaleDataException;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -20,7 +16,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
@@ -115,19 +110,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-
-                //HomeDataSource dataSource = HomeDataSource.getInstance(context);
-                //sharedPrefs.edit().putLong("current_position_" + currentAccount, dataSource.getLastIds(currentAccount)[0]).commit();
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l)).commit();
 
                 trueLive = true;
 
-                try {
-                    //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                    getCursorAdapter(false);
-                } catch (Exception e) {
-                    // fragment not attached to activity?
-                }
+                getCursorAdapter(false);
             } else {
                 liveUnread++;
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
@@ -174,7 +161,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public BroadcastReceiver homeClosed = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
-            getCursorAdapter(true);
+            Log.v("talon_home_frag", "home closed broadcast received on home fragment");
+            if (!dontGetCursor) {
+                getCursorAdapter(true);
+            }
+            dontGetCursor = false;
         }
     };
 
@@ -326,13 +317,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     @Override
     public void getCursorAdapter(boolean showSpinner) {
-        //getLoaderManager().initLoader(0, null, this);
-        /*if (showSpinner) {
-            try {
-                spinner.setVisibility(View.VISIBLE);
-                listView.setVisibility(View.GONE);
-            } catch (Exception e) { }
-        }*/
 
         Thread getCursor = new Thread(new Runnable() {
             @Override
@@ -347,42 +331,15 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 try {
                     cursor = HomeDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
-                    try {
-                        try {
-                            HomeDataSource.getInstance(context).close();
-                        } catch (Exception x) {
-
-                        }
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-                        getCursorAdapter(true);
-                    } catch (Exception x) {
-
-                    }
+                    Log.v("talon_home_frag", "caught getting the cursor on the home timeline, sending reset home");
+                    HomeDataSource.dataSource = null;
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
                     return;
                 }
 
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
-                        } catch (Exception e) {
-                            // the database is locked for some reason... we are going to close it then try again
-                            try {
-                                HomeDataSource.getInstance(context).close();
-                            } catch (Exception x) {
-
-                            }
-                            getCursorAdapter(true);
-
-                            // broadcast to the other home based fragments so that they can reset themselves
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-
-                            // don't want it to go any further, so return
-                            return;
-                        }
-
-                        currCursor = cursor;
 
                         Cursor c = null;
                         if (cursorAdapter != null) {
@@ -390,6 +347,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
+
+                        try {
+                            Log.v("talon_databases", "size of adapter cursor on home fragment: " + cursor.getCount());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            HomeDataSource.dataSource = null;
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                        }
 
                         initial = false;
 
@@ -435,17 +400,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             }
 
                             sharedPrefs.edit().putBoolean("just_muted", false).commit();
-
-                            Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
-
-                            switch (currentAccount) {
-                                case 1:
-                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 2, 0) + " for account " + 2);
-                                    break;
-                                case 2:
-                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 1, 0) + " for account " + 1);
-                                    break;
-                            }
                         }
 
                         final int tweets = numTweets;
@@ -455,7 +409,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         if (listView.getVisibility() != View.VISIBLE) {
-                            update = true; // we want to do this to ensure there just isn't a blank list shown...
+                            update = true;
                             listView.setVisibility(View.VISIBLE);
                         }
 
@@ -471,6 +425,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                             } else {
                                 listView.setSelectionFromTop(0, 0);
+                            }
+
+                            try {
+                                c.close();
+                            } catch (Exception e) {
+
                             }
                         }
 
@@ -491,14 +451,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         } catch (Exception e) {
                             newTweets = false;
                         }
-
-                        if (update) {
-                            try {
-                                c.close();
-                            } catch (Exception e) {
-
-                            }
-                        }
                     }
                 });
             }
@@ -517,6 +469,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }
 
     public boolean manualRefresh = false;
+    public boolean dontGetCursor = false;
 
     public int doRefresh() {
         int numberNew = 0;
@@ -540,13 +493,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             boolean needClose = false;
 
-            /*if (!sharedPrefs.getBoolean("refresh_me", false)) {
-                try {
-                    HomeDataSource.getInstance(context).markAllRead(currentAccount);
-                } catch (Exception e) {
-                    needClose = true;
-                }
-            }*/
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
@@ -611,7 +557,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             manualRefresh = false;
 
             if (needClose) {
-                HomeDataSource.getInstance(context).close();
+                HomeDataSource.dataSource = null;
+                Log.v("talon_home_frag", "sending the reset home broadcase in needclose section");
+                dontGetCursor = true;
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             }
 
@@ -624,7 +572,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 }
             }
 
-            numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+            try {
+                numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+            } catch (NullPointerException e) {
+                return 0;
+            }
 
             if (numberNew > 0 && statuses.size() > 0) {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
@@ -649,7 +601,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             else
                 am.cancel(pendingIntent);
 
-            return numberNew;
+            return HomeDataSource.getInstance(context).getUnreadCount(currentAccount);
 
         } catch (TwitterException e) {
             // Error in updating status
@@ -721,18 +673,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 MainActivity.canSwitch = true;
 
                 if (result) {
-                    try {
-                        //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-                        getCursorAdapter(false);
-                    } catch (IllegalStateException e) {
-                        // fragment not attached?
-                        try {
-                            mPullToRefreshLayout.setRefreshComplete();
-                        } catch (Exception x) {
-                            // something went very wrong,but they closed the app i think
-                        }
-                        isRefreshing = false;
-                    }
+                    getCursorAdapter(false);
                 } else {
                     mPullToRefreshLayout.setRefreshComplete();
                     isRefreshing = false;
@@ -785,6 +726,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         try {
                             if (result) {
                                 //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+                                Log.v("talon_home_frag", "getting cursor adapter in onrefreshstarted");
                                 getCursorAdapter(false);
 
                                 if (unread > 0) {
@@ -998,6 +940,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            Log.v("talon_home_frag", "getting cursor adapter in on resume");
             getCursorAdapter(true);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         }
@@ -1009,12 +952,17 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public void onStart() {
         super.onStart();
 
-        initial = true;
+        if (MainActivity.caughtstarting) {
+            MainActivity.caughtstarting = false;
+            return;
+        }
 
+        initial = true;
         justStarted = true;
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
+            Log.v("talon_home_frag", "getting cursor adapter in on start");
             getCursorAdapter(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         } else { // otherwise, if there are no new ones, it should start the refresh (this is what was causing the jumping before)
@@ -1088,7 +1036,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }*/
 
     public boolean viewPressed = false;
-    public Cursor currCursor;
 
     /*@Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
@@ -1225,8 +1172,9 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 } while (cursor.moveToPrevious());
             }
         } catch (Exception e) {
-            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-            getCursorAdapter(false);
+            Log.v("talon_home_frag", "caught getting position on home timeline, getting the cursor adapter again");
+            e.printStackTrace();
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
             return -1;
         }
 
@@ -1325,6 +1273,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
 
     public void updateToastText(String text, String button) {
         if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
+            infoBar = false;
             toastDescription.setText(text);
             toastButton.setText(button);
         } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
@@ -1336,7 +1285,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         Log.v("talon_tweetmarker", "marking read for account " + currentAccount);
 
         try {
-            Cursor cursor = currCursor;
+            Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
 
             HomeDataSource.getInstance(context).markAllRead(currentAccount);
@@ -1351,9 +1300,20 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
                 }
             }
-        } catch (Exception e) {
-            // cursor adapter is null because the loader was reset for some reason
+        } catch (IllegalStateException e) {
+            // Home datasource is not open, so we manually close it to null out values and reset it
             e.printStackTrace();
+            try {
+                HomeDataSource.dataSource = null;
+            } catch (Exception x) {
+
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // the cursoradapter is null
+        } catch (StaleDataException e) {
+            e.printStackTrace();
+            // do nothing here i guess
         }
     }
 

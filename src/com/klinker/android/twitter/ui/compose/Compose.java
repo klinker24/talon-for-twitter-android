@@ -14,7 +14,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,6 +30,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -50,7 +50,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
-import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
@@ -62,6 +62,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,6 +90,7 @@ public abstract class Compose extends Activity implements
     public ImageButton overflow;
     public TextView charRemaining;
     public ListPopupWindow autocomplete;
+    public HoloTextView numberAttached;
 
     public LinearLayout selectAccounts;
     public CheckBox accountOneCheck;
@@ -96,7 +98,9 @@ public abstract class Compose extends Activity implements
     public HoloTextView accountOneName;
     public HoloTextView accountTwoName;
 
-    public String attachedUri = "";
+    // attach up to four images
+    public String[] attachedUri = new String[] {"","","",""};
+    public int imagesAttached = 0;
 
     public PhotoViewAttacher mAttacher;
 
@@ -116,7 +120,7 @@ public abstract class Compose extends Activity implements
 
             if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
                 try {
-                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 23) + "");
+                    charRemaining.setText(140 - reply.getText().length() - (imagesAttached * 23) + "");
                 } catch (Exception e) {
                     charRemaining.setText("0");
                 }
@@ -129,9 +133,7 @@ public abstract class Compose extends Activity implements
                     count += 23; // add 23 for the shortened url
                 }
 
-                if (!attachedUri.equals("")) {
-                    count += 23;
-                }
+                count += imagesAttached * 23;
 
                 charRemaining.setText(140 - count + "");
             }
@@ -155,6 +157,19 @@ public abstract class Compose extends Activity implements
         settings = AppSettings.getInstance(this);
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (settings.forceOverflow) {
+            try {
+                ViewConfiguration config = ViewConfiguration.get(this);
+                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+                if(menuKeyField != null) {
+                    menuKeyField.setAccessible(true);
+                    menuKeyField.setBoolean(config, false);
+                }
+            } catch (Exception ex) {
+                // Ignore
+            }
+        }
 
         currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -280,6 +295,9 @@ public abstract class Compose extends Activity implements
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
         reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
+        numberAttached = (HoloTextView) findViewById(R.id.number_attached);
+
+        numberAttached.setText("0 " + getString(R.string.attached_images));
 
         charRemaining.setText(140 - reply.getText().length() + "");
 
@@ -357,7 +375,7 @@ public abstract class Compose extends Activity implements
         return bitmap;
     }
 
-    private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
+    public Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
         InputStream input = getContentResolver().openInputStream(uri);
 
         BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
@@ -395,11 +413,18 @@ public abstract class Compose extends Activity implements
             //String filePath = IOUtils.getPath(imageUri, context);
             try {
                 attachImage.setImageBitmap(getThumbnail(imageUri));
-                attachedUri = imageUri.toString();
+                attachedUri[imagesAttached] = imageUri.toString();
+                imagesAttached++;
+                numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                numberAttached.setVisibility(View.VISIBLE);
             } catch (FileNotFoundException e) {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                numberAttached.setText("");
+                numberAttached.setVisibility(View.GONE);
             } catch (IOException e) {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                numberAttached.setText("");
+                numberAttached.setVisibility(View.GONE);
             }
         }
     }
@@ -409,14 +434,14 @@ public abstract class Compose extends Activity implements
     public void makeFailedNotification(String text) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.timeline_dark)
+                        .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.tweet_failed))
                         .setContentText(getResources().getString(R.string.tap_to_retry));
 
         Intent resultIntent = new Intent(this, RetryCompose.class);
         resultIntent.setAction(Intent.ACTION_SEND);
         resultIntent.setType("text/plain");
-        resultIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sharedPrefs.edit().putString("draft", text);
         resultIntent.putExtra("failed_notification", true);
 
         PendingIntent resultPendingIntent =
@@ -431,6 +456,46 @@ public abstract class Compose extends Activity implements
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(5, mBuilder.build());
+    }
+
+    public void makeTweetingNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_stat_icon)
+                        .setContentTitle(getResources().getString(R.string.sending_tweet))
+                        .setTicker(getResources().getString(R.string.sending_tweet))
+                        .setOngoing(true)
+                        .setProgress(100, 0, true);
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        0
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(6, mBuilder.build());
+    }
+
+    public void finishedTweetingNotification() {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_stat_icon)
+                        .setContentTitle(getResources().getString(R.string.tweet_success))
+                        .setOngoing(false)
+                        .setTicker(getResources().getString(R.string.tweet_success));
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(6, mBuilder.build());
+        // cancel it immediately, the ticker will just go off
+        mNotificationManager.cancel(6);
     }
 
     @Override
@@ -478,17 +543,27 @@ public abstract class Compose extends Activity implements
 
                         try {
                             attachImage.setImageBitmap(getThumbnail(selectedImage));
-                            attachedUri = selectedImage.toString();
+                            attachedUri[imagesAttached] = selectedImage.toString();
+                            imagesAttached++;
+                            numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                            numberAttached.setVisibility(View.VISIBLE);
                         } catch (FileNotFoundException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                            numberAttached.setText("");
+                            numberAttached.setVisibility(View.GONE);
                         } catch (IOException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                            numberAttached.setText("");
+                            numberAttached.setVisibility(View.GONE);
                         }
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        numberAttached.setText("");
+                        numberAttached.setVisibility(View.GONE);
                     }
                 }
+                countHandler.post(getCount);
                 break;
             case CAPTURE_IMAGE:
                 if (resultCode == Activity.RESULT_OK) {
@@ -497,31 +572,49 @@ public abstract class Compose extends Activity implements
 
                         try {
                             attachImage.setImageBitmap(getThumbnail(selectedImage));
-                            attachedUri = selectedImage.toString();
+                            attachedUri[imagesAttached] = selectedImage.toString();
+                            imagesAttached++;
+                            numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                            numberAttached.setVisibility(View.VISIBLE);
                         } catch (FileNotFoundException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                            numberAttached.setText("");
+                            numberAttached.setVisibility(View.GONE);
                         } catch (IOException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                            numberAttached.setText("");
+                            numberAttached.setVisibility(View.GONE);
                         }
 
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        numberAttached.setText("");
+                        numberAttached.setVisibility(View.GONE);
                     }
                 }
+                countHandler.post(getCount);
                 break;
             case PWICCER:
                 if (resultCode == Activity.RESULT_OK) {
                     String path = imageReturnedIntent.getStringExtra("RESULT");
-                    attachedUri = Uri.fromFile(new File(path)).toString();
+                    attachedUri[imagesAttached] = Uri.fromFile(new File(path)).toString();
 
                     try {
-                        attachImage.setImageBitmap(getThumbnail(Uri.parse(attachedUri)));
+                        attachImage.setImageBitmap(getThumbnail(Uri.parse(attachedUri[imagesAttached])));
+                        imagesAttached++;
+                        numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                        numberAttached.setVisibility(View.VISIBLE);
                     } catch (FileNotFoundException e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        numberAttached.setText("");
+                        numberAttached.setVisibility(View.GONE);
                     } catch (IOException e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        numberAttached.setText("");
+                        numberAttached.setVisibility(View.GONE);
                     }
+
 
                     String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
                     Log.v("pwiccer_text", currText);
@@ -539,6 +632,8 @@ public abstract class Compose extends Activity implements
                 } else {
                     Toast.makeText(context, "Pwiccer failed to generate image! Is it installed?", Toast.LENGTH_SHORT).show();
                 }
+                countHandler.post(getCount);
+                break;
         }
     }
 
@@ -564,14 +659,49 @@ public abstract class Compose extends Activity implements
 
         @Override
         protected void onPreExecute() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    makeTweetingNotification();
+                }
+            }, 500);
             super.onPreExecute();
 
         }
 
         protected Boolean doInBackground(String... args) {
             String status = args[0];
+
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
+
+                if (!attachedUri.equals("")) {
+                    try {
+                        for (int i = 0; i < imagesAttached; i++) {
+                            File outputDir = context.getCacheDir();
+                            File f = File.createTempFile("compose", "picture_" + i, outputDir);
+
+                            Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                            byte[] bitmapdata = bos.toByteArray();
+
+                            FileOutputStream fos = new FileOutputStream(f);
+                            fos.write(bitmapdata);
+                            fos.flush();
+                            fos.close();
+
+                            // we wont attach any text to this image at least, since it is a direct message
+                            TwitPicHelper helper = new TwitPicHelper(twitter, " ", f, context);
+                            String url = helper.uploadForUrl();
+
+                            status += " " + url;
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
 
                 String sendTo = contactEntry.getText().toString().replace("@", "").replace(" ", "");
 
@@ -590,10 +720,7 @@ public abstract class Compose extends Activity implements
             // dismiss the dialog after getting all products
 
             if (sent) {
-                Toast.makeText(getBaseContext(),
-                        getApplicationContext().getResources().getString(R.string.direct_message_sent),
-                        Toast.LENGTH_SHORT)
-                        .show();
+                finishedTweetingNotification();
             } else {
                 Toast.makeText(getBaseContext(),
                         getResources().getString(R.string.error),
@@ -615,6 +742,12 @@ public abstract class Compose extends Activity implements
         public updateTwitterStatus(String text, int length) {
             this.text = text;
             this.remaining = length;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    makeTweetingNotification();
+                }
+            }, 500);
         }
 
         protected Boolean doInBackground(String... args) {
@@ -706,7 +839,7 @@ public abstract class Compose extends Activity implements
                         media.setInReplyToStatusId(notiId);
                     }
 
-                    if (attachedUri.equals("")) {
+                    if (imagesAttached == 0) {
                         // Update status
                         if(addLocation) {
                             Location location = mLocationClient.getLastLocation();
@@ -724,24 +857,34 @@ public abstract class Compose extends Activity implements
                         return true;
 
                     } else {
-
+                        // status with picture(s)
+                        File[] files = new File[imagesAttached];
                         File outputDir = context.getCacheDir();
-                        File f = File.createTempFile("compose", "picture", outputDir);
 
-                        Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                        byte[] bitmapdata = bos.toByteArray();
+                        for (int i = 0; i < imagesAttached; i++) {
+                            files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
 
-                        FileOutputStream fos = new FileOutputStream(f);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
+                            Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                            byte[] bitmapdata = bos.toByteArray();
 
-                        if (settings.twitpic) {
+                            FileOutputStream fos = new FileOutputStream(files[i]);
+                            fos.write(bitmapdata);
+                            fos.flush();
+                            fos.close();
+                        }
+
+                        if (settings.twitpic || imagesAttached > 1) {
                             boolean isDone = false;
+
                             if (accountOneCheck.isChecked()) {
-                                TwitPicHelper helper = new TwitPicHelper(twitter, text, f, context);
+                                for (int i = 1; i < imagesAttached; i++) {
+                                    TwitPicHelper helper = new TwitPicHelper(twitter, "", files[i], context);
+                                    text += " " + helper.uploadForUrl();
+                                }
+
+                                TwitPicHelper helper = new TwitPicHelper(twitter, text, files[0], context);
                                 if (addLocation) {
                                     int wait = 0;
                                     while (!mLocationClient.isConnected() && wait < 4) {
@@ -768,7 +911,12 @@ public abstract class Compose extends Activity implements
                                 }
                             }
                             if (accountTwoCheck.isChecked()) {
-                                TwitPicHelper helper = new TwitPicHelper(twitter2, text, f, context);
+                                for (int i = 1; i < imagesAttached; i++) {
+                                    TwitPicHelper helper = new TwitPicHelper(twitter2, "", files[i], context);
+                                    text += " " + helper.uploadForUrl();
+                                }
+
+                                TwitPicHelper helper = new TwitPicHelper(twitter2, text, files[0], context);
                                 if (addLocation) {
                                     int wait = 0;
                                     while (!mLocationClient.isConnected() && wait < 4) {
@@ -796,12 +944,7 @@ public abstract class Compose extends Activity implements
                             }
                             return isDone;
                         } else {
-                            media.setMedia(f);
-                            /*try {
-                                media.setMedia("Pic from Talon", stream);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }*/
+                            media.setMedia(files[0]);
 
                             if(addLocation) {
                                 int wait = 0;
@@ -857,12 +1000,9 @@ public abstract class Compose extends Activity implements
             }
 
             if (success) {
-                Toast.makeText(getBaseContext(),
-                        getResources().getString(R.string.tweet_success),
-                        Toast.LENGTH_SHORT)
-                        .show();
+                finishedTweetingNotification();
             } else if (outofmem) {
-                Toast.makeText(context, "Error attaching image!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
             } else {
                 makeFailedNotification(text);
             }

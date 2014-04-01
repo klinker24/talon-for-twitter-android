@@ -25,9 +25,10 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:paddingRight="20dp"
+              android:paddingRight="15dp"
               android:drawableLeft="?cancelButton"
               android:drawablePadding="8dp"
               android:gravity="center_vertical"
+              android:singleLine="true"
               android:text="@string/discard"/>
 </FrameLayout>

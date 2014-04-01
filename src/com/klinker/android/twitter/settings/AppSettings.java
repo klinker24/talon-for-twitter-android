@@ -103,6 +103,7 @@ public class AppSettings {
     public boolean jumpingWorkaround;
     public boolean floatingCompose;
     public boolean openKeyboard;
+    public boolean forceOverflow;
 
     // notifications
     public boolean timelineNot;
@@ -212,6 +213,7 @@ public class AppSettings {
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
+        forceOverflow = sharedPrefs.getBoolean("force_overflow", true);
 
         if (!uiExtras) {
             floatingCompose = false;

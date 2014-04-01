@@ -210,7 +210,7 @@
     <string name="saved_picture">Billede gemt</string>
     <string name="retweet_success">Retweetet</string>
     <string name="favorite_success">Favorit</string>
-    <string name="success">Slettet</string>
+    <string name="success">Succes</string>
     <!-- User Lists -->
     <string name="view_users">Vis brugere</string>
     <string name="delete_list">Slet lister</string>

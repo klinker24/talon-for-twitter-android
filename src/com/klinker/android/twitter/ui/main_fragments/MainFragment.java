@@ -117,7 +117,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         actionBar = context.getActionBar();
     }
 
-    /*@Override
+    @Override
     public void onDestroy() {
         try {
             cursorAdapter.getCursor().close();
@@ -125,7 +125,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
 
         }
         super.onDestroy();
-    }*/
+    }
 
     public void setHome() {
         isHome = false;
@@ -245,8 +245,14 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
 
     public void toTop() {
         try {
-            if (Integer.parseInt(toastDescription.getText().toString().split(" ")[0]) > 100) {
+            if (listView.getFirstVisiblePosition() > 40) {
                 listView.setSelection(0);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideToastBar(400);
+                    }
+                }, 250);
             } else {
                 listView.smoothScrollToPosition(0);
             }

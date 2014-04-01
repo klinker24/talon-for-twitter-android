@@ -13,6 +13,9 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -29,9 +32,11 @@ import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.utils.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +45,16 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 public class ComposeActivity extends Compose {
+
+    @Override
+    public void onDestroy() {
+        try {
+            ((AutoCompetePeopleAdapter)autocomplete.getListView().getAdapter()).getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
+    }
 
     public void setUpLayout() {
         setContentView(R.layout.compose_activity);
@@ -168,44 +183,37 @@ public class ComposeActivity extends Compose {
         attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                //builder.setTitle(getResources().getString(R.string.open_what) + "?");
-                builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if(item == 0) { // take picture
-                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
-
-                            if (!f.exists()) {
-                                try {
-                                    f.getParentFile().mkdirs();
-                                    f.createNewFile();
-                                } catch (IOException e) {
-
+                if (imagesAttached > 0 && !sharedPrefs.getBoolean("know_twitpic_for_mult_attach", false)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
+                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_multi_summary))
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    attachImage();
+                                    dialogInterface.dismiss();
                                 }
-                            }
+                            })
+                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    sharedPrefs.edit().putBoolean("know_twitpic_for_mult_attach", true).commit();
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    attachImage();
+                }
 
-                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                            startActivityForResult(captureIntent, CAPTURE_IMAGE);
-                        } else { // attach picture
-                            if (attachedUri == null || attachedUri.equals("")) {
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                            } else {
-                                attachedUri = "";
-                                attachImage.setImageDrawable(null);
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                            }
-                        }
-
-                        overflow.performClick();
-                    }
-                });
-
-                builder.create().show();
             }
         });
 
@@ -243,7 +251,6 @@ public class ComposeActivity extends Compose {
             @Override
             public void onClick(View view) {
                 if (!addLocation) {
-                    //Toast.makeText(context, getResources().getString(R.string.finding_location), Toast.LENGTH_SHORT);
                     Toast.makeText(context, getResources().getString(R.string.location_connected), Toast.LENGTH_SHORT).show();
 
                     addLocation = true;
@@ -319,23 +326,42 @@ public class ComposeActivity extends Compose {
         }
     }
 
-    public void setUpReplyText() {
-        // for drafts
-        if (!sharedPrefs.getString("draft", "").equals("") && !getIntent().getBooleanExtra("failed_notification", false)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showToastBar(getResources().getString(R.string.draft_found), getResources().getString(R.string.apply), 300, true, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            reply.setText(sharedPrefs.getString("draft", ""));
-                            reply.setSelection(reply.getText().length());
-                            hideToastBar(300);
+    public void attachImage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                if(item == 0) { // take picture
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+
+                    if (!f.exists()) {
+                        try {
+                            f.getParentFile().mkdirs();
+                            f.createNewFile();
+                        } catch (IOException e) {
+
                         }
-                    });
+                    }
+
+                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                } else { // attach picture
+
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
                 }
-            }, 300);
-        } else if (getIntent().getBooleanExtra("failed_notification", false)) {
+
+                overflow.performClick();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    public void setUpReplyText() {
+        // for failed notification
+        if (!sharedPrefs.getString("draft", "").equals("")) {
             reply.setText(sharedPrefs.getString("draft", ""));
             reply.setSelection(reply.getText().length());
         }
@@ -415,12 +441,10 @@ public class ComposeActivity extends Compose {
 
     @Override
     public void onPause() {
-
+        sharedPrefs.edit().putString("draft", "").commit();
         try {
-            if (doneClicked || discardClicked) {
-                sharedPrefs.edit().putString("draft", "").commit();
-            } else {
-                sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
+            if (!(doneClicked || discardClicked)) {
+                QueuedDataSource.getInstance(context).createDraft(reply.getText().toString(), currentAccount);
             }
         } catch (Exception e) {
             // it is a direct message
@@ -510,5 +534,69 @@ public class ComposeActivity extends Compose {
         });
         anim.setDuration(length);
         toastBar.startAnimation(anim);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.compose_activity, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_save_draft:
+                if (reply.getText().length() > 0) {
+                    QueuedDataSource.getInstance(this).createDraft(reply.getText().toString(), currentAccount);
+                    Toast.makeText(this, getResources().getString(R.string.saved_draft), Toast.LENGTH_SHORT).show();
+                    reply.setText("");
+                    finish();
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.no_tweet), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.menu_view_drafts:
+                final String[] drafts = QueuedDataSource.getInstance(this).getDrafts();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(drafts, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int item) {
+
+                        new AlertDialog.Builder(context)
+                                .setTitle(context.getResources().getString(R.string.apply))
+                                .setMessage(drafts[item])
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        reply.setText(drafts[item]);
+                                        reply.setSelection(reply.getText().length());
+                                        QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .create()
+                                .show();
+
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            case R.id.menu_schedule_tweet:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
