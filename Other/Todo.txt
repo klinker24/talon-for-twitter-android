@@ -28,8 +28,6 @@
     sound on link clicks
 
     Version 2.2.0
-        - Drafts
         - Scheduled Tweets
         - Direct Message pictures
         - mute users for a time period
-        - live streaming on mentions

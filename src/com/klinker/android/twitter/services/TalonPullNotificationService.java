@@ -434,6 +434,8 @@ public class TalonPullNotificationService extends Service {
                         NotificationUtils.refreshNotification(mContext);
                     }
 
+                    mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_MENTION"));
+
                 } else { // it is a retweet
                     if (!status.getUser().getScreenName().equals(settings.myScreenName) && status.getRetweetedStatus().getUser().getScreenName().equals(settings.myScreenName)) {
                         if (settings.retweetNot) {
