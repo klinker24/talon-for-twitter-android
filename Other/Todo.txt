@@ -31,5 +31,4 @@
 
     Version 2.2.0
         - Scheduled Tweets
-        - attach more than one image to a tweet
         - mute users for a time period
