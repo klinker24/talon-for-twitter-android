@@ -619,7 +619,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 try {
                     lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
                 } catch (Exception e) {
-                    // let the 
+                    // let the
                     lastId = new long[] {0,0,0,0,0};
                 }
             }
