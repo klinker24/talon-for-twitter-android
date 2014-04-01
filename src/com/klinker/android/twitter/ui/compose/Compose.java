@@ -443,7 +443,7 @@ public abstract class Compose extends Activity implements
         Intent resultIntent = new Intent(this, RetryCompose.class);
         resultIntent.setAction(Intent.ACTION_SEND);
         resultIntent.setType("text/plain");
-        resultIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sharedPrefs.edit().putString("draft", text);
         resultIntent.putExtra("failed_notification", true);
 
         PendingIntent resultPendingIntent =

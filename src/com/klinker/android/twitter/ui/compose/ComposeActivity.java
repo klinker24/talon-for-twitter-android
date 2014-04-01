@@ -334,22 +334,8 @@ public class ComposeActivity extends Compose {
     }
 
     public void setUpReplyText() {
-        // for drafts
-        if (!sharedPrefs.getString("draft", "").equals("") && !getIntent().getBooleanExtra("failed_notification", false)) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showToastBar(getResources().getString(R.string.draft_found), getResources().getString(R.string.apply), 300, true, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            reply.setText(sharedPrefs.getString("draft", ""));
-                            reply.setSelection(reply.getText().length());
-                            hideToastBar(300);
-                        }
-                    });
-                }
-            }, 300);
-        } else if (getIntent().getBooleanExtra("failed_notification", false)) {
+        // for failed notification
+        if (!sharedPrefs.getString("draft", "").equals("")) {
             reply.setText(sharedPrefs.getString("draft", ""));
             reply.setSelection(reply.getText().length());
         }
@@ -429,12 +415,10 @@ public class ComposeActivity extends Compose {
 
     @Override
     public void onPause() {
-
+        sharedPrefs.edit().putString("draft", "").commit();
         try {
-            if (doneClicked || discardClicked) {
-                sharedPrefs.edit().putString("draft", "").commit();
-            } else {
-                sharedPrefs.edit().putString("draft", reply.getText().toString()).commit();
+            if (!(doneClicked || discardClicked)) {
+                QueuedDataSource.getInstance(context).createDraft(reply.getText().toString(), currentAccount);
             }
         } catch (Exception e) {
             // it is a direct message
