@@ -96,6 +96,12 @@ public class BrowserActivity extends Activity {
     }
 
     @Override
+    public void onDestroy() {
+        browser.destroy();
+        super.onDestroy();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         try {
