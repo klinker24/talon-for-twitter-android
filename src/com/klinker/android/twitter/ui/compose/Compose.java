@@ -370,7 +370,7 @@ public abstract class Compose extends Activity implements
         return bitmap;
     }
 
-    private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
+    public Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
         InputStream input = getContentResolver().openInputStream(uri);
 
         BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
@@ -585,6 +585,32 @@ public abstract class Compose extends Activity implements
             String status = args[0];
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
+
+                if (!attachedUri.equals("")) {
+                    try {
+                        File outputDir = context.getCacheDir();
+                        File f = File.createTempFile("compose", "picture", outputDir);
+
+                        Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+
+                        FileOutputStream fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+
+                        // we wont attach any text to this image at least, since it is a direct message
+                        TwitPicHelper helper = new TwitPicHelper(twitter, " ", f, context);
+                        String url = helper.uploadForUrl();
+
+                        status += " " + url;
+                    } catch (Exception e) {
+                        Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
 
                 String sendTo = contactEntry.getText().toString().replace("@", "").replace(" ", "");
 

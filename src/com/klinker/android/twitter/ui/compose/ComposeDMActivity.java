@@ -1,16 +1,27 @@
 package com.klinker.android.twitter.ui.compose;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
@@ -19,6 +30,11 @@ import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
+import com.klinker.android.twitter.utils.IOUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ComposeDMActivity extends Compose {
 
@@ -251,6 +267,107 @@ public class ComposeDMActivity extends Compose {
 
     private void sendStatus(String status) {
         new SendDirectMessage().execute(status);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dm_conversation, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.menu_attach_picture:
+                // if they haven't seen the disclaimer, show it to them
+                if (!sharedPrefs.getBoolean("knows_twitpic_dm_warning", false)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
+                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_summary))
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    sharedPrefs.edit().putBoolean("knows_twitpic_dm_warning", true).commit();
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    // they know and don't want to see the disclaimer again
+                    attachImage();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public ImageView attachImage;
+    public String attachedUri = "";
+
+    public static final int SELECT_PHOTO = 100;
+    public static final int CAPTURE_IMAGE = 101;
+
+    public boolean pwiccer = false;
+
+    public void attachImage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                if(item == 0) { // take picture
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+
+                    if (!f.exists()) {
+                        try {
+                            f.getParentFile().mkdirs();
+                            f.createNewFile();
+                        } catch (IOException e) {
+
+                        }
+                    }
+
+                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                } else { // attach picture
+                    if (attachedUri == null || attachedUri.equals("")) {
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                    } else {
+                        attachedUri = "";
+                        attachImage.setImageDrawable(null);
+                        attachImage.setVisibility(View.GONE);
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                    }
+                }
+            }
+        });
+
+        builder.create().show();
     }
 
 }
