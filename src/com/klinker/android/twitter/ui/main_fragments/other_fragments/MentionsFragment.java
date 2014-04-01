@@ -150,15 +150,8 @@ public class MentionsFragment extends MainFragment {
                     }
 
                     MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
-                    /*for (twitter4j.Status status : statuses) {
-                        try {
-                            dataSource.createTweet(status, currentAccount);
-                        } catch (Exception e) {
-                            break;
-                        }
-                    }*/
 
-                    numberNew = dataSource.insertTweets(statuses, currentAccount);//statuses.size();
+                    numberNew = dataSource.insertTweets(statuses, currentAccount);
                     unread = numberNew;
 
                 } catch (TwitterException e) {
@@ -237,6 +230,10 @@ public class MentionsFragment extends MainFragment {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
+        context.registerReceiver(refrehshMentions, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_MENTION");
         context.registerReceiver(refrehshMentions, filter);
     }
 
