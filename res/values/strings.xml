@@ -575,7 +575,12 @@
     <string name="no_tweet">No Tweet!</string>
     <string name="menu_attach_picture">Attach Picture</string>
     <string name="twitpic_disclaimer">TwitPic Disclaimer</string>
-    <string name="twitpic_disclaimer_summary">Twitter\'s APIs do not support adding an image to a direct message. For this reason, Talon will upload the picture to TwitPic and share the link to that picture with the recipient. This picture will be available to view on your TwitPic profile.</string>
+    <string name="twitpic_disclaimer_summary">Twitter\'s APIs do not support adding an image to a direct message. For this reason, Talon will upload the picture to TwitPic and share the link to that picture with the recipient.\n\n
+        This picture will be available to view on your TwitPic profile.</string>
     <string name="dont_show_again">Don\'t show again</string>
     <string name="error_attaching_image">Error attaching image!</string>
+    <string name="sending_tweet">Sending Tweet...</string>
+    <string name="attached_images">Attached</string>
+    <string name="twitpic_disclaimer_multi_summary">Twitter\'s APIs do not support adding more than one image to a tweet.\n\n
+        Talon will upload the pictures using TwitPic instead.</string>
 </resources>

@@ -183,44 +183,37 @@ public class ComposeActivity extends Compose {
         attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                //builder.setTitle(getResources().getString(R.string.open_what) + "?");
-                builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if(item == 0) { // take picture
-                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
-
-                            if (!f.exists()) {
-                                try {
-                                    f.getParentFile().mkdirs();
-                                    f.createNewFile();
-                                } catch (IOException e) {
-
+                if (imagesAttached > 0 && !sharedPrefs.getBoolean("know_twitpic_for_mult_attach", false)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
+                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_multi_summary))
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    attachImage();
+                                    dialogInterface.dismiss();
                                 }
-                            }
+                            })
+                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    sharedPrefs.edit().putBoolean("know_twitpic_for_mult_attach", true).commit();
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    attachImage();
+                }
 
-                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                            startActivityForResult(captureIntent, CAPTURE_IMAGE);
-                        } else { // attach picture
-                            if (attachedUri == null || attachedUri.equals("")) {
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                            } else {
-                                attachedUri = "";
-                                attachImage.setImageDrawable(null);
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                            }
-                        }
-
-                        overflow.performClick();
-                    }
-                });
-
-                builder.create().show();
             }
         });
 
@@ -331,6 +324,39 @@ public class ComposeActivity extends Compose {
                 }
             });
         }
+    }
+
+    public void attachImage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                if(item == 0) { // take picture
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+
+                    if (!f.exists()) {
+                        try {
+                            f.getParentFile().mkdirs();
+                            f.createNewFile();
+                        } catch (IOException e) {
+
+                        }
+                    }
+
+                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                } else { // attach picture
+
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                }
+
+                overflow.performClick();
+            }
+        });
+
+        builder.create().show();
     }
 
     public void setUpReplyText() {
