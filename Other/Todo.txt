@@ -16,20 +16,19 @@
     - tweetmarker in lists
     - "search timeline" option for searching
     - options for themes to hide or show the retweet and favorite button without expansion
+    - queue tweets to send when connected to a data connection if they weren't before
 
 - Bugs:
-    - video sound stops after one time playing it
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
     - retweet and favorite counts on the main timelines
-    - toast bar needs redone on the home fragment so it doesn't ever get stuck
-
-    - enhanced list view 648 try catch
 
 
 -- For Release --
 
+    sound on link clicks
+    rework how to know if there are more pages or not
+
     Version 2.2.0
-        - Drafts
         - Scheduled Tweets
-        - Direct Message pictures
+        - mute users for a time period

@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
     private ArrayList<String> webpages;
     private String[] pages;
 
-    private WebView webView;
+    private HTML5WebView webView;
     private ProgressBar progressBar;
 
     public Context context;
@@ -53,53 +54,6 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         context = getActivity();
 
-        /*layout = inflater.inflate(R.layout.web_fragment, null);
-        webView = (WebView) layout.findViewById(R.id.webview);
-        progressBar = (ProgressBar) layout.findViewById(R.id.progress_bar);
-        progressBar.setProgress(0);
-
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.clearCache(true);
-        webView.getSettings().setAppCacheEnabled(false);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setDisplayZoomControls(false);
-        webView.getSettings().setSupportZoom(true);
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onShowCustomView(View view, CustomViewCallback callback) {
-                super.onShowCustomView(view, callback);
-                if (view instanceof FrameLayout){
-                    FrameLayout frame = (FrameLayout) view;
-                    if (frame.getFocusedChild() instanceof VideoView){
-                        VideoView video = (VideoView) frame.getFocusedChild();
-                        frame.removeView(video);
-                        getActivity().setContentView(video);
-                        video.start();
-                    }
-                }
-            }
-        });
-        webView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress)
-            {
-                if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
-                    progressBar.setVisibility(ProgressBar.VISIBLE);
-                }
-                progressBar.setProgress(progress);
-                if(progress == 100) {
-                    progressBar.setVisibility(ProgressBar.GONE);
-                }
-            }
-        });
-
-        if (Build.VERSION.SDK_INT >= 17) {
-            webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
-        }
-
-        webView.setWebViewClient(new WebViewClient());*/
-
         webView = new HTML5WebView(context);
         webView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
@@ -109,28 +63,7 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         }
 
-        return webView;
-
-        /*if (webpages.size() > 0) {
-            webView.loadUrl(webpages.get(0));
-        }
-
-        pages = new String[webpages.size()];
-
-        for (int i = 0; i < pages.length; i++) {
-            pages[i] = webpages.get(i);
-        }
-
-        Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
-        spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, pages));
-        spinner.setOnItemSelectedListener(this);
-
-        if (pages.length <= 1) {
-            spinner.setVisibility(View.GONE);
-        }
-
-        return layout;*/
+        return webView.getLayout();
     }
 
     @Override

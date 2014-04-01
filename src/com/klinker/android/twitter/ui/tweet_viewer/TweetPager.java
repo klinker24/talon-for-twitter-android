@@ -29,6 +29,7 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ShareActionProvider;
@@ -42,10 +43,12 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -84,12 +87,30 @@ public class TweetPager extends YouTubeBaseActivity {
         context = this;
         settings = AppSettings.getInstance(this);
 
+        if (settings.forceOverflow) {
+            try {
+                ViewConfiguration config = ViewConfiguration.get(this);
+                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+                if(menuKeyField != null) {
+                    menuKeyField.setAccessible(true);
+                    menuKeyField.setBoolean(config, false);
+                }
+            } catch (Exception ex) {
+                // Ignore
+            }
+        }
+
         getFromIntent();
 
         // methods for advancing windowed
         boolean settingsVal = settings.advanceWindowed;
         boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
-        final boolean youtube = webpage.contains("youtu") || linkString.contains("youtu");
+        final boolean youtube;
+        if (webpage != null && linkString != null) {
+            youtube = webpage.contains("youtu") || linkString.contains("youtu");
+        } else {
+            youtube = true;
+        }
 
         // cases: (youtube will ALWAYS be full screen...)
         // from widget

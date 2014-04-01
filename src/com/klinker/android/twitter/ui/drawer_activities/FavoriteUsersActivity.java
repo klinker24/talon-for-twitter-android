@@ -36,6 +36,16 @@ public class FavoriteUsersActivity extends DrawerActivity {
     private static LinearLayout nothing;
 
     @Override
+    public void onDestroy() {
+        try {
+            people.getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -173,6 +183,10 @@ public class FavoriteUsersActivity extends DrawerActivity {
         }
 
         protected void onPostExecute(Cursor cursor) {
+
+            if (cursor == null) {
+                return;
+            }
 
             Log.v("fav_users", cursor.getCount() + "");
 

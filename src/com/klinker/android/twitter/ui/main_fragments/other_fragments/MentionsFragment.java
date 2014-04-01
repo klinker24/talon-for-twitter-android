@@ -150,15 +150,8 @@ public class MentionsFragment extends MainFragment {
                     }
 
                     MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
-                    /*for (twitter4j.Status status : statuses) {
-                        try {
-                            dataSource.createTweet(status, currentAccount);
-                        } catch (Exception e) {
-                            break;
-                        }
-                    }*/
 
-                    numberNew = dataSource.insertTweets(statuses, currentAccount);//statuses.size();
+                    numberNew = dataSource.insertTweets(statuses, currentAccount);
                     unread = numberNew;
 
                 } catch (TwitterException e) {
@@ -196,10 +189,7 @@ public class MentionsFragment extends MainFragment {
 
                 }
 
-                cursorAdapter = new TimeLineCursorAdapter(context,
-                        cursor,
-                        false);
-
+                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
                 attachCursor();
 
                 try {
@@ -241,6 +231,10 @@ public class MentionsFragment extends MainFragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
         context.registerReceiver(refrehshMentions, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_MENTION");
+        context.registerReceiver(refrehshMentions, filter);
     }
 
     @Override
@@ -250,7 +244,11 @@ public class MentionsFragment extends MainFragment {
 
     @Override
     public void onStop() {
-        MentionsDataSource.getInstance(context).markAllRead(sharedPrefs.getInt("current_account", 1));
+        try {
+            MentionsDataSource.getInstance(context).markAllRead(sharedPrefs.getInt("current_account", 1));
+        } catch (Exception e) {
+
+        }
         super.onStop();
     }
 
@@ -269,11 +267,7 @@ public class MentionsFragment extends MainFragment {
                 try {
                     cursor = MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
                 } catch (Exception e) {
-                    try {
-                        MentionsDataSource.getInstance(context).close();
-                    } catch (Exception x) {
-
-                    }
+                    MentionsDataSource.dataSource = null;
                     getCursorAdapter(true);
                     return;
                 }
@@ -281,11 +275,7 @@ public class MentionsFragment extends MainFragment {
                 try {
                     Log.v("talon_databases", "mentions cursor size: " + cursor.getCount());
                 } catch (Exception e) {
-                    try {
-                        MentionsDataSource.getInstance(context).close();
-                    } catch (Exception x) {
-
-                    }
+                    MentionsDataSource.dataSource = null;
                     getCursorAdapter(true);
                     return;
                 }
@@ -294,16 +284,12 @@ public class MentionsFragment extends MainFragment {
                     @Override
                     public void run() {
                         Cursor c = null;
-
-                        try {
+                        if (cursorAdapter != null) {
                             c = cursorAdapter.getCursor();
-                        } catch (Exception e) {
-
                         }
 
-                        cursorAdapter = new TimeLineCursorAdapter(context,
-                                cursor,
-                                false);
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+
                         try {
                             spinner.setVisibility(View.GONE);
                             listView.setVisibility(View.VISIBLE);
@@ -311,10 +297,12 @@ public class MentionsFragment extends MainFragment {
 
                         attachCursor();
 
-                        try {
-                            c.close();
-                        } catch (Exception e) {
+                        if (c != null) {
+                            try {
+                                c.close();
+                            } catch (Exception e) {
 
+                            }
                         }
                     }
                 });

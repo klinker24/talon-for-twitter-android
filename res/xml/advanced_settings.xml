@@ -7,7 +7,14 @@
 
         <CheckBoxPreference
             android:key="inapp_browser"
+            android:summary="@string/use_inapp_browser_summary"
             android:title="@string/use_inapp_browser"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="inapp_browser_tweet"
+            android:title="@string/use_browser_on_tweet"
             android:defaultValue="true"
             />
 
@@ -16,7 +23,7 @@
             android:title="@string/open_to_web"
             android:summary="@string/open_to_web_summary"
             android:defaultValue="true"
-            android:dependency="inapp_browser"
+            android:dependency="inapp_browser_tweet"
             />
 
     </PreferenceCategory>
@@ -75,6 +82,13 @@
     <PreferenceCategory
         android:key="display_other"
         android:title="@string/display_options" >
+
+        <CheckBoxPreference
+            android:key="force_overflow"
+            android:title="@string/force_overflow"
+            android:summary="@string/force_overflow_summary"
+            android:defaultValue="true"
+            />
 
         <CheckBoxPreference
             android:key="use_emojis"

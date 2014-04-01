@@ -1,5 +1,9 @@
 package com.klinker.android.twitter.ui.main_fragments.other_fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -26,7 +30,6 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class ListFragment extends MainFragment {
 
@@ -38,6 +41,22 @@ public class ListFragment extends MainFragment {
 
     public ListFragment(int listId) {
         this.listId = listId;
+    }
+
+    public BroadcastReceiver resetLists = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getCursorAdapter(true);
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.RESET_LISTS");
+        context.registerReceiver(resetLists, filter);
     }
 
     @Override
@@ -153,11 +172,7 @@ public class ListFragment extends MainFragment {
             manualRefresh = false;
 
             ListDataSource dataSource = ListDataSource.getInstance(context);
-            /*for (twitter4j.Status status : statuses) {
-                dataSource.createTweet(status, listId);
-            }*/
-
-            numberNew = dataSource.insertTweets(statuses, listId);//statuses.size();
+            numberNew = dataSource.insertTweets(statuses, listId);
 
             return numberNew;
 
@@ -206,12 +221,7 @@ public class ListFragment extends MainFragment {
                         if (numberNew > 0) {
                             final CharSequence text;
 
-                            // append a plus on the end if it is 50
-                            if (numberNew != 50) {
-                                text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
-                            } else {
-                                text = numberNew + "+ " + getResources().getString(R.string.new_tweets);
-                            }
+                            text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
 
                             new Handler().postDelayed(new Runnable() {
                                 @Override
@@ -262,6 +272,7 @@ public class ListFragment extends MainFragment {
     @Override
     public void onPause() {
         markReadForLoad();
+        context.unregisterReceiver(resetLists);
         super.onPause();
     }
 
@@ -285,53 +296,60 @@ public class ListFragment extends MainFragment {
                 try {
                     cursor = ListDataSource.getInstance(context).getCursor(listId);
                 } catch (Exception e) {
-                    try {
-                        ListDataSource.getInstance(context).close();
-                    } catch (Exception x) {
-
-                    }
-                    getCursorAdapter(true);
+                    ListDataSource.dataSource = null;
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
                     return;
                 }
 
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         Cursor c = null;
-                        try {
+                        if (cursorAdapter != null) {
                             c = cursorAdapter.getCursor();
-                        } catch (Exception e) {
-
-                        }
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
-
-                        final int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
-
-                        if (bSpinner) {
-                            try {
-                                spinner.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
-                            } catch (Exception e) { }
+                            Log.v("talon_cursor", c.getCount() + " tweets in old list");
                         }
 
                         try {
-                            Log.v("talon_lists", "getting list: " + cursorAdapter.getCount());
+                            Log.v("talon_list", "number of tweets in list: " + cursor.getCount());
                         } catch (Exception e) {
-                            ListDataSource.getInstance(context).close();
-                            getCursorAdapter(true);
+                            e.printStackTrace();
+                            // the cursor or database is closed, so we will null out the datasource and restart the get cursor method
+                            ListDataSource.dataSource = null;
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
                             return;
                         }
-
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
                         listView.setAdapter(cursorAdapter);
-                        int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                        listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-                        mPullToRefreshLayout.setRefreshComplete();
+
+                        int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
+
+                        if (position > 0) {
+                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            mPullToRefreshLayout.setRefreshComplete();
+                        }
 
                         try {
-                            c.close();
+                            spinner.setVisibility(View.GONE);
+                        } catch (Exception e) { }
+
+                        try {
+                            listView.setVisibility(View.VISIBLE);
                         } catch (Exception e) {
 
                         }
+
+                        if (c != null) {
+                            try {
+                                c.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        mPullToRefreshLayout.setRefreshComplete();
                     }
                 });
             }
@@ -406,6 +424,7 @@ public class ListFragment extends MainFragment {
 
                 }
             });
+
             anim.setDuration(length);
             toastBar.startAnimation(anim);
         }
@@ -442,6 +461,7 @@ public class ListFragment extends MainFragment {
 
     public void updateToastText(String text, String button) {
         if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
+            infoBar = false;
             toastDescription.setText(text);
             toastButton.setText(button);
         } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
@@ -456,7 +476,6 @@ public class ListFragment extends MainFragment {
             int current = listView.getFirstVisiblePosition();
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
-
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).commit();
             } else {

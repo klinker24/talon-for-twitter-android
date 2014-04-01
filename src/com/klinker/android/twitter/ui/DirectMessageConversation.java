@@ -2,42 +2,72 @@ package com.klinker.android.twitter.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
+import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -59,10 +89,51 @@ public class DirectMessageConversation extends Activity {
 
     private String listName;
 
+    final Pattern p = Patterns.WEB_URL;
+    public Handler countHandler;
+    public Runnable getCount = new Runnable() {
+        @Override
+        public void run() {
+            String text = composeBar.getText().toString();
+
+            if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
+                try {
+                    charRemaining.setText(140 - composeBar.getText().length() - (attachedUri.equals("") ? 0 : 23) + "");
+                } catch (Exception e) {
+                    charRemaining.setText("0");
+                }
+            } else {
+                int count = text.length();
+                Matcher m = p.matcher(text);
+                while(m.find()) {
+                    String url = m.group();
+                    count -= url.length(); // take out the length of the url
+                    count += 23; // add 23 for the shortened url
+                }
+
+                if (!attachedUri.equals("")) {
+                    count += 23;
+                }
+
+                charRemaining.setText(140 - count + "");
+            }
+        }
+    };
+
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+    }
+
+    @Override
+    public void onDestroy() {
+        try {
+            cursorAdapter.getCursor().close();
+        } catch (Exception e) {
+
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -71,9 +142,24 @@ public class DirectMessageConversation extends Activity {
 
         overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
+        countHandler = new Handler();
+
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = AppSettings.getInstance(this);
+
+        if (settings.forceOverflow) {
+            try {
+                ViewConfiguration config = ViewConfiguration.get(this);
+                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+                if(menuKeyField != null) {
+                    menuKeyField.setAccessible(true);
+                    menuKeyField.setBoolean(config, false);
+                }
+            } catch (Exception ex) {
+                // Ignore
+            }
+        }
 
         if (settings.advanceWindowed) {
             setUpWindow();
@@ -85,6 +171,8 @@ public class DirectMessageConversation extends Activity {
         actionBar.setTitle(getResources().getString(R.string.lists));
 
         setContentView(R.layout.dm_conversation);
+
+        attachImage = (ImageView) findViewById(R.id.attached_image);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -124,25 +212,27 @@ public class DirectMessageConversation extends Activity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                try {
-                    charRemaining.setText(140 - composeBar.getText().length() + "");
-                } catch (Exception e) {
-                    charRemaining.setText("");
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                countHandler.removeCallbacks(getCount);
+                countHandler.postDelayed(getCount, 300);
             }
         });
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String status = composeBar.getText().toString();
-                if (status.trim().length() > 0 && status.length() <= 140) {
+                if (Integer.parseInt(charRemaining.getText().toString()) >= 0) {
                     new SendDirectMessage().execute(status);
                     composeBar.setText("");
+                    attachImage.setVisibility(View.GONE);
+                    Toast.makeText(context, getString(R.string.sending), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -248,6 +338,32 @@ public class DirectMessageConversation extends Activity {
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
 
+                if (!attachedUri.equals("")) {
+                    try {
+                        File outputDir = context.getCacheDir();
+                        File f = File.createTempFile("compose", "picture", outputDir);
+
+                        Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        byte[] bitmapdata = bos.toByteArray();
+
+                        FileOutputStream fos = new FileOutputStream(f);
+                        fos.write(bitmapdata);
+                        fos.flush();
+                        fos.close();
+
+                        // we wont attach any text to this image at least, since it is a direct message
+                        TwitPicHelper helper = new TwitPicHelper(twitter, " ", f, context);
+                        String url = helper.uploadForUrl();
+
+                        status += " " + url;
+                    } catch (Exception e) {
+                        Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
                 String sendTo = listName;
 
                 twitter4j.DirectMessage message = twitter.sendDirectMessage(sendTo, status);
@@ -316,16 +432,192 @@ public class DirectMessageConversation extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dm_conversation, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-
+            case R.id.menu_attach_picture:
+                // if they haven't seen the disclaimer, show it to them
+                if (!sharedPrefs.getBoolean("knows_twitpic_dm_warning", false)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
+                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_summary))
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    sharedPrefs.edit().putBoolean("knows_twitpic_dm_warning", true).commit();
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    // they know and don't want to see the disclaimer again
+                    attachImage();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public ImageView attachImage;
+    public String attachedUri = "";
+
+    public static final int SELECT_PHOTO = 100;
+    public static final int CAPTURE_IMAGE = 101;
+    public static final int PWICCER = 420;
+
+    public boolean pwiccer = false;
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    try {
+                        Uri selectedImage = imageReturnedIntent.getData();
+
+                        String filePath = IOUtils.getPath(selectedImage, context);
+
+                        Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
+
+                        try {
+                            attachImage.setImageBitmap(getBitmapToSend(selectedImage));
+                            attachImage.setVisibility(View.VISIBLE);
+                            attachedUri = selectedImage.toString();
+                            new Handler().post(getCount);
+                        } catch (FileNotFoundException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        } catch (IOException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case CAPTURE_IMAGE:
+                if (resultCode == Activity.RESULT_OK) {
+                    try {
+                        Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
+
+                        try {
+                            attachImage.setImageBitmap(getBitmapToSend(selectedImage));
+                            attachImage.setVisibility(View.VISIBLE);
+                            attachedUri = selectedImage.toString();
+                            new Handler().post(getCount);
+                        } catch (FileNotFoundException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        } catch (IOException e) {
+                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+                        }
+
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+        }
+    }
+
+    public void attachImage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                if(item == 0) { // take picture
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+
+                    if (!f.exists()) {
+                        try {
+                            f.getParentFile().mkdirs();
+                            f.createNewFile();
+                        } catch (IOException e) {
+
+                        }
+                    }
+
+                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                } else { // attach picture
+                    if (attachedUri == null || attachedUri.equals("")) {
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                    } else {
+                        attachedUri = "";
+                        attachImage.setImageDrawable(null);
+                        attachImage.setVisibility(View.GONE);
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                    }
+                }
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private Bitmap getBitmapToSend(Uri uri) throws IOException {
+        InputStream input = getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 1000) ? (originalSize / 1000) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
     }
 
 }

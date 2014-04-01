@@ -229,6 +229,12 @@ public class ProfilePicturesFragment extends Fragment {
                     } else {
                         canRefresh = true;
                     }
+
+                    try {
+                        Thread.sleep(250);
+                    } catch (Exception e) {
+
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     ((Activity)context).runOnUiThread(new Runnable() {

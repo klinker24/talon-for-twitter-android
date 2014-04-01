@@ -1,7 +1,9 @@
 package com.klinker.android.twitter.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.HTML5WebView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -22,7 +25,7 @@ public class BrowserActivity extends Activity {
 
     private AppSettings settings;
     private String url;
-    private WebView browser;
+    private HTML5WebView browser;
 
     @Override
     public void finish() {
@@ -40,57 +43,24 @@ public class BrowserActivity extends Activity {
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         Utils.setUpTheme(this, settings);
-        setContentView(R.layout.browser_activity);
+        Utils.setActionBar(this);
 
         url = getIntent().getStringExtra("url");
 
-        browser = (WebView) findViewById(R.id.webview);
-        browser.getSettings().setJavaScriptEnabled(true);
-        browser.getSettings().setBuiltInZoomControls(true);
-        browser.clearCache(true);
-        browser.getSettings().setAppCacheEnabled(false);
-        browser.getSettings().setLoadWithOverviewMode(true);
-        browser.getSettings().setUseWideViewPort(true);
-        browser.getSettings().setDisplayZoomControls(false);
-        browser.getSettings().setSupportZoom(true);
-        browser.setBackgroundResource(android.R.color.transparent);
+        browser = new HTML5WebView(this);
 
-        if (Build.VERSION.SDK_INT >= 17) {
-            browser.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        setContentView(browser.getLayout());
+
+        browser.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+        if (url.contains("youtu") || url.contains("play.google.com")) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } else {
+            browser.loadUrl(url);
         }
-
-        final Activity activity = this;
-        browser.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                // Activities and WebViews measure progress with different scales.
-                // The progress meter will automatically disappear when we reach 100%
-                activity.setProgress(progress * 100);
-
-                if (progress == 100) {
-                    browser.setBackgroundColor(getResources().getColor(android.R.color.white));
-                } else {
-                    browser.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                }
-            }
-        });
-
-        browser.setWebViewClient(new WebViewClient() {
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Toast.makeText(activity, getResources().getString(R.string.error_loading_page), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        browser.loadUrl(url);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Utils.setActionBar(this);
-    }
-
-    @Override
-    public void onStop() {
-        browser.loadUrl("");
-        super.onStop();
     }
 
     @Override
@@ -122,6 +92,30 @@ public class BrowserActivity extends Activity {
 
             default:
                 return true;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        browser.destroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if (url.contains("vine")) {
+                ((AudioManager)getSystemService(
+                        Context.AUDIO_SERVICE)).requestAudioFocus(
+                        new AudioManager.OnAudioFocusChangeListener() {
+                            @Override
+                            public void onAudioFocusChange(int focusChange) {}
+                        }, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+            }
+        } catch (Exception e) {
+
         }
     }
 }

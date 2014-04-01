@@ -196,7 +196,7 @@
     <string name="menu_copy_text">Tweet-Text kopieren</string>
     <string name="menu_share">Tweet teilen</string>
     <string name="menu_delete_tweet">Tweet löschen</string>
-    <string name="conversation">vorherige Tweets</string>
+    <string name="conversation">Unterhaltung</string>
     <string name="webpage">Webseite</string>
     <string name="tweet_youtube">YouTube</string>
     <string name="menu_quote">Tweet zitieren</string>

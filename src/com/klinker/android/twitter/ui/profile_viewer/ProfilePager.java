@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.utils.Utils;
@@ -54,6 +56,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -90,6 +93,19 @@ public class ProfilePager extends Activity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         settings = AppSettings.getInstance(this);
+
+        if (settings.forceOverflow) {
+            try {
+                ViewConfiguration config = ViewConfiguration.get(this);
+                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+                if(menuKeyField != null) {
+                    menuKeyField.setAccessible(true);
+                    menuKeyField.setBoolean(config, false);
+                }
+            } catch (Exception ex) {
+                // Ignore
+            }
+        }
 
         if ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
                 !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false)) {
@@ -1023,16 +1039,16 @@ public class ProfilePager extends Activity {
         protected void onPostExecute(final ResponseList<UserList> lists) {
 
             if (lists != null) {
+                Collections.sort(lists, new Comparator<UserList>() {
+                    public int compare(UserList result1, UserList result2) {
+                        return result1.getName().compareTo(result2.getName());
+                    }
+                });
+
                 ArrayList<String> names = new ArrayList<String>();
                 for(UserList l : lists) {
                     names.add(l.getName());
                 }
-
-                Collections.sort(names, new Comparator<String>() {
-                    public int compare(String result1, String result2) {
-                        return result1.compareTo(result2);
-                    }
-                });
 
                 try {
                     pDialog.dismiss();

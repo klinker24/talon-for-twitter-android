@@ -1,3 +1,30 @@
+<b>Version 2.2.0:</b><br/><br/>
+    &#8226; New draft system for composing tweets<br/>
+    &#8226; Tweet mulitple images (images count for 22 characters - just for reference)<br/>
+    &#8226; Send pictures though direct messages with TwitPic<br/>
+    &#8226; Post a notification while a tweet is in the process of sending<br/>
+    &#8226; Seperate options for in app browser from timeline and on tweets<br/>
+    &#8226; Better handling of refreshing tweets, taking into account the mutes<br/>
+    &#8226; Live streaming of mentions<br/>
+</br><br/>
+
+<b>Version 2.1.6:</b><br/><br/>
+    &#8226; More duplication fixes<br/>
+    &#8226; Crash fixes<br/>
+    &#8226; Translation updates<br/>
+</br><br/>
+
+<b>Version 2.1.5:</b><br/><br/>
+    &#8226; Fixed black loading screen and duplicates occuring from it<br/>
+    &#8226; Toast bar shouldn't get stuck anymore<br/>
+    &#8226; Internal browser updates<br/>
+    &#8226; Removed echo sound when clicking a tweet from the timeline<br/>
+    &#8226; Reply to all screennames from a mention notification<br/>
+    &#8226; Fixed adding users to lists<br/>
+    &#8226; Some crash fixes<br/>
+    &#8226; Translation updates<br/>
+</br><br/>
+
 <b>Version 2.1.3:</b><br/><br/>
     &#8226; Bug fixes for the clickable links<br/>
     &#8226; Change the background of the internal browser to match the theme<br/>

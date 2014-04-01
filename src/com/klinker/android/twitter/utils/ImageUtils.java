@@ -40,7 +40,12 @@ public class ImageUtils {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
+        Bitmap output;
+        try {
+            output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
 
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
@@ -117,20 +122,25 @@ public class ImageUtils {
     }
 
     public static Bitmap notificationResize(Context context, Bitmap currentImage) {
-        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
+        try {
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
 
-        Bitmap bitmap = currentImage;
-        Bitmap output = Bitmap.createBitmap(scale,
-                scale, Bitmap.Config.ARGB_8888);
+            Bitmap bitmap = currentImage;
+            Bitmap output = Bitmap.createBitmap(scale,
+                    scale, Bitmap.Config.ARGB_8888);
 
-        Canvas canvas = new Canvas(output);
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, scale, scale);
+            Canvas canvas = new Canvas(output);
+            Paint paint = new Paint();
+            Rect rect = new Rect(0, 0, scale, scale);
 
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawBitmap(bitmap, null, rect, paint);
-        return output;
+            paint.setAntiAlias(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            canvas.drawBitmap(bitmap, null, rect, paint);
+
+            return output;
+        } catch (OutOfMemoryError e) {
+            return currentImage;
+        }
     }
 
     public static Bitmap blur(Bitmap sentBitmap) {

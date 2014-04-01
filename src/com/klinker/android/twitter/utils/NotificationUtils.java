@@ -126,7 +126,7 @@ public class NotificationUtils {
                     }
 
                     Log.v("username_for_noti", title[1]);
-                    sharedPrefs.edit().putString("from_notification", "@" + title[1]).commit();
+                    sharedPrefs.edit().putString("from_notification", "@" + title[1] + " " + title[2]).commit();
                     MentionsDataSource data = MentionsDataSource.getInstance(context);
                     long id = data.getLastIds(currentAccount)[0];
                     PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
@@ -250,6 +250,7 @@ public class NotificationUtils {
     public static String[] getTitle(int[] unreadCount, Context context, int currentAccount) {
         String text = "";
         String name = null;
+        String names = "";
         int homeTweets = unreadCount[0];
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
@@ -258,6 +259,15 @@ public class NotificationUtils {
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) {
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             name = mentions.getNewestName(currentAccount);
+            String n = mentions.getNewestNames(currentAccount);
+            for (String s : n.split("  ")) {
+                if (!s.equals("") &&
+                        !PreferenceManager.getDefaultSharedPreferences(context).getString("twitter_screen_name_" + currentAccount, "").equals(s) &&
+                        !s.equals(name)) {
+                    names += "@" + s + " ";
+                }
+
+            }
             text = context.getResources().getString(R.string.mentioned_by) + " @" + name;
         } else if (homeTweets == 0 && mentionsTweets == 0 && dmTweets == 1) { // they have 1 new direct message
             DMDataSource dm = DMDataSource.getInstance(context);
@@ -267,7 +277,7 @@ public class NotificationUtils {
             text = context.getResources().getString(R.string.app_name);
         }
 
-        return new String[] {text, name};
+        return new String[] {text, name, names};
     }
 
     public static String getShortText(int[] unreadCount, Context context, int currentAccount) {
