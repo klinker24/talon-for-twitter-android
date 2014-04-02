@@ -1276,7 +1276,6 @@ public class TweetFragment extends Fragment {
 
         protected void onPreExecute() {
             removeKeyboard(message);
-            Toast.makeText(context, getResources().getString(R.string.sending) + "...", Toast.LENGTH_SHORT).show();
             ((Activity)context).finish();
             makeTweetingNotification();
         }
