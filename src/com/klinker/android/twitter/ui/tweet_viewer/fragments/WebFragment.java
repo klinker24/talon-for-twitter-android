@@ -30,7 +30,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.ArrayList;
 
-public class WebFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class WebFragment extends Fragment {
     private View layout;
     private ArrayList<String> webpages;
     private String[] pages;
@@ -64,20 +64,6 @@ public class WebFragment extends Fragment implements AdapterView.OnItemSelectedL
         }
 
         return webView.getLayout();
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (pages[i].contains("play.google.com")) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(pages[i])));
-        } else {
-            webView.loadUrl(pages[i]);
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 
     @Override
