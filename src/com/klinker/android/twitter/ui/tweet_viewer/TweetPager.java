@@ -87,17 +87,15 @@ public class TweetPager extends YouTubeBaseActivity {
         context = this;
         settings = AppSettings.getInstance(this);
 
-        if (settings.forceOverflow) {
-            try {
-                ViewConfiguration config = ViewConfiguration.get(this);
-                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-                if(menuKeyField != null) {
-                    menuKeyField.setAccessible(true);
-                    menuKeyField.setBoolean(config, false);
-                }
-            } catch (Exception ex) {
-                // Ignore
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
             }
+        } catch (Exception ex) {
+            // Ignore
         }
 
         getFromIntent();
@@ -146,10 +144,10 @@ public class TweetPager extends YouTubeBaseActivity {
                 pager.setCurrentItem(0);
                 break;
             case 3:
-                pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 1);
+                pager.setCurrentItem(1);//sharedPrefs.getBoolean("open_to_web", true) ? 0 : 1);
                 break;
             case 4:
-                pager.setCurrentItem(sharedPrefs.getBoolean("open_to_web", true) ? 0 : 2);
+                pager.setCurrentItem(2);//sharedPrefs.getBoolean("open_to_web", true) ? 0 : 2);
                 break;
         }
 

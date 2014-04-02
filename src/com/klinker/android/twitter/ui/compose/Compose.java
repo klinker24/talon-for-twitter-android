@@ -158,17 +158,15 @@ public abstract class Compose extends Activity implements
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (settings.forceOverflow) {
-            try {
-                ViewConfiguration config = ViewConfiguration.get(this);
-                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-                if(menuKeyField != null) {
-                    menuKeyField.setAccessible(true);
-                    menuKeyField.setBoolean(config, false);
-                }
-            } catch (Exception ex) {
-                // Ignore
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
             }
+        } catch (Exception ex) {
+            // Ignore
         }
 
         currentAccount = sharedPrefs.getInt("current_account", 1);

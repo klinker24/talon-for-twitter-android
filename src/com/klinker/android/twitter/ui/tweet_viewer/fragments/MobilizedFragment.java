@@ -91,18 +91,11 @@ public class MobilizedFragment extends Fragment {
                         }
                     }
 
-                    String noImages = "";
-
-                    for (String s : text.split(" ")) {
-                        if (!s.contains("<img")) {
-                            noImages += s;
-                        }
-                    }
-
                     final String article =
                             "<strong><big>" + title + "</big></strong>" +
                             "<br/><br/>" +
-                             text.replaceAll("<img.+?>", "");
+                             text.replaceAll("<img.+?>", "") +
+                            "<br/>"; // one space at the bottom to make it look nicer
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
@@ -114,7 +107,7 @@ public class MobilizedFragment extends Fragment {
                             webText.setTextSize(settings.textSize);
 
                             spinner.setVisibility(View.GONE);
-                            webText.setVisibility(View.VISIBLE);
+                            scrollView.setVisibility(View.VISIBLE);
                         }
                     });
                 } catch (Exception e) {
