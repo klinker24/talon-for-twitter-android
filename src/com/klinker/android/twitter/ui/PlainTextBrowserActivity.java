@@ -1,68 +1,36 @@
-package com.klinker.android.twitter.ui.tweet_viewer.fragments;
+package com.klinker.android.twitter.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.media.AudioManager;
-import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter.settings.AppSettings;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.net.URL;
-import java.util.ArrayList;
-
 /**
- * Created by luke on 4/1/14.
+ * Created by luke on 4/2/14.
  */
-public class MobilizedFragment extends Fragment {
+public class PlainTextBrowserActivity extends BrowserActivity {
 
-    private ArrayList<String> webpages;
-
-    private View layout;
-    private HoloTextView webText;
-    private ScrollView scrollView;
-    private LinearLayout spinner;
-
-    public Context context;
-    public AppSettings settings;
-
-    public MobilizedFragment(AppSettings settings, ArrayList<String> webpages) {
-        this.webpages = webpages;
-        this.settings = settings;
-    }
-
-    public MobilizedFragment() {
-        this.webpages = new ArrayList<String>();
-    }
+    HoloTextView webText;
+    ScrollView scrollView;
+    LinearLayout spinner;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        context = getActivity();
-
-        layout = inflater.inflate(R.layout.mobilized_fragment, null, false);
-        webText = (HoloTextView) layout.findViewById(R.id.webpage_text);
-        scrollView = (ScrollView) layout.findViewById(R.id.scrollview);
-        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+    public void setUpLayout() {
+        setContentView(R.layout.mobilized_fragment);
+        webText = (HoloTextView) findViewById(R.id.webpage_text);
+        scrollView = (ScrollView) findViewById(R.id.scrollview);
+        spinner = (LinearLayout) findViewById(R.id.spinner);
 
         getTextFromSite();
-
-        return layout;
     }
 
     public void getTextFromSite() {
@@ -70,7 +38,7 @@ public class MobilizedFragment extends Fragment {
             @Override
             public void run() {
                 try {
-                    Document doc = Jsoup.connect(webpages.get(0)).get();
+                    Document doc = Jsoup.connect(url).get();
 
                     String text = "";
                     String title = doc.title();
@@ -85,9 +53,9 @@ public class MobilizedFragment extends Fragment {
 
                     final String article =
                             "<strong><big>" + title + "</big></strong>" +
-                            "<br/><br/>" +
-                             text.replaceAll("<img.+?>", "") +
-                            "<br/>"; // one space at the bottom to make it look nicer
+                                    "<br/><br/>" +
+                                    text.replaceAll("<img.+?>", "") +
+                                    "<br/>"; // one space at the bottom to make it look nicer
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
