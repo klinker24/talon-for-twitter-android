@@ -1239,18 +1239,23 @@ public class TweetFragment extends Fragment {
     }
 
     public void finishedTweetingNotification() {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setContentTitle(getResources().getString(R.string.tweet_success))
-                        .setOngoing(false)
-                        .setTicker(getResources().getString(R.string.tweet_success));
+        try {
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.drawable.ic_stat_icon)
+                            .setContentTitle(getResources().getString(R.string.tweet_success))
+                            .setOngoing(false)
+                            .setTicker(getResources().getString(R.string.tweet_success));
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(6, mBuilder.build());
-        // cancel it immediately, the ticker will just go off
-        mNotificationManager.cancel(6);
+
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(6, mBuilder.build());
+            // cancel it immediately, the ticker will just go off
+            mNotificationManager.cancel(6);
+        } catch (IllegalStateException e) {
+            // not attached to activity
+        }
     }
 
     class ReplyToStatus extends AsyncTask<String, Void, Boolean> {

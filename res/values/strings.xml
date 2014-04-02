@@ -449,8 +449,6 @@
     <string name="filling_timeline">Filling timeline gaps</string>
     <string name="follows_you">Follows you</string>
     <string name="not_following_you">Not following you</string>
-    <string name="open_to_web">Open to Webpage</string>
-    <string name="open_to_web_summary">If a tweet contains a web url, it will open directly to that url instead of the tweet itself.</string>
     <string name="device">Device Font</string>
     <string name="roboto_light">Roboto Light (Default)</string>
     <string name="roboto_condensed">Roboto Condensed</string>
@@ -564,7 +562,6 @@
     <string name="show_pos_dashclock_summary">Show the current position on the home timeline instead of the number of new tweets.</string>
     <string name="talon_large_widget">Talon - Timeline</string>
     <string name="unread_bar_widget">Talon - Unread Bar</string>
-    <string name="force_overflow">Force Overflow</string>
     <string name="show_muted_mentions">Show Muted Mentions</string>
     <string name="force_overflow_summary">Always show the 3-Dot \"Overflow Menu\" in the Action Bar. Used for phones with a physical menu button.</string>
     <string name="menu_view_drafts">View Drafts</string>
@@ -584,4 +581,7 @@
     <string name="twitpic_disclaimer_multi_summary">Twitter\'s APIs do not support adding more than one image to a tweet.\n\n
         Talon will upload the pictures using TwitPic instead.</string>
     <string name="loading_webpage">Loading Webpage...</string>
+    <string name="plain_text_browser">Use Plain Text Browser</string>
+    <string name="plain_text_on_data">Plain Text on Data</string>
+    <string name="plain_text_on_data_summary">Enable the plain text browser only when on a mobile data connection, not over WiFi.</string>
 </resources>

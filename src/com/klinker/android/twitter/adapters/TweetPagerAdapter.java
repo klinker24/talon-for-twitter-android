@@ -15,6 +15,8 @@ import com.klinker.android.twitter.ui.tweet_viewer.fragments.DiscussionFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.MobilizedFragment;
+import com.klinker.android.twitter.ui.tweet_viewer.fragments.WebFragment;
+import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -43,6 +45,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
     private String[] otherLinks;
     private boolean isMyTweet;
     private boolean isMyRetweet;
+
+    private boolean mobilizedBrowser = false;
 
     public TweetPagerAdapter(FragmentManager fm, Context context,
          String name, String screenName, String tweet, long time, String retweeter, String webpage,
@@ -90,19 +94,12 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                 }
             }
 
-            //if (youtube) {
-                if (webpages.size() >= 1 && sharedPrefs.getBoolean("inapp_browser_tweet", true)) {
-                    this.hasWebpage = true;
-                } else {
-                    this.hasWebpage = false;
-                }
-            /*} else {
-                if (sharedPrefs.getBoolean("inapp_browser", true)) {
-                    this.hasWebpage = true;
-                } else {
-                    this.hasWebpage= false;
-                }
-            }*/
+            if (webpages.size() >= 1 && sharedPrefs.getBoolean("inapp_browser_tweet", true)) {
+                this.hasWebpage = true;
+            } else {
+                this.hasWebpage = false;
+            }
+
         } else {
             this.hasWebpage = false;
         }
@@ -115,6 +112,9 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         if(youtube) {
             pageCount++;
         }
+
+        // getconnectionstatus() is true if on mobile data, false otherwise
+        mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
     }
 
     @Override
@@ -144,7 +144,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         } else if (pageCount == 3) { // no youtube, just a webpage
             switch (i) {
                 case 0:
-                    MobilizedFragment web = new MobilizedFragment(settings, webpages);
+                    Fragment web = mobilizedBrowser ? new MobilizedFragment(settings, webpages) : new WebFragment(settings, webpages);
                     return web;
                 case 1:
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
@@ -159,7 +159,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetYouTubeFragment youTube = new TweetYouTubeFragment(settings, video);
                     return youTube;
                 case 1:
-                    MobilizedFragment web = new MobilizedFragment(settings, webpages);
+                    Fragment web = mobilizedBrowser ? new MobilizedFragment(settings, webpages) : new WebFragment(settings, webpages);
                     return web;
                 case 2:
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);

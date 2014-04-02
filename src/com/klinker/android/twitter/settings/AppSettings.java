@@ -103,7 +103,8 @@ public class AppSettings {
     public boolean jumpingWorkaround;
     public boolean floatingCompose;
     public boolean openKeyboard;
-    public boolean forceOverflow;
+    public boolean alwaysMobilize;
+    public boolean mobilizeOnData;
 
     // notifications
     public boolean timelineNot;
@@ -213,7 +214,12 @@ public class AppSettings {
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
-        forceOverflow = sharedPrefs.getBoolean("force_overflow", true);
+
+        // set up the mobilized (plain text) browser
+        alwaysMobilize = sharedPrefs.getBoolean("mobilized_browser", false) &&
+                !sharedPrefs.getBoolean("mobilize_on_data_only", true);
+        mobilizeOnData = sharedPrefs.getBoolean("mobilized_browser", false) &&
+                sharedPrefs.getBoolean("mobilize_on_data_only", true);
 
         if (!uiExtras) {
             floatingCompose = false;

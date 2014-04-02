@@ -124,19 +124,6 @@ public class MainActivity extends DrawerActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         DrawerActivity.settings = AppSettings.getInstance(context);
 
-        if (DrawerActivity.settings.forceOverflow) {
-            try {
-                ViewConfiguration config = ViewConfiguration.get(this);
-                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-                if(menuKeyField != null) {
-                    menuKeyField.setAccessible(true);
-                    menuKeyField.setBoolean(config, false);
-                }
-            } catch (Exception ex) {
-                // Ignore
-            }
-        }
-
         try {
             requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         } catch (Exception e) {

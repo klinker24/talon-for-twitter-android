@@ -94,17 +94,15 @@ public class ProfilePager extends Activity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         settings = AppSettings.getInstance(this);
 
-        if (settings.forceOverflow) {
-            try {
-                ViewConfiguration config = ViewConfiguration.get(this);
-                Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-                if(menuKeyField != null) {
-                    menuKeyField.setAccessible(true);
-                    menuKeyField.setBoolean(config, false);
-                }
-            } catch (Exception ex) {
-                // Ignore
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
             }
+        } catch (Exception ex) {
+            // Ignore
         }
 
         if ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
