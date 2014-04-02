@@ -1,10 +1,12 @@
 <b>Version 2.2.0:</b><br/><br/>
     &#8226; New draft system for composing tweets<br/>
-    &#8226; Tweet mulitple images (images count for 22 characters - just for reference)<br/>
+    &#8226; Plain text browser option (can replace traditional web pages)<br/>
+    &#8226; Tweet multiple images (images count for 22 characters - just for reference)<br/>
     &#8226; Send pictures though direct messages with TwitPic<br/>
     &#8226; Post a notification while a tweet is in the process of sending<br/>
-    &#8226; Seperate options for in app browser from timeline and on tweets<br/>
+    &#8226; Separate options for in app browser from timeline and on tweets<br/>
     &#8226; Better handling of refreshing tweets, taking into account the mutes<br/>
+    &#8226; Always display the overflow menu on some UI pages<br/>
     &#8226; Live streaming of mentions<br/>
 </br><br/>
 
@@ -15,7 +17,7 @@
 </br><br/>
 
 <b>Version 2.1.5:</b><br/><br/>
-    &#8226; Fixed black loading screen and duplicates occuring from it<br/>
+    &#8226; Fixed black loading screen and duplicates occurring from it<br/>
     &#8226; Toast bar shouldn't get stuck anymore<br/>
     &#8226; Internal browser updates<br/>
     &#8226; Removed echo sound when clicking a tweet from the timeline<br/>
@@ -88,7 +90,7 @@
     &#8226; Fixed profile pictures not always showing on searches<br/>
     &#8226; Fixed some RTL errors<br/>
     &#8226; Some fixes for saved searches not displaying content<br/>
-    &#8226; A few more tweeks for Tweetmarker<br/>
+    &#8226; A few more tweeks for TweetMarker<br/>
     &#8226; Fixed Pwiccer<br/>
     &#8226; Fixed emojis not appearing correctly<br/>
     &#8226; Fixed a small bug for uploading images<br/>
