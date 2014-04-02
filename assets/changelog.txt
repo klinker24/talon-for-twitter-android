@@ -7,6 +7,7 @@
     &#8226; Separate options for in app browser from timeline and on tweets<br/>
     &#8226; Better handling of refreshing tweets, taking into account the mutes<br/>
     &#8226; Always display the overflow menu on some UI pages<br/>
+    &#8226; Style changes for the overflow menu<br/>
     &#8226; Live streaming of mentions<br/>
 </br><br/>
 
