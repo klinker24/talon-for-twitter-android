@@ -6,10 +6,13 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
@@ -26,14 +29,20 @@ import java.util.ArrayList;
  * Created by luke on 4/1/14.
  */
 public class MobilizedFragment extends Fragment {
-    private View layout;
+
     private ArrayList<String> webpages;
+
+    private View layout;
     private HoloTextView webText;
+    private ScrollView scrollView;
+    private LinearLayout spinner;
 
     public Context context;
+    public AppSettings settings;
 
     public MobilizedFragment(AppSettings settings, ArrayList<String> webpages) {
         this.webpages = webpages;
+        this.settings = settings;
     }
 
     public MobilizedFragment() {
@@ -48,6 +57,8 @@ public class MobilizedFragment extends Fragment {
 
         layout = inflater.inflate(R.layout.mobilized_fragment, null, false);
         webText = (HoloTextView) layout.findViewById(R.id.webpage_text);
+        scrollView = (ScrollView) layout.findViewById(R.id.scrollview);
+        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
 
         getTextFromSite();
 
@@ -67,7 +78,6 @@ public class MobilizedFragment extends Fragment {
             @Override
             public void run() {
                 try {
-                    URL url = new URL(webpages.get(0));
                     Document doc = Jsoup.connect(webpages.get(0)).get();
 
                     String text = "";
@@ -81,12 +91,30 @@ public class MobilizedFragment extends Fragment {
                         }
                     }
 
-                    final String article = title + "<br/><br/>" + text;
+                    String noImages = "";
+
+                    for (String s : text.split(" ")) {
+                        if (!s.contains("<img")) {
+                            noImages += s;
+                        }
+                    }
+
+                    final String article =
+                            "<strong><big>" + title + "</big></strong>" +
+                            "<br/><br/>" +
+                             text.replaceAll("<img.+?>", "");
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            webText.setText(article);
+                            webText.setText(Html.fromHtml(article.replaceAll("\\n\\n\\n", "<br/><br/>")
+                                    .replaceAll("\\n\\n", "<br/><br/>")
+                                    .replaceAll("\\n", "<br/><br/>")));
+                            webText.setMovementMethod(LinkMovementMethod.getInstance());
+                            webText.setTextSize(settings.textSize);
+
+                            spinner.setVisibility(View.GONE);
+                            webText.setVisibility(View.VISIBLE);
                         }
                     });
                 } catch (Exception e) {
@@ -94,14 +122,14 @@ public class MobilizedFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            webText.setText("Error getting webpage.");
+                            webText.setText(getResources().getString(R.string.error_loading_page));
                         }
                     });
                 }
             }
         });
 
-        getText.setPriority(7);
+        getText.setPriority(8);
         getText.start();
     }
 }
