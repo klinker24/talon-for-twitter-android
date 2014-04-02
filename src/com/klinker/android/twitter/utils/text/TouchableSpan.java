@@ -33,8 +33,10 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.Link;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
+import com.klinker.android.twitter.ui.PlainTextBrowserActivity;
 import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.utils.Utils;
 
 public class TouchableSpan extends ClickableSpan {
 
@@ -57,6 +59,9 @@ public class TouchableSpan extends ClickableSpan {
             mThemeColor = context.getResources().getColor(R.color.app_color);
             mColorString = context.getResources().getColor(R.color.pressed_app_color);
         }
+
+        // getconnectionstatus() is true if on mobile data, false otherwise
+        mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
     }
 
     private AppSettings settings;
@@ -66,6 +71,7 @@ public class TouchableSpan extends ClickableSpan {
     private int mThemeColor;
     private int mColorString;
     private boolean extBrowser;
+    private boolean mobilizedBrowser;
 
     @Override
     public void onClick(View widget) {
@@ -90,7 +96,7 @@ public class TouchableSpan extends ClickableSpan {
                     mContext.startActivity(launchBrowser);
                 } else {
                     String data = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
-                    Intent launchBrowser = new Intent(mContext, BrowserActivity.class);
+                    Intent launchBrowser = new Intent(mContext, mobilizedBrowser ? PlainTextBrowserActivity.class :BrowserActivity.class);
                     launchBrowser.putExtra("url", data);
                     mContext.startActivity(launchBrowser);
                 }

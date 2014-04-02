@@ -23,9 +23,11 @@ import com.klinker.android.twitter.utils.Utils;
 
 public class BrowserActivity extends Activity {
 
-    private AppSettings settings;
-    private String url;
+    public AppSettings settings;
+    public String url;
     private HTML5WebView browser;
+
+    public Context context;
 
     @Override
     public void finish() {
@@ -37,18 +39,27 @@ public class BrowserActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = this;
+
         overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
 
         settings = AppSettings.getInstance(this);
 
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
         Utils.setUpTheme(this, settings);
         Utils.setActionBar(this);
 
         url = getIntent().getStringExtra("url");
 
-        browser = new HTML5WebView(this);
+        setUpLayout();
 
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    public void setUpLayout() {
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+
+        browser = new HTML5WebView(this);
         setContentView(browser.getLayout());
 
         browser.setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -58,9 +69,6 @@ public class BrowserActivity extends Activity {
         } else {
             browser.loadUrl(url);
         }
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
