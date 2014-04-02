@@ -363,7 +363,8 @@
                 android:id="@+id/overflow_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="?overflow_button"
+                android:src="?showMoreButton"
+                android:rotation="-90"
                 android:contentDescription="Overflow Options"
                 android:background="@drawable/pressed_button" />
 

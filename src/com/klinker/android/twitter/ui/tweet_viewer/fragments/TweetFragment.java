@@ -485,6 +485,10 @@ public class TweetFragment extends Fragment {
 
                 if (buttons.getVisibility() == View.VISIBLE) {
 
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate_back);
+                    ranim.setFillAfter(true);
+                    overflow.startAnimation(ranim);
+
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
                     anim.setDuration(300);
                     buttons.startAnimation(anim);
@@ -492,6 +496,10 @@ public class TweetFragment extends Fragment {
                     buttons.setVisibility(View.GONE);
                 } else {
                     buttons.setVisibility(View.VISIBLE);
+
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate);
+                    ranim.setFillAfter(true);
+                    overflow.startAnimation(ranim);
 
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
                     anim.setDuration(300);
