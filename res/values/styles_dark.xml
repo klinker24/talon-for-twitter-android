@@ -19,6 +19,7 @@ limitations under the License.
 
     <style name="Theme.TalonDark" parent="@android:style/Theme.Holo">
 
+        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Dark</item>
         <item name="android:windowBackground">@color/dark_background</item>
         <item name="android:colorBackground">@color/dark_background</item>
         <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
@@ -179,6 +180,10 @@ limitations under the License.
         <item name="android:progressDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_dark</item>
         <item name="android:indeterminateDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_dark</item>
         <item name="android:thumb">@drawable/twitter_scrubber_control_selector_holo_dark</item>
+    </style>
+
+    <style name="CircleOverflow.Dark" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_circle_overflow_dark</item>
     </style>
 
 </resources>
