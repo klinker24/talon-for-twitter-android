@@ -17,8 +17,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -165,6 +167,10 @@ public class ComposeActivity extends Compose {
                 LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
                 if (buttons.getVisibility() == View.VISIBLE) {
 
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate_back);
+                    ranim.setFillAfter(true);
+                    overflow.startAnimation(ranim);
+
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
                     anim.setDuration(300);
                     buttons.startAnimation(anim);
@@ -172,6 +178,11 @@ public class ComposeActivity extends Compose {
                     buttons.setVisibility(View.GONE);
                 } else {
                     buttons.setVisibility(View.VISIBLE);
+
+
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate);
+                    ranim.setFillAfter(true);
+                    overflow.startAnimation(ranim);
 
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
                     anim.setDuration(300);

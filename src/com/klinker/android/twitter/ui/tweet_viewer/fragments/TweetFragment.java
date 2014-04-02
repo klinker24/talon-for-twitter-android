@@ -16,7 +16,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -58,7 +57,6 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
@@ -66,12 +64,10 @@ import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
-import com.klinker.android.twitter.utils.text.Regex;
 import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -542,11 +538,11 @@ public class TweetFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if(background.getVisibility() == View.VISIBLE) {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
                         ranim.setFillAfter(true);
                         expand.startAnimation(ranim);
                     } else {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                         ranim.setFillAfter(true);
                         expand.startAnimation(ranim);
                     }
