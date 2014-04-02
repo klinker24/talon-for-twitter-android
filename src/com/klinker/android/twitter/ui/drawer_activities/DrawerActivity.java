@@ -8,7 +8,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,8 +38,6 @@ import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
-import com.klinker.android.twitter.ui.main_fragments.MainFragment;
-import com.klinker.android.twitter.ui.profile_viewer.fragments.sub_fragments.ProfileFavoritesFragment;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -147,7 +144,7 @@ public abstract class DrawerActivity extends Activity {
 
                 public void onDrawerClosed(View view) {
                     if (logoutVisible) {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                         ranim.setFillAfter(true);
                         showMoreDrawer.startAnimation(ranim);
 
@@ -228,7 +225,7 @@ public abstract class DrawerActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(logoutLayout.getVisibility() == View.GONE) {
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate);
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
@@ -272,7 +269,7 @@ public abstract class DrawerActivity extends Activity {
 
                     logoutVisible = true;
                 } else {
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.rotate_back);
+                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
