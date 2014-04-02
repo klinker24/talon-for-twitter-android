@@ -179,7 +179,6 @@ public class ComposeActivity extends Compose {
                 } else {
                     buttons.setVisibility(View.VISIBLE);
 
-
                     Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate);
                     ranim.setFillAfter(true);
                     overflow.startAnimation(ranim);
