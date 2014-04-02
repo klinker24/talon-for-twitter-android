@@ -105,7 +105,11 @@ public class BrowserActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        browser.destroy();
+        try {
+            browser.destroy();
+        } catch (Exception e) {
+            // plain text browser
+        }
         super.onDestroy();
     }
 
