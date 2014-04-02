@@ -14,7 +14,7 @@ import com.klinker.android.twitter.ui.tweet_viewer.fragments.DiscussionFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.DiscussionFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
-import com.klinker.android.twitter.ui.tweet_viewer.fragments.WebFragment;
+import com.klinker.android.twitter.ui.tweet_viewer.fragments.MobilizedFragment;
 
 import java.util.ArrayList;
 
@@ -144,7 +144,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         } else if (pageCount == 3) { // no youtube, just a webpage
             switch (i) {
                 case 0:
-                    WebFragment web = new WebFragment(settings, webpages);
+                    MobilizedFragment web = new MobilizedFragment(settings, webpages);
                     return web;
                 case 1:
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
@@ -159,7 +159,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetYouTubeFragment youTube = new TweetYouTubeFragment(settings, video);
                     return youTube;
                 case 1:
-                    WebFragment web = new WebFragment(settings, webpages);
+                    MobilizedFragment web = new MobilizedFragment(settings, webpages);
                     return web;
                 case 2:
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
