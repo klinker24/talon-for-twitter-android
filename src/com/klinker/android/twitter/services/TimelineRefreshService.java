@@ -65,16 +65,13 @@ public class TimelineRefreshService extends IntentService {
 
                 Paging paging = new Paging(1, 200);
 
-                long[] lastId;
+                long[] lastId = null;
                 long id;
                 try {
                     lastId = dataSource.getLastIds(currentAccount);
-                    id = lastId[0];
+                    id = lastId[1];
                 } catch (Exception e) {
-                    id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
-                }
-
-                if (id == 1l) {
+                    TimelineRefreshService.isRunning = false;
                     return;
                 }
 
@@ -85,14 +82,16 @@ public class TimelineRefreshService extends IntentService {
                         if (!foundStatus) {
                             paging.setPage(i + 1);
                             List<Status> list = twitter.getHomeTimeline(paging);
+                            statuses.addAll(list);
 
-                            if (list.size() > 185) { // close to the 200 lol
-                                foundStatus = false;
-                            } else {
+                            if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
+                                Log.v("talon_inserting", "found status");
                                 foundStatus = true;
+                            } else {
+                                Log.v("talon_inserting", "haven't found status");
+                                foundStatus = false;
                             }
 
-                            statuses.addAll(list);
                         }
                     } catch (Exception e) {
                         // the page doesn't exist

@@ -79,10 +79,8 @@ public class CatchupPull extends IntentService {
                     lastId = dataSource.getLastIds(currentAccount);
                     id = lastId[0];
                 } catch (Exception e) {
-                    id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
-                }
-
-                if (id == 1l) {
+                    context.startService(new Intent(context, TalonPullNotificationService.class));
+                    CatchupPull.isRunning = false;
                     return;
                 }
 
@@ -94,13 +92,16 @@ public class CatchupPull extends IntentService {
                             paging.setPage(i + 1);
                             List<Status> list = twitter.getHomeTimeline(paging);
 
-                            if (list.size() > 185) { // close to the 200 lol
-                                foundStatus = false;
-                            } else {
+                            statuses.addAll(list);
+
+                            if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
+                                Log.v("talon_inserting", "found status");
                                 foundStatus = true;
+                            } else {
+                                Log.v("talon_inserting", "haven't found status");
+                                foundStatus = false;
                             }
 
-                            statuses.addAll(list);
                         }
                     } catch (Exception e) {
                         // the page doesn't exist
@@ -158,15 +159,6 @@ public class CatchupPull extends IntentService {
             }
 
             List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
-
-            /*for (twitter4j.Status status : statuses) {
-                try {
-                    dataSource.createTweet(status, currentAccount);
-                } catch (Exception e) {
-                    dataSource = MentionsDataSource.getInstance(context);
-                    dataSource.createTweet(status, currentAccount);
-                }
-            }*/
 
             dataSource.insertTweets(statuses, currentAccount);
 
