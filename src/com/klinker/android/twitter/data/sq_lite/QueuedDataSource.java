@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 public class QueuedDataSource {
 
     // provides access to the database
@@ -131,18 +133,23 @@ public class QueuedDataSource {
 
         Cursor cursor = getDraftsCursor();
 
-        String[] names = new String[cursor.getCount()];
+        ArrayList<String> drafts = new ArrayList<String>();
 
         if (cursor.moveToFirst()) {
-            int i = 0;
             do {
-                names[i] = cursor.getString(cursor.getColumnIndex(QueuedSQLiteHelper.COLUMN_TEXT));
-                i++;
+                String draft = cursor.getString(cursor.getColumnIndex(QueuedSQLiteHelper.COLUMN_TEXT));
+                if (!draft.equals("")) {
+                    drafts.add(draft);
+                }
             } while (cursor.moveToNext());
         }
 
         cursor.close();
 
-        return names;
+        String[] draftArr = new String[drafts.size()];
+        for (int i = 0; i <draftArr.length; i++) {
+            draftArr[i] = drafts.get(i);
+        }
+        return draftArr;
     }
 }
