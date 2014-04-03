@@ -9,6 +9,7 @@
     &#8226; Always display the overflow menu on some UI pages<br/>
     &#8226; Style changes for the overflow menu<br/>
     &#8226; Live streaming of mentions<br/>
+    &#8226; Fixed the max tweets to download option for some<br/>
 </br><br/>
 
 <b>Version 2.1.6:</b><br/><br/>
