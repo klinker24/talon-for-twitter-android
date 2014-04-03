@@ -509,10 +509,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             long id;
             try {
                 lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
-                id = lastId[0];
+                id = lastId[1];
             } catch (Exception e) {
                 id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
             }
+            Log.v("talon_inserting", "since_id=" + id);
             try {
                 paging.setSinceId(id);
             } catch (Exception e) {
@@ -527,17 +528,19 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     if (!foundStatus) {
                         paging.setPage(i + 1);
                         List<Status> list = twitter.getHomeTimeline(paging);
-
-                        if (list.size() > 185) {
-                            foundStatus = false;
-                        } else {
-                            foundStatus = true;
-                        }
-
                         statuses.addAll(list);
+
+                        if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
+                            Log.v("talon_inserting", "found status");
+                            foundStatus = true;
+                        } else {
+                            Log.v("talon_inserting", "haven't found status");
+                            foundStatus = false;
+                        }
                     }
                 } catch (Exception e) {
                     // the page doesn't exist
+                    e.printStackTrace();
                     foundStatus = true;
                 } catch (OutOfMemoryError o) {
                     // don't know why...
@@ -546,6 +549,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             long afterDownload = Calendar.getInstance().getTimeInMillis();
             Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
+
+            if (statuses.size() > 0) {
+                statuses.remove(statuses.size() - 1);
+            }
 
             HashSet hs = new HashSet();
             hs.addAll(statuses);

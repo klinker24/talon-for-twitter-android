@@ -839,11 +839,12 @@ public class HomeDataSource {
         }
 
         try {
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToLast()) {
                 int i = 0;
                 do {
                     id[i] = cursor.getLong(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TWEET_ID));
-                } while (cursor.moveToNext() && i < 5);
+                    i++;
+                } while (cursor.moveToPrevious() && i < 5);
             }
         } catch (Exception e) {
         }
