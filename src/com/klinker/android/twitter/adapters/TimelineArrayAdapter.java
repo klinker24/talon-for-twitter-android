@@ -664,6 +664,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
+        if (picture) {
+            CacheableBitmapDrawable wrapper = mCache.getFromMemoryCache(holder.picUrl);
+            if (wrapper != null) {
+                holder.image.setImageDrawable(wrapper);
+                picture = false;
+            }
+        }
+
         final boolean hasPicture = picture;
         mHandler[currHandler].removeCallbacksAndMessages(null);
         mHandler[currHandler].postDelayed(new Runnable() {
