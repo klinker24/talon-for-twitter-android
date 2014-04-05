@@ -1,6 +1,5 @@
 - Features:
     - translation of tweets (probably won't be happening)
-    - addon package for full screen themes
     - auto-complete hashtags
     - mute by source
     - interactions with dashclock
