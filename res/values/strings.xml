@@ -585,4 +585,6 @@
     <string name="plain_text_on_data">Plain Text on Data</string>
     <string name="plain_text_on_data_summary">Enable the plain text browser only when on a mobile data connection, not over WiFi.</string>
     <string name="layout_full_screen">Full Screen</string>
+    <string name="pre_cache_images">Pre-Cache Images</string>
+    <string name="pre_cache_summary">Download images immediately as they are live streamed or retrieved from a background refresh of the timeline.</string>
 </resources>

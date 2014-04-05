@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,19 +18,24 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.WidgetCompose;
+import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.NotificationUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.redirects.RedirectToPopup;
 import com.klinker.android.twitter.utils.Utils;
 
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -44,6 +50,8 @@ import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.UserMentionEntity;
 import twitter4j.UserStreamListener;
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TalonPullNotificationService extends Service {
 
@@ -56,6 +64,7 @@ public class TalonPullNotificationService extends Service {
 
     public TwitterStream pushStream;
     public Context mContext;
+    public BitmapLruCache mCache;
     public AppSettings settings;
     public SharedPreferences sharedPreferences;
 
@@ -75,6 +84,8 @@ public class TalonPullNotificationService extends Service {
         TalonPullNotificationService.isRunning = true;
 
         settings = AppSettings.getInstance(this);
+
+        mCache = App.getInstance(this).getBitmapCache();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -405,7 +416,7 @@ public class TalonPullNotificationService extends Service {
 
     public UserStreamListener userStream = new UserStreamListener() {
         @Override
-        public void onStatus(Status status) {
+        public void onStatus(final Status status) {
 
             if (!thisInstanceOn) {
                 return;
@@ -477,6 +488,15 @@ public class TalonPullNotificationService extends Service {
                         NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
                         InteractionsDataSource.getInstance(mContext).createFavoriteUserInter(mContext, status, sharedPreferences.getInt("current_account", 1));
                         sharedPreferences.edit().putBoolean("new_notification", true).commit();
+                    }
+
+                    if (settings.preCacheImages) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                downloadImages(status);
+                            }
+                        }).start();
                     }
                 }
             }
@@ -678,4 +698,40 @@ public class TalonPullNotificationService extends Service {
             Log.v("twitter_stream_push", "onException:" + ex.getMessage());
         }
     };
+
+    public void downloadImages(Status status) {
+        String profilePic = status.getUser().getBiggerProfileImageURL();
+        String imageUrl = TweetLinkUtils.getHtmlStatus(status)[1];
+
+        CacheableBitmapDrawable wrapper = mCache.get(profilePic);
+        if (wrapper == null) {
+
+            try {
+                URL mUrl = new URL(profilePic);
+
+                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+                if (settings.roundContactImages) {
+                    image = ImageUtils.getCircle(image, this);
+                }
+
+                mCache.put(profilePic, image);
+            } catch (Exception e) {
+
+            }
+        }
+
+        if (!imageUrl.equals("")) {
+            wrapper = mCache.get(imageUrl);
+            if (wrapper == null) {
+                try {
+                    URL mUrl = new URL(imageUrl);
+                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
+
+                    mCache.put(profilePic, image);
+                } catch (Exception e) {
+
+                }
+            }
+        }
+    }
 }

@@ -106,6 +106,7 @@ public class AppSettings {
     public boolean openKeyboard;
     public boolean alwaysMobilize;
     public boolean mobilizeOnData;
+    public boolean preCacheImages;
 
     // notifications
     public boolean timelineNot;
@@ -215,6 +216,7 @@ public class AppSettings {
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
+        preCacheImages = sharedPrefs.getBoolean("pre_cache_images", false);
 
         // set up the mobilized (plain text) browser
         alwaysMobilize = sharedPrefs.getBoolean("mobilized_browser", false) &&

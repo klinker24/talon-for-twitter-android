@@ -47,7 +47,7 @@ public class CatchupPull extends IntentService {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        Context context = getApplicationContext();
+        final Context context = getApplicationContext();
 
         int unreadNow = sharedPrefs.getInt("pull_unread", 0);
 
@@ -131,6 +131,16 @@ public class CatchupPull extends IntentService {
                 if (inserted > 0 && statuses.size() > 0) {
                     sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
                     unreadNow += statuses.size();
+                }
+
+                if (settings.preCacheImages) {
+                    // delay it 15 seconds so that we can finish checking mentions first
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startService(new Intent(context, PreCacheService.class));
+                        }
+                    }, 15000);
                 }
 
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();

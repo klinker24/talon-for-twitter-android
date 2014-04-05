@@ -134,6 +134,11 @@ public class WidgetRefreshService  extends IntentService {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
             }
 
+            if (settings.preCacheImages) {
+                startService(new Intent(this, PreCacheService.class));
+            }
+
+
         } catch (TwitterException e) {
             Log.d("Twitter Update Error", e.getMessage());
         }

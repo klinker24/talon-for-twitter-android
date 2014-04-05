@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -123,6 +124,10 @@ public class TimelineRefreshService extends IntentService {
 
                 if (settings.notifications) {
                     NotificationUtils.refreshNotification(context);
+                }
+
+                if (settings.preCacheImages) {
+                    startService(new Intent(this, PreCacheService.class));
                 }
 
             } catch (TwitterException e) {
