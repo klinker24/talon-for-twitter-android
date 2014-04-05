@@ -56,6 +56,7 @@ limitations under the License.
         <item name="border_color">@color/border_light</item>
         <item name="icon_color">@color/icon_light</item>
 
+        <item name="fullScreenTweet">@drawable/full_screen_background_light</item>
         <item name="myTweetBackground">@drawable/sent_background_light</item>
         <item name="tweetBackground">@drawable/received_background_light</item>
         <item name="tweetBackgroundNoDialog">@drawable/received_bubble_light</item>

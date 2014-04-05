@@ -55,6 +55,7 @@ public class AppSettings {
 
     public static final int LAYOUT_TALON = 0;
     public static final int LAYOUT_HANGOUT = 1;
+    public static final int LAYOUT_FULL_SCREEN = 2;
 
     public String authenticationToken;
     public String authenticationTokenSecret;
@@ -359,8 +360,6 @@ public class AppSettings {
             addonThemePackage = null;
             translateProfileHeader = true;
         }
-
-        Log.v("talon_settings_contact", roundContactImages + "");
 
         int count = 0;
         if (sharedPrefs.getBoolean("is_logged_in_1", false)) {

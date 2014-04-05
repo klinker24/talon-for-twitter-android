@@ -234,7 +234,6 @@
                         android:layoutDirection="ltr">
 
                         <ImageView
-                            android:id="@+id/favorite"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:minHeight="32dp" android:minWidth="32dp"
@@ -291,7 +290,6 @@
                         android:layoutDirection="ltr">
 
                         <ImageView
-                            android:id="@+id/retweet"
                             android:layout_width="37dp"
                             android:layout_height="37dp"
                             android:minHeight="37dp" android:minWidth="37dp"

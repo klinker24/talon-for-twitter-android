@@ -33,6 +33,10 @@ public class AutoCompetePeopleAdapter extends SearchedPeopleCursorAdapter {
         final long id = cursor.getLong(cursor.getColumnIndex(FavoriteUsersSQLiteHelper.COLUMN_ID));
         holder.userId = id;
 
+        if (holder.divider != null && holder.divider.getVisibility() == View.VISIBLE) {
+            holder.divider.setVisibility(View.GONE);
+        }
+
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 

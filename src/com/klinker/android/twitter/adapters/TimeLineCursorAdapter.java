@@ -98,7 +98,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private int layout;
     private XmlResourceParser addonLayout = null;
     private Resources res;
-    private boolean talonLayout;
+    private int talonLayout;
     private BitmapLruCache mCache;
 
     private ColorDrawable transparent;
@@ -158,7 +158,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+        talonLayout = settings.layout;
 
         if (settings.addonTheme) {
             try {
@@ -169,7 +169,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
-        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+        switch (talonLayout) {
+            case AppSettings.LAYOUT_TALON:
+                layout = R.layout.tweet;
+                break;
+            case AppSettings.LAYOUT_HANGOUT:
+                layout = R.layout.tweet_hangout;
+                break;
+            case AppSettings.LAYOUT_FULL_SCREEN:
+                layout = R.layout.tweet_full_screen;
+                break;
+        }
 
         TypedArray b;
         if (settings.roundContactImages) {
@@ -214,7 +224,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+        talonLayout = settings.layout;
 
         if (settings.addonTheme) {
             try {
@@ -225,7 +235,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
-        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+        switch (talonLayout) {
+            case AppSettings.LAYOUT_TALON:
+                layout = R.layout.tweet;
+                break;
+            case AppSettings.LAYOUT_HANGOUT:
+                layout = R.layout.tweet_hangout;
+                break;
+            case AppSettings.LAYOUT_FULL_SCREEN:
+                layout = R.layout.tweet_full_screen;
+                break;
+        }
 
         TypedArray b;
         if (settings.roundContactImages) {
@@ -624,14 +644,22 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        if (!settings.showBoth) {
-            holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
-        } else {
+        if (talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
             if (holder.screenTV.getVisibility() == View.GONE) {
                 holder.screenTV.setVisibility(View.VISIBLE);
             }
-            holder.name.setText(name);
             holder.screenTV.setText("@" + screenname);
+            holder.name.setText(name);
+        } else {
+            if (!settings.showBoth) {
+                holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
+            } else {
+                if (holder.screenTV.getVisibility() == View.GONE) {
+                    holder.screenTV.setVisibility(View.VISIBLE);
+                }
+                holder.name.setText(name);
+                holder.screenTV.setText("@" + screenname);
+            }
         }
 
         if (!settings.absoluteDate) {
@@ -902,8 +930,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.favorite.setVisibility(View.VISIBLE);
         }
 
-        holder.replyButton.setVisibility(View.GONE);
-        holder.charRemaining.setVisibility(View.GONE);
+        try {
+            holder.replyButton.setVisibility(View.GONE);
+        } catch (Exception e) {
+
+        }
+        try {
+            holder.charRemaining.setVisibility(View.GONE);
+        } catch (Exception e) {
+
+        }
 
         holder.screenName = screenname;
 
@@ -1029,41 +1065,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        holder.replyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new ReplyToStatus(holder, holder.tweetId).execute();
-            }
-        });
-
-        holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                hasKeyboard = b;
-            }
-        });
-
-        holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
-
-        holder.reply.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        holder.reply.requestFocus();
-        removeKeyboard(holder);
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1074,7 +1075,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 try{
                     compose.putExtra("user", string.substring(0, string.length() - 1));
                 } catch (Exception e) {
-                    
+
                 }
                 compose.putExtra("id", holder.tweetId);
 
@@ -1087,6 +1088,46 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 context.startActivity(compose);
             }
         });
+
+        holder.reply.requestFocus();
+        removeKeyboard(holder);
+
+        // this isn't going to run anymore, but just in case i put it back i guess
+        if (holder.replyButton != null) {
+            holder.replyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new ReplyToStatus(holder, holder.tweetId).execute();
+                }
+            });
+
+            holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
+
+            holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    hasKeyboard = b;
+                }
+            });
+
+            holder.reply.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                    holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+        }
 
         final String name = screenname;
 

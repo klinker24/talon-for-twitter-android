@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.Utils;
@@ -206,7 +207,8 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
                 View view = new View(context);
                 view.setOnClickListener(null);
                 view.setOnLongClickListener(null);
-                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                        Utils.getStatusBarHeight(context));// + (DrawerActivity.settings.layout == AppSettings.LAYOUT_FULL_SCREEN ? toDP(4) : 0));
                 view.setLayoutParams(params2);
                 listView.addHeaderView(view);
                 listView.setHeaderDividersEnabled(false);
