@@ -19,10 +19,22 @@
 
         </include>
 
-        <!--<View
+        <LinearLayout
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/app_color" />-->
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="@android:color/black" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="?drawerDividerColor" />
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
