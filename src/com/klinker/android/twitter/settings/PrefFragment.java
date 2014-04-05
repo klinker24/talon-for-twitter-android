@@ -1112,6 +1112,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
 
+        AppSettings.invalidate();
+
         //Log.v("alarm_date", "key: " + key);
 
         if (key.equals("timeline_sync_interval")) {

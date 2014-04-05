@@ -55,7 +55,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public int layout;
     public XmlResourceParser addonLayout = null;
     public Resources res;
-    public boolean talonLayout;
+    public int talonLayout;
     public BitmapLruCache mCache;
     public int border;
     public Handler mHandler;
@@ -67,6 +67,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
         public TextView screenName;
         public ImageView picture;
         public LinearLayout background;
+        public View divider;
         public long userId;
     }
 
@@ -88,7 +89,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public void setUpLayout() {
         mHandler = new Handler();
 
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+        talonLayout = settings.layout;
 
         if (settings.addonTheme) {
             try {
@@ -96,14 +97,34 @@ public class PeopleCursorAdapter extends CursorAdapter {
                 addonLayout = res.getLayout(res.getIdentifier("person", "layout", settings.addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
-                layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+                switch (talonLayout) {
+                    case AppSettings.LAYOUT_TALON:
+                        layout = R.layout.person;
+                        break;
+                    case AppSettings.LAYOUT_HANGOUT:
+                        layout = R.layout.person_hangouts;
+                        break;
+                    case AppSettings.LAYOUT_FULL_SCREEN:
+                        layout = R.layout.person_full_screen;
+                        break;
+                }
             }
         } else {
-            layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+            switch (talonLayout) {
+                case AppSettings.LAYOUT_TALON:
+                    layout = R.layout.person;
+                    break;
+                case AppSettings.LAYOUT_HANGOUT:
+                    layout = R.layout.person_hangouts;
+                    break;
+                case AppSettings.LAYOUT_FULL_SCREEN:
+                    layout = R.layout.person_full_screen;
+                    break;
+            }
         }
 
         TypedArray b;
-        if (talonLayout) {
+        if (settings.roundContactImages) {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         } else {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
@@ -152,6 +173,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
                 holder.screenName = (TextView) v.findViewById(R.id.screen_name);
                 holder.background = (LinearLayout) v.findViewById(R.id.background);
                 holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+                //holder.divider = v.findViewById(R.id.my_divider);
             }
         } else {
             v = inflater.inflate(layout, viewGroup, false);
@@ -160,6 +182,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
             holder.screenName = (TextView) v.findViewById(R.id.screen_name);
             holder.background = (LinearLayout) v.findViewById(R.id.background);
             holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+            //holder.divider = v.findViewById(R.id.my_divider);
         }
 
         // sets up the font sizes

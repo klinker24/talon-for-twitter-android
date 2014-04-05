@@ -91,7 +91,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int layout;
     public XmlResourceParser addonLayout = null;
     public Resources res;
-    public boolean talonLayout;
+    public int talonLayout;
     public BitmapLruCache mCache;
 
     public ColorDrawable transparent;
@@ -190,7 +190,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+        talonLayout = settings.layout;
 
         if (settings.addonTheme) {
             try {
@@ -201,10 +201,20 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        layout = talonLayout ? R.layout.tweet : R.layout.tweet_hangout;
+        switch (talonLayout) {
+            case AppSettings.LAYOUT_TALON:
+                layout = R.layout.tweet;
+                break;
+            case AppSettings.LAYOUT_HANGOUT:
+                layout = R.layout.tweet_hangout;
+                break;
+            case AppSettings.LAYOUT_FULL_SCREEN:
+                layout = R.layout.tweet_full_screen;
+                break;
+        }
 
         TypedArray b;
-        if (talonLayout) {
+        if (settings.roundContactImages) {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         } else {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
@@ -793,7 +803,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.favorite.setVisibility(View.VISIBLE);
 
         //holder.reply.setVisibility(View.GONE);
-        holder.replyButton.setVisibility(View.GONE);
+        try {
+            holder.replyButton.setVisibility(View.GONE);
+        } catch (Exception e) {
+
+        }
 
         holder.screenName = screenname;
 
@@ -914,13 +928,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         });
 
-        holder.replyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new ReplyToStatus(holder, holder.tweetId).execute();
-            }
-        });
-
         holder.reply.requestFocus();
         removeKeyboard(holder);
         holder.reply.setOnClickListener(new View.OnClickListener() {
@@ -935,6 +942,16 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 context.startActivity(compose);
             }
         });
+
+        if (holder.replyButton != null) {
+            holder.replyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new ReplyToStatus(holder, holder.tweetId).execute();
+                }
+            });
+        }
+
 
         final String name = screenname;
 

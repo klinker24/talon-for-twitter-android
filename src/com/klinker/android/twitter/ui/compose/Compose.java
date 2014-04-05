@@ -662,7 +662,7 @@ public abstract class Compose extends Activity implements
                 public void run() {
                     makeTweetingNotification();
                 }
-            }, 500);
+            }, 200);
             super.onPreExecute();
 
         }
@@ -745,7 +745,7 @@ public abstract class Compose extends Activity implements
                 public void run() {
                     makeTweetingNotification();
                 }
-            }, 500);
+            }, 200);
         }
 
         protected Boolean doInBackground(String... args) {

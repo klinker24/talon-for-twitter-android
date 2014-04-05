@@ -584,4 +584,5 @@
     <string name="plain_text_browser">Use Plain Text Browser</string>
     <string name="plain_text_on_data">Plain Text on Data</string>
     <string name="plain_text_on_data_summary">Enable the plain text browser only when on a mobile data connection, not over WiFi.</string>
+    <string name="layout_full_screen">Full Screen</string>
 </resources>

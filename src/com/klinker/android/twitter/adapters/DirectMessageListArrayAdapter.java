@@ -51,7 +51,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
     public int layout;
     public XmlResourceParser addonLayout = null;
     public Resources res;
-    public boolean talonLayout;
+    public int talonLayout;
     public BitmapLruCache mCache;
     public int border;
 
@@ -63,7 +63,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
     }
 
     public DirectMessageListArrayAdapter(Context context, ArrayList<DirectMessage> messages) {
-        super(context, R.layout.tweet);
+        super(context, R.layout.person);
 
         this.context = context;
         this.messages = messages;
@@ -76,7 +76,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
     }
 
     public void setUpLayout() {
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
+        talonLayout = settings.layout;
 
         if (settings.addonTheme) {
             try {
@@ -84,14 +84,34 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
                 addonLayout = res.getLayout(res.getIdentifier("person", "layout", settings.addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
-                layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+                switch (talonLayout) {
+                    case AppSettings.LAYOUT_TALON:
+                        layout = R.layout.person;
+                        break;
+                    case AppSettings.LAYOUT_HANGOUT:
+                        layout = R.layout.person_hangouts;
+                        break;
+                    case AppSettings.LAYOUT_FULL_SCREEN:
+                        layout = R.layout.person_full_screen;
+                        break;
+                }
             }
         } else {
-            layout = talonLayout ? R.layout.person : R.layout.person_hangouts;
+            switch (talonLayout) {
+                case AppSettings.LAYOUT_TALON:
+                    layout = R.layout.person;
+                    break;
+                case AppSettings.LAYOUT_HANGOUT:
+                    layout = R.layout.person_hangouts;
+                    break;
+                case AppSettings.LAYOUT_FULL_SCREEN:
+                    layout = R.layout.person_full_screen;
+                    break;
+            }
         }
 
         TypedArray b;
-        if (talonLayout) {
+        if (settings.roundContactImages) {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         } else {
             b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});

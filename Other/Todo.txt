@@ -26,7 +26,6 @@
 -- For Release --
 
     sound on link clicks
-    rework how to know if there are more pages or not
 
     Version 2.2.0
         - Scheduled Tweets
