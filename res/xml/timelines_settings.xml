@@ -81,6 +81,13 @@
         android:title="@string/other_options" >
 
         <CheckBoxPreference
+            android:key="pre_cache_images"
+            android:title="@string/pre_cache_images"
+            android:summary="@string/pre_cache_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
             android:key="reverse_click_option"
             android:title="@string/reverse_click_actions"
             android:summary="@string/reverse_click_actions_summary"
