@@ -773,6 +773,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.retweeter.setVisibility(View.GONE);
         }
 
+        if (picture) {
+            CacheableBitmapDrawable wrapper = mCache.getFromMemoryCache(holder.picUrl);
+            if (wrapper != null) {
+                holder.image.setImageDrawable(wrapper);
+                picture = false;
+            }
+        }
+
         final boolean hasPicture = picture;
         mHandlers[currHandler].removeCallbacksAndMessages(null);
         mHandlers[currHandler].postDelayed(new Runnable() {
