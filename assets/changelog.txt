@@ -1,4 +1,5 @@
 <b>Version 2.2.0:</b><br/><br/>
+    &#8226; New full screen layout option<br/>
     &#8226; New draft system for composing tweets<br/>
     &#8226; Plain text browser option (can replace traditional web pages)<br/>
     &#8226; Tweet multiple images (images count for 22 characters - just for reference)<br/>
