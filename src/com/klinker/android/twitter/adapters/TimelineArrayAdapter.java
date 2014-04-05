@@ -546,14 +546,22 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        if (!settings.showBoth) {
-            holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
-        } else {
+        if (talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
             if (holder.screenTV.getVisibility() == View.GONE) {
                 holder.screenTV.setVisibility(View.VISIBLE);
             }
-            holder.name.setText(name);
             holder.screenTV.setText("@" + screenname);
+            holder.name.setText(name);
+        } else {
+            if (!settings.showBoth) {
+                holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
+            } else {
+                if (holder.screenTV.getVisibility() == View.GONE) {
+                    holder.screenTV.setVisibility(View.VISIBLE);
+                }
+                holder.name.setText(name);
+                holder.screenTV.setText("@" + screenname);
+            }
         }
 
         if (!settings.absoluteDate) {
