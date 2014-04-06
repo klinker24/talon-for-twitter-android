@@ -23,8 +23,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     private SharedPreferences sharedPrefs;
 
     // list stuff
-    public int list1Id; // furthest left list
-    public int list2Id; // list next to the timeline
+    public long list1Id; // furthest left list
+    public long list2Id; // list next to the timeline
     public int page1Type;
     public int page2Type;
     public String page1Name;
@@ -39,9 +39,18 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
         int currentAccount = sharedPreferences.getInt("current_account", 1);
 
+        // used when converting to twitter4j 4.0.0
+        if (sharedPrefs.getBoolean("convert_long_lists", true)) {
+            sharedPreferences.edit().putBoolean("convert_long_lists", false).commit();
+            sharedPrefs.edit().putLong("account_1_list_1_long", sharedPrefs.getInt("account_1_list_1", 0)).commit();
+            sharedPrefs.edit().putLong("account_1_list_2_long", sharedPrefs.getInt("account_1_list_2", 0)).commit();
+            sharedPrefs.edit().putLong("account_1_list_1_long", sharedPrefs.getInt("account_2_list_1", 0)).commit();
+            sharedPrefs.edit().putLong("account_1_list_2_long", sharedPrefs.getInt("account_2_list_2", 0)).commit();
+        }
+
         // List ID's
-        list1Id = sharedPrefs.getInt("account_" + currentAccount + "_list_1", 0);
-        list2Id = sharedPrefs.getInt("account_" + currentAccount + "_list_2", 0);
+        list1Id = sharedPrefs.getLong("account_" + currentAccount + "_list_1_long", 0l);
+        list2Id = sharedPrefs.getLong("account_" + currentAccount + "_list_2_long", 0l);
         page1Type = sharedPreferences.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
         page2Type = sharedPreferences.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
         page1Name = sharedPreferences.getString("account_" + currentAccount + "_name_1", "");
@@ -176,7 +185,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         return 3 + numExtraPages;
     }
 
-    public Fragment getFrag(int type, int listId) {
+    public Fragment getFrag(int type, long listId) {
         switch (type) {
             case AppSettings.PAGE_TYPE_LIST:
                 return new ListFragment(listId);

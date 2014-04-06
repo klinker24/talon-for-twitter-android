@@ -65,7 +65,7 @@ public class ListChooser extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 UserList list = arrayAdapter.getItem(i);
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("listId",list.getId());
+                returnIntent.putExtra("listId", list.getId());
                 returnIntent.putExtra("listName", list.getName());
                 setResult(RESULT_OK,returnIntent);
                 finish();
