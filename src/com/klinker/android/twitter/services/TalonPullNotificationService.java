@@ -611,6 +611,11 @@ public class TalonPullNotificationService extends Service {
         }
 
         @Override
+        public void onUnfollow(User user, User user2) {
+
+        }
+
+        @Override
         public void onDirectMessage(DirectMessage directMessage) {
 
             if (!thisInstanceOn) {
