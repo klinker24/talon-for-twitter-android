@@ -68,12 +68,12 @@ public class MentionsRefreshService extends IntentService {
                 }
             }*/
 
-            dataSource.insertTweets(statuses, currentAccount);
+            int inserted = dataSource.insertTweets(statuses, currentAccount);
 
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-            if (settings.notifications && statuses.size() > 0) {
+            if (settings.notifications && inserted > 0) {
                 NotificationUtils.refreshNotification(context);
             }
 
