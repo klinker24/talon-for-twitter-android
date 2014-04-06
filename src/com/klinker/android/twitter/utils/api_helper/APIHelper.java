@@ -11,10 +11,10 @@ import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import twitter4j.BASE64Encoder;
+import twitter4j.HttpParameter;
 import twitter4j.Twitter;
 import twitter4j.auth.AccessToken;
-import twitter4j.internal.http.BASE64Encoder;
-import twitter4j.internal.http.HttpParameter;
 
 /**
  * Created by luke on 1/29/14.

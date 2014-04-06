@@ -1075,10 +1075,10 @@ public class ProfilePager extends Activity {
 
     class AddToList extends AsyncTask<String, Void, Boolean> {
 
-        int listId;
+        long listId;
         long userId;
 
-        public AddToList(int listId, long userId) {
+        public AddToList(long listId, long userId) {
             this.listId = listId;
             this.userId = userId;
         }
