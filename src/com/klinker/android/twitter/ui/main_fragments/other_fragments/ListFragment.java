@@ -39,7 +39,7 @@ public class ListFragment extends MainFragment {
         this.listId = 0;
     }
 
-    public ListFragment(int listId) {
+    public ListFragment(long listId) {
         this.listId = listId;
     }
 
@@ -276,7 +276,7 @@ public class ListFragment extends MainFragment {
         super.onPause();
     }
 
-    public int listId;
+    public long listId;
 
     public void getCursorAdapter(final boolean bSpinner) {
 

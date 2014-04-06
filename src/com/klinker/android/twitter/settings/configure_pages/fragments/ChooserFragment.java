@@ -95,7 +95,7 @@ public abstract class ChooserFragment extends Fragment {
         if (requestCode == REQUEST_LIST) {
 
             if(resultCode == Activity.RESULT_OK) {
-                setId(data.getIntExtra("listId", 0));
+                setId(data.getLongExtra("listId", 0));
                 String listName = data.getStringExtra("listName");
                 setListName(listName);
                 current.setText(getResources().getString(R.string.current) + ": \n" + listName);
@@ -112,6 +112,6 @@ public abstract class ChooserFragment extends Fragment {
     }
 
     protected abstract void setType(int type);
-    protected abstract void setId(int id);
+    protected abstract void setId(long id);
     protected abstract void setListName(String name);
 }

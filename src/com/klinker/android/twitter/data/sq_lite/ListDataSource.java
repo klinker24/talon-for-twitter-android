@@ -101,7 +101,7 @@ public class ListDataSource {
         return dbHelper;
     }
 
-    public synchronized void createTweet(Status status, int listId) {
+    public synchronized void createTweet(Status status, long listId) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long time = status.getCreatedAt().getTime();
@@ -140,7 +140,7 @@ public class ListDataSource {
         }
     }
 
-    public int insertTweets(List<Status> statuses, int listId) {
+    public int insertTweets(List<Status> statuses, long listId) {
 
         ContentValues[] valueses = new ContentValues[statuses.size()];
 
@@ -241,7 +241,7 @@ public class ListDataSource {
         }
     }
 
-    public synchronized void deleteAllTweets(int listNumber) {
+    public synchronized void deleteAllTweets(long listNumber) {
 
         try {
             database.delete(ListSQLiteHelper.TABLE_HOME,
@@ -253,7 +253,7 @@ public class ListDataSource {
         }
     }
 
-    public synchronized Cursor getCursor(int listId) {
+    public synchronized Cursor getCursor(long listId) {
 
         String users = sharedPreferences.getString("muted_users", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
@@ -351,7 +351,7 @@ public class ListDataSource {
         return cursor;
     }
 
-    public synchronized Cursor getTrimmingCursor(int listId) {
+    public synchronized Cursor getTrimmingCursor(long listId) {
 
         String where = ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
 
@@ -394,7 +394,7 @@ public class ListDataSource {
         return cursor;
     }
 
-    public synchronized long[] getLastIds(int listId) {
+    public synchronized long[] getLastIds(long listId) {
         long id[] = new long[] {0,0,0,0,0};
 
         Cursor cursor;
@@ -419,7 +419,7 @@ public class ListDataSource {
         return id;
     }
 
-    public synchronized void deleteDups(int list) {
+    public synchronized void deleteDups(long list) {
 
         try {
             database.execSQL("DELETE FROM " + ListSQLiteHelper.TABLE_HOME +

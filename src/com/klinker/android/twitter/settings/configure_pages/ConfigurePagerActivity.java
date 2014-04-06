@@ -85,8 +85,8 @@ public class ConfigurePagerActivity extends Activity {
                         editor.putInt("account_" + currentAccount + "_page_1", PageOneFragment.type);
                         editor.putInt("account_" + currentAccount + "_page_2", PageTwoFragment.type);
 
-                        editor.putInt("account_" + currentAccount + "_list_1", PageOneFragment.listId);
-                        editor.putInt("account_" + currentAccount + "_list_2", PageTwoFragment.listId);
+                        editor.putLong("account_" + currentAccount + "_list_1_long", PageOneFragment.listId);
+                        editor.putLong("account_" + currentAccount + "_list_2_long", PageTwoFragment.listId);
 
                         editor.putString("account_" + currentAccount + "_name_1", PageOneFragment.listName);
                         editor.putString("account_" + currentAccount + "_name_2", PageTwoFragment.listName);
