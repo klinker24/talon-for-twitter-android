@@ -62,7 +62,7 @@ public class PreCacheService extends IntentService {
                             URL mUrl = new URL(imageUrl);
                             Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
 
-                            mCache.put(profilePic, image);
+                            mCache.put(imageUrl, image);
                         } catch (Exception e) {
 
                         }
