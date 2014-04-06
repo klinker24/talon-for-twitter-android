@@ -10,7 +10,7 @@
     - second account mentions page on timeline
     - accept followers from a protected account
     - gallery of picture on searching
-    - give the widgets preview pictures
+    - give the widgets preview pictures (for the homescreen, when viewing them in the drawer)
     - tweetmarker in lists
     - "search timeline" option for searching
     - options for themes to hide or show the retweet and favorite button without expansion
@@ -19,7 +19,6 @@
 - Bugs:
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
-    - retweet and favorite counts on the main timelines
 
 
 -- For Release --
