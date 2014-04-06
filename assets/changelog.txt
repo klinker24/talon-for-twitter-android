@@ -12,6 +12,7 @@
     &#8226; Changes to the cache and image loading on the timelines<br/>
     &#8226; Slight style changes for UI<br/>
     &#8226; Live streaming of mentions<br/>
+    &#8226; Fixed the toast bar sticking<br/>
     &#8226; Fixed the max tweets to download option for some<br/>
     &#8226; Updated Twitter4j<br/>
 </br><br/>
