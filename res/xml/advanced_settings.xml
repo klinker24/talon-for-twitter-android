@@ -8,7 +8,12 @@
         <CheckBoxPreference
             android:key="inapp_browser"
             android:title="@string/use_inapp_browser"
-            android:summary="@string/use_inapp_browser_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="inapp_browser_tweet"
+            android:title="@string/use_browser_on_tweet"
             android:defaultValue="true"
             />
 
@@ -24,12 +29,6 @@
             android:summary="@string/plain_text_on_data_summary"
             android:defaultValue="true"
             android:dependency="mobilized_browser"
-            />
-
-        <CheckBoxPreference
-            android:key="inapp_browser_tweet"
-            android:title="@string/use_browser_on_tweet"
-            android:defaultValue="true"
             />
 
         <!--<CheckBoxPreference

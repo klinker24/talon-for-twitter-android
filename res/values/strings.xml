@@ -412,9 +412,8 @@
     <string name="layout_hangouts">Hangouts</string>
 
     <!-- added after release -->
-    <string name="use_inapp_browser">Use In-App Browser</string>
-    <string name="use_inapp_browser_summary">Applied to clicks from the timeline.</string>
-    <string name="use_browser_on_tweet">Use Browser Page on Tweet</string>
+    <string name="use_inapp_browser">In-App Browser on Timeline</string>
+    <string name="use_browser_on_tweet">Browser Page on Tweet</string>
     <string name="dismiss_all">Dismiss All</string>
     <string name="handle_and_name">Display Handle and Name</string>
     <string name="notification_types">Notification Types</string>
@@ -581,8 +580,8 @@
     <string name="twitpic_disclaimer_multi_summary">Twitter\'s APIs do not support adding more than one image to a tweet.\n\n
         Talon will upload the pictures using TwitPic instead.</string>
     <string name="loading_webpage">Loading Webpage...</string>
-    <string name="plain_text_browser">Use Plain Text Browser</string>
-    <string name="plain_text_on_data">Plain Text on Data</string>
+    <string name="plain_text_browser">Plain Text Browser</string>
+    <string name="plain_text_on_data">Plain Text on Mobile Data</string>
     <string name="plain_text_on_data_summary">Enable the plain text browser only when on a mobile data connection, not over WiFi.</string>
     <string name="layout_full_screen">Full Screen</string>
     <string name="pre_cache_images">Pre-Cache Images</string>

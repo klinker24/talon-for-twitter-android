@@ -1,20 +1,20 @@
 <b>Version 2.2.0:</b><br/><br/>
-    &#8226; New full screen layout option<br/>
-    &#8226; New option to pre cache images<br/>
-    &#8226; New draft system for composing tweets<br/>
-    &#8226; Plain text browser option (can replace traditional web pages)<br/>
-    &#8226; Tweet multiple images (images count for 22 characters - just for reference)<br/>
-    &#8226; Send pictures though direct messages with TwitPic<br/>
-    &#8226; Post a notification while a tweet is in the process of sending<br/>
-    &#8226; Separate options for in app browser from timeline and on tweets<br/>
-    &#8226; Better handling of refreshing tweets, taking into account the mutes<br/>
-    &#8226; Always display the overflow menu on some UI pages<br/>
-    &#8226; Changes to the cache and image loading on the timelines<br/>
-    &#8226; Slight style changes for UI<br/>
-    &#8226; Live streaming of mentions<br/>
-    &#8226; Fixed the toast bar sticking<br/>
-    &#8226; Fixed the max tweets to download option for some<br/>
-    &#8226; Updated Twitter4j<br/>
+    &#8226; [New] Full screen layout option<br/>
+    &#8226; [New] Pre cache images<br/>
+    &#8226; [New] Draft system<br/>
+    &#8226; [New] Plain text browser option<br/>
+    &#8226; [New] Tweet multiple images<br/>
+    &#8226; [New] Pictures in DM's with TwitPic<br/>
+    &#8226; [New] Live streaming mentions<br/>
+    &#8226; [New] Force overflow in some places<br/>
+    &#8226; [Improved] Notification while a tweeting<br/>
+    &#8226; [Improved] Separate options for in app browser<br/>
+    &#8226; [Improved] Handling of refreshing tweets, taking into account the mutes<br/>
+    &#8226; [Improved] Changes to the cache and image loading on the timelines<br/>
+    &#8226; [Improved] Slight style changes for UI<br/>
+    &#8226; [Improved] Updated Twitter4j<br/>
+    &#8226; [Fix] the toast bar sticking<br/>
+    &#8226; [Fix] Max tweets to download not always applied<br/>
 </br><br/>
 
 <b>Version 2.1.6:</b><br/><br/>
