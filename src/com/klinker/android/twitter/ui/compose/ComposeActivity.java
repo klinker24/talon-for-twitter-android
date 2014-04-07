@@ -602,9 +602,8 @@ public class ComposeActivity extends Compose {
                 AlertDialog alert = builder.create();
                 alert.show();
                 return true;
-            case R.id.menu_schedule_tweet:
-
-                return true;
+            /*case R.id.menu_schedule_tweet:
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
