@@ -1222,7 +1222,7 @@ public class TweetFragment extends Fragment {
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.sending_tweet))
-                        .setTicker(getResources().getString(R.string.sending_tweet))
+                        //.setTicker(getResources().getString(R.string.sending_tweet))
                         .setOngoing(true)
                         .setProgress(100, 0, true);
 
@@ -1245,7 +1245,7 @@ public class TweetFragment extends Fragment {
     public void finishedTweetingNotification() {
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(context)
+                    new NotificationCompat.Builder(MainActivity.sContext)
                             .setSmallIcon(R.drawable.ic_stat_icon)
                             .setContentTitle(getResources().getString(R.string.tweet_success))
                             .setOngoing(false)
@@ -1253,7 +1253,7 @@ public class TweetFragment extends Fragment {
 
 
             NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    (NotificationManager) MainActivity.sContext.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(6, mBuilder.build());
             // cancel it immediately, the ticker will just go off
             mNotificationManager.cancel(6);
