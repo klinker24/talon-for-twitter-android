@@ -1,20 +1,13 @@
 - Features:
     - translation of tweets (probably won't be happening)
-    - auto-complete hashtags
-    - mute by source
     - interactions with dashclock
     - attach pictures from the talon pull compose
-    - search fragment (with search box and saved search) on main timelines
     - user lists on their profiles
     - QSlide for LG
-    - second account mentions page on timeline
-    - accept followers from a protected account
     - gallery of picture on searching
     - give the widgets preview pictures (for the homescreen, when viewing them in the drawer)
     - tweetmarker in lists
-    - "search timeline" option for searching
     - options for themes to hide or show the retweet and favorite button without expansion
-    - queue tweets to send when connected to a data connection if they weren't before
 
 - Bugs:
     - sideways pictures
@@ -23,8 +16,21 @@
 
 -- For Release --
 
-    sound on link clicks
-
-    Version 2.2.0
+    Version 2.3.0
         - Scheduled Tweets
-        - mute users for a time period
+        - queue tweets to send when connected to a data connection if they weren't before
+        - accept followers from a protected account
+
+    Version 2.4.0
+        - auto-complete hashtags
+        - more muting options
+            - mute users for a time period
+            - mute users retweets or all tweets
+            - mute by app source
+
+    Version 2.5.0
+        - "search timeline" option for searching
+        - More fragments to choose from
+            - search fragment (with search box and saved search) on main timelines
+            - second account mentions page on timeline
+            - second account timeline page
