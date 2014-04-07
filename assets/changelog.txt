@@ -8,13 +8,13 @@
     &#8226; [New] Live streaming mentions<br/>
     &#8226; [New] Force overflow in some places<br/>
     &#8226; [Improved] Notification while a tweeting<br/>
-    &#8226; [Improved] Separate options for in app browser<br/>
-    &#8226; [Improved] Handling of refreshing tweets, taking into account the mutes<br/>
-    &#8226; [Improved] Changes to the cache and image loading on the timelines<br/>
-    &#8226; [Improved] Slight style changes for UI<br/>
+    &#8226; [Improved] Options for in app browser<br/>
+    &#8226; [Improved] Refresh tweets count on timeline<br/>
+    &#8226; [Improved] Cache and image loading<br/>
+    &#8226; [Improved] Style changes for UI<br/>
     &#8226; [Improved] Updated Twitter4j<br/>
-    &#8226; [Fix] the toast bar sticking<br/>
-    &#8226; [Fix] Max tweets to download not always applied<br/>
+    &#8226; [Fix] Toast bar sticking<br/>
+    &#8226; [Fix] Max tweets to download<br/>
 </br><br/>
 
 <b>Version 2.1.6:</b><br/><br/>
