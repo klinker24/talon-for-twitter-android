@@ -497,7 +497,7 @@ public abstract class Compose extends Activity implements
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.sending_tweet))
-                        .setTicker(getResources().getString(R.string.sending_tweet))
+                        //.setTicker(getResources().getString(R.string.sending_tweet))
                         .setOngoing(true)
                         .setProgress(100, 0, true);
 
@@ -518,18 +518,22 @@ public abstract class Compose extends Activity implements
     }
 
     public void finishedTweetingNotification() {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setContentTitle(getResources().getString(R.string.tweet_success))
-                        .setOngoing(false)
-                        .setTicker(getResources().getString(R.string.tweet_success));
+        try {
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.ic_stat_icon)
+                            .setContentTitle(getResources().getString(R.string.tweet_success))
+                            .setOngoing(false)
+                            .setTicker(getResources().getString(R.string.tweet_success));
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(6, mBuilder.build());
-        // cancel it immediately, the ticker will just go off
-        mNotificationManager.cancel(6);
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(6, mBuilder.build());
+            // cancel it immediately, the ticker will just go off
+            mNotificationManager.cancel(6);
+        } catch (Exception e) {
+            // not attached?
+        }
     }
 
     @Override
