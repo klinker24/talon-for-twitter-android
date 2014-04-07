@@ -581,6 +581,7 @@
         Talon will upload the pictures using TwitPic instead.</string>
     <string name="loading_webpage">Loading Webpage...</string>
     <string name="plain_text_browser">Plain Text Browser</string>
+    <string name="plain_text_summary">Remove images and formatting from the web browser and just show the text on a web page.</string>
     <string name="plain_text_on_data">Plain Text on Mobile Data</string>
     <string name="plain_text_on_data_summary">Enable the plain text browser only when on a mobile data connection, not over WiFi.</string>
     <string name="layout_full_screen">Full Screen</string>
