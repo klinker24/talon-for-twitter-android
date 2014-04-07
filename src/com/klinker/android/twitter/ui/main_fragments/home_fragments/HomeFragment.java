@@ -1201,7 +1201,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
     public long mLength;
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
-        if (!isToastShowing) {
+        if (!isToastShowing || buttonText.equals(getString(R.string.view))) {
             infoBar = quit;
 
             mLength = length;
