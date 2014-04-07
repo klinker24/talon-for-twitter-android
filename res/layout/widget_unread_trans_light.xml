@@ -19,6 +19,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@mipmap/ic_launcher"
+            android:background="@drawable/pressed_toast"
             />
 
         <ImageButton
