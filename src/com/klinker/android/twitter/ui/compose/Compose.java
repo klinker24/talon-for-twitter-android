@@ -387,7 +387,7 @@ public abstract class Compose extends Activity implements
 
         int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
 
-        double ratio = (originalSize > 1000) ? (originalSize / 1000) : 1.0;
+        double ratio = (originalSize > 750) ? (originalSize / 750) : 1.0;
 
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
