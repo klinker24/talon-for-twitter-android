@@ -12,8 +12,8 @@
         android:title="@string/menu_view_drafts"
         android:showAsAction="never" />
 
-    <item android:id="@+id/menu_schedule_tweet"
+    <!--<item android:id="@+id/menu_schedule_tweet"
         android:orderInCategory="2"
         android:title="@string/menu_schedule_tweet"
-        android:showAsAction="never" />
+        android:showAsAction="never" />-->
 </menu>
