@@ -13,6 +13,7 @@
     &#8226; [Improved] Cache and image loading<br/>
     &#8226; [Improved] Style changes for UI<br/>
     &#8226; [Improved] Updated Twitter4j<br/><br/>
+    &#8226; [Fix] More for uploading photos<br/>
     &#8226; [Fix] Toast bar sticking<br/>
     &#8226; [Fix] Max tweets to download<br/>
 </br><br/>
