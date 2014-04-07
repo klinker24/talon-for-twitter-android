@@ -6,13 +6,13 @@
     &#8226; [New] Tweet multiple images<br/>
     &#8226; [New] Pictures in DM's with TwitPic<br/>
     &#8226; [New] Live streaming mentions<br/>
-    &#8226; [New] Force overflow in some places<br/>
+    &#8226; [New] Force overflow in some places<br/><br/>
     &#8226; [Improved] Notification while a tweeting<br/>
     &#8226; [Improved] Options for in app browser<br/>
     &#8226; [Improved] Refresh tweets count on timeline<br/>
     &#8226; [Improved] Cache and image loading<br/>
     &#8226; [Improved] Style changes for UI<br/>
-    &#8226; [Improved] Updated Twitter4j<br/>
+    &#8226; [Improved] Updated Twitter4j<br/><br/>
     &#8226; [Fix] Toast bar sticking<br/>
     &#8226; [Fix] Max tweets to download<br/>
 </br><br/>
