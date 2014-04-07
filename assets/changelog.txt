@@ -1,7 +1,7 @@
 <b>Version 2.2.0:</b><br/><br/>
     &#8226; [New] Full screen layout option<br/>
-    &#8226; [New] Pre cache images<br/>
-    &#8226; [New] Draft system<br/>
+    &#8226; [New] Pre-cache images option<br/>
+    &#8226; [New] Draft system for multiple drafts<br/>
     &#8226; [New] Plain text browser option<br/>
     &#8226; [New] Tweet multiple images<br/>
     &#8226; [New] Pictures in DM's with TwitPic<br/>
@@ -13,7 +13,7 @@
     &#8226; [Improved] Cache and image loading<br/>
     &#8226; [Improved] Style changes for UI<br/>
     &#8226; [Improved] Updated Twitter4j<br/><br/>
-    &#8226; [Fix] More for uploading photos<br/>
+    &#8226; [Fix] Some problems with uploading photos<br/>
     &#8226; [Fix] Toast bar sticking<br/>
     &#8226; [Fix] Max tweets to download<br/>
 </br><br/>
