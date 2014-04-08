@@ -12,6 +12,7 @@ import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
@@ -47,7 +48,12 @@ public class PlainTextBrowserActivity extends BrowserActivity {
                         Elements paragraphs = doc.getElementsByTag("p");
 
                         if (paragraphs.hasText()) {
-                            text = paragraphs.html();
+                            for (int i = 0; i < paragraphs.size(); i++) {
+                                Element s = paragraphs.get(i);
+                                if (!s.html().contains("<![CDATA")) {
+                                    text += paragraphs.get(i) + "\n\n";
+                                }
+                            }
                         }
                     }
 
