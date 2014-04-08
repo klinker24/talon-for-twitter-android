@@ -30,5 +30,6 @@
               android:drawableLeft="?sendButton"
               android:drawablePadding="8dp"
               android:gravity="center_vertical"
+              android:singleLine="true"
               android:text="@string/send"/>
 </FrameLayout>
