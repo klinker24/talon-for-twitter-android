@@ -16,6 +16,11 @@
 
 -- For Release --
 
+    - Get the toast working on replies
+    - figure out what is going on with the 2nd account notifications (maybe just change the id?)
+    - move pre-caching to sync settings category and have an option for only over wifi
+    - 2.1.6 Force closes on play store
+
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
