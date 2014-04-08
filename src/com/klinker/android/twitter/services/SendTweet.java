@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
@@ -29,7 +32,7 @@ import java.io.InputStream;
 import twitter4j.Twitter;
 
 
-public class SendTweet extends IntentService {
+public class SendTweet extends Service {
 
     public String message = "";
     public String attachedUri = "";
@@ -37,17 +40,10 @@ public class SendTweet extends IntentService {
     public long tweetId = 0l;
     public int remainingChars = 0;
 
-    public SendTweet() {
-        super("SendTweetService");
-    }
+    public boolean finished = false;
 
     @Override
-    public void onHandleIntent(Intent intent) {
-
-        final Context context = this;
-        final AppSettings settings = AppSettings.getInstance(this);
-
-        sendingNotification();
+    public IBinder onBind(Intent intent) {
 
         // set up the tweet from the intent
         message = intent.getStringExtra("message");
@@ -59,6 +55,17 @@ public class SendTweet extends IntentService {
         if (attachedUri == null) {
             attachedUri = "";
         }
+
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+
+        final Context context = this;
+        final AppSettings settings = AppSettings.getInstance(this);
+
+        sendingNotification();
 
         new Thread(new Runnable() {
             @Override
@@ -73,10 +80,26 @@ public class SendTweet extends IntentService {
                         } else {
                             makeFailedNotification(message);
                         }
+
+                        finished = true;
+
+                        stopSelf();
                     }
                 });
             }
         }).start();
+
+        // if it takes longer than 2 mins to preform the sending, then something is wrong and we will just shut it down.
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!finished) {
+                    stopForeground(true);
+                    makeFailedNotification(message);
+                    stopSelf();
+                }
+            }
+        }, 120000);
 
     }
 
@@ -216,9 +239,11 @@ public class SendTweet extends IntentService {
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(6, mBuilder.build());
+
+        startForeground(6, mBuilder.build());
+        //NotificationManager mNotificationManager =
+                //(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //mNotificationManager.notify(6, mBuilder.build());
     }
 
     public void makeFailedNotification(String text) {
@@ -262,6 +287,7 @@ public class SendTweet extends IntentService {
                             .setOngoing(false)
                             .setTicker(getResources().getString(R.string.tweet_success));
 
+            stopForeground(true);
 
             NotificationManager mNotificationManager =
                     (NotificationManager) MainActivity.sContext.getSystemService(Context.NOTIFICATION_SERVICE);
