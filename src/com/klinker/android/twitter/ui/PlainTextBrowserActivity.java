@@ -51,7 +51,7 @@ public class PlainTextBrowserActivity extends BrowserActivity {
                             for (int i = 0; i < paragraphs.size(); i++) {
                                 Element s = paragraphs.get(i);
                                 if (!s.html().contains("<![CDATA")) {
-                                    text += paragraphs.get(i) + "\n\n";
+                                    text += paragraphs.get(i).html().replaceAll("<br/>", "") + "<br/><br/>";
                                 }
                             }
                         }
@@ -66,9 +66,7 @@ public class PlainTextBrowserActivity extends BrowserActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            webText.setText(Html.fromHtml(article.replaceAll("\\n\\n\\n", "<br/><br/>")
-                                    .replaceAll("\\n\\n", "<br/><br/>")
-                                    .replaceAll("\\n", "<br/><br/>")));
+                            webText.setText(Html.fromHtml(article));
                             webText.setMovementMethod(LinkMovementMethod.getInstance());
                             webText.setTextSize(settings.textSize);
 

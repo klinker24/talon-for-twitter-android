@@ -83,7 +83,7 @@ public class MobilizedFragment extends Fragment {
                             for (int i = 0; i < paragraphs.size(); i++) {
                                 Element s = paragraphs.get(i);
                                 if (!s.html().contains("<![CDATA")) {
-                                    text += paragraphs.get(i) + "\n\n";
+                                    text += paragraphs.get(i).html().replaceAll("<br/>", "") + "<br/><br/>";
                                 }
                             }
                             //text = paragraphs.text();
@@ -99,9 +99,7 @@ public class MobilizedFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            webText.setText(Html.fromHtml(article.replaceAll("\\n\\n\\n", "<br/><br/>")
-                                    .replaceAll("\\n\\n", "<br/><br/>")
-                                    .replaceAll("\\n", "<br/><br/>")));
+                            webText.setText(Html.fromHtml(article));
                             //webText.setText(article);
                             webText.setMovementMethod(LinkMovementMethod.getInstance());
                             webText.setTextSize(settings.textSize);
@@ -115,7 +113,11 @@ public class MobilizedFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            webText.setText(getResources().getString(R.string.error_loading_page));
+                            try {
+                                webText.setText(getResources().getString(R.string.error_loading_page));
+                            } catch (Exception e) {
+                                // fragment not attached
+                            }
                         }
                     });
                 }
