@@ -244,7 +244,7 @@ public class SendTweet extends Service {
         try {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.timeline_dark)
+                            .setSmallIcon(R.drawable.ic_stat_icon)
                             .setContentTitle(getResources().getString(R.string.tweet_failed))
                             .setContentText(getResources().getString(R.string.tap_to_retry));
 

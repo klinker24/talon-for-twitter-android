@@ -1,3 +1,10 @@
+<b>Version 2.2.1:</b><br/><br/>
+    &#8226; Better notification when replying to tweet<br/>
+    &#8226; Bug fixes<br/>
+    &#8226; Crash fixes<br/>
+    &#8226; Translation updates<br/>
+</br><br/>
+
 <b>Version 2.2.0:</b><br/><br/>
     &#8226; [New] Full screen layout option<br/>
     &#8226; [New] Pre-cache images option<br/>
