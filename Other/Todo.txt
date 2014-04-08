@@ -16,7 +16,7 @@
 
 -- For Release --
 
-    - Get the toast working on replies
+    - Get the notification working on replies (create a new service to send them)
     - figure out what is going on with the 2nd account notifications (maybe just change the id?)
     - move pre-caching to sync settings category and have an option for only over wifi
     - 2.1.6 Force closes on play store
