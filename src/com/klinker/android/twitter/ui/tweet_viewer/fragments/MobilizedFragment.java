@@ -20,6 +20,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.net.URL;
@@ -79,7 +80,13 @@ public class MobilizedFragment extends Fragment {
                         Elements paragraphs = doc.getElementsByTag("p");
 
                         if (paragraphs.hasText()) {
-                            text = paragraphs.html();
+                            for (int i = 0; i < paragraphs.size(); i++) {
+                                Element s = paragraphs.get(i);
+                                if (!s.html().contains("<![CDATA")) {
+                                    text += paragraphs.get(i) + "\n\n";
+                                }
+                            }
+                            //text = paragraphs.text();
                         }
                     }
 
@@ -95,6 +102,7 @@ public class MobilizedFragment extends Fragment {
                             webText.setText(Html.fromHtml(article.replaceAll("\\n\\n\\n", "<br/><br/>")
                                     .replaceAll("\\n\\n", "<br/><br/>")
                                     .replaceAll("\\n", "<br/><br/>")));
+                            //webText.setText(article);
                             webText.setMovementMethod(LinkMovementMethod.getInstance());
                             webText.setTextSize(settings.textSize);
 
