@@ -86,7 +86,6 @@ public class MobilizedFragment extends Fragment {
                                     text += paragraphs.get(i).html().replaceAll("<br/>", "") + "<br/><br/>";
                                 }
                             }
-                            //text = paragraphs.text();
                         }
                     }
 
