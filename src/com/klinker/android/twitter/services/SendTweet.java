@@ -1,7 +1,5 @@
 package com.klinker.android.twitter.services;
 
-import android.app.Activity;
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -44,6 +42,14 @@ public class SendTweet extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int i, int x) {
+
+        final Context context = this;
+        final AppSettings settings = AppSettings.getInstance(this);
 
         // set up the tweet from the intent
         message = intent.getStringExtra("message");
@@ -56,36 +62,22 @@ public class SendTweet extends Service {
             attachedUri = "";
         }
 
-        return null;
-    }
-
-    @Override
-    public void onCreate() {
-
-        final Context context = this;
-        final AppSettings settings = AppSettings.getInstance(this);
-
         sendingNotification();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final boolean sent = sendTweet(settings, context);
+                boolean sent = sendTweet(settings, context);
 
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (sent) {
-                            finishedTweetingNotification();
-                        } else {
-                            makeFailedNotification(message);
-                        }
+                if (sent) {
+                    finishedTweetingNotification();
+                } else {
+                    makeFailedNotification(message);
+                }
 
-                        finished = true;
+                finished = true;
 
-                        stopSelf();
-                    }
-                });
+                stopSelf();
             }
         }).start();
 
@@ -101,6 +93,7 @@ public class SendTweet extends Service {
             }
         }, 120000);
 
+        return START_STICKY;
     }
 
     public boolean sendTweet(AppSettings settings, Context context) {
@@ -148,6 +141,7 @@ public class SendTweet extends Service {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
