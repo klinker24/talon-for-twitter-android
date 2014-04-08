@@ -53,6 +53,7 @@ import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
+import com.klinker.android.twitter.services.SendTweet;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
@@ -682,7 +683,7 @@ public class TweetFragment extends Fragment {
                                     .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
+                                            replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
                                         }
                                     })
                                     .setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
@@ -708,7 +709,7 @@ public class TweetFragment extends Fragment {
                                     .create()
                                     .show();
                         } else {
-                            new ReplyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString())).execute();
+                            replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
                         }
                     } else {
                         Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
@@ -1217,231 +1218,18 @@ public class TweetFragment extends Fragment {
         imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
     }
 
-    public void makeTweetingNotification() {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setContentTitle(getResources().getString(R.string.sending_tweet))
-                        //.setTicker(getResources().getString(R.string.sending_tweet))
-                        .setOngoing(true)
-                        .setProgress(100, 0, true);
+    public void replyToStatus(EditText message, long tweetId, int remainingChars) {
+        Intent intent = new Intent(context, SendTweet.class);
+        intent.putExtra("message", message.getText().toString());
+        intent.putExtra("tweet_id", tweetId);
+        intent.putExtra("char_remaining", remainingChars);
+        intent.putExtra("pwiccer", pwiccer);
+        intent.putExtra("attached_uri", attachedUri);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
+        context.startService(intent);
 
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        context,
-                        0,
-                        resultIntent,
-                        0
-                );
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(6, mBuilder.build());
-    }
-
-    public void finishedTweetingNotification() {
-        try {
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(MainActivity.sContext)
-                            .setSmallIcon(R.drawable.ic_stat_icon)
-                            .setContentTitle(getResources().getString(R.string.tweet_success))
-                            .setOngoing(false)
-                            .setTicker(getResources().getString(R.string.tweet_success));
-
-
-            NotificationManager mNotificationManager =
-                    (NotificationManager) MainActivity.sContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(6, mBuilder.build());
-            // cancel it immediately, the ticker will just go off
-            mNotificationManager.cancel(6);
-        } catch (IllegalStateException e) {
-            // not attached to activity
-        }
-    }
-
-    class ReplyToStatus extends AsyncTask<String, Void, Boolean> {
-
-        private long tweetId;
-        private String text;
-        private EditText message;
-        private int remainingChars;
-        private boolean messageToLong = false;
-        private InputStream stream;
-
-        public ReplyToStatus(EditText message, long tweetId, int remainingChars) {
-            this.text = message.getText().toString();
-            this.message = message;
-            this.tweetId = tweetId;
-            this.remainingChars = remainingChars;
-        }
-
-        protected void onPreExecute() {
-            removeKeyboard(message);
-            ((Activity)context).finish();
-            makeTweetingNotification();
-        }
-
-        protected Boolean doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-
-                if (remainingChars < 0 && !pwiccer) {
-                    // twitlonger goes here
-                    TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
-                    helper.setInReplyToStatusId(tweetId);
-
-                    return helper.createPost() != 0;
-                } else {
-                    twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(text);
-                    reply.setInReplyToStatusId(tweetId);
-
-                    if (!attachedUri.equals("")) {
-                        //stream = context.getContentResolver().openInputStream(Uri.parse(attachedUri));
-
-                        File outputDir = context.getCacheDir(); // context being the Activity pointer
-                        File f = File.createTempFile("compose", "picture", outputDir);
-
-                        Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-
-                        FileOutputStream fos = new FileOutputStream(f);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
-
-                        if (!settings.twitpic) {
-                            reply.setMedia(f);
-                            twitter.updateStatus(reply);
-                            return true;
-                        } else {
-                            TwitPicHelper helper = new TwitPicHelper(twitter, text, f, context);
-                            helper.setInReplyToStatusId(tweetId);
-                            return helper.createPost() != 0;
-                        }
-                    } else {
-                        // no picture
-                        twitter.updateStatus(reply);
-                        return true;
-                    }
-                }
-            } catch (Exception e) {
-                return false;
-            }
-        }
-
-        protected void onPostExecute(Boolean sent) {
-            try {
-                stream.close();
-            } catch (Throwable e) {
-
-            }
-
-            if (sent) {
-                finishedTweetingNotification();
-            } else {
-                makeFailedNotification(text);
-            }
-        }
-
-        public Bitmap decodeSampledBitmapFromResourceMemOpt(
-                InputStream inputStream, int reqWidth, int reqHeight) {
-
-            byte[] byteArr = new byte[0];
-            byte[] buffer = new byte[1024];
-            int len;
-            int count = 0;
-
-            try {
-                while ((len = inputStream.read(buffer)) > -1) {
-                    if (len != 0) {
-                        if (count + len > byteArr.length) {
-                            byte[] newbuf = new byte[(count + len) * 2];
-                            System.arraycopy(byteArr, 0, newbuf, 0, count);
-                            byteArr = newbuf;
-                        }
-
-                        System.arraycopy(buffer, 0, byteArr, count, len);
-                        count += len;
-                    }
-                }
-
-                final BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-                options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                        reqHeight);
-                options.inPurgeable = true;
-                options.inInputShareable = true;
-                options.inJustDecodeBounds = false;
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-                return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                return null;
-            }
-        }
-
-        public int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
-            // Raw height and width of image
-            final int height = opt.outHeight;
-            final int width = opt.outWidth;
-            int inSampleSize = 1;
-
-            if (height > reqHeight || width > reqWidth) {
-
-                final int halfHeight = height / 2;
-                final int halfWidth = width / 2;
-
-                // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-                // height and width larger than the requested height and width.
-                while ((halfHeight / inSampleSize) > reqHeight
-                        && (halfWidth / inSampleSize) > reqWidth) {
-                    inSampleSize *= 2;
-                }
-            }
-
-            return inSampleSize;
-        }
-    }
-
-    public void makeFailedNotification(String text) {
-        try {
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.timeline_dark)
-                            .setContentTitle(getResources().getString(R.string.tweet_failed))
-                            .setContentText(getResources().getString(R.string.tap_to_retry));
-
-            Intent resultIntent = new Intent(context, RetryCompose.class);
-            resultIntent.setAction(Intent.ACTION_SEND);
-            resultIntent.setType("text/plain");
-            resultIntent.putExtra(Intent.EXTRA_TEXT, text);
-            resultIntent.putExtra("failed_notification", true);
-
-            PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            context,
-                            0,
-                            resultIntent,
-                            0
-                    );
-
-            mBuilder.setContentIntent(resultPendingIntent);
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(5, mBuilder.build());
-        } catch (Exception e) {
-
-        }
+        removeKeyboard(message);
+        ((Activity)context).finish();
     }
 
     private Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {

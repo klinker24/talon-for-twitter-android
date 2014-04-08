@@ -419,6 +419,9 @@
         <service android:name=".services.TalonPullNotificationService">
         </service>
 
+        <service android:name=".services.SendTweet">
+        </service>
+
         <service android:name=".services.CatchupPull">
         </service>
 
