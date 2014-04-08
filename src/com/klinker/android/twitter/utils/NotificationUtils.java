@@ -697,7 +697,7 @@ public class NotificationUtils {
         if (settings.notifications) {
             NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(3, mBuilder.build());
+            mNotificationManager.notify(9, mBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {

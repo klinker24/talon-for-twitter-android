@@ -123,7 +123,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                 getResources().getString(R.string.view),
                                 400,
-                                !DrawerActivity.settings.useToast,
+                                true,
                                 liveStreamRefresh);
                     } catch (Exception e) {
                         // fragment not attached to activity
