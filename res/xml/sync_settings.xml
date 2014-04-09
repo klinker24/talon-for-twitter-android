@@ -75,6 +75,25 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/pre_cache_settings" >
+
+        <CheckBoxPreference
+            android:key="pre_cache_images"
+            android:title="@string/pre_cache_images"
+            android:summary="@string/pre_cache_summary"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="pre_cache_wifi_only"
+            android:title="@string/pre_cache_only_wifi"
+            android:defaultValue="false"
+            android:dependency="pre_cache_images"
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="other_options"
         android:title="@string/other_options" >
 

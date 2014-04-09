@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.Utils;
 
 import java.net.URL;
 
@@ -29,6 +31,14 @@ public class PreCacheService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+
+        // if they want it only over wifi and they are on mobile data
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pre_cache_wifi_only", false) &&
+                Utils.getConnectionStatus(this)) {
+            // just quit because we don't want it to happen
+            return;
+        }
+
         BitmapLruCache mCache = App.getInstance(this).getBitmapCache();
         AppSettings settings = AppSettings.getInstance(this);
         Cursor cursor = HomeDataSource.getInstance(this).getUnreadCursor(settings.currentAccount);

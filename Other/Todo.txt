@@ -16,11 +16,10 @@
 
 -- For Release --
 
-    - move pre-caching to sync settings category and have an option for only over wifi
     - Update translations
-    - 2.1.6 Force closes on play store
     - test out the full screen browser
     - 682 on enhanced list view
+    - test out the caching over only wifi
 
     Version 2.3.0
         - Scheduled Tweets
