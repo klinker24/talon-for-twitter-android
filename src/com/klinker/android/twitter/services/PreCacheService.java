@@ -34,6 +34,7 @@ public class PreCacheService extends IntentService {
         Cursor cursor = HomeDataSource.getInstance(this).getUnreadCursor(settings.currentAccount);
 
         if (cursor.moveToFirst()) {
+            boolean cont = true;
             do {
                 String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
@@ -65,11 +66,14 @@ public class PreCacheService extends IntentService {
                             mCache.put(imageUrl, image);
                         } catch (Exception e) {
 
+                        } catch (OutOfMemoryError e) {
+                            // just stop I suppose
+                            cont = false;
                         }
                     }
                 }
 
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext() && cont);
         }
     }
 }

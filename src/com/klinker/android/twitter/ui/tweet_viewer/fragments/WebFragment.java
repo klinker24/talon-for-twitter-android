@@ -54,7 +54,11 @@ public class WebFragment extends Fragment {
 
         context = getActivity();
 
-        webView = new HTML5WebView(context);
+        try {
+            webView = new HTML5WebView(context);
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
         webView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         try {

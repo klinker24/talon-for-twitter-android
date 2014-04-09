@@ -1346,8 +1346,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             try {
                 int currentAccount = settings.currentAccount;
 
-                HomeDataSource dataSource = HomeDataSource.getInstance(context);
-
                 Twitter twitter = Utils.getTwitter(context, DrawerActivity.settings);
                 twitter.verifyCredentials();
 
@@ -1366,9 +1364,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     }
                 }
 
-                dataSource.deleteDups(currentAccount);
-
-                dataSource.markUnreadFilling(currentAccount);
+                HomeDataSource.getInstance(context).deleteDups(currentAccount);
+                HomeDataSource.getInstance(context).markUnreadFilling(currentAccount);
 
                 PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
 
@@ -1492,7 +1489,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }
 
         protected void onPostExecute(Boolean deleted) {
-            pDialog.dismiss();
+            try {
+                pDialog.dismiss();
+            } catch (Exception e) {
+                // not attached
+            }
             if (deleted) {
                 Toast.makeText(context, context.getResources().getString(R.string.trim_success), Toast.LENGTH_SHORT).show();
             } else {

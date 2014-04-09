@@ -20,6 +20,7 @@
     - Update translations
     - 2.1.6 Force closes on play store
     - test out the full screen browser
+    - 682 on enhanced list view
 
     Version 2.3.0
         - Scheduled Tweets

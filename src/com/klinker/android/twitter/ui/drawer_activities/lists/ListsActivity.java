@@ -170,7 +170,12 @@ public class ListsActivity extends DrawerActivity {
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
-                    final ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
+                    final ResponseList<UserList> lists;
+                    try {
+                        lists = twitter.getUserLists(settings.myScreenName);
+                    } catch (OutOfMemoryError e) {
+                        return;
+                    }
 
                     Collections.sort(lists, new Comparator<UserList>() {
                         public int compare(UserList result1, UserList result2) {

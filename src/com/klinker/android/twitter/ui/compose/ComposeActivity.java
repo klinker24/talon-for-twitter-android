@@ -354,12 +354,22 @@ public class ComposeActivity extends Compose {
                     }
 
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                    try {
+                        startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                    } catch (Throwable t) {
+                        // no app to preform this..? hmm, tell them that I guess
+                        Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                    }
                 } else { // attach picture
 
                     Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                     photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                    try {
+                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                    } catch (Throwable t) {
+                        // no app to preform this..? hmm, tell them that I guess
+                        Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 overflow.performClick();

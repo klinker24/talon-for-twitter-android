@@ -622,7 +622,12 @@ public class ProfileFragment extends Fragment {
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
-                    PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), currentFollowing);
+                    PagableResponseList<User> friendsPaging;
+                    try {
+                        friendsPaging = twitter.getFriendsList(user.getId(), currentFollowing);
+                    } catch (OutOfMemoryError e) {
+                        return;
+                    }
 
                     for (int i = 0; i < friendsPaging.size(); i++) {
                         following.add(friendsPaging.get(i));
