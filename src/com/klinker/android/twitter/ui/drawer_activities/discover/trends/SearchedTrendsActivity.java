@@ -428,7 +428,12 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     query = new Query(mQuery);
-                    QueryResult result = twitter.search(query);
+                    QueryResult result;
+                    try {
+                        result = twitter.search(query);
+                    } catch (OutOfMemoryError e) {
+                        return;
+                    }
 
                     tweets.clear();
 

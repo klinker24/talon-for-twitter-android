@@ -188,7 +188,14 @@ public class FavoriteUsersActivity extends DrawerActivity {
                 return;
             }
 
-            Log.v("fav_users", cursor.getCount() + "");
+
+            try {
+                Log.v("fav_users", cursor.getCount() + "");
+            } catch (Exception e) {
+
+                FavoriteUsersDataSource.dataSource = null;
+                return;
+            }
 
             if (cursor.getCount() > 0) {
                 people = new FavoriteUsersCursorAdapter(sContext, cursor);

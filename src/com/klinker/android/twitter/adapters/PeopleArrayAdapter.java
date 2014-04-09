@@ -513,11 +513,19 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    Bitmap b = BitmapFactory.decodeStream(is);
-                    b = ImageUtils.getCircle(b, context);
+                    Bitmap b;
+                    try {
+                        b = BitmapFactory.decodeStream(is);
+                        b = ImageUtils.getCircle(b, context);
+                    } catch (OutOfMemoryError e) {
+                        b = null;
+                        return null;
+                    }
 
                     // Add to cache
-                    result = mCache.put(url, b);
+                    if (b != null) {
+                        result = mCache.put(url, b);
+                    }
 
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);

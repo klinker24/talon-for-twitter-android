@@ -124,7 +124,12 @@ public class ProfilePicturesFragment extends Fragment {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
 
-                    ResponseList<Status> result = twitter.getUserTimeline(screenName, paging);
+                    ResponseList<Status> result;
+                    try {
+                        result = twitter.getUserTimeline(screenName, paging);
+                    } catch (OutOfMemoryError e) {
+                        return;
+                    }
 
                     tweets.clear();
 

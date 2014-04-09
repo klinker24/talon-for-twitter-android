@@ -98,27 +98,35 @@ public class MobilizedFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            webText.setText(Html.fromHtml(article));
-                            //webText.setText(article);
-                            webText.setMovementMethod(LinkMovementMethod.getInstance());
-                            webText.setTextSize(settings.textSize);
-
-                            spinner.setVisibility(View.GONE);
-                            scrollView.setVisibility(View.VISIBLE);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
                             try {
-                                webText.setText(getResources().getString(R.string.error_loading_page));
+                                webText.setText(Html.fromHtml(article));
+                                //webText.setText(article);
+                                webText.setMovementMethod(LinkMovementMethod.getInstance());
+                                webText.setTextSize(settings.textSize);
+
+                                spinner.setVisibility(View.GONE);
+                                scrollView.setVisibility(View.VISIBLE);
                             } catch (Exception e) {
                                 // fragment not attached
                             }
                         }
                     });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    webText.setText(getResources().getString(R.string.error_loading_page));
+                                } catch (Exception e) {
+                                    // fragment not attached
+                                }
+                            }
+                        });
+                    } catch (Exception x) {
+                        // not attached
+                    }
                 }
             }
         });

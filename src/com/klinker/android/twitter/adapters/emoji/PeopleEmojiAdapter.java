@@ -61,6 +61,8 @@ public class PeopleEmojiAdapter extends BaseEmojiAdapter {
         } catch (Resources.NotFoundException e) {
             // don't know why this would happen I guess
             Toast.makeText(context, "Missing an emoji! Is everything installed correctly?", Toast.LENGTH_SHORT).show();
+        } catch (OutOfMemoryError e) {
+            return null;
         }
         imageView.setBackgroundResource(R.drawable.pressed_button);
 
