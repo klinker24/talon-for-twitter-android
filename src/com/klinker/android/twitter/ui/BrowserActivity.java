@@ -45,19 +45,27 @@ public class BrowserActivity extends Activity {
 
         settings = AppSettings.getInstance(this);
 
+        setUpLayout();
+
         Utils.setUpTheme(this, settings);
         Utils.setActionBar(this);
 
         url = getIntent().getStringExtra("url");
-
-        setUpLayout();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
     public void setUpLayout() {
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        try {
+            getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        } catch (Exception e) {
+            // oops, something went wrong...
+            startActivity(new Intent(this, BrowserActivity.class).putExtra("url", url));
+            overridePendingTransition(0,0);
+            finish();
+            return;
+        }
 
         browser = new HTML5WebView(this);
         setContentView(browser.getLayout());
