@@ -587,4 +587,7 @@
     <string name="layout_full_screen">Full Screen</string>
     <string name="pre_cache_images">Pre-Cache Images</string>
     <string name="pre_cache_summary">Download images immediately as they are live streamed or retrieved from a background refresh of the timeline.</string>
+    <string name="pre_cache_settings">Pre-Cache Options</string>
+    <string name="pre_cache_only_wifi">Only Over WiFi</string>
+
 </resources>
