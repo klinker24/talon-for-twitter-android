@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.manipulations;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,7 +20,11 @@ import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -29,6 +34,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
@@ -39,6 +45,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
@@ -54,11 +61,38 @@ public class PhotoViewerDialog extends Activity {
     public ListView list;
     public String url;
     public NetworkedCacheableImageView picture;
+    public HoloTextView download;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+
+        try {
+            getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        } catch (Exception e) {
+
+        }
+
+        switch (AppSettings.getInstance(this).theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_PhotoViewerLight);
+                break;
+            default:
+                setTheme(R.style.Theme_PhotoViewerDark);
+                break;
+        }
+
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+            // Ignore
+        }
 
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -134,7 +168,8 @@ public class PhotoViewerDialog extends Activity {
             }
         });
 
-        HoloTextView download = (HoloTextView) findViewById(R.id.download);
+        download = (HoloTextView) findViewById(R.id.download);
+        download.setVisibility(View.GONE);
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -209,6 +244,35 @@ public class PhotoViewerDialog extends Activity {
                 finish();
             }
         });
+
+        ActionBar ab = getActionBar();
+        ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
+        ab.setBackgroundDrawable(transparent);
+        ab.setDisplayHomeAsUpEnabled(false);
+        ab.setDisplayShowHomeEnabled(false);
+        ab.setTitle("");
+        ab.setIcon(transparent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.photo_viewer, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_save_image:
+                download.performClick();
+                return true;
+
+            default:
+                return true;
+        }
     }
 
     public Bitmap decodeSampledBitmapFromResourceMemOpt(
