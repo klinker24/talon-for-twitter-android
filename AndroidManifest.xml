@@ -73,7 +73,7 @@
 
         <activity android:name=".manipulations.PhotoViewerDialog"
                     android:configChanges="orientation|screenSize"
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+                    android:theme="@style/Theme.PhotoViewerDark" />
 
         <activity android:name=".ui.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"
