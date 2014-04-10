@@ -384,7 +384,12 @@ public abstract class Compose extends Activity implements
             options.inJustDecodeBounds = false;
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
-            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+            Bitmap b = BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+            return rotateBitmap(b, orientation);
 
         } catch (Exception e) {
             e.printStackTrace();
