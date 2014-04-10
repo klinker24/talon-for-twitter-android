@@ -12,14 +12,12 @@
 - Bugs:
     - sideways pictures
     - check out the loading of the profile picture and background. They don't seem to work right
+    - talon pull not always getting retweets
 
 
 -- For Release --
 
     - Update translations
-    - test out the full screen browser
-    - 682 on enhanced list view
-    - test out the caching over only wifi
 
     Version 2.3.0
         - Scheduled Tweets
