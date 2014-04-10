@@ -84,6 +84,12 @@ public class TweetPager extends YouTubeBaseActivity {
 
         overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
+        try {
+            getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        } catch (Exception e) {
+
+        }
+
         context = this;
         settings = AppSettings.getInstance(this);
 
