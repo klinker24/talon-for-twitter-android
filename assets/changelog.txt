@@ -1,5 +1,6 @@
 <b>Version 2.2.2:</b><br/><br/>
     &#8226; Image rotation fixes<br/>
+    &#8226; Notification fixes<br/>
 </br><br/>
 
 <b>Version 2.2.1:</b><br/><br/>
