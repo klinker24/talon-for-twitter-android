@@ -444,6 +444,8 @@ public abstract class Compose extends Activity implements
 
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
 
+        Log.v("talon_composing_image", "rotation: " + orientation);
+        
         try{
             Matrix matrix = new Matrix();
             switch (orientation) {
