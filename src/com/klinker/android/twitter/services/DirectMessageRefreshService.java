@@ -68,6 +68,7 @@ public class DirectMessageRefreshService extends IntentService {
             }
 
             DMDataSource dataSource = DMDataSource.getInstance(context);
+            int inserted = 0;
 
             for (DirectMessage directMessage : dm) {
                 try {
@@ -76,6 +77,7 @@ public class DirectMessageRefreshService extends IntentService {
                     dataSource = DMDataSource.getInstance(context);
                     dataSource.createDirectMessage(directMessage, currentAccount);
                 }
+                inserted++;
             }
 
             for (DirectMessage directMessage : sent) {
@@ -90,7 +92,7 @@ public class DirectMessageRefreshService extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
 
-            if (settings.notifications) {
+            if (settings.notifications && inserted > 0) {
                 int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
                 sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).commit();
 
