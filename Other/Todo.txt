@@ -17,9 +17,7 @@
 -- For Release --
 
     - Update translations
-    - test out the full screen browser
-    - 682 on enhanced list view
-    - test out the caching over only wifi
+    -
 
     Version 2.3.0
         - Scheduled Tweets
