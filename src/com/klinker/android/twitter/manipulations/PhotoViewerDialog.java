@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -68,7 +69,7 @@ public class PhotoViewerDialog extends Activity {
         super.onCreate(savedInstanceState);
         context = this;
 
-        try {
+        /*try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         } catch (Exception e) {
 
@@ -92,15 +93,15 @@ public class PhotoViewerDialog extends Activity {
             }
         } catch (Exception ex) {
             // Ignore
-        }
+        }*/
 
-        int currentOrientation = getResources().getConfiguration().orientation;
+        /*int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         }
         else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }
+        }*/
 
         url = getIntent().getStringExtra("url");
 
@@ -128,7 +129,7 @@ public class PhotoViewerDialog extends Activity {
 
         setContentView(R.layout.photo_dialog_layout);
 
-        if (!doRestart) {
+        if (!doRestart || getIntent().getBooleanExtra("config_changed", false)) {
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
@@ -351,5 +352,26 @@ public class PhotoViewerDialog extends Activity {
     public void onPause() {
         isRunning = false;
         super.onPause();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        overridePendingTransition(0, 0);
+        finish();
+        final Intent restart = new Intent(context, PhotoViewerDialog.class);
+        restart.putExtra("url", url);
+        restart.putExtra("config_changed", true);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        
+        // we have to delay it just a little bit so that it isn't consumed by the timeline changing orientation
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(restart);
+                overridePendingTransition(0, 0);
+            }
+        }, 250);
     }
 }

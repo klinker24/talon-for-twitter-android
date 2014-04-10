@@ -293,6 +293,7 @@ public class MainActivity extends DrawerActivity {
         overridePendingTransition(0, 0);
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         startActivity(restart);
+        overridePendingTransition(0, 0);
     }
 
     @Override
