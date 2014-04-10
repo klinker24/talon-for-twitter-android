@@ -45,12 +45,12 @@ public class BrowserActivity extends Activity {
 
         settings = AppSettings.getInstance(this);
 
+        url = getIntent().getStringExtra("url");
+
         setUpLayout();
 
         Utils.setUpTheme(this, settings);
         Utils.setActionBar(this);
-
-        url = getIntent().getStringExtra("url");
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
