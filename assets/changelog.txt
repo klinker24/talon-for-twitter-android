@@ -1,3 +1,7 @@
+<b>Version 2.2.2:</b><br/><br/>
+    &#8226; Image rotation fixes<br/>
+</br><br/>
+
 <b>Version 2.2.1:</b><br/><br/>
     &#8226; Better notification when replying to tweet<br/>
     &#8226; Only pre-cache over wifi option<br/>
