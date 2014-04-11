@@ -245,9 +245,7 @@
     <string name="make_a_theme">Téma készítése</string>
     <string name="layout">Elrendezés</string>
     <string name="themeing_complete">Téma alkalmazása</string>
-    <string name="themeing_complete_summary">A \"Talon\" most bezáródik.\n\n
-                A változások alkalmazásához csúsztatással el kell távolítania a \"Talon-t\" a legutóbbi alkalmazások listájáról.\n\n
-                Ha a profilképek nem úgy jelennek meg, ahogy kellene (pl. kör vagy négyzet), akkor el kell távolítani és újra hozzá kell adni a widgetet.</string>
+    <string name="themeing_complete_summary">A \"Talon\" most bezáródik.\n\n\r\n                A változások alkalmazásához csúsztatással el kell távolítania a \"Talon-t\" a legutóbbi alkalmazások listájáról.\n\n\r\n                Ha a profilképek nem úgy jelennek meg, ahogy kellene (pl. kör vagy négyzet), akkor el kell távolítani és újra hozzá kell adni a widgetet.</string>
     <string name="layout_summary">Ez a változtatás törölni fogja az alkalmazás gyorsítótárát.</string>
     <string name="text_size">Betűméret</string>
     <string name="night_mode">Éjszakai mód</string>
@@ -257,10 +255,7 @@
     <string name="device_font">Használja az eszköz betűtípusát</string>
     <string name="device_font_summary">Általában \"Roboto\" a legtöbb eszközön. A Talon alapértelmezett betűtípusa \"Roboto Light\".</string>
     <string name="ui_extras">UI extrák</string>
-    <string name="ui_extras_summary">Tartalmazza:\n
-                - Műveleti sáv elrejtése\n
-                - Művelet képes Toast sáv\n
-                - Átlátszó rendszersávok (csak Android 4.4)\n\nA beállítás engedélyezése hatással lesz a görgetési teljesítményre.</string>
+    <string name="ui_extras_summary">Tartalmazza:\n\r\n                - Műveleti sáv elrejtése\n\r\n                - Művelet képes Toast sáv\n\r\n                - Átlátszó rendszersávok (csak Android 4.4)\n\nA beállítás engedélyezése hatással lesz a görgetési teljesítményre.</string>
     <string name="inline_pics">Beágyazott képek megjelenítése</string>
     <string name="use_screen_name">Twitter név megjelenítése</string>
     <string name="use_screen_name_summary">A felhasználó Twitter nevének megjelenítése az idővonalon a neve helyett.</string>
@@ -269,9 +264,7 @@
     <string name="to_market">A Play Áruházba</string>
     <string name="get_android">Android Emojik beszerzése</string>
     <string name="get_ios">iOS Emojik beszerzése</string>
-    <string name="emoji_dialog_summary">Az emojik alkamazáson belüli engedélyezéséhez, először telepíteni kell a Play Áruházból a \"Sliding Emoji Keyboard\" vagy a \"Sliding Emoji Keyboard - iOS\" csomagot.\n\n
-                A két emoji típus között úgy válthat, hogy eltávolítja az egyiket és telepíti a másikat. Ha mindkét csomag telepítve van, akkor a Talon az alapértelmezett Android emojikat fogja használni.\n\n
-                MEGJEGYZÉS: Az Emojik a próbaidőszak lejárata után is működni fognak! A csomag használható pluginként és különálló billentyűzetként is.</string>
+    <string name="emoji_dialog_summary">Az emojik alkamazáson belüli engedélyezéséhez, először telepíteni kell a Play Áruházból a \"Sliding Emoji Keyboard\" vagy a \"Sliding Emoji Keyboard - iOS\" csomagot.\n\n\r\n                A két emoji típus között úgy válthat, hogy eltávolítja az egyiket és telepíti a másikat. Ha mindkét csomag telepítve van, akkor a Talon az alapértelmezett Android emojikat fogja használni.\n\n\r\n                MEGJEGYZÉS: Az Emojik a próbaidőszak lejárata után is működni fognak! A csomag használható pluginként és különálló billentyűzetként is.</string>
     <string name="theme_light">Világos téma</string>
     <string name="theme_dark">Sötét téma</string>
     <string name="theme_black">Fekete téma</string>
@@ -297,8 +290,7 @@
     <string name="dm_sync_interval">Közvetlen üzenetek frissítési gyakoriság</string>
     <string name="sync_friends">Barátok adatainak szinkronizálása</string>
     <string name="sync_friends_summary2">Új tweetek írásakor újraszinkronizálja a barátok adatait.</string>
-    <string name="sync_friends_summary">Barátok lista kézi frissítése.\n\nEz el lett végezve a bejelentkezéskor, valamint az újak automatikusan hozzá lettek adva, ha a Talonból adta hozzá követéshez. Ez az opció le fogja kérni az összes legújabb \"követését\".\n\n
-                    Ez az adat egy új tweet írásakor a felhasználók kereséséhez lesz használva.</string>
+    <string name="sync_friends_summary">Barátok lista kézi frissítése.\n\nEz el lett végezve a bejelentkezéskor, valamint az újak automatikusan hozzá lettek adva, ha a Talonból adta hozzá követéshez. Ez az opció le fogja kérni az összes legújabb \"követését\".\n\n\r\n                    Ez az adat egy új tweet írásakor a felhasználók kereséséhez lesz használva.</string>
     <string name="sync_success">Szinkronizáció sikeres</string>
     <string name="sync_failed">Szinkronizáció sikertelen</string>
     <string name="push_notification_options">"\"Push értesítések\" beállítás"</string>
@@ -315,10 +307,7 @@
     <string name="full_screen_browsers">Teljesképernyős böngésző</string>
     <string name="full_screen_browsers_summary">A weboldalakat tartalmazó tweeteket teljesképernyős módban nyitja meg.</string>
     <string name="reverse_click_actions">Kattintás műveletek megfordítása</string>
-    <string name="reverse_click_actions_summary">Tweeteken történő kattintás műveletek megfordítása.\n\n
-                    Alapértelmezett (amikor le van tiltva):\n
-                    - Hosszú kattintás megnyitja a tweetet\n
-                    - Rövid kattintás kibontja a tweetet</string>
+    <string name="reverse_click_actions_summary">Tweeteken történő kattintás műveletek megfordítása.\n\n\r\n                    Alapértelmezett (amikor le van tiltva):\n\r\n                    - Hosszú kattintás megnyitja a tweetet\n\r\n                    - Rövid kattintás kibontja a tweetet</string>
     <string name="extra_pages">Extra oldalak használata</string>
     <string name="extra_pages_summary">Hivatkozások és képek oldalak hozzáadása az idővonal bal oldalához.</string>
     <string name="live_streaming">Élő közvetítés</string>

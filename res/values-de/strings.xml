@@ -245,9 +245,7 @@
     <string name="make_a_theme">Theme erstellen</string>
     <string name="layout">Layout</string>
     <string name="themeing_complete">Theme angewandt</string>
-    <string name="themeing_complete_summary">\"Talon\" wird nun beendet.\n\n
-                Du wirst \"Talon\" mit einer Wischgeste aus der Ansicht der kürzlich verwendeten Apps (Mutlitasking) entfernen müssen, damit die Änderungen vollständig angewendet werden.\n\n
-                Falls die Profilbilder nicht so angezeigt werden wie sie eigentlich sollten (z.B. quadratisch statt als Kreis) wirst du das Widget entfernen und neu hinzufügen müssen.</string>
+    <string name="themeing_complete_summary">\"Talon\" wird nun beendet.\n\n\n                Du wirst \"Talon\" mit einer Wischgeste aus der Ansicht der kürzlich verwendeten Apps (Mutlitasking) entfernen müssen, damit die Änderungen vollständig angewendet werden.\n\n\n                Falls die Profilbilder nicht so angezeigt werden wie sie eigentlich sollten (z.B. quadratisch statt als Kreis) wirst du das Widget entfernen und neu hinzufügen müssen.</string>
     <string name="layout_summary">Bei Änderung wird der Cache der App gelöscht.</string>
     <string name="text_size">Textgröße</string>
     <string name="night_mode">Nachtmodus</string>
@@ -257,11 +255,7 @@
     <string name="device_font">Geräteschriftart verwenden</string>
     <string name="device_font_summary">Reguläres \"Roboto\" auf den meisten Geräten. Talons Standard-Schriftart ist \"Roboto Light\".</string>
     <string name="ui_extras">UI-Extras</string>
-    <string name="ui_extras_summary">Beinhaltet:\n
-                - Verbergen der Aktionsleiste\n
-                - Toast-Benachrichtigungen mit Aktionen\n
-                - Transparente Systemleisten (ab Android 4.4)\n\n
-                Aktivieren dieser Einstellung wirkt sich auf die Scrolling-Performance aus.</string>
+    <string name="ui_extras_summary">Beinhaltet:\n\n                - Verbergen der Aktionsleiste\n\n                - Toast-Benachrichtigungen mit Aktionen\n\n                - Transparente Systemleisten (ab Android 4.4)\n\n\n                Aktivieren dieser Einstellung wirkt sich auf die Scrolling-Performance aus.</string>
     <string name="inline_pics">In-Line-Bilder anzeigen</string>
     <string name="use_screen_name">Twitter-Nutzername anzeigen</string>
     <string name="use_screen_name_summary">Twitter-Benutzernamen anstelle des Namens in der Timeline anzeigen.</string>
@@ -270,9 +264,7 @@
     <string name="to_market">Zum Play Store</string>
     <string name="get_android">Android-Emojis</string>
     <string name="get_ios">iOS-Emojis</string>
-    <string name="emoji_dialog_summary">Um Emojis in dieser App zu aktivieren, musst du das \"Sliding Emoji Keyboard\"- oder \"Sliding Emoji Keyboard - iOS\"-Paket aus dem Play Store installieren.\n\n
-               Du kannst zwischen beiden Emojis-Arten wechseln, indem du das nicht verwendete Paket deinstallierst (und das andere im Gegenzug herunterlädtst). Sind beide Pakete installiert, wird Talon die Android-Emojis verwenden.\n\n
-               HINWEIS: Emojis werden auch nach Ablauf der Testversion weiterhin in dieser App funktionieren!! Das Paket wird als Plugin sowie als Stand-Alone-Tastatur verwendet.</string>
+    <string name="emoji_dialog_summary">Um Emojis in dieser App zu aktivieren, musst du das \"Sliding Emoji Keyboard\"- oder \"Sliding Emoji Keyboard - iOS\"-Paket aus dem Play Store installieren.\n\n\n               Du kannst zwischen beiden Emojis-Arten wechseln, indem du das nicht verwendete Paket deinstallierst (und das andere im Gegenzug herunterlädtst). Sind beide Pakete installiert, wird Talon die Android-Emojis verwenden.\n\n\n               HINWEIS: Emojis werden auch nach Ablauf der Testversion weiterhin in dieser App funktionieren!! Das Paket wird als Plugin sowie als Stand-Alone-Tastatur verwendet.</string>
     <string name="theme_light">Helles Theme</string>
     <string name="theme_dark">Dunkles Theme</string>
     <string name="theme_black">Schwarzes Theme</string>
@@ -298,8 +290,7 @@
     <string name="dm_sync_interval">Direktnachrichten-Aktualisierungsrate</string>
     <string name="sync_friends">Freunde synchronisieren</string>
     <string name="sync_friends_summary2">Daten der gefolgten Nutzer neu synchronisieren, die beim Erstellen eines neuen Tweets verwendet werden.</string>
-    <string name="sync_friends_summary">Synchronisiert die Liste der gefolgten Nutzer.\n\nDieser Schritt wurde während der Anmeldung für dich bereits erledigt und neu gefolgte Nutzer werden automatisch dieser Liste hinzugefügt. Mit dieser Option werden alle Nutzer, denen du folgst, neu eingelesen.\n\n
-                   Diese Daten werden bei der Suche nach Nutzernamen verwendet, wenn du einen neuen Tweet verfasst.</string>
+    <string name="sync_friends_summary">Synchronisiert die Liste der gefolgten Nutzer.\n\nDieser Schritt wurde während der Anmeldung für dich bereits erledigt und neu gefolgte Nutzer werden automatisch dieser Liste hinzugefügt. Mit dieser Option werden alle Nutzer, denen du folgst, neu eingelesen.\n\n\n                   Diese Daten werden bei der Suche nach Nutzernamen verwendet, wenn du einen neuen Tweet verfasst.</string>
     <string name="sync_success">Synchronisierung abgeschlossen</string>
     <string name="sync_failed">Synchronisierung fehlgeschlagen</string>
     <string name="push_notification_options">"Push-Benachrichtigungen"</string>
@@ -316,10 +307,7 @@
     <string name="full_screen_browsers">Vollbild-Browser</string>
     <string name="full_screen_browsers_summary">Tweets mit Webseite in einer Vollbildansicht öffnen.</string>
     <string name="reverse_click_actions">Berührungen umkehren</string>
-    <string name="reverse_click_actions_summary">Verhalten bei Berührungen auf Tweets umkehren.\n\n
-                    Standard (wenn deaktiviert):\n
-                    - Berühren und halten öffnet vollständigen Tweet (mit Unterhaltungen und In-App-Browser)\n
-                    - Berühren erweitert Tweet und öffnet Schnellaktionen</string>
+    <string name="reverse_click_actions_summary">Verhalten bei Berührungen auf Tweets umkehren.\n\n\n                    Standard (wenn deaktiviert):\n\n                    - Berühren und halten öffnet vollständigen Tweet (mit Unterhaltungen und In-App-Browser)\n\n                    - Berühren erweitert Tweet und öffnet Schnellaktionen</string>
     <string name="extra_pages">Zusätzliche Spalten</string>
     <string name="extra_pages_summary">Tweets mit Links und Bildern zusätzlich in Spalten links neben der Timeline-Spalte anzeigen.</string>
     <string name="live_streaming">Live-Streaming</string>
@@ -421,8 +409,6 @@
     <string name="filling_timeline">Timeline-Lücken werden gefüllt</string>
     <string name="follows_you">Folgt dir</string>
     <string name="not_following_you">Folgt dir nicht</string>
-    <string name="open_to_web">Webseite in Tweet öffnen</string>
-    <string name="open_to_web_summary">Falls ein Tweet eine Webseiten-URL beinhaltet, wird direkt diese URL anstatt des Tweets geöffnet.</string>
     <string name="device">Geräteschriftart</string>
     <string name="roboto_light">Roboto Light (Standard)</string>
     <string name="roboto_condensed">Roboto Condensed</string>
@@ -454,7 +440,7 @@
     <string name="retweeting_status">Status wird retweetet</string>
     <string name="removing_favorite">Favorit wird gelöscht</string>
     <string name="favoriting_status">Status wird favorisiert</string>
-    <string name="jumping_workaround">"Spring" Problembehandlung</string>
+    <string name="jumping_workaround">\"Spring\" Problembehandlung</string>
     <string name="jumping_workaround_summary">Aktiviere die Funktion sofern deine Timeline nach unten springt sobald du deinen Feed aktualisierst</string>
     <string name="menu_share_link">Teile Link</string>
     <string name="no_links">keine Links</string>
@@ -473,7 +459,7 @@
     <string name="compose_dm_hint">Schreibe hier die Direktnachricht</string>
     <string name="pwiccer">Pwiccer</string>
     <string name="select_shortening_service">Wähle einen Service um den Tweet zu verkürzen oder bearbeite den Tweet</string>
-    <string name="use_shortening_service">Benutze einen "Shortening" Service</string>
+    <string name="use_shortening_service">Benutze einen \"Shortening\" Service</string>
     <string name="use_shortening_service_summary">Du hast die Wahl zwischen TwitLonger und Pwiccer um deinen zu langen Tweet zu versenden</string>
     <string name="view_retweeters">Retweeter</string>
     <string name="no_tweets">keine Tweets</string>
@@ -507,8 +493,14 @@
     <string name="city">Stadt</string>
     <string name="menu_apply_picture_filter">Setze Bilder Filter</string>
     <string name="menu_remove_rt">Lösche Retweets</string>
+    <string name="input_expression">Stummzuschaltener Ausdruck...</string>
+    <string name="mute_expression">Ausdruck stummschalten</string>
+    <string name="view_muted_expressions">Stummgeschaltete Ausdrücke entfernen</string>
+    <string name="no_expression">Kein Ausdruck!</string>
+    <string name="regex_disclaimer">Stummschalten zu vieler Ausdrücke kann die Start- und Aktualisierungdauer erhöhen.</string>
     <string name="cleaning_cache">Räume Cache auf...</string>
     <string name="floating_compose">aktiver Tweet Button</string>
+    <string name="settings_links">Einstellungen</string>
     <string name="other_links">Andere Links</string>
     <string name="display_options">Zeige Optionen</string>
     <string name="third_party_services">Drittanbieter Services</string>
@@ -526,4 +518,6 @@
     <string name="widget_trans_light">transparentes, helles Design</string>
     <string name="widget_trans_black">transparentes, dunkles Design</string>
     <string name="ui_settings">UI Einstellungen</string>
+    <string name="open_to_web">Webseite in Tweet öffnen</string>
+    <string name="open_to_web_summary">Falls ein Tweet eine Webseiten-URL beinhaltet, wird direkt diese URL anstatt des Tweets geöffnet.</string>
 </resources>

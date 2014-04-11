@@ -245,9 +245,7 @@
     <string name="make_a_theme">Crear un tema</string>
     <string name="layout">Diseño del timeline</string>
     <string name="themeing_complete">Tema aplicado</string>
-    <string name="themeing_complete_summary">\"Talon\" se cerrará ahora.\n\n
-                Tendrás que eliminar \"Talon\" de la lista de aplicaciones recientes para que los cambios tengan efecto en el timeline.\n\n
-                Si las fotos de perfil no aparecen como deberían (ej. en círculos o cuadrados), tendrás que eliminar y volver a agregar el widget.</string>
+    <string name="themeing_complete_summary">\"Talon\" se cerrará ahora.\n\n\n                Tendrás que eliminar \"Talon\" de la lista de aplicaciones recientes para que los cambios tengan efecto en el timeline.\n\n\n                Si las fotos de perfil no aparecen como deberían (ej. en círculos o cuadrados), tendrás que eliminar y volver a agregar el widget.</string>
     <string name="layout_summary">Cambiar esta opción limpiará la caché de la aplicación.</string>
     <string name="text_size">Tamaño del texto</string>
     <string name="night_mode">Modo Nocturno</string>
@@ -257,11 +255,7 @@
     <string name="device_font">Usar tipografía del dispositivo</string>
     <string name="device_font_summary">\"Roboto\" regular en la mayoría de los dispositivos. Talon utiliza \"Roboto Light\" por defecto.</string>
     <string name="ui_extras">Extras de la interfaz</string>
-    <string name="ui_extras_summary">Incluye:\n
-                - Esconder la barra de accion\n
-                - Barra flotante interactiva\n
-                - Barras de sistema de notificaciones transparentes (Solo Android 4.4)\n\n
-                Habilitar esta opción afectará el desempeño del desplazamiento.</string>
+    <string name="ui_extras_summary">Incluye:\n\n                - Esconder la barra de accion\n\n                - Barra flotante interactiva\n\n                - Barras de sistema de notificaciones transparentes (Solo Android 4.4)\n\n\n                Habilitar esta opción afectará el desempeño del desplazamiento.</string>
     <string name="inline_pics">Mostrar imágenes incrustadas</string>
     <string name="use_screen_name">Mostrar nombre de Twitter</string>
     <string name="use_screen_name_summary">Mostrar en los timelines el nombre de usuario de Twitter en lugar del nombre real.</string>
@@ -270,9 +264,7 @@
     <string name="to_market">Ir a la tienda de aplicaciones</string>
     <string name="get_android">Bajar emoticonos de Android</string>
     <string name="get_ios">Bajar emoticonos de iOS</string>
-    <string name="emoji_dialog_summary">Para habilitar los emoticonos, debes instalar el paquete \"Sliding Emoji Keyboard\" o \"Sliding Emoji Keyboard - iOS\" desde Play Store.\n\n
-                Puedes cambiar entre los dos tipos de emoticonos desinstalando uno de los paquetes e instalando el otro. Si ambos están instalados, Talon usará los emojis de Android.\n\n
-                NOTA: ¡Los emoticonos continuarán funcionando en Talon después del periodo de prueba! Ese paquete es utilizado como una extensión además de como un teclado extra.</string>
+    <string name="emoji_dialog_summary">Para habilitar los emoticonos, debes instalar el paquete \"Sliding Emoji Keyboard\" o \"Sliding Emoji Keyboard - iOS\" desde Play Store.\n\n\n                Puedes cambiar entre los dos tipos de emoticonos desinstalando uno de los paquetes e instalando el otro. Si ambos están instalados, Talon usará los emojis de Android.\n\n\n                NOTA: ¡Los emoticonos continuarán funcionando en Talon después del periodo de prueba! Ese paquete es utilizado como una extensión además de como un teclado extra.</string>
     <string name="theme_light">Tema claro</string>
     <string name="theme_dark">Tema oscuro</string>
     <string name="theme_black">Tema negro</string>
@@ -298,8 +290,7 @@
     <string name="dm_sync_interval">Frec. de actualización de mensajes directos</string>
     <string name="sync_friends">Sincronizar datos de amigos</string>
     <string name="sync_friends_summary2">Volver a sincronizar datos de amigos para usar al escribir tweets.</string>
-    <string name="sync_friends_summary">Sincronizar lista de amigos manualmente.\n\nEsto se realizó al inicio, también se actualiza la lista cuando le das a seguir a alguien desde Talon, pero esta opción obtendrás los más recientes de su lista de \\"siguiendo\\".\n\n
-                    Estos datos son utilizados al buscar usuarios mientras escribes un tweet.</string>
+    <string name="sync_friends_summary">Sincronizar lista de amigos manualmente.\n\nEsto se realizó al inicio, también se actualiza la lista cuando le das a seguir a alguien desde Talon, pero esta opción obtendrás los más recientes de su lista de \\"siguiendo\\".\n\n\n                    Estos datos son utilizados al buscar usuarios mientras escribes un tweet.</string>
     <string name="sync_success">Sincronización exitosa</string>
     <string name="sync_failed">Sincronización fallida</string>
     <string name="push_notification_options">"Opciones para \"notificaciones push\""</string>
@@ -316,10 +307,7 @@
     <string name="full_screen_browsers">Navegadores en pantalla completa</string>
     <string name="full_screen_browsers_summary">Abrir tweets que contienen una página web en pantalla completa.</string>
     <string name="reverse_click_actions">Invertir acciones</string>
-    <string name="reverse_click_actions_summary">Invertir las acciones al tocar un tweet.\n\n
-                    Predeterminado (al deshabilitar):\n
-                    - Toque largo para abrir el tweet\n
-                    - Toque corto para expander el tweet</string>
+    <string name="reverse_click_actions_summary">Invertir las acciones al tocar un tweet.\n\n\n                    Predeterminado (al deshabilitar):\n\n                    - Toque largo para abrir el tweet\n\n                    - Toque corto para expander el tweet</string>
     <string name="extra_pages">Usar páginas extra</string>
     <string name="extra_pages_summary">Añadir páginas de enlaces e imágenes a la izquierda del timeline.</string>
     <string name="live_streaming">Actualización en vivo</string>
@@ -387,6 +375,7 @@
     <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
     <string name="use_inapp_browser">Usar navegador integrado</string>
+    <string name="use_browser_on_tweet">Página del navegador en el tweet</string>
     <string name="dismiss_all">Descartar todo</string>
     <string name="handle_and_name">Mostrar usuario y nombre real</string>
     <string name="notification_types">Tipos de notificaciones</string>
@@ -421,8 +410,6 @@
     <string name="filling_timeline">Rellenando vacíos en la cronología</string>
     <string name="follows_you">Te sigue</string>
     <string name="not_following_you">No te sigue</string>
-    <string name="open_to_web">Abrir enlaces web en el tweet</string>
-    <string name="open_to_web_summary">Si el tweet contiene un enlace web, este se abrirá directamente en lugar de abrir el tweet.</string>
     <string name="device">Letra del dispositivo</string>
     <string name="roboto_light">Roboto Light (Predeterminada)</string>
     <string name="roboto_condensed">Roboto Condensed</string>
@@ -532,4 +519,36 @@
     <string name="widget_trans_light">Tema claro transparente</string>
     <string name="widget_trans_black">Tema oscuro transparente</string>
     <string name="ui_settings">Ajustes de interfaz</string>
+    <string name="show_pos_dashclock">Mostrar posición de la cronología</string>
+    <string name="show_pos_dashclock_summary">Muestra la posición actual en la cronología principal en ligar del número de tweets nuevos.</string>
+    <string name="talon_large_widget">Talon - Cronología</string>
+    <string name="unread_bar_widget">Talon - Barra de no leídos</string>
+    <string name="show_muted_mentions">Mostrar menciones silenciadas</string>
+    <string name="force_overflow_summary">Mostrar siempre el menú de 3 puntos en la barra de acciones. Útil en teléfonos con botones de menú físicos.</string>
+    <string name="menu_view_drafts">Ver borradores</string>
+    <string name="menu_schedule_tweet">Programar un tweet</string>
+    <string name="menu_save_draft">Guardar borrador</string>
+    <string name="saved_draft">Borrador guardado</string>
+    <string name="delete_draft">Eliminar borrador</string>
+    <string name="no_tweet">¡No hay tweet!</string>
+    <string name="menu_attach_picture">Adjuntar imagen</string>
+    <string name="twitpic_disclaimer">Aviso sobre TwitPic</string>
+    <string name="twitpic_disclaimer_summary">El API de Twitter no permite adjuntar imágenes en mensajes directos. Por esto, Talon subirá la imagen a TwitPic y compartirá el enlace con el destinatario.\n\n\n Esta imagen estará disponible en tu perfil de TwitPic.</string>
+    <string name="dont_show_again">No mostrar de nuevo</string>
+    <string name="error_attaching_image">¡Error al adjuntar imagen!</string>
+    <string name="sending_tweet">Enviando tweet...</string>
+    <string name="attached_images">Adjuntado</string>
+    <string name="twitpic_disclaimer_multi_summary">El API de Twitter no soporta adjuntar más de una imagen en un tweet.\n\n\n Talon subirá las imágenes utilizando TwitPic en su lugar.</string>
+    <string name="loading_webpage">Cargando página...</string>
+    <string name="plain_text_browser">Navegador de texto plano</string>
+    <string name="plain_text_summary">Remover imágenes y formatos del navegador web y solo mostrar el texto en la página web.</string>
+    <string name="plain_text_on_data">Texto plano en datos móviles</string>
+    <string name="plain_text_on_data_summary">Habilitar el navegador de texto plano solo cuando se esté en una conexión de datos móviles, no en WiFi.</string>
+    <string name="layout_full_screen">Pantalla completa</string>
+    <string name="pre_cache_images">Pre-cargar imágenes</string>
+    <string name="pre_cache_summary">Descargar imágenes inmediatamente mientras se carga en vivo o cuando se carga en el fondo.</string>
+    <string name="pre_cache_settings">Opciones Pre-Cache</string>
+    <string name="pre_cache_only_wifi">Solo sobre WiFi</string>
+    <string name="open_to_web">Abrir enlaces web en el tweet</string>
+    <string name="open_to_web_summary">Si el tweet contiene un enlace web, este se abrirá directamente en lugar de abrir el tweet.</string>
 </resources>

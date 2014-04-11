@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon voor Twitter</string>
-    <string name="extension_description">Geeft het aantal ongelezen tweets, vermeldingen en directe berichten weer wanneer ze zijn geüpdate.</string>
+    <string name="extension_description">Geeft het aantal ongelezen tweets, vermeldingen en directe berichten weer wanneer ze zijn geüpdatet.</string>
     <!-- Action Bar -->
-    <string name="menu_refresh">Vernieuw tijdlijn</string>
+    <string name="menu_refresh">Vernieuw Timeline</string>
     <string name="menu_compose">Nieuwe tweet</string>
     <string name="menu_logout">Uitloggen</string>
     <string name="menu_settings">Instellingen </string>
@@ -255,11 +255,7 @@
     <string name="device_font">Gebruik apparaat lettertype</string>
     <string name="device_font_summary">Standaard \"Roboto\" op de meeste apparaten. Talon\'s standaard lettertype is \"Roboto Light\".</string>
     <string name="ui_extras">UI extra\'s</string>
-    <string name="ui_extras_summary">Houdt in:\n
-- Verberg Actie Balk\n 
-- Bruikbare Toast balk
-- Transparante systeem balken (alleen Android 4.4)\n\n
-Het toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</string>
+    <string name="ui_extras_summary">Houdt in:\n\n- Verberg Actie Balk\n \n- Bruikbare Toast balk\n- Transparante systeem balken (alleen Android 4.4)\n\n\nHet toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</string>
     <string name="inline_pics">Geef in-line afbeeldingen weer</string>
     <string name="use_screen_name">Geef Twitter-cliënt weer</string>
     <string name="use_screen_name_summary">Geef de Twitter-cliënt weer in plaats van hun naam op tijdlijnen.</string>
@@ -268,9 +264,7 @@ Het toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</s
     <string name="to_market">Naar Play Store</string>
     <string name="get_android">Krijg Android Emojis</string>
     <string name="get_ios">Krijg iOS Emojis</string>
-    <string name="emoji_dialog_summary">Om emojis te gebruiken in deze app, moet u het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
-U kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n
-NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat pakket wordt zowel als plug-in gebruikt, en als een op zichzelf staand toetsenbord. </string>
+    <string name="emoji_dialog_summary">Om emojis te gebruiken in deze app, moet u het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n\nU kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n\nNOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat pakket wordt zowel als plug-in gebruikt, en als een op zichzelf staand toetsenbord. </string>
     <string name="theme_light">Licht thema</string>
     <string name="theme_dark">Donker thema</string>
     <string name="theme_black">Zwart thema</string>
@@ -296,8 +290,7 @@ NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat
     <string name="dm_sync_interval">Privéberichten vernieuw interval</string>
     <string name="sync_friends">Synchroniseer vriend gegevens</string>
     <string name="sync_friends_summary2">Her-synchroniseer vriend gegevens bij het opstellen van tweets.</string>
-    <string name="sync_friends_summary">Vernieuw vriendenlijst handmatig.\n\n Dit is al gedaan voor u tijdens het inloggen en ze worden automatisch toegevoegd wanneer u iemand volgt vanuit Talon, maar deze optie zal al je laatste \"volgers\" ophalen.\n\n
-Deze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het opstellen van een tweet.</string>
+    <string name="sync_friends_summary">Vernieuw vriendenlijst handmatig.\n\n Dit is al gedaan voor u tijdens het inloggen en ze worden automatisch toegevoegd wanneer u iemand volgt vanuit Talon, maar deze optie zal al je laatste \"volgers\" ophalen.\n\n\nDeze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het opstellen van een tweet.</string>
     <string name="sync_success">Sync Succesvol</string>
     <string name="sync_failed">Sync Mislukt</string>
     <string name="push_notification_options">"\"Push Notificaties\" Opties"</string>
@@ -314,10 +307,7 @@ Deze gegevens worden gebruikt tijdens het zoeken naar gebruikers tijdens het ops
     <string name="full_screen_browsers">Volledig Scherm Browsers</string>
     <string name="full_screen_browsers_summary">Open tweets die een webpagina bevatten in volledig scherm.</string>
     <string name="reverse_click_actions">Draai Klik Acties Om</string>
-    <string name="reverse_click_actions_summary">Draai de klik acties op tweets om.\n\n
-Standaard (wanneer uitgeschakeld):\n
-- Lang drukken om een tweet te openen\n
-- Kort drukken om tweet uit te klappen</string>
+    <string name="reverse_click_actions_summary">Draai de klik acties op tweets om.\n\n\nStandaard (wanneer uitgeschakeld):\n\n- Lang drukken om een tweet te openen\n\n- Kort drukken om tweet uit te klappen</string>
     <string name="extra_pages">Gebruik Extra Pagina\'s</string>
     <string name="extra_pages_summary">Voeg links en afbeelding pagina\'s toe, links van de timeline.</string>
     <string name="live_streaming">Live Streaming</string>
@@ -384,7 +374,8 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="manual">Handmatig</string>
     <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
-    <string name="use_inapp_browser">Gebruik In-App Browser</string>
+    <string name="use_inapp_browser">Gebruik In-App Browser op timeline</string>
+    <string name="use_browser_on_tweet">Browserpagina op tweet</string>
     <string name="dismiss_all">Verwerp Alles</string>
     <string name="handle_and_name">Geef cliënt en naam weer</string>
     <string name="notification_types">Notificatie Types</string>
@@ -419,8 +410,6 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="filling_timeline">Timeline gaten aan het opvullen</string>
     <string name="follows_you">Volgt u</string>
     <string name="not_following_you">Volgt u niet</string>
-    <string name="open_to_web">Open naar webpagina</string>
-    <string name="open_to_web_summary">Wanneer een tweet een web url bevat, zal direct die url geopend worden i.p.v. de tweet zelf.</string>
     <string name="device">Apparaat Lettertype</string>
     <string name="roboto_light">Roboto Light (Standaard)</string>
     <string name="roboto_condensed">Roboto Condensed</string>
@@ -530,4 +519,36 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="widget_trans_light">Transparant Licht Thema</string>
     <string name="widget_trans_black">Transparant Zwart Thema</string>
     <string name="ui_settings">UI Instellingen</string>
+    <string name="show_pos_dashclock">Geef timeline positie weer</string>
+    <string name="show_pos_dashclock_summary">Geef de huidige positie op de timeline weer in plaats van het aantal nieuwe tweets.</string>
+    <string name="talon_large_widget">Talon - Timeline</string>
+    <string name="unread_bar_widget">Talon - Ongelezen balk</string>
+    <string name="show_muted_mentions">Geef gedempte vermeldingen weer</string>
+    <string name="force_overflow_summary">Geef altijd de 3-punt \"Overflow Menu\" in de actiebalk weer. Wordt gebruikt voor telefoons met een fysieke menuknop.</string>
+    <string name="menu_view_drafts">Bekijk concepten</string>
+    <string name="menu_schedule_tweet">Plan een tweet</string>
+    <string name="menu_save_draft">Sla concept op</string>
+    <string name="saved_draft">Opgeslagen concept</string>
+    <string name="delete_draft">Verwijder concept</string>
+    <string name="no_tweet">Geen tweet!</string>
+    <string name="menu_attach_picture">Afbeelding bijvoegen</string>
+    <string name="twitpic_disclaimer">TwitPic disclaimer</string>
+    <string name="twitpic_disclaimer_summary">Twitter\'s API ondersteunt het toevoegen van een afbeelding aan een direct bericht niet. Om deze reden, zal Talon de afbeelding naar TwitPic uploaden en de link naar die afbeeldingen delen met de ontvanger. \n\n\nDeze afbeelding zal te bekijken zijn op je TwitPic profiel.</string>
+    <string name="dont_show_again">Niet opnieuw weergeven</string>
+    <string name="error_attaching_image">Fout bij bijvoegen afbeelding</string>
+    <string name="sending_tweet">Tweet aan het verzenden...</string>
+    <string name="attached_images">Bijgevoegd</string>
+    <string name="twitpic_disclaimer_multi_summary">Twitter\'s API ondersteunt niet meer dan één afbeelding per tweet. \n\n\nIn plaats daarvan, zal Talon de afbeeldingen uploaden met behulp van TwitPic.</string>
+    <string name="loading_webpage">Webpagina aan het laden...</string>
+    <string name="plain_text_browser">Browser met tekst zonder opmaak</string>
+    <string name="plain_text_summary">Afbeeldingen en opmaak van de webbrowser verwijderen en alleen de tekst weergeven op een webpagina.</string>
+    <string name="plain_text_on_data">Tekst zonder opmaak op mobiele data</string>
+    <string name="plain_text_on_data_summary">Schakel de tekst zonder opmaak browser alleen in wanneer er gebruik wordt gemaakt van mobiele data, niet van WiFi.</string>
+    <string name="layout_full_screen">Volledig scherm</string>
+    <string name="pre_cache_images">Afbeeldingen vooraf opslaan</string>
+    <string name="pre_cache_summary">Download afbeeldingen onmiddelijk als ze live gestreamd worden of ontvangen door een vernieuwing van de timeline op de achtergrond.</string>
+    <string name="pre_cache_settings">Van te voren opslaan opties</string>
+    <string name="pre_cache_only_wifi">Alleen over WiFi</string>
+    <string name="open_to_web">Open naar webpagina</string>
+    <string name="open_to_web_summary">Wanneer een tweet een web url bevat, zal direct die url geopend worden i.p.v. de tweet zelf.</string>
 </resources>
