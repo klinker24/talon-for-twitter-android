@@ -12,6 +12,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -341,7 +342,10 @@ public class SendTweet extends Service {
                             .setTicker(getResources().getString(R.string.tweet_success));
 
             if (AppSettings.getInstance(this).vibrate) {
-                mBuilder.setVibrate(new long[] {0, 10});
+                Log.v("talon_vibrate", "vibrate on compose");
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                long[] pattern = { 0, 50, 500 };
+                v.vibrate(pattern, -1);
             }
 
             stopForeground(true);

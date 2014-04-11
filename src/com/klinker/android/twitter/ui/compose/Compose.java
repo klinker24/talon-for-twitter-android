@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
@@ -583,7 +584,10 @@ public abstract class Compose extends Activity implements
                             .setTicker(getResources().getString(R.string.tweet_success));
 
             if (settings.vibrate) {
-                mBuilder.setVibrate(new long[] {0, 10});
+                Log.v("talon_vibrate", "vibrate on compose");
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                long[] pattern = { 0, 50, 500 };
+                v.vibrate(pattern, -1);
             }
 
             NotificationManager mNotificationManager =
