@@ -90,9 +90,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    infoBar = false;
                     hideToastBar(400);
                 }
-            }, 300);
+            }, 500);
 
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
         }
