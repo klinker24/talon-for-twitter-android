@@ -21,7 +21,6 @@
 
 -- For Release --
 
-    - Update translations
     - convert the sending to a service maybe then test sending images/multiple images
 
     Version 2.3.0

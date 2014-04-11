@@ -2,6 +2,7 @@
     &#8226; Image rotation fixes when tweeting<br/>
     &#8226; Rotate the screen in the photo viewer<br/>
     &#8226; Notification fixes<br/>
+    &#8226; Updated translations<br/>
 </br><br/>
 
 <b>Version 2.2.1:</b><br/><br/>
