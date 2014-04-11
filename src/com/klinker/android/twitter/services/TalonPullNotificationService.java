@@ -229,11 +229,17 @@ public class TalonPullNotificationService extends Service {
 
                     pullUnread = 0;
 
-                    try {
-                        pushStream.removeListener(userStream);
-                    } catch (Exception x) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                pushStream.removeListener(userStream);
+                            } catch (Exception x) {
 
-                    }
+                            }
+                        }
+                    }).start();
+
                     stopSelf();
                 } catch (OutOfMemoryError e) {
                     TalonPullNotificationService.isRunning = false;
@@ -251,11 +257,17 @@ public class TalonPullNotificationService extends Service {
 
                     pullUnread = 0;
 
-                    try {
-                        pushStream.removeListener(userStream);
-                    } catch (Exception x) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                pushStream.removeListener(userStream);
+                            } catch (Exception x) {
 
-                    }
+                            }
+                        }
+                    }).start();
+
                     stopSelf();
                 }
 
@@ -387,11 +399,16 @@ public class TalonPullNotificationService extends Service {
             sharedPreferences.edit().putInt("pull_unread", pullUnread).commit();
             pullUnread = 0;
 
-            try {
-                pushStream.removeListener(userStream);
-            } catch (Exception x) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        pushStream.removeListener(userStream);
+                    } catch (Exception x) {
 
-            }
+                    }
+                }
+            }).start();
             stopSelf();
 
         }

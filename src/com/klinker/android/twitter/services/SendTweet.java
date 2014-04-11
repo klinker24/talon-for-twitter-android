@@ -338,6 +338,7 @@ public class SendTweet extends Service {
                             .setSmallIcon(R.drawable.ic_stat_icon)
                             .setContentTitle(getResources().getString(R.string.tweet_success))
                             .setOngoing(false)
+                            .setVibrate(new long[] {0, 10})
                             .setTicker(getResources().getString(R.string.tweet_success));
 
             stopForeground(true);

@@ -580,6 +580,7 @@ public abstract class Compose extends Activity implements
                             .setSmallIcon(R.drawable.ic_stat_icon)
                             .setContentTitle(getResources().getString(R.string.tweet_success))
                             .setOngoing(false)
+                            .setVibrate(new long[] {0, 10})
                             .setTicker(getResources().getString(R.string.tweet_success));
 
             NotificationManager mNotificationManager =
