@@ -364,7 +364,7 @@ public class PhotoViewerDialog extends Activity {
         restart.putExtra("url", url);
         restart.putExtra("config_changed", true);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        
+
         // we have to delay it just a little bit so that it isn't consumed by the timeline changing orientation
         new Handler().postDelayed(new Runnable() {
             @Override

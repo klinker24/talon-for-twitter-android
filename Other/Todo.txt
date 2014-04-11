@@ -9,6 +9,7 @@
     - tweetmarker in lists
     - options for themes to hide or show the retweet and favorite button without expansion
     - switch accounts from the widget
+    - rotation on tweet viewer
 
 - Bugs:
     - sideways pictures
@@ -23,6 +24,7 @@
     - Update translations
     - small vibrate when the sent notification goes off
     - convert the sending to a service maybe then test sending images/multiple images
+
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
