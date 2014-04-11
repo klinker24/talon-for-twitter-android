@@ -245,9 +245,7 @@
     <string name="make_a_theme">Luo teema</string>
     <string name="layout">Ulkoasu</string>
     <string name="themeing_complete">Teema sovellettu</string>
-    <string name="themeing_complete_summary">Talon sulkeutuu nyt.\n\n
-Ottaaksesi kaikki muutokset voimaan, sinun täytyy pyyhkäistä Talon pois viimeksi käytetyistä sovelluksista.\n\n
-Jos profiilikuvasi eivät näy niin kuin pitäisi (eli ympyränä tai neliönä), sinun täytyy lisätä widgetti uudelleen.</string>
+    <string name="themeing_complete_summary">Talon sulkeutuu nyt.\n\n\nOttaaksesi kaikki muutokset voimaan, sinun täytyy pyyhkäistä Talon pois viimeksi käytetyistä sovelluksista.\n\n\nJos profiilikuvasi eivät näy niin kuin pitäisi (eli ympyränä tai neliönä), sinun täytyy lisätä widgetti uudelleen.</string>
     <string name="layout_summary">Muuttaminen tyhjentää sovelluksen välimuistin.</string>
     <string name="text_size">Koko</string>
     <string name="night_mode">Yötila</string>
@@ -257,11 +255,7 @@ Jos profiilikuvasi eivät näy niin kuin pitäisi (eli ympyränä tai neliönä)
     <string name="device_font">Käytä laitteen fonttia</string>
     <string name="device_font_summary">\"Roboto\" useimmissa laitteissa. Talonin oletusfontti on \"Roboto Light\".</string>
     <string name="ui_extras">Käyttöliittymän extrat</string>
-    <string name="ui_extras_summary">Sisältää:\n
-- Toimintopalkin piilottaminen\n
-- Käytännöllinen ponnahduspalkki\n
-- Läpinäkyvä järjestelmäpalkit (vain Android 4.4)\n\n
-Asetuksen ottaminen käyttöön vaikuttaa vierityksen suorituskykyyn.</string>
+    <string name="ui_extras_summary">Sisältää:\n\n- Toimintopalkin piilottaminen\n\n- Käytännöllinen ponnahduspalkki\n\n- Läpinäkyvä järjestelmäpalkit (vain Android 4.4)\n\n\nAsetuksen ottaminen käyttöön vaikuttaa vierityksen suorituskykyyn.</string>
     <string name="inline_pics">Näytä upotetut kuvat</string>
     <string name="use_screen_name">Näytä Twitter-nimimerkki</string>
     <string name="use_screen_name_summary">Näyttää käyttäjän Twitter-nimimerkin aikajanoissa heidän nimensä sijaan</string>
@@ -270,9 +264,7 @@ Asetuksen ottaminen käyttöön vaikuttaa vierityksen suorituskykyyn.</string>
     <string name="to_market">Play-kauppaan</string>
     <string name="get_android">Hae Android emojit</string>
     <string name="get_ios">Hae iOS emojit</string>
-    <string name="emoji_dialog_summary">Käyttääksesi emojia sovelluksessa, sinulla täytyy olla \"Sliding Emoji Keyboard\" tai \"Sliding Emoji Keyboard - iOS\" asennettuna, jotka löydät Play-kaupasta.\n\n
-Voit vaihdella kahden emojin välillä poistamalla yhden ja asentamalla toisen. Jos molemmat paketit on asennettua, Talon käyttää Androidin oletusemojeja.\n\n
-HUOM: Emojit jatkavat toimivista sovelluksessa, vaikka kokeilujakso olisi päättynyt! Pakettia käytetään laajennuksena sekä erillisenä näppäimistönä.</string>
+    <string name="emoji_dialog_summary">Käyttääksesi emojia sovelluksessa, sinulla täytyy olla \"Sliding Emoji Keyboard\" tai \"Sliding Emoji Keyboard - iOS\" asennettuna, jotka löydät Play-kaupasta.\n\n\nVoit vaihdella kahden emojin välillä poistamalla yhden ja asentamalla toisen. Jos molemmat paketit on asennettua, Talon käyttää Androidin oletusemojeja.\n\n\nHUOM: Emojit jatkavat toimivista sovelluksessa, vaikka kokeilujakso olisi päättynyt! Pakettia käytetään laajennuksena sekä erillisenä näppäimistönä.</string>
     <string name="theme_light">Vaalea teema</string>
     <string name="theme_dark">Tumma teema</string>
     <string name="theme_black">Musta teema</string>
@@ -298,8 +290,7 @@ HUOM: Emojit jatkavat toimivista sovelluksessa, vaikka kokeilujakso olisi päät
     <string name="dm_sync_interval">Yksityisviestien päivitysväli</string>
     <string name="sync_friends">Synkronoi ystävien tiedot</string>
     <string name="sync_friends_summary2">Synkronoi uudelleen ystävien tiedot, kun kirjoitetaan twiittejä.</string>
-    <string name="sync_friends_summary">Synkronoi ystävälistat manuaalisesti.\n\nTämä suoritettiin sisäänkirjauduttaessa ja ne lisätään automaattisesti kun seuraat jotakuta Talonin kautta, mutta tämä vaihtoehto päivittää kaikki uusimmat \"seuraajat\".\n\n
-Näitä tietoja käytetään, kun etsitään käyttäjiä kirjoittaessa twiittiä.</string>
+    <string name="sync_friends_summary">Synkronoi ystävälistat manuaalisesti.\n\nTämä suoritettiin sisäänkirjauduttaessa ja ne lisätään automaattisesti kun seuraat jotakuta Talonin kautta, mutta tämä vaihtoehto päivittää kaikki uusimmat \"seuraajat\".\n\n\nNäitä tietoja käytetään, kun etsitään käyttäjiä kirjoittaessa twiittiä.</string>
     <string name="sync_success">Synkronointi onnistui</string>
     <string name="sync_failed">Synkronointi epäonnistui</string>
     <string name="push_notification_options">"Push-ilmoitus"</string>
@@ -316,10 +307,7 @@ Näitä tietoja käytetään, kun etsitään käyttäjiä kirjoittaessa twiitti�
     <string name="full_screen_browsers">Koko ruudun selaimet</string>
     <string name="full_screen_browsers_summary">Avaa koko ruudun tilassa twiitit, jotka sisältävät verkkosivun.</string>
     <string name="reverse_click_actions">Käänteiset napautustoiminnot</string>
-    <string name="reverse_click_actions_summary">Käänteiset napautustoiminnot twiiteissä.\n\n
-Oletus (kun pois käytöstä):\n
-- Avaa twiitti pitkällä painalluksella\n
-- Napautus laajentaa twiitin</string>
+    <string name="reverse_click_actions_summary">Käänteiset napautustoiminnot twiiteissä.\n\n\nOletus (kun pois käytöstä):\n\n- Avaa twiitti pitkällä painalluksella\n\n- Napautus laajentaa twiitin</string>
     <string name="extra_pages">Lisäsivut</string>
     <string name="extra_pages_summary">Lisää linkki- ja kuvasivut aikajanan vasemmalle puolelle.</string>
     <string name="live_streaming">Live-striimaus</string>
@@ -421,8 +409,6 @@ Oletus (kun pois käytöstä):\n
     <string name="filling_timeline">Täytetään aikajanan aukot</string>
     <string name="follows_you">Seuraa sinua</string>
     <string name="not_following_you">Ei seuraa sinua</string>
-    <string name="open_to_web">Avaa twiitit verkkosivulle</string>
-    <string name="open_to_web_summary">Jos twiitti sisältää URL-osoitteen, se avautuu suoraan kyseiseen URLiin twiitin sijaan.</string>
     <string name="device">Laitteen fontti</string>
     <string name="roboto_light">Roboto Light (oletus)</string>
     <string name="roboto_condensed">Roboto Condensed</string>
@@ -532,4 +518,6 @@ Oletus (kun pois käytöstä):\n
     <string name="widget_trans_light">Läpinäkyvä vaalea</string>
     <string name="widget_trans_black">Läpinäkyvä musta</string>
     <string name="ui_settings">Käyttöliittymä</string>
+    <string name="open_to_web">Avaa twiitit verkkosivulle</string>
+    <string name="open_to_web_summary">Jos twiitti sisältää URL-osoitteen, se avautuu suoraan kyseiseen URLiin twiitin sijaan.</string>
 </resources>

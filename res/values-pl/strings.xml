@@ -245,9 +245,7 @@
     <string name="make_a_theme">Stwórz motyw</string>
     <string name="layout">Układ</string>
     <string name="themeing_complete">Mowy zastosowany</string>
-    <string name="themeing_complete_summary">Talon zostanie teraz zamknięty. \n\n
- Powinieneś również usunąć go z pamięci podręcznej, aby zmiany mogły zostać zastosowane. \n\n
- Jeżeli Twoje obrazki profilowe nie będą wyświetlane w prawidłowy sposób (np. jako kwadrat lub okrąg), musisz usunąć i dodać ponownie widżet na ekranie domowym.</string>
+    <string name="themeing_complete_summary">Talon zostanie teraz zamknięty. \n\n\n Powinieneś również usunąć go z pamięci podręcznej, aby zmiany mogły zostać zastosowane. \n\n\n Jeżeli Twoje obrazki profilowe nie będą wyświetlane w prawidłowy sposób (np. jako kwadrat lub okrąg), musisz usunąć i dodać ponownie widżet na ekranie domowym.</string>
     <string name="layout_summary">Zmiana tego ustawienia wyczyści pamięć podręczną aplikacji.</string>
     <string name="text_size">Rozmiar tekstu</string>
     <string name="night_mode">Tryb Nocny</string>
@@ -257,11 +255,7 @@
     <string name="device_font">Użyj czcionki systemowej</string>
     <string name="device_font_summary">Większość urządzeń korzysta z \"Roboto\" Domyślnym fontem programu Talon jest \"Roboto Light\"</string>
     <string name="ui_extras">Dodatki interfejsu</string>
-    <string name="ui_extras_summary">Zawiera:\n
- - Ukrycie paska akcji\n
- - Interaktywny pływający pasek\n
- - Przeźroczyste paski systemowe (tylko Android 4.4)\n\n
- Aktywowanie tego ustawienia wpłynie na płynność przewijania.</string>
+    <string name="ui_extras_summary">Zawiera:\n\n - Ukrycie paska akcji\n\n - Interaktywny pływający pasek\n\n - Przeźroczyste paski systemowe (tylko Android 4.4)\n\n\n Aktywowanie tego ustawienia wpłynie na płynność przewijania.</string>
     <string name="inline_pics">Wyświetlaj obrazy</string>
     <string name="use_screen_name">Wyświetlaj loginy z Twittera</string>
     <string name="use_screen_name_summary">Wyświetlaj w strumieniu loginy użytkowników zamiast ich imion.</string>
@@ -270,9 +264,7 @@
     <string name="to_market">Przejdź do sklepu Play</string>
     <string name="get_android">Pobierz emotikony Androida</string>
     <string name="get_ios">Pobierz emotikony iOS</string>
-    <string name="emoji_dialog_summary">Aby aktywować emotikony, musisz pobrać ze sklepu Play pakiet \"Sliding Emoji Keyboard\" albo \"Sliding Emoji Keyboard - iOS\".\n\n
- Możesz przełączać się miedzy tymi dwoma typami emotikon, poprzez odinstalowanie jednego pakietu i instalację drugiego. Jeżeli będą zainstalowane oba, Talon skorzysta z emotikon Androida.\n\n
- UWAGA: Emotikony będą działały w tej aplikacji nawet po wygaśnięciu ich okresu próbnego! Pakiety te mogą być używane zarówno jako dodatek jak i samodzielna klawiatura.</string>
+    <string name="emoji_dialog_summary">Aby aktywować emotikony, musisz pobrać ze sklepu Play pakiet \"Sliding Emoji Keyboard\" albo \"Sliding Emoji Keyboard - iOS\".\n\n\n Możesz przełączać się miedzy tymi dwoma typami emotikon, poprzez odinstalowanie jednego pakietu i instalację drugiego. Jeżeli będą zainstalowane oba, Talon skorzysta z emotikon Androida.\n\n\n UWAGA: Emotikony będą działały w tej aplikacji nawet po wygaśnięciu ich okresu próbnego! Pakiety te mogą być używane zarówno jako dodatek jak i samodzielna klawiatura.</string>
     <string name="theme_light">Jasny motyw</string>
     <string name="theme_dark">Ciemny motyw</string>
     <string name="theme_black">Czarny motyw</string>
@@ -298,8 +290,7 @@
     <string name="dm_sync_interval">Interwał odświeżania wiadomości prywatnych</string>
     <string name="sync_friends">Synchronizuj dane znajomych</string>
     <string name="sync_friends_summary2">Synchronizuj ponownie dane znajomych, aby używać ich podczas tweetowania.</string>
-    <string name="sync_friends_summary">Ręczna synchronizacja listy znajomych.\n\n Czynność ta została wykonana tuż po zalogowaniu, a nowe obserwowane osoby są dodawane automatycznie. Wznawiając ten proces pobierzesz dane wszystkich obserwowanych osób.\n\n
- Dane te są używane podczas wyszukiwania oraz tworzenia nowych tweetów.</string>
+    <string name="sync_friends_summary">Ręczna synchronizacja listy znajomych.\n\n Czynność ta została wykonana tuż po zalogowaniu, a nowe obserwowane osoby są dodawane automatycznie. Wznawiając ten proces pobierzesz dane wszystkich obserwowanych osób.\n\n\n Dane te są używane podczas wyszukiwania oraz tworzenia nowych tweetów.</string>
     <string name="sync_success">Zsynchronizowano!</string>
     <string name="sync_failed">Niepowodzenie!</string>
     <string name="push_notification_options">"Opcje powiadomień typu Push"</string>
@@ -316,10 +307,7 @@
     <string name="full_screen_browsers">Pełnoekranowa przeglądarka</string>
     <string name="full_screen_browsers_summary">Otwieraj tweety zawierające stronę www w trybie pełnoekranowym.</string>
     <string name="reverse_click_actions">Odwrotna reakcja na dotknięcie</string>
-    <string name="reverse_click_actions_summary">Odwróć reakcję na dotknięcie tweeta.\n\n
- Domyślnie (kiedy wyłączone):\n
- - Długie dotknięcie otwiera okienko\n
- - Krótkie dotknięcie rozwija tweeta</string>
+    <string name="reverse_click_actions_summary">Odwróć reakcję na dotknięcie tweeta.\n\n\n Domyślnie (kiedy wyłączone):\n\n - Długie dotknięcie otwiera okienko\n\n - Krótkie dotknięcie rozwija tweeta</string>
     <string name="extra_pages">Użyj dodatkowych ekranów</string>
     <string name="extra_pages_summary">Dodaj ekrany z linkami i obrazkami po lewej stronie strumienia z tweetami.</string>
     <string name="live_streaming">Przekazywanie na żywo</string>
@@ -421,8 +409,6 @@
     <string name="filling_timeline">Wypełnianie luk na osi czasu</string>
     <string name="follows_you">Obserwuje Cię</string>
     <string name="not_following_you">Nie obserwuje Cię</string>
-    <string name="open_to_web">Otwieranie w przeglądarce</string>
-    <string name="open_to_web_summary">Jeżeli Tweet zawiera link, otwarcie go przeniesie od razu pod wskazany adres</string>
     <string name="device">Czcionka systemowa</string>
     <string name="roboto_light">Roboto Light (domyślna)</string>
     <string name="roboto_condensed">Roboto zagęszczona</string>
@@ -532,4 +518,6 @@
     <string name="widget_trans_light">Przeźroczysty ciemny motyw</string>
     <string name="widget_trans_black">Przeźroczysty czarny motyw</string>
     <string name="ui_settings">Ustawienia interfejsu</string>
+    <string name="open_to_web">Otwieranie w przeglądarce</string>
+    <string name="open_to_web_summary">Jeżeli Tweet zawiera link, otwarcie go przeniesie od razu pod wskazany adres</string>
 </resources>
