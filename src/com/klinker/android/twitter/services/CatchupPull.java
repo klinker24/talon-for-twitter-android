@@ -170,12 +170,12 @@ public class CatchupPull extends IntentService {
 
             List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
-            dataSource.insertTweets(statuses, currentAccount);
+            int numNew = dataSource.insertTweets(statuses, currentAccount);
 
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-            if (settings.notifications) {
+            if (settings.notifications && numNew > 0) {
                 NotificationUtils.refreshNotification(context);
             }
 
