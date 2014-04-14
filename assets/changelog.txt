@@ -1,3 +1,7 @@
+<b>Version 2.2.3:</b><br/><br/>
+    &#8226; Small bug fixes<br/>
+</br><br/>
+
 <b>Version 2.2.2:</b><br/><br/>
     &#8226; Image rotation fixes when tweeting<br/>
     &#8226; Rotate the screen in the photo viewer<br/>
