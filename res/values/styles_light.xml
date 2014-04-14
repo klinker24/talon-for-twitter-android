@@ -24,12 +24,13 @@ limitations under the License.
         <item name="android:colorBackground">@color/light_background</item>
         <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:actionBarStyle">@style/LightActionBar</item><item name="android:editTextBackground">@drawable/twitter_edit_text_holo_light</item>
+        <item name="android:actionBarStyle">@style/LightActionBar</item>
+        <item name="android:editTextBackground">@drawable/twitter_edit_text_holo_light</item>
         <item name="android:textColorHighlight">#99ff8800</item>
         <item name="android:textSelectHandleLeft">@drawable/twitter_text_select_handle_left</item>
         <item name="android:textSelectHandleRight">@drawable/twitter_text_select_handle_right</item>
         <item name="android:textSelectHandle">@drawable/twitter_text_select_handle_middle</item>
-        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewTwitter.Light</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewetinBrActinTwitter.Light</item>
         <item name="android:listChoiceIndicatorMultiple">@drawable/twitter_btn_check_holo_light</item>
         <item name="android:buttonStyle">@style/ButtonTwitter.Light</item>
         <item name="android:imageButtonStyle">@style/ImageButtonTwitter.Light</item>
