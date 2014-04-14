@@ -16,6 +16,7 @@
     - talon pull not always getting retweets
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - retweet tab blinking?
+    - https://plus.google.com/102709324688762039539/posts/Tr2WU8QQphx
 
 
 -- For Release --
@@ -26,6 +27,7 @@
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
         - accept followers from a protected account
+        - convert search to fragments with user search and twitter search
 
     Version 2.4.0
         - auto-complete hashtags
