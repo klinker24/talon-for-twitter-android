@@ -16,12 +16,13 @@
     - talon pull not always getting retweets
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - retweet tab blinking?
-    - https://plus.google.com/102709324688762039539/posts/Tr2WU8QQphx
 
 
 -- For Release --
 
     - convert the sending to a service maybe then test sending images/multiple images
+    - https://plus.google.com/102709324688762039539/posts/Tr2WU8QQphx
+    - favorite users that mention you gives 2 notifications
 
     Version 2.3.0
         - Scheduled Tweets
