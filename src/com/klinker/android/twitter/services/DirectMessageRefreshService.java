@@ -92,7 +92,7 @@ public class DirectMessageRefreshService extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
 
-            if (settings.notifications && inserted > 0) {
+            if (settings.notifications && settings.dmsNot && inserted > 0) {
                 int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
                 sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).commit();
 

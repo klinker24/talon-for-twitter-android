@@ -175,7 +175,7 @@ public class CatchupPull extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-            if (settings.notifications && numNew > 0) {
+            if (settings.notifications && settings.mentionsNot && numNew > 0) {
                 NotificationUtils.refreshNotification(context);
             }
 
