@@ -1,52 +1,29 @@
 package com.klinker.android.twitter.utils;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.View;
-import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
 
-import java.io.InputStream;
 import java.util.Date;
-import java.util.List;
 
-import twitter4j.DirectMessage;
-import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
 
 public class Utils {
 

@@ -113,7 +113,7 @@ public class CategoryFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "Couldn't find your location!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

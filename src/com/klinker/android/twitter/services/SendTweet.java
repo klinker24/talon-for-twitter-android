@@ -355,7 +355,7 @@ public class SendTweet extends Service {
             mNotificationManager.notify(6, mBuilder.build());
             // cancel it immediately, the ticker will just go off
             mNotificationManager.cancel(6);
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
             // not attached to activity
         }
     }
