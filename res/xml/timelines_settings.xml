@@ -80,6 +80,15 @@
     <PreferenceCategory
         android:title="@string/other_options" >
 
+        <ListPreference
+            android:key="viewer_page"
+            android:title="@string/viewer_page"
+            android:summary="@string/viewer_page_summary"
+            android:defaultValue="0"
+            android:entries="@array/viewer_page"
+            android:entryValues="@array/viewer_page_inserted"
+            />
+
         <CheckBoxPreference
             android:key="reverse_click_option"
             android:title="@string/reverse_click_actions"

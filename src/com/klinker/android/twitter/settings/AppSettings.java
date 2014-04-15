@@ -47,6 +47,10 @@ public class AppSettings {
     public static final int WIDGET_TRANS_LIGHT = 2;
     public static final int WIDGET_TRANS_BLACK = 3;
 
+    public static final int PAGE_TWEET = 0;
+    public static final int PAGE_WEB = 1;
+    public static final int PAGE_CONVO = 2;
+
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
     public static final int PAGE_TYPE_LINKS = 2;
@@ -136,6 +140,7 @@ public class AppSettings {
     public int timelineSize;
     public int mentionsSize;
     public int dmSize;
+    public int pageToOpen;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -254,6 +259,8 @@ public class AppSettings {
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "500"));
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
+        pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
+
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));

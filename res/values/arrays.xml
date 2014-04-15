@@ -13,6 +13,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="viewer_page">
+        <item>@string/tweet_page</item>
+        <item>@string/web_page</item>
+        <item>@string/conversation_page</item>
+    </string-array>
+
+    <string-array name="viewer_page_inserted">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="choose_layout">
         <item>@string/app_name</item>
         <item>@string/layout_hangouts</item>

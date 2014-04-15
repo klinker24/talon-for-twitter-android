@@ -147,13 +147,48 @@ public class TweetPager extends YouTubeBaseActivity {
 
         switch (numberOfPages) {
             case 2:
-                pager.setCurrentItem(0);
+                if (settings.pageToOpen == AppSettings.PAGE_CONVO) {
+                    pager.setCurrentItem(1);
+                } else {
+                    pager.setCurrentItem(0);
+                }
                 break;
             case 3:
-                pager.setCurrentItem(1);//sharedPrefs.getBoolean("open_to_web", true) ? 0 : 1);
+                if (mSectionsPagerAdapter.getHasWebpage()) {
+                    switch (settings.pageToOpen) {
+                        case AppSettings.PAGE_CONVO:
+                            pager.setCurrentItem(2);
+                            break;
+                        case AppSettings.PAGE_WEB:
+                            pager.setCurrentItem(0);
+                            break;
+                        default:
+                            pager.setCurrentItem(1);
+                            break;
+                    }
+                } else { // no web page
+                    switch (settings.pageToOpen) {
+                        case AppSettings.PAGE_CONVO:
+                            pager.setCurrentItem(2);
+                            break;
+                        default:
+                            pager.setCurrentItem(1);
+                            break;
+                    }
+                }
                 break;
-            case 4:
-                pager.setCurrentItem(2);//sharedPrefs.getBoolean("open_to_web", true) ? 0 : 2);
+            case 4: // webpage and youtube
+                switch (settings.pageToOpen) {
+                    case AppSettings.PAGE_CONVO:
+                        pager.setCurrentItem(3);
+                        break;
+                    case AppSettings.PAGE_WEB:
+                        pager.setCurrentItem(1);
+                        break;
+                    default:
+                        pager.setCurrentItem(0);
+                        break;
+                }
                 break;
         }
 
