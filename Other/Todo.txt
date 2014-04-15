@@ -22,7 +22,6 @@
 
     - convert the sending to a service maybe then test sending images/multiple images
     - https://plus.google.com/102709324688762039539/posts/Tr2WU8QQphx
-    - favorite users that mention you gives 2 notifications
 
     Version 2.3.0
         - Scheduled Tweets
