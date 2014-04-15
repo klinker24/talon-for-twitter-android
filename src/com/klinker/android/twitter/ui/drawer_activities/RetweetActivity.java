@@ -169,7 +169,7 @@ public class RetweetActivity extends DrawerActivity {
 
                     final ResponseList<twitter4j.Status> favs = twitter.getRetweetsOfMe(paging);
 
-                    if (favs.size() > 17) {
+                    if (favs.size() < 17) {
                         hasMore = false;
                     }
 

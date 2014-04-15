@@ -22,6 +22,7 @@
 -- For Release --
 
     - convert the sending to a service maybe then test sending images/multiple images
+    - option to choose what page to open to
 
     Version 2.3.0
         - Scheduled Tweets
