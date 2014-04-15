@@ -39,6 +39,16 @@ public class BrowserActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        } catch (Exception e) {
+            // oops, something went wrong... don't quite know what though, or why
+            startActivity(new Intent(this, BrowserActivity.class).putExtra("url", url));
+            overridePendingTransition(0,0);
+            finish();
+            return;
+        }
+
         context = this;
 
         overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
@@ -47,25 +57,16 @@ public class BrowserActivity extends Activity {
 
         url = getIntent().getStringExtra("url");
 
-        setUpLayout();
-
         Utils.setUpTheme(this, settings);
         Utils.setActionBar(this);
+
+        setUpLayout();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
     public void setUpLayout() {
-        try {
-            getWindow().requestFeature(Window.FEATURE_PROGRESS);
-        } catch (Exception e) {
-            // oops, something went wrong...
-            startActivity(new Intent(this, BrowserActivity.class).putExtra("url", url));
-            overridePendingTransition(0,0);
-            finish();
-            return;
-        }
 
         browser = new HTML5WebView(this);
         setContentView(browser.getLayout());
