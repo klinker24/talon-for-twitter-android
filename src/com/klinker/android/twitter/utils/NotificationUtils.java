@@ -542,6 +542,10 @@ public class NotificationUtils {
 
         AppSettings settings = AppSettings.getInstance(context);
 
+        if (shortText.contains("@" + settings.myScreenName)) {
+            // return because there is a mention notification for this already
+            return;
+        }
         if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)

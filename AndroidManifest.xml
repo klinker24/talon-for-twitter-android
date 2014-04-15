@@ -305,6 +305,7 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.TalonDark.Popup" >
         </activity>
 
@@ -313,6 +314,7 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.TalonDark.Popup" >
         </activity>
 
@@ -321,6 +323,7 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.TalonDark.Popup" >
 
             <intent-filter>
@@ -341,6 +344,7 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.TalonDark.Popup" >
         </activity>
 
