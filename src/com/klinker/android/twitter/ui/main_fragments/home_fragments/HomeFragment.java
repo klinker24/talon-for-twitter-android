@@ -193,17 +193,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    // this is for when they are live streaming and get to the top of the feed, the "View" button comes up.
-                    if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
-                        if (liveUnread > 0) {
-                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                    getResources().getString(R.string.view),
-                                    400,
-                                    false,
-                                    liveStreamRefresh);
-                        }
-                    }
-
                     if (DrawerActivity.settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
@@ -240,6 +229,17 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
                     }
 
+                    // this is for when they are live streaming and get to the top of the feed, the "View" button comes up.
+                    if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
+                        if (liveUnread > 0) {
+                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                    getResources().getString(R.string.view),
+                                    400,
+                                    false,
+                                    liveStreamRefresh);
+                        }
+                    }
+
                 }
             });
         } else {
@@ -260,16 +260,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
-                        if (liveUnread > 0) {
-                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                    getResources().getString(R.string.view),
-                                    400,
-                                    true,
-                                    liveStreamRefresh);
-                        }
-                    }
 
                     if (DrawerActivity.settings.uiExtras) {
                         if (firstVisibleItem != 0) {
@@ -300,6 +290,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             showStatusBar();
                         } else if (MainActivity.translucent) {
                             hideStatusBar();
+                        }
+                    }
+
+                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
+                        if (liveUnread > 0) {
+                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                    getResources().getString(R.string.view),
+                                    400,
+                                    false,
+                                    liveStreamRefresh);
                         }
                     }
 
@@ -1209,7 +1209,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
         try {
-            if (!isToastShowing || buttonText.equals(getString(R.string.view))) {
+            if (!isToastShowing) {
                 infoBar = quit;
 
                 mLength = length;
@@ -1243,7 +1243,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 });
                 anim.setDuration(length);
                 toastBar.startAnimation(anim);
-            } else if (!infoBar) {
+            } else if (isToastShowing && !infoBar) {
                 toastDescription.setText(description);
             }
         } catch (Exception e) {
