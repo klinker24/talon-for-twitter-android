@@ -125,7 +125,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 getResources().getString(R.string.view),
                                 400,
                                 true,
-                                liveStreamRefresh);
+                                liveStreamRefresh,
+                                true);
                     } catch (Exception e) {
                         // fragment not attached to activity
                     }
@@ -227,6 +228,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         } else if (MainActivity.translucent) {
                             hideStatusBar();
                         }
+                    } else {
+                        hideToastBar(400);
                     }
 
                     // this is for when they are live streaming and get to the top of the feed, the "View" button comes up.
@@ -236,10 +239,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                     getResources().getString(R.string.view),
                                     400,
                                     false,
-                                    liveStreamRefresh);
+                                    liveStreamRefresh,
+                                    true);
                         }
                     }
-
                 }
             });
         } else {
@@ -260,6 +263,21 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
+                        if (liveUnread > 0) {
+                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                    getResources().getString(R.string.view),
+                                    400,
+                                    false,
+                                    liveStreamRefresh,
+                                    true);
+                        } else {
+                            hideToastBar(400);
+                        }
+                    } else {
+                        hideToastBar(400);
+                    }
 
                     if (DrawerActivity.settings.uiExtras) {
                         if (firstVisibleItem != 0) {
@@ -290,16 +308,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             showStatusBar();
                         } else if (MainActivity.translucent) {
                             hideStatusBar();
-                        }
-                    }
-
-                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
-                        if (liveUnread > 0) {
-                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                    getResources().getString(R.string.view),
-                                    400,
-                                    false,
-                                    liveStreamRefresh);
                         }
                     }
 
@@ -1208,42 +1216,64 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
     public long mLength;
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        showToastBar(description, buttonText, length, quit, listener, false);
+    }
+
+    boolean topViewToastShowing = false;
+
+    public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
         try {
-            if (!isToastShowing) {
-                infoBar = quit;
-
-                mLength = length;
-
-                toastDescription.setText(description);
-                toastButton.setText(buttonText);
-                toastButton.setOnClickListener(listener);
-
-                handler.removeCallbacks(hideToast);
-                isToastShowing = true;
-                toastBar.setVisibility(View.VISIBLE);
-
-                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                anim.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
+            if (!isToastShowing || isLive) {
+                if (isToastShowing) {
+                    if (topViewToastShowing) {
+                        return;
                     }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        if (quit) {
-                            handler.postDelayed(hideToast, 3000);
+                    infoBar = false;
+                    hideToastBar(300);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            topViewToastShowing = true;
+                            showToastBar(description, buttonText, length, quit, listener, false);
                         }
-                    }
+                    }, 350);
+                } else {
+                    infoBar = quit;
 
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
+                    mLength = length;
 
-                    }
-                });
-                anim.setDuration(length);
-                toastBar.startAnimation(anim);
-            } else if (isToastShowing && !infoBar) {
+                    toastDescription.setText(description);
+                    toastButton.setText(buttonText);
+                    toastButton.setOnClickListener(listener);
+
+                    handler.removeCallbacks(hideToast);
+                    isToastShowing = true;
+                    toastBar.setVisibility(View.VISIBLE);
+
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                    anim.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            if (quit) {
+                                handler.postDelayed(hideToast, 3000);
+                            }
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    anim.setDuration(length);
+                    toastBar.startAnimation(anim);
+                }
+            } else if (!infoBar) {
+                // this will change the # from top
                 toastDescription.setText(description);
             }
         } catch (Exception e) {
@@ -1254,12 +1284,20 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
     public boolean isHiding = false;
 
     public void hideToastBar(long length) {
+        hideToastBar(length, false);
+    }
+
+    public void hideToastBar(long length, boolean force) {
         try {
             mLength = length;
 
             // quit if the toast isn't showing or it is an info bar, since those will hide automatically
             if (!isToastShowing || infoBar || isHiding) {
-                return;
+                if (force && toastBar.getVisibility() == View.VISIBLE) {
+
+                } else {
+                    return;
+                }
             }
 
             Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
@@ -1272,6 +1310,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     isToastShowing = false;
+                    topViewToastShowing = false;
                     infoBar = false;
                     isHiding = false;
                     toastBar.setVisibility(View.GONE);
