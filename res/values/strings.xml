@@ -589,5 +589,10 @@
     <string name="pre_cache_summary">Download images immediately as they are live streamed or retrieved from a background refresh of the timeline.</string>
     <string name="pre_cache_settings">Pre-Cache Options</string>
     <string name="pre_cache_only_wifi">Only Over WiFi</string>
+    <string name="tweet_page">Tweet Page</string>
+    <string name="web_page">Web Page</string>
+    <string name="conversation_page">Conversation Page</string>
+    <string name="viewer_page">Tweet Viewer</string>
+    <string name="viewer_page_summary">Default page to open to when viewing a tweet.</string>
 
 </resources>
