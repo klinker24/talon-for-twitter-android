@@ -578,15 +578,29 @@ public class ProfilePager extends Activity {
                 return true;
 
             case R.id.menu_change_picture:
-                Intent proPickerIntent = new Intent(Intent.ACTION_PICK);
-                proPickerIntent.setType("image/*");
-                startActivityForResult(proPickerIntent, SELECT_PRO_PIC);
+                Intent photoPickerIntent = new Intent();
+                photoPickerIntent.setType("image/*");
+                photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                try {
+                    startActivityForResult(Intent.createChooser(photoPickerIntent,
+                            "Select Picture"), SELECT_PRO_PIC);
+                } catch (Throwable t) {
+                    // no app to preform this..? hmm, tell them that I guess
+                    Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                }
                 return true;
 
             case R.id.menu_change_banner:
-                Intent bannerPickerIntent = new Intent(Intent.ACTION_PICK);
+                Intent bannerPickerIntent = new Intent();
                 bannerPickerIntent.setType("image/*");
-                startActivityForResult(bannerPickerIntent, SELECT_BANNER);
+                bannerPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                try {
+                    startActivityForResult(Intent.createChooser(bannerPickerIntent,
+                            "Select Picture"), SELECT_BANNER);
+                } catch (Throwable t) {
+                    // no app to preform this..? hmm, tell them that I guess
+                    Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                }
                 return true;
 
             case  R.id.menu_change_bio:
