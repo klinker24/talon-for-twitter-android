@@ -928,7 +928,7 @@ public abstract class DrawerActivity extends Activity {
         final int SETTINGS = 5;
         final int TOFIRST = 6;
 
-        if (mDrawerLayout.isDrawerOpen(Gravity.END)) {
+        if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT) || sharedPrefs.getBoolean("open_interactions", false)) {
             menu.getItem(DISMISS).setVisible(true);
 
             menu.getItem(SEARCH).setVisible(false);
