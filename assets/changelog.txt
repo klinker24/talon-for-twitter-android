@@ -1,4 +1,9 @@
 <b>Version 2.2.3:</b><br/><br/>
+    &#8226; Small reported bug fixes<br/>
+    &#8226; Some crash fixes<br/>
+</br><br/>
+
+<b>Version 2.2.3:</b><br/><br/>
     &#8226; Small bug fixes<br/>
 </br><br/>
 

@@ -71,7 +71,7 @@ public class SecondMentionsRefreshService extends IntentService {
 
             numberNew = dataSource.insertTweets(statuses, currentAccount);
 
-            if (numberNew > 0 && settings.notifications) {
+            if (numberNew > 0 && settings.notifications && settings.mentionsNot) {
                 NotificationUtils.notifySecondMentions(context, currentAccount);
             }
 
