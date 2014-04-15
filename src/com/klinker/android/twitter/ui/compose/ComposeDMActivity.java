@@ -352,16 +352,30 @@ public class ComposeDMActivity extends Compose {
                     startActivityForResult(captureIntent, CAPTURE_IMAGE);
                 } else { // attach picture
                     if (attachedUri == null || attachedUri.equals("")) {
-                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        Intent photoPickerIntent = new Intent();
                         photoPickerIntent.setType("image/*");
-                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        try {
+                            startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                    "Select Picture"), SELECT_PHOTO);
+                        } catch (Throwable t) {
+                            // no app to preform this..? hmm, tell them that I guess
+                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         attachedUri = "";
                         attachImage.setImageDrawable(null);
                         attachImage.setVisibility(View.GONE);
-                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        Intent photoPickerIntent = new Intent();
                         photoPickerIntent.setType("image/*");
-                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        try {
+                            startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                    "Select Picture"), SELECT_PHOTO);
+                        } catch (Throwable t) {
+                            // no app to preform this..? hmm, tell them that I guess
+                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

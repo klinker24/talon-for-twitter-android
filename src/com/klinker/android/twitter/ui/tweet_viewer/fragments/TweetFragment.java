@@ -744,9 +744,16 @@ public class TweetFragment extends Fragment {
                             startActivityForResult(captureIntent, CAPTURE_IMAGE);
                         } else { // attach picture
                             if (attachedUri == null || attachedUri.equals("")) {
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                Intent photoPickerIntent = new Intent();
                                 photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                                photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                                try {
+                                    startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                            "Select Picture"), SELECT_PHOTO);
+                                } catch (Throwable t) {
+                                    // no app to preform this..? hmm, tell them that I guess
+                                    Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 attachedUri = "";
 
@@ -754,9 +761,16 @@ public class TweetFragment extends Fragment {
                                 int resource = a.getResourceId(0, 0);
                                 a.recycle();
                                 attachImage.setImageDrawable(context.getResources().getDrawable(resource));
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                                Intent photoPickerIntent = new Intent();
                                 photoPickerIntent.setType("image/*");
-                                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                                photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                                try {
+                                    startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                            "Select Picture"), SELECT_PHOTO);
+                                } catch (Throwable t) {
+                                    // no app to preform this..? hmm, tell them that I guess
+                                    Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 

@@ -362,10 +362,12 @@ public class ComposeActivity extends Compose {
                     }
                 } else { // attach picture
 
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    Intent photoPickerIntent = new Intent();
                     photoPickerIntent.setType("image/*");
+                    photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
                     try {
-                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                        startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                "Select Picture"), SELECT_PHOTO);
                     } catch (Throwable t) {
                         // no app to preform this..? hmm, tell them that I guess
                         Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
