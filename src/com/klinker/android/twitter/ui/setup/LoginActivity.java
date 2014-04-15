@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -31,6 +32,7 @@ import android.widget.ViewSwitcher;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.FollowersSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
@@ -42,6 +44,7 @@ import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.Date;
@@ -541,11 +544,19 @@ public class LoginActivity extends Activity {
 
                     long nextCursor = friendsPaging.getNextCursor();
 
+                    final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
+                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+
                     while (nextCursor != -1) {
                         friendsPaging = twitter.getFriendsList(user.getId(), nextCursor);
 
                         for (User friend : friendsPaging) {
                             followers.createUser(friend, currentAccount);
+
+                            // insert them into the suggestion search provider
+                            suggestions.saveRecentQuery(
+                                    "@" + friend.getScreenName(),
+                                    null);
                         }
 
                         nextCursor = friendsPaging.getNextCursor();
