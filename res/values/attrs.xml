@@ -90,6 +90,7 @@ limitations under the License.
     <attr name="rateIt" format="reference"/>
     <attr name="favUser" format="reference"/>
     <attr name="listIcon" format="reference"/>
+    <attr name="memManagement" format="reference"/>
 
     <!-- Actionbar Icons -->
     <attr name="actionbar" format="reference"/>
