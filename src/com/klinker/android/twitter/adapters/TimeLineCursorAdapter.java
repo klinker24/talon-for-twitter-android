@@ -1258,6 +1258,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         text = " RT @" + name + ": " + text;
                     }
                     intent.putExtra("user", text);
+                    intent.putExtra("id", tweetId);
 
                     if (isHomeTimeline) {
                         sharedPrefs.edit()

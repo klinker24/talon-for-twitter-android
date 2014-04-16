@@ -475,6 +475,8 @@ public class TweetFragment extends Fragment {
 
                     Intent intent = new Intent(context, ComposeActivity.class);
                     intent.putExtra("user", text);
+                    intent.putExtra("id", tweetId);
+
                     startActivity(intent);
                 }
             });
