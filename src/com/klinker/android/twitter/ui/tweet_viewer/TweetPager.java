@@ -586,6 +586,8 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 Intent quote = new Intent(context, ComposeActivity.class);
                 quote.putExtra("user", text);
+                quote.putExtra("id", tweetId);
+
                 startActivity(quote);
 
                 return true;

@@ -1091,6 +1091,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         text = " RT @" + name + ": " + text;
                     }
                     intent.putExtra("user", text);
+                    intent.putExtra("id", id);
+
                     context.startActivity(intent);
                 }
 
