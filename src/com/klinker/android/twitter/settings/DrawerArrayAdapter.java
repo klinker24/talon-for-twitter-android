@@ -111,12 +111,12 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
             a.recycle();
             holder.icon.setImageResource(resource);
         } else if (text.get(position).equals(context.getResources().getString(R.string.memory_manage))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.rateIt});
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.memManagement});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);
         } else if (text.get(position).equals(context.getResources().getString(R.string.browser_settings))) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.worldTrends});
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             holder.icon.setImageResource(resource);

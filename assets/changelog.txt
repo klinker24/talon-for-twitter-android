@@ -1,4 +1,4 @@
-<b>Version 2.2.3:</b><br/><br/>
+<b>Version 2.2.4:</b><br/><br/>
     &#8226; Choice of which page to open a tweet to (under Timeline Settings)<br/>
     &#8226; Image loading fixes<br/>
     &#8226; Settings cleanup<br/>
