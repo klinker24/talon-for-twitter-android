@@ -368,10 +368,18 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = false;
-
                     Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+
+                    }
 
                     // Add to cache
                     if (b != null) {

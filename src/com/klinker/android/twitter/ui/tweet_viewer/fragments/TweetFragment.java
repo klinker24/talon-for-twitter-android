@@ -157,41 +157,6 @@ public class TweetFragment extends Fragment {
         }
     };
 
-    public BroadcastReceiver reloadPic = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.v("talon_picture_loading", "reloading the image that has been put in the cache");
-            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
-        }
-    };
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.FINISHED_IMAGE");
-        context.registerReceiver(reloadPic, filter);
-    }
-
-    @Override
-    public void onPause() {
-        context.unregisterReceiver(reloadPic);
-        super.onPause();
-    }
-
-    /*@Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-
-        if (level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_RUNNING_LOW) {
-            Log.v("talon_recycling", "trimming picture in tweet viewer");
-            try {
-                ((BitmapDrawable)pictureIv.getDrawable()).getBitmap().recycle();
-            } catch (Exception e) { }
-        }
-    }*/
-
     public TweetFragment(AppSettings settings, String name, String screenName, String tweet, long time, String retweeter, String webpage,
                          String proPic, long tweetId, boolean picture, String[] users, String[] hashtags, String[] links,
                          boolean isMyTweet, boolean isMyRetweet) {
@@ -533,9 +498,7 @@ public class TweetFragment extends Fragment {
         });
 
         if(picture) { // if there is a picture already loaded
-
-            pictureIv.setVisibility(View.VISIBLE);
-            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache(), true);
+            Log.v("talon_picture_loading", "picture load started");
 
             mAttacher = new PhotoViewAttacher(pictureIv);
             mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
@@ -544,6 +507,9 @@ public class TweetFragment extends Fragment {
                     context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
                 }
             });
+
+            pictureIv.setVisibility(View.VISIBLE);
+            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
 
             expand.setOnClickListener(new View.OnClickListener() {
                 @Override
