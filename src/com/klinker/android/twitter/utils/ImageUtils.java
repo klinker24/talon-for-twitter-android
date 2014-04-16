@@ -1,5 +1,7 @@
 package com.klinker.android.twitter.utils;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -362,17 +364,7 @@ public class ImageUtils {
         return bmOverlay;
     }
 
-    static ImageUrlAsyncTask mCurrentTask;
-
     public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache) {
-        loadImage(context, iv, url, mCache, false);
-    }
-
-    public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache, boolean broadcastDone) {
-        // First check whether there's already a task running, if so cancel it
-        if (null != mCurrentTask) {
-            mCurrentTask.cancel(true);
-        }
 
         if (url == null) {
             return;
@@ -382,112 +374,95 @@ public class ImageUtils {
 
         if (null != wrapper && iv.getVisibility() != View.GONE) {
             // The cache has it, so just display it
-            iv.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+            iv.setImageDrawable(wrapper);
 
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
             iv.startAnimation(fadeInAnimation);
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
             iv.setImageDrawable(null);
 
-            mCurrentTask = new ImageUrlAsyncTask(context, iv, mCache, false, broadcastDone);
-
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    SDK11.executeOnThreadPool(mCurrentTask, url);
-                } else {
-                    mCurrentTask.execute(url);
-                }
-            } catch (RejectedExecutionException e) {
-                // This shouldn't happen, but might.
-            }
+            imageUrlAsyncTask(context, iv, mCache, false, url);
 
         }
     }
 
-    private static class ImageUrlAsyncTask
-            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
+    private static void imageUrlAsyncTask(final Context context, final ImageView imageView, final BitmapLruCache mCache, final boolean profile, final String url) {
 
-        private BitmapLruCache mCache;
-        private Context context;
-        private final WeakReference<ImageView> mImageViewRef;
-        public ImageView iv;
-        public boolean largerProfile;
-        public boolean broadcastDone;
+        final WeakReference<ImageView> mImageViewRef = new WeakReference<ImageView>(imageView);
 
-        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, boolean profile, boolean broadcastDone) {
-            this.context = context;
-            mCache = cache;
-            mImageViewRef = new WeakReference<ImageView>(imageView);
-            iv = imageView;
-            this.largerProfile = profile;
-            this.broadcastDone = broadcastDone;
-        }
-
-        @Override
-        protected CacheableBitmapDrawable doInBackground(String... params) {
-            try {
-                // Return early if the ImageView has disappeared.
-                if (null == mImageViewRef.get()) {
-                    return null;
-                }
-                final String url = params[0];
-
-                // Now we're not on the main thread we can check all caches
-                CacheableBitmapDrawable result;
-
-                result = mCache.get(url, null);
-
-                if (null == result || largerProfile) {
-
-                    // The bitmap isn't cached so download from the web
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = false;
-
-                    Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-
-                    // Add to cache
-                    if (b != null) {
-                        result = mCache.put(url, b);
+        Thread imageDownload = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Return early if the ImageView has disappeared.
+                    if (null == mImageViewRef.get()) {
+                        return;
                     }
 
-                }
+                    // Now we're not on the main thread we can check all caches
+                    CacheableBitmapDrawable result;
 
-                return result;
+                    result = mCache.get(url, null);
 
-            } catch (IOException e) {
-                Log.e("ImageUrlAsyncTask", e.toString());
-            } catch (OutOfMemoryError e) {
-                Log.v("ImageUrlAsyncTask", "Out of memory error here");
-            }
+                    if (null == result || profile) {
 
-            return null;
-        }
+                        // The bitmap isn't cached so download from the web
+                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                        InputStream is = new BufferedInputStream(conn.getInputStream());
 
-        @Override
-        protected void onPostExecute(CacheableBitmapDrawable result) {
-            super.onPostExecute(result);
+                        Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
 
-            try {
-                final ImageView iv = mImageViewRef.get();
+                        try {
+                            is.close();
+                        } catch (Exception e) {
 
-                if (null != iv && iv.getVisibility() != View.GONE) {
-                    iv.setImageDrawable(result);
-                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                        }
+                        try {
+                            conn.disconnect();
+                        } catch (Exception e) {
 
-                    iv.startAnimation(fadeInAnimation);
+                        }
 
-                    if (broadcastDone) {
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.FINISHED_IMAGE"));
+                        // Add to cache
+                        if (b != null) {
+                            result = mCache.put(url, b);
+                        }
                     }
+
+                    final CacheableBitmapDrawable fResult = result;
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                final ImageView iv = mImageViewRef.get();
+
+                                if (null != iv && iv.getVisibility() != View.GONE) {
+                                    iv.setImageDrawable(fResult);
+                                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+                                    iv.startAnimation(fadeInAnimation);
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                } catch (IOException e) {
+                    Log.e("ImageUrlAsyncTask", e.toString());
+                } catch (OutOfMemoryError e) {
+                    Log.v("ImageUrlAsyncTask", "Out of memory error here");
+                } catch (Exception e) {
+                    // something else
+                    e.printStackTrace();
                 }
-
-            } catch (Exception e) {
-
             }
-        }
+        });
+
+        imageDownload.setPriority(8);
+        imageDownload.start();
     }
 
     public static Bitmap decodeSampledBitmapFromResourceMemOpt(

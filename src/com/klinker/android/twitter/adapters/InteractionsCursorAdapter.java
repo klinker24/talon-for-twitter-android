@@ -455,8 +455,22 @@ public class InteractionsCursorAdapter extends CursorAdapter {
                     Bitmap b = BitmapFactory.decodeStream(is);
                     b = ImageUtils.getCircle(b, context);
 
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+
+                    }
+
+
                     // Add to cache
-                    result = mCache.put(url, b);
+                    if (b != null) {
+                        result = mCache.put(url, b);
+                    }
 
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
