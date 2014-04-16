@@ -90,10 +90,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 context.getResources().getString(R.string.timelines_settings),
                 context.getResources().getString(R.string.sync_settings),
                 context.getResources().getString(R.string.notification_settings),
+                context.getResources().getString(R.string.browser_settings),
                 context.getResources().getString(R.string.advanced_settings),
+                context.getResources().getString(R.string.memory_manage),
                 context.getResources().getString(R.string.get_help_settings),
                 context.getResources().getString(R.string.other_apps),
-                context.getResources().getString(R.string.whats_new),
                 context.getResources().getString(R.string.rate_it)};
 
         this.context = context;
@@ -128,18 +129,223 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 setUpNotificationSettings();
                 break;
             case 4:
+                addPreferencesFromResource(R.xml.browser_settings);
+                setUpBrowserSettings();
+                break;
+            case 5:
                 addPreferencesFromResource(R.xml.advanced_settings);
                 setUpAdvancedSettings();
                 break;
-            case 5:
+            case 6:
+                addPreferencesFromResource(R.xml.memory_management_settings);
+                setUpMemManagementSettings();
+                break;
+            case 7:
                 addPreferencesFromResource(R.xml.get_help_settings);
                 setUpGetHelpSettings();
                 break;
-            case 6:
+            case 8:
                 addPreferencesFromResource(R.xml.other_apps_settings);
                 setUpOtherAppSettings();
                 break;
         }
+    }
+
+    public void setUpBrowserSettings() {
+
+    }
+
+    public void setUpMemManagementSettings() {
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        Preference clearSearch = findPreference("clear_searches");
+        clearSearch.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
+                        MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+                suggestions.clearHistory();
+                return false;
+            }
+        });
+
+        Preference backup = findPreference("backup");
+        backup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.backup_settings_dialog))
+                        .setMessage(context.getResources().getString(R.string.backup_settings_dialog_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
+                                IOUtils.saveSharedPreferencesToFile(des, context);
+
+                                Toast.makeText(context, context.getResources().getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
+
+        Preference restore = findPreference("restore");
+        restore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+
+                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
+
+                String authenticationToken1 = sharedPrefs.getString("authentication_token_1", "none");
+                String authenticationTokenSecret1 = sharedPrefs.getString("authentication_token_secret_1", "none");
+                String myScreenName1 = sharedPrefs.getString("twitter_screen_name_1", "");
+                String myName1 = sharedPrefs.getString("twitter_users_name_1", "");
+                String myBackgroundUrl1 = sharedPrefs.getString("twitter_background_url_1", "");
+                String myProfilePicUrl1 = sharedPrefs.getString("profile_pic_url_1", "");
+                long lastTweetId1 = sharedPrefs.getLong("last_tweet_id_1", 0);
+                long secondLastTweetId1 = sharedPrefs.getLong("second_last_tweet_id_1", 0);
+                long lastMentionId1 = sharedPrefs.getLong("last_mention_id_1", 0);
+                long lastDMId1 = sharedPrefs.getLong("last_dm_id_1", 0);
+                long twitterId1 = sharedPrefs.getLong("twitter_id_1", 0);
+                boolean isloggedin1 = sharedPrefs.getBoolean("is_logged_in_1", false);
+
+                String authenticationToken2 = sharedPrefs.getString("authentication_token_2", "none");
+                String authenticationTokenSecret2 = sharedPrefs.getString("authentication_token_secret_2", "none");
+                String myScreenName2 = sharedPrefs.getString("twitter_screen_name_2", "");
+                String myName2 = sharedPrefs.getString("twitter_users_name_2", "");
+                String myBackgroundUrl2 = sharedPrefs.getString("twitter_background_url_2", "");
+                String myProfilePicUrl2 = sharedPrefs.getString("profile_pic_url_2", "");
+                long lastTweetId2 = sharedPrefs.getLong("last_tweet_id_2", 0);
+                long secondLastTweetId2 = sharedPrefs.getLong("second_last_tweet_id_2", 0);
+                long lastMentionId2 = sharedPrefs.getLong("last_mention_id_2", 0);
+                long lastDMId2 = sharedPrefs.getLong("last_dm_id_2", 0);
+                long twitterId2 = sharedPrefs.getLong("twitter_id_2", 0);
+                boolean isloggedin2 = sharedPrefs.getBoolean("is_logged_in_2", false);
+
+                IOUtils.loadSharedPreferencesFromFile(des, context);
+
+                Toast.makeText(context, context.getResources().getString(R.string.restore_success), Toast.LENGTH_LONG).show();
+
+                SharedPreferences.Editor e = sharedPrefs.edit();
+
+                e.putString("authentication_token_1", authenticationToken1);
+                e.putString("authentication_token_secret_1", authenticationTokenSecret1);
+                e.putString("twitter_screen_name_1", myScreenName1);
+                e.putString("twitter_users_name_1", myName1);
+                e.putString("twitter_background_url_1", myBackgroundUrl1);
+                e.putString("profile_pic_url_1", myProfilePicUrl1);
+                e.putString("favorite_user_names_1", "");
+                e.putLong("last_tweet_id_1", lastTweetId1);
+                e.putLong("second_last_tweet_id_1", secondLastTweetId1);
+                e.putLong("last_mention_id_1", lastMentionId1);
+                e.putLong("last_dm_id_1", lastDMId1);
+                e.putLong("twitter_id_1", twitterId1);
+                e.putBoolean("is_logged_in_1", isloggedin1);
+
+                e.putString("authentication_token_2", authenticationToken2);
+                e.putString("authentication_token_secret_2", authenticationTokenSecret2);
+                e.putString("twitter_screen_name_2", myScreenName2);
+                e.putString("twitter_users_name_2", myName2);
+                e.putString("twitter_background_url_2", myBackgroundUrl2);
+                e.putString("profile_pic_url_2", myProfilePicUrl2);
+                e.putString("favorite_user_names_2", "");
+                e.putLong("last_tweet_id_2", lastTweetId2);
+                e.putLong("second_last_tweet_id_2", secondLastTweetId2);
+                e.putLong("last_mention_id_2", lastMentionId2);
+                e.putLong("last_dm_id_2", lastDMId2);
+                e.putLong("twitter_id_2", twitterId2);
+                e.putBoolean("is_logged_in_2", isloggedin2);
+
+                e.remove("new_notifications");
+                e.remove("new_retweets");
+                e.remove("new_favorites");
+                e.remove("new_follows");
+
+                e.commit();
+
+                return false;
+            }
+
+        });
+
+        final Preference cache = findPreference("delete_cache");
+        long size = IOUtils.dirSize(context.getCacheDir());
+        cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
+        cache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.cache_dialog))
+                        .setMessage(context.getResources().getString(R.string.cache_dialog_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    new TrimCache(cache).execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
+
+        Preference trim = findPreference("trim_now");
+        trim.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getResources().getString(R.string.trim_dialog))
+                        .setMessage(context.getResources().getString(R.string.cache_dialog_summary))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                try {
+                                    new TrimDatabase().execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .create()
+                        .show();
+
+                return false;
+            }
+
+        });
+
     }
 
     public void setUpTimelinesSettings() {
@@ -821,21 +1027,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        /*final Preference country = findPreference("country");
-        String currCountry = sharedPrefs.getString("country", "");
-
-        if (!currCountry.equals("")) {
-            country.setSummary(currCountry);
-        }
-
-        country.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                country.setSummary(sharedPrefs.getString("country", ""));
-                return true;
-            }
-        });*/
-
         final Preference cities = findPreference("city");
 
         if (sharedPrefs.getBoolean("manually_config_location", false)) {
@@ -902,195 +1093,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
         });
-
-        Preference clearSearch = findPreference("clear_searches");
-        clearSearch.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
-                        MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-                suggestions.clearHistory();
-                return false;
-            }
-        });
-
-        Preference backup = findPreference("backup");
-        backup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.backup_settings_dialog))
-                        .setMessage(context.getResources().getString(R.string.backup_settings_dialog_summary))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
-                                IOUtils.saveSharedPreferencesToFile(des, context);
-
-                                Toast.makeText(context, context.getResources().getString(R.string.backup_success), Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .create()
-                        .show();
-
-                return false;
-            }
-
-        });
-
-        Preference restore = findPreference("restore");
-        restore.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-
-                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
-
-                String authenticationToken1 = sharedPrefs.getString("authentication_token_1", "none");
-                String authenticationTokenSecret1 = sharedPrefs.getString("authentication_token_secret_1", "none");
-                String myScreenName1 = sharedPrefs.getString("twitter_screen_name_1", "");
-                String myName1 = sharedPrefs.getString("twitter_users_name_1", "");
-                String myBackgroundUrl1 = sharedPrefs.getString("twitter_background_url_1", "");
-                String myProfilePicUrl1 = sharedPrefs.getString("profile_pic_url_1", "");
-                long lastTweetId1 = sharedPrefs.getLong("last_tweet_id_1", 0);
-                long secondLastTweetId1 = sharedPrefs.getLong("second_last_tweet_id_1", 0);
-                long lastMentionId1 = sharedPrefs.getLong("last_mention_id_1", 0);
-                long lastDMId1 = sharedPrefs.getLong("last_dm_id_1", 0);
-                long twitterId1 = sharedPrefs.getLong("twitter_id_1", 0);
-                boolean isloggedin1 = sharedPrefs.getBoolean("is_logged_in_1", false);
-
-                String authenticationToken2 = sharedPrefs.getString("authentication_token_2", "none");
-                String authenticationTokenSecret2 = sharedPrefs.getString("authentication_token_secret_2", "none");
-                String myScreenName2 = sharedPrefs.getString("twitter_screen_name_2", "");
-                String myName2 = sharedPrefs.getString("twitter_users_name_2", "");
-                String myBackgroundUrl2 = sharedPrefs.getString("twitter_background_url_2", "");
-                String myProfilePicUrl2 = sharedPrefs.getString("profile_pic_url_2", "");
-                long lastTweetId2 = sharedPrefs.getLong("last_tweet_id_2", 0);
-                long secondLastTweetId2 = sharedPrefs.getLong("second_last_tweet_id_2", 0);
-                long lastMentionId2 = sharedPrefs.getLong("last_mention_id_2", 0);
-                long lastDMId2 = sharedPrefs.getLong("last_dm_id_2", 0);
-                long twitterId2 = sharedPrefs.getLong("twitter_id_2", 0);
-                boolean isloggedin2 = sharedPrefs.getBoolean("is_logged_in_2", false);
-
-                IOUtils.loadSharedPreferencesFromFile(des, context);
-
-                Toast.makeText(context, context.getResources().getString(R.string.restore_success), Toast.LENGTH_LONG).show();
-
-                SharedPreferences.Editor e = sharedPrefs.edit();
-
-                e.putString("authentication_token_1", authenticationToken1);
-                e.putString("authentication_token_secret_1", authenticationTokenSecret1);
-                e.putString("twitter_screen_name_1", myScreenName1);
-                e.putString("twitter_users_name_1", myName1);
-                e.putString("twitter_background_url_1", myBackgroundUrl1);
-                e.putString("profile_pic_url_1", myProfilePicUrl1);
-                e.putString("favorite_user_names_1", "");
-                e.putLong("last_tweet_id_1", lastTweetId1);
-                e.putLong("second_last_tweet_id_1", secondLastTweetId1);
-                e.putLong("last_mention_id_1", lastMentionId1);
-                e.putLong("last_dm_id_1", lastDMId1);
-                e.putLong("twitter_id_1", twitterId1);
-                e.putBoolean("is_logged_in_1", isloggedin1);
-
-                e.putString("authentication_token_2", authenticationToken2);
-                e.putString("authentication_token_secret_2", authenticationTokenSecret2);
-                e.putString("twitter_screen_name_2", myScreenName2);
-                e.putString("twitter_users_name_2", myName2);
-                e.putString("twitter_background_url_2", myBackgroundUrl2);
-                e.putString("profile_pic_url_2", myProfilePicUrl2);
-                e.putString("favorite_user_names_2", "");
-                e.putLong("last_tweet_id_2", lastTweetId2);
-                e.putLong("second_last_tweet_id_2", secondLastTweetId2);
-                e.putLong("last_mention_id_2", lastMentionId2);
-                e.putLong("last_dm_id_2", lastDMId2);
-                e.putLong("twitter_id_2", twitterId2);
-                e.putBoolean("is_logged_in_2", isloggedin2);
-
-                e.remove("new_notifications");
-                e.remove("new_retweets");
-                e.remove("new_favorites");
-                e.remove("new_follows");
-
-                e.commit();
-
-                return false;
-            }
-
-        });
-
-        final Preference cache = findPreference("delete_cache");
-        long size = IOUtils.dirSize(context.getCacheDir());
-        cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
-        cache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.cache_dialog))
-                        .setMessage(context.getResources().getString(R.string.cache_dialog_summary))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    new TrimCache(cache).execute();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .create()
-                        .show();
-
-                return false;
-            }
-
-        });
-
-        Preference trim = findPreference("trim_now");
-        trim.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.trim_dialog))
-                        .setMessage(context.getResources().getString(R.string.cache_dialog_summary))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    new TrimDatabase().execute();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .create()
-                        .show();
-
-                return false;
-            }
-
-        });
-
     }
 
     @Override

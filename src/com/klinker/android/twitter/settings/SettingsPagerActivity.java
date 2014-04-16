@@ -72,14 +72,17 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.get_help_settings),
                 getResources().getString(R.string.other_apps),
                 getResources().getString(R.string.whats_new),
-                getResources().getString(R.string.rate_it)};
+                getResources().getString(R.string.rate_it)
+        };
 
         settingsItems = new String[] {
                 getResources().getString(R.string.ui_settings),
                 getResources().getString(R.string.timelines_settings),
                 getResources().getString(R.string.sync_settings),
                 getResources().getString(R.string.notification_settings),
+                getResources().getString(R.string.browser_settings),
                 getResources().getString(R.string.advanced_settings),
+                getResources().getString(R.string.memory_manage)
         };
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);

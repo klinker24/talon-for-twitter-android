@@ -594,5 +594,7 @@
     <string name="conversation_page">Conversation Page</string>
     <string name="viewer_page">Tweet Viewer</string>
     <string name="viewer_page_summary">Default page to open to when viewing a tweet.</string>
+    <string name="browser_settings">Browser Settings</string>
+    <string name="memory_manage">Memory Management</string>
 
 </resources>

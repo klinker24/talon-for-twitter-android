@@ -43,7 +43,7 @@ public class SettingsLinkDrawerClickListener extends SettingsDrawerClickListener
                 }
             }, 300);
 
-            viewPager.setCurrentItem(mPos + 5, true);
+            viewPager.setCurrentItem(mPos + 7, true);
         } else if (mPos == 2) { // changelog
 
             // changelog.txt

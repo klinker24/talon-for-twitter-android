@@ -12,7 +12,7 @@ import com.klinker.android.twitter.R;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    public static final int NUM_PAGES = 7;
+    public static final int NUM_PAGES = 9;
     private Context context;
     private ListView mDrawerList;
 
@@ -51,10 +51,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return context.getResources().getString(R.string.notification_settings);
             case 4:
-                return context.getResources().getString(R.string.advanced_settings);
+                return context.getResources().getString(R.string.browser_settings);
             case 5:
-                return context.getResources().getString(R.string.get_help_settings);
+                return context.getResources().getString(R.string.advanced_settings);
             case 6:
+                return context.getResources().getString(R.string.memory_manage);
+            case 7:
+                return context.getResources().getString(R.string.get_help_settings);
+            case 8:
                 return context.getResources().getString(R.string.other_apps);
         }
         return null;
