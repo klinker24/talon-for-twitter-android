@@ -1,5 +1,4 @@
 - Features:
-    - translation of tweets (probably won't be happening)
     - interactions with dashclock
     - attach pictures from the talon pull compose
     - user lists on their profiles
@@ -7,7 +6,6 @@
     - gallery of picture on searching
     - give the widgets preview pictures (for the homescreen, when viewing them in the drawer)
     - tweetmarker in lists
-    - options for themes to hide or show the retweet and favorite button without expansion
     - switch accounts from the widget
     - rotation on tweet viewer
 
@@ -15,14 +13,13 @@
     - check out the loading of the profile picture and background. They don't seem to work right
     - talon pull not always getting retweets
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
-    - retweet tab blinking?
     - false toast on local trends failed
 
 
 -- For Release --
 
     - convert the sending to a service maybe then test sending images/multiple images
-    - option to choose what page to open to
+    - browser and memory management section of settings
 
     Version 2.3.0
         - Scheduled Tweets
