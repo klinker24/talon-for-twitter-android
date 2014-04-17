@@ -26,10 +26,12 @@ import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -167,7 +169,7 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
-        mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
+        /*mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
 
         // Now setup the PullToRefreshLayout
         ActionBarPullToRefresh.from(context)
@@ -184,7 +186,15 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         if (DrawerActivity.settings.addonTheme) {
             transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
         }
-        transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
+        transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");*/
+
+        FullScreenSwipeRefreshLayout refreshLayout = (FullScreenSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
+        refreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(context, "Refreshing", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         setBuilder();
 
