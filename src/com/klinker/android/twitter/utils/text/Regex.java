@@ -153,7 +153,7 @@ public class Regex {
             = Pattern.compile("#([\\p{L}\\p{InThai}$A-Za-z0-9_-]+)");
 
     public static final Pattern CASHTAG_PATTERN
-            = Pattern.compile("$([\\p{L}\\p{InThai}A-Za-z0-9_-]+)");
+            = Pattern.compile("\\$([\\p{L}\\p{InThai}A-Za-z0-9_-]+)");
 
     public static final Pattern MENTION_PATTERN
             = Pattern.compile("@([\\p{L}\\p{InThai}A-Za-z0-9_-]+)");
