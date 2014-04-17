@@ -33,13 +33,13 @@ import android.view.animation.Interpolator;
  * the user is to triggering something (e.g. how far they need to pull down to
  * trigger a refresh).
  */
-final class SwipeProgressBar {
+public final class SwipeProgressBar {
 
     // Default progress animation colors are grays.
-    private final static int COLOR1 = 0xB3000000;
-    private final static int COLOR2 = 0x80000000;
-    private final static int COLOR3 = 0x4d000000;
-    private final static int COLOR4 = 0x1a000000;
+    public final static int COLOR1 = 0xB3000000;
+    public final static int COLOR2 = 0x80000000;
+    public final static int COLOR3 = 0x4d000000;
+    public final static int COLOR4 = 0x1a000000;
 
     // The duration of the animation cycle.
     private static final int ANIMATION_DURATION_MS = 2000;

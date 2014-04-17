@@ -123,7 +123,7 @@ public class DMFragment extends MainFragment {
     }
 
     @Override
-    public void onRefreshStarted(View view) {
+    public void onRefreshStarted() {
         new AsyncTask<Void, Void, Void>() {
 
             private boolean update;
@@ -222,7 +222,7 @@ public class DMFragment extends MainFragment {
                         CharSequence text = getResources().getString(R.string.no_new_direct_messages);
                         showToastBar(text + "", allRead, 400, true, toTopListener);
                     }
-                    mPullToRefreshLayout.setRefreshComplete();
+                    refreshLayout.setRefreshing(false);
                 } catch (IllegalStateException e) {
                     // fragment not attached to activity
                 }

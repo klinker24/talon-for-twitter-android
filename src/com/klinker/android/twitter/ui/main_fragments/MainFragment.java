@@ -32,6 +32,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -48,7 +49,7 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public abstract class MainFragment extends Fragment implements OnRefreshListener {
+public abstract class MainFragment extends Fragment {
 
     protected Twitter twitter;
 
@@ -57,9 +58,8 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
     protected View toastBar;
     protected TextView toastDescription;
     protected TextView toastButton;
-    protected PullToRefreshLayout mPullToRefreshLayout;
+    protected FullScreenSwipeRefreshLayout refreshLayout;
     protected LinearLayout spinner;
-    protected DefaultHeaderTransformer transformer;
 
     public static BitmapLruCache mCache;
 
@@ -188,13 +188,17 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         }
         transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");*/
 
-        FullScreenSwipeRefreshLayout refreshLayout = (FullScreenSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
+        refreshLayout = (FullScreenSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
         refreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(context, "Refreshing", Toast.LENGTH_SHORT).show();
+                onRefreshStarted();
             }
         });
+        refreshLayout.setColorScheme(getResources().getColor(R.color.app_color),
+                SwipeProgressBar.COLOR2,
+                getResources().getColor(R.color.app_color),
+                SwipeProgressBar.COLOR3);
 
         setBuilder();
 
@@ -273,9 +277,8 @@ public abstract class MainFragment extends Fragment implements OnRefreshListener
         }
     }
 
-    @Override
-    public void onRefreshStarted(View view) {
-        mPullToRefreshLayout.setRefreshing(true);
+    public void onRefreshStarted() {
+        //mPullToRefreshLayout.setRefreshing(true);
         getCursorAdapter(false);
     }
 

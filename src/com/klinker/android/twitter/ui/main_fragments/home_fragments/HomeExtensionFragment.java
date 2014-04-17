@@ -176,7 +176,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
                         }
 
                         attachCursor();
-                        mPullToRefreshLayout.setRefreshComplete();
+                        refreshLayout.setRefreshing(false);
 
                         try {
                             c.close();

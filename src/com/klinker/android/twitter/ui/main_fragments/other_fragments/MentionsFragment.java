@@ -114,7 +114,7 @@ public class MentionsFragment extends MainFragment {
     }
 
     @Override
-    public void onRefreshStarted(View view) {
+    public void onRefreshStarted() {
         new AsyncTask<Void, Void, Cursor>() {
 
             private boolean update;
@@ -206,7 +206,7 @@ public class MentionsFragment extends MainFragment {
                     // user closed the app before it was done
                 }
 
-                mPullToRefreshLayout.setRefreshComplete();
+                refreshLayout.setRefreshing(false);
 
                 DrawerActivity.canSwitch = true;
 
