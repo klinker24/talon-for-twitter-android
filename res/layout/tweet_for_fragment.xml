@@ -25,6 +25,7 @@
                     android:textSize="14dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
+                    android:textIsSelectable="true"
                     android:paddingBottom="15dp" />
 
             <com.klinker.android.twitter.manipulations.widgets.HoloTextView
