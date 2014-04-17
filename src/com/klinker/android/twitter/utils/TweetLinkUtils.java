@@ -13,7 +13,7 @@ import twitter4j.UserMentionEntity;
 
 public class TweetLinkUtils {
 
-    public static String[] getHtmlStatus(Status status) {
+    public static String[] getLinksInStatus(Status status) {
         UserMentionEntity[] users = status.getUserMentionEntities();
         String mUsers = "";
 
@@ -106,15 +106,17 @@ public class TweetLinkUtils {
             String exp = sExpandedUrls[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
+                String str = exp.toLowerCase();
+
                 try {
                     tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 30) + "...");
                 } catch (Exception e) {
                     tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
-                if(exp.toLowerCase().contains("instag") && !exp.contains("blog.insta")) {
+                if(str.contains("instag") && !str.contains("blog.insta")) {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) {
+                } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user"))) {
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
@@ -129,7 +131,7 @@ public class TweetLinkUtils {
                         imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/hqdefault.jpg";
                     }
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("youtu.be")) {
+                } else if (str.contains("youtu.be")) {
                     // first get the youtube video code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
@@ -144,27 +146,27 @@ public class TweetLinkUtils {
                         imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/mqefault.jpg";
                     }
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("twitpic")) {
+                } else if (str.contains("twitpic")) {
                     int start = exp.indexOf(".com/") + 5;
                     imageUrl = "http://twitpic.com/show/full/" + exp.substring(start).replace("/","");
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("i.imgur")) {
+                } else if (str.contains("i.imgur") && !str.contains("/a/")) {
                     int start = exp.indexOf(".com/") + 5;
                     imageUrl = "http://i.imgur.com/" + exp.replace("http://i.imgur.com/", "").replace(".jpg", "") + "m.jpg" ;
                     imageUrl = imageUrl.replace("gallery/", "");
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("imgur")) {
+                } else if (str.contains("imgur") && !str.contains("/a/")) {
                     int start = exp.indexOf(".com/") + 6;
                     imageUrl = "http://i.imgur.com/" + exp.replace("http://imgur.com/", "").replace(".jpg", "") + "m.jpg" ;
                     imageUrl = imageUrl.replace("gallery/", "").replace("a/", "");
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("pbs.twimg.com")) {
+                } else if (str.contains("pbs.twimg.com")) {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("ow.ly/i")) {
+                } else if (str.contains("ow.ly/i")) {
                     imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains(".jpg") || exp.toLowerCase().contains(".png")) {
+                } else if (str.contains(".jpg") || str.contains(".png")) {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
                 } else {
@@ -191,7 +193,7 @@ public class TweetLinkUtils {
         return new String[] { tweetTexts, imageUrl, otherUrl, mHashtags, mUsers };
     }
 
-    public static String[] getHtmlStatus(DirectMessage status) {
+    public static String[] getLinksInStatus(DirectMessage status) {
         UserMentionEntity[] users = status.getUserMentionEntities();
         String mUsers = "";
 
@@ -238,8 +240,6 @@ public class TweetLinkUtils {
             }
         }
 
-        String[] sUsers;
-        String[] sHashtags;
         String[] sExpandedUrls;
         String[] sCompressedUrls;
         String[] sMediaExp;
@@ -286,16 +286,14 @@ public class TweetLinkUtils {
             String exp = sExpandedUrls[i];
 
             if (comp.length() > 1 && exp.length() > 1) {
+                String str = exp.toLowerCase();
+
                 tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
-                /*try {
-                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", "").substring(0, 30) + "...");
-                } catch (Exception e) {
-                    tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
-                }*/
-                if(exp.toLowerCase().contains("instag") && !exp.contains("blog.instag")) {
+
+                if(str.contains("instag") && !str.contains("blog.instag")) {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("youtub") && !(exp.contains("channel") || exp.contains("user"))) { // normal youtube link
+                } else if (str.contains("youtub") && !(str.contains("channel") || str.contains("user"))) { // normal youtube link
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
@@ -306,7 +304,7 @@ public class TweetLinkUtils {
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("youtu.be")) { // shortened youtube link
+                } else if (str.contains("youtu.be")) { // shortened youtube link
                     // first get the youtube video code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
@@ -317,23 +315,23 @@ public class TweetLinkUtils {
                     }
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("twitpic")) {
+                } else if (str.contains("twitpic")) {
                     int start = exp.indexOf(".com/") + 5;
                     imageUrl = "http://twitpic.com/show/full/" + exp.substring(start).replace("/", "");
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("imgur")) {
+                } else if (str.contains("imgur") && !str.contains("/a/")) {
                     int start = exp.indexOf(".com/") + 6;
                     imageUrl = "http://i.imgur.com/" + exp.substring(start) + "m.jpg" ;
                     imageUrl = imageUrl.replace("gallery/", "").replace("a/", ""); 
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("pbs.twimg.com")) {
+                } else if (str.contains("pbs.twimg.com")) {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("ow.ly/i")) {
+                } else if (str.contains("ow.ly/i")) {
                     Log.v("talon_owly", exp);
                     imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains(".jpg") || exp.toLowerCase().contains(".png")) {
+                } else if (str.contains(".jpg") || str.contains(".png")) {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
                 } else {

@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
@@ -14,9 +13,7 @@ import android.util.Log;
 
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import twitter4j.Status;
 
@@ -112,7 +109,7 @@ public class ListDataSource {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = TweetLinkUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -157,7 +154,7 @@ public class ListDataSource {
                 status = status.getRetweetedStatus();
             }
 
-            String[] html = TweetLinkUtils.getHtmlStatus(status);
+            String[] html = TweetLinkUtils.getLinksInStatus(status);
             String text = html[0];
             String media = html[1];
             String url = html[2];

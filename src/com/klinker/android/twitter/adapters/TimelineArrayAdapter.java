@@ -36,7 +36,6 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
@@ -46,7 +45,6 @@ import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.SDK11;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
-import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.text.TextUtils;
 import com.klinker.android.twitter.utils.text.TouchableMovementMethod;
@@ -397,7 +395,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String name = user.getName();
         final String screenname = user.getScreenName();
 
-        String[] html = TweetLinkUtils.getHtmlStatus(thisStatus);
+        String[] html = TweetLinkUtils.getLinksInStatus(thisStatus);
         final String tweetText = html[0];
         final String picUrl = html[1];
         holder.picUrl = picUrl;

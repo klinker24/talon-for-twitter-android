@@ -1,6 +1,5 @@
 package com.klinker.android.twitter.adapters;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -9,17 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import twitter4j.Status;
@@ -112,7 +107,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
         final String name = user.getName();
         final String screenname = user.getScreenName();
 
-        String[] html = TweetLinkUtils.getHtmlStatus(thisStatus);
+        String[] html = TweetLinkUtils.getLinksInStatus(thisStatus);
         final String tweetText = html[0];
         final String picUrl = html[1];
         final String otherUrl = html[2];
