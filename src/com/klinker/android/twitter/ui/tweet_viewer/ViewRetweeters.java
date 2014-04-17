@@ -190,7 +190,7 @@ public class ViewRetweeters extends Activity {
                             if (users.size() == 0) {
                                 noContent.setVisibility(View.VISIBLE);
                             }
-                            
+
                             mPullToRefreshLayout.setRefreshing(false);
                         }
                     });

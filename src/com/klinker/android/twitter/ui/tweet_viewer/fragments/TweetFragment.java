@@ -536,6 +536,7 @@ public class TweetFragment extends Fragment {
         nametv.setText(name);
         screennametv.setText("@" + screenName);
         tweettv.setText(tweet);
+        tweettv.setTextIsSelectable(true);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
