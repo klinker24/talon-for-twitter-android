@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -22,7 +23,10 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -35,14 +39,9 @@ import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class ChoosenListActivity extends Activity implements OnRefreshListener {
+public class ChoosenListActivity extends Activity {
 
     public AppSettings settings;
     private Context context;
@@ -55,7 +54,7 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
     private int listId;
     private String listName;
 
-    private PullToRefreshLayout mPullToRefreshLayout;
+    private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
 
     @Override
@@ -98,24 +97,25 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
             finish();
         }
 
-        mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
+        mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         spinner = (LinearLayout) findViewById(R.id.list_progress);
 
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(this)
-                // set up the scroll distance
-                .options(Options.create().scrollDistance(.3f).build())
-                        // Mark All Children as pullable
-                .allChildrenArePullable()
-                        // Set the OnRefreshListener
-                .listener(this)
-                        // Finally commit the setup to our PullToRefreshLayout
-                .setup(mPullToRefreshLayout);
-
+        mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                onRefreshStarted();
+            }
+        });
         if (settings.addonTheme) {
-            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-            transformer.setProgressBarColor(settings.accentInt);
-            transformer.setRefreshingText(getResources().getString(R.string.loading));
+            mPullToRefreshLayout.setColorScheme(settings.accentInt,
+                    SwipeProgressBar.COLOR2,
+                    settings.accentInt,
+                    SwipeProgressBar.COLOR3);
+        } else {
+            mPullToRefreshLayout.setColorScheme(getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR2,
+                    getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR3);
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
@@ -188,8 +188,7 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    @Override
-    public void onRefreshStarted(View view) {
+    public void onRefreshStarted() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -227,7 +226,7 @@ public class ChoosenListActivity extends Activity implements OnRefreshListener {
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPullToRefreshLayout.setRefreshComplete();
+                        mPullToRefreshLayout.setRefreshing(false);
                     }
                 });
             }

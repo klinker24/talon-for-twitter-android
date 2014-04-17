@@ -12,6 +12,7 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.utils.EmojiUtils;
 
 import java.util.Calendar;

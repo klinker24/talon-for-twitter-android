@@ -42,11 +42,6 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import twitter4j.Twitter;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public abstract class MainFragment extends Fragment {
@@ -169,36 +164,27 @@ public abstract class MainFragment extends Fragment {
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
-        /*mPullToRefreshLayout = (PullToRefreshLayout) layout.findViewById(R.id.ptr_layout);
-
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(context)
-                // set up the scroll distance
-                .options(Options.create().scrollDistance(.3f).build())
-                        // Mark All Children as pullable
-                .allChildrenArePullable()
-                        // Set the OnRefreshListener
-                .listener(this)
-                        // Finally commit the setup to our PullToRefreshLayout
-                .setup(mPullToRefreshLayout);
-
-        transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-        if (DrawerActivity.settings.addonTheme) {
-            transformer.setProgressBarColor(DrawerActivity.settings.accentInt);
-        }
-        transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");*/
 
         refreshLayout = (FullScreenSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
+        refreshLayout.setFullScreen(true);
         refreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 onRefreshStarted();
             }
         });
-        refreshLayout.setColorScheme(getResources().getColor(R.color.app_color),
-                SwipeProgressBar.COLOR2,
-                getResources().getColor(R.color.app_color),
-                SwipeProgressBar.COLOR3);
+
+        if (DrawerActivity.settings.addonTheme) {
+            refreshLayout.setColorScheme(DrawerActivity.settings.accentInt,
+                    SwipeProgressBar.COLOR2,
+                    DrawerActivity.settings.accentInt,
+                    SwipeProgressBar.COLOR3);
+        } else {
+            refreshLayout.setColorScheme(getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR2,
+                    getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR3);
+        }
 
         setBuilder();
 
