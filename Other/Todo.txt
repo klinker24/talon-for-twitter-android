@@ -19,7 +19,6 @@
 -- For Release --
 
     - convert the sending to a service maybe then test sending images/multiple images
-    - browser and memory management section of settings
 
     Version 2.3.0
         - Scheduled Tweets
