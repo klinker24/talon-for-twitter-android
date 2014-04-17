@@ -262,6 +262,8 @@ public class SettingsPagerActivity extends FragmentActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
             }
         });
+
+        mDrawerLayout.openDrawer(Gravity.START);
     }
 
     public void setUpTheme() {
