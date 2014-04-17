@@ -186,7 +186,7 @@ public class ListFragment extends MainFragment {
     }
 
     @Override
-    public void onRefreshStarted(final View view) {
+    public void onRefreshStarted() {
         new AsyncTask<Void, Void, Boolean>() {
 
             private int numberNew;
@@ -194,7 +194,7 @@ public class ListFragment extends MainFragment {
             @Override
             protected void onPreExecute() {
                 try {
-                    transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
+                    //transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
                     DrawerActivity.canSwitch = false;
                 } catch (Exception e) {
 
@@ -250,7 +250,7 @@ public class ListFragment extends MainFragment {
                             }
                         }, 500);
 
-                        mPullToRefreshLayout.setRefreshComplete();
+                        refreshLayout.setRefreshing(false);
                     }
 
                     DrawerActivity.canSwitch = true;
@@ -260,7 +260,7 @@ public class ListFragment extends MainFragment {
                     DrawerActivity.canSwitch = true;
 
                     try {
-                        mPullToRefreshLayout.setRefreshComplete();
+                        refreshLayout.setRefreshing(false);
                     } catch (Exception x) {
                         // not attached to the activity i guess, don't know how or why that would be though
                     }
@@ -328,7 +328,7 @@ public class ListFragment extends MainFragment {
                         if (position > 0) {
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             listView.setSelectionFromTop(position + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-                            mPullToRefreshLayout.setRefreshComplete();
+                            refreshLayout.setRefreshing(false);
                         }
 
                         try {
@@ -349,7 +349,7 @@ public class ListFragment extends MainFragment {
                             }
                         }
 
-                        mPullToRefreshLayout.setRefreshComplete();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }

@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.utils;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -15,6 +16,7 @@ import android.util.TypedValue;
 import android.view.Display;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.Date;
@@ -115,6 +117,16 @@ public class Utils {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public static int getActionBarHeight(Context context) {
+        TypedValue tv = new TypedValue();
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            Log.v("talon_actionbar", "getting size from dimen");
+            return TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+        } else {
+            return 48;
+        }
     }
 
     public static int getNavBarHeight(Context context) {

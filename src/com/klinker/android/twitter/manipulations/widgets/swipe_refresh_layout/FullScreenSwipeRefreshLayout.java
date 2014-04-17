@@ -18,13 +18,16 @@ package com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -36,6 +39,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
 
+import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 
@@ -63,9 +70,9 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
     private static final long RETURN_TO_ORIGINAL_POSITION_TIMEOUT = 300;
     private static final float ACCELERATE_INTERPOLATION_FACTOR = 1.5f;
     private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
-    private static final float PROGRESS_BAR_HEIGHT = 4;
+    private static final float PROGRESS_BAR_HEIGHT = 4f;
     private static final float MAX_SWIPE_DISTANCE_FACTOR = .6f;
-    private static final int REFRESH_TRIGGER_DISTANCE = 120;
+    private static final int REFRESH_TRIGGER_DISTANCE = 150;
 
     private SwipeProgressBar mProgressBar; //the thing that shows progress is going
     private View mTarget; //the content that gets pulled down
@@ -103,9 +110,9 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
             if (offset + currentTop < 0) {
                 offset = 0 - currentTop;
             }
-            //setTargetOffsetTopAndBottom(offset);
+            setTargetOffsetTopAndBottom(offset);
             // try to add the nav bar and status bar heights
-            setTargetOffsetTopAndBottom(offset + Utils.getNavBarHeight(getContext()) + Utils.getStatusBarHeight(getContext()));
+            //setTargetOffsetTopAndBottom(offset + Utils.getNavBarHeight(getContext()) + Utils.getStatusBarHeight(getContext()));
         }
     };
 
@@ -273,10 +280,10 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
     public void setColorScheme(int colorRes1, int colorRes2, int colorRes3, int colorRes4) {
         ensureTarget();
         final Resources res = getResources();
-        final int color1 = res.getColor(colorRes1);
-        final int color2 = res.getColor(colorRes2);
-        final int color3 = res.getColor(colorRes3);
-        final int color4 = res.getColor(colorRes4);
+        final int color1 = colorRes1;
+        final int color2 = colorRes2;
+        final int color3 = colorRes3;
+        final int color4 = colorRes4;
         mProgressBar.setColorScheme(color1, color2, color3,color4);
     }
 
@@ -297,7 +304,6 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
             }
             mTarget = getChildAt(0);
             mOriginalOffsetTop = mTarget.getTop() + getPaddingTop();
-                    //+ Utils.getNavBarHeight(getContext()) + Utils.getStatusBarHeight(getContext()); // add the nav bar and status bar
         }
         if (mDistanceToTriggerSync == -1) {
             if (getParent() != null && ((View)getParent()).getHeight() > 0) {
@@ -312,13 +318,29 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+
+        canvas.translate(0, translation);
         mProgressBar.draw(canvas);
     }
+
+    public int translation;
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         final int width =  getMeasuredWidth();
         final int height = getMeasuredHeight();
+
+        if (Build.VERSION.SDK_INT > 18 &&
+                AppSettings.getInstance(getContext()).uiExtras &&
+                (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) &&
+                !MainActivity.isPopup) {
+            // action bar plus the status bar
+            translation = Utils.getStatusBarHeight(getContext()) + Utils.getActionBarHeight(getContext());
+        } else {
+            // just the action bar
+            translation = Utils.getActionBarHeight(getContext());
+        }
+
         mProgressBar.setBounds(0, 0, width, mProgressBarHeight);
         if (getChildCount() == 0) {
             return;
@@ -415,6 +437,7 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
                             if (mPrevY > eventY) {
                                 offsetTop = yDiff - mTouchSlop;
                             }
+                            offsetTop = offsetTop / 6;
                             updateContentOffsetTop((int) (offsetTop));
                             if (mPrevY > eventY && (mTarget.getTop() < mTouchSlop)) {
                                 // If the user puts the view back at the top, we

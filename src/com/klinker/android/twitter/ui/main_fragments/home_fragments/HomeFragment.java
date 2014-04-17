@@ -439,7 +439,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         liveUnread = 0;
                         viewPressed = false;
 
-                        mPullToRefreshLayout.setRefreshComplete();
+                        refreshLayout.setRefreshing(false);
 
                         isRefreshing = false;
 
@@ -654,14 +654,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     showStatusBar();
                     actionBar.show();
                 }
+
                 try {
-                    transformer.setRefreshingText(getResources().getString(R.string.finding_tweetmarker) + "...");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // fragment not attached?
-                }
-                try {
-                    mPullToRefreshLayout.setRefreshing(true);
+                    refreshLayout.setRefreshing(true);
                 } catch (Exception e) {
                     // same thing
                 }
@@ -690,7 +685,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 if (result) {
                     getCursorAdapter(false);
                 } else {
-                    mPullToRefreshLayout.setRefreshComplete();
+                    refreshLayout.setRefreshing(false);
                     isRefreshing = false;
                 }
 
@@ -705,7 +700,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     private boolean isRefreshing = false;
 
     @Override
-    public void onRefreshStarted(final View view) {
+    public void onRefreshStarted() {
         if (isRefreshing) {
             return;
         } else {
@@ -713,7 +708,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
 
         try {
-            transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
+            //transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
             DrawerActivity.canSwitch = false;
         } catch (Exception e) {
 
@@ -779,7 +774,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                     }, 500);
                                 }
 
-                                mPullToRefreshLayout.setRefreshComplete();
+                                refreshLayout.setRefreshing(false);
                                 isRefreshing = false;
                             }
 
@@ -792,7 +787,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             DrawerActivity.canSwitch = true;
 
                             try {
-                                mPullToRefreshLayout.setRefreshComplete();
+                                refreshLayout.setRefreshing(false);
                             } catch (Exception x) {
                                 // not attached to the activity i guess, don't know how or why that would be though
                             }
@@ -990,9 +985,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             sharedPrefs.getBoolean("should_refresh", true) &&
                             !DrawerActivity.settings.tweetmarker) {
 
-                        mPullToRefreshLayout.setRefreshing(true);
+                        refreshLayout.setRefreshing(true);
                         refreshTweetmarker = true;
-                        onRefreshStarted(null);
+                        onRefreshStarted();
                     }
 
                     waitOnRefresh.removeCallbacks(applyRefresh);
@@ -1012,9 +1007,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mPullToRefreshLayout.setRefreshing(true);
+                    refreshLayout.setRefreshing(true);
                     refreshTweetmarker = true;
-                    onRefreshStarted(null);
+                    onRefreshStarted();
                 }
             }, 600);
         }
@@ -1151,7 +1146,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                         liveUnread = 0;
                         viewPressed = false;
 
-                        mPullToRefreshLayout.setRefreshComplete();
+                        refreshLayout.setRefreshing(false);
 
                         try {
                             new Handler().postDelayed(new Runnable() {
