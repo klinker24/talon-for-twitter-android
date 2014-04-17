@@ -13,7 +13,9 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -829,6 +832,57 @@ public class ProfilePager extends Activity {
         return inSampleSize;
     }
 
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        Log.v("talon_composing_image", "rotation: " + orientation);
+
+        try{
+            Matrix matrix = new Matrix();
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_NORMAL:
+                    return bitmap;
+                case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                    matrix.setScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    matrix.setRotate(180);
+                    break;
+                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                    matrix.setRotate(180);
+                    matrix.postScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_TRANSPOSE:
+                    matrix.setRotate(90);
+                    matrix.postScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    matrix.setRotate(90);
+                    break;
+                case ExifInterface.ORIENTATION_TRANSVERSE:
+                    matrix.setRotate(-90);
+                    matrix.postScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    matrix.setRotate(-90);
+                    break;
+                default:
+                    return bitmap;
+            }
+            try {
+                Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                bitmap.recycle();
+                return bmRotated;
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
     private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
         InputStream input = getContentResolver().openInputStream(uri);
 
@@ -848,11 +902,16 @@ public class ProfilePager extends Activity {
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
         bitmapOptions.inDither=true;//optional
-        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;
         input = this.getContentResolver().openInputStream(uri);
         Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+
+        ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
         input.close();
-        return bitmap;
+
+        return rotateBitmap(bitmap, orientation);
     }
 
     private static int getPowerOfTwoForSampleRatio(double ratio){

@@ -439,6 +439,8 @@ public abstract class Compose extends Activity implements
             ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
 
+            input.close();
+
             return rotateBitmap(b, orientation);
 
         } catch (Exception e) {
