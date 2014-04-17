@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- The main content view -->
-<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ptr_layout"
     android:layout_width="match_parent"
@@ -110,4 +110,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
+</RelativeLayout>
