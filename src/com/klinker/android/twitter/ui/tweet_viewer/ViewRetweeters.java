@@ -51,6 +51,7 @@ public class ViewRetweeters extends Activity {
 
     private LinearLayout spinner;
     private LinearLayout noContent;
+    public FullScreenSwipeRefreshLayout mPullToRefreshLayout;
 
     @Override
     public void finish() {
@@ -76,7 +77,7 @@ public class ViewRetweeters extends Activity {
 
         setContentView(R.layout.ptr_list_layout);
 
-        FullScreenSwipeRefreshLayout mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -189,6 +190,8 @@ public class ViewRetweeters extends Activity {
                             if (users.size() == 0) {
                                 noContent.setVisibility(View.VISIBLE);
                             }
+                            
+                            mPullToRefreshLayout.setRefreshing(false);
                         }
                     });
                 } catch (Exception e) {
