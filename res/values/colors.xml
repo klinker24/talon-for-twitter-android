@@ -29,6 +29,8 @@ limitations under the License.
     <color name="white_divider">#40ffffff</color>
 
     <!-- Light Theme -->
+    <color name="light_ptr_1">#80FFFFFF</color>
+    <color name="light_ptr_2">#4DFFFFFF</color>
     <color name="light_background">#dddddd</color>
     <color name="light_background_settings">#f6f6f6</color>
     <color name="light_text">#020202</color>
