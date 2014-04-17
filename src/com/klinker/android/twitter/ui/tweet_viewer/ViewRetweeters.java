@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -19,8 +20,9 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -32,14 +34,9 @@ import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class ViewRetweeters extends Activity implements OnRefreshListener {
+public class ViewRetweeters extends Activity {
 
     public AppSettings settings;
     private Context context;
@@ -79,10 +76,24 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
 
         setContentView(R.layout.ptr_list_layout);
 
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
+        FullScreenSwipeRefreshLayout mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                onRefreshStarted();
+            }
+        });
+
+        if (settings.addonTheme) {
+            mPullToRefreshLayout.setColorScheme(settings.accentInt,
+                    SwipeProgressBar.COLOR2,
+                    settings.accentInt,
+                    SwipeProgressBar.COLOR3);
+        } else {
+            mPullToRefreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR2,
+                    context.getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR3);
         }
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
@@ -101,7 +112,7 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
 
         tweetId = getIntent().getLongExtra("id", 0);
 
-        onRefreshStarted(null);
+        onRefreshStarted();
 
     }
 
@@ -138,8 +149,7 @@ public class ViewRetweeters extends Activity implements OnRefreshListener {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    @Override
-    public void onRefreshStarted(View view) {
+    public void onRefreshStarted() {
         new Thread(new Runnable() {
             @Override
             public void run() {

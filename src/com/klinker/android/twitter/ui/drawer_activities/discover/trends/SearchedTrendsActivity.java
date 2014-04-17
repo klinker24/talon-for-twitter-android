@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Menu;
@@ -33,6 +34,9 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
+import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.settings.SettingsPagerActivity;
@@ -51,14 +55,9 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class SearchedTrendsActivity extends Activity implements OnRefreshListener {
+public class SearchedTrendsActivity extends Activity {
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -75,7 +74,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
     private AsyncListView listView;
     private LinearLayout spinner;
 
-    private PullToRefreshLayout mPullToRefreshLayout;
+    private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
 
     @Override
     public void finish() {
@@ -115,23 +114,24 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
 
         setContentView(R.layout.ptr_list_layout);
 
-        mPullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.ptr_layout);
-
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(this)
-                // set up the scroll distance
-                .options(Options.create().scrollDistance(.3f).build())
-                        // Mark All Children as pullable
-                .allChildrenArePullable()
-                        // Set the OnRefreshListener
-                .listener(this)
-                        // Finally commit the setup to our PullToRefreshLayout
-                .setup(mPullToRefreshLayout);
+        mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                onRefreshStarted();
+            }
+        });
 
         if (settings.addonTheme) {
-            DefaultHeaderTransformer transformer = ((DefaultHeaderTransformer)mPullToRefreshLayout.getHeaderTransformer());
-            transformer.setProgressBarColor(settings.accentInt);
-            transformer.setRefreshingText(getResources().getString(R.string.loading));
+            mPullToRefreshLayout.setColorScheme(settings.accentInt,
+                    SwipeProgressBar.COLOR2,
+                    settings.accentInt,
+                    SwipeProgressBar.COLOR3);
+        } else {
+            mPullToRefreshLayout.setColorScheme(getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR2,
+                    getResources().getColor(R.color.app_color),
+                    SwipeProgressBar.COLOR3);
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
@@ -348,8 +348,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
-    @Override
-    public void onRefreshStarted(View view) {
+    public void onRefreshStarted() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -397,7 +396,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
 
                             spinner.setVisibility(View.GONE);
 
-                            mPullToRefreshLayout.setRefreshComplete();
+                            mPullToRefreshLayout.setRefreshing(false);
                         }
                     });
                 } catch (Exception e) {
@@ -406,7 +405,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
                         @Override
                         public void run() {
                             spinner.setVisibility(View.GONE);
-                            mPullToRefreshLayout.setRefreshComplete();
+                            mPullToRefreshLayout.setRefreshing(false);
                         }
                     });
                 }
@@ -499,7 +498,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
                             @Override
                             public void run() {
                                 adapter.notifyDataSetChanged();
-                                mPullToRefreshLayout.setRefreshComplete();
+                                mPullToRefreshLayout.setRefreshing(false);
                                 canRefresh = true;
                             }
                         });
@@ -508,7 +507,7 @@ public class SearchedTrendsActivity extends Activity implements OnRefreshListene
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mPullToRefreshLayout.setRefreshComplete();
+                                mPullToRefreshLayout.setRefreshing(false);
                                 canRefresh = true;
                             }
                         });

@@ -40,7 +40,6 @@ limitations under the License.
         <item name="android:activatedBackgroundIndicator">@drawable/twitter_activated_background_holo_light</item>
         <item name="android:fastScrollThumbDrawable">@drawable/twitter_fastscroll_thumb_holo</item>
         <item name="android:seekBarStyle">@style/SeekBarTwitter.Light</item>
-        <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
 
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>

@@ -279,7 +279,6 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
      */
     public void setColorScheme(int colorRes1, int colorRes2, int colorRes3, int colorRes4) {
         ensureTarget();
-        final Resources res = getResources();
         final int color1 = colorRes1;
         final int color2 = colorRes2;
         final int color3 = colorRes3;
@@ -315,11 +314,18 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
         }
     }
 
+    private boolean fullScreen = false;
+    public void setFullScreen(boolean full) {
+        fullScreen = full;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        canvas.translate(0, translation);
+        if (fullScreen) {
+            canvas.translate(0, translation);
+        }
         mProgressBar.draw(canvas);
     }
 
