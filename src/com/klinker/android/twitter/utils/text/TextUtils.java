@@ -46,6 +46,7 @@ public class TextUtils {
         Linkify.addLinks(context, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Patterns.WEB_URL, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, textView, Regex.CASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
     }
 
@@ -61,6 +62,10 @@ public class TextUtils {
             finish = changeText(finish, m.group(0), color);
         }
         m = Regex.HASHTAG_PATTERN.matcher(tweet);
+        while (m.find()) {
+            finish = changeText(finish, m.group(0), color);
+        }
+        m = Regex.CASHTAG_PATTERN.matcher(tweet);
         while (m.find()) {
             finish = changeText(finish, m.group(0), color);
         }

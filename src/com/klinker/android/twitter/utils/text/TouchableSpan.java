@@ -112,6 +112,12 @@ public class TouchableSpan extends ClickableSpan {
             user.putExtra("screenname", full.replace("@", "").replaceAll(" ", ""));
             user.putExtra("proPic", "");
             mContext.startActivity(user);
+        } else if (Regex.CASHTAG_PATTERN.matcher(mValue).find()) {
+            // found a cashtag, so open the search
+            Intent search = new Intent(mContext, SearchedTrendsActivity.class);
+            search.setAction(Intent.ACTION_SEARCH);
+            search.putExtra(SearchManager.QUERY, full);
+            mContext.startActivity(search);
         }
 
         new Handler().postDelayed(new Runnable() {
