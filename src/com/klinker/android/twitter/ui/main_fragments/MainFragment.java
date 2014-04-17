@@ -180,10 +180,17 @@ public abstract class MainFragment extends Fragment {
                     DrawerActivity.settings.accentInt,
                     SwipeProgressBar.COLOR3);
         } else {
-            refreshLayout.setColorScheme(getResources().getColor(R.color.app_color),
-                    SwipeProgressBar.COLOR2,
-                    getResources().getColor(R.color.app_color),
-                    SwipeProgressBar.COLOR3);
+            if (DrawerActivity.settings.theme != AppSettings.THEME_LIGHT) {
+                refreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
+                        SwipeProgressBar.COLOR2,
+                        context.getResources().getColor(R.color.app_color),
+                        SwipeProgressBar.COLOR3);
+            } else {
+                refreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
+                        getResources().getColor(R.color.light_ptr_1),
+                        context.getResources().getColor(R.color.app_color),
+                        getResources().getColor(R.color.light_ptr_2));
+            }
         }
 
         setBuilder();

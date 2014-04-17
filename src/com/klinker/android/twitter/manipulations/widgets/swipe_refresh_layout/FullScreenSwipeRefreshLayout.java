@@ -70,7 +70,7 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
     private static final long RETURN_TO_ORIGINAL_POSITION_TIMEOUT = 300;
     private static final float ACCELERATE_INTERPOLATION_FACTOR = 1.5f;
     private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
-    private static final float PROGRESS_BAR_HEIGHT = 4f;
+    private static final float PROGRESS_BAR_HEIGHT = 3f;
     private static final float MAX_SWIPE_DISTANCE_FACTOR = .6f;
     private static final int REFRESH_TRIGGER_DISTANCE = 150;
 

@@ -90,10 +90,17 @@ public class ViewRetweeters extends Activity {
                     settings.accentInt,
                     SwipeProgressBar.COLOR3);
         } else {
-            mPullToRefreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
-                    SwipeProgressBar.COLOR2,
-                    context.getResources().getColor(R.color.app_color),
-                    SwipeProgressBar.COLOR3);
+            if (settings.theme != AppSettings.THEME_LIGHT) {
+                mPullToRefreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
+                        SwipeProgressBar.COLOR2,
+                        context.getResources().getColor(R.color.app_color),
+                        SwipeProgressBar.COLOR3);
+            } else {
+                mPullToRefreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
+                        getResources().getColor(R.color.light_ptr_1),
+                        context.getResources().getColor(R.color.app_color),
+                        getResources().getColor(R.color.light_ptr_2));
+            }
         }
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
