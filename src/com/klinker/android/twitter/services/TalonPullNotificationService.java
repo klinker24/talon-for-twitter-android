@@ -22,7 +22,6 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -745,7 +744,7 @@ public class TalonPullNotificationService extends Service {
 
     public void downloadImages(Status status) {
         String profilePic = status.getUser().getBiggerProfileImageURL();
-        String imageUrl = TweetLinkUtils.getHtmlStatus(status)[1];
+        String imageUrl = TweetLinkUtils.getLinksInStatus(status)[1];
 
         CacheableBitmapDrawable wrapper = mCache.get(profilePic);
         if (wrapper == null) {

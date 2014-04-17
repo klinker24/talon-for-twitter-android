@@ -81,7 +81,7 @@ public class DMDataSource {
         long time = status.getCreatedAt().getTime();
 
         values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(DMSQLiteHelper.COLUMN_TEXT, TweetLinkUtils.getHtmlStatus(status)[0]);
+        values.put(DMSQLiteHelper.COLUMN_TEXT, TweetLinkUtils.getLinksInStatus(status)[0]);
         values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
         values.put(DMSQLiteHelper.COLUMN_NAME, status.getSender().getName());
         values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getBiggerProfileImageURL());
@@ -90,7 +90,7 @@ public class DMDataSource {
         values.put(DMSQLiteHelper.COLUMN_RETWEETER, status.getRecipientScreenName());
         values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getBiggerProfileImageURL());
         values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
-        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, TweetLinkUtils.getHtmlStatus(status)[1]);
+        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, TweetLinkUtils.getLinksInStatus(status)[1]);
 
         MediaEntity[] entities = status.getMediaEntities();
 

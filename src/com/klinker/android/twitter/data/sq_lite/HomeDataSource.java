@@ -4,10 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -101,7 +99,7 @@ public class HomeDataSource {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = TweetLinkUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -141,7 +139,7 @@ public class HomeDataSource {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = TweetLinkUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -189,7 +187,7 @@ public class HomeDataSource {
                     status = status.getRetweetedStatus();
                 }
 
-                String[] html = TweetLinkUtils.getHtmlStatus(status);
+                String[] html = TweetLinkUtils.getLinksInStatus(status);
                 String text = html[0];
                 String media = html[1];
                 String url = html[2];

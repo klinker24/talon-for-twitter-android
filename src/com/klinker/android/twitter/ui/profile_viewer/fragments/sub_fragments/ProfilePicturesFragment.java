@@ -12,19 +12,14 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PicturesArrayAdapter;
-import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
-import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 
@@ -32,7 +27,6 @@ import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 /**
  * Created by luke on 3/4/14.
@@ -144,7 +138,7 @@ public class ProfilePicturesFragment extends Fragment {
                     }
 
                     for (Status s : tweets) {
-                        String[] links = TweetLinkUtils.getHtmlStatus(s);
+                        String[] links = TweetLinkUtils.getLinksInStatus(s);
                         if (!links[1].equals("")) {
                             pics.add(links[1]);
                             tweetsWithPics.add(s);
@@ -213,7 +207,7 @@ public class ProfilePicturesFragment extends Fragment {
                     boolean update = false;
 
                     for (Status s : tweets) {
-                        String[] links = TweetLinkUtils.getHtmlStatus(s);
+                        String[] links = TweetLinkUtils.getLinksInStatus(s);
                         if (!links[1].equals("")) {
                             pics.add(links[1]);
                             tweetsWithPics.add(s);
