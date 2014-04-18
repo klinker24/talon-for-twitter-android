@@ -5,8 +5,10 @@
     &#8226; Image loading fixes<br/>
     &#8226; Cashtag highlighting and searching<br/>
     &#8226; Settings cleanup<br/>
+    &#8226; Fix some problems uploading profile pic and banner<br/>
     &#8226; Lots of small reported bug fixes<br/>
     &#8226; Some more crash fixes<br/>
+    &#8226; Translation updates<br/>
 </br><br/>
 
 <b>Version 2.2.3:</b><br/><br/>
