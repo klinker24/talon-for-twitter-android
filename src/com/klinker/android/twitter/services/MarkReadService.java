@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
@@ -31,13 +32,18 @@ public class MarkReadService extends IntentService {
         this.sendBroadcast(lightFlow);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Context context = getApplicationContext();
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        final Context context = getApplicationContext();
+        final int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         // we can just mark everything as read because it isnt taxing at all and won't do anything in the mentions if there isn't one
         // and the shared prefs are easy.
         // this is only called from the notification and there will only ever be one thing that is unread when this button is availible
-        MentionsDataSource.getInstance(context).markAllRead(currentAccount);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MentionsDataSource.getInstance(context).markAllRead(currentAccount);
+            }
+        }, 10000);
         InteractionsDataSource.getInstance(context).markAllRead(currentAccount);
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();

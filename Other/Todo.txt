@@ -23,6 +23,7 @@
         - queue tweets to send when connected to a data connection if they weren't before
         - accept followers from a protected account
         - convert search to fragments with user search and twitter search
+        - switch mentions to save the position instead of current unread method
 
     Version 2.4.0
         - auto-complete hashtags
