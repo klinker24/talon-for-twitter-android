@@ -1,3 +1,8 @@
+<b>Version 2.2.5.3:</b><br/><br/>
+    &#8226; Fixes for the pull to refresh getting stuck<br/>
+    &#8226; Alert when viewing protected accounts<br/>
+</br><br/>
+
 <b>Version 2.2.5:</b><br/><br/>
     &#8226; Google Now style pull-to-refresh<br/>
     &#8226; Refresh different pages at once<br/>
