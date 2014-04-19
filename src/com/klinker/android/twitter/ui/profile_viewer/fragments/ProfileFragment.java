@@ -467,6 +467,10 @@ public class ProfileFragment extends Fragment {
                                     @Override
                                     public void run() {
                                         Toast.makeText(context, context.getResources().getString(R.string.changed_screenname) , Toast.LENGTH_LONG).show();
+
+                                        spinner.setVisibility(View.GONE);
+                                        canRefresh = false;
+                                        hasMore = false;
                                     }
                                 });
                             }
@@ -537,7 +541,22 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, context.getResources().getString(R.string.error_check_network), Toast.LENGTH_SHORT).show();
+                            if (thisUser != null && thisUser.isProtected()) {
+                                Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
+                                if(settings.roundContactImages) {
+                                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                } else {
+                                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                }
+
+                                String url = thisUser.getProfileBannerURL();
+                                ImageUtils.loadImage(context, background, url, mCache);
+                            } else {
+                                Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
+                            }
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                            hasMore = false;
                         }
                     });
                 }
@@ -602,12 +621,12 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (thisUser != null && thisUser.isProtected()) {
+                            if (user != null && user.isProtected()) {
                                 Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
                                 if(settings.roundContactImages) {
-                                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                    ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
                                 } else {
-                                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
                                 }
 
                                 String url = user.getProfileBannerURL();
@@ -616,6 +635,8 @@ public class ProfileFragment extends Fragment {
                                 Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
                             }
                             spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                            hasMore = false;
                         }
                     });
                 }
@@ -684,12 +705,12 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (thisUser != null && thisUser.isProtected()) {
+                            if (user != null && user.isProtected()) {
                                 Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
                                 if(settings.roundContactImages) {
-                                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                    ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
                                 } else {
-                                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
                                 }
 
                                 String url = user.getProfileBannerURL();
@@ -698,6 +719,8 @@ public class ProfileFragment extends Fragment {
                                 Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
                             }
                             spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                            hasMore = false;
                         }
                     });
                 }
@@ -762,12 +785,12 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (thisUser != null && thisUser.isProtected()) {
+                            if (user != null && user.isProtected()) {
                                 Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
                                 if(settings.roundContactImages) {
-                                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                    ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
                                 } else {
-                                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
                                 }
 
                                 String url = user.getProfileBannerURL();
@@ -776,6 +799,8 @@ public class ProfileFragment extends Fragment {
                                 Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
                             }
                             spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                            hasMore = false;
                         }
                     });
                 } catch (OutOfMemoryError x) {
@@ -784,19 +809,14 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void run() {
                             Toast.makeText(context, context.getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
+
+                            spinner.setVisibility(View.GONE);
+                            canRefresh = false;
+                            hasMore = false;
                         }
                     });
                 }
             }
         }).start();
-    }
-
-    private static void linkifyText(TextView textView) {
-        CharSequence text = textView.getText();
-        if (Patterns.PHONE.matcher(text).find() ||
-                Patterns.EMAIL_ADDRESS.matcher(text).find() ||
-                Patterns.WEB_URL.matcher(text).find()) {
-            Linkify.addLinks(textView, Linkify.ALL);
-        }
     }
 }
