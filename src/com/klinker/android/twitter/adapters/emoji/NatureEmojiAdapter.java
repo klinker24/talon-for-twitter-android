@@ -55,7 +55,11 @@ public class NatureEmojiAdapter extends BaseEmojiAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageDrawable(res.getDrawable(sIconIds[position]));
+        try {
+            imageView.setImageDrawable(res.getDrawable(sIconIds[position]));
+        } catch (Exception e) {
+
+        }
         imageView.setBackgroundResource(R.drawable.pressed_button);
 
         imageView.setOnClickListener(new View.OnClickListener() {

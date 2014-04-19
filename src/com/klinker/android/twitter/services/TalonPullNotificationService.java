@@ -511,7 +511,7 @@ public class TalonPullNotificationService extends Service {
                     }
 
                     pullUnread++;
-                    sharedPreferences.edit().putInt("pull_unread", pullUnread);
+                    sharedPreferences.edit().putInt("pull_unread", pullUnread).commit();
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));

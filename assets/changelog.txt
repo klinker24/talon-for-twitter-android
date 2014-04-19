@@ -1,6 +1,7 @@
-<b>Version 2.2.5.3:</b><br/><br/>
+<b>Version 2.2.6:</b><br/><br/>
     &#8226; Fixes for the pull to refresh getting stuck<br/>
     &#8226; Alert when viewing protected accounts<br/>
+    &#8226; Other random reported bug fixes<br/>
 </br><br/>
 
 <b>Version 2.2.5:</b><br/><br/>
