@@ -245,7 +245,9 @@
     <string name="make_a_theme">Faça um tema</string>
     <string name="layout">Layout</string>
     <string name="themeing_complete">Tema Aplicado</string>
-    <string name="themeing_complete_summary">\"Talon\" irá fechar agora.\n\n\n                Você terá que remover \"Talon\" da sua lista de apps recentes para fazer a mudança completa na sua timeline.\n\n\n                Se as imagens dos usuários não aparecerem do jeito que deveria (imagens quadradas e redondas misturadas), você terá que remover e adicionar o widget novamente.</string>
+    <string name="themeing_complete_summary">\"Talon\" irá fechar agora.\n\n
+                Você terá que remover \"Talon\" da sua lista de apps recentes para fazer a mudança completa na sua timeline.\n\n
+                Se as imagens dos usuários não aparecerem do jeito que deveria (imagens quadradas e redondas misturadas), você terá que remover e adicionar o widget novamente.</string>
     <string name="layout_summary">Mudar isso fará com que o cache seja esvaziado.</string>
     <string name="text_size">Tamanho do Texto</string>
     <string name="night_mode">Modo Noturno</string>
@@ -255,7 +257,11 @@
     <string name="device_font">Usar Fonte do Dispositivo</string>
     <string name="device_font_summary">A maioria dos dispositivos usa a fonte \"Roboto\". Talon usa \"Roboto Light\" como fonte padrão.</string>
     <string name="ui_extras">Extras</string>
-    <string name="ui_extras_summary">Incluem:\n\n                - Esconder Barra de Ação\n\n                - Aciona a Toast Bar\n\n                - Barras do Sistema Translúcidas (Android 4.4)\n\n\n                Ativar essa opção pode afetar a performance da rolagem.</string>
+    <string name="ui_extras_summary">Incluem:\n
+                - Esconder Barra de Ação\n
+                - Aciona a Toast Bar\n
+                - Barras do Sistema Translúcidas (Android 4.4)\n\n
+                Ativar essa opção pode afetar a performance da rolagem.</string>
     <string name="inline_pics">Mostrar Imagens In-line</string>
     <string name="use_screen_name">Mostrar apnenas @NomeDeUsuário</string>
     <string name="use_screen_name_summary">Mostra o @NomeDeUsuário no lugar do Nome Completo.</string>
@@ -264,7 +270,9 @@
     <string name="to_market">To Play Store</string>
     <string name="get_android">Adquirir Android Emojis</string>
     <string name="get_ios">Adquirir iOS Emojis</string>
-    <string name="emoji_dialog_summary">Para ativar emojis no app, você precisa ter o pacote \"Sliding Emoji Keyboard\" ou o \"Sliding Emoji Keyboard - iOS\" instalado pela Play Store.\n\n\n                Você pode trocar entre os 2 tipos de emojis, mas você precisa ter apenas um deles instalado no aparelho. Se ambos os pacotes estiverem instalado, Talon irá usar os emojis padrão do Android.\n\n\n                NOTA: Emojis continuará a funcionar nesse app mesmo quando a versão trial expirar! Esses pacotes são usados como um plug-in, bem como um teclado independente.</string>
+    <string name="emoji_dialog_summary">Para ativar emojis no app, você precisa ter o pacote \"Sliding Emoji Keyboard\" ou o \"Sliding Emoji Keyboard - iOS\" instalado pela Play Store.\n\n
+                Você pode trocar entre os 2 tipos de emojis, mas você precisa ter apenas um deles instalado no aparelho. Se ambos os pacotes estiverem instalado, Talon irá usar os emojis padrão do Android.\n\n
+                NOTA: Emojis continuará a funcionar nesse app mesmo quando a versão trial expirar! Esses pacotes são usados como um plug-in, bem como um teclado independente.</string>
     <string name="theme_light">Tema Claro</string>
     <string name="theme_dark">Tema Escuro</string>
     <string name="theme_black">Tema Preto</string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">Taxa de Atualização das DM\'s</string>
     <string name="sync_friends">Sinc. Dados de Amigos</string>
     <string name="sync_friends_summary2">Atualiza dados do amigos para serem usados ao compor seus tweets.</string>
-    <string name="sync_friends_summary">Sincroniza manualmente a lista de amigos.\n\nIsso foi feito quando você fez login no Talon, e é atualizado automaticamente quando você segue alguém usando Talon. Isso irá atualizar tudo sobre quem você está seguindo.\n\n\n                   Esses dados vão ser usados quando você for buscar usuários quando estiver escrevendo um tweet.</string>
+    <string name="sync_friends_summary">Sincroniza manualmente a lista de amigos.\n\nIsso foi feito quando você fez login no Talon, e é atualizado automaticamente quando você segue alguém usando Talon. Isso irá atualizar tudo sobre quem você está seguindo.\n\n
+                   Esses dados vão ser usados quando você for buscar usuários quando estiver escrevendo um tweet.</string>
     <string name="sync_success">Sincronia Concluída</string>
     <string name="sync_failed">Falha na Sincronização</string>
     <string name="push_notification_options">"Opções de \"Notificações Push\""</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">Navegador em Tela Cheia</string>
     <string name="full_screen_browsers_summary">Abre tweets que contêm uma página da web em tela cheia.</string>
     <string name="reverse_click_actions">Reverter Toque de Ação</string>
-    <string name="reverse_click_actions_summary">Reverte o que acontece quando você toca em um tweet.\n\n\n                    Padrão (quando desabilitado):\n\n                    - Toque longo para abrir o tweet\n\n                    - Toque curto para expandir o tweet</string>
+    <string name="reverse_click_actions_summary">Reverte o que acontece quando você toca em um tweet.\n\n
+                    Padrão (quando desabilitado):\n
+                    - Toque longo para abrir o tweet\n
+                    - Toque curto para expandir o tweet</string>
     <string name="extra_pages">Use Timelines Extras</string>
     <string name="extra_pages_summary">Adiciona duas timelines ao lado esquerdo da timeline principal. Uma de tweets com links e outra de tweets com imagens.</string>
     <string name="live_streaming">Live Streaming</string>
@@ -440,8 +452,8 @@
     <string name="retweeting_status">Retweetando</string>
     <string name="removing_favorite">Removendo favorito</string>
     <string name="favoriting_status">Favoritando</string>
-    <string name="jumping_workaround">Solução para a timeline \"saltando\"</string>
-    <string name="jumping_workaround_summary">Ative isso se sua timeline está \"saltando\" para baixo depois de você atualizar.</string>
+    <string name="jumping_workaround">Solução para a timeline "saltando"</string>
+    <string name="jumping_workaround_summary">Ative isso se sua timeline está "saltando" para baixo depois de você atualizar.</string>
     <string name="menu_share_link">Compartilhar Link</string>
     <string name="no_links">Sem Links</string>
     <string name="configure_pages">Configurações extras</string>

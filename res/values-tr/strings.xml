@@ -245,7 +245,9 @@
     <string name="make_a_theme">Tema oluştur</string>
     <string name="layout">Düzen</string>
     <string name="themeing_complete">Temayı Uygula</string>
-    <string name="themeing_complete_summary">\"Talon\" şimdi kapanacak.\n\n\nAna sayfa akışını tam zamanında almak ve görmek için son uygulamalar üzerinden \"Talon\" u kaydırmak zorunda kalacak.\n\n\nProfil resimlerini (yani daire veya kare) gerektiği şekilde göstermek istemiyorsanız, widget\'i kaldırmak ve yeniden eklemek zorunda kalacaksınız.</string>
+    <string name="themeing_complete_summary">\"Talon\" şimdi kapanacak.\n\n
+Ana sayfa akışını tam zamanında almak ve görmek için son uygulamalar üzerinden \"Talon\" u kaydırmak zorunda kalacak.\n\n
+Profil resimlerini (yani daire veya kare) gerektiği şekilde göstermek istemiyorsanız, widget\'i kaldırmak ve yeniden eklemek zorunda kalacaksınız.</string>
     <string name="layout_summary">Bu değiştiğin de uygulamanın ön belleğini temizleyecektir.</string>
     <string name="text_size">Yazı Boyutu</string>
     <string name="night_mode">Gece Modu</string>
@@ -255,7 +257,11 @@
     <string name="device_font">Cihazın Yazı Karakterini Kullan</string>
     <string name="device_font_summary">Çoğu cihazlarda normal \"Roboto\". Talon varsayılan yazı tipi \"Roboto Hafif\" dir.</string>
     <string name="ui_extras">Ekstra Görünüm</string>
-    <string name="ui_extras_summary">Şunları içerir:\n\n- Eylem Çubuğunu gizlemek\n\n- Actionable Toast Bar\n\n- Şeffaf Sistem Çubuğu (Yanlızca Andriod 4.4)\n\n\nBu ayarın etkinleştirilmesi kaydırma performansını etkileyecektir.</string>
+    <string name="ui_extras_summary">Şunları içerir:\n
+- Eylem Çubuğunu gizlemek\n
+- Actionable Toast Bar\n
+- Şeffaf Sistem Çubuğu (Yanlızca Andriod 4.4)\n\n
+Bu ayarın etkinleştirilmesi kaydırma performansını etkileyecektir.</string>
     <string name="inline_pics">Display In-Line Pictures</string>
     <string name="use_screen_name">Twitter Ekran Parçası</string>
     <string name="use_screen_name_summary">Ana Sayfa yerine, kendi kullanıcı adının ve Twitter tanıtıcı görüntüleri.</string>
@@ -264,7 +270,9 @@
     <string name="to_market">Play Store\'a Git</string>
     <string name="get_android">Android Emoji (Gülen Suratlar) Satın Al.</string>
     <string name="get_ios">İOS Emoji (Gülen Suratlar) Satın Al.</string>
-    <string name="emoji_dialog_summary">Bu uygulama emojileri etkinleştirmek için, \"Siliding Emoji Klavye\" veya \"Sliding Emoji Klavye - İOS\" play store den yüklenmiş olması gerekir.\n\n\nEmojilerden birini kaldırıp diğerini yükleyerek iki farklı tür arasında geçiş yapabilirsiniz. Her iki paket de yüklüyse,Talon için varsayılan olarak Android emojiler paketidir.\n\n\nNOT: Bu uygulamanın deneme süresi dolsa bile Emojiler kullanılmaya devam edilecek. Bu paket eklentisi tek başına bir klavye eklentisi olarak kullanılır.</string>
+    <string name="emoji_dialog_summary">Bu uygulama emojileri etkinleştirmek için, \"Siliding Emoji Klavye\" veya \"Sliding Emoji Klavye - İOS\" play store den yüklenmiş olması gerekir.\n\n
+Emojilerden birini kaldırıp diğerini yükleyerek iki farklı tür arasında geçiş yapabilirsiniz. Her iki paket de yüklüyse,Talon için varsayılan olarak Android emojiler paketidir.\n\n
+NOT: Bu uygulamanın deneme süresi dolsa bile Emojiler kullanılmaya devam edilecek. Bu paket eklentisi tek başına bir klavye eklentisi olarak kullanılır.</string>
     <string name="theme_light">Açık Renk Tema</string>
     <string name="theme_dark">Koyu Tema</string>
     <string name="theme_black">Siyah Tema</string>
@@ -290,10 +298,11 @@
     <string name="dm_sync_interval">Direkt Mesajların Yenilenme Hızı</string>
     <string name="sync_friends">Arkadaş Bilgilerini Senkronize Et</string>
     <string name="sync_friends_summary2">Yeni Tweetler oluşturabilmek için arkadaş verilerinizi tekrar senkronize edebilirsiniz.</string>
-    <string name="sync_friends_summary">Arkadaş verilerini el ile senkronize et.\n\nSizin adınıza giriş yapılır ve Talon takip ettiklerinizi otomatik olarak ekler, ancak bu seçenek en son takip etmeye başladıklarınızı kapsar.\n\n\nBir tweet oluştururken, kişileri ararken bu veriler kullanılır.</string>
+    <string name="sync_friends_summary">Arkadaş verilerini el ile senkronize et.\n\nSizin adınıza giriş yapılır ve Talon takip ettiklerinizi otomatik olarak ekler, ancak bu seçenek en son takip etmeye başladıklarınızı kapsar.\n\n
+Bir tweet oluştururken, kişileri ararken bu veriler kullanılır.</string>
     <string name="sync_success">Senkronizasyon Başarılı</string>
     <string name="sync_failed">Senkronizasyon Başarısız</string>
-    <string name="push_notification_options">"\'\'Uyarı Bildirimleri\'\' Seçenekleri"</string>
+    <string name="push_notification_options">"''Uyarı Bildirimleri'' Seçenekleri"</string>
     <string name="push_notifications">Talon Pull</string>
     <string name="push_notifications_summary">Yeni etkileşimleri almak gibi bu bildirimleri göndermek için bir izleyici başlayacak (bildirimler, favoriler, retweetler ve yeni takip edenler).</string>
     <string name="push_notification_warning">Bu seçenek hakkında daha fazla bilgi için, bu tercihinizi tıklatın.</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">Tam Ekran Tarayıcılar</string>
     <string name="full_screen_browsers_summary">Açılan tweet içeriği tam ekran boyutunda web sayfasında açılır.</string>
     <string name="reverse_click_actions">Geri Dönme Simgesine Tıklama Eylemleri</string>
-    <string name="reverse_click_actions_summary">Geri tıklandığında tweetler görüntülenir.\n\n\nStandart (devre dışı bırakıldığında):\n\n-- Uzun basılı tutmak tweet açmak için\n\n- Kısa basılı tutmak tweet genişletmek için</string>
+    <string name="reverse_click_actions_summary">Geri tıklandığında tweetler görüntülenir.\n\n
+Standart (devre dışı bırakıldığında):\n
+-- Uzun basılı tutmak tweet açmak için\n
+- Kısa basılı tutmak tweet genişletmek için</string>
     <string name="extra_pages">Ekstra Sayfalar Kullanın</string>
     <string name="extra_pages_summary">Ana Sayfa\' nın sol tarafına bağlantıları ve resim sayfalarını ekleme</string>
     <string name="live_streaming">Canlı Akış</string>

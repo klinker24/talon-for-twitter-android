@@ -245,7 +245,9 @@
     <string name="make_a_theme">أصنع خلفية </string>
     <string name="layout">تصميم </string>
     <string name="themeing_complete">تطبيق الخلفية</string>
-    <string name="themeing_complete_summary">\"تالون\" سيغلق الآن \n\n\nيجب أن تقوم بسحب \"تالون\" من قائمة آخر البرامج المشغلة لكي ترى جميع أثر التغييرات على خطك الزمني.\n\n\nإذا كانت صور العرض الشخصية معروضة ليست بالطريقة المناسبة (دوائر أو مربعات)، ينبغي عليك إزالة ومن ثم إضافة الأيقونة.</string>
+    <string name="themeing_complete_summary">\"تالون\" سيغلق الآن \n\n
+يجب أن تقوم بسحب \"تالون\" من قائمة آخر البرامج المشغلة لكي ترى جميع أثر التغييرات على خطك الزمني.\n\n
+إذا كانت صور العرض الشخصية معروضة ليست بالطريقة المناسبة (دوائر أو مربعات)، ينبغي عليك إزالة ومن ثم إضافة الأيقونة.</string>
     <string name="layout_summary">هذا التغيير سيقوم بمسح جميع الملفات المؤقتة للبرنامج </string>
     <string name="text_size">حجم الخط </string>
     <string name="night_mode">الوضع الليلي </string>
@@ -255,7 +257,11 @@
     <string name="device_font">أستخدم خط الجهاز </string>
     <string name="device_font_summary">خط \'روبوتو\' المعتاد على أغلب الأجهزة. الخط الأفتراضي في تالون \"روبوتو فاتح\". </string>
     <string name="ui_extras">أضافات ل واجهة المستخدم </string>
-    <string name="ui_extras_summary">تشمل:\n\n- إخفاء شريط التحكم\n\n- شريط التوست العملي\n\n- شرائط النظام شفافة ( أندرويد 4.4 فقط )\n\n\nتفعيل الخيار سيوئدي إلى التأثير على أداء التمرير.</string>
+    <string name="ui_extras_summary">تشمل:\n
+- إخفاء شريط التحكم\n
+- شريط التوست العملي\n
+- شرائط النظام شفافة ( أندرويد 4.4 فقط )\n\n
+تفعيل الخيار سيوئدي إلى التأثير على أداء التمرير.</string>
     <string name="inline_pics">عرض في خط الصور </string>
     <string name="use_screen_name">عرض مقبض تويتر </string>
     <string name="use_screen_name_summary">عرض مقبض تويتر للمستخدم بدلا من الأسم في الخط الزمني.</string>
@@ -264,7 +270,9 @@
     <string name="to_market">إلى بلاي ستور</string>
     <string name="get_android">خذ رموز الإيموجي للأندرويد</string>
     <string name="get_ios">خذ رموز الإيموجي ل iOS</string>
-    <string name="emoji_dialog_summary">لكي تفعل رموز الإيموجي في البرنامج. يجب أن تثبت برنامج \"Sliding Emoji Keyboard\" أو \"Sliding Emoji Keyboard - iOS\" من بلاي ستور.\n\n\nتستطيع التبديل بين نوعي رموز الإيموجي عن طريق إزالة أحدهما وتثبت الآخر. إذا كان كليهما مثبتين، ف تالون سيفترض أستخدام رموز الإيموجي للأندرويد.\n\n\nملاحظة: رموز الإيموجي ستتمر بالعمل داخل البرنامج حتى بعد أنتهاء الفترة التجريبية! الرموز ستسخدم كإضافة كما ستستخدم كلوحة مفاتيح منفصلة.</string>
+    <string name="emoji_dialog_summary">لكي تفعل رموز الإيموجي في البرنامج. يجب أن تثبت برنامج \"Sliding Emoji Keyboard\" أو \"Sliding Emoji Keyboard - iOS\" من بلاي ستور.\n\n
+تستطيع التبديل بين نوعي رموز الإيموجي عن طريق إزالة أحدهما وتثبت الآخر. إذا كان كليهما مثبتين، ف تالون سيفترض أستخدام رموز الإيموجي للأندرويد.\n\n
+ملاحظة: رموز الإيموجي ستتمر بالعمل داخل البرنامج حتى بعد أنتهاء الفترة التجريبية! الرموز ستسخدم كإضافة كما ستستخدم كلوحة مفاتيح منفصلة.</string>
     <string name="theme_light">خلفية فاتحة </string>
     <string name="theme_dark">خلفية غامقة </string>
     <string name="theme_black">خلفية سوداء </string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">معدل تحيث الرسائل الخاصة</string>
     <string name="sync_friends">مزامنة بيانات الأصدقاء</string>
     <string name="sync_friends_summary2">إعادة مزامنة بيانات الآصدقاء عند إرسال التغريدات.</string>
-    <string name="sync_friends_summary">مزامنة قوائم الأصدقاء يدويا.\n\nوقد تم ذلك في تسجيل الدخول بالنسبة لك، ويتم إضافتها تلقائيا عند اتباع شخص من تالون، ولكن هذا الخيار سحب كل من الأحدث \"متابعة\".\n\n\nيتم استخدام هذه البيانات عند البحث للمستخدمين عند إنشاء تغريدة.</string>
+    <string name="sync_friends_summary">مزامنة قوائم الأصدقاء يدويا.\n\nوقد تم ذلك في تسجيل الدخول بالنسبة لك، ويتم إضافتها تلقائيا عند اتباع شخص من تالون، ولكن هذا الخيار سحب كل من الأحدث \"متابعة\".\n\n
+يتم استخدام هذه البيانات عند البحث للمستخدمين عند إنشاء تغريدة.</string>
     <string name="sync_success">تمت المزامنة</string>
     <string name="sync_failed">فشلت المزامنة</string>
     <string name="push_notification_options">"خيارات \"تدفق التنبيهات\""</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">متصفحات الشاشة بالكامل</string>
     <string name="full_screen_browsers_summary">أفتح التغريدات التي تحتوي على رابط صفحة أنترنت في طور الشاشة بالكامل.</string>
     <string name="reverse_click_actions">تطبيقات النقر العكسي</string>
-    <string name="reverse_click_actions_summary">عكس إجراءات انقر على التغريدات.\n\n\nأفتراضي (عند المنع):\n\n- أنقر مطولا لتفتح التغريدة\n\n- أنقر بخفة لكي توسع التغريدة</string>
+    <string name="reverse_click_actions_summary">عكس إجراءات انقر على التغريدات.\n\n
+أفتراضي (عند المنع):\n
+- أنقر مطولا لتفتح التغريدة\n
+- أنقر بخفة لكي توسع التغريدة</string>
     <string name="extra_pages">أستخدم صفحات أضافية</string>
     <string name="extra_pages_summary">أضف صفحات الروابط والصور إلى يسار الخط الزمني.</string>
     <string name="live_streaming">بث مباشر</string>

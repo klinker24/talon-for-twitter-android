@@ -245,7 +245,9 @@
     <string name="make_a_theme">Lav dit eget tema</string>
     <string name="layout">Layout</string>
     <string name="themeing_complete">Nuværende tema</string>
-    <string name="themeing_complete_summary">\"Talon\" lukker nu ned\n\n\n Du skal swipe \"Talon\" ud af senest brugte app\'s før ændringer slår fuldt igennem på tidslinjen\n\n\nHvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant, skal du fjerne widget\'en og tilføje den igen</string>
+    <string name="themeing_complete_summary">\"Talon\" lukker nu ned\n\n
+ Du skal swipe \"Talon\" ud af senest brugte app\'s før ændringer slår fuldt igennem på tidslinjen\n\n
+Hvis dit profil billede ikke vises som det skal, enten i en cirkel eller firkant, skal du fjerne widget\'en og tilføje den igen</string>
     <string name="layout_summary">Skift af layout vil slette app´ens cache</string>
     <string name="text_size">Tekst størrelse</string>
     <string name="night_mode">Nat tilstand</string>
@@ -255,7 +257,11 @@
     <string name="device_font">Brug enhedens skrifttype</string>
     <string name="device_font_summary">Regular \"Roboto\" på de fleste enheder. Talon\'s standard skrifttype er \"Roboto light\"</string>
     <string name="ui_extras">Ekstra UI indstillinger</string>
-    <string name="ui_extras_summary">Inkluderer:\n\n                - Gemmer funktions linje\n\n                - Aktiv info linje\n\n                - Transparente system linjer (kun Android 4.4)\n\n\n Aktivéring af denne indstilling kan have indflydelse på scrolling oplevelsen</string>
+    <string name="ui_extras_summary">Inkluderer:\n
+                - Gemmer funktions linje\n
+                - Aktiv info linje\n
+                - Transparente system linjer (kun Android 4.4)\n\n
+ Aktivéring af denne indstilling kan have indflydelse på scrolling oplevelsen</string>
     <string name="inline_pics">Vis in-line billeder</string>
     <string name="use_screen_name">Vis Twitter kaldenavn</string>
     <string name="use_screen_name_summary">Vis brugers Twitter kaldenavn i stedet for eget navn i tidslinjen</string>
@@ -264,7 +270,9 @@
     <string name="to_market">Til Play Store</string>
     <string name="get_android">Hent Android Emojis</string>
     <string name="get_ios">Hent IOS Emojis</string>
-    <string name="emoji_dialog_summary">For at aktivére emojis i denne app, skal du have \"Sliding Emoji Keyboard\" eller \"Sliding Emoji Keyboard - iOS\" pakken installeret fra Play Store\n\n\nDu kan skifte mellem de to typer emojis ved at afinstallere den ene og installerer den anden. Hvis begge pakker er installeret, vil Talon automatisk vælge pakken med Android emojis\n\n  \nBEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveperioden er udløbet! Pakken vil bruges både som en tilføjelse, såvel som en uafhængig tastatur applikation</string>
+    <string name="emoji_dialog_summary">For at aktivére emojis i denne app, skal du have \"Sliding Emoji Keyboard\" eller \"Sliding Emoji Keyboard - iOS\" pakken installeret fra Play Store\n\n
+Du kan skifte mellem de to typer emojis ved at afinstallere den ene og installerer den anden. Hvis begge pakker er installeret, vil Talon automatisk vælge pakken med Android emojis\n\n  
+BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveperioden er udløbet! Pakken vil bruges både som en tilføjelse, såvel som en uafhængig tastatur applikation</string>
     <string name="theme_light">Lyst tema</string>
     <string name="theme_dark">Mørkt tema</string>
     <string name="theme_black">Sort tema</string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">Direkte beskeder\'s opdaterings interval</string>
     <string name="sync_friends">Synkr. venners data</string>
     <string name="sync_friends_summary2">Synkronisér venners data til brug ved skrivning af tweets</string>
-    <string name="sync_friends_summary">Synkronisérer manuelt venne listen\n\nDet blev gjort ved log ind og de bliver automatisk tilføjet når du følger nogen fra Talon. Denne funktion vil tilføje de seneste personer du har valgt at følge\n\n\n Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af tweets</string>
+    <string name="sync_friends_summary">Synkronisérer manuelt venne listen\n\nDet blev gjort ved log ind og de bliver automatisk tilføjet når du følger nogen fra Talon. Denne funktion vil tilføje de seneste personer du har valgt at følge\n\n
+ Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af tweets</string>
     <string name="sync_success">Synkroniseret</string>
     <string name="sync_failed">Synkroniserings fejl</string>
     <string name="push_notification_options">"\"Push notifikationer\" indstillinger"</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">Fuldskærms browser</string>
     <string name="full_screen_browsers_summary">Åbn tweets der indeholder links til websider, med fuldskærms visning</string>
     <string name="reverse_click_actions">Omvendt tap funktion</string>
-    <string name="reverse_click_actions_summary">Omvendt funktion ved tap på tweets\n\n\n Standard (når déaktiveret):\n\n - Tap og hold for at åbne tweet\n\n - Tap for at læse tweet</string>
+    <string name="reverse_click_actions_summary">Omvendt funktion ved tap på tweets\n\n
+ Standard (når déaktiveret):\n
+ - Tap og hold for at åbne tweet\n
+ - Tap for at læse tweet</string>
     <string name="extra_pages">Tilføj ekstra sider</string>
     <string name="extra_pages_summary">Tilføj links og billede sider til venstre for tidslinjen</string>
     <string name="live_streaming">Live Streaming</string>
@@ -406,7 +418,7 @@
     <string name="deleting_messages">Sletter beskeder</string>
     <string name="type_message">Skriv besked...</string>
     <string name="fill_gaps">Luk hul i tidslinje</string>
-    <string name="fill_gaps_summary">Lukker \"hul\" der kan opstå i Tidslinjen grundet dårlig streaming forbindelse, når live-streaming er aktiveret</string>
+    <string name="fill_gaps_summary">Lukker "hul" der kan opstå i Tidslinjen grundet dårlig streaming forbindelse, når live-streaming er aktiveret</string>
     <string name="filling_timeline">Lukker hullet i tidslinje</string>
     <string name="follows_you">Følger dig</string>
     <string name="not_following_you">Følger ikke dig</string>
@@ -500,7 +512,7 @@
     <string name="no_expression">Ingen ord tilføjet</string>
     <string name="regex_disclaimer">Hvis mange ord er muted, kan opstarts tid og opdatering af applikationen blive forlænget</string>
     <string name="cleaning_cache">Rydder op i cache...</string>
-    <string name="floating_compose">Vis flydende \"Skriv tweet\" knap</string>
+    <string name="floating_compose">Vis flydende "Skriv tweet" knap</string>
     <string name="settings_links">Indstillinger</string>
     <string name="other_links">Andet</string>
     <string name="display_options">Vis indstillinger</string>
@@ -533,12 +545,14 @@
     <string name="no_tweet">Ingen tweet!</string>
     <string name="menu_attach_picture">Vedhæft billede</string>
     <string name="twitpic_disclaimer">TwitPic ansvarsfraskrivelse</string>
-    <string name="twitpic_disclaimer_summary">Twitter\'s API tillader ikke at vedhæfte et billede til en direkte besked. Derfor vil Talon uploade billedet til TwitPic og dele linket til billedet med modtageren\n\n\n Billedet vil være tilgængeligt på din TwitPic profil</string>
+    <string name="twitpic_disclaimer_summary">Twitter\'s API tillader ikke at vedhæfte et billede til en direkte besked. Derfor vil Talon uploade billedet til TwitPic og dele linket til billedet med modtageren\n\n
+ Billedet vil være tilgængeligt på din TwitPic profil</string>
     <string name="dont_show_again">Vis ikke igen</string>
     <string name="error_attaching_image">Fejl, vedhæftning af billede</string>
     <string name="sending_tweet">Sender tweet...</string>
     <string name="attached_images">Vedhæftet</string>
-    <string name="twitpic_disclaimer_multi_summary">Twitter´s API´s understøtter ikke at tilføje mere end ét billede til et tweet\n\n\n Talon vil uploade billedet til TwitPic i stedet</string>
+    <string name="twitpic_disclaimer_multi_summary">Twitter´s API´s understøtter ikke at tilføje mere end ét billede til et tweet\n\n
+ Talon vil uploade billedet til TwitPic i stedet</string>
     <string name="loading_webpage">Loading webside...</string>
     <string name="plain_text_browser">Readability browser</string>
     <string name="plain_text_summary">Fjerner billeder og anden formatering fra web browseren, så kun teksten på en webside vises</string>
@@ -549,6 +563,13 @@
     <string name="pre_cache_summary">Download billeder øjeblikkeligt når de er live streamed, eller modtaget efter tidslinjen er blevet opdateret</string>
     <string name="pre_cache_settings">Midlertidig database indst.</string>
     <string name="pre_cache_only_wifi">Kun over WiFi</string>
+    <string name="tweet_page">Tweet/svar</string>
+    <string name="web_page">Webside</string>
+    <string name="conversation_page">Samtaler</string>
+    <string name="viewer_page">Vis ved tap på tweet</string>
+    <string name="viewer_page_summary">Standard visning ved tap på tweet</string>
+    <string name="browser_settings">Browser indstillinger</string>
+    <string name="memory_manage">Hukommelse indstillinger</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
     <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for at vise tweetet</string>
 </resources>
