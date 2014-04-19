@@ -596,5 +596,6 @@
     <string name="viewer_page_summary">Default page to open to when viewing a tweet.</string>
     <string name="browser_settings">Browser Settings</string>
     <string name="memory_manage">Memory Management</string>
+    <string name="protected_account">User has a protected account!</string>
 
 </resources>
