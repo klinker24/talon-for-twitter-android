@@ -245,7 +245,9 @@
     <string name="make_a_theme">Создать тему</string>
     <string name="layout">Макет</string>
     <string name="themeing_complete">Тема применена</string>
-    <string name="themeing_complete_summary">Talon сейчас закроется.\n\n\nВам нужно смахнуть Talon из списка недавних приложений, чтобы полностью применить изменения.\n\n\nЕсли изображения профиля отображаются не так, как должны (то есть круг или квадрат), вам нужно удалить и заново добавить виджет.</string>
+    <string name="themeing_complete_summary">Talon сейчас закроется.\n\n
+Вам нужно смахнуть Talon из списка недавних приложений, чтобы полностью применить изменения.\n\n
+Если изображения профиля отображаются не так, как должны (то есть круг или квадрат), вам нужно удалить и заново добавить виджет.</string>
     <string name="layout_summary">Изменение очистит кэш приложения.</string>
     <string name="text_size">Размер шрифта</string>
     <string name="night_mode">Ночной режим</string>
@@ -255,7 +257,11 @@
     <string name="device_font">Использовать системный шрифт</string>
     <string name="device_font_summary">Стандартный Roboto на большинстве устройств. Используемый в Talon шрифт – Roboto Light.</string>
     <string name="ui_extras">Дополнения интерфейса</string>
-    <string name="ui_extras_summary">Включает:\n\n- Скрывающийся Action Bar\n\n- Интерактивный Toast Bar\n\n- Прозрачные системные элементы (в Android 4.4+)\n\n\nВключение может повлиять на производительность.</string>
+    <string name="ui_extras_summary">Включает:\n
+- Скрывающийся Action Bar\n
+- Интерактивный Toast Bar\n
+- Прозрачные системные элементы (в Android 4.4+)\n\n
+Включение может повлиять на производительность.</string>
     <string name="inline_pics">Превью изображений в ленте</string>
     <string name="use_screen_name">Показывать @никнейм</string>
     <string name="use_screen_name_summary">Вместо имени пользователя вверху твитов и сообщений будет отображаться @никнейм.</string>
@@ -264,7 +270,9 @@
     <string name="to_market">В Play Маркет</string>
     <string name="get_android">Android</string>
     <string name="get_ios">iOS</string>
-    <string name="emoji_dialog_summary">Чтобы использовать Emoji в этом приложении, вам нужно загрузить бесплатную клавиатуру \"Sliding Emoji Keyboard\" или \"Sliding Emoji Keyboard - iOS\" из Play Маркета. Если вы установите оба приложения, то будет использоваться первое (стиль Android). Удалите одно из них, чтобы задействовать другое.\n\n\n                ПРИМЕЧАНИЕ: Emoji будут продолжать работать в Talon даже после истечения срока действия пробной версии этих приложений. \n\n\n                Выберите предпочитаемый стиль, нажав на одну из кнопок.</string>
+    <string name="emoji_dialog_summary">Чтобы использовать Emoji в этом приложении, вам нужно загрузить бесплатную клавиатуру \"Sliding Emoji Keyboard\" или \"Sliding Emoji Keyboard - iOS\" из Play Маркета. Если вы установите оба приложения, то будет использоваться первое (стиль Android). Удалите одно из них, чтобы задействовать другое.\n\n
+                ПРИМЕЧАНИЕ: Emoji будут продолжать работать в Talon даже после истечения срока действия пробной версии этих приложений. \n\n
+                Выберите предпочитаемый стиль, нажав на одну из кнопок.</string>
     <string name="theme_light">Светлая тема</string>
     <string name="theme_dark">Тёмная тема</string>
     <string name="theme_black">Чёрная тема</string>
@@ -277,7 +285,7 @@
     <string name="led">LED-индикатор</string>
     <string name="wake_screen">Включать экран</string>
     <string name="sound">Звук</string>
-    <string name="quiet_hours">Не Беспокоить</string>
+    <string name="quiet_hours">Не беспокоить</string>
     <string name="max_number_on_refresh">Число загружаемых твитов</string>
     <string name="fav_users_notifications">Избранные пользователи</string>
     <string name="sync_second_mentions">Синхронизировать второй аккаунт</string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">Частота обновления сообщений</string>
     <string name="sync_friends">Синхронизировать данные о друзьях</string>
     <string name="sync_friends_summary2">Синхронизировать заново данные о друзьях при написании твита.</string>
-    <string name="sync_friends_summary">Вручную синхронизировать список друзей.\n\nЭто было сделано автоматически после входа в Твиттер, и выполняется каждый раз, когда вы начинаете читать кого-то, используя это приложение, но вы можете сделать это сейчас, и Talon просканирует все ваши подписки.\n\n\nЭти данные используются для поиска по пользователям при составлении нового твита.</string>
+    <string name="sync_friends_summary">Вручную синхронизировать список друзей.\n\nЭто было сделано автоматически после входа в Твиттер, и выполняется каждый раз, когда вы начинаете читать кого-то, используя это приложение, но вы можете сделать это сейчас, и Talon просканирует все ваши подписки.\n\n
+Эти данные используются для поиска по пользователям при составлении нового твита.</string>
     <string name="sync_success">Синхронизация завершена</string>
     <string name="sync_failed">Синхронизация не удалась</string>
     <string name="push_notification_options">"Настройки Push-уведомлений"</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">Полноэкранный браузер</string>
     <string name="full_screen_browsers_summary">Открывать твиты, содержащие ссылки, в полноэкранном режиме.</string>
     <string name="reverse_click_actions">Переназначить действия по нажатию</string>
-    <string name="reverse_click_actions_summary">Переназначить действия по нажатию на твит.\n\n\n                    По умолчанию (когда галочка снята):\n\n                    - Короткое нажатие показывает дополнительные опции\n\n                    - Длинное нажатие открывает твит</string>
+    <string name="reverse_click_actions_summary">Переназначить действия по нажатию на твит.\n\n
+                    По умолчанию (когда галочка снята):\n
+                    - Короткое нажатие показывает дополнительные опции\n
+                    - Длинное нажатие открывает твит</string>
     <string name="extra_pages">Дополнительные вкладки</string>
     <string name="extra_pages_summary">Добавить вкладки ссылок и изображений слева от основной ленты.</string>
     <string name="live_streaming">Стриминг</string>
@@ -518,7 +530,7 @@
     <string name="widget_dark">Тёмная</string>
     <string name="widget_trans_light">Прозрачная светлая</string>
     <string name="widget_trans_black">Прозрачная тёмная</string>
-    <string name="ui_settings">Настройки UI</string>
+    <string name="ui_settings">Интерфейс</string>
     <string name="show_pos_dashclock">Показывать позицию в ленте</string>
     <string name="show_pos_dashclock_summary">Показывать текущую позицию в ленте вместо количества новых твитов.</string>
     <string name="talon_large_widget">Talon - Лента</string>
@@ -533,12 +545,14 @@
     <string name="no_tweet">Нет твитов!</string>
     <string name="menu_attach_picture">Прикрепить изображение</string>
     <string name="twitpic_disclaimer">Предупреждение о TwitPic</string>
-    <string name="twitpic_disclaimer_summary">Средства Твиттера не позволяют отправлять изображения в личных сообщениях, поэтому Talon загрузит картинку на TwitPic и отправит ссылку на него собеседнику.\n\n\n Это изображение будет общедоступно в вашем профиле TwitPic.</string>
+    <string name="twitpic_disclaimer_summary">Средства Твиттера не позволяют отправлять изображения в личных сообщениях, поэтому Talon загрузит картинку на TwitPic и отправит ссылку на него собеседнику.\n\n
+ Это изображение будет общедоступно в вашем профиле TwitPic.</string>
     <string name="dont_show_again">Не показывать</string>
     <string name="error_attaching_image">Ошибка отправки</string>
     <string name="sending_tweet">Отправка твита...</string>
     <string name="attached_images">Прикреплено</string>
-    <string name="twitpic_disclaimer_multi_summary">Средства Твиттера не позволяют отправлять более одного изображения в твите.\n\n\n Talon отправит изображения с помощью TwitPic.</string>
+    <string name="twitpic_disclaimer_multi_summary">Средства Твиттера не позволяют отправлять более одного изображения в твите.\n\n
+ Talon отправит изображения с помощью TwitPic.</string>
     <string name="loading_webpage">Загрузка страницы...</string>
     <string name="plain_text_browser">Только текст</string>
     <string name="plain_text_summary">Убирает все изображения и форматирование со страницы, оставляя только текст.</string>
@@ -547,6 +561,15 @@
     <string name="layout_full_screen">Полноэкранная</string>
     <string name="pre_cache_images">Кэшировать изображения</string>
     <string name="pre_cache_summary">Загружать изображения, как только они появляются в ленте после фонового обновления.</string>
+    <string name="pre_cache_settings">Настройки кэширования</string>
+    <string name="pre_cache_only_wifi">Только через Wi-Fi</string>
+    <string name="tweet_page">Твит</string>
+    <string name="web_page">Веб-страница</string>
+    <string name="conversation_page">Диалог</string>
+    <string name="viewer_page">Просмотр твита</string>
+    <string name="viewer_page_summary">Какую страницу открывать по умолчанию.</string>
+    <string name="browser_settings">Браузер</string>
+    <string name="memory_manage">Управление памятью</string>
     <string name="open_to_web">Открывать ссылки в твитах</string>
     <string name="open_to_web_summary">Если твит содержит ссылку, будет открываться страница с ней, а не сам твит.</string>
 </resources>

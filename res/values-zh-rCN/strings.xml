@@ -245,7 +245,9 @@
     <string name="make_a_theme">制作主题</string>
     <string name="layout">布局</string>
     <string name="themeing_complete">应用主题</string>
-    <string name="themeing_complete_summary">Talon 即将关闭。 \n\n\n 如果需要重启后新的设置起效，还需要在最近打开的应用列表中侧滑关闭Talon。\n\n\n 如果你的用户头像并没有如期显示（如：方形或圆形），请您先移除再重新添加Widget.</string>
+    <string name="themeing_complete_summary">Talon 即将关闭。 \n\n
+ 如果需要重启后新的设置起效，还需要在最近打开的应用列表中侧滑关闭Talon。\n\n
+ 如果你的用户头像并没有如期显示（如：方形或圆形），请您先移除再重新添加Widget.</string>
     <string name="layout_summary">修改此处将清空应用的缓存。</string>
     <string name="text_size">文本大小</string>
     <string name="night_mode">夜间模式</string>
@@ -255,7 +257,11 @@
     <string name="device_font">使用设备字体</string>
     <string name="device_font_summary">多数设备使用Roboto字体。Talon默认使用Roboto Light字体。</string>
     <string name="ui_extras">UI其他设置</string>
-    <string name="ui_extras_summary">包含：\n\n - 隐藏动作栏\n\n - 可活动的滑动弹出栏\n\n - 透明的系统状态栏（仅Android 4.4支持）\n\n\n 这些设置将影响滑动体验</string>
+    <string name="ui_extras_summary">包含：\n
+ - 隐藏动作栏\n
+ - 可活动的滑动弹出栏\n
+ - 透明的系统状态栏（仅Android 4.4支持）\n\n
+ 这些设置将影响滑动体验</string>
     <string name="inline_pics">显示内嵌图片</string>
     <string name="use_screen_name">显示昵称</string>
     <string name="use_screen_name_summary">在时间线上显示昵称替代用户名</string>
@@ -264,7 +270,9 @@
     <string name="to_market">跳转至Play Store</string>
     <string name="get_android">获取Android绘文字</string>
     <string name="get_ios">获取iOS绘文字</string>
-    <string name="emoji_dialog_summary">在本应用中使用绘文字，需要预先从Play Store安装“Sliding Emoji Keyboard”或者\"Sliding Emoji Keyboard - iOS\"。\n\n\n 您可以通过卸载旧的绘文字安装包并重新安装另一个绘文字安装包来切换成不同的绘文字类型。如果您同时安装了两个安装包，则默认使用Android的绘文字。\n\n\n 注意：因为本应用是通过插件形式调用绘文字应用，所以就算绘文字应用过了试用期限，也依然可以在本应用中使用绘文字！</string>
+    <string name="emoji_dialog_summary">在本应用中使用绘文字，需要预先从Play Store安装“Sliding Emoji Keyboard”或者\"Sliding Emoji Keyboard - iOS\"。\n\n
+ 您可以通过卸载旧的绘文字安装包并重新安装另一个绘文字安装包来切换成不同的绘文字类型。如果您同时安装了两个安装包，则默认使用Android的绘文字。\n\n
+ 注意：因为本应用是通过插件形式调用绘文字应用，所以就算绘文字应用过了试用期限，也依然可以在本应用中使用绘文字！</string>
     <string name="theme_light">明亮的主题</string>
     <string name="theme_dark">灰暗的主题</string>
     <string name="theme_black">黑暗主题</string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">私信更新频率</string>
     <string name="sync_friends">同步关注信息</string>
     <string name="sync_friends_summary2">撰写新推文时重新同步关注信息</string>
-    <string name="sync_friends_summary">手动更新关注信息\n\n初始设置时就已经帮你更新完成了。在你新关注任意用户的时候该用户信息会自动添加至关注信息中，而这个设置将会重置所有关注信息并更新成最新的关注信息\n\n\n 关注信息主要用于撰写新推文的时候的用户名补全。</string>
+    <string name="sync_friends_summary">手动更新关注信息\n\n初始设置时就已经帮你更新完成了。在你新关注任意用户的时候该用户信息会自动添加至关注信息中，而这个设置将会重置所有关注信息并更新成最新的关注信息\n\n
+ 关注信息主要用于撰写新推文的时候的用户名补全。</string>
     <string name="sync_success">同步成功</string>
     <string name="sync_failed">同步失败</string>
     <string name="push_notification_options">"推送通知设置"</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">全屏浏览器</string>
     <string name="full_screen_browsers_summary">用全屏模式打开带有网址链接的推文</string>
     <string name="reverse_click_actions">变更点击行为</string>
-    <string name="reverse_click_actions_summary">该设置变更点击推文的时候的行为。\n\n\n 默认（该设置禁用时）：\n\n - 长按打开推文信息\n\n - 短按扩展推文</string>
+    <string name="reverse_click_actions_summary">该设置变更点击推文的时候的行为。\n\n
+ 默认（该设置禁用时）：\n
+ - 长按打开推文信息\n
+ - 短按扩展推文</string>
     <string name="extra_pages">追加扩展栏目</string>
     <string name="extra_pages_summary">在时间线右侧追加链接栏目和图片栏目</string>
     <string name="live_streaming">开启实时流</string>

@@ -245,7 +245,9 @@
     <string name="make_a_theme">Створити тему</string>
     <string name="layout">Макет</string>
     <string name="themeing_complete">Тема застосована</string>
-    <string name="themeing_complete_summary">\"Talon\" зараз закриється.\n\n\nВам потрібно вимкнути \"Talon\" зі списку недавніх програм, щоб повністю застосувати зміни.\n\n\nЯкщо зображення профілю відображаються не так, як повинно (тобто коло чи квадрат), вам потрібно видалити і заново додати віджет.</string>
+    <string name="themeing_complete_summary">\"Talon\" зараз закриється.\n\n
+Вам потрібно вимкнути \"Talon\" зі списку недавніх програм, щоб повністю застосувати зміни.\n\n
+Якщо зображення профілю відображаються не так, як повинно (тобто коло чи квадрат), вам потрібно видалити і заново додати віджет.</string>
     <string name="layout_summary">Зміна очистить кеш додатку.</string>
     <string name="text_size">Розмір шрифту</string>
     <string name="night_mode">Нічний режим</string>
@@ -255,7 +257,11 @@
     <string name="device_font">Використовувати системний шрифт</string>
     <string name="device_font_summary">Стандартний \"Roboto\" є на більшості пристроїв. Використовуваний в \"Talon\" шрифт - \"Roboto Light\".</string>
     <string name="ui_extras">Доповнення інтерфейсу</string>
-    <string name="ui_extras_summary">Включає:\n\n- Автоприховування Action Bar\n\n- Інтерактивний Toast Bar\n\n= Прозорі системні елементи (тільки в Android 4.4 +)\n\n\nВключення цієї опції може вплинути на плавність прокрутки.</string>
+    <string name="ui_extras_summary">Включає:\n
+- Автоприховування Action Bar\n
+- Інтерактивний Toast Bar\n
+= Прозорі системні елементи (тільки в Android 4.4 +)\n\n
+Включення цієї опції може вплинути на плавність прокрутки.</string>
     <string name="inline_pics">Прев\'ю зображень в стрічці</string>
     <string name="use_screen_name">Показувати @нікнейм</string>
     <string name="use_screen_name_summary">Замість імені користувача вгорі твітів і повідомлень буде відображатися @нікнейм.</string>
@@ -264,7 +270,9 @@
     <string name="to_market">В Play Маркет</string>
     <string name="get_android">Android</string>
     <string name="get_ios">iOS</string>
-    <string name="emoji_dialog_summary">Щоб використовувати Emoji в цьому додатку, вам потрібно завантажити безкоштовну клавіатуру \"Sliding Emoji Keyboard\" або \"Sliding Emoji Keyboard - iOS\" з Play Маркету.\n\n\nЯкщо ви встановите обидва додатки, то буде використовуватися перший (стиль Android). Видаліть одне з них, щоб задіяти іншого.\n\n\nПРИМІТКА: Emoji будуть продовжувати працювати в \"Talon\" навіть після закінчення терміну дії пробної версії цих додатків. Виберіть бажаний стиль, натиснувши на одну з кнопок.</string>
+    <string name="emoji_dialog_summary">Щоб використовувати Emoji в цьому додатку, вам потрібно завантажити безкоштовну клавіатуру \"Sliding Emoji Keyboard\" або \"Sliding Emoji Keyboard - iOS\" з Play Маркету.\n\n
+Якщо ви встановите обидва додатки, то буде використовуватися перший (стиль Android). Видаліть одне з них, щоб задіяти іншого.\n\n
+ПРИМІТКА: Emoji будуть продовжувати працювати в \"Talon\" навіть після закінчення терміну дії пробної версії цих додатків. Виберіть бажаний стиль, натиснувши на одну з кнопок.</string>
     <string name="theme_light">Світла тема</string>
     <string name="theme_dark">Сіра тема</string>
     <string name="theme_black">Чорна тема</string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">Частота оновлення повідомлень</string>
     <string name="sync_friends">Синхронізувати дані про друзів</string>
     <string name="sync_friends_summary2">Синхронізувати заново дані про друзів при написанні твіту.</string>
-    <string name="sync_friends_summary">Вручну синхронізувати список друзів.\n\nЦе було зроблено автоматично після входу в Твіттер, і виконується кожен раз, коли ви починаєте читати когось використовуючи цю програму, але ви можете зробити це зараз, і \"Talon\" просканує всі ваші підписки.\n\n\nЦі дані використовуються для пошуку по користувачах при складанні нового твіту.</string>
+    <string name="sync_friends_summary">Вручну синхронізувати список друзів.\n\nЦе було зроблено автоматично після входу в Твіттер, і виконується кожен раз, коли ви починаєте читати когось використовуючи цю програму, але ви можете зробити це зараз, і \"Talon\" просканує всі ваші підписки.\n\n
+Ці дані використовуються для пошуку по користувачах при складанні нового твіту.</string>
     <string name="sync_success">Синхронізація завершена</string>
     <string name="sync_failed">Синхронізація не вдалася</string>
     <string name="push_notification_options">"Налаштування Push-сповіщень"</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">Повноекранний браузер</string>
     <string name="full_screen_browsers_summary">Відкривати твіти, які містять посилання, в повноекранному режимі.</string>
     <string name="reverse_click_actions">Перепризначити дії після натискання.</string>
-    <string name="reverse_click_actions_summary">Перепризначити дії після натискання на твіт.\n\n\nЗа замовчуванням (коли галочка знята):\n\n- Коротке натискання показує додаткові опції\n\n- Довге натиснення відкриває твіт</string>
+    <string name="reverse_click_actions_summary">Перепризначити дії після натискання на твіт.\n\n
+За замовчуванням (коли галочка знята):\n
+- Коротке натискання показує додаткові опції\n
+- Довге натиснення відкриває твіт</string>
     <string name="extra_pages">Додаткові вкладки</string>
     <string name="extra_pages_summary">Додати вкладки посилань і зображень зліва від основної стрічки.</string>
     <string name="live_streaming">Стрімінг</string>
@@ -346,13 +358,13 @@
     <string name="xda_thread">Тема на XDA</string>
     <string name="email_me">Відправити мені E-mail</string>
     <string name="tweet_me">Відправити мені твіт</string>
-    <string name="follow_talon">Читати \"Talon\" в Твіттері</string>
+    <string name="follow_talon">Читати "Talon" в Твіттері</string>
     <string name="credits">Про додаток</string>
     <string name="disclaimer">Увага</string>
     <string name="other_apps">Інші програми</string>
     <string name="whats_new">Що нового?</string>
-    <string name="rate_it">Оцінити \"Talon\"</string>
-    <string name="talon_settings">Налаштування \"Talon\"</string>
+    <string name="rate_it">Оцінити "Talon"</string>
+    <string name="talon_settings">Налаштування "Talon"</string>
     <string name="feature_requests">Пропозиції нових функцій</string>
     <!-- Emoji Keyboard -->
     <string name="recent">Недавні</string>

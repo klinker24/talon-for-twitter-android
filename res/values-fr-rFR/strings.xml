@@ -245,7 +245,9 @@
     <string name="make_a_theme">Créer un thème</string>
     <string name="layout">Disposition</string>
     <string name="themeing_complete">Thème appliqué</string>
-    <string name="themeing_complete_summary">\"Talon\" va maintenant se fermer \n\n\nRetirez \"Talon\" de la liste des applications récentes pour que les modifications apportées soient visibles sur vos timelines. \n\n\nSi votre image de profil ne montre pas ce que vous souhaitez (ex: cercle ou carré), vous devez supprimer et ré-ajouter le widget. </string>
+    <string name="themeing_complete_summary">\"Talon\" va maintenant se fermer \n\n
+Retirez \"Talon\" de la liste des applications récentes pour que les modifications apportées soient visibles sur vos timelines. \n\n
+Si votre image de profil ne montre pas ce que vous souhaitez (ex: cercle ou carré), vous devez supprimer et ré-ajouter le widget. </string>
     <string name="layout_summary">Modifier ceci videra le cache de l\'application.</string>
     <string name="text_size">Taille du texte</string>
     <string name="night_mode">Mode nuit</string>
@@ -255,7 +257,11 @@
     <string name="device_font">Utiliser la police de l\'appareil</string>
     <string name="device_font_summary">La plupart des polices utilisées sur les appareils est \"Roboto\". Talon utilise par défaut la police \"Roboto Light\".</string>
     <string name="ui_extras">UI Extras</string>
-    <string name="ui_extras_summary">Comprend:\n\n- Cacher la barre d\'action\n\n- Toast Barre Actionnable\n\n- Barre Système transparente (seulement pour Android 4.4)\n\n\nActiver ces paramètres peut affecter les performances du défilement.\n</string>
+    <string name="ui_extras_summary">Comprend:\n
+- Cacher la barre d\'action\n
+- Toast Barre Actionnable\n
+- Barre Système transparente (seulement pour Android 4.4)\n\n
+Activer ces paramètres peut affecter les performances du défilement.\n</string>
     <string name="inline_pics">Afficher les images</string>
     <string name="use_screen_name">Afficher les pseudos Twitter</string>
     <string name="use_screen_name_summary">Afficher les pseudos twitter à la place des noms sur les timelines.</string>
@@ -264,7 +270,9 @@
     <string name="to_market">Aller sur Play Store</string>
     <string name="get_android">Obtenir les Emojis Android</string>
     <string name="get_ios">Obtenir les Emojis iOS</string>
-    <string name="emoji_dialog_summary">Pour appliquer les emojis dans cette application, vous devez avoir les applications \"Sliding Emoji Keyboard\" ou \"Sliding Emoji Keyboard - iOS\" installé depuis le PlayStore.\n\n\nVous pouvez basculer entre les deux types de emojis en désinstallant l\'un et en installant l\'autre. Si les deux paquets sont installés, Talon utilisera par défaut les emojis Android.\n\n\nNOTE: Les Emojis continuerons de fonctionner dans cette application même si la période d\'essai est expirée ! Cette application est à la fois utilisée comme un plugin et comme clavier par défaut.</string>
+    <string name="emoji_dialog_summary">Pour appliquer les emojis dans cette application, vous devez avoir les applications \"Sliding Emoji Keyboard\" ou \"Sliding Emoji Keyboard - iOS\" installé depuis le PlayStore.\n\n
+Vous pouvez basculer entre les deux types de emojis en désinstallant l\'un et en installant l\'autre. Si les deux paquets sont installés, Talon utilisera par défaut les emojis Android.\n\n
+NOTE: Les Emojis continuerons de fonctionner dans cette application même si la période d\'essai est expirée ! Cette application est à la fois utilisée comme un plugin et comme clavier par défaut.</string>
     <string name="theme_light">Thème Clair</string>
     <string name="theme_dark">Thème Sombre</string>
     <string name="theme_black">Thème Noir</string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">Taux de rafraichissement des Messages Privés</string>
     <string name="sync_friends">Synchroniser les données des amis</string>
     <string name="sync_friends_summary2">Re-synchroniser les données des amis lors de la composition d\'un tweet.</string>
-    <string name="sync_friends_summary">Synchroniser manuellement la liste d\'amis.\n\n Ceci a été fait pour vous à votre login et ils sont ajoutés automatiquement quand vous suivez quelqu\'un depuis Talon, mais cette option va réactualiser votre liste d\'amis. \n\n\nCes données sont utilisées lors de la recherche d\'utilisateurs lors de la composition d\'un tweet</string>
+    <string name="sync_friends_summary">Synchroniser manuellement la liste d\'amis.\n\n Ceci a été fait pour vous à votre login et ils sont ajoutés automatiquement quand vous suivez quelqu\'un depuis Talon, mais cette option va réactualiser votre liste d\'amis. \n\n
+Ces données sont utilisées lors de la recherche d\'utilisateurs lors de la composition d\'un tweet</string>
     <string name="sync_success">Synchronisation réussie</string>
     <string name="sync_failed">Échec de la synchronisation</string>
     <string name="push_notification_options">"Réglage du \"Push\""</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">Navigateur en plein écran</string>
     <string name="full_screen_browsers_summary">Ouvrir le tweet contenant une page web en mode plein écran.</string>
     <string name="reverse_click_actions">Inverse les actions d\'un clic</string>
-    <string name="reverse_click_actions_summary">Inverser les actions lorsque vous appuyiez sur un tweet.\n\n\nDéfaut (quand c\'est désactivé) \n\n- Appuie long pour ouvrir un tweet\n\n- Appuie court pour développer le tweet</string>
+    <string name="reverse_click_actions_summary">Inverser les actions lorsque vous appuyiez sur un tweet.\n\n
+Défaut (quand c\'est désactivé) \n
+- Appuie long pour ouvrir un tweet\n
+- Appuie court pour développer le tweet</string>
     <string name="extra_pages">Utilisez des pages supplémentaires</string>
     <string name="extra_pages_summary">Ajouter la page des liens et des photos à gauche de votre timeline..</string>
     <string name="live_streaming">Rafraichissement en temps réel</string>
@@ -455,7 +467,7 @@
     <string name="page_1">Page 1</string>
     <string name="page_2">Page 2</string>
     <string name="load_tweets">Charger les tweets</string>
-    <string name="download_portal">Télécharger l\'appli \"Theme Portal\"</string>
+    <string name="download_portal">Télécharger l\'appli "Theme Portal"</string>
     <string name="download_portal_summary">Cette application vous permet d\'être au courant des dernières nouvelles et de trouver les meilleurs thèmes pour Talon et EvolveSMS au même endroit !</string>
     <string name="compose_dm_hint">Tapez votre message privé ici... </string>
     <string name="pwiccer">Pwiccer</string>
@@ -533,12 +545,14 @@
     <string name="no_tweet">Pas de tweet !</string>
     <string name="menu_attach_picture">Joindre une image</string>
     <string name="twitpic_disclaimer">TwitPic Disclaimer</string>
-    <string name="twitpic_disclaimer_summary">L\'API Twitter ne supporte pas l\'ajout d\'une image dans un message privé. Pour cette raison, Talon va uploader l\'image via TwitPic et partager le lien vers cette image avec le destinataire.\n\n\nCette image sera disponible dans votre profil TwitPic.</string>
+    <string name="twitpic_disclaimer_summary">L\'API Twitter ne supporte pas l\'ajout d\'une image dans un message privé. Pour cette raison, Talon va uploader l\'image via TwitPic et partager le lien vers cette image avec le destinataire.\n\n
+Cette image sera disponible dans votre profil TwitPic.</string>
     <string name="dont_show_again">Ne plus afficher</string>
     <string name="error_attaching_image">Erreur d\'ajout de l\'image</string>
     <string name="sending_tweet">Envoi du tweet...</string>
     <string name="attached_images">Joint</string>
-    <string name="twitpic_disclaimer_multi_summary">L\'API Twitter ne prends pas en charge l\'ajout de plusieurs images dans un tweet.\n\n\nA la place, Talon permettra le téléchargement des photos via TwitPic.</string>
+    <string name="twitpic_disclaimer_multi_summary">L\'API Twitter ne prends pas en charge l\'ajout de plusieurs images dans un tweet.\n\n
+A la place, Talon permettra le téléchargement des photos via TwitPic.</string>
     <string name="loading_webpage">Chargement de la page</string>
     <string name="plain_text_browser">Texte simple pour le navigateur</string>
     <string name="plain_text_summary">Supprimer les images et le formatage à partir du navigateur web et juste montrer le texte sur la page web.</string>

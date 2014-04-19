@@ -245,7 +245,9 @@
     <string name="make_a_theme">テーマを作成</string>
     <string name="layout">レイアウト</string>
     <string name="themeing_complete">テーマを適用しました</string>
-    <string name="themeing_complete_summary">\"Talon\"を終了します。\n\n\n                最近のアプリで\"Talon\"をスワイプして削除すると反映されます。\n\n\n                プロフィール画像が正しく表示されない場合はウィジェットを削除してからもう一度追加してください。</string>
+    <string name="themeing_complete_summary">\"Talon\"を終了します。\n\n
+                最近のアプリで\"Talon\"をスワイプして削除すると反映されます。\n\n
+                プロフィール画像が正しく表示されない場合はウィジェットを削除してからもう一度追加してください。</string>
     <string name="layout_summary">変更するとアプリのキャッシュを削除します。</string>
     <string name="text_size">文字サイズ</string>
     <string name="night_mode">ナイトモード</string>
@@ -255,7 +257,11 @@
     <string name="device_font">端末のフォントを使用</string>
     <string name="device_font_summary">Regular \"Roboto\"を使用します。 Talonのデフォルトは\"Roboto Light\"です。</string>
     <string name="ui_extras">UIエクストラ</string>
-    <string name="ui_extras_summary">内容:\n\n                - アクションバー非表示\n\n                - アクショントーストバー\n\n                - システムバーの透過(Android 4.4以降のみ)\n\n\n                有効にするとスクロールの動作に影響を与える場合があります。</string>
+    <string name="ui_extras_summary">内容:\n
+                - アクションバー非表示\n
+                - アクショントーストバー\n
+                - システムバーの透過(Android 4.4以降のみ)\n\n
+                有効にするとスクロールの動作に影響を与える場合があります。</string>
     <string name="inline_pics">インライン画像を表示</string>
     <string name="use_screen_name">ユーザー名を表示</string>
     <string name="use_screen_name_summary">タイムラインに名前ではなくユーザー名(＠～)を表示します。</string>
@@ -264,7 +270,9 @@
     <string name="to_market">Playストアへ</string>
     <string name="get_android">Android絵文字を入手</string>
     <string name="get_ios">iOS絵文字を入手</string>
-    <string name="emoji_dialog_summary">このアプリで絵文字を有効にするには\"Sliding Emoji Keyboard\"か\"Sliding Emoji Keyboard - iOS\"をインストールしてください。\n\n\n                アンインストールしてもう一方をインストールすることで切り替えられます。両方インストールされているとAndroid絵文字を使用します。\n\n\n                注意: 絵文字は体験期間が終了しても使えます! キーボードとしては使えませんがプラグインとして使うことは出来ます。</string>
+    <string name="emoji_dialog_summary">このアプリで絵文字を有効にするには\"Sliding Emoji Keyboard\"か\"Sliding Emoji Keyboard - iOS\"をインストールしてください。\n\n
+                アンインストールしてもう一方をインストールすることで切り替えられます。両方インストールされているとAndroid絵文字を使用します。\n\n
+                注意: 絵文字は体験期間が終了しても使えます! キーボードとしては使えませんがプラグインとして使うことは出来ます。</string>
     <string name="theme_light">ライトテーマ</string>
     <string name="theme_dark">ダークテーマ</string>
     <string name="theme_black">ブラックテーマ</string>
@@ -290,7 +298,8 @@
     <string name="dm_sync_interval">メッセージ更新間隔</string>
     <string name="sync_friends">フォロー中データの同期</string>
     <string name="sync_friends_summary2">ツイート作成時に使うためフォロー中ユーザーの情報を同期します。</string>
-    <string name="sync_friends_summary">手動でフォロー中ユーザーリストを同期します。\n\nログイン時とTalonで誰かをフォローした時に自動実行されますが他でフォローした時はこれで反映させられます。 \n\n\n このデータはツイートを作成しているときに使われます。</string>
+    <string name="sync_friends_summary">手動でフォロー中ユーザーリストを同期します。\n\nログイン時とTalonで誰かをフォローした時に自動実行されますが他でフォローした時はこれで反映させられます。 \n\n
+ このデータはツイートを作成しているときに使われます。</string>
     <string name="sync_success">同期しました</string>
     <string name="sync_failed">同期失敗</string>
     <string name="push_notification_options">"プッシュ通知オプション"</string>
@@ -307,7 +316,10 @@
     <string name="full_screen_browsers">全画面ブラウザ</string>
     <string name="full_screen_browsers_summary">ウェブページを含むツイートを全画面で表示します。</string>
     <string name="reverse_click_actions">タップアクションを反転する</string>
-    <string name="reverse_click_actions_summary">ツイートをタップした時のアクションを逆にします。\n\n\n                    デフォルト(無効時):\n\n                     - 長押しでツイートを開く\n\n                    - タップでツイートメニューを表示</string>
+    <string name="reverse_click_actions_summary">ツイートをタップした時のアクションを逆にします。\n\n
+                    デフォルト(無効時):\n
+                     - 長押しでツイートを開く\n
+                    - タップでツイートメニューを表示</string>
     <string name="extra_pages">追加ページを使用</string>
     <string name="extra_pages_summary">タイムラインの左にリンクと画像を表示するページを表示します。</string>
     <string name="live_streaming">ストリーミング</string>
@@ -533,12 +545,14 @@
     <string name="no_tweet">ツイートなし</string>
     <string name="menu_attach_picture">画像の添付</string>
     <string name="twitpic_disclaimer">TwitPicの免責事項</string>
-    <string name="twitpic_disclaimer_summary">TwitterのAPIはDMへの画像の添付をサポートしていません。 このため、Talonは画像をTwitPicにアップロードしリンクを共有します。\n\n\nこの画像はTwitPicプロフィールに表示されます。</string>
+    <string name="twitpic_disclaimer_summary">TwitterのAPIはDMへの画像の添付をサポートしていません。 このため、Talonは画像をTwitPicにアップロードしリンクを共有します。\n\n
+この画像はTwitPicプロフィールに表示されます。</string>
     <string name="dont_show_again">次回は表示しない</string>
     <string name="error_attaching_image">画像添付失敗!</string>
     <string name="sending_tweet">ツイートの送信中…</string>
     <string name="attached_images">添付しました</string>
-    <string name="twitpic_disclaimer_multi_summary">TwitterのAPIは一枚以上の画像の添付をサポートしていません。\n\n\nTalonはTwitPicに画像をアップロードします。</string>
+    <string name="twitpic_disclaimer_multi_summary">TwitterのAPIは一枚以上の画像の添付をサポートしていません。\n\n
+TalonはTwitPicに画像をアップロードします。</string>
     <string name="loading_webpage">ページの読み込み中…</string>
     <string name="plain_text_browser">プレーンテキストブラウザ</string>
     <string name="plain_text_summary">ブラウザで画像やスタイルを削除し、テキストだけを表示するようにします。</string>
@@ -549,6 +563,13 @@
     <string name="pre_cache_summary">タイムラインのバックグラウンド更新で受信したときすぐに画像をダウンロードするようにします。</string>
     <string name="pre_cache_settings">先読みキャッシュオプション</string>
     <string name="pre_cache_only_wifi">Wi-Fi接続時のみ有効化</string>
+    <string name="tweet_page">ツイートページ</string>
+    <string name="web_page">ウェブページ</string>
+    <string name="conversation_page">会話ページ</string>
+    <string name="viewer_page">ツイート表示</string>
+    <string name="viewer_page_summary">ツイートを表示したときに開くデフォルトページです。</string>
+    <string name="browser_settings">ブラウザ設定</string>
+    <string name="memory_manage">メモリ管理</string>
     <string name="open_to_web">ツイートのURLを直接開く</string>
     <string name="open_to_web_summary">ツイートにURLが含まれている場合に、ツイート自体ではなくそのURLを直接開くようにします。</string>
 </resources>
