@@ -456,6 +456,7 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
                                 // cancelling the gesture as the user can restart from the top.
                                 removeCallbacks(mCancel);
                                 resetTriggerPercentage();
+                                updateContentOffsetTop(0);
                             } else {
                                 updatePositionTimeout();
                             }
