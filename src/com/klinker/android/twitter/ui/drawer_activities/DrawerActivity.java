@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -58,6 +59,7 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import org.lucasr.smoothie.AsyncListView;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 public abstract class DrawerActivity extends Activity {
@@ -98,6 +100,17 @@ public abstract class DrawerActivity extends Activity {
     private NetworkedCacheableImageView profilePic;
 
     public void setUpDrawer(int number, final String actName) {
+
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+            // Ignore
+        }
 
         actionBar = getActionBar();
 
