@@ -248,6 +248,11 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
         mProgressBar.setTriggerPercentage(percent);
     }
 
+    private void resetTriggerPercentage() {
+        mCurrPercentage = 0;
+        mProgressBar.setTriggerPercentage(0);
+    }
+
     /**
      * Notify the widget that refresh state has changed. Do not call this when
      * refresh is triggered by a swipe gesture.
@@ -450,6 +455,7 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
                                 // don't need to. This shouldn't be considered
                                 // cancelling the gesture as the user can restart from the top.
                                 removeCallbacks(mCancel);
+                                resetTriggerPercentage();
                             } else {
                                 updatePositionTimeout();
                             }
