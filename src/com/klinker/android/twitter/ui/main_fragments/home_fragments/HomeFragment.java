@@ -753,6 +753,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                                 } catch (Exception e) {
                                                     // just in case
                                                 }
+                                                isToastShowing = false;
                                                 showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                                             }
                                         }, 500);
@@ -769,6 +770,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                             } catch (Exception e) {
                                                 // just in case
                                             }
+                                            isToastShowing = false;
                                             showToastBar(text + "", allRead, 400, true, toTopListener);
                                         }
                                     }, 500);
@@ -872,6 +874,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_MENTIONS"));
                     sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
+                    isToastShowing = false;
                     showToastBar(text + "", toMentions, 400, true, toMentionsListener);
                 } else {
 
