@@ -51,6 +51,7 @@
                     android:textStyle="bold"
                     android:textColor="?textColor"
                     android:paddingTop="4dp"
+                    android:singleLine="true"
                     android:gravity="center_vertical" />
 
                 <com.klinker.android.twitter.manipulations.widgets.HoloTextView
@@ -59,6 +60,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:textColor="?dateColor"
+                    android:singleLine="true"
                     android:gravity="center_vertical" />
 
             </LinearLayout>
