@@ -83,6 +83,11 @@ public class LauncherFragment extends HomeFragment {
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+                    if (actionBar.isShowing()) {
+                        actionBar.hide();
+                        hideStatusBar();
+                    }
+
                     if (DrawerActivity.settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
@@ -143,6 +148,11 @@ public class LauncherFragment extends HomeFragment {
 
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                    if (actionBar.isShowing()) {
+                        actionBar.hide();
+                        hideStatusBar();
+                    }
 
                     if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
                         if (liveUnread > 0) {
@@ -321,14 +331,6 @@ public class LauncherFragment extends HomeFragment {
         }
 
         setUpHeaders();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                context.getActionBar().hide();
-                hideStatusBar();
-            }
-        }, 1500);
 
         final AppSettings settings = AppSettings.getInstance(context);
 
