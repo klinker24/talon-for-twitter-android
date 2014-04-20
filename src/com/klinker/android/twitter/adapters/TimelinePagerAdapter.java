@@ -81,8 +81,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     frag = getFrag(page2Type, list2Id);
                     break;
                 case 2:
-                    //frag = new LauncherFragment();
-                    frag = new HomeFragment();
+                    frag = new LauncherFragment();
+                    //frag = new HomeFragment();
                     break;
                 case 3:
                     frag = new MentionsFragment();

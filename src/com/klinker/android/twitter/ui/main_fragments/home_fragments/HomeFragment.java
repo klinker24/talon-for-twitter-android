@@ -322,6 +322,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         return new TimeLineCursorAdapter(context, c, false, true);
     }
 
+    public boolean isLauncher() {
+        return false;
+    }
+
     @Override
     public void getCursorAdapter(boolean showSpinner) {
 
@@ -424,12 +428,22 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             listView.setAdapter(cursorAdapter);
 
                             if (viewPressed) {
-                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                                int size;
+                                if (!isLauncher()) {
+                                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                } else {
+                                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                }
+                                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
                             } else if (tweets != 0) {
                                 unread = tweets;
-                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                                int size;
+                                if (!isLauncher()) {
+                                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                } else {
+                                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                                }
+                                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
                             } else {
                                 listView.setSelectionFromTop(0, 0);
                             }
@@ -706,7 +720,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     public void setStrings() {
         sNewTweet = getResources().getString(R.string.new_tweet);
-        sNewTweet = getResources().getString(R.string.new_tweets);
+        sNewTweets = getResources().getString(R.string.new_tweets);
         sNoNewTweets = getResources().getString(R.string.no_new_tweets);
         sNewMention = getResources().getString(R.string.new_mention);
         sNewMentions = getResources().getString(R.string.new_mentions);
