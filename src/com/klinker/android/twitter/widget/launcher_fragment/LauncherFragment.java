@@ -60,6 +60,11 @@ public class LauncherFragment extends HomeFragment {
     public void getCache() {
         mCache = com.klinker.android.twitter.data.App.getInstance(context).getBitmapCache();
     }
+
+    @Override
+    public boolean isLauncher() {
+        return true;
+    }
     
     @Override
     public void setUpListScroll() {
@@ -253,7 +258,7 @@ public class LauncherFragment extends HomeFragment {
     public void setStrings() {
         resHelper = new ResourceHelper(getActivity(), "com.klinker.android.twitter");
         sNewTweet = resHelper.getString("new_tweet");
-        sNewTweet = resHelper.getString("new_tweets");
+        sNewTweets = resHelper.getString("new_tweets");
         sNoNewTweets = resHelper.getString("no_new_tweets");
         sNewMention = resHelper.getString("new_mention");
         sNewMentions = resHelper.getString("new_mentions");
