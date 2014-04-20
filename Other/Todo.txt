@@ -27,7 +27,7 @@
         - timeline
         - invalidate app setting
         - switch shared pref
-    - drawer background on add on themes
+    - drawer background on add on themes (maybe not, since we might not want to set the wallpaper background)
     - see if it actually works...
 
 
