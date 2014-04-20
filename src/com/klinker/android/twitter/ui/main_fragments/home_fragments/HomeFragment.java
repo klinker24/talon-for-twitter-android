@@ -55,6 +55,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     @Override
     public void setHome() {
         isHome = true;
+        setStrings();
     }
 
     private View.OnClickListener toMentionsListener = new View.OnClickListener() {
@@ -77,7 +78,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
     };
 
-    private View.OnClickListener liveStreamRefresh = new View.OnClickListener() {
+    protected View.OnClickListener liveStreamRefresh = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             newTweets = false;
@@ -693,6 +694,19 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }.execute();
     }
 
+    public String sNewTweet;
+    public String sNewTweets;
+    public String sNoNewTweets;
+    public String sNewMention;
+    public String sNewMentions;
+
+    public void setStrings() {
+        sNewTweet = getResources().getString(R.string.new_tweet);
+        sNewTweet = getResources().getString(R.string.new_tweets);
+        sNoNewTweets = getResources().getString(R.string.no_new_tweets);
+        sNewMention = getResources().getString(R.string.new_mention);
+        sNewMentions = getResources().getString(R.string.new_mentions);
+    }
 
     public int numberNew;
     boolean tweetMarkerUpdate;
@@ -742,7 +756,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 if (unread > 0) {
                                     final CharSequence text;
 
-                                    text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_tweet) :  numberNew + " " + getResources().getString(R.string.new_tweets);
+                                    text = numberNew == 1 ?  numberNew + " " + sNewTweet :  numberNew + " " + sNewTweets;
 
                                     if (!tweetMarkerUpdate) {
                                         new Handler().postDelayed(new Runnable() {
@@ -760,7 +774,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                     }
                                 }
                             } else {
-                                final CharSequence text = context.getResources().getString(R.string.no_new_tweets);
+                                final CharSequence text = sNoNewTweets;
                                 if (!DrawerActivity.settings.tweetmarker) {
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
@@ -873,7 +887,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 if (updated) {
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_MENTIONS"));
                     sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
-                    CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
+                    CharSequence text = numberNew == 1 ?  numberNew + " " + sNewMention :  numberNew + " " + sNewMentions;
                     isToastShowing = false;
                     showToastBar(text + "", toMentions, 400, true, toMentionsListener);
                 } else {

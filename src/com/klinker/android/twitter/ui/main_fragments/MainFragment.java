@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.data.App;
@@ -41,10 +42,12 @@ import com.klinker.android.twitter.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import java.util.zip.Inflater;
+
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public abstract class MainFragment extends Fragment {
+public abstract class MainFragment extends BaseLauncherPage {
 
     protected Twitter twitter;
 
@@ -92,6 +95,16 @@ public abstract class MainFragment extends Fragment {
     };
 
     @Override
+    public View getBackground() {
+        return null;
+    }
+
+    @Override
+    public BaseLauncherPage getFragment(int pos) {
+        return null;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -129,11 +142,17 @@ public abstract class MainFragment extends Fragment {
         isHome = false;
     }
 
+    public View getLayout(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.main_fragments, null);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         setHome();
+
+        mCache = App.getInstance(context).getBitmapCache();
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
@@ -145,10 +164,7 @@ public abstract class MainFragment extends Fragment {
         e.putBoolean("refresh_me", false);
         e.commit();
 
-        fromTop = getResources().getString(R.string.from_top);
-        jumpToTop = getResources().getString(R.string.jump_to_top);
-        allRead = getResources().getString(R.string.all_read);
-        toMentions = getResources().getString(R.string.mentions);
+        getStrings();
 
         try{
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
@@ -160,7 +176,36 @@ public abstract class MainFragment extends Fragment {
             mActionBarSize = toDP(48);
         }
 
-        View layout = inflater.inflate(R.layout.main_fragments, null);
+        View layout = getLayout(inflater);
+
+        setViews(layout);
+        setBuilder();
+
+        if (isHome) {
+            getCursorAdapter(true);
+        } else {
+            // delay it a tiny bit so that the main fragment has priority
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getCursorAdapter(true);
+                }
+            }, 500);
+        }
+        setUpListScroll();
+        setUpToastBar(layout);
+
+        return layout;
+    }
+
+    public void getStrings() {
+        fromTop = getResources().getString(R.string.from_top);
+        jumpToTop = getResources().getString(R.string.jump_to_top);
+        allRead = getResources().getString(R.string.all_read);
+        toMentions = getResources().getString(R.string.mentions);
+    }
+
+    public void setViews(View layout) {
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
@@ -193,8 +238,13 @@ public abstract class MainFragment extends Fragment {
             }
         }
 
-        setBuilder();
+        setUpHeaders();
 
+    }
+
+    public abstract void setUpListScroll();
+
+    public void setUpHeaders() {
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
         listView.setHeaderDividersEnabled(false);
@@ -215,34 +265,15 @@ public abstract class MainFragment extends Fragment {
                 view.setOnClickListener(null);
                 view.setOnLongClickListener(null);
                 ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
-                        Utils.getStatusBarHeight(context));// + (DrawerActivity.settings.layout == AppSettings.LAYOUT_FULL_SCREEN ? toDP(4) : 0));
+                        Utils.getStatusBarHeight(context));
                 view.setLayoutParams(params2);
                 listView.addHeaderView(view);
                 listView.setHeaderDividersEnabled(false);
             }
         }
-
-        if (isHome) {
-            getCursorAdapter(true);
-        } else {
-            // delay it a tiny bit so that the main fragment has priority
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    getCursorAdapter(true);
-                }
-            }, 500);
-        }
-        setUpListScroll();
-        setUpToastBar(layout);
-
-        return layout;
     }
 
-    public abstract void setUpListScroll();
-
     public void setBuilder() {
-        mCache = App.getInstance(context).getBitmapCache();
         CursorListLoader loader = new CursorListLoader(mCache, context);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
