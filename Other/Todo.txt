@@ -15,6 +15,21 @@
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
 
+- For Launcher Fragment:
+    - New timeline cursor adapter for resources stuff
+        - make it open always in popup (could use widget viewer activity i think)
+    - New drawer array adapter for resource stuff
+    - Clicks on the drawer will open up their respective activities
+    - Light and black theme layouts
+    - reload everything to switch accounts
+        - profile pictures and banner
+        - timeline
+        - invalidate app setting
+        - switch shared pref
+    - Take out the icon to open talon in the drop down menu
+    - see if it actually works...
+
+
 
 -- For Release --
 
