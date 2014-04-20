@@ -32,17 +32,6 @@
             android:maxWidth="56dp" android:maxHeight="56dp"
             android:contentDescription="Profile Picture - Account 2"
             android:layout_marginTop="6dp" />
-
-        <ImageButton
-            android:id="@+id/launch_app"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="Launch Talon"
-            android:scaleType="fitCenter"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/pressed_toast" />
-
     </LinearLayout>
 
 

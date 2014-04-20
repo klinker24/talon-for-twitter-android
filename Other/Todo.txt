@@ -27,7 +27,6 @@
         - timeline
         - invalidate app setting
         - switch shared pref
-    - Take out the icon to open talon in the drop down menu
     - drawer background on add on themes
     - see if it actually works...
 
