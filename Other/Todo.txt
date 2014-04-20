@@ -14,6 +14,7 @@
     - talon pull not always getting retweets
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
+    - fix immersive mode with new pull to refresh
 
 - For Launcher Fragment:
     - New timeline cursor adapter for resources stuff
@@ -27,6 +28,7 @@
         - invalidate app setting
         - switch shared pref
     - Take out the icon to open talon in the drop down menu
+    - drawer background on add on themes
     - see if it actually works...
 
 

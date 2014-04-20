@@ -84,7 +84,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public Cursor cursor;
     public AppSettings settings;
     public Context context;
-    private final LayoutInflater inflater;
+    public final LayoutInflater inflater;
     private boolean isDM = false;
     private SharedPreferences sharedPrefs;
     private int cancelButton;
@@ -95,9 +95,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public boolean hasKeyboard = false;
 
-    private int layout;
+    public int layout;
     private XmlResourceParser addonLayout = null;
-    private Resources res;
+    public Resources res;
     private int talonLayout;
     private BitmapLruCache mCache;
 

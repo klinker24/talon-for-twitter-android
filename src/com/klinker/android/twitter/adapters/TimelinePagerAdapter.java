@@ -16,7 +16,7 @@ import com.klinker.android.twitter.ui.main_fragments.home_fragments.extentions.L
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.ListFragment;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.extentions.PicFragment;
-import com.klinker.android.twitter.widget.LauncherFragment;
+import com.klinker.android.twitter.widget.launcher_fragment.LauncherFragment;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
@@ -81,8 +81,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     frag = getFrag(page2Type, list2Id);
                     break;
                 case 2:
-                    //frag = new LauncherFragment();
-                    frag = new HomeFragment();
+                    frag = new LauncherFragment();
+                    //frag = new HomeFragment();
                     break;
                 case 3:
                     frag = new MentionsFragment();

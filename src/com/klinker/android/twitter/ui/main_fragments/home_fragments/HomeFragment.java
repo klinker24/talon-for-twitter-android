@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.CursorAdapter;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
@@ -317,6 +318,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
     }
 
+    public CursorAdapter returnAdapter(Cursor c) {
+        return new TimeLineCursorAdapter(context, c, false, true);
+    }
 
     @Override
     public void getCursorAdapter(boolean showSpinner) {
@@ -349,7 +353,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             c = cursorAdapter.getCursor();
                         }
 
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
+                        cursorAdapter = returnAdapter(cursor);
 
                         try {
                             Log.v("talon_databases", "size of adapter cursor on home fragment: " + cursor.getCount());
