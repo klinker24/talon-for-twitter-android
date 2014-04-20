@@ -320,8 +320,12 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
     }
 
     private boolean fullScreen = false;
+    private boolean onlyStatus = false;
     public void setFullScreen(boolean full) {
         fullScreen = full;
+    }
+    public void setOnlyStatus(boolean status) {
+        onlyStatus = status;
     }
 
     @Override
@@ -330,11 +334,14 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
 
         if (fullScreen) {
             canvas.translate(0, translation);
+        } else if (onlyStatus) {
+            canvas.translate(0, statusTranslation);
         }
         mProgressBar.draw(canvas);
     }
 
     public int translation;
+    public int statusTranslation;
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -351,6 +358,8 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
             // just the action bar
             translation = Utils.getActionBarHeight(getContext());
         }
+
+        statusTranslation = Utils.getStatusBarHeight(getContext());
 
         mProgressBar.setBounds(0, 0, width, mProgressBarHeight);
         if (getChildCount() == 0) {
