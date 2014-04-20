@@ -151,8 +151,7 @@ public abstract class MainFragment extends BaseLauncherPage {
         super.onCreateView(inflater, container, savedInstanceState);
 
         setHome();
-
-        mCache = App.getInstance(context).getBitmapCache();
+        getCache();
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
@@ -196,6 +195,10 @@ public abstract class MainFragment extends BaseLauncherPage {
         setUpToastBar(layout);
 
         return layout;
+    }
+
+    public void getCache() {
+        mCache = App.getInstance(context).getBitmapCache();
     }
 
     public void getStrings() {

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -53,6 +54,11 @@ public class LauncherFragment extends HomeFragment {
 
     public CursorAdapter returnAdapter(Cursor c) {
         return new LauncherTimelineCursorAdapter(context, c, false, true);
+    }
+
+    @Override
+    public void getCache() {
+        mCache = com.klinker.android.twitter.data.App.getInstance(context).getBitmapCache();
     }
     
     @Override
