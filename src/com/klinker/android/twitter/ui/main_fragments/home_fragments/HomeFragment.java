@@ -752,6 +752,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     @Override
                     public void run() {
                         try {
+                            setStrings();
+
                             if (result) {
                                 //getLoaderManager().restartLoader(0, null, HomeFragment.this);
                                 Log.v("talon_home_frag", "getting cursor adapter in onrefreshstarted");
@@ -889,6 +891,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             try {
                 if (updated) {
+                    setStrings();
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_MENTIONS"));
                     sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
                     CharSequence text = numberNew == 1 ?  numberNew + " " + sNewMention :  numberNew + " " + sNewMentions;
