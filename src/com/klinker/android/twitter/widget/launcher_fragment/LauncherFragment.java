@@ -1,6 +1,7 @@
-package com.klinker.android.twitter.widget;
+package com.klinker.android.twitter.widget.launcher_fragment;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,8 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.klinker.android.launcher.api.ResourceHelper;
-import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -47,6 +49,10 @@ public class LauncherFragment extends HomeFragment {
     @Override
     public View getLayout(LayoutInflater inflater) {
         return resHelper.getLayout("launcher_frag");
+    }
+
+    public CursorAdapter returnAdapter(Cursor c) {
+        return new LauncherTimelineCursorAdapter(context, c, false, true);
     }
     
     @Override
@@ -173,7 +179,7 @@ public class LauncherFragment extends HomeFragment {
         } else {
             barShowing = true;
         }
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        Animation anim = resHelper.getAnimation("fade_in");//AnimationUtils.loadAnimation(context, R.anim.fade_in);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -199,7 +205,7 @@ public class LauncherFragment extends HomeFragment {
         } else {
             barShowing = false;
         }
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+        Animation anim = resHelper.getAnimation("fade_out");//AnimationUtils.loadAnimation(context, R.anim.fade_out);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -267,12 +273,12 @@ public class LauncherFragment extends HomeFragment {
     public void setViews(View layout) {
         //super.setViews(layout);
 
-        LinearLayout root = (LinearLayout) layout.findViewById(R.id.swipe_layout);
+        LinearLayout root = (LinearLayout) layout.findViewById(resHelper.getId("swipe_layout"));
         listView = new AsyncListView(context);
         listView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
-        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+        spinner = (LinearLayout) layout.findViewById(resHelper.getId("spinner"));
 
         refreshLayout = new FullScreenSwipeRefreshLayout(context);
         refreshLayout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -320,16 +326,16 @@ public class LauncherFragment extends HomeFragment {
 
         final AppSettings settings = AppSettings.getInstance(context);
 
-        backgroundPic = (ImageView) layout.findViewById(R.id.background_image);
-        profilePic = (ImageView) layout.findViewById(R.id.profile_pic_contact);
-        drawerList = (ListView) layout.findViewById(R.id.drawer_list);
-        final ImageButton showMoreDrawer = (ImageButton) layout.findViewById(R.id.options);
-        final ImageView proPic2 = (ImageView) layout.findViewById(R.id.profile_pic_2);
-        final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(R.id.logoutLayout);
+        backgroundPic = (ImageView) layout.findViewById(resHelper.getId("background_image"));
+        profilePic = (ImageView) layout.findViewById(resHelper.getId("profile_pic_contact"));
+        drawerList = (ListView) layout.findViewById(resHelper.getId("drawer_list"));
+        final ImageButton showMoreDrawer = (ImageButton) layout.findViewById(resHelper.getId("options"));
+        final ImageView proPic2 = (ImageView) layout.findViewById(resHelper.getId("profile_pic_2"));
+        final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(resHelper.getId("logoutLayout"));
 
         final String backgroundUrl = settings.myBackgroundUrl;
         final String profilePicUrl = settings.myProfilePicUrl;
-        statusBar = layout.findViewById(R.id.activity_status_bar);
+        statusBar = layout.findViewById(resHelper.getId("activity_status_bar"));
 
         int statusBarHeight = Utils.getStatusBarHeight(context);
 
@@ -367,11 +373,11 @@ public class LauncherFragment extends HomeFragment {
             @Override
             public void onClick(View view) {
                 if(!logoutVisible) {
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
+                    Animation ranim = resHelper.getAnimation("drawer_rotate");//AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                    Animation anim = resHelper.getAnimation("fade_out");//AnimationUtils.loadAnimation(context, R.anim.fade_out);
                     anim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -390,7 +396,7 @@ public class LauncherFragment extends HomeFragment {
                     anim.setDuration(300);
                     drawerList.startAnimation(anim);
 
-                    Animation anim2 = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    Animation anim2 = resHelper.getAnimation("fade_in");//AnimationUtils.loadAnimation(context, R.anim.fade_in);
                     anim2.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -411,11 +417,11 @@ public class LauncherFragment extends HomeFragment {
 
                     logoutVisible = true;
                 } else {
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
+                    Animation ranim = resHelper.getAnimation("drawer_rotate_back");//AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    Animation anim = resHelper.getAnimation("fade_in");//AnimationUtils.loadAnimation(context, R.anim.fade_in);
                     anim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -434,7 +440,7 @@ public class LauncherFragment extends HomeFragment {
                     anim.setDuration(300);
                     drawerList.startAnimation(anim);
 
-                    Animation anim2 = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                    Animation anim2 = resHelper.getAnimation("fade_out");//AnimationUtils.loadAnimation(context, R.anim.fade_out);
                     anim2.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
