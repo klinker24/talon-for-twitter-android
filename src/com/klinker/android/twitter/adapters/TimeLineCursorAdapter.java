@@ -140,6 +140,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     }
 
+    public BitmapLruCache getCache() {
+        return App.getInstance(context).getBitmapCache();
+    }
+
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
         super(context, cursor, 0);
 
@@ -190,7 +194,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         border = b.getResourceId(0, 0);
         b.recycle();
 
-        mCache = App.getInstance(context).getBitmapCache();
+        mCache = getCache();
 
         dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
@@ -256,7 +260,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         border = b.getResourceId(0, 0);
         b.recycle();
 
-        mCache = App.getInstance(context).getBitmapCache();
+        mCache = getCache();
 
         dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);

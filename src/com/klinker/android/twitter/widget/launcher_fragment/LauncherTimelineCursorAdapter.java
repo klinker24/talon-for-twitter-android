@@ -15,11 +15,32 @@ import android.widget.TextView;
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
+
+import java.io.File;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class LauncherTimelineCursorAdapter extends TimeLineCursorAdapter {
 
     private ResourceHelper helper;
+
+    @Override
+    public BitmapLruCache getCache() {
+        try {
+            File cacheDir = new File(context.getCacheDir(), "talon");
+            cacheDir.mkdirs();
+
+            BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
+            builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
+            builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
+
+            return builder.build();
+        } catch (Exception e) {
+            return App.getInstance(context).getBitmapCache();
+        }
+    }
 
     public LauncherTimelineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
         super(context, cursor, isDM, isHomeTimeline);

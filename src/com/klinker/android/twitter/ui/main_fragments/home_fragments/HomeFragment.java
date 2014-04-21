@@ -143,7 +143,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         @Override
         public void onReceive(final Context context, Intent intent) {
             markReadForLoad();
-            if (DrawerActivity.settings.tweetmarker) {
+            if (settings.tweetmarker) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -177,7 +177,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public void setUpListScroll() {
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        if (DrawerActivity.settings.useToast) {
+        if (settings.useToast) {
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
                 int mLastFirstVisibleItem = 0;
@@ -196,7 +196,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    if (DrawerActivity.settings.uiExtras) {
+                    if (settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
                                 // used to show and hide the action bar
@@ -235,7 +235,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     }
 
                     // this is for when they are live streaming and get to the top of the feed, the "View" button comes up.
-                    if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
+                    if (newTweets && firstVisibleItem == 0 && settings.liveStreaming) {
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                     getResources().getString(R.string.view),
@@ -266,7 +266,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
+                    if (newTweets && firstVisibleItem == 0 && (settings.liveStreaming)) {
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
                                     getResources().getString(R.string.view),
@@ -281,7 +281,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         hideToastBar(400);
                     }
 
-                    if (DrawerActivity.settings.uiExtras) {
+                    if (settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
                                 // used to show and hide the action bar
@@ -382,7 +382,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                             // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
                             // so this is to error trap that
-                            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                            if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
 
                                 // go with id + 1 first because tweetmarker seems to go 1 id less than I need
                                 numTweets = getPosition(cursor, id + 1);
@@ -390,19 +390,19 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                     return;
                                 }
 
-                                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
                                     numTweets = getPosition(cursor, id + 2);
                                     if (numTweets == -1) {
                                         return;
                                     }
 
-                                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                    if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
                                         numTweets = getPosition(cursor, id - 1);
                                         if (numTweets == -1) {
                                             return;
                                         }
 
-                                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                        if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
                                             numTweets = 0;
                                             update = sharedPrefs.getBoolean("just_muted", false);
                                         }
@@ -516,7 +516,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-            twitter = Utils.getTwitter(context, DrawerActivity.settings);
+            twitter = Utils.getTwitter(context, settings);
 
             User user = twitter.verifyCredentials();
 
@@ -543,7 +543,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             long beforeDownload = Calendar.getInstance().getTimeInMillis();
 
-            for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+            for (int i = 0; i < settings.maxTweetsRefresh; i++) {
 
                 try {
                     if (!foundStatus) {
@@ -620,12 +620,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
             long now = new Date().getTime();
-            long alarm = now + DrawerActivity.settings.timelineRefresh;
+            long alarm = now + settings.timelineRefresh;
 
             PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
 
-            if (DrawerActivity.settings.timelineRefresh != 0)
-                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.timelineRefresh, pendingIntent);
+            if (settings.timelineRefresh != 0)
+                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
             else
                 am.cancel(pendingIntent);
 
@@ -753,7 +753,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 tweetMarkerUpdate = false;
 
-                if (DrawerActivity.settings.tweetmarker && refreshTweetmarker) {
+                if (settings.tweetmarker && refreshTweetmarker) {
                     tweetMarkerUpdate = getTweet();
                     Log.v("talon_tweetmarker", "tweet marker update " + tweetMarkerUpdate);
                 }
@@ -795,7 +795,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 }
                             } else {
                                 final CharSequence text = sNoNewTweets;
-                                if (!DrawerActivity.settings.tweetmarker) {
+                                if (!settings.tweetmarker) {
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -851,7 +851,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         protected Boolean doInBackground(Void... args) {
 
             try {
-                twitter = Utils.getTwitter(context, DrawerActivity.settings);
+                twitter = Utils.getTwitter(context, settings);
 
                 twitter.verifyCredentials();
                 MentionsDataSource mentions = MentionsDataSource.getInstance(context);
@@ -949,7 +949,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-        if (DrawerActivity.settings.tweetmarker) {
+        if (settings.tweetmarker) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -1017,11 +1017,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if((DrawerActivity.settings.refreshOnStart) &&
+                    if((settings.refreshOnStart) &&
                             (listView.getFirstVisiblePosition() == 0) &&
                             !MainActivity.isPopup &&
                             sharedPrefs.getBoolean("should_refresh", true) &&
-                            !DrawerActivity.settings.tweetmarker) {
+                            !settings.tweetmarker) {
 
                         refreshLayout.setRefreshing(true);
                         refreshTweetmarker = true;
@@ -1034,14 +1034,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             }, 600);
         }
 
-        if (DrawerActivity.settings.liveStreaming && DrawerActivity.settings.tweetmarker) {
+        if (settings.liveStreaming && settings.tweetmarker) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     fetchTweetMarker();
                 }
             }, 600);
-        } else if (!DrawerActivity.settings.liveStreaming && DrawerActivity.settings.tweetmarker) {
+        } else if (!settings.liveStreaming && settings.tweetmarker) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1113,7 +1113,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
 
                             // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
                             // so this is to error trap that
-                            if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                            if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
 
                                 // go with id + 1 first because tweetmarker seems to go 1 id less than I need
                                 numTweets = getPosition(cursor, id + 1);
@@ -1121,19 +1121,19 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                                     return;
                                 }
 
-                                if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
                                     numTweets = getPosition(cursor, id + 2);
                                     if (numTweets == -1) {
                                         return;
                                     }
 
-                                    if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                    if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
                                         numTweets = getPosition(cursor, id - 1);
                                         if (numTweets == -1) {
                                             return;
                                         }
 
-                                        if (numTweets < DrawerActivity.settings.timelineSize + 10 && numTweets > DrawerActivity.settings.timelineSize - 10) {
+                                        if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
                                             numTweets = 0;
                                             update = sharedPrefs.getBoolean("just_muted", false);
                                         }
