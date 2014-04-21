@@ -1,4 +1,4 @@
-/*package com.klinker.android.twitter.data.sq_lite;
+package com.klinker.android.twitter.data.sq_lite;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -189,7 +189,7 @@ public class HomeContentProvider extends ContentProvider {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = TweetLinkUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -235,7 +235,7 @@ public class HomeContentProvider extends ContentProvider {
                     status = status.getRetweetedStatus();
                 }
 
-                String[] html = TweetLinkUtils.getHtmlStatus(status);
+                String[] html = TweetLinkUtils.getLinksInStatus(status);
                 String text = html[0];
                 String media = html[1];
                 String url = html[2];
@@ -266,4 +266,3 @@ public class HomeContentProvider extends ContentProvider {
     }
 
 }
-*/

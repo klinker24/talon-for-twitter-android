@@ -1252,7 +1252,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         showToastBar(description, buttonText, length, quit, listener, false);
     }
 
-    boolean topViewToastShowing = false;
+    public boolean topViewToastShowing = false;
 
     public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
         try {

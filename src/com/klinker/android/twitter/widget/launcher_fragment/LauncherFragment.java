@@ -1,12 +1,15 @@
 package com.klinker.android.twitter.widget.launcher_fragment;
 
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,14 +25,14 @@ import android.widget.Toast;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
-import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
@@ -37,15 +40,10 @@ import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-
-public class LauncherFragment extends HomeFragment {
+public class LauncherFragment extends HomeFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public ImageView backgroundPic;
     public ImageView profilePic;
@@ -58,6 +56,11 @@ public class LauncherFragment extends HomeFragment {
     public BaseLauncherPage getFragment(int position) {
         LauncherFragment fragment = new LauncherFragment();
         return fragment;
+    }
+
+    @Override
+    public View getBackground() {
+        return background;
     }
 
     @Override
@@ -113,13 +116,13 @@ public class LauncherFragment extends HomeFragment {
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-                    if (i == SCROLL_STATE_IDLE) {
+                    /*if (i == SCROLL_STATE_IDLE) {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
                     } else {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                    }
+                    }*/
                 }
 
                 @Override
@@ -183,13 +186,13 @@ public class LauncherFragment extends HomeFragment {
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-                    if (i == SCROLL_STATE_IDLE) {
+                    /*if (i == SCROLL_STATE_IDLE) {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
                     } else {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                    }
+                    }*/
                 }
 
                 @Override
@@ -335,9 +338,15 @@ public class LauncherFragment extends HomeFragment {
         }
     }
 
+    public View background;
+
     @Override
     public void setViews(View layout) {
         //super.setViews(layout);
+
+        background = layout.findViewById(resHelper.getId("frag_background"));
+
+        getLoaderManager().initLoader(0, null, this);
 
         LinearLayout root = (LinearLayout) layout.findViewById(resHelper.getId("swipe_layout"));
         listView = new AsyncListView(context);
@@ -697,5 +706,138 @@ public class LauncherFragment extends HomeFragment {
         if (Build.VERSION.SDK_INT >= 19) {
             refreshLayout.setOnlyStatus(true);
         }
+    }
+
+    public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
+        try {
+            if (!isToastShowing || isLive) {
+                if (isToastShowing) {
+                    if (topViewToastShowing) {
+                        return;
+                    }
+                    infoBar = false;
+                    hideToastBar(300);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            topViewToastShowing = true;
+                            showToastBar(description, buttonText, length, quit, listener, false);
+                        }
+                    }, 350);
+                } else {
+                    infoBar = quit;
+
+                    mLength = length;
+
+                    toastDescription.setText(description);
+                    toastButton.setText(buttonText);
+                    toastButton.setOnClickListener(listener);
+
+                    handler.removeCallbacks(hideToast);
+                    isToastShowing = true;
+                    toastBar.setVisibility(View.VISIBLE);
+
+                    Animation anim = resHelper.getAnimation("slide_in_right");//AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                    anim.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            if (quit) {
+                                handler.postDelayed(hideToast, 3000);
+                            }
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    anim.setDuration(length);
+                    toastBar.startAnimation(anim);
+                }
+            } else if (!infoBar) {
+                // this will change the # from top
+                toastDescription.setText(description);
+            }
+        } catch (Exception e) {
+            // fragment not attached
+        }
+    }
+
+    public boolean isHiding = false;
+
+    public void hideToastBar(long length) {
+        hideToastBar(length, false);
+    }
+
+    public void hideToastBar(long length, boolean force) {
+        try {
+            mLength = length;
+
+            // quit if the toast isn't showing or it is an info bar, since those will hide automatically
+            if (!isToastShowing || infoBar || isHiding) {
+                if (force && toastBar.getVisibility() == View.VISIBLE) {
+
+                } else {
+                    return;
+                }
+            }
+
+            Animation anim = resHelper.getAnimation("slide_out_right");//AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    isHiding = true;
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    isToastShowing = false;
+                    topViewToastShowing = false;
+                    infoBar = false;
+                    isHiding = false;
+                    toastBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            anim.setDuration(length);
+            toastBar.startAnimation(anim);
+        } catch (Exception e) {
+            // fragment not attached
+        }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = HomeDataSource.allColumns;
+        CursorLoader cursorLoader = new CursorLoader(
+                context,
+                HomeContentProvider.CONTENT_URI,
+                projection,
+                null,
+                new String[] {2 + ""},
+                null );
+
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        Log.v("talon_data", "cursor size: " + cursor.getCount());
+
+        listView.setAdapter(new LauncherTimelineCursorAdapter(talonContext, cursor, false, true));
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+
     }
 }
