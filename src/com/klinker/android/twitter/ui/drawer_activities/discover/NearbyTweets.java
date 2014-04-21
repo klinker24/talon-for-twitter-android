@@ -54,7 +54,6 @@ public class NearbyTweets extends Fragment implements
     private boolean connected = false;
 
     private Context context;
-    private SharedPreferences sharedPrefs;
     private AppSettings settings;
 
     private AsyncListView listView;
@@ -70,10 +69,9 @@ public class NearbyTweets extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = AppSettings.getInstance(context);
 
-        layout = inflater.inflate(R.layout.ptr_list_layout, null);
+        layout = inflater.inflate(R.layout.profiles_list, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 

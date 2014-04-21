@@ -1348,12 +1348,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             try {
                 int currentAccount = settings.currentAccount;
 
-                Twitter twitter = Utils.getTwitter(context, DrawerActivity.settings);
+                Twitter twitter = Utils.getTwitter(context, settings);
                 twitter.verifyCredentials();
 
                 List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
 
-                for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+                for (int i = 0; i < settings.maxTweetsRefresh; i++) {
                     statuses.addAll(getList(i + 1, twitter));
                 }
 
