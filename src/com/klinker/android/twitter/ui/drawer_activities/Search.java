@@ -752,7 +752,9 @@ public class Search extends Activity {
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                peopleAdapter.notifyDataSetChanged();
+                                if (peopleAdapter != null) {
+                                    peopleAdapter.notifyDataSetChanged();
+                                }
                                 mPullToRefreshLayout.setRefreshing(false);
                             }
                         });

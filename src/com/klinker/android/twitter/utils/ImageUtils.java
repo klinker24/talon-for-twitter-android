@@ -632,7 +632,7 @@ public class ImageUtils {
                     }
 
                     // Add to cache
-                    if (b != null) {
+                    if (b != null && mCache != null) {
                         result = mCache.put(url, b);
                     } else {
                         return null;
