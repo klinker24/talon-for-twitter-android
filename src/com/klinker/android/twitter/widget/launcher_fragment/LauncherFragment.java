@@ -1,8 +1,10 @@
 package com.klinker.android.twitter.widget.launcher_fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
@@ -34,8 +37,11 @@ import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
 public class LauncherFragment extends HomeFragment {
@@ -48,17 +54,47 @@ public class LauncherFragment extends HomeFragment {
     public ResourceHelper resHelper;
 
     @Override
+    public BaseLauncherPage getFragment(int position) {
+        LauncherFragment fragment = new LauncherFragment();
+        return fragment;
+    }
+
+    @Override
     public View getLayout(LayoutInflater inflater) {
         return resHelper.getLayout("launcher_frag");
     }
 
     public CursorAdapter returnAdapter(Cursor c) {
-        return new LauncherTimelineCursorAdapter(context, c, false, true);
+        return new LauncherTimelineCursorAdapter(talonContext, c, false, true);
     }
+    
+    @Override
+    public void setAppSettings() {
+        try {
+            talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
+            settings = AppSettings.getInstance(talonContext);
+        } catch (Exception e) {
+            talonContext = context;
+            settings = AppSettings.getInstance(context);
+        }
+    }
+
+    public Context talonContext;
 
     @Override
     public void getCache() {
-        mCache = com.klinker.android.twitter.data.App.getInstance(context).getBitmapCache();
+        try {
+            File cacheDir = new File(talonContext.getCacheDir(), "talon");
+            cacheDir.mkdirs();
+
+            BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
+            builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
+            builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
+
+            mCache = builder.build();
+        } catch (Exception e) {
+            mCache = App.getInstance(context).getBitmapCache();
+        }
     }
 
     @Override
@@ -69,7 +105,7 @@ public class LauncherFragment extends HomeFragment {
     @Override
     public void setUpListScroll() {
 
-        if (DrawerActivity.settings.useToast) {
+        if (settings.useToast) {
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
                 int mLastFirstVisibleItem = 0;
@@ -88,12 +124,16 @@ public class LauncherFragment extends HomeFragment {
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    if (actionBar.isShowing()) {
-                        actionBar.hide();
-                        hideStatusBar();
+                    try {
+                        if (actionBar.isShowing()) {
+                            actionBar.hide();
+                            hideStatusBar();
+                        }
+                    } catch (Exception e) {
+
                     }
 
-                    if (DrawerActivity.settings.uiExtras) {
+                    if (settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
                                 // used to show and hide the action bar
@@ -123,7 +163,7 @@ public class LauncherFragment extends HomeFragment {
                     }
 
                     // this is for when they are live streaming and get to the top of the feed, the "View" button comes up.
-                    if (newTweets && firstVisibleItem == 0 && DrawerActivity.settings.liveStreaming) {
+                    if (newTweets && firstVisibleItem == 0 && settings.liveStreaming) {
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? resHelper.getString("new_tweet") : resHelper.getString("new_tweets")),
                                     resHelper.getString("view"),
@@ -154,12 +194,16 @@ public class LauncherFragment extends HomeFragment {
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    if (actionBar.isShowing()) {
-                        actionBar.hide();
-                        hideStatusBar();
+                    try {
+                        if (actionBar.isShowing()) {
+                            actionBar.hide();
+                            hideStatusBar();
+                        }
+                    } catch (Exception e) {
+
                     }
 
-                    if (newTweets && firstVisibleItem == 0 && (DrawerActivity.settings.liveStreaming)) {
+                    if (newTweets && firstVisibleItem == 0 && (settings.liveStreaming)) {
                         if (liveUnread > 0) {
                             showToastBar(liveUnread + " " + (liveUnread == 1 ? resHelper.getString("new_tweet") : resHelper.getString("new_tweets")),
                                     resHelper.getString("view"),
@@ -180,7 +224,7 @@ public class LauncherFragment extends HomeFragment {
                         hideBar();
                     }
 
-                    if (DrawerActivity.settings.uiExtras) {
+                    if (settings.uiExtras) {
                         if (firstVisibleItem != 0) {
                             if (MainActivity.canSwitch) {
                                 mLastFirstVisibleItem = firstVisibleItem;
@@ -316,13 +360,15 @@ public class LauncherFragment extends HomeFragment {
         root.addView(refreshLayout);
         refreshLayout.addView(listView);
 
-        if (DrawerActivity.settings.addonTheme) {
-            refreshLayout.setColorScheme(DrawerActivity.settings.accentInt,
+        final AppSettings settings = AppSettings.getInstance(talonContext);
+
+        if (settings.addonTheme) {
+            refreshLayout.setColorScheme(settings.accentInt,
                     SwipeProgressBar.COLOR2,
-                    DrawerActivity.settings.accentInt,
+                    settings.accentInt,
                     SwipeProgressBar.COLOR3);
         } else {
-            if (DrawerActivity.settings.theme != AppSettings.THEME_LIGHT) {
+            if (settings.theme != AppSettings.THEME_LIGHT) {
                 refreshLayout.setColorScheme(resHelper.getColor("app_color"),
                         SwipeProgressBar.COLOR2,
                         resHelper.getColor("app_color"),
@@ -336,8 +382,6 @@ public class LauncherFragment extends HomeFragment {
         }
 
         setUpHeaders();
-
-        final AppSettings settings = AppSettings.getInstance(context);
 
         backgroundPic = (ImageView) layout.findViewById(resHelper.getId("background_image"));
         profilePic = (ImageView) layout.findViewById(resHelper.getId("profile_pic_contact"));
@@ -520,7 +564,7 @@ public class LauncherFragment extends HomeFragment {
             }
         });
 
-        MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context,
+        /*MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context,
                 new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
         drawerList.setAdapter(adapter);
 
@@ -532,7 +576,7 @@ public class LauncherFragment extends HomeFragment {
             footer.setLayoutParams(params);
             drawerList.addFooterView(footer);
             drawerList.setFooterDividersEnabled(false);
-        }
+        }*/
 
         //drawerList.setOnItemClickListener(new MainDrawerClickListener(context, null, null));
 

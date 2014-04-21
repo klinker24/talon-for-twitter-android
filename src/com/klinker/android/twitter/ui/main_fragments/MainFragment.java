@@ -104,6 +104,13 @@ public abstract class MainFragment extends BaseLauncherPage {
         return null;
     }
 
+
+    public AppSettings settings;
+    
+    public void setAppSettings() {
+        settings = AppSettings.getInstance(context);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -150,6 +157,7 @@ public abstract class MainFragment extends BaseLauncherPage {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        setAppSettings();
         setHome();
         getCache();
 
@@ -222,13 +230,13 @@ public abstract class MainFragment extends BaseLauncherPage {
             }
         });
 
-        if (DrawerActivity.settings.addonTheme) {
-            refreshLayout.setColorScheme(DrawerActivity.settings.accentInt,
+        if (settings.addonTheme) {
+            refreshLayout.setColorScheme(settings.accentInt,
                     SwipeProgressBar.COLOR2,
-                    DrawerActivity.settings.accentInt,
+                    settings.accentInt,
                     SwipeProgressBar.COLOR3);
         } else {
-            if (DrawerActivity.settings.theme != AppSettings.THEME_LIGHT) {
+            if (settings.theme != AppSettings.THEME_LIGHT) {
                 refreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
                         SwipeProgressBar.COLOR2,
                         context.getResources().getColor(R.color.app_color),
@@ -331,10 +339,10 @@ public abstract class MainFragment extends BaseLauncherPage {
         toastBar = view.findViewById(R.id.toastBar);
         toastDescription = (TextView) view.findViewById(R.id.toastDescription);
         toastButton = (TextView) view.findViewById(R.id.toastButton);
-        if (DrawerActivity.settings.addonTheme) {
+        if (settings.addonTheme) {
             LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
             try {
-                toastBackground.setBackgroundColor(Color.parseColor("#DD" + DrawerActivity.settings.accentColor));
+                toastBackground.setBackgroundColor(Color.parseColor("#DD" + settings.accentColor));
             } catch (Exception e) {
                 // they messed up the theme
             }
