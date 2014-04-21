@@ -2,6 +2,7 @@ package com.klinker.android.twitter.widget.launcher_fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -72,7 +73,7 @@ public class LauncherFragment extends HomeFragment {
     public void setAppSettings() {
         try {
             talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
-            settings = AppSettings.getInstance(talonContext);
+            settings = new AppSettings(talonContext.getSharedPreferences("com.klinker.android.twitter_preferences", Context.MODE_WORLD_READABLE), talonContext);
         } catch (Exception e) {
             talonContext = context;
             settings = AppSettings.getInstance(context);
@@ -360,8 +361,6 @@ public class LauncherFragment extends HomeFragment {
         root.addView(refreshLayout);
         refreshLayout.addView(listView);
 
-        final AppSettings settings = AppSettings.getInstance(talonContext);
-
         if (settings.addonTheme) {
             refreshLayout.setColorScheme(settings.accentInt,
                     SwipeProgressBar.COLOR2,
@@ -390,8 +389,8 @@ public class LauncherFragment extends HomeFragment {
         final ImageView proPic2 = (ImageView) layout.findViewById(resHelper.getId("profile_pic_2"));
         final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(resHelper.getId("logoutLayout"));
 
-        final String backgroundUrl = settings.myBackgroundUrl;
-        final String profilePicUrl = settings.myProfilePicUrl;
+        final String backgroundUrl = "https://pbs.twimg.com/profile_banners/604990177/1393529623/web";//settings.myBackgroundUrl;
+        final String profilePicUrl = "http://pbs.twimg.com/profile_images/446447838910611456/8gatM1RL_bigger.jpeg";//settings.myProfilePicUrl;
         statusBar = layout.findViewById(resHelper.getId("activity_status_bar"));
 
         int statusBarHeight = Utils.getStatusBarHeight(context);
@@ -417,7 +416,7 @@ public class LauncherFragment extends HomeFragment {
         }
 
         try {
-            if(settings.roundContactImages) {
+            if (false) {//settings.roundContactImages) {
                 ImageUtils.loadCircleImage(context, profilePic, profilePicUrl, mCache);
             } else {
                 ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
