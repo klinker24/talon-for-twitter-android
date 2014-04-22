@@ -274,7 +274,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
 
         public DeleteConv(Context context, String name) {
             this.context = context;
-            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
             this.name = name;
         }
 

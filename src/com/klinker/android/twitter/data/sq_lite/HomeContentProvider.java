@@ -265,8 +265,4 @@ public class HomeContentProvider extends ContentProvider {
 
         return context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
     }
-
-    public String getString(String key) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(key, "");
-    }
 }

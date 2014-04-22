@@ -51,7 +51,7 @@ public class MentionsDataSource {
 
     public MentionsDataSource(Context context) {
         dbHelper = new MentionsSQLiteHelper(context);
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
     }
 
     public void open() throws SQLException {
