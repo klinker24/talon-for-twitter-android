@@ -41,7 +41,8 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
         this.viewPager = viewPager;
         this.noWait = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
                 context.getResources().getBoolean(R.bool.isTablet);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         int currentAccount = sharedPreferences.getInt("current_account", 1);
 

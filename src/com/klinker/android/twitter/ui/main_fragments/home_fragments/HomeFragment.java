@@ -1386,7 +1386,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
                 shared.edit().putLong("current_position_" + currentAccount, id).commit();
             } else {
                 if (cursor.moveToLast()) {

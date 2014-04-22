@@ -102,8 +102,8 @@ public class IOUtils {
             }
 
             input = new ObjectInputStream(new FileInputStream(src));
-            SharedPreferences.Editor prefEdit = context
-                    .getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE)
+            SharedPreferences.Editor prefEdit = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
                     .edit();
 
             prefEdit.clear();
