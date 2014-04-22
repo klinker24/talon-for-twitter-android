@@ -17,6 +17,7 @@
     - fix immersive mode with new pull to refresh
 
 - For Launcher Fragment:
+    - use a content provider again
     - New timeline cursor adapter for resources stuff
         - make it open always in popup (could use widget viewer activity i think)
     - New drawer array adapter for resource stuff
@@ -27,8 +28,11 @@
         - timeline
         - invalidate app setting
         - switch shared pref
-    - drawer background on add on themes (maybe not, since we might not want to set the wallpaper background)
-    - see if it actually works...
+    - background color stuff (addon themes drawer and background on the list)
+    - service to return a parsable of some of the shared prefs that I need
+        - create a launcher settings class
+        - use a broadcast to send the data to the fragment
+        - don't load anything on the launcher fragment until that broadcast is received and handled
 
 
 
