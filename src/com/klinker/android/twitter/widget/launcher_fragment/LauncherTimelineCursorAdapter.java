@@ -602,7 +602,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             }
         });
 
-        if (talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
+        if (!settings.addonTheme && talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
             if (holder.screenTV.getVisibility() == View.GONE) {
                 holder.screenTV.setVisibility(View.VISIBLE);
             }
