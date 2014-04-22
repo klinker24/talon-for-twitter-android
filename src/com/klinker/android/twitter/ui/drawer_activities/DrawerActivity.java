@@ -52,6 +52,7 @@ import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.UpdateUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import de.timroes.android.listview.EnhancedListView;
@@ -879,6 +880,11 @@ public abstract class DrawerActivity extends Activity {
         if (sharedPrefs.getBoolean("remake_me", false) && !MainActivity.isPopup) {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
+        }
+
+        if (sharedPrefs.getBoolean("version_227", true)) {
+            sharedPrefs.edit().putBoolean("version_227", false).commit();
+            UpdateUtils.updateToGlobalPrefs(context);
         }
 
         invalidateOptionsMenu();
