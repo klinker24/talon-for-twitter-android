@@ -36,6 +36,7 @@ import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.Fu
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
+import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
@@ -46,6 +47,9 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.io.File;
+import java.util.List;
+
+import twitter4j.Status;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class LauncherFragment extends HomeFragment implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -73,8 +77,19 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         return resHelper.getLayout("launcher_frag");
     }
 
+    @Override
+    public void onFragmentsOpened() {
+        //context.getLoaderManager().restartLoader(0, null, this);
+        Log.v("talon_fragment", "drawer opened");
+    }
+
     public CursorAdapter returnAdapter(Cursor c) {
         return new LauncherTimelineCursorAdapter(talonContext, c, false, true);
+    }
+
+    @Override
+    public void resetTimeline(boolean spinner) {
+        context.getLoaderManager().restartLoader(0, null, this);
     }
     
     @Override
@@ -836,6 +851,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         listView.setItemManager(builder.build());
     }
 
+    public int insertTweets(List<Status> statuses, long[] lastId) {
+        return HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = HomeDataSource.allColumns;
@@ -854,7 +873,126 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         Log.v("talon_data", "cursor size: " + cursor.getCount());
 
-        listView.setAdapter(new LauncherTimelineCursorAdapter(talonContext, cursor, false, true));
+        Cursor c = null;
+        if (cursorAdapter != null) {
+            c = cursorAdapter.getCursor();
+        }
+
+        cursorAdapter = returnAdapter(cursor);
+
+        try {
+            Log.v("talon_databases", "size of adapter cursor on home fragment: " + cursor.getCount());
+        } catch (Exception e) {
+            e.printStackTrace();
+            HomeDataSource.dataSource = null;
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+        }
+
+        initial = false;
+
+        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
+        boolean update = true;
+        int numTweets;
+        if (id == 0) {
+            numTweets = 0;
+        } else {
+            numTweets = getPosition(cursor, id);
+            if (numTweets == -1) {
+                return;
+            }
+
+            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+            // so this is to error trap that
+            if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+
+                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
+                numTweets = getPosition(cursor, id + 1);
+                if (numTweets == -1) {
+                    return;
+                }
+
+                if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+                    numTweets = getPosition(cursor, id + 2);
+                    if (numTweets == -1) {
+                        return;
+                    }
+
+                    if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+                        numTweets = getPosition(cursor, id - 1);
+                        if (numTweets == -1) {
+                            return;
+                        }
+
+                        if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+                            numTweets = 0;
+                            update = sharedPrefs.getBoolean("just_muted", false);
+                        }
+                    }
+                }
+            }
+
+            sharedPrefs.edit().putBoolean("just_muted", false).commit();
+        }
+
+        final int tweets = numTweets;
+
+        if (spinner.getVisibility() == View.VISIBLE) {
+            spinner.setVisibility(View.GONE);
+        }
+
+        if (listView.getVisibility() != View.VISIBLE) {
+            update = true;
+            listView.setVisibility(View.VISIBLE);
+        }
+
+        if (update) {
+            listView.setAdapter(cursorAdapter);
+
+            if (viewPressed) {
+                int size;
+                if (!isLauncher()) {
+                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                } else {
+                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                }
+                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+            } else if (tweets != 0) {
+                unread = tweets;
+                int size;
+                if (!isLauncher()) {
+                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                } else {
+                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                }
+                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+            } else {
+                listView.setSelectionFromTop(0, 0);
+            }
+
+            try {
+                c.close();
+            } catch (Exception e) {
+
+            }
+        }
+
+        liveUnread = 0;
+        viewPressed = false;
+
+        refreshLayout.setRefreshing(false);
+
+        isRefreshing = false;
+
+        try {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    newTweets = false;
+                }
+            }, 500);
+        } catch (Exception e) {
+            newTweets = false;
+        }
     }
 
     @Override
