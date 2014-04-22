@@ -225,8 +225,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
     public final LayoutInflater inflater;
     private boolean isDM = false;
     private SharedPreferences sharedPrefs;
-    private int cancelButton;
-    private int border;
 
     private Handler[] mHandlers;
     private int currHandler;
@@ -234,7 +232,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
     public boolean hasKeyboard = false;
 
     public int layout;
-    private XmlResourceParser addonLayout = null;
     public Resources res;
     private int talonLayout;
     private BitmapLruCache mCache;
@@ -292,16 +289,11 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
-        cancelButton = a.getResourceId(0, 0);
-        a.recycle();
-
         talonLayout = settings.layout;
 
         if (settings.addonTheme) {
             try {
                 res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -318,15 +310,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 layout = R.layout.tweet_full_screen;
                 break;
         }
-
-        TypedArray b;
-        if (settings.roundContactImages) {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        } else {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
-        }
-        border = b.getResourceId(0, 0);
-        b.recycle();
 
         mCache = getCache();
 
@@ -359,16 +342,11 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
-        cancelButton = a.getResourceId(0, 0);
-        a.recycle();
-
         talonLayout = settings.layout;
 
         if (settings.addonTheme) {
             try {
                 res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -385,15 +363,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 layout = R.layout.tweet_full_screen;
                 break;
         }
-
-        TypedArray b;
-        if (settings.roundContactImages) {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        } else {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
-        }
-        border = b.getResourceId(0, 0);
-        b.recycle();
 
         mCache = getCache();
 
@@ -760,7 +729,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
 
         if (retweeter.length() > 0 && !isDM) {
-            String text = context.getResources().getString(R.string.retweeter);
+            String text = helper.getString("retweeter");
             //holder.retweeter.setText(settings.displayScreenName ? text + retweeter : text.substring(0, text.length() - 2) + " " + name);
             holder.retweeter.setText(text + retweeter);
             holder.retweeterName = retweeter;
@@ -1008,7 +977,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             @Override
             public boolean onLongClick(View view) {
                 new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.remove_retweet))
+                        .setTitle(helper.getString("remove_retweet"))
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -1037,7 +1006,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 protected void onPreExecute() {
                     holder.retweet.clearColorFilter();
 
-                    Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, helper.getString("removing_retweet"), Toast.LENGTH_SHORT).show();
                 }
 
                 protected Boolean doInBackground(String... urls) {
@@ -1058,9 +1027,9 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 protected void onPostExecute(Boolean deleted) {
                     try {
                         if (deleted) {
-                            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, helper.getString("success"), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, helper.getString("error"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         // user has gone away from the window
@@ -1389,9 +1358,9 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
         protected void onPostExecute(Boolean deleted) {
             if (deleted) {
-                Toast.makeText(context, context.getResources().getString(R.string.deleted_tweet), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, helper.getString("deleted_tweet"), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, helper.getString("error_deleting"), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -1417,24 +1386,16 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                 holder.favCount.setText(" " + status.getFavoriteCount());
 
                                 if (status.isFavorited()) {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
                                     if (!settings.addonTheme) {
-                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        holder.favorite.setColorFilter(helper.getColor("app_color"));
                                     } else {
                                         holder.favorite.setColorFilter(settings.accentInt);
                                     }
 
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.favorite.setImageDrawable(helper.getDrawable("ic_action_important_dark"));
                                     holder.isFavorited = true;
                                 } else {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.favorite.setImageDrawable(helper.getDrawable("ic_action_not_important_dark"));
                                     holder.isFavorited = false;
 
                                     holder.favorite.clearColorFilter();
@@ -1475,24 +1436,18 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                 holder.retweetCount.setText(" " + status.getRetweetCount());
 
                                 if (status.isFavorited()) {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
 
                                     if (!settings.addonTheme) {
-                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        holder.favorite.setColorFilter(helper.getColor("app_color"));
                                     } else {
                                         holder.favorite.setColorFilter(settings.accentInt);
                                     }
 
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.favorite.setImageDrawable(helper.getDrawable("ic_action_important_dark"));
                                     holder.isFavorited = true;
                                 } else {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
 
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    holder.favorite.setImageDrawable(helper.getDrawable("ic_action_not_important_dark"));
                                     holder.isFavorited = false;
 
                                     holder.favorite.clearColorFilter();
@@ -1500,7 +1455,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
                                 if (status.isRetweetedByMe()) {
                                     if (!settings.addonTheme) {
-                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        holder.retweet.setColorFilter(helper.getColor("app_color"));
                                     } else {
                                         holder.retweet.setColorFilter(settings.accentInt);
                                     }
@@ -1537,7 +1492,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                             if (tweetId == holder.tweetId) {
                                 if (retweetedByMe) {
                                     if (!settings.addonTheme) {
-                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        holder.retweet.setColorFilter(helper.getColor("app_color"));
                                     } else {
                                         holder.retweet.setColorFilter(settings.accentInt);
                                     }
@@ -1573,9 +1528,9 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
         protected void onPreExecute() {
             if (!holder.isFavorited) {
-                Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, helper.getString("favoriting_status"), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, context.getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, helper.getString("removing_favorite"), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -1594,7 +1549,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
         }
 
         protected void onPostExecute(String count) {
-            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, helper.getString("success"), Toast.LENGTH_SHORT).show();
             getFavoriteCount(holder, tweetId);
         }
     }
@@ -1610,7 +1565,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
         }
 
         protected void onPreExecute() {
-            Toast.makeText(context, context.getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, helper.getString("retweeting_status"), Toast.LENGTH_SHORT).show();
         }
 
         protected String doInBackground(String... urls) {
@@ -1624,7 +1579,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
         }
 
         protected void onPostExecute(String count) {
-            Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, helper.getString("retweet_success"), Toast.LENGTH_SHORT).show();
             getRetweetCount(holder, tweetId);
         }
     }
@@ -1677,12 +1632,12 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
         protected void onPostExecute(Boolean finished) {
             if (finished) {
-                Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, helper.getString("tweet_success"), Toast.LENGTH_SHORT).show();
             } else {
                 if (dontgo) {
-                    Toast.makeText(context, context.getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, helper.getString("tweet_to_long"), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, helper.getString("error_sending_tweet"), Toast.LENGTH_SHORT).show();
                 }
             }
         }
