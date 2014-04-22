@@ -69,39 +69,11 @@ public class PhotoViewerDialog extends Activity {
         super.onCreate(savedInstanceState);
         context = this;
 
-        /*try {
+        try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         } catch (Exception e) {
 
         }
-
-        switch (AppSettings.getInstance(this).theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_PhotoViewerLight);
-                break;
-            default:
-                setTheme(R.style.Theme_PhotoViewerDark);
-                break;
-        }
-
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if(menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        } catch (Exception ex) {
-            // Ignore
-        }*/
-
-        /*int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        }
-        else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }*/
 
         url = getIntent().getStringExtra("url");
 

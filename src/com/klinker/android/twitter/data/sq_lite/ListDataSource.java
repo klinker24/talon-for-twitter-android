@@ -67,7 +67,7 @@ public class ListDataSource {
     public ListDataSource(Context context) {
         dbHelper = new ListSQLiteHelper(context);
         this.context = context;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
         timelineSize = Integer.parseInt(sharedPreferences.getString("timeline_size", "1000"));
         noRetweets = sharedPreferences.getBoolean("ignore_retweets", false);
     }

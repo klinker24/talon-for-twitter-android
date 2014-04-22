@@ -8,6 +8,7 @@
     - tweetmarker in lists
     - switch accounts from the widget
     - rotation on tweet viewer
+    - identify conversations from timeline
 
 - Bugs:
     - check out the loading of the profile picture and background. They don't seem to work right

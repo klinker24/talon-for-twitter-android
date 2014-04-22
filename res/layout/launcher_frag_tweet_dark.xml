@@ -12,8 +12,7 @@
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
-        android:layoutDirection="ltr"
-        android:background="@drawable/full_screen_background_dark" >
+        android:layoutDirection="ltr" >
 
         <LinearLayout
             android:orientation="horizontal"
@@ -275,6 +274,7 @@
                     android:contentDescription="Reply"
                     android:textSize="14dp"
                     android:fontFamily="sans-serif-light"
+                    android:background="@drawable/twitter_edit_text_holo_dark"
                     android:inputType="textMultiLine|textCapSentences"/>
 
             </LinearLayout>

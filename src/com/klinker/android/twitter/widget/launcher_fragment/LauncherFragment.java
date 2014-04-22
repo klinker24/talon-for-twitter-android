@@ -1,16 +1,19 @@
 package com.klinker.android.twitter.widget.launcher_fragment;
 
+import android.app.LoaderManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
@@ -22,9 +25,10 @@ import android.widget.Toast;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
-import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
-import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter.adapters.LauncherListLoader;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -35,17 +39,18 @@ import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.widget.launcher_fragment.utils.GetLauncherPosition;
 
 import org.lucasr.smoothie.AsyncListView;
+import org.lucasr.smoothie.ItemManager;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
+import twitter4j.Status;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-
-public class LauncherFragment extends HomeFragment {
+public class LauncherFragment extends HomeFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public ImageView backgroundPic;
     public ImageView profilePic;
@@ -61,19 +66,39 @@ public class LauncherFragment extends HomeFragment {
     }
 
     @Override
+    public View getBackground() {
+        return background;
+    }
+
+    @Override
     public View getLayout(LayoutInflater inflater) {
         return resHelper.getLayout("launcher_frag");
     }
 
+    @Override
+    public void onFragmentsOpened() {
+        context.getLoaderManager().restartLoader(0, null, this);
+        Log.v("talon_fragment", "drawer opened");
+    }
+
     public CursorAdapter returnAdapter(Cursor c) {
         return new LauncherTimelineCursorAdapter(talonContext, c, false, true);
+    }
+
+    @Override
+    public void resetTimeline(boolean spinner) {
+        context.getLoaderManager().restartLoader(0, null, this);
     }
     
     @Override
     public void setAppSettings() {
         try {
             talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
-            settings = new AppSettings(talonContext.getSharedPreferences("com.klinker.android.twitter_preferences", Context.MODE_WORLD_READABLE), talonContext);
+            sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+
+            Log.v("talon_frag", "shared pref test: " + sharedPrefs.getBoolean("testing", false));
+
+            settings = new AppSettings(sharedPrefs, talonContext);
         } catch (Exception e) {
             talonContext = context;
             settings = AppSettings.getInstance(context);
@@ -113,13 +138,13 @@ public class LauncherFragment extends HomeFragment {
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-                    if (i == SCROLL_STATE_IDLE) {
+                    /*if (i == SCROLL_STATE_IDLE) {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
                     } else {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                    }
+                    }*/
                 }
 
                 @Override
@@ -183,13 +208,13 @@ public class LauncherFragment extends HomeFragment {
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-                    if (i == SCROLL_STATE_IDLE) {
+                    /*if (i == SCROLL_STATE_IDLE) {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
                     } else {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                    }
+                    }*/
                 }
 
                 @Override
@@ -335,9 +360,15 @@ public class LauncherFragment extends HomeFragment {
         }
     }
 
+    public View background;
+
     @Override
     public void setViews(View layout) {
         //super.setViews(layout);
+
+        background = layout.findViewById(resHelper.getId("frag_background"));
+
+        getLoaderManager().initLoader(0, null, this);
 
         LinearLayout root = (LinearLayout) layout.findViewById(resHelper.getId("swipe_layout"));
         listView = new AsyncListView(context);
@@ -389,8 +420,8 @@ public class LauncherFragment extends HomeFragment {
         final ImageView proPic2 = (ImageView) layout.findViewById(resHelper.getId("profile_pic_2"));
         final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(resHelper.getId("logoutLayout"));
 
-        final String backgroundUrl = "https://pbs.twimg.com/profile_banners/604990177/1393529623/web";//settings.myBackgroundUrl;
-        final String profilePicUrl = "http://pbs.twimg.com/profile_images/446447838910611456/8gatM1RL_bigger.jpeg";//settings.myProfilePicUrl;
+        final String backgroundUrl = settings.myBackgroundUrl;
+        final String profilePicUrl = settings.myProfilePicUrl;
         statusBar = layout.findViewById(resHelper.getId("activity_status_bar"));
 
         int statusBarHeight = Utils.getStatusBarHeight(context);
@@ -416,7 +447,7 @@ public class LauncherFragment extends HomeFragment {
         }
 
         try {
-            if (false) {//settings.roundContactImages) {
+            if (settings.roundContactImages) {
                 ImageUtils.loadCircleImage(context, profilePic, profilePicUrl, mCache);
             } else {
                 ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
@@ -526,7 +557,10 @@ public class LauncherFragment extends HomeFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
+                        final Intent viewProfile = new Intent("android.intent.action.MAIN");
+                        viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
+                        viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         viewProfile.putExtra("name", settings.myName);
                         viewProfile.putExtra("screenname", settings.myScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
@@ -547,7 +581,10 @@ public class LauncherFragment extends HomeFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
+                        final Intent viewProfile = new Intent("android.intent.action.MAIN");
+                        viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
+                        viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         viewProfile.putExtra("name", settings.myName);
                         viewProfile.putExtra("screenname", settings.myScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
@@ -697,5 +734,275 @@ public class LauncherFragment extends HomeFragment {
         if (Build.VERSION.SDK_INT >= 19) {
             refreshLayout.setOnlyStatus(true);
         }
+    }
+
+    public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
+        try {
+            if (!isToastShowing || isLive) {
+                if (isToastShowing) {
+                    if (topViewToastShowing) {
+                        return;
+                    }
+                    infoBar = false;
+                    hideToastBar(300);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            topViewToastShowing = true;
+                            showToastBar(description, buttonText, length, quit, listener, false);
+                        }
+                    }, 350);
+                } else {
+                    infoBar = quit;
+
+                    mLength = length;
+
+                    toastDescription.setText(description);
+                    toastButton.setText(buttonText);
+                    toastButton.setOnClickListener(listener);
+
+                    handler.removeCallbacks(hideToast);
+                    isToastShowing = true;
+                    toastBar.setVisibility(View.VISIBLE);
+
+                    Animation anim = resHelper.getAnimation("slide_in_right");//AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                    anim.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            if (quit) {
+                                handler.postDelayed(hideToast, 3000);
+                            }
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    anim.setDuration(length);
+                    toastBar.startAnimation(anim);
+                }
+            } else if (!infoBar) {
+                // this will change the # from top
+                toastDescription.setText(description);
+            }
+        } catch (Exception e) {
+            // fragment not attached
+        }
+    }
+
+    public boolean isHiding = false;
+
+    public void hideToastBar(long length) {
+        hideToastBar(length, false);
+    }
+
+    public void hideToastBar(long length, boolean force) {
+        try {
+            mLength = length;
+
+            // quit if the toast isn't showing or it is an info bar, since those will hide automatically
+            if (!isToastShowing || infoBar || isHiding) {
+                if (force && toastBar.getVisibility() == View.VISIBLE) {
+
+                } else {
+                    return;
+                }
+            }
+
+            Animation anim = resHelper.getAnimation("slide_out_right");//AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    isHiding = true;
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    isToastShowing = false;
+                    topViewToastShowing = false;
+                    infoBar = false;
+                    isHiding = false;
+                    toastBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            anim.setDuration(length);
+            toastBar.startAnimation(anim);
+        } catch (Exception e) {
+            // fragment not attached
+        }
+    }
+
+    public void setBuilder() {
+        LauncherListLoader loader = new LauncherListLoader(mCache, context, false);
+
+        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
+        builder.setThreadPoolSize(2);
+
+        listView.setItemManager(builder.build());
+    }
+
+    @Override
+    public int insertTweets(List<Status> statuses, long[] lastId) {
+        return HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = HomeDataSource.allColumns;
+        CursorLoader cursorLoader = new CursorLoader(
+                context,
+                HomeContentProvider.CONTENT_URI,
+                projection,
+                null,
+                new String[] {settings.currentAccount + ""},
+                null );
+
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        Log.v("talon_data", "cursor size: " + cursor.getCount());
+
+        Cursor c = null;
+        if (cursorAdapter != null) {
+            c = cursorAdapter.getCursor();
+        }
+
+        cursorAdapter = returnAdapter(cursor);
+
+        try {
+            Log.v("talon_databases", "size of adapter cursor on home fragment: " + cursor.getCount());
+        } catch (Exception e) {
+            e.printStackTrace();
+            HomeDataSource.dataSource = null;
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+        }
+
+        initial = false;
+
+        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
+
+        Log.v("talon_frag", "received id: " + id);
+
+        boolean update = true;
+        int numTweets;
+        if (id == 0) {
+            numTweets = 0;
+        } else {
+            numTweets = getPosition(cursor, id);
+            if (numTweets == -1) {
+                return;
+            }
+
+            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
+            // so this is to error trap that
+            if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+
+                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
+                numTweets = getPosition(cursor, id + 1);
+                if (numTweets == -1) {
+                    return;
+                }
+
+                if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+                    numTweets = getPosition(cursor, id + 2);
+                    if (numTweets == -1) {
+                        return;
+                    }
+
+                    if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+                        numTweets = getPosition(cursor, id - 1);
+                        if (numTweets == -1) {
+                            return;
+                        }
+
+                        if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
+                            numTweets = 0;
+                            update = sharedPrefs.getBoolean("just_muted", false);
+                        }
+                    }
+                }
+            }
+
+            sharedPrefs.edit().putBoolean("just_muted", false).commit();
+        }
+
+        final int tweets = numTweets;
+
+        if (spinner.getVisibility() == View.VISIBLE) {
+            spinner.setVisibility(View.GONE);
+        }
+
+        if (listView.getVisibility() != View.VISIBLE) {
+            update = true;
+            listView.setVisibility(View.VISIBLE);
+        }
+
+        if (update) {
+            listView.setAdapter(cursorAdapter);
+
+            if (viewPressed) {
+                int size;
+                if (!isLauncher()) {
+                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                } else {
+                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                }
+                listView.setSelectionFromTop(liveUnread + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+            } else if (tweets != 0) {
+                unread = tweets;
+                int size;
+                if (!isLauncher()) {
+                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                } else {
+                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                }
+                listView.setSelectionFromTop(tweets + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+            } else {
+                listView.setSelectionFromTop(0, 0);
+            }
+
+            try {
+                c.close();
+            } catch (Exception e) {
+
+            }
+        }
+
+        liveUnread = 0;
+        viewPressed = false;
+
+        refreshLayout.setRefreshing(false);
+
+        isRefreshing = false;
+
+        try {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    newTweets = false;
+                }
+            }, 500);
+        } catch (Exception e) {
+            newTweets = false;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+
     }
 }
