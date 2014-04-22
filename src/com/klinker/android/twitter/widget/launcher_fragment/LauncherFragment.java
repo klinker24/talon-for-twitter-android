@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.widget.launcher_fragment;
 
 import android.app.LoaderManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -539,7 +540,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
+                        final Intent viewProfile = new Intent("android.intent.action.MAIN");
+                        viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
+                        viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         viewProfile.putExtra("name", settings.myName);
                         viewProfile.putExtra("screenname", settings.myScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
@@ -560,7 +564,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
+                        final Intent viewProfile = new Intent("android.intent.action.MAIN");
+                        viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
+                        viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         viewProfile.putExtra("name", settings.myName);
                         viewProfile.putExtra("screenname", settings.myScreenName);
                         viewProfile.putExtra("proPic", profilePicUrl);
