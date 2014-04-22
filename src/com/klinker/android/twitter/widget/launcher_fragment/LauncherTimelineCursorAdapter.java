@@ -2,6 +2,7 @@ package com.klinker.android.twitter.widget.launcher_fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -458,7 +459,10 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                             link = otherUrl.split("  ")[0];
                         }
 
-                        Intent viewTweet = new Intent(context, TweetPager.class);
+                        final Intent viewTweet = new Intent("android.intent.action.MAIN");
+                        viewTweet.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.tweet_viewer.LauncherTweetPager"));
+                        viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
                         viewTweet.putExtra("time", longTime);
@@ -525,7 +529,10 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                             link = otherUrl.split("  ")[0];
                         }
 
-                        Intent viewTweet = new Intent(context, TweetPager.class);
+                        final Intent viewTweet = new Intent("android.intent.action.MAIN");
+                        viewTweet.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.tweet_viewer.LauncherTweetPager"));
+                        viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
                         viewTweet.putExtra("time", longTime);
@@ -573,50 +580,14 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             }
         }
 
-        if (isDM) {
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                    builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            new DeleteTweet().execute("" + holder.tweetId);
-                        }
-                    });
-
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    builder.setTitle(R.string.delete_direct_message);
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-                    return true;
-                }
-            });
-
-            if (otherUrl != null && !otherUrl.equals("")) {
-                holder.tweet.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browser = new Intent(context, BrowserActivity.class);
-                        browser.putExtra("url", otherUrl);
-
-                        context.startActivity(browser);
-                    }
-                });
-            }
-        }
-
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfilePager.class);
+
+                final Intent viewProfile = new Intent("android.intent.action.MAIN");
+                viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
+                viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
                 viewProfile.putExtra("proPic", profilePic);
@@ -639,7 +610,10 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             @Override
             public boolean onLongClick(View view) {
 
-                Intent viewProfile = new Intent(context, ProfilePager.class);
+                final Intent viewProfile = new Intent("android.intent.action.MAIN");
+                viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
+                viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
                 viewProfile.putExtra("proPic", profilePic);
@@ -721,7 +695,10 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                 link = otherUrl.split("  ")[0];
                             }
 
-                            Intent viewTweet = new Intent(context, TweetPager.class);
+                            final Intent viewTweet = new Intent("android.intent.action.MAIN");
+                            viewTweet.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.tweet_viewer.LauncherTweetPager"));
+                            viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                             viewTweet.putExtra("name", name);
                             viewTweet.putExtra("screenname", screenname);
                             viewTweet.putExtra("time", longTime);
@@ -766,7 +743,11 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                         .commit();
                             }
 
-                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
+                            final Intent picture = new Intent("android.intent.action.MAIN");
+                            picture.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.manipulations.LauncherPhotoViewerDialog"));
+                            picture.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                            context.startActivity(picture.putExtra("url", holder.picUrl));
                         }
                     });
 
@@ -823,13 +804,13 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                 // we need to manually set the background for click feedback because the spannable
                                 // absorbs the click on the background
                                 if (!holder.preventNextClick) {
-                                    holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
+                                    /*holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
                                         }
-                                    }, 25);
+                                    }, 25);*/
                                 }
 
                                 holder.background.performClick();
@@ -855,13 +836,13 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                             public void onClick(View view) {
                                 if (!TouchableMovementMethod.touched) {
                                     if (!holder.preventNextClick) {
-                                        holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
+                                        /*holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
                                                 holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
                                             }
-                                        }, 25);
+                                        }, 25);*/
                                     }
 
                                     holder.background.performClick();
@@ -1093,7 +1074,10 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             public void onClick(View view) {
                 removeExpansionWithAnimation(holder);
 
-                Intent compose = new Intent(context, ComposeActivity.class);
+                final Intent compose = new Intent("android.intent.action.MAIN");
+                compose.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.compose.LauncherCompose"));
+                compose.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                 String string = holder.reply.getText().toString();
                 try{
                     compose.putExtra("user", string.substring(0, string.length() - 1));
@@ -1177,7 +1161,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                 .commit();
                     }
 
-                    context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
+                    context.startActivity(Intent.createChooser(intent, helper.getString("menu_share")));
                 }
 
                 public String restoreLinks(String text) {
@@ -1260,7 +1244,11 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             holder.quoteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context, ComposeActivity.class);
+
+                    final Intent intent = new Intent("android.intent.action.MAIN");
+                    intent.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.compose.LauncherCompose"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 

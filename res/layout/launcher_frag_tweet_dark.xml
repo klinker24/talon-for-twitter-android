@@ -274,6 +274,7 @@
                     android:contentDescription="Reply"
                     android:textSize="14dp"
                     android:fontFamily="sans-serif-light"
+                    android:background="@drawable/twitter_edit_text_holo_dark"
                     android:inputType="textMultiLine|textCapSentences"/>
 
             </LinearLayout>
