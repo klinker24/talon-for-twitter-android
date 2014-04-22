@@ -501,6 +501,12 @@
         <service android:name=".services.TrimDataService">
         </service>
 
+        <service android:name=".widget.launcher_fragment.utils.GetLauncherPosition">
+            <intent-filter>
+                <action android:name="com.klinker.android.twitter.GET_LAUNCHER_POSITION"/>
+            </intent-filter>
+        </service>
+
         <receiver android:name=".receivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
