@@ -56,6 +56,10 @@ public class SendTweet extends Service {
         final Context context = this;
         final AppSettings settings = AppSettings.getInstance(this);
 
+        if (intent == null) {
+            makeFailedNotification("");
+            return START_NOT_STICKY;
+        }
         // set up the tweet from the intent
         message = intent.getStringExtra("message");
         tweetId = intent.getLongExtra("tweet_id", 0l);

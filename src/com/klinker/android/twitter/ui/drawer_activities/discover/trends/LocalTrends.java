@@ -171,7 +171,11 @@ public class LocalTrends extends Fragment implements
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
+                            try {
+                                Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                // not attached to activity
+                            }
                         }
                     });
                 }

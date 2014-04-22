@@ -746,7 +746,13 @@ public class TalonPullNotificationService extends Service {
         String profilePic = status.getUser().getBiggerProfileImageURL();
         String imageUrl = TweetLinkUtils.getLinksInStatus(status)[1];
 
-        CacheableBitmapDrawable wrapper = mCache.get(profilePic);
+        CacheableBitmapDrawable wrapper = null;
+        try {
+            wrapper = mCache.get(profilePic);
+        } catch (OutOfMemoryError e) {
+
+        }
+
         if (wrapper == null) {
 
             try {
@@ -765,7 +771,11 @@ public class TalonPullNotificationService extends Service {
         }
 
         if (!imageUrl.equals("")) {
-            wrapper = mCache.get(imageUrl);
+            try {
+                wrapper = mCache.get(imageUrl);
+            } catch (OutOfMemoryError e) {
+                wrapper = null;
+            }
             if (wrapper == null) {
                 try {
                     HttpURLConnection conn = (HttpURLConnection) new URL(imageUrl).openConnection();

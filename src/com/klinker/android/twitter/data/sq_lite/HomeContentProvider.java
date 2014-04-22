@@ -1,4 +1,4 @@
-/*package com.klinker.android.twitter.data.sq_lite;
+package com.klinker.android.twitter.data.sq_lite;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.util.Log;
 
@@ -189,7 +190,7 @@ public class HomeContentProvider extends ContentProvider {
             status = status.getRetweetedStatus();
         }
 
-        String[] html = TweetLinkUtils.getHtmlStatus(status);
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
         String text = html[0];
         String media = html[1];
         String url = html[2];
@@ -235,7 +236,7 @@ public class HomeContentProvider extends ContentProvider {
                     status = status.getRetweetedStatus();
                 }
 
-                String[] html = TweetLinkUtils.getHtmlStatus(status);
+                String[] html = TweetLinkUtils.getLinksInStatus(status);
                 String text = html[0];
                 String media = html[1];
                 String url = html[2];
@@ -264,6 +265,4 @@ public class HomeContentProvider extends ContentProvider {
 
         return context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
     }
-
 }
-*/

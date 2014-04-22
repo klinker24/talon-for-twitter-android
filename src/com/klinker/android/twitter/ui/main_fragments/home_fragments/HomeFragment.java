@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.StaleDataException;
 import android.os.AsyncTask;
@@ -48,15 +49,19 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     public static final int HOME_REFRESH_ID = 121;
 
-    private int unread;
+    public int unread;
 
-    private boolean initial = true;
+    public boolean initial = true;
     public boolean newTweets = false;
 
     @Override
     public void setHome() {
         isHome = true;
         setStrings();
+    }
+
+    public void resetTimeline(boolean spinner) {
+        getCursorAdapter(spinner);
     }
 
     private View.OnClickListener toMentionsListener = new View.OnClickListener() {
@@ -86,8 +91,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             viewPressed = true;
             trueLive = true;
             manualRefresh = false;
-            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-            getCursorAdapter(false);
+            resetTimeline(false);
             listView.setSelectionFromTop(0, 0);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -113,11 +117,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l)).commit();
+                long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+                shared.edit().putLong("current_position_" + currentAccount, id).commit();
 
                 trueLive = true;
 
-                getCursorAdapter(false);
+                resetTimeline(false);
             } else {
                 liveUnread++;
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
@@ -167,7 +174,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         public void onReceive(final Context context, Intent intent) {
             Log.v("talon_home_frag", "home closed broadcast received on home fragment");
             if (!dontGetCursor) {
-                getCursorAdapter(true);
+                resetTimeline(true);
             }
             dontGetCursor = false;
         }
@@ -492,6 +499,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public boolean manualRefresh = false;
     public boolean dontGetCursor = false;
 
+    public int insertTweets(List<Status> statuses, long[] lastId) {
+        return HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+    }
+
     public int doRefresh() {
         int numberNew = 0;
 
@@ -505,6 +516,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+                shared.edit().putLong("current_position_" + currentAccount, id).commit();
             }
         } catch (Exception e) {
 
@@ -601,7 +614,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             }
 
             try {
-                numberNew = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+                numberNew = insertTweets(statuses, lastId);
             } catch (NullPointerException e) {
                 return 0;
             }
@@ -702,7 +715,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 MainActivity.canSwitch = true;
 
                 if (result) {
-                    getCursorAdapter(false);
+                    resetTimeline(false);
                 } else {
                     refreshLayout.setRefreshing(false);
                     isRefreshing = false;
@@ -727,9 +740,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }
 
     public int numberNew;
-    boolean tweetMarkerUpdate;
+    public boolean tweetMarkerUpdate;
 
-    private boolean isRefreshing = false;
+    public boolean isRefreshing = false;
 
     @Override
     public void onRefreshStarted() {
@@ -771,7 +784,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             if (result) {
                                 //getLoaderManager().restartLoader(0, null, HomeFragment.this);
                                 Log.v("talon_home_frag", "getting cursor adapter in onrefreshstarted");
-                                getCursorAdapter(false);
+                                resetTimeline(false);
 
                                 if (unread > 0) {
                                     final CharSequence text;
@@ -989,7 +1002,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
             Log.v("talon_home_frag", "getting cursor adapter in on resume");
-            getCursorAdapter(true);
+            resetTimeline(true);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         }
     }
@@ -1011,7 +1024,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
             Log.v("talon_home_frag", "getting cursor adapter in on start");
-            getCursorAdapter(false);
+            resetTimeline(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         } else { // otherwise, if there are no new ones, it should start the refresh (this is what was causing the jumping before)
             new Handler().postDelayed(new Runnable() {
@@ -1234,8 +1247,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         // data is not available anymore, delete reference
         Log.v("talon_timeline", "had to restart the loader for some reason, it was reset");
 
-        //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-        getCursorAdapter(false);
+        resetTimeline(false);
     }*/
 
     public Handler handler = new Handler();
@@ -1252,7 +1264,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         showToastBar(description, buttonText, length, quit, listener, false);
     }
 
-    boolean topViewToastShowing = false;
+    public boolean topViewToastShowing = false;
 
     public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
         try {
@@ -1374,10 +1386,14 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+                shared.edit().putLong("current_position_" + currentAccount, id).commit();
             } else {
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                    SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+                    shared.edit().putLong("current_position_" + currentAccount, id).commit();
                 }
             }
         } catch (IllegalStateException e) {

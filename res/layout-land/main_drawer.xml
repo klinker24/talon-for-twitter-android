@@ -46,6 +46,7 @@
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:contentDescription="Profile Picture - Account 2"
+                android:layout_alignParentLeft="true"
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"/>
 
