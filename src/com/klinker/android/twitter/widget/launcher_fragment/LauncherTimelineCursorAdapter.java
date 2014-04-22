@@ -602,23 +602,12 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             }
         });
 
-        if (!settings.addonTheme && talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
-            if (holder.screenTV.getVisibility() == View.GONE) {
-                holder.screenTV.setVisibility(View.VISIBLE);
-            }
-            holder.screenTV.setText("@" + screenname);
-            holder.name.setText(name);
-        } else {
-            if (!settings.showBoth) {
-                holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
-            } else {
-                if (holder.screenTV.getVisibility() == View.GONE) {
-                    holder.screenTV.setVisibility(View.VISIBLE);
-                }
-                holder.name.setText(name);
-                holder.screenTV.setText("@" + screenname);
-            }
+        if (holder.screenTV.getVisibility() == View.GONE) {
+            holder.screenTV.setVisibility(View.VISIBLE);
         }
+
+        holder.screenTV.setText("@" + screenname);
+        holder.name.setText(name);
 
         if (!settings.absoluteDate) {
             holder.time.setText(Utils.getTimeAgo(longTime, context));

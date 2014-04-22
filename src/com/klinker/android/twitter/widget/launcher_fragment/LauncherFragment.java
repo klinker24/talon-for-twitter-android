@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
@@ -26,8 +25,6 @@ import android.widget.Toast;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
-import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.LauncherListLoader;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
@@ -42,6 +39,7 @@ import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.widget.launcher_fragment.utils.GetLauncherPosition;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -52,7 +50,7 @@ import java.util.List;
 import twitter4j.Status;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class LauncherFragment extends HomeFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class LauncherFragment extends HomeFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public ImageView backgroundPic;
     public ImageView profilePic;
@@ -79,7 +77,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void onFragmentsOpened() {
-        //context.getLoaderManager().restartLoader(0, null, this);
+        context.getLoaderManager().restartLoader(0, null, this);
         Log.v("talon_fragment", "drawer opened");
     }
 
@@ -96,7 +94,11 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void setAppSettings() {
         try {
             talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
-            settings = new AppSettings(talonContext.getSharedPreferences("com.klinker.android.twitter_preferences", Context.MODE_WORLD_READABLE), talonContext);
+            sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+
+            Log.v("talon_frag", "shared pref test: " + sharedPrefs.getBoolean("testing", false));
+
+            settings = new AppSettings(sharedPrefs, talonContext);
         } catch (Exception e) {
             talonContext = context;
             settings = AppSettings.getInstance(context);
@@ -363,6 +365,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     @Override
     public void setViews(View layout) {
         //super.setViews(layout);
+
+        currentAccount = 2;
 
         background = layout.findViewById(resHelper.getId("frag_background"));
 
@@ -851,8 +855,15 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         listView.setItemManager(builder.build());
     }
 
+    @Override
     public int insertTweets(List<Status> statuses, long[] lastId) {
         return HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+    }
+
+    public void placeTimeline(final Cursor cursor, final Cursor old) {
+
+
+
     }
 
     @Override
@@ -891,6 +902,9 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         initial = false;
 
         long id = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
+
+        Log.v("talon_frag", "received id: " + id);
+
         boolean update = true;
         int numTweets;
         if (id == 0) {
@@ -955,7 +969,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 } else {
                     size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                 }
-                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+                listView.setSelectionFromTop(liveUnread + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
             } else if (tweets != 0) {
                 unread = tweets;
                 int size;
@@ -964,7 +978,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 } else {
                     size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                 }
-                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+                listView.setSelectionFromTop(tweets + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
             } else {
                 listView.setSelectionFromTop(0, 0);
             }

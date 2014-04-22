@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.util.Log;
 
@@ -265,4 +266,7 @@ public class HomeContentProvider extends ContentProvider {
         return context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
     }
 
+    public String getString(String key) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(key, "");
+    }
 }
