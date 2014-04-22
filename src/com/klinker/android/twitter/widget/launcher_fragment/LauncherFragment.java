@@ -366,8 +366,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void setViews(View layout) {
         //super.setViews(layout);
 
-        currentAccount = 2;
-
         background = layout.findViewById(resHelper.getId("frag_background"));
 
         getLoaderManager().initLoader(0, null, this);
@@ -422,8 +420,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         final ImageView proPic2 = (ImageView) layout.findViewById(resHelper.getId("profile_pic_2"));
         final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(resHelper.getId("logoutLayout"));
 
-        final String backgroundUrl = "https://pbs.twimg.com/profile_banners/604990177/1393529623/web";//settings.myBackgroundUrl;
-        final String profilePicUrl = "http://pbs.twimg.com/profile_images/446447838910611456/8gatM1RL_bigger.jpeg";//settings.myProfilePicUrl;
+        final String backgroundUrl = settings.myBackgroundUrl;
+        final String profilePicUrl = settings.myProfilePicUrl;
         statusBar = layout.findViewById(resHelper.getId("activity_status_bar"));
 
         int statusBarHeight = Utils.getStatusBarHeight(context);
@@ -449,7 +447,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         }
 
         try {
-            if (false) {//settings.roundContactImages) {
+            if (settings.roundContactImages) {
                 ImageUtils.loadCircleImage(context, profilePic, profilePicUrl, mCache);
             } else {
                 ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
@@ -860,12 +858,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         return HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
     }
 
-    public void placeTimeline(final Cursor cursor, final Cursor old) {
-
-
-
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = HomeDataSource.allColumns;
@@ -874,7 +866,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 HomeContentProvider.CONTENT_URI,
                 projection,
                 null,
-                new String[] {2 + ""},
+                new String[] {settings.currentAccount + ""},
                 null );
 
         return cursorLoader;
