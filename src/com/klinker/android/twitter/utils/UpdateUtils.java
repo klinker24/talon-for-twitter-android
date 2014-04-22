@@ -19,8 +19,8 @@ public class UpdateUtils {
 
     public static void updateToGlobalPrefs(final Context context) {
         new AlertDialog.Builder(context)
-                .setTitle(context.getResources().getString(R.string.backup_settings_dialog))
-                .setMessage(context.getResources().getString(R.string.backup_settings_dialog_summary))
+                .setTitle("Settings Update")
+                .setMessage("Talon has to update your settings preferences to prepare for some new things. This will override any old settings backups.")
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
