@@ -39,6 +39,12 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
         circleImages = (AppSettings.getInstance(context)).roundContactImages;
     }
 
+    public CursorListLoader(BitmapLruCache cache, Context context, boolean circle) {
+        mCache = cache;
+        this.context = context;
+        circleImages = circle;
+    }
+
     @Override
     public CacheableBitmapDrawable loadItemFromMemory(String url) {
         return mCache.getFromMemoryCache(url);
