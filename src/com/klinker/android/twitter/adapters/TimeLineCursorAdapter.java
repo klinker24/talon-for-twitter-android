@@ -156,7 +156,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         settings = AppSettings.getInstance(context);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
         cancelButton = a.getResourceId(0, 0);

@@ -79,7 +79,7 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
             links = new String[0];
         }
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
 
         if (links.length > 0 && !links[0].equals("")) {
             for (String s : links) {
