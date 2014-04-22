@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.CursorListLoader;
+import com.klinker.android.twitter.adapters.LauncherListLoader;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
@@ -40,6 +42,8 @@ import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
+import org.lucasr.smoothie.ItemManager;
+
 import java.io.File;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -813,6 +817,16 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         } catch (Exception e) {
             // fragment not attached
         }
+    }
+
+    public void setBuilder() {
+        LauncherListLoader loader = new LauncherListLoader(mCache, context, false);
+
+        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
+        builder.setThreadPoolSize(2);
+
+        listView.setItemManager(builder.build());
     }
 
     @Override
