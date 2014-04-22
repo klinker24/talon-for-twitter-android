@@ -48,7 +48,8 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         super(context, 0);
         this.context = (Activity) context;
         this.text = text;
-        this.sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+        this.sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         textSize = 15;
     }

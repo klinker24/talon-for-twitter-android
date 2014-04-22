@@ -57,7 +57,8 @@ public class HomeDataSource {
     public HomeDataSource(Context context) {
         dbHelper = new HomeSQLiteHelper(context);
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+        sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         timelineSize = Integer.parseInt(sharedPreferences.getString("timeline_size", "1000"));
         noRetweets = sharedPreferences.getBoolean("ignore_retweets", false);
     }

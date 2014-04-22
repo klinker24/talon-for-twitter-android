@@ -94,7 +94,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void setAppSettings() {
         try {
             talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
-            sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
+            sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
             Log.v("talon_frag", "shared pref test: " + sharedPrefs.getBoolean("testing", false));
 
