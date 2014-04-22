@@ -629,7 +629,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                         Intent login = new Intent(context, LoginActivity.class);
                         AppSettings.invalidate();
                         startActivity(login);
-                    }
+                    } 
                 }
             });
         } else { // switch accounts
