@@ -28,9 +28,6 @@
         - notify change in position back on the main activity (using a service to write the refresh_me shared pref)
         - clear the pull unread
     - make sure loading/writing of position is threaded
-    - mark read doesn't seem to fire on the launcher fragment
-    - New timeline cursor adapter for resources stuff
-        - make it open always in popup (could use widget viewer activity i think)
     - New drawer array adapter for resource stuff
     - Clicks on the drawer will open up their respective activities
     - Light and black theme layouts

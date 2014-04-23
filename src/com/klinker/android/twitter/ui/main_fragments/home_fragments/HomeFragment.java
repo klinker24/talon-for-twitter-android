@@ -1025,6 +1025,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             !MainActivity.isPopup &&
                             sharedPrefs.getBoolean("should_refresh", true) &&
                             !settings.tweetmarker) {
+                        if (!actionBar.isShowing() && !isLauncher()) {
+                            showStatusBar();
+                            actionBar.show();
+                        }
 
                         refreshLayout.setRefreshing(true);
                         refreshTweetmarker = true;
@@ -1048,6 +1052,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    if (!actionBar.isShowing() && !isLauncher()) {
+                        showStatusBar();
+                        actionBar.show();
+                    }
+
                     refreshLayout.setRefreshing(true);
                     refreshTweetmarker = true;
                     onRefreshStarted();
