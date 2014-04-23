@@ -111,49 +111,51 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
-            if (listView.getFirstVisiblePosition() == 0) {
-                // we want to automatically show the new one if the user is at the top of the list
-                // so we set the current position to the id of the top tweet
+            if (!isLauncher()) {
+                if (listView.getFirstVisiblePosition() == 0) {
+                    // we want to automatically show the new one if the user is at the top of the list
+                    // so we set the current position to the id of the top tweet
 
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-                sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+                    long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // sleep so that everyting loads correctly
-                        try {
-                            Thread.sleep(2000);
-                        } catch (Exception e) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // sleep so that everyting loads correctly
+                            try {
+                                Thread.sleep(2000);
+                            } catch (Exception e) {
 
+                            }
+                            HomeContentProvider.updateCurrent(currentAccount, context, cursorAdapter.getCount() - 1);
                         }
-                        HomeContentProvider.updateCurrent(currentAccount, context, cursorAdapter.getCount() - 1);
-                    }
-                }).start();
+                    }).start();
 
-                trueLive = true;
+                    trueLive = true;
 
-                resetTimeline(false);
-            } else {
-                liveUnread++;
-                sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                if (liveUnread != 0) {
-                    try {
-                        showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                getResources().getString(R.string.view),
-                                400,
-                                true,
-                                liveStreamRefresh,
-                                true);
-                    } catch (Exception e) {
-                        // fragment not attached to activity
+                    resetTimeline(false);
+                } else {
+                    liveUnread++;
+                    sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+                    if (liveUnread != 0) {
+                        try {
+                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                                    getResources().getString(R.string.view),
+                                    400,
+                                    true,
+                                    liveStreamRefresh,
+                                    true);
+                        } catch (Exception e) {
+                            // fragment not attached to activity
+                        }
                     }
+
+                    newTweets = true;
                 }
-
-                newTweets = true;
             }
         }
     };
