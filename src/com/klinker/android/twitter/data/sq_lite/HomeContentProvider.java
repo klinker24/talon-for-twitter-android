@@ -130,9 +130,9 @@ public class HomeContentProvider extends ContentProvider {
         int account = Integer.parseInt(selectionArgs[0]);
 
         Log.d(TAG, "update uri: " + uri.toString());
-        SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
-
         HomeDataSource dataSource = HomeDataSource.getInstance(context);
+        SQLiteDatabase db = dataSource.getDatabase();
+
         Cursor cursor = dataSource.getCursor(account);
 
         if (cursor.moveToPosition(pos)) {
@@ -222,7 +222,7 @@ public class HomeContentProvider extends ContentProvider {
     }
 
     public static void updateCurrent(int currentAccount, Context context, int position) {
-        context.getContentResolver().update(HomeContentProvider.CONTENT_URI, null, null,
+        context.getContentResolver().update(HomeContentProvider.CONTENT_URI, new ContentValues(), "",
                 new String[] {currentAccount + "", position + ""});
     }
 
