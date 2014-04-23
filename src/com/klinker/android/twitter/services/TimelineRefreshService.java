@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -135,7 +136,8 @@ public class TimelineRefreshService extends IntentService {
                 Log.d("Twitter Update Error", e.getMessage());
             }
 
-            context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+            sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+            getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
             TimelineRefreshService.isRunning = false;
         }
