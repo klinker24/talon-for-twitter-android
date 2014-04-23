@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.ui.tweet_viewer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,7 +10,8 @@ public class NotiTweetPager extends TweetPager {
 
     @Override
     public void getFromIntent() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         name = sharedPrefs.getString("fav_user_tweet_name", "");
         screenName = sharedPrefs.getString("fav_user_tweet_screenname", "");

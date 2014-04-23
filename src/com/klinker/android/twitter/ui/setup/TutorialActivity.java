@@ -80,7 +80,9 @@ public class TutorialActivity extends Activity {
         thread.setRunning(false);
         finish();
         overridePendingTransition(0, 0);
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("initial_tutorial", false).commit();
+        getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                .edit().putBoolean("initial_tutorial", false).commit();
     }
 
     private class DrawingPanel extends SurfaceView implements

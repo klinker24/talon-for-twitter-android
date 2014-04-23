@@ -119,8 +119,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
-                shared.edit().putLong("current_position_" + currentAccount, id).commit();
 
                 trueLive = true;
 
@@ -516,8 +514,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
-                shared.edit().putLong("current_position_" + currentAccount, id).commit();
             }
         } catch (Exception e) {
 
@@ -1383,17 +1379,13 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
             HomeDataSource.getInstance(context).markAllRead(currentAccount);
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
-                Log.v("talon_marking_read", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
+                Log.v("talon_marking_read", cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "");
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-                shared.edit().putLong("current_position_" + currentAccount, id).commit();
             } else {
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                    SharedPreferences shared = context.getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
-                    shared.edit().putLong("current_position_" + currentAccount, id).commit();
                 }
             }
         } catch (IllegalStateException e) {

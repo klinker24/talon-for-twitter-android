@@ -87,7 +87,8 @@ public class LoginActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         context = this;
         settings = AppSettings.getInstance(context);
 

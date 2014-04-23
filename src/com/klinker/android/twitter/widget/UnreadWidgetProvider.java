@@ -68,7 +68,9 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
             Log.v("talon_unread_widget", "running service");
 
             int res = 0;
-            switch (Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("widget_theme", "3"))) {
+            switch (Integer.parseInt(getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                    .getString("widget_theme", "3"))) {
                 case 0:
                     res = R.layout.widget_unread_trans_light;
                     break;
@@ -116,7 +118,8 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 views.setOnClickPendingIntent(R.id.dms, dmsPending);
 
                 // get the counts
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
                 int currentAccount = sharedPrefs.getInt("current_account", 1);
                 String dm = sharedPrefs.getInt("dm_unread_" + currentAccount, 0) + "";
                 String mention = MentionsDataSource.getInstance(this).getUnreadCount(currentAccount) + "";

@@ -58,7 +58,9 @@ public class LocalTrends extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
         settings = AppSettings.getInstance(context);
 
         layout = inflater.inflate(R.layout.trends_list_view, null);

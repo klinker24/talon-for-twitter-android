@@ -62,7 +62,8 @@ public class ProfilePicturesFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         settings = AppSettings.getInstance(context);
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         inflater = LayoutInflater.from(context);
 

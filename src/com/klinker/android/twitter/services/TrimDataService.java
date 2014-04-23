@@ -29,9 +29,7 @@ public class TrimDataService extends IntentService {
         IOUtils.trimDatabase(getApplicationContext(), 1); // trims first account
         IOUtils.trimDatabase(getApplicationContext(), 2); // trims second account
 
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("auto_trim", true)) {
-            setNextTrim(this);
-        }
+        setNextTrim(this);
     }
 
     public void setNextTrim(Context context) {

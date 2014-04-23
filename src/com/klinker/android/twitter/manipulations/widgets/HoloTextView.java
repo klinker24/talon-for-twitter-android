@@ -44,7 +44,10 @@ public class HoloTextView extends TextView {
 
     private void setTypeface(Context context) {
         if (typeface == null) {
-            String type = PreferenceManager.getDefaultSharedPreferences(context).getString("font_type", "1");
+            String type = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                    .getString("font_type", "1");
+
             useDeviceFont = type.equals("0");
 
             switch (Integer.parseInt(type)) {

@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.services;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -36,8 +37,11 @@ public class PreCacheService extends IntentService {
     public void onHandleIntent(Intent intent) {
 
         // if they want it only over wifi and they are on mobile data
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pre_cache_wifi_only", false) &&
+        if (getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                .getBoolean("pre_cache_wifi_only", false) &&
                 Utils.getConnectionStatus(this)) {
+
             // just quit because we don't want it to happen
             return;
         }

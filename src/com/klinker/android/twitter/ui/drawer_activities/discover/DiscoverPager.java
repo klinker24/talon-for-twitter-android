@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.ui.drawer_activities.discover;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -27,7 +28,8 @@ public class DiscoverPager extends DrawerActivity {
         super.onCreate(savedInstanceState);
 
         context = this;
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);

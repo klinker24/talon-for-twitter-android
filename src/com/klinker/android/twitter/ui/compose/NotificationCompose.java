@@ -15,7 +15,8 @@ public class NotificationCompose extends ComposeActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(1);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         Context context = getApplicationContext();
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 

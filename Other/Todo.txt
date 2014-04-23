@@ -18,6 +18,7 @@
     - fix immersive mode with new pull to refresh
 
 - For Launcher Fragment:
+    - shared preference change on dashclock and launcher settings
     - use a content provider again
     - New timeline cursor adapter for resources stuff
         - make it open always in popup (could use widget viewer activity i think)

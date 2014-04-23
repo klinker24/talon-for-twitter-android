@@ -93,7 +93,9 @@ public class WidgetProvider extends AppWidgetProvider {
             int[] appWidgetIds = mgr.getAppWidgetIds(thisAppWidget);
 
             int res = 0;
-            switch (Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("widget_theme", "3"))) {
+            switch (Integer.parseInt(getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                    .getString("widget_theme", "3"))) {
                 case 0:
                     res = R.layout.widget_light;
                     break;

@@ -125,7 +125,8 @@ public class MainActivity extends DrawerActivity {
 
         context = this;
         sContext = this;
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         DrawerActivity.settings = AppSettings.getInstance(context);
 
         try {

@@ -31,7 +31,8 @@ public class MarkReadService extends IntentService {
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
         this.sendBroadcast(lightFlow);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         final Context context = getApplicationContext();
         final int currentAccount = sharedPrefs.getInt("current_account", 1);
 
