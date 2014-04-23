@@ -1120,6 +1120,27 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
 
+        SharedPreferences worldPrefs = getActivity().getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        // get the values and write them to our world prefs
+        try {
+            String s = sharedPrefs.getString(key, "");
+            worldPrefs.edit().putString(key, s).commit();
+        } catch (Exception e) {
+            try {
+                int i = sharedPrefs.getInt(key, -100);
+                worldPrefs.edit().putInt(key, i).commit();
+            } catch (Exception x) {
+                try {
+                    boolean b = sharedPrefs.getBoolean(key, false);
+                    worldPrefs.edit().putBoolean(key, b).commit();
+                } catch (Exception m) {
+
+                }
+            }
+        }
+
         AppSettings.invalidate();
 
         //Log.v("alarm_date", "key: " + key);
