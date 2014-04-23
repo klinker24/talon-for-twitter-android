@@ -160,7 +160,7 @@ public class MainActivity extends DrawerActivity {
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
-        } else if (!sharedPrefs.getBoolean("setup_v_two", false)) {
+        } else if (!sharedPrefs.getBoolean("setup_v_two", false) && !PreferenceManager.getDefaultSharedPreferences(context).getBoolean("setup_v_two", false)) {
             Intent setupV2 = new Intent(context, Version2Setup.class);
             startActivity(setupV2);
         }

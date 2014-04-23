@@ -157,8 +157,7 @@ public class IOUtils {
             }
 
             output = new ObjectOutputStream(new FileOutputStream(dst));
-            SharedPreferences pref = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             output.writeObject(pref.getAll());
 
