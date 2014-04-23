@@ -80,7 +80,7 @@
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.PhotoViewerDark" />
+            android:theme="@style/Theme.PhotoViewerDark.Popup" />
 
         <activity android:name=".ui.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"

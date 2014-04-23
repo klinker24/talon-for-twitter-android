@@ -92,6 +92,7 @@ public class PhotoViewerDialog extends Activity {
 
         boolean fromCache = getIntent().getBooleanExtra("from_cache", true);
         boolean doRestart = getIntent().getBooleanExtra("restart", true);
+        final boolean fromLauncher = getIntent().getBooleanExtra("from_launcher", false);
 
         AppSettings settings = new AppSettings(context);
 
@@ -124,7 +125,12 @@ public class PhotoViewerDialog extends Activity {
                 if (isRunning) {
                     overridePendingTransition(0,0);
                     finish();
-                    Intent restart = new Intent(context, PhotoViewerDialog.class);
+                    Intent restart;
+                    if (fromLauncher) {
+                        restart = new Intent(context, LauncherPhotoViewerDialog.class);
+                    } else {
+                        restart = new Intent(context, PhotoViewerDialog.class);
+                    }
                     restart.putExtra("url", url);
                     restart.putExtra("from_cache", true);
                     restart.putExtra("restart", false);
@@ -219,12 +225,14 @@ public class PhotoViewerDialog extends Activity {
         });
 
         ActionBar ab = getActionBar();
-        ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
-        ab.setBackgroundDrawable(transparent);
-        ab.setDisplayHomeAsUpEnabled(false);
-        ab.setDisplayShowHomeEnabled(false);
-        ab.setTitle("");
-        ab.setIcon(transparent);
+        if (ab != null) {
+            ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
+            ab.setBackgroundDrawable(transparent);
+            ab.setDisplayHomeAsUpEnabled(false);
+            ab.setDisplayShowHomeEnabled(false);
+            ab.setTitle("");
+            ab.setIcon(transparent);
+        }
     }
 
     @Override
