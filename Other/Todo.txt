@@ -23,7 +23,6 @@
     - drawer activity static references
     - clickable links
     - implement the lifecycle stuff
-    - get the refresh working
     - after drawer opened and on scroll
         - notify change in position back on the main activity (using a service to write the refresh_me shared pref)
         - clear the pull unread
@@ -42,7 +41,6 @@
 
 -- For Release --
 
-    - tweetmarker for new style
     - look into lag on the list member page
     - fix immersive mode with new pull to refresh
 
