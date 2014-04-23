@@ -1,6 +1,8 @@
 package com.klinker.android.twitter.widget.launcher_fragment;
 
+import android.app.AlarmManager;
 import android.app.LoaderManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -33,6 +35,9 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
+import com.klinker.android.twitter.services.CatchupPull;
+import com.klinker.android.twitter.services.TimelineRefreshService;
+import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -47,9 +52,16 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
+import twitter4j.Paging;
 import twitter4j.Status;
+import twitter4j.TwitterException;
+import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class LauncherFragment extends HomeFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -98,7 +110,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void resetTimeline(boolean spinner) {
-        context.getLoaderManager().restartLoader(0, null, this);
+        //context.getLoaderManager().restartLoader(0, null, this);
     }
     
     @Override
@@ -377,6 +389,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         background = layout.findViewById(resHelper.getId("frag_background"));
 
+        cursorAdapter = null;
         getLoaderManager().initLoader(0, null, this);
 
         LinearLayout root = (LinearLayout) layout.findViewById(resHelper.getId("swipe_layout"));
@@ -864,7 +877,131 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public int insertTweets(List<Status> statuses, long[] lastId) {
-        return HomeContentProvider.insertTweets(statuses, currentAccount, context, lastId);
+        return HomeContentProvider.insertTweets(statuses, currentAccount, context);
+    }
+
+    public int doRefresh() {
+        int numberNew = 0;
+
+        if (TimelineRefreshService.isRunning || WidgetRefreshService.isRunning || CatchupPull.isRunning) {
+            // quit if it is running in the background
+            return 0;
+        }
+
+
+        long id = 1l;
+        try {
+            Cursor cursor = cursorAdapter.getCursor();
+            if (cursor.moveToLast()) {
+                id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+
+                //HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+
+        if (id == 1l) {
+            return 0;
+        }
+
+        try {
+
+            boolean needClose = false;
+
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+
+            twitter = Utils.getTwitter(context, settings);
+
+            User user = twitter.verifyCredentials();
+
+            final List<twitter4j.Status> statuses = new ArrayList<Status>();
+
+            boolean foundStatus = false;
+
+            Paging paging = new Paging(1, 200);
+
+            Log.v("talon_inserting", "since_id=" + id);
+            try {
+                paging.setSinceId(id);
+            } catch (Exception e) {
+                // 0 for some reason, so dont set one and let the database sort which should show and which shouldn't
+            }
+
+            long beforeDownload = Calendar.getInstance().getTimeInMillis();
+
+            for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+
+                try {
+                    if (!foundStatus) {
+                        paging.setPage(i + 1);
+                        List<Status> list = twitter.getHomeTimeline(paging);
+                        statuses.addAll(list);
+
+                        if (statuses.size() == 0 || statuses.get(statuses.size() - 1).getId() == id) {
+                            Log.v("talon_inserting", "found status");
+                            foundStatus = true;
+                        } else {
+                            Log.v("talon_inserting", "haven't found status");
+                            foundStatus = false;
+                        }
+                    }
+                } catch (Exception e) {
+                    // the page doesn't exist
+                    e.printStackTrace();
+                    foundStatus = true;
+                } catch (OutOfMemoryError o) {
+                    // don't know why...
+                }
+            }
+
+            long afterDownload = Calendar.getInstance().getTimeInMillis();
+            Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
+
+            if (statuses.size() > 0) {
+                statuses.remove(statuses.size() - 1);
+            }
+
+            HashSet hs = new HashSet();
+            hs.addAll(statuses);
+            statuses.clear();
+            statuses.addAll(hs);
+
+            Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
+            manualRefresh = false;
+
+            if (needClose) {
+                HomeDataSource.dataSource = null;
+                Log.v("talon_home_frag", "sending the reset home broadcase in needclose section");
+                dontGetCursor = true;
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+            }
+
+            try {
+                numberNew = insertTweets(statuses, new long[] {0,0,0,0,0});
+            } catch (NullPointerException e) {
+                return 0;
+            }
+
+            if (numberNew > 0 && statuses.size() > 0) {
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+            }
+
+            Log.v("talon_inserting", "inserted " + numberNew + " tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
+
+            unread = numberNew;
+            statuses.clear();
+
+            return numberNew;
+
+        } catch (TwitterException e) {
+            // Error in updating status
+            Log.d("Twitter Update Error", e.getMessage());
+        }
+
+        return 0;
     }
 
     @Override
@@ -934,7 +1071,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         }
 
         if (listView.getVisibility() != View.VISIBLE) {
-            update = true;
             listView.setVisibility(View.VISIBLE);
         }
 

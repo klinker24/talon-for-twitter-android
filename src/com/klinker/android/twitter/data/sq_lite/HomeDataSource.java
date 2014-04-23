@@ -230,7 +230,7 @@ public class HomeDataSource {
         return vals.size();
     }
 
-    private synchronized int insertMultiple(ContentValues[] allValues) {
+    public synchronized int insertMultiple(ContentValues[] allValues) {
         int rowsAdded = 0;
         long rowId;
 
