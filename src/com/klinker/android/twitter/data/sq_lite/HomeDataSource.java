@@ -52,7 +52,9 @@ public class HomeDataSource {
     public static String[] allColumns = { HomeSQLiteHelper.COLUMN_ID, HomeSQLiteHelper.COLUMN_TWEET_ID, HomeSQLiteHelper.COLUMN_ACCOUNT, HomeSQLiteHelper.COLUMN_TYPE,
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
             HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
-            HomeSQLiteHelper.COLUMN_RETWEETER, HomeSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS };
+            HomeSQLiteHelper.COLUMN_RETWEETER, HomeSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS,
+            HomeSQLiteHelper.COLUMN_CURRENT_POS
+    };
 
     public HomeDataSource(Context context) {
         dbHelper = new HomeSQLiteHelper(context);
@@ -786,6 +788,20 @@ public class HomeDataSource {
         } catch (Exception e) {
             open();
             database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?", new String[] {account + "", "1"});
+        }
+
+    }
+
+    public synchronized void removeCurrent(int account) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "");
+
+        try {
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ?", new String[] {account + "", "1"});
+        } catch (Exception e) {
+            open();
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ?", new String[] {account + "", "1"});
         }
 
     }

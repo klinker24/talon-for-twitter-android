@@ -929,39 +929,9 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         if (id == 0) {
             numTweets = 0;
         } else {
-            numTweets = getPosition(cursor, id);
+            numTweets = getPosition(cursor);
             if (numTweets == -1) {
                 return;
-            }
-
-            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
-            // so this is to error trap that
-            if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-
-                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
-                numTweets = getPosition(cursor, id + 1);
-                if (numTweets == -1) {
-                    return;
-                }
-
-                if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                    numTweets = getPosition(cursor, id + 2);
-                    if (numTweets == -1) {
-                        return;
-                    }
-
-                    if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                        numTweets = getPosition(cursor, id - 1);
-                        if (numTweets == -1) {
-                            return;
-                        }
-
-                        if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                            numTweets = 0;
-                            update = sharedPrefs.getBoolean("just_muted", false);
-                        }
-                    }
-                }
             }
 
             sharedPrefs.edit().putBoolean("just_muted", false).commit();
@@ -978,35 +948,33 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             listView.setVisibility(View.VISIBLE);
         }
 
-        if (update) {
-            listView.setAdapter(cursorAdapter);
+        listView.setAdapter(cursorAdapter);
 
-            if (viewPressed) {
-                int size;
-                if (!isLauncher()) {
-                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                } else {
-                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                }
-                listView.setSelectionFromTop(liveUnread + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
-            } else if (tweets != 0) {
-                unread = tweets;
-                int size;
-                if (!isLauncher()) {
-                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                } else {
-                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                }
-                listView.setSelectionFromTop(tweets + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+        if (viewPressed) {
+            int size;
+            if (!isLauncher()) {
+                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             } else {
-                listView.setSelectionFromTop(0, 0);
+                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             }
-
-            try {
-                c.close();
-            } catch (Exception e) {
-
+            listView.setSelectionFromTop(liveUnread + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+        } else if (tweets != 0) {
+            unread = tweets;
+            int size;
+            if (!isLauncher()) {
+                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            } else {
+                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             }
+            listView.setSelectionFromTop(tweets + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+        } else {
+            listView.setSelectionFromTop(0, 0);
+        }
+
+        try {
+            c.close();
+        } catch (Exception e) {
+
         }
 
         liveUnread = 0;
