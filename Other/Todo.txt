@@ -15,7 +15,8 @@
     - talon pull not always getting retweets
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
-    - fix immersive mode with new pull to refresh
+    - lag loading plain text articles
+    - refresh night mode immediately
 
 - For Launcher Fragment:
     - shared preference change on settings menu and dashclock
@@ -37,10 +38,15 @@
         - invalidate app setting
         - switch shared pref
     - background color stuff (addon themes drawer and background on the list)
+    - change launcher photo viewer to a dialog
 
 
 
 -- For Release --
+
+    - tweetmarker for new style
+    - look into lag on the list member page
+    - fix immersive mode with new pull to refresh
 
     Version 2.3.0
         - Scheduled Tweets
