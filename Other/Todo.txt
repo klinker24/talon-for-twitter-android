@@ -19,6 +19,7 @@
 
 - For Launcher Fragment:
     - shared preference change on settings menu and dashclock
+    - write world prefs for the alert types in pref change listener
     - drawer activity static references
     - clickable links
     - implement the lifecycle stuff
