@@ -130,7 +130,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         } catch (Exception e) {
 
                         }
-                        HomeContentProvider.updateCurrent(currentAccount, context, cursorAdapter.getCount());
+                        HomeContentProvider.updateCurrent(currentAccount, context, cursorAdapter.getCount() - 1);
                     }
                 }).start();
 
@@ -497,7 +497,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
 
-                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount());
+                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
             }
         } catch (Exception e) {
 
@@ -1407,7 +1407,11 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - current);
+                        try {
+                            HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - current);
+                        } catch (Throwable t) {
+
+                        }
                     }
                 }).start();
             } else {
@@ -1418,7 +1422,11 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+                            try {
+                                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+                            } catch (Throwable t) {
+
+                            }
                         }
                     }).start();
                 }
