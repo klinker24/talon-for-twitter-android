@@ -705,6 +705,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
                             final Intent picture = new Intent("android.intent.action.MAIN");
                             picture.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.manipulations.LauncherPhotoViewerDialog"));
+                            picture.putExtra("from_launcher", true);
                             picture.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                             context.startActivity(picture.putExtra("url", holder.picUrl));
