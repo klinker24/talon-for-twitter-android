@@ -957,7 +957,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             if (!isLauncher()) {
                 size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             } else {
-                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
             }
             listView.setSelectionFromTop(liveUnread + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
         } else if (tweets != 0) {
@@ -966,7 +966,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             if (!isLauncher()) {
                 size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             } else {
-                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
             }
             listView.setSelectionFromTop(tweets + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
         } else {
