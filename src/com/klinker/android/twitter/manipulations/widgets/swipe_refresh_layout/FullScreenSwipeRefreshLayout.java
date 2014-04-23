@@ -17,6 +17,7 @@ package com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout;
  */
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
