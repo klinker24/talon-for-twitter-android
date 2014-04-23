@@ -743,7 +743,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         Thread refresh = new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.v("talon_fragment", "started the refresh thread");
                 numberNew = doRefresh();
+                Log.v("talon_fragment", "finished the doRefresh method");
 
                 tweetMarkerUpdate = false;
 
@@ -763,7 +765,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             setStrings();
 
                             if (result) {
-                                //getLoaderManager().restartLoader(0, null, HomeFragment.this);
                                 Log.v("talon_home_frag", "getting cursor adapter in onrefreshstarted");
                                 resetTimeline(false);
 

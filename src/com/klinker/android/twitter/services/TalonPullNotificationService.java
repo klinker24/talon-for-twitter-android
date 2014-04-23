@@ -21,6 +21,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
@@ -506,8 +507,8 @@ public class TalonPullNotificationService extends Service {
                     int currentAccount = sharedPreferences.getInt("current_account", 1);
                     HomeDataSource home = HomeDataSource.getInstance(mContext);
                     if (!home.tweetExists(status.getId(), currentAccount)) {
-                        //HomeContentProvider.insertTweet(status, currentAccount, mContext);
-                        HomeDataSource.getInstance(mContext).createTweet(status, currentAccount);
+                        HomeContentProvider.insertTweet(status, currentAccount, mContext);
+                        //HomeDataSource.getInstance(mContext).createTweet(status, currentAccount);
                         sharedPreferences.edit().putLong("account_" + currentAccount + "_lastid", status.getId()).commit();
                     }
 

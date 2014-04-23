@@ -47,32 +47,28 @@ public class HomeContentProvider extends ContentProvider {
     public synchronized Uri insert(Uri uri, ContentValues values) {
         Log.d(TAG, "insert uri: " + uri.toString());
 
-        Uri result = null;
-
         SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
         long rowID;
         try {
             rowID = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
         } catch (IllegalStateException e) {
             // shouldn't happen here, but might i guess
+            HomeDataSource.dataSource = null;
             db = HomeDataSource.getInstance(context).getDatabase();
             rowID = db.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
         }
 
-        if (rowID > 0) {
-            // Return a URI to the newly created row on success
-            result = ContentUris.withAppendedId(Uri.parse(AUTHORITY + "/status"), rowID);
-
-            // Notify the Context's ContentResolver of the change
-            getContext().getContentResolver().notifyChange(result, null);
-        }
+        getContext().getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         return Uri.parse(BASE_PATH + "/" + rowID);
     }
 
     @Override
     public synchronized int bulkInsert(Uri uri, ContentValues[] allValues) {
-        return insertMultiple(allValues);
+        HomeDataSource dataSource = HomeDataSource.getInstance(context);
+        int inserted = dataSource.insertMultiple(allValues);
+        context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
+        return inserted;
     }
 
     private int insertMultiple(ContentValues[] allValues) {
@@ -255,53 +251,44 @@ public class HomeContentProvider extends ContentProvider {
                 new String[] {currentAccount + "", id + "", "false"});
     }
 
-    public static int insertTweets(List<Status> statuses, int currentAccount, Context context, long[] lastIds) {
-        ArrayList<Long> ids = new ArrayList<Long>();
-        for (int i = 0; i < lastIds.length; i++) {
-            ids.add(lastIds[i]);
-        }
-
+    public static int insertTweets(List<Status> statuses, int currentAccount, Context context) {
         ContentValues[] valueses = new ContentValues[statuses.size()];
 
         for (int i = 0; i < statuses.size(); i++) {
             Status status = statuses.get(i);
-            Long id = status.getId();
-            if (!ids.contains(id)) { // something has always gone wrong in the past for duplicates... so double check i guess
-                ContentValues values = new ContentValues();
-                String originalName = "";
-                long mId = status.getId();
-                long time = status.getCreatedAt().getTime();
 
-                if(status.isRetweet()) {
-                    originalName = status.getUser().getScreenName();
-                    status = status.getRetweetedStatus();
-                }
+            ContentValues values = new ContentValues();
+            String originalName = "";
+            long mId = status.getId();
+            long time = status.getCreatedAt().getTime();
 
-                String[] html = TweetLinkUtils.getLinksInStatus(status);
-                String text = html[0];
-                String media = html[1];
-                String url = html[2];
-                String hashtags = html[3];
-                String users = html[4];
-
-                values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
-                values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
-                values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, mId);
-                values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-                values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
-                values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
-                values.put(HomeSQLiteHelper.COLUMN_TIME, time);
-                values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
-                values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
-                values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
-                values.put(HomeSQLiteHelper.COLUMN_URL, url);
-                values.put(HomeSQLiteHelper.COLUMN_USERS, users);
-                values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-
-                valueses[i] = values;
-            } else {
-                break;
+            if(status.isRetweet()) {
+                originalName = status.getUser().getScreenName();
+                status = status.getRetweetedStatus();
             }
+
+            String[] html = TweetLinkUtils.getLinksInStatus(status);
+            String text = html[0];
+            String media = html[1];
+            String url = html[2];
+            String hashtags = html[3];
+            String users = html[4];
+
+            values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
+            values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
+            values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, mId);
+            values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
+            values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+            values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
+            values.put(HomeSQLiteHelper.COLUMN_TIME, time);
+            values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
+            values.put(HomeSQLiteHelper.COLUMN_UNREAD, 1);
+            values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
+            values.put(HomeSQLiteHelper.COLUMN_URL, url);
+            values.put(HomeSQLiteHelper.COLUMN_USERS, users);
+            values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+
+            valueses[i] = values;
         }
 
         return context.getContentResolver().bulkInsert(HomeContentProvider.CONTENT_URI, valueses);
