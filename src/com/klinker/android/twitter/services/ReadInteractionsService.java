@@ -17,8 +17,8 @@ public class ReadInteractionsService extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Context context = getApplicationContext();
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         // clear custom light flow broadcast
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");

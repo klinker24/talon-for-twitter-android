@@ -30,7 +30,8 @@ public class DirectMessageRefreshService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);

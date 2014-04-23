@@ -59,7 +59,8 @@ public class NotificationUtils {
     public static void refreshNotification(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         //int[] unreadCounts = new int[] {4, 1, 2}; // for testing
@@ -233,7 +234,8 @@ public class NotificationUtils {
     }
 
     public static int[] getUnreads(Context context) {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         HomeDataSource data = HomeDataSource.getInstance(context);
@@ -262,7 +264,9 @@ public class NotificationUtils {
             String n = mentions.getNewestNames(currentAccount);
             for (String s : n.split("  ")) {
                 if (!s.equals("") &&
-                        !PreferenceManager.getDefaultSharedPreferences(context).getString("twitter_screen_name_" + currentAccount, "").equals(s) &&
+                        !context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                .getString("twitter_screen_name_" + currentAccount, "").equals(s) &&
                         !s.equals(name)) {
                     names += "@" + s + " ";
                 }
@@ -484,7 +488,8 @@ public class NotificationUtils {
 
     public static void makeFavsNotificationToActivity(ArrayList<String[]> tweets, Context context) {
 
-        SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        SharedPreferences.Editor e = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit();
 
         e.putString("fav_user_tweet_name", tweets.get(0)[0]);
         e.putString("fav_user_tweet_text", tweets.get(0)[1]);
@@ -593,7 +598,8 @@ public class NotificationUtils {
             }
 
             // Pebble notification
-            if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
+            if(context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getBoolean("pebble_notification", false)) {
                 sendAlertToPebble(context, title, shortText);
             }
 
@@ -711,7 +717,8 @@ public class NotificationUtils {
             }
 
             // Pebble notification
-            if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("pebble_notification", false)) {
+            if(context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getBoolean("pebble_notification", false)) {
                 sendAlertToPebble(context, title, messageLong);
             }
 

@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.utils.redirects;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,7 +21,8 @@ public class RedirectToDMs extends Activity {
 
         overridePendingTransition(0,0);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 

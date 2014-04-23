@@ -23,7 +23,8 @@ public class GetLauncherPosition extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         int currentAccount = intent.getIntExtra("current_account", 1);
-        id = PreferenceManager.getDefaultSharedPreferences(this).getLong("current_position_" + currentAccount, 0l);
+        id = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getLong("current_position_" + currentAccount, 0l);
         settings = AppSettings.getInstance(this);
 
         try {

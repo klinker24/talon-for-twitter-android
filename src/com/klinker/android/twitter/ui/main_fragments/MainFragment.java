@@ -153,11 +153,16 @@ public abstract class MainFragment extends BaseLauncherPage {
         return inflater.inflate(R.layout.main_fragments, null);
     }
 
+    public int getCurrentAccount() {
+        return sharedPrefs.getInt("current_account", 1);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         setAppSettings();
         setHome();
@@ -165,7 +170,7 @@ public abstract class MainFragment extends BaseLauncherPage {
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
-        currentAccount = sharedPrefs.getInt("current_account", 1);
+        currentAccount = getCurrentAccount();
 
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("dm_unread_" + sharedPrefs.getInt("current_account", 1), 0);

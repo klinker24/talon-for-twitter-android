@@ -152,7 +152,8 @@ public class AppSettings {
     public AppSettings(Context context) {
         Log.v("talon_settings", "getting talon settings");
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         // Strings
         if (sharedPrefs.getInt("current_account", 1) == 1) {

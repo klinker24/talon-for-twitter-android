@@ -56,6 +56,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public ImageView profilePic;
     public ListView drawerList;
     public View statusBar;
+    
+    public boolean canSwitch = true;
+    public boolean translucent;
+    public int statusBarHeight = 0;
 
     public ResourceHelper resHelper;
 
@@ -77,8 +81,25 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void onFragmentsOpened() {
+        context = getActivity();
+        try {
+            talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
+            sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            settings = new AppSettings(sharedPrefs, talonContext);
+        } catch (Exception e) {
+            talonContext = context;
+            settings = AppSettings.getInstance(context);
+        }
+
         context.getLoaderManager().restartLoader(0, null, this);
         Log.v("talon_fragment", "drawer opened");
+    }
+
+    @Override
+    public void onFragmentsClosed() {
+        markReadForLoad();
+        sharedPrefs.edit().putBoolean("refres_me", true).commit();
     }
 
     public CursorAdapter returnAdapter(Cursor c) {
@@ -96,9 +117,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
             sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                     Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-
-            Log.v("talon_frag", "shared pref test: " + sharedPrefs.getBoolean("testing", false));
-
             settings = new AppSettings(sharedPrefs, talonContext);
         } catch (Exception e) {
             talonContext = context;
@@ -162,7 +180,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
                     if (settings.uiExtras) {
                         if (firstVisibleItem != 0) {
-                            if (MainActivity.canSwitch) {
+                            if (canSwitch) {
                                 // used to show and hide the action bar
                                 if (firstVisibleItem < 3) {
 
@@ -253,7 +271,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
                     if (settings.uiExtras) {
                         if (firstVisibleItem != 0) {
-                            if (MainActivity.canSwitch) {
+                            if (canSwitch) {
                                 mLastFirstVisibleItem = firstVisibleItem;
                             }
                         }
@@ -635,7 +653,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             proPic2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (MainActivity.canSwitch) {
+                    if (canSwitch) {
                         if (current == 1) {
                             sharedPrefs.edit().putInt("current_account", 2).commit();
                         } else {
@@ -665,7 +683,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 proPic2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (MainActivity.canSwitch) {
+                        if (canSwitch) {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
@@ -684,7 +702,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                                     AppSettings.invalidate();
                                     Intent next = new Intent(context, MainActivity.class);
-                                    startActivity(next);
+                                    //startActivity(next);
                                 }
                             }).start();
 
@@ -704,7 +722,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 proPic2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (MainActivity.canSwitch) {
+                        if (canSwitch) {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
@@ -722,7 +740,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                                     AppSettings.invalidate();
                                     Intent next = new Intent(context, MainActivity.class);
-                                    startActivity(next);
+                                    //startActivity(next);
                                 }
                             }).start();
                         }
@@ -861,6 +879,14 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        try {
+            talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
+            sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        } catch (Exception e) {
+
+        }
+
         String[] projection = HomeDataSource.allColumns;
         CursorLoader cursorLoader = new CursorLoader(
                 context,
@@ -894,7 +920,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         initial = false;
 
-        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
+        long id = sharedPrefs.getLong("current_position_" + sharedPrefs.getInt("current_account", 1), 0l);
 
         Log.v("talon_frag", "received id: " + id);
 

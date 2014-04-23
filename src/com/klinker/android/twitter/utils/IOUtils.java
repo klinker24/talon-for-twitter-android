@@ -157,7 +157,8 @@ public class IOUtils {
             }
 
             output = new ObjectOutputStream(new FileOutputStream(dst));
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences pref = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
             output.writeObject(pref.getAll());
 
@@ -225,7 +226,8 @@ public class IOUtils {
     public static boolean trimDatabase(Context context, int account) {
         try {
             AppSettings settings = AppSettings.getInstance(context);
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
             InteractionsDataSource interactions = InteractionsDataSource.getInstance(context);
             Cursor inters = interactions.getCursor(account);

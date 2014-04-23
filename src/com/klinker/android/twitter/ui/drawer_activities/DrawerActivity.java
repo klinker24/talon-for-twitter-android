@@ -882,8 +882,8 @@ public abstract class DrawerActivity extends Activity {
             recreate();
         }
 
-        if (sharedPrefs.getBoolean("version_227", true)) {
-            sharedPrefs.edit().putBoolean("version_227", false).commit();
+        if (sharedPrefs.getBoolean("version_2_2_7", true)) {
+            sharedPrefs.edit().putBoolean("version_2_2_7", false).commit();
             UpdateUtils.updateToGlobalPrefs(context);
         }
 

@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.settings;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -85,7 +86,8 @@ public class SettingsPagerActivity extends FragmentActivity {
                 getResources().getString(R.string.memory_manage)
         };
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         if (sharedPrefs.getBoolean("version_1.20_1", true)) {
             // necessary because i didnt start out by using sets

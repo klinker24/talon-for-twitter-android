@@ -313,7 +313,8 @@ public class SendTweet extends Service {
                             .setContentText(getResources().getString(R.string.tap_to_retry));
 
             Intent resultIntent = new Intent(this, RetryCompose.class);
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("draft", text);
+            getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit().putString("draft", text);
             resultIntent.setAction(Intent.ACTION_SEND);
             resultIntent.setType("text/plain");
             resultIntent.putExtra(Intent.EXTRA_TEXT, text);

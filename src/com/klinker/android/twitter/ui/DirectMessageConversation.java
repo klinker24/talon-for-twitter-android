@@ -145,7 +145,8 @@ public class DirectMessageConversation extends Activity {
         countHandler = new Handler();
 
         context = this;
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
         try {

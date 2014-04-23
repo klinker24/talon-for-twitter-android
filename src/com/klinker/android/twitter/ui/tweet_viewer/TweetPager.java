@@ -143,8 +143,6 @@ public class TweetPager extends YouTubeBaseActivity {
 
         final int numberOfPages = mSectionsPagerAdapter.getCount();
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
         switch (numberOfPages) {
             case 2:
                 if (settings.pageToOpen == AppSettings.PAGE_CONVO) {
