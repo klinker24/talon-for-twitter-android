@@ -7,6 +7,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.StaleDataException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import com.klinker.android.twitter.adapters.LauncherListLoader;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -999,5 +1001,52 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
+    }
+
+    @Override
+    public void markReadForLoad() {
+        try {
+            final Cursor cursor = cursorAdapter.getCursor();
+            final int current = listView.getFirstVisiblePosition();
+
+            if (cursor.moveToPosition(cursor.getCount() - current)) {
+                Log.v("talon_marking_read", cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "");
+                final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - current);
+                    }
+                }).start();
+            } else {
+                if (cursor.moveToLast()) {
+                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+                        }
+                    }).start();
+                }
+            }
+        } catch (IllegalStateException e) {
+            // Home datasource is not open, so we manually close it to null out values and reset it
+            e.printStackTrace();
+            try {
+                HomeDataSource.dataSource = null;
+            } catch (Exception x) {
+
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // the cursoradapter is null
+        } catch (StaleDataException e) {
+            e.printStackTrace();
+            // do nothing here i guess
+        }
     }
 }

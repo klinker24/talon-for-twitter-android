@@ -927,7 +927,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     @Override
     public void onPause() {
-        markReadForLoad();
+        if (!isLauncher()) {
+            markReadForLoad();
+        }
 
         context.unregisterReceiver(pullReceiver);
         context.unregisterReceiver(markRead);
@@ -942,7 +944,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-        if (settings.tweetmarker) {
+        if (settings.tweetmarker && !isLauncher()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -979,6 +981,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         filter.addAction("com.klinker.android.twitter.MARK_POSITION");
         context.registerReceiver(markRead, filter);
 
+        if (isLauncher()) {
+            return;
+        }
+
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
             Log.v("talon_home_frag", "getting cursor adapter in on resume");
@@ -992,6 +998,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     @Override
     public void onStart() {
         super.onStart();
+
+        if (isLauncher()) {
+            return;
+        }
 
         if (MainActivity.caughtstarting) {
             MainActivity.caughtstarting = false;
@@ -1382,8 +1392,8 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
 
     public void markReadForLoad() {
         try {
-            Cursor cursor = cursorAdapter.getCursor();
-            int current = listView.getFirstVisiblePosition();
+            final Cursor cursor = cursorAdapter.getCursor();
+            final int current = listView.getFirstVisiblePosition();
 
             if (!isLauncher()) {
                 HomeDataSource.getInstance(context).markAllRead(currentAccount);
@@ -1394,13 +1404,23 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
 
-                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - current);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - current);
+                    }
+                }).start();
             } else {
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
 
-                    HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount());
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+                        }
+                    }).start();
                 }
             }
         } catch (IllegalStateException e) {
