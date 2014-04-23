@@ -650,6 +650,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         Log.v("talon_tweetmarker", "tweetmarker status: " + updated);
 
         if (updated) {
+            HomeContentProvider.updateCurrent(currentAccount, context, sharedPrefs.getLong("current_position_" + currentAccount, 0l));
             trueLive = true;
             return true;
         } else {
@@ -662,7 +663,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             @Override
             protected void onPreExecute() {
-                if (!actionBar.isShowing()) {
+                if (!actionBar.isShowing() && !isLauncher()) {
                     showStatusBar();
                     actionBar.show();
                 }
@@ -1012,7 +1013,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         justStarted = true;
 
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
-            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
             Log.v("talon_home_frag", "getting cursor adapter in on start");
             resetTimeline(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();

@@ -189,6 +189,7 @@ public class TweetMarkerHelper extends APIHelper {
 
         }
 
+        Log.v("talon_launcher_stuff", "writing " + currentId + " to shared prefs");
         sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId).commit();
 
         return updated;

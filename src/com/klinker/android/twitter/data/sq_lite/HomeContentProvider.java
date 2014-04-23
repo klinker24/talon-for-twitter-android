@@ -122,29 +122,53 @@ public class HomeContentProvider extends ContentProvider {
 
     // arg[0] is the account
     // arg[1] is the position
+    // arg[2] is true if it is position sent, false if it is id number
     @Override
     public synchronized int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
 
-        int pos = Integer.parseInt(selectionArgs[1]);
-        int account = Integer.parseInt(selectionArgs[0]);
+        boolean positionSent = Boolean.parseBoolean(selectionArgs[2]);
 
-        Log.d(TAG, "update uri: " + uri.toString());
-        HomeDataSource dataSource = HomeDataSource.getInstance(context);
-        SQLiteDatabase db = dataSource.getDatabase();
+        if (positionSent) {
+            int pos = Integer.parseInt(selectionArgs[1]);
+            int account = Integer.parseInt(selectionArgs[0]);
 
-        Cursor cursor = dataSource.getCursor(account);
+            HomeDataSource dataSource = HomeDataSource.getInstance(context);
+            SQLiteDatabase db = dataSource.getDatabase();
 
-        if (cursor.moveToPosition(pos)) {
+            Cursor cursor = dataSource.getCursor(account);
 
-            dataSource.removeCurrent(account);
+            if (cursor.moveToPosition(pos)) {
 
-            long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                dataSource.removeCurrent(account);
+
+                long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+
+                ContentValues cv = new ContentValues();
+                cv.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "1");
+
+                ContentValues unread = new ContentValues();
+                unread.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "");
+
+                db.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
+                db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{tweetId + ""});
+            }
+        } else {
+            long id = Long.parseLong(selectionArgs[1]);
+            int account = Integer.parseInt(selectionArgs[0]);
+            Log.v("talon_launcher_stuff", "id: " + id);
+
+            HomeDataSource dataSource = HomeDataSource.getInstance(context);
+            SQLiteDatabase db = dataSource.getDatabase();
 
             ContentValues cv = new ContentValues();
             cv.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "1");
 
-            db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+            ContentValues unread = new ContentValues();
+            unread.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "");
+
+            db.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
+            db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{id + ""});
         }
 
         context.getContentResolver().notifyChange(uri, null);
@@ -223,7 +247,12 @@ public class HomeContentProvider extends ContentProvider {
 
     public static void updateCurrent(int currentAccount, Context context, int position) {
         context.getContentResolver().update(HomeContentProvider.CONTENT_URI, new ContentValues(), "",
-                new String[] {currentAccount + "", position + ""});
+                new String[] {currentAccount + "", position + "", "true"});
+    }
+
+    public static void updateCurrent(int currentAccount, Context context, long id) {
+        context.getContentResolver().update(HomeContentProvider.CONTENT_URI, new ContentValues(), "",
+                new String[] {currentAccount + "", id + "", "false"});
     }
 
     public static int insertTweets(List<Status> statuses, int currentAccount, Context context, long[] lastIds) {
