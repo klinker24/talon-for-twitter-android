@@ -21,6 +21,7 @@ import android.widget.CursorAdapter;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
@@ -109,7 +110,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, Intent intent) {
             if (listView.getFirstVisiblePosition() == 0) {
                 // we want to automatically show the new one if the user is at the top of the list
                 // so we set the current position to the id of the top tweet
@@ -119,6 +120,19 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 sharedPrefs.edit().putBoolean("refresh_me", false).commit();
                 long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // sleep so that everyting loads correctly
+                        try {
+                            Thread.sleep(2000);
+                        } catch (Exception e) {
+
+                        }
+                        HomeContentProvider.updateCurrent(currentAccount, context, cursorAdapter.getCount());
+                    }
+                }).start();
 
                 trueLive = true;
 
@@ -380,39 +394,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         if (id == 0) {
                             numTweets = 0;
                         } else {
-                            numTweets = getPosition(cursor, id);
+                            numTweets = getPosition(cursor);
                             if (numTweets == -1) {
                                 return;
-                            }
-
-                            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
-                            // so this is to error trap that
-                            if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-
-                                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
-                                numTweets = getPosition(cursor, id + 1);
-                                if (numTweets == -1) {
-                                    return;
-                                }
-
-                                if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                                    numTweets = getPosition(cursor, id + 2);
-                                    if (numTweets == -1) {
-                                        return;
-                                    }
-
-                                    if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                                        numTweets = getPosition(cursor, id - 1);
-                                        if (numTweets == -1) {
-                                            return;
-                                        }
-
-                                        if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                                            numTweets = 0;
-                                            update = sharedPrefs.getBoolean("just_muted", false);
-                                        }
-                                    }
-                                }
                             }
 
                             sharedPrefs.edit().putBoolean("just_muted", false).commit();
@@ -429,35 +413,33 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             listView.setVisibility(View.VISIBLE);
                         }
 
-                        if (update) {
-                            listView.setAdapter(cursorAdapter);
+                        listView.setAdapter(cursorAdapter);
 
-                            if (viewPressed) {
-                                int size;
-                                if (!isLauncher()) {
-                                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                } else {
-                                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                }
-                                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
-                            } else if (tweets != 0) {
-                                unread = tweets;
-                                int size;
-                                if (!isLauncher()) {
-                                    size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                } else {
-                                    size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                }
-                                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+                        if (viewPressed) {
+                            int size;
+                            if (!isLauncher()) {
+                                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             } else {
-                                listView.setSelectionFromTop(0, 0);
+                                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             }
-
-                            try {
-                                c.close();
-                            } catch (Exception e) {
-
+                            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+                        } else if (tweets != 0) {
+                            unread = tweets;
+                            int size;
+                            if (!isLauncher()) {
+                                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            } else {
+                                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             }
+                            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+                        } else {
+                            listView.setSelectionFromTop(0, 0);
+                        }
+
+                        try {
+                            c.close();
+                        } catch (Exception e) {
+
                         }
 
                         liveUnread = 0;
@@ -514,6 +496,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+
+                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount());
             }
         } catch (Exception e) {
 
@@ -1215,6 +1199,33 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                         }
     }*/
 
+    // use the cursor to find which one has "1" in current position column
+    public int getPosition(Cursor cursor) {
+        int pos = 0;
+
+        try {
+            if (cursor.moveToLast()) {
+                String s;
+                do {
+                    s = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_CURRENT_POS));
+                    if (s != null && !s.isEmpty()) {
+                        break;
+                    } else {
+                        pos++;
+                    }
+                } while (cursor.moveToPrevious());
+            }
+        } catch (Exception e) {
+            Log.v("talon_home_frag", "caught getting position on home timeline, getting the cursor adapter again");
+            e.printStackTrace();
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+            return -1;
+        }
+
+        return pos;
+    }
+
+    // find the id from the cursor to get the position
     public int getPosition(Cursor cursor, long id) {
         int pos = 0;
 
@@ -1370,22 +1381,26 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
     }
 
     public void markReadForLoad() {
-        Log.v("talon_tweetmarker", "marking read for account " + currentAccount);
-
         try {
             Cursor cursor = cursorAdapter.getCursor();
             int current = listView.getFirstVisiblePosition();
 
-            HomeDataSource.getInstance(context).markAllRead(currentAccount);
+            if (!isLauncher()) {
+                HomeDataSource.getInstance(context).markAllRead(currentAccount);
+            }
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "");
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+
+                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - current);
             } else {
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+
+                    HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount());
                 }
             }
         } catch (IllegalStateException e) {

@@ -125,17 +125,24 @@ public class HomeContentProvider extends ContentProvider {
     @Override
     public synchronized int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
+
+        int pos = Integer.parseInt(selectionArgs[1]);
+        int account = Integer.parseInt(selectionArgs[0]);
+
         Log.d(TAG, "update uri: " + uri.toString());
         SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
 
         HomeDataSource dataSource = HomeDataSource.getInstance(context);
-        Cursor cursor = dataSource.getUnreadCursor(Integer.parseInt(selectionArgs[0]));
+        Cursor cursor = dataSource.getCursor(account);
 
-        if (cursor.moveToPosition(Integer.parseInt(selectionArgs[1]))) {
+        if (cursor.moveToPosition(pos)) {
+
+            dataSource.removeCurrent(account);
+
             long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
 
             ContentValues cv = new ContentValues();
-            cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+            cv.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "1");
 
             db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
@@ -212,6 +219,11 @@ public class HomeContentProvider extends ContentProvider {
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
 
         context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
+    }
+
+    public static void updateCurrent(int currentAccount, Context context, int position) {
+        context.getContentResolver().update(HomeContentProvider.CONTENT_URI, null, null,
+                new String[] {currentAccount + "", position + ""});
     }
 
     public static int insertTweets(List<Status> statuses, int currentAccount, Context context, long[] lastIds) {
