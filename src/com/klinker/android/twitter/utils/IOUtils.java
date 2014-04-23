@@ -159,6 +159,12 @@ public class IOUtils {
             output = new ObjectOutputStream(new FileOutputStream(dst));
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
+            // if they have converted to the world readable, then get those instead
+            if (!pref.getBoolean("version_2_2_7_1", true)) {
+                pref = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            }
+
             output.writeObject(pref.getAll());
 
             res = true;
