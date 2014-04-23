@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -145,6 +146,7 @@ public class WidgetRefreshService  extends IntentService {
         }
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+        getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
         mNotificationManager.cancel(6);

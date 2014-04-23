@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -189,6 +190,7 @@ public class CatchupPull extends IntentService {
         context.startService(new Intent(context, TalonPullNotificationService.class));
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+        getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         Log.v("talon_pull", "finished with the catchup service");
 

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.utils.IOUtils;
 
 import java.util.Date;
@@ -28,6 +29,8 @@ public class TrimDataService extends IntentService {
         Log.v("trimming_database", "trimming database from service");
         IOUtils.trimDatabase(getApplicationContext(), 1); // trims first account
         IOUtils.trimDatabase(getApplicationContext(), 2); // trims second account
+
+        getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         setNextTrim(this);
     }
