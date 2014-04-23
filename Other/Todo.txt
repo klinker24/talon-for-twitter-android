@@ -36,6 +36,8 @@
         - invalidate app setting
         - switch shared pref
     - background color stuff (addon themes drawer and background on the list)
+    - themes
+    - retweet and favorite counts on long click
 
 
 
