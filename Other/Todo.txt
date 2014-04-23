@@ -16,16 +16,18 @@
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
     - lag loading plain text articles
+    - trim failed?
     - refresh night mode immediately
 
 - For Launcher Fragment:
-    - shared preference change on settings menu and dashclock
-    - write world prefs for the alert types in pref change listener
     - drawer activity static references
     - clickable links
     - implement the lifecycle stuff
     - get the refresh working
-    - notify change in position back on the main activity
+    - after drawer opened and on scroll
+        - notify change in position back on the main activity (using a service to write the refresh_me shared pref)
+        - clear the pull unread
+    - make sure loading/writing of position is threaded
     - mark read doesn't seem to fire on the launcher fragment
     - New timeline cursor adapter for resources stuff
         - make it open always in popup (could use widget viewer activity i think)

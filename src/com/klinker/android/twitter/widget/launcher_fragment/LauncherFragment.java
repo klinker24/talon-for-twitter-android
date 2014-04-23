@@ -83,25 +83,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void onFragmentsOpened() {
-        context = getActivity();
-        try {
-            talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
-            sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-            settings = new AppSettings(sharedPrefs, talonContext);
-        } catch (Exception e) {
-            talonContext = context;
-            settings = AppSettings.getInstance(context);
-        }
-
-        context.getLoaderManager().restartLoader(0, null, this);
+        //context.getLoaderManager().restartLoader(0, null, this);
         Log.v("talon_fragment", "drawer opened");
     }
 
     @Override
     public void onFragmentsClosed() {
         markReadForLoad();
-        sharedPrefs.edit().putBoolean("refres_me", true).commit();
     }
 
     public CursorAdapter returnAdapter(Cursor c) {
