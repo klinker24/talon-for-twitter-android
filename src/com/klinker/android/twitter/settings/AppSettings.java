@@ -182,8 +182,11 @@ public class AppSettings {
             myId = sharedPrefs.getLong("twitter_id_2", 0);
         }
 
+        SharedPreferences defaultPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
         // Booleans
-        isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
+        isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false) ||
+                defaultPrefs.getBoolean("is_logged_in_1", false) || defaultPrefs.getBoolean("is_logged_in_2", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);

@@ -1,14 +1,18 @@
 package com.klinker.android.twitter.utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.ui.MainActivity;
 
 import java.io.File;
 
@@ -65,6 +69,14 @@ public class UpdateUtils {
             } catch (Exception e) {
                 // not attached
             }
+
+            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            sharedPrefs.edit().putBoolean("version_2_2_7_1", false).commit();
+
+            ((Activity)context).finish();
+            context.startActivity(new Intent(context, MainActivity.class));
+            ((Activity)context).overridePendingTransition(0,0);
         }
     }
 }
