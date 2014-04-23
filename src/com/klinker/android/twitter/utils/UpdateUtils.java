@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
@@ -73,6 +74,9 @@ public class UpdateUtils {
             SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                     Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
             sharedPrefs.edit().putBoolean("version_2_2_7_1", false).commit();
+
+
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("version_2_2_7_1", false).commit();
 
             ((Activity)context).finish();
             context.startActivity(new Intent(context, MainActivity.class));
