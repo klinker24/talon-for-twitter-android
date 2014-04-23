@@ -18,8 +18,13 @@
     - fix immersive mode with new pull to refresh
 
 - For Launcher Fragment:
-    - shared preference change on dashclock and launcher settings
-    - use a content provider again
+    - shared preference change on settings menu and dashclock
+    - drawer activity static references
+    - clickable links
+    - implement the lifecycle stuff
+    - get the refresh working
+    - notify change in position back on the main activity
+    - mark read doesn't seem to fire on the launcher fragment
     - New timeline cursor adapter for resources stuff
         - make it open always in popup (could use widget viewer activity i think)
     - New drawer array adapter for resource stuff
@@ -31,10 +36,6 @@
         - invalidate app setting
         - switch shared pref
     - background color stuff (addon themes drawer and background on the list)
-    - service to return a parsable of some of the shared prefs that I need
-        - create a launcher settings class
-        - use a broadcast to send the data to the fragment
-        - don't load anything on the launcher fragment until that broadcast is received and handled
 
 
 
