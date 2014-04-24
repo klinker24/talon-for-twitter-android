@@ -387,7 +387,9 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void setViews(View layout) {
 
         background = layout.findViewById(resHelper.getId("frag_background"));
-        background.setBackgroundDrawable(settings.customBackground);
+        if (settings.addonTheme) {
+            background.setBackgroundDrawable(settings.customBackground);
+        }
 
         cursorAdapter = null;
         getLoaderManager().initLoader(0, null, this);
