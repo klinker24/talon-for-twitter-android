@@ -22,6 +22,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter.R;
 
 import java.io.BufferedInputStream;
@@ -63,8 +64,10 @@ public class ImageUtils {
             // bitmap is null i guess
 
         }
+
+        ResourceHelper helper = new ResourceHelper(context, "com.klinker.android.twitter");
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.contact_picture_border));
+        paint.setStrokeWidth(helper.getDimension("contact_picture_border"));
 
         try {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circle_border});
@@ -72,7 +75,7 @@ public class ImageUtils {
             a.recycle();
             paint.setColor(context.getResources().getColor(resource));
         } catch (Exception e) {
-            paint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+            paint.setColor(helper.getColor("circle_outline_dark"));
         }
 
         canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
@@ -106,8 +109,10 @@ public class ImageUtils {
             // bitmap is null i guess
 
         }
+        
+        ResourceHelper helper = new ResourceHelper(context, "com.klinker.android.twitter");
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(context.getResources().getDimensionPixelSize(R.dimen.contact_picture_border));
+        paint.setStrokeWidth(helper.getDimension("contact_picture_border"));
 
         try {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circle_border});
@@ -115,7 +120,7 @@ public class ImageUtils {
             a.recycle();
             paint.setColor(context.getResources().getColor(resource));
         } catch (Exception e) {
-            paint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+            paint.setColor(helper.getColor("circle_outline_dark"));
         }
 
         canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
