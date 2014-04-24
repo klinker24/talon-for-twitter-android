@@ -841,9 +841,8 @@ public abstract class DrawerActivity extends Activity {
         InteractionsDataSource inters = InteractionsDataSource.getInstance(context);
         inters.deleteAllInteractions(currentAccount);
 
-
-        int account1List1 = sharedPrefs.getInt("account_" + currentAccount + "_list_1", 0);
-        int account1List2 = sharedPrefs.getInt("account_" + currentAccount + "_list_2", 0);
+        long account1List1 = sharedPrefs.getLong("account_" + currentAccount + "_list_1", 0l);
+        long account1List2 = sharedPrefs.getLong("account_" + currentAccount + "_list_2", 0l);
 
         ListDataSource list = ListDataSource.getInstance(context);
         list.deleteAllTweets(account1List1);
