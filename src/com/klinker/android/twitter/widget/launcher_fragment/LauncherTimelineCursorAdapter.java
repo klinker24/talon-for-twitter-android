@@ -285,10 +285,10 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
 
-        settings = AppSettings.getInstance(context);
-
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        settings = new AppSettings(sharedPrefs, context);
 
         talonLayout = settings.layout;
 
@@ -320,59 +320,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-
-        mHandlers = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandlers[i] = new Handler();
-        }
-    }
-
-    public LauncherTimelineCursorAdapter(Context context, Cursor cursor, boolean isDM) {
-        super(context, cursor, 0);
-
-        helper = new ResourceHelper(context, "com.klinker.android.twitter");
-
-        this.isHomeTimeline = false;
-
-        this.cursor = cursor;
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.isDM = isDM;
-
-        settings = AppSettings.getInstance(context);
-
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-
-        talonLayout = settings.layout;
-
-        if (settings.addonTheme) {
-            try {
-                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        switch (talonLayout) {
-            case AppSettings.LAYOUT_TALON:
-                layout = R.layout.tweet;
-                break;
-            case AppSettings.LAYOUT_HANGOUT:
-                layout = R.layout.tweet_hangout;
-                break;
-            case AppSettings.LAYOUT_FULL_SCREEN:
-                layout = R.layout.tweet_full_screen;
-                break;
-        }
-
-        mCache = getCache();
-
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
-        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
-        if (settings.militaryTime) {
-            timeFormatter = new SimpleDateFormat("kk:mm");
-        }
 
         mHandlers = new Handler[10];
         for (int i = 0; i < 10; i++) {

@@ -4,8 +4,7 @@
               android:id="@+id/left_drawer"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/dark_drawer" >
+              android:layout_height="match_parent" >
 
     <include layout="@layout/launcher_frag_user_header"
              android:id="@+id/header"
