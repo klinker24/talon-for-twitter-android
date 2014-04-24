@@ -95,7 +95,7 @@ public abstract class MainFragment extends BaseLauncherPage {
     };
 
     @Override
-    public View getBackground() {
+    public View[] getBackground() {
         return null;
     }
 
