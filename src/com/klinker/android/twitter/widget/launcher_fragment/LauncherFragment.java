@@ -44,6 +44,7 @@ import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -157,6 +158,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         openedFrag = true;
         showBar();
         sendHandler.post(showSend);
+
+        if(settings.tweetmarker) {
+            fetchTweetMarker();
+        }
     }
 
     @Override
@@ -164,6 +169,21 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         if (scrolled) {
             scrolled = false;
             markReadForLoad();
+        }
+
+        if (settings.tweetmarker) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
+                            sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
+                            Utils.getTwitter(context, new AppSettings(context)), sharedPrefs);
+
+                    long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
+                    helper.sendCurrentId("timeline", currentId);
+
+                }
+            }).start();
         }
     }
 
@@ -504,6 +524,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         refreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                refreshTweetmarker = true;
                 onRefreshStarted();
             }
         });
