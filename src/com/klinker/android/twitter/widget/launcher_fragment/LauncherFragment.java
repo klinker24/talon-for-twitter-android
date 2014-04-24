@@ -576,17 +576,17 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             case AppSettings.THEME_LIGHT:
                 color = new ColorDrawable(resHelper.getColor("light_text_drawer"));
                 sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card"));
-                sendButton.setBackgroundDrawable(resHelper.getDrawable("ic_send_light"));
+                sendButton.setImageDrawable(resHelper.getDrawable("ic_send_light"));
                 break;
             case AppSettings.THEME_DARK:
                 color = new ColorDrawable(resHelper.getColor("dark_text_drawer"));
                 sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card_dark"));
-                sendButton.setBackgroundDrawable(resHelper.getDrawable("ic_send_dark"));
+                sendButton.setImageDrawable(resHelper.getDrawable("ic_send_dark"));
                 break;
             default:
                 color = new ColorDrawable(resHelper.getColor("dark_text_drawer"));
                 sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card_black"));
-                sendButton.setBackgroundDrawable(resHelper.getDrawable("ic_send_dark"));
+                sendButton.setImageDrawable(resHelper.getDrawable("ic_send_dark"));
                 break;
         }
 
@@ -1203,14 +1203,18 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         Log.v("talon_frag", "received id: " + id);
 
-        boolean update = true;
         int numTweets;
         if (id == 0) {
             numTweets = 0;
         } else {
             numTweets = getPosition(cursor);
-            if (numTweets == -1) {
-                return;
+
+            // if it would set it to the end, then we will get the position by the id instead
+            if (numTweets > settings.timelineSize - 5) {
+                numTweets = getPosition(cursor, id);
+                if (numTweets == -1) {
+                    return;
+                }
             }
 
             sharedPrefs.edit().putBoolean("just_muted", false).commit();

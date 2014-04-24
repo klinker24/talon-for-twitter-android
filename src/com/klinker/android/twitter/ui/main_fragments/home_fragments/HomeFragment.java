@@ -397,8 +397,13 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             numTweets = 0;
                         } else {
                             numTweets = getPosition(cursor);
-                            if (numTweets == -1) {
-                                return;
+
+                            // if it would set it to the end, then we will get the position by the id instead
+                            if (numTweets > settings.timelineSize - 5) {
+                                numTweets = getPosition(cursor, id);
+                                if (numTweets == -1) {
+                                    return;
+                                }
                             }
 
                             sharedPrefs.edit().putBoolean("just_muted", false).commit();
