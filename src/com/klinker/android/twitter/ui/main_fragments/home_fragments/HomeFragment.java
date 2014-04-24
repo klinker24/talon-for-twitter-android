@@ -420,7 +420,15 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             listView.setVisibility(View.VISIBLE);
                         }
 
-                        listView.setAdapter(cursorAdapter);
+                        try {
+                            listView.setAdapter(cursorAdapter);
+                        } catch (Exception e) {
+                            // happens when coming from the launcher sometimes because database has been closed
+                            HomeDataSource.dataSource = null;
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                            getCursorAdapter(false);
+                            return;
+                        }
 
                         if (viewPressed) {
                             int size;
