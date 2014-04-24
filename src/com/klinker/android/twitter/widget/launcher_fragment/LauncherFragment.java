@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
+import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.LauncherListLoader;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
@@ -72,6 +74,66 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     public ResourceHelper resHelper;
 
+    public Handler sendHandler;
+
+    public boolean showIsRunning = false;
+    public Runnable showSend = new Runnable() {
+        @Override
+        public void run() {
+            if (settings.floatingCompose && sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+                Animation anim = resHelper.getAnimation("slide_in_left");
+                anim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        showIsRunning = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        sendLayout.setVisibility(View.VISIBLE);
+                        showIsRunning = false;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                anim.setDuration(300);
+                sendLayout.startAnimation(anim);
+            }
+        }
+    };
+
+    public boolean hideIsRunning = false;
+    public Runnable hideSend = new Runnable() {
+        @Override
+        public void run() {
+            if (settings.floatingCompose && sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+                Animation anim = resHelper.getAnimation("slide_out_right");
+                anim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                        hideIsRunning = true;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        sendLayout.setVisibility(View.GONE);
+                        hideIsRunning = false;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                anim.setDuration(300);
+                sendLayout.startAnimation(anim);
+            }
+        }
+    };
+
     @Override
     public BaseLauncherPage getFragment(int position) {
         LauncherFragment fragment = new LauncherFragment();
@@ -80,7 +142,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public View[] getBackground() {
-        return new View[] {background};
+        return new View[] {background, sendLayout};
     }
 
     @Override
@@ -94,6 +156,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void onFragmentsOpened() {
         openedFrag = true;
         showBar();
+        sendHandler.post(showSend);
     }
 
     @Override
@@ -119,6 +182,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void resetTimeline(boolean spinner) {
+        // don't need this because of the load manager
         //context.getLoaderManager().restartLoader(0, null, this);
     }
     
@@ -163,6 +227,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     @Override
     public void setUpListScroll() {
 
+        sendHandler = new Handler();
+
         if (settings.useToast) {
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -170,13 +236,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-                    /*if (i == SCROLL_STATE_IDLE) {
-                        MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
-                        MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
+                    if (i == SCROLL_STATE_IDLE) {
+                        sendHandler.removeCallbacks(hideSend);
+                        sendHandler.postDelayed(showSend, 600);
                     } else {
-                        MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
-                        MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                    }*/
+                        sendHandler.removeCallbacks(showSend);
+                        sendHandler.postDelayed(hideSend, 300);
+                    }
                 }
 
                 @Override
@@ -473,6 +539,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         final ImageButton showMoreDrawer = (ImageButton) layout.findViewById(resHelper.getId("options"));
         final ImageView proPic2 = (ImageView) layout.findViewById(resHelper.getId("profile_pic_2"));
         final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(resHelper.getId("logoutLayout"));
+        ImageButton sendButton = (ImageButton) layout.findViewById(resHelper.getId("send_button"));
 
         final String backgroundUrl = settings.myBackgroundUrl;
         final String profilePicUrl = settings.myProfilePicUrl;
@@ -500,6 +567,17 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         drawerToListDivider.setBackgroundDrawable(color);
         drawerList.setDivider(color);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Intent compose = new Intent("android.intent.action.MAIN");
+                compose.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.compose.LauncherCompose"));
+                compose.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                talonContext.startActivity(compose);
+            }
+        });
 
         try {
             RelativeLayout.LayoutParams statusParams = (RelativeLayout.LayoutParams) statusBar.getLayoutParams();
