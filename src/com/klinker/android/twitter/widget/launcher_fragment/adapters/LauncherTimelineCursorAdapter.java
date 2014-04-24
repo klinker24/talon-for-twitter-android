@@ -409,6 +409,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("proPic", profilePic);
                         viewTweet.putExtra("users", users);
                         viewTweet.putExtra("hashtags", hashtags);
+                        viewTweet.putExtra("current_account", settings.currentAccount);
 
                         if (isHomeTimeline) {
                             sharedPrefs.edit()
@@ -479,6 +480,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("proPic", profilePic);
                         viewTweet.putExtra("users", users);
                         viewTweet.putExtra("hashtags", hashtags);
+                        viewTweet.putExtra("current_account", settings.currentAccount);
 
                         if (isHomeTimeline) {
                             sharedPrefs.edit()
@@ -528,6 +530,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 viewProfile.putExtra("tweetid", holder.tweetId);
                 viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
                 viewProfile.putExtra("long_click", false);
+                viewProfile.putExtra("current_account", settings.currentAccount);
 
                 if (isHomeTimeline) {
                     sharedPrefs.edit()
@@ -536,34 +539,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 }
 
                 context.startActivity(viewProfile);
-            }
-        });
-
-        holder.profilePic.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View view) {
-
-                final Intent viewProfile = new Intent("android.intent.action.MAIN");
-                viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
-                viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                viewProfile.putExtra("name", name);
-                viewProfile.putExtra("screenname", screenname);
-                viewProfile.putExtra("proPic", profilePic);
-                viewProfile.putExtra("tweetid", holder.tweetId);
-                viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
-                viewProfile.putExtra("long_click", true);
-
-                if (isHomeTimeline) {
-                    sharedPrefs.edit()
-                            .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                            .commit();
-                }
-
-                context.startActivity(viewProfile);
-
-                return false;
             }
         });
 
@@ -635,6 +610,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                             viewTweet.putExtra("users", users);
                             viewTweet.putExtra("hashtags", hashtags);
                             viewTweet.putExtra("clicked_youtube", true);
+                            viewTweet.putExtra("current_account", settings.currentAccount);
 
                             if (isHomeTimeline) {
                                 sharedPrefs.edit()
@@ -1009,6 +985,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
                 }
                 compose.putExtra("id", holder.tweetId);
+                compose.putExtra("current_account", settings.currentAccount);
 
                 if (isHomeTimeline) {
                     sharedPrefs.edit()
@@ -1188,6 +1165,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                     }
                     intent.putExtra("user", text);
                     intent.putExtra("id", tweetId);
+                    intent.putExtra("current_account", settings.currentAccount);
 
                     if (isHomeTimeline) {
                         sharedPrefs.edit()

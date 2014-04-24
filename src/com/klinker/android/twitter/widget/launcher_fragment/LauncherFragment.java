@@ -607,6 +607,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 final Intent compose = new Intent("android.intent.action.MAIN");
                 compose.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.compose.LauncherCompose"));
                 compose.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                compose.putExtra("current_account", currentAccount);
 
                 talonContext.startActivity(compose);
             }
@@ -753,6 +754,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                         viewProfile.putExtra("tweetid", 0);
                         viewProfile.putExtra("retweet", false);
                         viewProfile.putExtra("long_click", false);
+                        viewProfile.putExtra("current_account", currentAccount);
 
                         context.startActivity(viewProfile);
                     }
@@ -772,6 +774,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 popup.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.RedirectToLauncherPopup"));
                 popup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 popup.putExtra("launcher_page", i);
+                popup.putExtra("current_account", currentAccount);
 
                 context.startActivity(popup);
             }
@@ -809,6 +812,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
+                            showMoreDrawer.performClick();
+
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
@@ -857,6 +862,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                     @Override
                     public void onClick(View view) {
                         if (canSwitch) {
+                            showMoreDrawer.performClick();
+
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
