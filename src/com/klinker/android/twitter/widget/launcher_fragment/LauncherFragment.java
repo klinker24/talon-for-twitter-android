@@ -7,6 +7,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,6 +65,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public ImageView profilePic;
     public ListView drawerList;
     public View statusBar;
+    public LinearLayout sendLayout;
     
     public boolean canSwitch = true;
     public boolean translucent;
@@ -404,6 +406,18 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         background = layout.findViewById(resHelper.getId("frag_background"));
         if (settings.addonTheme) {
             background.setBackgroundDrawable(settings.customBackground);
+        } else {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    background.setBackgroundColor(resHelper.getColor("light_background"));
+                    break;
+                case AppSettings.THEME_DARK:
+                    background.setBackgroundColor(resHelper.getColor("dark_background"));
+                    break;
+                case AppSettings.THEME_BLACK:
+                    background.setBackgroundColor(resHelper.getColor("black_background"));
+                    break;
+            }
         }
 
         cursorAdapter = null;
@@ -455,6 +469,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         backgroundPic = (ImageView) layout.findViewById(resHelper.getId("background_image"));
         profilePic = (ImageView) layout.findViewById(resHelper.getId("profile_pic_contact"));
         drawerList = (ListView) layout.findViewById(resHelper.getId("drawer_list"));
+        sendLayout = (LinearLayout) layout.findViewById(resHelper.getId("send_layout"));
         final ImageButton showMoreDrawer = (ImageButton) layout.findViewById(resHelper.getId("options"));
         final ImageView proPic2 = (ImageView) layout.findViewById(resHelper.getId("profile_pic_2"));
         final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(resHelper.getId("logoutLayout"));
@@ -464,6 +479,27 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         statusBar = layout.findViewById(resHelper.getId("activity_status_bar"));
 
         int statusBarHeight = Utils.getStatusBarHeight(context);
+
+        View drawerToListDivider = layout.findViewById(resHelper.getId("drawer_to_list_divider"));
+        ColorDrawable color;
+
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                color = new ColorDrawable(resHelper.getColor("light_text_drawer"));
+                sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card"));
+                break;
+            case AppSettings.THEME_DARK:
+                color = new ColorDrawable(resHelper.getColor("dark_text_drawer"));
+                sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card_dark"));
+                break;
+            default:
+                color = new ColorDrawable(resHelper.getColor("dark_text_drawer"));
+                sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card_black"));
+                break;
+        }
+
+        drawerToListDivider.setBackgroundDrawable(color);
+        drawerList.setDivider(color);
 
         try {
             RelativeLayout.LayoutParams statusParams = (RelativeLayout.LayoutParams) statusBar.getLayoutParams();

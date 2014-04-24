@@ -149,7 +149,14 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                v = helper.getLayout("launcher_frag_tweet_dark");//inflater.inflate(layout, viewGroup, false);
+                switch (settings.theme) {
+                    case AppSettings.THEME_LIGHT:
+                        v = helper.getLayout("launcher_frag_tweet_light");
+                        break;
+                    default:
+                        v = helper.getLayout("launcher_frag_tweet_dark");
+                        break;
+                }
 
                 holder.name = (TextView) v.findViewById(helper.getId("name"));
                 holder.screenTV = (TextView) v.findViewById(helper.getId("screenname"));
@@ -177,7 +184,14 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
             }
         } else {
-            v = helper.getLayout("launcher_frag_tweet_dark");//inflater.inflate(layout, viewGroup, false);
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    v = helper.getLayout("launcher_frag_tweet_light");
+                    break;
+                default:
+                    v = helper.getLayout("launcher_frag_tweet_dark");
+                    break;
+            }
 
             holder.name = (TextView) v.findViewById(helper.getId("name"));
             holder.screenTV = (TextView) v.findViewById(helper.getId("screenname"));

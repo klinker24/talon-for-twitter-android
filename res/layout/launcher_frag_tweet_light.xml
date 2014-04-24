@@ -27,7 +27,7 @@
                 android:layout_height="@dimen/pro_pic_size"
                 android:id="@+id/profile_pic"
                 android:contentDescription="Profile Picture"
-                android:src="@drawable/square_border_dark"
+                android:src="@drawable/square_border_light"
                 android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:textColor="@color/dark_text"
+                    android:textColor="@color/light_text"
                     android:paddingTop="4dp"
                     android:singleLine="true"
                     android:gravity="center_vertical"
@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:textColor="@color/dark_date"
+                    android:textColor="@color/light_date"
                     android:singleLine="true"
                     android:gravity="center_vertical"
                     android:fontFamily="sans-serif-light" />
@@ -74,7 +74,7 @@
                 android:layout_marginRight="6dp"
                 android:gravity="right|bottom"
                 android:paddingBottom="6dp"
-                android:textColor="@color/dark_date"
+                android:textColor="@color/light_date"
                 android:fontFamily="sans-serif-light" />
 
         </LinearLayout>
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:fontFamily="sans-serif-light"
-            android:textColor="@color/dark_text"
+            android:textColor="@color/light_text"
             android:paddingTop="6dp" />
 
         <TextView
@@ -97,7 +97,7 @@
             android:paddingBottom="4dp"
             android:paddingTop="3dp"
             android:gravity="right"
-            android:textColor="@color/dark_date"
+            android:textColor="@color/light_date"
             android:fontFamily="sans-serif-light"
             android:text="@string/placeholder"
             android:visibility="gone" />
@@ -127,7 +127,7 @@
                         android:id="@+id/quote_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_action_reply_all_dark"
+                        android:src="@drawable/ic_action_reply_all_light"
                         android:contentDescription="Quote Tweet"
                         android:minHeight="32dp" android:minWidth="32dp"
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
@@ -152,7 +152,7 @@
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
                         android:maxWidth="37dp" android:maxHeight="37dp"
                         android:background="@drawable/pressed_button"
-                        android:src="@drawable/ic_action_share_dark"/>
+                        android:src="@drawable/ic_action_share_light"/>
 
                 </LinearLayout>
 
@@ -168,7 +168,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="Favorite Tweet"
-                        android:src="@drawable/ic_action_not_important_dark"
+                        android:src="@drawable/ic_action_not_important_light"
                         android:background="@drawable/pressed_button"/>
 
                     <LinearLayout
@@ -218,7 +218,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="Retweet"
-                        android:src="@drawable/ic_action_repeat_dark"
+                        android:src="@drawable/ic_action_repeat_light"
                         android:background="@drawable/pressed_button"/>
 
                     <LinearLayout
@@ -276,7 +276,7 @@
                     android:contentDescription="Reply"
                     android:textSize="14dp"
                     android:fontFamily="sans-serif-light"
-                    android:background="@drawable/twitter_edit_text_holo_dark"
+                    android:background="@drawable/twitter_edit_text_holo_light"
                     android:inputType="textMultiLine|textCapSentences"/>
 
             </LinearLayout>
@@ -318,7 +318,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/dark_text_drawer" />
+                android:background="@color/light_text_drawer" />
 
         </LinearLayout>
 
