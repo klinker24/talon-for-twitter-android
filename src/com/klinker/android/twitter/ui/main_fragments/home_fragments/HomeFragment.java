@@ -1409,6 +1409,10 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
             final Cursor cursor = cursorAdapter.getCursor();
             final int current = listView.getFirstVisiblePosition();
 
+            if (cursor.isClosed()) {
+                return;
+            }
+
             if (!isLauncher()) {
                 HomeDataSource.getInstance(context).markAllRead(currentAccount);
             }

@@ -752,38 +752,14 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             }
         });
 
-        backgroundPic.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        final Intent viewProfile = new Intent("android.intent.action.MAIN");
-                        viewProfile.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
-                        viewProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        viewProfile.putExtra("name", settings.myName);
-                        viewProfile.putExtra("screenname", settings.myScreenName);
-                        viewProfile.putExtra("proPic", profilePicUrl);
-                        viewProfile.putExtra("tweetid", 0);
-                        viewProfile.putExtra("retweet", false);
-                        viewProfile.putExtra("long_click", true);
-
-                        context.startActivity(viewProfile);
-                    }
-                }, 400);
-
-                return false;
-            }
-        });
-
         DrawerArrayAdapter adapter = new DrawerArrayAdapter(talonContext);
         drawerList.setAdapter(adapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                markReadForLoad();
+
                 final Intent popup = new Intent("android.intent.action.MAIN");
                 popup.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.RedirectToLauncherPopup"));
                 popup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1234,12 +1210,12 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         if (viewPressed) {
             int size;
-            size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
+            size = 0;//(Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
             listView.setSelectionFromTop(liveUnread + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
         } else if (tweets != 0) {
             unread = tweets;
             int size;
-            size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
+            size = 0;//(Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
             listView.setSelectionFromTop(tweets + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
         } else {
             listView.setSelectionFromTop(0, 0);
