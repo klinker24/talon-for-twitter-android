@@ -463,7 +463,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void setUpHeaders() {
-        if (Build.VERSION.SDK_INT >= 19) {
+        if (Build.VERSION.SDK_INT >= 19 && !switchedAccounts) {
             if (Utils.hasNavBar(context)) {
                 View footer = new View(context);
                 footer.setOnClickListener(null);
@@ -486,9 +486,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     }
 
     public View background;
+    public View rootLayout;
+
+    public boolean switchedAccounts = false;
 
     @Override
     public void setViews(View layout) {
+        rootLayout = layout;
 
         background = layout.findViewById(resHelper.getId("frag_background"));
         if (settings.addonTheme) {
@@ -508,30 +512,34 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         }
 
         cursorAdapter = null;
-        getLoaderManager().initLoader(0, null, this);
+        if (!switchedAccounts) {
+            getLoaderManager().initLoader(0, null, this);
+        }
 
-        LinearLayout root = (LinearLayout) layout.findViewById(resHelper.getId("swipe_layout"));
-        listView = new AsyncListView(context);
-        listView.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
-        spinner = (LinearLayout) layout.findViewById(resHelper.getId("spinner"));
+        if (!switchedAccounts) {
+            LinearLayout root = (LinearLayout) layout.findViewById(resHelper.getId("swipe_layout"));
+            listView = new AsyncListView(context);
+            listView.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+            spinner = (LinearLayout) layout.findViewById(resHelper.getId("spinner"));
 
-        refreshLayout = new FullScreenSwipeRefreshLayout(context);
-        refreshLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
-        refreshLayout.setFullScreen(true);
-        refreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshTweetmarker = true;
-                onRefreshStarted();
-            }
-        });
+            refreshLayout = new FullScreenSwipeRefreshLayout(context);
+            refreshLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+            refreshLayout.setFullScreen(true);
+            refreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refreshTweetmarker = true;
+                    onRefreshStarted();
+                }
+            });
 
-        root.addView(refreshLayout);
-        refreshLayout.addView(listView);
+            root.addView(refreshLayout);
+            refreshLayout.addView(listView);
+        }
 
         if (settings.addonTheme) {
             refreshLayout.setColorScheme(settings.accentInt,
@@ -638,11 +646,11 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             @Override
             public void onClick(View view) {
                 if(!logoutVisible) {
-                    Animation ranim = resHelper.getAnimation("drawer_rotate");//AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
+                    Animation ranim = resHelper.getAnimation("drawer_rotate");
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    Animation anim = resHelper.getAnimation("fade_out");//AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                    Animation anim = resHelper.getAnimation("fade_out");
                     anim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -661,7 +669,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                     anim.setDuration(300);
                     drawerList.startAnimation(anim);
 
-                    Animation anim2 = resHelper.getAnimation("fade_in");//AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    Animation anim2 = resHelper.getAnimation("fade_in");
                     anim2.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -682,11 +690,11 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
                     logoutVisible = true;
                 } else {
-                    Animation ranim = resHelper.getAnimation("drawer_rotate_back");//AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
+                    Animation ranim = resHelper.getAnimation("drawer_rotate_back");
                     ranim.setFillAfter(true);
                     showMoreDrawer.startAnimation(ranim);
 
-                    Animation anim = resHelper.getAnimation("fade_in");//AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                    Animation anim = resHelper.getAnimation("fade_in");
                     anim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -705,7 +713,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                     anim.setDuration(300);
                     drawerList.startAnimation(anim);
 
-                    Animation anim2 = resHelper.getAnimation("fade_out");//AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                    Animation anim2 = resHelper.getAnimation("fade_out");
                     anim2.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -784,24 +792,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         // make a second account
         if(count == 1){
-            proPic2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (canSwitch) {
-                        if (current == 1) {
-                            sharedPrefs.edit().putInt("current_account", 2).commit();
-                        } else {
-                            sharedPrefs.edit().putInt("current_account", 1).commit();
-                        }
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-
-                        Intent login = new Intent(context, LoginActivity.class);
-                        AppSettings.invalidate();
-                        startActivity(login);
-                    }
-                }
-            });
+            proPic2.setVisibility(View.GONE);
         } else { // switch accounts
             if (current == 1) {
                 try {
@@ -828,15 +819,24 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                                 @Override
                                 public void run() {
                                     try {
-                                        Thread.sleep(1000);
+                                        Thread.sleep(500);
                                     } catch (Exception e) {
 
                                     }
+
                                     sharedPrefs.edit().putInt("current_account", 2).commit();
+                                    currentAccount = 2;
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
-                                    AppSettings.invalidate();
-                                    Intent next = new Intent(context, MainActivity.class);
-                                    //startActivity(next);
+                                    settings = new AppSettings(sharedPrefs, context);
+
+                                    context.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            switchedAccounts = true;
+                                            setViews(rootLayout);
+                                            context.getLoaderManager().restartLoader(0, null, LauncherFragment.this);
+                                        }
+                                    });
                                 }
                             }).start();
 
@@ -861,20 +861,30 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
                             Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
+
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
-                                        Thread.sleep(1000);
+                                        Thread.sleep(500);
                                     } catch (Exception e) {
 
                                     }
 
                                     sharedPrefs.edit().putInt("current_account", 1).commit();
+                                    currentAccount = 1;
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                                     AppSettings.invalidate();
-                                    Intent next = new Intent(context, MainActivity.class);
-                                    //startActivity(next);
+                                    settings = new AppSettings(sharedPrefs, context);
+                                    context.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            switchedAccounts = true;
+                                            setViews(rootLayout);
+                                            context.getLoaderManager().restartLoader(0, null, LauncherFragment.this);
+                                        }
+                                    });
+
                                 }
                             }).start();
                         }
@@ -968,7 +978,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 }
             }
 
-            Animation anim = resHelper.getAnimation("slide_out_right");//AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+            Animation anim = resHelper.getAnimation("slide_out_right");
             anim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -1134,6 +1144,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        Log.v("talon_loader", "creating the loader on account: " + currentAccount);
         try {
             talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
             sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -1148,7 +1159,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 HomeContentProvider.CONTENT_URI,
                 projection,
                 null,
-                new String[] {settings.currentAccount + ""},
+                new String[] {currentAccount + ""},
                 null );
 
         return cursorLoader;
@@ -1156,7 +1167,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Log.v("talon_data", "cursor size: " + cursor.getCount());
+        Log.v("talon_loader", "finished loading");
+
+        cursor.moveToFirst();
+        Log.v("talon_loader", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
 
         Cursor c = null;
         if (cursorAdapter != null) {
@@ -1164,6 +1178,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         }
 
         cursorAdapter = returnAdapter(cursor);
+
+        Log.v("talon_loader", cursorAdapter.getCount() + "");
 
         try {
             Log.v("talon_databases", "size of adapter cursor on home fragment: " + cursor.getCount());
@@ -1206,7 +1222,11 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             listView.setVisibility(View.VISIBLE);
         }
 
+        switchedAccounts = false;
+
+        Log.v("talon_loader", "settings adapter");
         listView.setAdapter(cursorAdapter);
+        Log.v("talon_loader", "adapter set");
 
         if (viewPressed) {
             int size;
@@ -1250,6 +1270,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
+        cursorAdapter.changeCursor(null);
     }
 }

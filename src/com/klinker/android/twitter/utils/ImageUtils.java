@@ -381,8 +381,12 @@ public class ImageUtils {
             // The cache has it, so just display it
             iv.setImageDrawable(wrapper);
 
-            Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-            iv.startAnimation(fadeInAnimation);
+            try {
+                Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+                iv.startAnimation(fadeInAnimation);
+            } catch (Exception e) {
+
+            }
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
             iv.setImageDrawable(null);
