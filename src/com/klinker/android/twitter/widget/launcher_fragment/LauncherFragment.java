@@ -818,6 +818,20 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
+                            // restart Talon pull
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    final Intent pull = new Intent("android.intent.action.MAIN");
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.StartPull"));
+                                    pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    pull.putExtra("current_account", 2);
+
+                                    talonContext.startActivity(pull);
+                                }
+                            }, 2500);
+
                             Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
 
                             // we want to wait a second so that the mark position broadcast will work
@@ -867,6 +881,20 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
+
+                            // restart Talon pull
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    final Intent pull = new Intent("android.intent.action.MAIN");
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.StartPull"));
+                                    pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    pull.putExtra("current_account", 1);
+
+                                    talonContext.startActivity(pull);
+                                }
+                            }, 2500);
 
                             Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
 
@@ -1200,7 +1228,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             numTweets = getPosition(cursor);
 
             // if it would set it to the end, then we will get the position by the id instead
-            if (numTweets > settings.timelineSize - 5) {
+            if (numTweets > cursor.getCount() - 5) {
                 numTweets = getPosition(cursor, id);
                 if (numTweets == -1) {
                     return;
