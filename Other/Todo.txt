@@ -31,7 +31,6 @@
 
 -- For Release --
 
-    - if there isn't a 1 found in the cursor, then set the position to the id in shared prefs
     - look into lag on the list member page
     - fix immersive mode with new pull to refresh
 
