@@ -64,6 +64,30 @@ public class TouchableSpan extends ClickableSpan {
         mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
     }
 
+    public TouchableSpan(Context context, Link value, boolean extBrowser, AppSettings settings) {
+        mContext = context;
+        mValue = value.getShort();
+        full = value.getLong();
+        this.extBrowser = extBrowser;
+
+        this.settings = settings;
+
+        if (settings.addonTheme) {
+            mThemeColor = settings.accentInt;
+            try {
+                mColorString = Color.parseColor("#44" + settings.accentColor);
+            } catch (Exception e) {
+                mColorString = Color.TRANSPARENT;
+            }
+        } else {
+            mThemeColor = context.getResources().getColor(R.color.app_color);
+            mColorString = context.getResources().getColor(R.color.pressed_app_color);
+        }
+
+        // getconnectionstatus() is true if on mobile data, false otherwise
+        mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
+    }
+
     private AppSettings settings;
     private final Context mContext;
     private final String mValue;

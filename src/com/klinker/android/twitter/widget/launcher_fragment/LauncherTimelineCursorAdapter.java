@@ -784,8 +784,8 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                         });
                     }
 
-                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
-                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
+                    TextUtils.linkifyText(context, settings, holder.tweet, holder.background, true, otherUrl, false);
+                    TextUtils.linkifyText(context, settings, holder.retweeter, holder.background, true, "", false);
 
                 }
             }

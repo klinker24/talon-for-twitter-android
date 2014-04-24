@@ -26,6 +26,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.klinker.android.twitter.data.Link;
+import com.klinker.android.twitter.settings.AppSettings;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -260,6 +261,16 @@ class Linkify {
         }
     }
 
+    public static void addLinks(Context context, AppSettings settings, TextView text, Pattern p,
+                                MatchFilter matchFilter, TransformFilter transformFilter, TextView tv, View holder, String allUrls, boolean extBrowser) {
+        SpannableString s = SpannableString.valueOf(text.getText());
+
+        if (addLinks(context, settings, s, p, matchFilter, transformFilter, tv, holder, allUrls, extBrowser)) {
+            text.setText(s);
+            addLinkMovementMethod(text);
+        }
+    }
+
     /**
      * Applies a regex to a Spannable turning the matches into
      * links.
@@ -301,6 +312,36 @@ class Linkify {
         return hasMatches;
     }
 
+    private static boolean addLinks(Context context, AppSettings settings, Spannable s, Pattern p,
+                                    MatchFilter matchFilter,
+                                    TransformFilter transformFilter, TextView tv, View holder, String allUrls, boolean extBrowser) {
+        boolean hasMatches = false;
+        Matcher m = p.matcher(s);
+
+        while (m.find()) {
+            int start = m.start();
+            int end = m.end();
+            boolean allowed = true;
+
+            if (matchFilter != null) {
+                allowed = matchFilter.acceptMatch(s, start, end);
+            }
+
+            if (allowed) {
+                String shortUrl = makeUrl(m.group(0), m, transformFilter);
+                String longUrl = getLongUrl(shortUrl, allUrls);
+
+                //Log.v("talon_replace", "longurl: " + longUrl);
+                //Log.v("talon_replace", "shorturl: " + shortUrl);
+
+                applyLink(context, settings, tv, holder, new Link(shortUrl, longUrl), start, end, s, extBrowser);
+                hasMatches = true;
+            }
+        }
+
+        return hasMatches;
+    }
+
     private static String getLongUrl(String shortUrl, String allUrls) {
         if (allUrls == null) {
             return shortUrl;
@@ -335,19 +376,12 @@ class Linkify {
     }
 
     private static void applyLink(Context context, TextView tv, final View holder, Link url, final int start, final int end, final Spannable text, boolean extBrowser) {
-        /*tv.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                try {
-                    holder.performLongClick();
-                } catch (Exception e) {
-                    // i didn't send anything to holder, so it will throw an npe
-                }
-                return false;
-            }
-        });*/
-
         TouchableSpan span = new TouchableSpan(context, url, extBrowser);
+        text.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    private static void applyLink(Context context, AppSettings settings, TextView tv, final View holder, Link url, final int start, final int end, final Spannable text, boolean extBrowser) {
+        TouchableSpan span = new TouchableSpan(context, url, extBrowser, settings);
         text.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
