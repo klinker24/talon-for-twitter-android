@@ -880,6 +880,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         return HomeContentProvider.insertTweets(statuses, currentAccount, context);
     }
 
+    boolean launcherRefreshing = false;
+
     public int doRefresh() {
         int numberNew = 0;
 
@@ -888,15 +890,16 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             return 0;
         }
 
-
         long id = 1l;
+
         try {
             Cursor cursor = cursorAdapter.getCursor();
             if (cursor.moveToLast()) {
                 id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
 
-                //HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+                launcherRefreshing = true;
+                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
             }
         } catch (Exception e) {
             return 0;
@@ -959,10 +962,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             long afterDownload = Calendar.getInstance().getTimeInMillis();
             Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
 
-            if (statuses.size() > 0) {
-                statuses.remove(statuses.size() - 1);
-            }
-
             HashSet hs = new HashSet();
             hs.addAll(statuses);
             statuses.clear();
@@ -972,15 +971,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
             manualRefresh = false;
 
-            if (needClose) {
-                HomeDataSource.dataSource = null;
-                Log.v("talon_home_frag", "sending the reset home broadcase in needclose section");
-                dontGetCursor = true;
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-            }
-
             try {
-                numberNew = insertTweets(statuses, new long[] {0,0,0,0,0});
+                if (statuses.size() > 0) {
+                    launcherRefreshing = false;
+                    numberNew = insertTweets(statuses, new long[]{0, 0, 0, 0, 0});
+                } else {
+                    return 0;
+                }
             } catch (NullPointerException e) {
                 return 0;
             }
@@ -1106,7 +1103,9 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         liveUnread = 0;
         viewPressed = false;
 
-        refreshLayout.setRefreshing(false);
+        if (!launcherRefreshing) {
+            refreshLayout.setRefreshing(false);
+        }
 
         isRefreshing = false;
 

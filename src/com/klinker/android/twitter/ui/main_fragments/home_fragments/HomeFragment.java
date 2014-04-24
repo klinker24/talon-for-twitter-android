@@ -815,7 +815,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                             newTweets = false;
 
-                            new RefreshMentions().execute();
+                            if (!isLauncher()) {
+                                new RefreshMentions().execute();
+                            }
                         } catch (Exception e) {
                             DrawerActivity.canSwitch = true;
 
