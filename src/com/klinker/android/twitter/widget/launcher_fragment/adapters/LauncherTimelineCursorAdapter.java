@@ -410,6 +410,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("users", users);
                         viewTweet.putExtra("hashtags", hashtags);
                         viewTweet.putExtra("current_account", settings.currentAccount);
+                        viewTweet.putExtra("from_widget", true);
 
                         if (isHomeTimeline) {
                             sharedPrefs.edit()
@@ -481,6 +482,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("users", users);
                         viewTweet.putExtra("hashtags", hashtags);
                         viewTweet.putExtra("current_account", settings.currentAccount);
+                        viewTweet.putExtra("from_widget", true);
 
                         if (isHomeTimeline) {
                             sharedPrefs.edit()
@@ -611,6 +613,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                             viewTweet.putExtra("hashtags", hashtags);
                             viewTweet.putExtra("clicked_youtube", true);
                             viewTweet.putExtra("current_account", settings.currentAccount);
+                            viewTweet.putExtra("from_widget", true);
 
                             if (isHomeTimeline) {
                                 sharedPrefs.edit()
