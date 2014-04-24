@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.widget.launcher_fragment;
+package com.klinker.android.twitter.widget.launcher_fragment.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;

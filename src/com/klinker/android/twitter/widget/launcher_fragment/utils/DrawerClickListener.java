@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.widget.launcher_fragment;
+package com.klinker.android.twitter.widget.launcher_fragment.utils;
 
 /**
  * Created by luke on 4/19/14.
