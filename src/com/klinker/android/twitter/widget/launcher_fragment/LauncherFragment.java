@@ -81,7 +81,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public Runnable showSend = new Runnable() {
         @Override
         public void run() {
-            if (settings.floatingCompose && sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+            if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
                 Animation anim = resHelper.getAnimation("slide_in_left");
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -110,7 +110,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public Runnable hideSend = new Runnable() {
         @Override
         public void run() {
-            if (settings.floatingCompose && sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+            if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
                 Animation anim = resHelper.getAnimation("slide_out_right");
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
