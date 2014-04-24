@@ -1064,7 +1064,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
             holder.shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+                    Intent intent = new Intent(android.content.Intent.ACTION_SEND);
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
@@ -1074,7 +1074,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
                     Log.v("talon_sharing", "text: " + text);
 
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET|Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(Intent.EXTRA_TEXT, text);
 
                     if (isHomeTimeline) {
@@ -1083,7 +1083,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                 .commit();
                     }
 
-                    context.startActivity(Intent.createChooser(intent, helper.getString("menu_share")));
+                    context.startActivity(Intent.createChooser(intent, helper.getString("menu_share")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
 
                 public String restoreLinks(String text) {
