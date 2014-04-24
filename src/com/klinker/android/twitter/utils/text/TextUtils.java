@@ -26,6 +26,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
 
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.EmojiUtils;
 
 import java.util.regex.Matcher;
@@ -48,6 +49,23 @@ public class TextUtils {
         Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.CASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
+    }
+
+    public static void linkifyText(Context context, AppSettings settings, TextView textView, View holder, boolean clickable, String allLinks, boolean extBrowser) {
+        Linkify.TransformFilter filter = new Linkify.TransformFilter() {
+            public final String transformUrl(final Matcher match, String url) {
+                return match.group();
+            }
+        };
+
+        textView.setLinksClickable(clickable);
+
+        //Linkify.addLinks(context, textView, Patterns.PHONE, null, filter, textView, holder);
+        Linkify.addLinks(context, settings, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, settings, textView, Patterns.WEB_URL, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, settings, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, settings, textView, Regex.CASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, settings, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
     }
 
     public static Spannable colorText(Context context, String tweet, int color) {
