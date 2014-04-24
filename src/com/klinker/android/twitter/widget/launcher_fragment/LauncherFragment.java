@@ -93,6 +93,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     @Override
     public void onFragmentsOpened() {
         openedFrag = true;
+        showBar();
     }
 
     @Override
