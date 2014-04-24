@@ -1,3 +1,7 @@
+<b>Version 2.2.7:</b><br/><br/>
+    &#8226; Major rewrite of a lot of the background in preparation for some cool new stuff to come<br/>
+</br><br/>
+
 <b>Version 2.2.6:</b><br/><br/>
     &#8226; Fixes for the pull to refresh getting stuck<br/>
     &#8226; Alert when viewing protected accounts<br/>

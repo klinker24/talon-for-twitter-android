@@ -939,6 +939,25 @@ public class HomeDataSource {
         return pos;
     }
 
+    public synchronized int getPosition(int account) {
+        int pos = 0;
+
+        Cursor cursor = getCursor(account);
+        if (cursor.moveToLast()) {
+            do {
+                if (!cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_CURRENT_POS)).isEmpty()) {
+                    break;
+                } else {
+                    pos++;
+                }
+            } while (cursor.moveToPrevious());
+        }
+
+        cursor.close();
+
+        return pos;
+    }
+
     public synchronized void removeHTML(long tweetId, String text) {
         ContentValues cv = new ContentValues();
         cv.put(HomeSQLiteHelper.COLUMN_TEXT, text);
