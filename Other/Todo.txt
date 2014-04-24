@@ -21,8 +21,7 @@
     - refresh night mode immediately
 
 - For Launcher Fragment:
-    - always open profiles, tweet, searched trends to popup
-    - test to make sure it always opens tweets and stuff with the account that you want it to
+    - restart talon pull when you switch profiles
 
 -- For Release --
 
