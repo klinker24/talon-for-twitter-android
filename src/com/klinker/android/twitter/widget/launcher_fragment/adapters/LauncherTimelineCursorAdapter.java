@@ -533,6 +533,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
                 viewProfile.putExtra("long_click", false);
                 viewProfile.putExtra("current_account", settings.currentAccount);
+                viewProfile.putExtra("from_widget", true);
 
                 if (isHomeTimeline) {
                     sharedPrefs.edit()
