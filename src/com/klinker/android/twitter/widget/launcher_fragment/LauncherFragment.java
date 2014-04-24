@@ -1059,9 +1059,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         }
 
         try {
-
-            boolean needClose = false;
-
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
             twitter = Utils.getTwitter(context, settings);
