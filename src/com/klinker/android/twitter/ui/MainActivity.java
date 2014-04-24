@@ -266,6 +266,12 @@ public class MainActivity extends DrawerActivity {
             startActivity(new Intent(context, TutorialActivity.class));
             overridePendingTransition(0, 0);
         }
+
+        setLauncherPage();
+    }
+
+    public void setLauncherPage() {
+        // do nothing here
     }
 
     public void setUpWindow() {
