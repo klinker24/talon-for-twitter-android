@@ -109,8 +109,9 @@ public class ProfilePager extends Activity {
             // Ignore
         }
 
-        if ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
-                !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false)) {
+        if (getIntent().getBooleanExtra("from_widget", false) ||
+                ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
+                !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false))) {
             setUpWindow();
         }
 

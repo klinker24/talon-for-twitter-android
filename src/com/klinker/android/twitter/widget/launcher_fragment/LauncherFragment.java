@@ -755,6 +755,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                         viewProfile.putExtra("retweet", false);
                         viewProfile.putExtra("long_click", false);
                         viewProfile.putExtra("current_account", currentAccount);
+                        viewProfile.putExtra("from_widget", true);
 
                         context.startActivity(viewProfile);
                     }
