@@ -1177,17 +1177,12 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         Log.v("talon_loader", "finished loading");
 
-        cursor.moveToFirst();
-        Log.v("talon_loader", cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT)));
-
         Cursor c = null;
         if (cursorAdapter != null) {
             c = cursorAdapter.getCursor();
         }
 
         cursorAdapter = returnAdapter(cursor);
-
-        Log.v("talon_loader", cursorAdapter.getCount() + "");
 
         try {
             Log.v("talon_databases", "size of adapter cursor on home fragment: " + cursor.getCount());
@@ -1200,8 +1195,6 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         initial = false;
 
         long id = sharedPrefs.getLong("current_position_" + sharedPrefs.getInt("current_account", 1), 0l);
-
-        Log.v("talon_frag", "received id: " + id);
 
         int numTweets;
         if (id == 0) {
