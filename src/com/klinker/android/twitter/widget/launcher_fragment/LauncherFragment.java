@@ -1,15 +1,12 @@
 package com.klinker.android.twitter.widget.launcher_fragment;
 
-import android.app.AlarmManager;
 import android.app.LoaderManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.StaleDataException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,11 +39,9 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
-import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
-import com.klinker.android.twitter.widget.launcher_fragment.utils.GetLauncherPosition;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -54,7 +49,6 @@ import org.lucasr.smoothie.ItemManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -93,15 +87,28 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         return resHelper.getLayout("launcher_frag");
     }
 
+    public boolean openedFrag = false;
+
     @Override
     public void onFragmentsOpened() {
-        //context.getLoaderManager().restartLoader(0, null, this);
-        Log.v("talon_fragment", "drawer opened");
+        openedFrag = true;
     }
 
     @Override
     public void onFragmentsClosed() {
-        markReadForLoad();
+        if (scrolled) {
+            scrolled = false;
+            markReadForLoad();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        if (scrolled) {
+            scrolled = false;
+            markReadForLoad();
+        }
+        super.onStop();
     }
 
     public CursorAdapter returnAdapter(Cursor c) {
@@ -148,7 +155,9 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public boolean isLauncher() {
         return true;
     }
-    
+
+    public boolean scrolled = false;
+
     @Override
     public void setUpListScroll() {
 
@@ -171,13 +180,16 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    try {
-                        if (actionBar.isShowing()) {
-                            actionBar.hide();
-                            hideStatusBar();
-                        }
-                    } catch (Exception e) {
+                    if (openedFrag) {
+                        openedFrag = false;
+                        final Intent handleScroll = new Intent("android.intent.action.MAIN");
+                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.HandleScrollService"));
+                        handleScroll.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        talonContext.startService(handleScroll);
+                    }
 
+                    if (!scrolled) {
+                        scrolled = true;
                     }
 
                     if (settings.uiExtras) {
@@ -241,13 +253,16 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                    try {
-                        if (actionBar.isShowing()) {
-                            actionBar.hide();
-                            hideStatusBar();
-                        }
-                    } catch (Exception e) {
+                    if (openedFrag) {
+                        openedFrag = false;
+                        final Intent handleScroll = new Intent("android.intent.action.MAIN");
+                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.HandleScrollService"));
+                        handleScroll.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        talonContext.startService(handleScroll);
+                    }
 
+                    if (!scrolled) {
+                        scrolled = true;
                     }
 
                     if (newTweets && firstVisibleItem == 0 && (settings.liveStreaming)) {
