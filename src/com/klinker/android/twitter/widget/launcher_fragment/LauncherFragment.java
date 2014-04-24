@@ -576,14 +576,17 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             case AppSettings.THEME_LIGHT:
                 color = new ColorDrawable(resHelper.getColor("light_text_drawer"));
                 sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card"));
+                sendButton.setBackgroundDrawable(resHelper.getDrawable("ic_send_light"));
                 break;
             case AppSettings.THEME_DARK:
                 color = new ColorDrawable(resHelper.getColor("dark_text_drawer"));
                 sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card_dark"));
+                sendButton.setBackgroundDrawable(resHelper.getDrawable("ic_send_dark"));
                 break;
             default:
                 color = new ColorDrawable(resHelper.getColor("dark_text_drawer"));
                 sendLayout.setBackgroundDrawable(resHelper.getDrawable("send_card_black"));
+                sendButton.setBackgroundDrawable(resHelper.getDrawable("ic_send_dark"));
                 break;
         }
 
