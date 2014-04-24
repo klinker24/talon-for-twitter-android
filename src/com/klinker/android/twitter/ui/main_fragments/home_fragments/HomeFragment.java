@@ -665,7 +665,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             @Override
             protected void onPreExecute() {
-                if (!actionBar.isShowing() && !isLauncher()) {
+                if (!isLauncher() && !actionBar.isShowing()) {
                     showStatusBar();
                     actionBar.show();
                 }
@@ -735,12 +735,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             isRefreshing = true;
         }
 
-        try {
-            //transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
-            DrawerActivity.canSwitch = false;
-        } catch (Exception e) {
-
-        }
+        DrawerActivity.canSwitch = false;
 
         Thread refresh = new Thread(new Runnable() {
             @Override

@@ -28,8 +28,6 @@
         - invalidate app setting
         - switch shared pref
     - retweet and favorite counts on long click
-    - tweetmarker
-    - send button
 
 
 -- For Release --
