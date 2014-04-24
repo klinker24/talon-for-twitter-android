@@ -38,7 +38,6 @@ import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
@@ -1128,20 +1127,12 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         if (viewPressed) {
             int size;
-            if (!isLauncher()) {
-                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            } else {
-                size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
-            }
+            size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
             listView.setSelectionFromTop(liveUnread + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
         } else if (tweets != 0) {
             unread = tweets;
             int size;
-            if (!isLauncher()) {
-                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-            } else {
-                size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
-            }
+            size = (Build.VERSION.SDK_INT >= 19 ? Utils.getStatusBarHeight(context) : 0);
             listView.setSelectionFromTop(tweets + (landscape || settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
         } else {
             listView.setSelectionFromTop(0, 0);

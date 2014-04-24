@@ -20,16 +20,9 @@
     - refresh night mode immediately
 
 - For Launcher Fragment:
-    - drawer activity static references
     - clickable links
-    - implement the lifecycle stuff
-    - after drawer opened and on scroll
-        - notify change in position back on the main activity (using a service to write the refresh_me shared pref)
-        - clear the pull unread
-    - make sure loading/writing of position is threaded
     - New drawer array adapter for resource stuff
     - Clicks on the drawer will open up their respective activities
-    - Light and black theme layouts
     - reload everything to switch accounts
         - profile pictures and banner
         - timeline
