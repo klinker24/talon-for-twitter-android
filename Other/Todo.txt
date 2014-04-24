@@ -21,7 +21,6 @@
     - refresh night mode immediately
 
 - For Launcher Fragment:
-    - restart talon pull when you switch profiles
 
 -- For Release --
 
