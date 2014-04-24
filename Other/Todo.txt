@@ -16,7 +16,7 @@
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
     - lag loading plain text articles
-    - trim failed?
+    - trim failed toast on my phone, not tablet
     - refresh night mode immediately
 
 - For Launcher Fragment:
