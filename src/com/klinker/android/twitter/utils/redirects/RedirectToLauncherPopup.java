@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.klinker.android.twitter.ui.MainActivityPopup;
 import com.klinker.android.twitter.widget.launcher_fragment.LauncherPopup;
 
-/**
- * Created by luke on 4/24/14.
- */
+
 public class RedirectToLauncherPopup extends Activity {
 
     @Override
