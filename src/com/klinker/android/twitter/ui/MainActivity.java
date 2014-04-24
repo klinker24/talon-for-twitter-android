@@ -362,7 +362,9 @@ public class MainActivity extends DrawerActivity {
     public void onStart() {
         super.onStart();
 
-        if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY)) {
+        if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) || sharedPrefs.getBoolean("launcher_frag_switch", false)) {
+            sharedPrefs.edit().putBoolean("launcher_frag_switch", false).commit();
+
             Log.v("talon_theme", "no action bar overlay found, recreating");
 
             finish();

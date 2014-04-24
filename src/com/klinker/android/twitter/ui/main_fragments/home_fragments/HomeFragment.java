@@ -399,7 +399,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             numTweets = getPosition(cursor);
 
                             // if it would set it to the end, then we will get the position by the id instead
-                            if (numTweets > settings.timelineSize - 5) {
+                            if (numTweets > cursor.getCount() - 5) {
                                 numTweets = getPosition(cursor, id);
                                 if (numTweets == -1) {
                                     return;
