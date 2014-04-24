@@ -197,7 +197,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     }
 
     public CursorAdapter returnAdapter(Cursor c) {
-        return new LauncherTimelineCursorAdapter(talonContext, c, false, true);
+        return new LauncherTimelineCursorAdapter(talonContext, context, c, false, true);
     }
 
     @Override

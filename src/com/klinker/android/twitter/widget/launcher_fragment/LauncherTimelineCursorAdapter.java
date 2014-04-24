@@ -83,6 +83,116 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
 
     private ResourceHelper helper;
 
+    public Cursor cursor;
+    public AppSettings settings;
+    public Context context;
+    public Context launcherContext;
+    public final LayoutInflater inflater;
+    private boolean isDM = false;
+    private SharedPreferences sharedPrefs;
+
+    private Handler[] mHandlers;
+    private int currHandler;
+
+    public boolean hasKeyboard = false;
+
+    public int layout;
+    public Resources res;
+    private int talonLayout;
+    private BitmapLruCache mCache;
+
+    public java.text.DateFormat dateFormatter;
+    public java.text.DateFormat timeFormatter;
+
+    public boolean isHomeTimeline;
+
+    public static class ViewHolder {
+        public TextView name;
+        public TextView screenTV;
+        public ImageView profilePic;
+        public TextView tweet;
+        public TextView time;
+        public TextView retweeter;
+        public EditText reply;
+        public ImageButton favorite;
+        public ImageButton retweet;
+        public TextView favCount;
+        public TextView retweetCount;
+        public LinearLayout expandArea;
+        public ImageButton replyButton;
+        public ImageView image;
+        public LinearLayout background;
+        public TextView charRemaining;
+        public ImageView playButton;
+        public ImageButton quoteButton;
+        public ImageButton shareButton;
+        //public Bitmap tweetPic;
+
+        public long tweetId;
+        public boolean isFavorited;
+        public String screenName;
+        public String picUrl;
+        public String retweeterName;
+
+        public boolean preventNextClick = false;
+
+    }
+
+    public LauncherTimelineCursorAdapter(Context talonContext, Context launcherContext, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
+        super(talonContext, cursor, 0);
+
+        this.isHomeTimeline = isHomeTimeline;
+
+        this.cursor = cursor;
+        this.context = talonContext;
+        this.launcherContext = launcherContext;
+        this.inflater = LayoutInflater.from(context);
+        this.isDM = isDM;
+
+        helper = new ResourceHelper(context, "com.klinker.android.twitter");
+
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        settings = new AppSettings(sharedPrefs, context);
+
+        talonLayout = settings.layout;
+
+        if (settings.addonTheme) {
+            try {
+                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        switch (talonLayout) {
+            case AppSettings.LAYOUT_TALON:
+                layout = R.layout.tweet;
+                break;
+            case AppSettings.LAYOUT_HANGOUT:
+                layout = R.layout.tweet_hangout;
+                break;
+            case AppSettings.LAYOUT_FULL_SCREEN:
+                layout = R.layout.tweet_full_screen;
+                break;
+        }
+
+        mCache = getCache();
+
+        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
+
+
+        mHandlers = new Handler[10];
+        for (int i = 0; i < 10; i++) {
+            mHandlers[i] = new Handler();
+        }
+    }
+
     public BitmapLruCache getCache() {
         try {
             File cacheDir = new File(context.getCacheDir(), "talon");
@@ -231,114 +341,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
         v.setTag(holder);
 
         return v;
-    }
-
-    public Cursor cursor;
-    public AppSettings settings;
-    public Context context;
-    public final LayoutInflater inflater;
-    private boolean isDM = false;
-    private SharedPreferences sharedPrefs;
-
-    private Handler[] mHandlers;
-    private int currHandler;
-
-    public boolean hasKeyboard = false;
-
-    public int layout;
-    public Resources res;
-    private int talonLayout;
-    private BitmapLruCache mCache;
-
-    public java.text.DateFormat dateFormatter;
-    public java.text.DateFormat timeFormatter;
-
-    public boolean isHomeTimeline;
-
-    public static class ViewHolder {
-        public TextView name;
-        public TextView screenTV;
-        public ImageView profilePic;
-        public TextView tweet;
-        public TextView time;
-        public TextView retweeter;
-        public EditText reply;
-        public ImageButton favorite;
-        public ImageButton retweet;
-        public TextView favCount;
-        public TextView retweetCount;
-        public LinearLayout expandArea;
-        public ImageButton replyButton;
-        public ImageView image;
-        public LinearLayout background;
-        public TextView charRemaining;
-        public ImageView playButton;
-        public ImageButton quoteButton;
-        public ImageButton shareButton;
-        //public Bitmap tweetPic;
-
-        public long tweetId;
-        public boolean isFavorited;
-        public String screenName;
-        public String picUrl;
-        public String retweeterName;
-
-        public boolean preventNextClick = false;
-
-    }
-
-    public LauncherTimelineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
-        super(context, cursor, 0);
-
-        helper = new ResourceHelper(context, "com.klinker.android.twitter");
-
-        this.isHomeTimeline = isHomeTimeline;
-
-        this.cursor = cursor;
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.isDM = isDM;
-
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-
-        settings = new AppSettings(sharedPrefs, context);
-
-        talonLayout = settings.layout;
-
-        if (settings.addonTheme) {
-            try {
-                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        switch (talonLayout) {
-            case AppSettings.LAYOUT_TALON:
-                layout = R.layout.tweet;
-                break;
-            case AppSettings.LAYOUT_HANGOUT:
-                layout = R.layout.tweet_hangout;
-                break;
-            case AppSettings.LAYOUT_FULL_SCREEN:
-                layout = R.layout.tweet_full_screen;
-                break;
-        }
-
-        mCache = getCache();
-
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
-        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
-        if (settings.militaryTime) {
-            timeFormatter = new SimpleDateFormat("kk:mm");
-        }
-
-
-        mHandlers = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandlers[i] = new Handler();
-        }
     }
 
     @Override
@@ -808,7 +810,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 throw new IllegalStateException("couldn't move cursor to position " + position);
             }
         } catch (Exception e) {
-            ((Activity)context).recreate();
+            ((Activity)launcherContext).recreate();
             return null;
         }
 
@@ -1083,7 +1085,8 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                                 .commit();
                     }
 
-                    context.startActivity(Intent.createChooser(intent, helper.getString("menu_share")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    context.startActivity(Intent.createChooser(intent, helper.getString("menu_share"))
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
 
                 public String restoreLinks(String text) {
@@ -1168,7 +1171,8 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                 public void onClick(View view) {
 
                     final Intent intent = new Intent("android.intent.action.MAIN");
-                    intent.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.compose.LauncherCompose"));
+                    intent.setComponent(new ComponentName("com.klinker.android.twitter",
+                            "com.klinker.android.twitter.ui.compose.LauncherCompose"));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     intent.setType("text/plain");
@@ -1289,35 +1293,6 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
         imm.hideSoftInputFromWindow(holder.reply.getWindowToken(), 0);
     }
 
-    class DeleteTweet extends AsyncTask<String, Void, Boolean> {
-
-        protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, settings);
-
-            try {
-                long tweetId = Long.parseLong(urls[0]);
-
-                DMDataSource source = DMDataSource.getInstance(context);
-                source.deleteTweet(tweetId);
-
-                twitter.destroyDirectMessage(tweetId);
-
-                return true;
-            } catch (TwitterException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        protected void onPostExecute(Boolean deleted) {
-            if (deleted) {
-                Toast.makeText(context, helper.getString("deleted_tweet"), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, helper.getString("error_deleting"), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     public void getFavoriteCount(final ViewHolder holder, final long tweetId) {
 
         Thread getCount = new Thread(new Runnable() {
@@ -1333,7 +1308,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                     }
 
                     if (status != null && holder.tweetId == tweetId) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
+                        ((Activity)launcherContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 holder.favCount.setText(" " + status.getFavoriteCount());
@@ -1358,7 +1333,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                     }
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         });
@@ -1382,7 +1357,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                     }
 
                     if (status != null && holder.tweetId == tweetId) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
+                        ((Activity)launcherContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 holder.favCount.setText(" " + status.getFavoriteCount());
@@ -1420,7 +1395,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                     }
 
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         });
@@ -1439,7 +1414,7 @@ public class LauncherTimelineCursorAdapter extends CursorAdapter {
                     twitter4j.Status status = twitter.showStatus(holder.tweetId);
                     final boolean retweetedByMe = status.isRetweetedByMe();
                     final String count = "" + status.getRetweetCount();
-                    ((Activity)context).runOnUiThread(new Runnable() {
+                    ((Activity)launcherContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             if (tweetId == holder.tweetId) {

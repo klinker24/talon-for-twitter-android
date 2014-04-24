@@ -35,8 +35,8 @@ public class Utils {
         }
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY)
-                .setOAuthConsumerSecret(settings.TWITTER_CONSUMER_SECRET)
+                .setOAuthConsumerKey(AppSettings.TWITTER_CONSUMER_KEY)
+                .setOAuthConsumerSecret(AppSettings.TWITTER_CONSUMER_SECRET)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
         TwitterFactory tf = new TwitterFactory(cb.build());
@@ -48,8 +48,8 @@ public class Utils {
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY)
-                .setOAuthConsumerSecret(settings.TWITTER_CONSUMER_SECRET)
+                .setOAuthConsumerKey(AppSettings.TWITTER_CONSUMER_KEY)
+                .setOAuthConsumerSecret(AppSettings.TWITTER_CONSUMER_SECRET)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
         TwitterStreamFactory tf = new TwitterStreamFactory(cb.build());
