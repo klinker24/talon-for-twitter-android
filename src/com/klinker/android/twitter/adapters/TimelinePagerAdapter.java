@@ -64,8 +64,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         if (page2Type != AppSettings.PAGE_TYPE_NONE) {
             numExtraPages++;
         }
-
-        Log.v("talon_lists", page1Type + " " + page2Type);
     }
 
     @Override
@@ -81,7 +79,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     frag = getFrag(page2Type, list2Id);
                     break;
                 case 2:
-                    //frag = new LauncherFragment();
                     frag = new HomeFragment();
                     break;
                 case 3:

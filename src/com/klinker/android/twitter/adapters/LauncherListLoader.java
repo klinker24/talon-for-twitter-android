@@ -3,7 +3,7 @@ package com.klinker.android.twitter.adapters;
 import android.content.Context;
 import android.view.View;
 
-import com.klinker.android.twitter.widget.launcher_fragment.LauncherTimelineCursorAdapter;
+import com.klinker.android.twitter.widget.launcher_fragment.adapters.LauncherTimelineCursorAdapter;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;

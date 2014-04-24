@@ -20,6 +20,8 @@
     - refresh night mode immediately
 
 - For Launcher Fragment:
+    - always open profiles, tweet, searched trends to popup
+    - don't open internal browser for link clicks from the launcher, just use chrome
     - New drawer array adapter for resource stuff
     - Clicks on the drawer will open up their respective activities
     - reload everything to switch accounts

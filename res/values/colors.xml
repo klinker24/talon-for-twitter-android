@@ -27,6 +27,7 @@ limitations under the License.
     <color name="image_darken">#25222222</color>
     <color name="photo_dialog_background">#90000000</color>
     <color name="white_divider">#40ffffff</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- Light Theme -->
     <color name="light_ptr_1">#80FFFFFF</color>

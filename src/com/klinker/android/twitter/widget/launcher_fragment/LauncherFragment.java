@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
-import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.LauncherListLoader;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
@@ -45,6 +43,8 @@ import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
+import com.klinker.android.twitter.widget.launcher_fragment.adapters.DrawerArrayAdapter;
+import com.klinker.android.twitter.widget.launcher_fragment.adapters.LauncherTimelineCursorAdapter;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -495,7 +495,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         } else {
             switch (settings.theme) {
                 case AppSettings.THEME_LIGHT:
-                    background.setBackgroundColor(resHelper.getColor("light_background"));
+                    background.setBackgroundColor(resHelper.getColor("white"));
                     break;
                 case AppSettings.THEME_DARK:
                     background.setBackgroundColor(resHelper.getColor("dark_background"));
@@ -774,19 +774,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             }
         });
 
-        /*MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context,
-                new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
+        DrawerArrayAdapter adapter = new DrawerArrayAdapter(talonContext);
         drawerList.setAdapter(adapter);
-
-        if (Utils.hasNavBar(context)) {
-            View footer = new View(context);
-            footer.setOnClickListener(null);
-            footer.setOnLongClickListener(null);
-            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-            footer.setLayoutParams(params);
-            drawerList.addFooterView(footer);
-            drawerList.setFooterDividersEnabled(false);
-        }*/
 
         //drawerList.setOnItemClickListener(new MainDrawerClickListener(context, null, null));
 
