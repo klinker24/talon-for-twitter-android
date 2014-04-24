@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PopupAnimation" parent="@android:style/Animation">
-        <item name="android:windowEnterAnimation">@anim/activity_scale_up</item>
-        <item name="android:windowShowAnimation">@anim/activity_scale_up</item>
-    </style>
-
     <style name="Theme.PhotoViewerLight" parent="@style/Theme.Tutorial">
         <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Dark</item>
         <item name="android:windowActionBar">true</item>

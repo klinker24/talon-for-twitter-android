@@ -8,6 +8,9 @@ import com.klinker.android.twitter.utils.Utils;
 
 public class MainActivityPopup extends MainActivity {
 
+    public void setDim() {
+        // don't dim here
+    }
     @Override
     public void setUpWindow() {
         try {
@@ -15,6 +18,8 @@ public class MainActivityPopup extends MainActivity {
         } catch (Exception e) {
             recreate();
         }
+
+        setDim();
 
         // Gets the display size so that you can set the window to a percent of that
         Display display = getWindowManager().getDefaultDisplay();

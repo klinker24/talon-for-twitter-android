@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -777,7 +778,17 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         DrawerArrayAdapter adapter = new DrawerArrayAdapter(talonContext);
         drawerList.setAdapter(adapter);
 
-        //drawerList.setOnItemClickListener(new MainDrawerClickListener(context, null, null));
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final Intent popup = new Intent("android.intent.action.MAIN");
+                popup.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.RedirectToLauncherPopup"));
+                popup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                popup.putExtra("launcher_page", i);
+
+                context.startActivity(popup);
+            }
+        });
 
         // set up for the second account
         int count = 0; // number of accounts logged in
