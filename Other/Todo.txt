@@ -22,13 +22,7 @@
 
 - For Launcher Fragment:
     - always open profiles, tweet, searched trends to popup
-    - don't open internal browser for link clicks from the launcher, just use chrome
-    - reload everything to switch accounts
-        - profile pictures and banner
-        - timeline
-        - invalidate app setting
-        - switch shared pref
-
+    - test to make sure it always opens tweets and stuff with the account that you want it to
 
 -- For Release --
 

@@ -71,7 +71,7 @@ public class TouchableSpan extends ClickableSpan {
         mContext = context;
         mValue = value.getShort();
         full = value.getLong();
-        this.extBrowser = extBrowser;
+        this.extBrowser = true;
 
         this.settings = settings;
 
@@ -141,6 +141,7 @@ public class TouchableSpan extends ClickableSpan {
                 search.setComponent(new ComponentName("com.klinker.android.twitter",
                         "com.klinker.android.twitter.ui.drawer_activities.discover.trends.LauncherSearchedTrends"));
                 search.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                search.putExtra("current_account", settings.currentAccount);
             }
             search.setAction(Intent.ACTION_SEARCH);
             search.putExtra(SearchManager.QUERY, full);
@@ -154,6 +155,7 @@ public class TouchableSpan extends ClickableSpan {
                 user.setComponent(new ComponentName("com.klinker.android.twitter",
                         "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
                 user.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                user.putExtra("current_account", settings.currentAccount);
             }
             user.putExtra("screenname", full.replace("@", "").replaceAll(" ", ""));
             user.putExtra("proPic", "");
@@ -168,6 +170,7 @@ public class TouchableSpan extends ClickableSpan {
                 search.setComponent(new ComponentName("com.klinker.android.twitter",
                         "com.klinker.android.twitter.ui.drawer_activities.discover.trends.LauncherSearchedTrends"));
                 search.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                search.putExtra("current_account", settings.currentAccount);
             }
             search.setAction(Intent.ACTION_SEARCH);
             search.putExtra(SearchManager.QUERY, full);
