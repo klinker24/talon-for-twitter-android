@@ -12,8 +12,7 @@
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
-        android:layoutDirection="ltr"
-        android:background="@drawable/pressed_button" >
+        android:layoutDirection="ltr" >
 
         <LinearLayout
             android:orientation="horizontal"
@@ -87,7 +86,6 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:fontFamily="sans-serif-light"
-            android:textColor="@color/dark_text"
             android:paddingTop="6dp" />
 
         <TextView

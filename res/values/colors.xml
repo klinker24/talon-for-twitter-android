@@ -60,6 +60,7 @@ limitations under the License.
     <!-- Black Theme -->
     <color name="action_bar_black">@android:color/black</color>
     <color name="black_message">#171717</color>
+    <color name="black_background">#000000</color>
 
 
     <!-- Widgets -->
