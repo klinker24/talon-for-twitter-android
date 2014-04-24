@@ -84,8 +84,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     }
 
     @Override
-    public View getBackground() {
-        return background;
+    public View[] getBackground() {
+        return new View[] {background};
     }
 
     @Override
