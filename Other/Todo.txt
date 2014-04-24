@@ -20,7 +20,6 @@
     - refresh night mode immediately
 
 - For Launcher Fragment:
-    - clickable links
     - New drawer array adapter for resource stuff
     - Clicks on the drawer will open up their respective activities
     - reload everything to switch accounts
@@ -29,7 +28,8 @@
         - invalidate app setting
         - switch shared pref
     - retweet and favorite counts on long click
-
+    - tweetmarker
+    - send button
 
 
 -- For Release --

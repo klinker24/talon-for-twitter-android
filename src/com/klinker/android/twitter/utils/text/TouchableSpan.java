@@ -17,6 +17,7 @@
 package com.klinker.android.twitter.utils.text;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -62,6 +63,8 @@ public class TouchableSpan extends ClickableSpan {
 
         // getconnectionstatus() is true if on mobile data, false otherwise
         mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
+
+        fromLauncher = false;
     }
 
     public TouchableSpan(Context context, Link value, boolean extBrowser, AppSettings settings) {
@@ -86,6 +89,8 @@ public class TouchableSpan extends ClickableSpan {
 
         // getconnectionstatus() is true if on mobile data, false otherwise
         mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
+
+        fromLauncher = true;
     }
 
     private AppSettings settings;
@@ -96,6 +101,7 @@ public class TouchableSpan extends ClickableSpan {
     private int mColorString;
     private boolean extBrowser;
     private boolean mobilizedBrowser;
+    private boolean fromLauncher;
 
     @Override
     public void onClick(View widget) {
@@ -127,18 +133,42 @@ public class TouchableSpan extends ClickableSpan {
             }
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
             // found a hashtag, so open the hashtag search
-            Intent search = new Intent(mContext, SearchedTrendsActivity.class);
+            Intent search;
+            if (!fromLauncher) {
+                search = new Intent(mContext, SearchedTrendsActivity.class);
+            } else {
+                search = new Intent("android.intent.action.MAIN");
+                search.setComponent(new ComponentName("com.klinker.android.twitter",
+                        "com.klinker.android.twitter.ui.drawer_activities.discover.trends.LauncherSearchedTrends"));
+                search.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
             search.setAction(Intent.ACTION_SEARCH);
             search.putExtra(SearchManager.QUERY, full);
             mContext.startActivity(search);
         } else if (Regex.MENTION_PATTERN.matcher(mValue).find()) {
-            Intent user = new Intent(mContext, ProfilePager.class);
+            Intent user;
+            if (!fromLauncher) {
+                user = new Intent(mContext, ProfilePager.class);
+            } else {
+                user = new Intent("android.intent.action.MAIN");
+                user.setComponent(new ComponentName("com.klinker.android.twitter",
+                        "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
+                user.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
             user.putExtra("screenname", full.replace("@", "").replaceAll(" ", ""));
             user.putExtra("proPic", "");
             mContext.startActivity(user);
         } else if (Regex.CASHTAG_PATTERN.matcher(mValue).find()) {
             // found a cashtag, so open the search
-            Intent search = new Intent(mContext, SearchedTrendsActivity.class);
+            Intent search;
+            if (!fromLauncher) {
+                search = new Intent(mContext, SearchedTrendsActivity.class);
+            } else {
+                search = new Intent("android.intent.action.MAIN");
+                search.setComponent(new ComponentName("com.klinker.android.twitter",
+                        "com.klinker.android.twitter.ui.drawer_activities.discover.trends.LauncherSearchedTrends"));
+                search.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
             search.setAction(Intent.ACTION_SEARCH);
             search.putExtra(SearchManager.QUERY, full);
             mContext.startActivity(search);
