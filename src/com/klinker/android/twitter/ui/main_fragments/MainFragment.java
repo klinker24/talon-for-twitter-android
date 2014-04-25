@@ -157,6 +157,8 @@ public abstract class MainFragment extends BaseLauncherPage {
         return sharedPrefs.getInt("current_account", 1);
     }
 
+    public View layout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -189,9 +191,10 @@ public abstract class MainFragment extends BaseLauncherPage {
             mActionBarSize = toDP(48);
         }
 
-        View layout = getLayout(inflater);
+        layout = getLayout(inflater);
 
         setViews(layout);
+
         setBuilder();
 
         if (isHome) {
@@ -209,6 +212,10 @@ public abstract class MainFragment extends BaseLauncherPage {
         setUpToastBar(layout);
 
         return layout;
+    }
+
+    public boolean isLauncher() {
+        return false;
     }
 
     public void getCache() {

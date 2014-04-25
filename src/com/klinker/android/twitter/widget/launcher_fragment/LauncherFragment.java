@@ -189,6 +189,19 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        AppSettings newSettings = new AppSettings(sharedPrefs, context);
+        if (settings.theme != newSettings.theme) {
+            // night mode happened
+            settings = newSettings;
+            switchedAccounts = true;
+            setViews(layout);
+            getLoaderManager().restartLoader(0, null, this);
+        }
+    }
+
+    @Override
     public void onStop() {
         if (scrolled) {
             scrolled = false;
