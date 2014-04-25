@@ -191,10 +191,12 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     @Override
     public void onStart() {
         super.onStart();
-        AppSettings newSettings = new AppSettings(sharedPrefs, context);
-        if (settings.theme != newSettings.theme) {
+        sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        if (settings.theme != AppSettings.getCurrentTheme(sharedPrefs)) {
             // night mode happened
-            settings = newSettings;
+            settings = new AppSettings(sharedPrefs, talonContext);
             switchedAccounts = true;
             setViews(layout);
             getLoaderManager().restartLoader(0, null, this);
