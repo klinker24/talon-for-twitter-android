@@ -2,6 +2,7 @@
     &#8226; Major rewrite of a lot of the background in preparation for some cool new stuff to come<br/>
     &#8226; Immediate switch to night mode<br/>
     &#8226; Clicking the time on the tweet viewer will open that tweet in the browser<br/>
+    &#8226; Fixed some lag when viewing the members of a list<br/>
 </br><br/>
 
 <b>Version 2.2.6:</b><br/><br/>
