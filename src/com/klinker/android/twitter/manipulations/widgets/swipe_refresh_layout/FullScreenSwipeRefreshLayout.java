@@ -41,6 +41,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
 
+import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -350,9 +351,10 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
         final int width =  getMeasuredWidth();
         final int height = getMeasuredHeight();
 
+        ResourceHelper helper = new ResourceHelper(getContext(), "com.klinker.android.twitter");
         if (Build.VERSION.SDK_INT > 18 &&
                 AppSettings.getInstance(getContext()).uiExtras &&
-                (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) &&
+                (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || helper.getBoolean("isTablet")) &&
                 !MainActivity.isPopup) {
             // action bar plus the status bar
             translation = Utils.getStatusBarHeight(getContext()) + Utils.getActionBarHeight(getContext());
