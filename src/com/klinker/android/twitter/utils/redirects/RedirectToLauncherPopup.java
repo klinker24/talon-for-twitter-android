@@ -27,6 +27,7 @@ public class RedirectToLauncherPopup extends Activity {
         Intent popup = new Intent(this, LauncherPopup.class);
         popup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         popup.putExtra("launcher_page", getIntent().getIntExtra("launcher_page", 0));
+        popup.putExtra("from_launcher", true);
         finish();
 
         startActivity(popup);

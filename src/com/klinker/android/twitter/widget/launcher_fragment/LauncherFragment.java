@@ -766,6 +766,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         DrawerArrayAdapter adapter = new DrawerArrayAdapter(talonContext);
         drawerList.setAdapter(adapter);
 
+        final int extraPages = adapter.getNumExtraPages();
+
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -774,8 +776,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 final Intent popup = new Intent("android.intent.action.MAIN");
                 popup.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.RedirectToLauncherPopup"));
                 popup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                popup.putExtra("launcher_page", i);
                 popup.putExtra("current_account", currentAccount);
+
+                if (i < extraPages) {
+                    popup.putExtra("launcher_page", i);
+                } else {
+                    popup.putExtra("launcher_page", i+1);
+                }
 
                 context.startActivity(popup);
             }

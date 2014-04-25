@@ -91,6 +91,10 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
         }
     }
 
+    public int getNumExtraPages() {
+        return numExtraPages;
+    }
+
     @Override
     public int getCount() {
         return types.size();
