@@ -194,20 +194,6 @@ public class ViewUsers extends Activity {
                                 listView.setSelection(firstVisible);
                             }
                         }, 100);
-
-                        listView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-                            @Override
-                            public boolean onPreDraw() {
-                                if(listView.getFirstVisiblePosition() == firstVisible) {
-                                    listView.getViewTreeObserver().removeOnPreDrawListener(this);
-                                    return true;
-                                }
-                                else {
-                                    return false;
-                                }
-                            }
-                        });
                     }
                 });
             }

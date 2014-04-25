@@ -25,7 +25,6 @@
 -- For Release --
 
     - look into lag on the list member page
-    - clicking the time on the tweet viewer will open that tweet to the web
     - dim every time on the popups now...
 
     Version 2.3.0
