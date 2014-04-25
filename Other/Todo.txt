@@ -18,7 +18,7 @@
     - false toast on local trends failed (no idea where this is coming from...)
     - lag loading plain text articles
     - trim failed toast on my phone, not tablet
-    - refresh night mode immediately
+    - fix immersive mode with new pull to refresh
 
 - For Launcher Fragment:
 
@@ -26,7 +26,6 @@
 
     - look into lag on the list member page
     - clicking the time on the tweet viewer will open that tweet to the web
-    - fix immersive mode with new pull to refresh
 
     Version 2.3.0
         - Scheduled Tweets
