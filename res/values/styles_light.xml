@@ -128,7 +128,7 @@ limitations under the License.
         <item name="android:windowFrame">@drawable/rect_border_light</item>
         <!-- <item name="android:windowAnimationStyle">@style/PopupAnimation</item> -->
         <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
 
     </style>
 
