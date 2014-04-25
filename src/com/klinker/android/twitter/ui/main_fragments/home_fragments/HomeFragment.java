@@ -386,6 +386,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             e.printStackTrace();
                             HomeDataSource.dataSource = null;
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+                            return;
                         }
 
                         initial = false;
@@ -426,7 +427,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             // happens when coming from the launcher sometimes because database has been closed
                             HomeDataSource.dataSource = null;
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-                            getCursorAdapter(false);
                             return;
                         }
 
