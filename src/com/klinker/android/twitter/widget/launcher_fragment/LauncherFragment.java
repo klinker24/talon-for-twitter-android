@@ -771,6 +771,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == extraPages) {
+                    return;
+                }
+
                 markReadForLoad();
 
                 final Intent popup = new Intent("android.intent.action.MAIN");
@@ -781,7 +785,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                 if (i < extraPages) {
                     popup.putExtra("launcher_page", i);
                 } else {
-                    popup.putExtra("launcher_page", i+1);
+                    popup.putExtra("launcher_page", i-1);
                 }
 
                 context.startActivity(popup);

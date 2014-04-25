@@ -171,6 +171,10 @@ public class MainActivity extends DrawerActivity {
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
 
+        if (getIntent().getBooleanExtra("from_launcher", false)) {
+            actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(getIntent().getIntExtra("launcher_page", 0)));
+        }
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
             }
