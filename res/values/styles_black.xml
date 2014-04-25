@@ -123,6 +123,7 @@ limitations under the License.
 
     <style name="Theme.TalonBlack.Hangouts.Popup.Notif" parent="@style/Theme.TalonBlack.Popup.Notif">
         <item name="tweetBackground">@drawable/received_background_hangouts_black</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="Theme.TalonBlack.Settings" parent="@style/Theme.TalonBlack">
@@ -140,14 +141,14 @@ limitations under the License.
         <item name="android:windowFrame">@drawable/rect_border_light</item>
         <!-- <item name="android:windowAnimationStyle">@style/PopupAnimation</item> -->
         <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
 
         <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
 
     </style>
 
     <style name="Theme.TalonBlack.Popup.Notif" parent="@style/Theme.TalonBlack.Popup" >
-
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="BlackActionBar" parent="@android:style/Widget.Holo.ActionBar">
