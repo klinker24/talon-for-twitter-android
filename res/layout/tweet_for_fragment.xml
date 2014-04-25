@@ -36,6 +36,7 @@
                     android:layout_marginStart="8dp"
                     android:textSize="11dp"
                     android:layout_below="@id/tweet"
+                    android:background="@drawable/pressed_button"
                     android:textColor="?dateColor"  />
 
             <com.klinker.android.twitter.manipulations.widgets.HoloTextView

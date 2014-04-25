@@ -556,6 +556,16 @@ public class TweetFragment extends Fragment {
         }
 
         timetv.setText(timeDisplay);
+        timetv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String data = "twitter.com/" + screenName + "/status/" + tweetId;
+                Uri weburi = Uri.parse("http://" + data);
+                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(launchBrowser);
+            }
+        });
 
         if (retweeter.length() > 0 ) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
