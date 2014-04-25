@@ -142,10 +142,11 @@ limitations under the License.
 
     <style name="Theme.TalonLight.Hangouts.Popup.Notif" parent="@style/Theme.TalonLight.Popup.Notif">
         <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
-
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="LightActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
