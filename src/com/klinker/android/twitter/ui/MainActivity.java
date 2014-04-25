@@ -369,7 +369,12 @@ public class MainActivity extends DrawerActivity {
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-        if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) || sharedPrefs.getBoolean("launcher_frag_switch", false)) {
+        // check for night mode switching
+        int theme = AppSettings.getCurrentTheme(sharedPrefs);
+
+        if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) ||
+                sharedPrefs.getBoolean("launcher_frag_switch", false) ||
+                theme != settings.theme) {
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false).commit();
 
             AppSettings.invalidate();
