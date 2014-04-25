@@ -366,8 +366,13 @@ public class MainActivity extends DrawerActivity {
     public void onStart() {
         super.onStart();
 
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
         if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) || sharedPrefs.getBoolean("launcher_frag_switch", false)) {
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false).commit();
+
+            AppSettings.invalidate();
 
             Log.v("talon_theme", "no action bar overlay found, recreating");
 
