@@ -24,7 +24,6 @@
 
 -- For Release --
 
-    - look into lag on the list member page
     - dim every time on the popups now...
 
     Version 2.3.0
