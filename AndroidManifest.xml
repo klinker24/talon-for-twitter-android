@@ -591,7 +591,6 @@
                 android:resource="@xml/unread_widget" />
         </receiver>
 
-
         <activity android:name=".widget.WidgetProxyActivity"
             android:theme="@style/Theme.TalonDark"/>
         <service android:name="com.klinker.android.twitter.widget.WidgetService"
@@ -601,24 +600,27 @@
 
         <!-- DashClock -->
         <service android:name=".widget.TalonDashClockExtension"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name_full"
-            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
-            <intent-filter>
-                <action android:name="com.google.android.apps.dashclock.Extension" />
-            </intent-filter>
-            <meta-data android:name="protocolVersion" android:value="2" />
-            <meta-data android:name="worldReadable" android:value="true" />
-            <meta-data android:name="description"
-                android:value="@string/extension_description" />
-            <meta-data android:name="settingsActivity"
-                android:value=".settings.DashClockSettingsActivity" />
-        </service>
+                     android:icon="@mipmap/ic_launcher"
+                     android:label="@string/app_name_full"
+                     android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
+                     <intent-filter>
+                         <action android:name="com.google.android.apps.dashclock.Extension" />
+                     </intent-filter>
+                     <meta-data android:name="protocolVersion" android:value="2" />
+                     <meta-data android:name="worldReadable" android:value="true" />
+                     <meta-data android:name="description"
+                         android:value="@string/extension_description" />
+                     <meta-data android:name="settingsActivity"
+                         android:value=".settings.DashClockSettingsActivity" />
+                 </service>
 
         <activity android:name=".settings.DashClockSettingsActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight"
             android:exported="true" />
+
+        <meta-data android:name="launcher_fragment"
+            android:value=".widget.launcher_fragment.LauncherFragment" />
 
     </application>
 </manifest>
