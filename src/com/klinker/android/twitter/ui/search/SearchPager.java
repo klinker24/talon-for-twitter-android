@@ -1,9 +1,11 @@
 package com.klinker.android.twitter.ui.search;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -34,28 +37,63 @@ import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.lang.reflect.Field;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 /**
  * Created by luke on 11/29/13.
  */
-public class SearchPager extends DrawerActivity {
+public class SearchPager extends Activity {
 
     private SearchPagerAdapter mSectionsPagerAdapter;
+    public AppSettings settings;
+    public Activity context;
+    public SharedPreferences sharedPrefs;
+    public ActionBar actionBar;
+    public boolean translucent;
+    public ViewPager mViewPager;
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+            // Ignore
+        }
 
         context = this;
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
-        handleIntent(getIntent());
+        try {
+            searchQuery = getIntent().getStringExtra(SearchManager.QUERY);
+        } catch (Exception e) {
+            searchQuery = "";
+        }
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        if (searchQuery == null) {
+            searchQuery = "";
+        }
+
+        handleIntent(getIntent());
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
             translucent = true;
@@ -75,16 +113,15 @@ public class SearchPager extends DrawerActivity {
 
         Utils.setUpTheme(context, settings);
 
-        setUpTheme();
+        Utils.setUpTheme(context, settings);
         setContentView(R.layout.trends_activity);
-        setUpDrawer(3, getResources().getString(R.string.trends));
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery);
+        mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -95,6 +132,8 @@ public class SearchPager extends DrawerActivity {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
             strip.setBackgroundColor(settings.accentInt);
         }
+
+        Utils.setActionBar(context);
     }
 
     public String searchQuery = "";
@@ -263,7 +302,6 @@ public class SearchPager extends DrawerActivity {
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_pic_filter:
-                listView.setVisibility(View.GONE);
                 if (!item.isChecked()) {
                     searchQuery += " filter:links twitter.com";
                     item.setChecked(true);
@@ -271,12 +309,11 @@ public class SearchPager extends DrawerActivity {
                     searchQuery = searchQuery.replace("filter:links", "").replace("twitter.com", "");
                     item.setChecked(false);
                 }
-                mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery);
+                mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
                 mViewPager.setAdapter(mSectionsPagerAdapter);
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_remove_rt:
-                listView.setVisibility(View.GONE);
                 if (!item.isChecked()) {
                     searchQuery += " -RT";
                     item.setChecked(true);
@@ -284,13 +321,27 @@ public class SearchPager extends DrawerActivity {
                     searchQuery = searchQuery.replace(" -RT", "");
                     item.setChecked(false);
                 }
-                mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery);
+                mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
                 mViewPager.setAdapter(mSectionsPagerAdapter);
                 return super.onOptionsItemSelected(item);
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        overridePendingTransition(0,0);
+        finish();
+        Intent restart = new Intent(context, TwitterSearchFragment.class);
+        restart.putExtra(SearchManager.QUERY, searchQuery);
+        restart.setAction(Intent.ACTION_SEARCH);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        overridePendingTransition(0, 0);
+        startActivity(restart);
     }
 
 }
