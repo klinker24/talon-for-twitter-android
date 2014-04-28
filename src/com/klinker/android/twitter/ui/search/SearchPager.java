@@ -23,6 +23,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -120,6 +122,18 @@ public class SearchPager extends Activity {
         actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        View statusBar = findViewById(R.id.activity_status_bar);
+
+        if (translucent) {
+            statusBar.setVisibility(View.VISIBLE);
+
+            int statusBarHeight = Utils.getStatusBarHeight(context);
+
+            LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
+            statusParams.height = statusBarHeight;
+            statusBar.setLayoutParams(statusParams);
+        }
 
         mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
 
@@ -241,10 +255,6 @@ public class SearchPager extends Activity {
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
         view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
-
-        // user search and we should hide the filters
-        menu.getItem(3).setVisible(false); // pictures
-        menu.getItem(4).setVisible(false); // retweets
 
         return true;
     }

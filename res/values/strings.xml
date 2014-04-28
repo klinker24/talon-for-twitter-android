@@ -601,6 +601,6 @@
     <string name="unmute_rt">Un-mute Retweets</string>
     <string name="muted_rts">Muted Retweeters</string>
     <string name="twitter">Twitter</string>
-    <string name="user">User</string>
+    <string name="user">Users</string>
 
 </resources>

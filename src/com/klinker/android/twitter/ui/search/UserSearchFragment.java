@@ -80,7 +80,7 @@ public class UserSearchFragment extends Fragment {
         layout = inflater.inflate(R.layout.ptr_list_layout, null);
 
         mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
-        mPullToRefreshLayout.setFullScreen(true);
+        mPullToRefreshLayout.setFullScreen(false);
         mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -124,17 +124,6 @@ public class UserSearchFragment extends Fragment {
             }
         });
 
-        /*View viewHeader = inflater.inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
-
-        View footer = new View(context);
-        footer.setOnClickListener(null);
-        footer.setOnLongClickListener(null);
-        ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, toDP(5));
-        footer.setLayoutParams(params);
-        listView.addFooterView(footer);
-        listView.setFooterDividersEnabled(false);*/
-
         if (translucent) {
             if (Utils.hasNavBar(context)) {
                 View footer = new View(context);
@@ -146,13 +135,6 @@ public class UserSearchFragment extends Fragment {
                 listView.setFooterDividersEnabled(false);
             }
 
-            /*View view = new View(context);
-            view.setOnClickListener(null);
-            view.setOnLongClickListener(null);
-            ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
-            view.setLayoutParams(params2);
-            listView.addHeaderView(view);
-            listView.setHeaderDividersEnabled(false);*/
         }
 
         spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
@@ -175,67 +157,7 @@ public class UserSearchFragment extends Fragment {
     }
 
     public void onRefreshStarted() {
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final long topId;
-                if (tweets.size() > 0) {
-                    topId = tweets.get(0).getId();
-                } else {
-                    topId = 0;
-                }
-
-                try {
-                    Twitter twitter = Utils.getTwitter(context, settings);
-                    query = new Query(searchQuery);
-                    QueryResult result = twitter.search(query);
-
-                    tweets.clear();
-
-                    for (twitter4j.Status status : result.getTweets()) {
-                        tweets.add(status);
-                    }
-
-                    if (result.hasNext()) {
-                        query = result.nextQuery();
-                        hasMore = true;
-                    } else {
-                        hasMore = false;
-                    }
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            int top = 0;
-                            for (int i = 0; i < tweets.size(); i++) {
-                                if (tweets.get(i).getId() == topId) {
-                                    top = i;
-                                    break;
-                                }
-                            }
-
-                            adapter = new TimelineArrayAdapter(context, tweets);
-                            listView.setAdapter(adapter);
-                            listView.setVisibility(View.VISIBLE);
-                            listView.setSelection(top);
-
-                            spinner.setVisibility(View.GONE);
-
-                            mPullToRefreshLayout.setRefreshing(false);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            spinner.setVisibility(View.GONE);
-                            mPullToRefreshLayout.setRefreshing(false);
-                        }
-                    });
-                }
-            }
-        }).start();*/
+        mPullToRefreshLayout.setRefreshing(false);
     }
 
     public ArrayList<User> users;
@@ -258,6 +180,7 @@ public class UserSearchFragment extends Fragment {
 
                     if (result.size() < 18) {
                         hasMore = false;
+                        canRefresh = false;
                     }
 
                     users = new ArrayList<User>();
