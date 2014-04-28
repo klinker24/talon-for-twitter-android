@@ -944,8 +944,10 @@ public class HomeDataSource {
 
         Cursor cursor = getCursor(account);
         if (cursor.moveToLast()) {
+            String s;
             do {
-                if (!cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_CURRENT_POS)).isEmpty()) {
+                s = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_CURRENT_POS));
+                if (s != null && !s.isEmpty()) {
                     break;
                 } else {
                     pos++;
