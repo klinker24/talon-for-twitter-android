@@ -951,7 +951,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                 Intent compose = new Intent(context, ComposeActivity.class);
                 String string = holder.reply.getText().toString();
-                compose.putExtra("user", string.substring(0, string.length() - 1));
+                try {
+                    compose.putExtra("user", string.substring(0, string.length() - 1));
+                } catch (Exception e) {
+
+                }
                 compose.putExtra("id", holder.tweetId);
                 context.startActivity(compose);
             }
