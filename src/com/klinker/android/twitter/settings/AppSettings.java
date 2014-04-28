@@ -362,6 +362,8 @@ public class AppSettings {
                     customBackground = res.getDrawable(res.getIdentifier("wallpaper", "drawable", addonThemePackage));
                 } catch (Exception e) {
                     customBackground = null;
+                } catch (OutOfMemoryError e) {
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
 
             } catch (Exception e) {
