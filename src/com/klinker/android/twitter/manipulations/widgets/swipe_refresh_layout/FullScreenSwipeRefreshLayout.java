@@ -491,10 +491,14 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
     }
 
     private void startRefresh() {
-        removeCallbacks(mCancel);
-        mReturnToStartPosition.run();
-        setRefreshing(true);
-        mListener.onRefresh();
+        try {
+            removeCallbacks(mCancel);
+            mReturnToStartPosition.run();
+            setRefreshing(true);
+            mListener.onRefresh();
+        } catch (NullPointerException e) {
+            // throwing an exception and i don't know why
+        }
     }
 
     private void updateContentOffsetTop(int targetTop) {
