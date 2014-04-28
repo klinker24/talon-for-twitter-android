@@ -336,15 +336,23 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
         super.draw(canvas);
 
         if (fullScreen) {
-            canvas.translate(0, translation);
+            if (mImmersive) {
+                canvas.translate(0, actionBarTranslation);
+            } else {
+                canvas.translate(0, translation);
+            }
         } else if (onlyStatus) {
-            canvas.translate(0, statusTranslation);
+            if (!mImmersive) {
+                canvas.translate(0, statusTranslation);
+            }
         }
         mProgressBar.draw(canvas);
     }
 
     public int translation;
     public int statusTranslation;
+    public int actionBarTranslation;
+    public boolean mImmersive;
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -363,7 +371,17 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
             translation = Utils.getActionBarHeight(getContext());
         }
 
+        try {
+            int immersive = android.provider.Settings.System.getInt(getContext().getContentResolver(), "immersive_mode");
+
+            if (immersive == 1) {
+                mImmersive = true;
+            }
+        } catch (Exception e) {
+        }
+
         statusTranslation = Utils.getStatusBarHeight(getContext());
+        actionBarTranslation = Utils.getActionBarHeight(getContext());
 
         mProgressBar.setBounds(0, 0, width, mProgressBarHeight);
         if (getChildCount() == 0) {

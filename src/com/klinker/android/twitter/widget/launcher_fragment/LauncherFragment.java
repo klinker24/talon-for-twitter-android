@@ -405,7 +405,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     public boolean barShowing = false;
     public void showBar() {
-        if (barShowing) {
+        if (barShowing || !translucent) {
             return;
         } else {
             barShowing = true;
@@ -431,7 +431,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     }
 
     public void hideBar() {
-        if (!barShowing) {
+        if (!barShowing || !translucent) {
             return;
         } else {
             barShowing = false;
@@ -507,6 +507,16 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     @Override
     public void setViews(View layout) {
+
+        try {
+            int immersive = android.provider.Settings.System.getInt(context.getContentResolver(), "immersive_mode");
+
+            if (immersive == 1) {
+                translucent = false;
+            }
+        } catch (Exception e) {
+        }
+
         rootLayout = layout;
 
         background = layout.findViewById(resHelper.getId("frag_background"));
