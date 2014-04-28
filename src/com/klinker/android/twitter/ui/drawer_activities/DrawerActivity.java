@@ -39,7 +39,8 @@ import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
-import com.klinker.android.twitter.ui.search.TwitterSearch;
+import com.klinker.android.twitter.ui.search.SearchPager;
+import com.klinker.android.twitter.ui.search.TwitterSearchFragment;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -920,7 +921,7 @@ public abstract class DrawerActivity extends Activity {
         try {
             searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
             // Assumes current activity is the searchable activity
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, TwitterSearch.class)));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchPager.class)));
             searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
             int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);

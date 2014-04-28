@@ -6,19 +6,22 @@ import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.ui.search.TwitterSearch;
+import com.klinker.android.twitter.ui.search.TwitterSearchFragment;
+import com.klinker.android.twitter.ui.search.UserSearchFragment;
 
 
 public class SearchPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
     private boolean onlyId;
+    private boolean translucent;
     private String query;
 
-    public SearchPagerAdapter(FragmentManager fm, Context context, boolean onlyId, String query) {
+    public SearchPagerAdapter(FragmentManager fm, Context context, boolean onlyId, String query, boolean translucent) {
         super(fm);
         this.context = context;
         this.onlyId = onlyId;
+        this.translucent = translucent;
         this.query = query;
     }
 
@@ -27,9 +30,11 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
         Fragment f = null;
         switch (i) {
             case 0:
-                f = new TwitterSearch(onlyId, query);
+                f = new TwitterSearchFragment(onlyId, query, translucent);
+                break;
             case 1:
-                f = new UserSearch(query);
+                f = new UserSearchFragment(query, translucent);
+                break;
             /*case 2:
                 CategoryFragment people = new CategoryFragment();
                 return people;
