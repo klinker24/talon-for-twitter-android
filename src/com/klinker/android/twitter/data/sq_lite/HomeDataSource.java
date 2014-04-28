@@ -336,6 +336,7 @@ public class HomeDataSource {
     public synchronized Cursor getCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
+        String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
@@ -367,6 +368,11 @@ public class HomeDataSource {
 
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        } else if (!rts.equals("")) {
+            String[] split = rts.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor;
@@ -436,6 +442,7 @@ public class HomeDataSource {
     public synchronized Cursor getWidgetCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
+        String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
@@ -467,6 +474,11 @@ public class HomeDataSource {
 
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        } else if (!rts.equals("")) {
+            String[] split = rts.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor;
@@ -485,6 +497,7 @@ public class HomeDataSource {
     public synchronized Cursor getUnreadCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
+        String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?";
@@ -516,6 +529,11 @@ public class HomeDataSource {
 
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        } else if (!rts.equals("")) {
+            String[] split = rts.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor;
@@ -534,6 +552,7 @@ public class HomeDataSource {
     public synchronized Cursor getPicsCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
+        String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'";
@@ -565,6 +584,11 @@ public class HomeDataSource {
 
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        } else if (!rts.equals("")) {
+            String[] split = rts.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         where += " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " NOT LIKE " + "'%youtu%'";
@@ -616,6 +640,7 @@ public class HomeDataSource {
     public synchronized Cursor getLinksCursor(int account) {
 
         String users = sharedPreferences.getString("muted_users", "");
+        String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'";
@@ -647,6 +672,11 @@ public class HomeDataSource {
 
         if (noRetweets) {
             where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        } else if (!rts.equals("")) {
+            String[] split = rts.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor;

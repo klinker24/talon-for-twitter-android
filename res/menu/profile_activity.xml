@@ -72,4 +72,13 @@
         android:title="@string/unmute"
         android:showAsAction="never" />
 
+    <item android:id="@+id/menu_mute_rt"
+        android:orderInCategory="15"
+        android:title="@string/mute_rt"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_unmute_rt"
+        android:orderInCategory="16"
+        android:title="@string/unmute_rt"
+        android:showAsAction="never" />
 </menu>

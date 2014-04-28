@@ -24,8 +24,6 @@
 
 -- For Release --
 
-    - dim every time on the popups now...
-
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
@@ -36,7 +34,6 @@
         - auto-complete hashtags
         - more muting options
             - mute users for a time period
-            - mute users retweets or all tweets
             - mute by app source
 
     Version 2.5.0

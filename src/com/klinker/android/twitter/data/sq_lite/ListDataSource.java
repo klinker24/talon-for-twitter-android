@@ -254,6 +254,7 @@ public class ListDataSource {
     public synchronized Cursor getCursor(long listId) {
 
         String users = sharedPreferences.getString("muted_users", "");
+        String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
         String where = ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
@@ -285,6 +286,11 @@ public class ListDataSource {
 
         if (noRetweets) {
             where += " AND " + ListSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + ListSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        } else if (!rts.equals("")) {
+            String[] split = rts.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
         }
 
         Cursor cursor;

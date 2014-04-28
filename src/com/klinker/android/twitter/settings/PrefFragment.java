@@ -483,6 +483,36 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference mutedRT = findPreference("manage_mutes_rt");
+        mutedRT.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] users = sharedPrefs.getString("muted_rts", "").split(" ");
+
+                if (users.length == 0 || (users.length == 1 && users[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_users), Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(users, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String touched = users[item];
+
+                            Intent user = new Intent(context, ProfilePager.class);
+                            user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
+                            user.putExtra("proPic", "");
+                            context.startActivity(user);
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                return false;
+            }
+        });
+
         Preference hashtags = findPreference("manage_mutes_hashtags");
         hashtags.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
