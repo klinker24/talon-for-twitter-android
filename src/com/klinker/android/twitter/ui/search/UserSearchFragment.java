@@ -2,7 +2,10 @@ package com.klinker.android.twitter.ui.search;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -15,7 +18,6 @@ import android.widget.ListView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.PeopleArrayAdapter;
-import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
@@ -27,17 +29,12 @@ import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 
-import twitter4j.Query;
-import twitter4j.QueryResult;
 import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-/**
- * Created by luke on 4/28/14.
- */
+
 public class UserSearchFragment extends Fragment {
 
     private AsyncListView listView;
@@ -60,6 +57,29 @@ public class UserSearchFragment extends Fragment {
     public UserSearchFragment() {
         this.translucent = false;
         this.searchQuery = "";
+    }
+
+    private BroadcastReceiver newSearch = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            searchQuery = intent.getStringExtra("query");
+            doUserSearch(searchQuery);
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.NEW_SEARCH");
+        context.registerReceiver(newSearch, filter);
+    }
+
+    @Override
+    public void onPause() {
+        context.unregisterReceiver(newSearch);
+        super.onPause();
     }
 
     @Override

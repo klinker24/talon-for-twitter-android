@@ -3,10 +3,13 @@ package com.klinker.android.twitter.ui.search;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +78,7 @@ public class TwitterSearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+        super.onCreateView(inflater, container, null);
 
         settings = AppSettings.getInstance(context);
 
@@ -233,11 +236,16 @@ public class TwitterSearchFragment extends Fragment {
     public void doSearch(final String mQuery) {
         spinner.setVisibility(View.VISIBLE);
 
+        if (listView.getVisibility() != View.GONE) {
+            listView.setVisibility(View.GONE);
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
+                    Log.v("talon_searching", "query in frag: " + mQuery);
                     query = new Query(mQuery);
                     QueryResult result = twitter.search(query);
 
