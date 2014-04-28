@@ -597,5 +597,8 @@
     <string name="browser_settings">Browser Settings</string>
     <string name="memory_manage">Memory Management</string>
     <string name="protected_account">User has a protected account!</string>
+    <string name="mute_rt">Mute Retweets</string>
+    <string name="unmute_rt">Un-mute Retweets</string>
+    <string name="muted_rts">Muted Retweeters</string>
 
 </resources>

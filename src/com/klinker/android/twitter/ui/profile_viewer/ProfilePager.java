@@ -84,6 +84,7 @@ public class ProfilePager extends Activity {
     private boolean isFollowing;
     private boolean isFavorite;
     private boolean isMuted;
+    private boolean isRTMuted;
     private boolean isFollowingSet = false;
 
     @Override
@@ -265,6 +266,7 @@ public class ProfilePager extends Activity {
                     isFollowing = friendship.isSourceFollowingTarget();
                     isBlocking = friendship.isSourceBlockingTarget();
                     isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
+                    isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
                     isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(currentAccount, otherUserName);
                     isFollowingSet = true;
 
@@ -460,6 +462,8 @@ public class ProfilePager extends Activity {
         final int MENU_CHANGE_BIO = 11;
         final int MENU_MUTE = 12;
         final int MENU_UNMUTE = 13;
+        final int MENU_MUTE_RT = 14;
+        final int MENU_UNMUTE_RT = 15;
 
         if (isMyProfile) {
             menu.getItem(MENU_TWEET).setVisible(false);
@@ -473,6 +477,8 @@ public class ProfilePager extends Activity {
             menu.getItem(MENU_UNFAVORITE).setVisible(false);
             menu.getItem(MENU_MUTE).setVisible(false);
             menu.getItem(MENU_UNMUTE).setVisible(false);
+            menu.getItem(MENU_MUTE_RT).setVisible(false);
+            menu.getItem(MENU_UNMUTE_RT).setVisible(false);
         } else {
             if (isFollowingSet) {
                 if (isFollowing) {
@@ -498,6 +504,12 @@ public class ProfilePager extends Activity {
                 } else {
                     menu.getItem(MENU_UNMUTE).setVisible(false);
                 }
+
+                if (isRTMuted) {
+                    menu.getItem(MENU_MUTE_RT).setVisible(false);
+                } else {
+                    menu.getItem(MENU_UNMUTE_RT).setVisible(false);
+                }
             } else {
                 menu.getItem(MENU_FOLLOW).setVisible(false);
                 menu.getItem(MENU_UNFOLLOW).setVisible(false);
@@ -507,6 +519,8 @@ public class ProfilePager extends Activity {
                 menu.getItem(MENU_UNBLOCK).setVisible(false);
                 menu.getItem(MENU_MUTE).setVisible(false);
                 menu.getItem(MENU_UNMUTE).setVisible(false);
+                menu.getItem(MENU_MUTE_RT).setVisible(false);
+                menu.getItem(MENU_UNMUTE_RT).setVisible(false);
             }
 
             menu.getItem(MENU_CHANGE_BIO).setVisible(false);
@@ -624,6 +638,23 @@ public class ProfilePager extends Activity {
                 String muted = sharedPrefs.getString("muted_users", "");
                 muted = muted.replace(screenName + " ", "");
                 sharedPrefs.edit().putString("muted_users", muted).commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                finish();
+                return true;
+
+            case R.id.menu_mute_rt:
+                String muted_rts = sharedPrefs.getString("muted_rts", "");
+                sharedPrefs.edit().putString("muted_rts", muted_rts + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                finish();
+                return true;
+
+            case R.id.menu_unmute_rt:
+                String curr_muted = sharedPrefs.getString("muted_rts", "");
+                curr_muted = curr_muted.replace(screenName + " ", "");
+                sharedPrefs.edit().putString("muted_rts", curr_muted).commit();
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                 sharedPrefs.edit().putBoolean("just_muted", true).commit();
                 finish();
