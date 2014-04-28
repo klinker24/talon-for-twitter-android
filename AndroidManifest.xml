@@ -148,7 +148,7 @@
             android:theme="@style/Theme.TalonDark"
             />
 
-        <activity android:name=".ui.drawer_activities.Search"
+        <activity android:name=".ui.search.TwitterSearch"
             android:label="@string/search"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"

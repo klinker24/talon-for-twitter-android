@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.drawer_activities;
+package com.klinker.android.twitter.ui.search;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,9 +10,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -58,7 +56,7 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class Search extends Activity {
+public class TwitterSearch extends Activity {
 
     private AsyncListView listView;
     private LinearLayout spinner;
@@ -100,30 +98,6 @@ public class Search extends Activity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-
-        if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
-            translucent = true;
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
-            try {
-                int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
-
-                if (immersive == 1) {
-                    translucent = false;
-                }
-            } catch (Exception e) {
-            }
-        } else {
-            translucent = false;
-        }
-
-        Utils.setUpTheme(context, settings);
-
-        actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.search));
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.ptr_list_layout);
 
@@ -217,8 +191,6 @@ public class Search extends Activity {
             listView.setHeaderDividersEnabled(false);
         }
 
-        //setUpDrawer(8, getResources().getString(R.string.search));
-
         spinner = (LinearLayout) findViewById(R.id.list_progress);
         spinner.setVisibility(View.GONE);
 
@@ -236,218 +208,6 @@ public class Search extends Activity {
         }
 
         Utils.setActionBar(context);
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-        handleIntent(intent);
-        removeKeyboard();
-        actionBar.setDisplayShowHomeEnabled(false);
-    }
-
-    public void removeKeyboard() {
-        try {
-            InputMethodManager imm = (InputMethodManager) context.getSystemService(
-                    Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-        } catch (Exception e) {
-
-        }
-    }
-
-    public String searchQuery = "";
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            searchQuery = intent.getStringExtra(SearchManager.QUERY);
-            if (searchQuery.contains("@")) {
-                String query = searchQuery.replace("@", "");
-                doUserSearch(query);
-            } else {
-                String query = searchQuery;
-                doSearch(query);
-            }
-
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            suggestions.saveRecentQuery(searchQuery, null);
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri uri = intent.getData();
-            String uriString = uri.toString();
-            if (uriString.contains("status/")) {
-                long id;
-                String replace = uriString.substring(uriString.indexOf("status")).replace("status/", "").replaceAll("photo/*", "");
-                if (replace.contains("/")) {
-                    replace = replace.substring(0, replace.indexOf("/"));
-                } else if (replace.contains("?")) {
-                    replace = replace.substring(0, replace.indexOf("?"));
-                }
-                id = Long.parseLong(replace);
-                searchQuery = id + "";
-                findStatus(id);
-            } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D")) { // going to try searching for users i guess
-                String name = uriString.substring(uriString.indexOf(".com/"));
-                name = name.replaceAll("/", "").replaceAll(".com", "");
-                searchQuery = name;
-                Log.v("searching_twitter", "username: " + name);
-                doUserSearch(name);
-            } else if (uriString.contains("q=")){
-                try {
-                    String search = uri.getQueryParameter("q");
-                    Log.v("searching_twitter", "" + search);
-
-                    if (search != null) {
-                        searchQuery = search;
-                        if (searchQuery.contains("@")) {
-                            String query = searchQuery.replace("@", "");
-                            doUserSearch(query);
-                        } else {
-                            String query = searchQuery;
-                            doSearch(query);
-                        }
-                    }
-
-                    SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-                    suggestions.saveRecentQuery(searchQuery, null);
-                } catch (Exception e) {
-
-                }
-            } else {
-                try {
-                    String search = uriString;
-
-                    search = search.substring(search.indexOf("screen_name%3D") + 14);
-                    search = search.substring(0, search.indexOf("%"));
-
-                    Log.v("searching_twitter", "" + search);
-
-                    if (search != null) {
-                        searchQuery = search;
-                        String query = searchQuery.replace("@", "");
-                        doUserSearch(query);
-                    }
-
-                    SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-                    suggestions.saveRecentQuery(searchQuery, null);
-                } catch (Exception e) {
-
-                }
-            }
-        }
-    }
-
-    private SearchView searchView;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_activity, menu);
-
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-
-        // Assumes current activity is the searchable activity
-        Log.v("searching_talon", getComponentName().toString());
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(true);
-
-        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-        ImageView view = (ImageView) searchView.findViewById(searchImgId);
-        view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
-
-        if (searchQuery.contains("@")) {
-            // user search and we should hide the filters
-            menu.getItem(3).setVisible(false); // pictures
-            menu.getItem(4).setVisible(false); // retweets
-        }
-
-        return true;
-    }
-
-    public static final int SETTINGS_RESULT = 101;
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                onBackPressed();
-                return true;
-
-            case R.id.menu_settings:
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
-                startActivityForResult(settings, SETTINGS_RESULT);
-                return true;
-
-            case R.id.menu_save_search:
-                Toast.makeText(context, getString(R.string.saving_search), Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
-                            twitter.createSavedSearch(searchQuery);
-
-                            ((Activity)context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(context, getString(R.string.success), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } catch (TwitterException e) {
-                            // something went wrong
-                        }
-                    }
-                }).start();
-                return super.onOptionsItemSelected(item);
-
-            case R.id.menu_compose_with_search:
-                Intent compose = new Intent(context, ComposeActivity.class);
-                compose.putExtra("user", searchQuery);
-                startActivity(compose);
-                return  super.onOptionsItemSelected(item);
-
-            case R.id.menu_search:
-                overridePendingTransition(0,0);
-                finish();
-                overridePendingTransition(0,0);
-                return super.onOptionsItemSelected(item);
-
-            case R.id.menu_pic_filter:
-                listView.setVisibility(View.GONE);
-                if (!item.isChecked()) {
-                    searchQuery += " filter:links twitter.com";
-                    item.setChecked(true);
-                } else {
-                    searchQuery = searchQuery.replace("filter:links", "").replace("twitter.com", "");
-                    item.setChecked(false);
-                }
-                doSearch(searchQuery);
-                return super.onOptionsItemSelected(item);
-
-            case R.id.menu_remove_rt:
-                listView.setVisibility(View.GONE);
-                if (!item.isChecked()) {
-                    searchQuery += " -RT";
-                    item.setChecked(true);
-                } else {
-                    searchQuery = searchQuery.replace(" -RT", "");
-                    item.setChecked(false);
-                }
-                doSearch(searchQuery);
-                return super.onOptionsItemSelected(item);
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public void onRefreshStarted() {
@@ -670,7 +430,7 @@ public class Search extends Activity {
 
         overridePendingTransition(0,0);
         finish();
-        Intent restart = new Intent(context, Search.class);
+        Intent restart = new Intent(context, TwitterSearch.class);
         restart.putExtra(SearchManager.QUERY, searchQuery);
         restart.setAction(Intent.ACTION_SEARCH);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
