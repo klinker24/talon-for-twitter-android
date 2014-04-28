@@ -319,8 +319,11 @@ public class SearchPager extends Activity {
                     searchQuery = searchQuery.replace("filter:links", "").replace("twitter.com", "");
                     item.setChecked(false);
                 }
-                mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
-                mViewPager.setAdapter(mSectionsPagerAdapter);
+
+                Intent broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
+                broadcast.putExtra("query", searchQuery);
+                context.sendBroadcast(broadcast);
+
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_remove_rt:
@@ -331,8 +334,11 @@ public class SearchPager extends Activity {
                     searchQuery = searchQuery.replace(" -RT", "");
                     item.setChecked(false);
                 }
-                mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
-                mViewPager.setAdapter(mSectionsPagerAdapter);
+
+                broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
+                broadcast.putExtra("query", searchQuery);
+                context.sendBroadcast(broadcast);
+
                 return super.onOptionsItemSelected(item);
 
             default:
