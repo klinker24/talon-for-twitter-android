@@ -107,6 +107,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     };
 
     public int liveUnread = 0;
+    public boolean loadToTop = false;
 
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
@@ -132,12 +133,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                             }
                             HomeContentProvider.updateCurrent(currentAccount, context, cursorAdapter.getCount() - 1);
+
+                            trueLive = true;
+                            loadToTop = true;
+
+                            resetTimeline(false);
                         }
                     }).start();
 
-                    trueLive = true;
-
-                    resetTimeline(false);
                 } else {
                     liveUnread++;
                     sharedPrefs.edit().putBoolean("refresh_me", false).commit();
@@ -394,13 +397,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         long id = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
                         boolean update = true;
                         int numTweets;
-                        if (id == 0) {
+                        if (id == 0 || loadToTop) {
                             numTweets = 0;
+                            loadToTop = false;
                         } else {
                             numTweets = getPosition(cursor);
 
                             // if it would set it to the end, then we will get the position by the id instead
-                            if (numTweets > cursor.getCount() - 5) {
+                            if (numTweets > cursor.getCount() - 5 || numTweets == 0) {
                                 numTweets = getPosition(cursor, id);
                                 if (numTweets == -1) {
                                     return;
@@ -417,7 +421,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         if (listView.getVisibility() != View.VISIBLE) {
-                            update = true;
                             listView.setVisibility(View.VISIBLE);
                         }
 
@@ -660,12 +663,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 Utils.getTwitter(context, new AppSettings(context)),
                 sharedPrefs);
 
-        boolean updated = helper.getLastStatus("timeline");
+        boolean updated = helper.getLastStatus("timeline", context);
 
         Log.v("talon_tweetmarker", "tweetmarker status: " + updated);
 
         if (updated) {
-            HomeContentProvider.updateCurrent(currentAccount, context, sharedPrefs.getLong("current_position_" + currentAccount, 0l));
+            //HomeContentProvider.updateCurrent(currentAccount, context, sharedPrefs.getLong("current_position_" + currentAccount, 0l));
             trueLive = true;
             return true;
         } else {
