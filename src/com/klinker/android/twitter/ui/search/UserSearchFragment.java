@@ -59,29 +59,6 @@ public class UserSearchFragment extends Fragment {
         this.searchQuery = "";
     }
 
-    private BroadcastReceiver newSearch = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            searchQuery = intent.getStringExtra("query");
-            doUserSearch(searchQuery);
-        }
-    };
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.NEW_SEARCH");
-        context.registerReceiver(newSearch, filter);
-    }
-
-    @Override
-    public void onPause() {
-        context.unregisterReceiver(newSearch);
-        super.onPause();
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -165,8 +142,8 @@ public class UserSearchFragment extends Fragment {
             ArrayListLoader loader = new ArrayListLoader(cache, context);
 
             ItemManager.Builder builder = new ItemManager.Builder(loader);
-            builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-            builder.setThreadPoolSize(4);
+            builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
+            builder.setThreadPoolSize(2);
 
             listView.setItemManager(builder.build());
         }
