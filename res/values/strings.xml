@@ -56,7 +56,7 @@
     <string name="world_trends">World Trends</string>
     <string name="search">Search</string>
     <string name="lists">Lists</string>
-    <string name="search_hint">\@username or search...</string>
+    <string name="search_hint">Search...</string>
     <string name="new_tweet">new tweet</string>
     <string name="new_tweets">new tweets</string>
     <string name="no_new_tweets">No new tweets</string>
