@@ -145,7 +145,11 @@ public class Utils {
         display.getSize(size);
         display.getRealSize(realSize);
 
-        return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+        try {
+            return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     // true if on mobile data
