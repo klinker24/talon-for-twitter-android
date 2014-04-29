@@ -216,9 +216,9 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
             }
         } else { // every page is shown
             switch (i) {
-                case 0:
-                    return context.getResources().getString(R.string.webpage);
                 case 1:
+                    return context.getResources().getString(R.string.webpage);
+                case 0:
                     return context.getResources().getString(R.string.tweet_youtube);
                 case 2:
                     return context.getResources().getString(R.string.tweet);
