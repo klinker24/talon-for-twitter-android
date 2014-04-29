@@ -18,6 +18,7 @@
     - trim failed toast on my phone, not tablet
 
 - For Launcher Fragment:
+    - immersive mode crashes
 
 -- For Release --
 
