@@ -76,8 +76,6 @@ public class UpdateUtils {
             sharedPrefs.edit().putBoolean("version_2_2_7_1", false).commit();
 
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("version_2_2_7_1", false).commit();
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("addon_themes", false).commit();
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("addon_theme_package", null).commit();
 
             ((Activity)context).finish();
             context.startActivity(new Intent(context, MainActivity.class));
