@@ -1,9 +1,11 @@
 package com.klinker.android.twitter.utils.api_helper;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
+import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import org.apache.http.HttpResponse;
@@ -92,7 +94,7 @@ public class TweetMarkerHelper extends APIHelper {
         return false;
     }
 
-    public boolean getLastStatus(String collection) {
+    public boolean getLastStatus(String collection, Context context) {
 
         long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
 
@@ -191,6 +193,7 @@ public class TweetMarkerHelper extends APIHelper {
 
         Log.v("talon_launcher_stuff", "writing " + currentId + " to shared prefs");
         sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId).commit();
+        HomeContentProvider.updateCurrent(currentAccount, context, currentId);
 
         return updated;
     }
