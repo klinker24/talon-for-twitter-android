@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 
 import java.util.ArrayList;
@@ -547,6 +548,16 @@ public class HomeDataSource {
         }
 
         return cursor;
+    }
+
+    public synchronized Cursor getSearchCursor(String where) {
+        try {
+            return database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public synchronized Cursor getPicsCursor(int account) {

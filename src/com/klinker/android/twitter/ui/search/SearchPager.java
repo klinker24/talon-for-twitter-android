@@ -147,6 +147,8 @@ public class SearchPager extends Activity {
             strip.setBackgroundColor(settings.accentInt);
         }
 
+        mViewPager.setCurrentItem(1);
+
         Utils.setActionBar(context);
     }
 

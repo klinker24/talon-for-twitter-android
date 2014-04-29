@@ -7,6 +7,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.ui.search.TimelineSearchFragment;
 import com.klinker.android.twitter.ui.search.TwitterSearchFragment;
 import com.klinker.android.twitter.ui.search.UserSearchFragment;
 
@@ -33,32 +34,31 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
         Fragment f = null;
         switch (i) {
             case 0:
-                f = new TwitterSearchFragment(onlyId, query, translucent);
+                f = new TimelineSearchFragment(query, translucent);
                 break;
             case 1:
+                f = new TwitterSearchFragment(onlyId, query, translucent);
+                break;
+            case 2:
                 f = new UserSearchFragment(query, translucent);
                 break;
-            /*case 2:
-                CategoryFragment people = new CategoryFragment();
-                return people;
-            case 3:
-                NearbyTweets nearby = new NearbyTweets();
-                return nearby;*/
         }
         return f;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return context.getResources().getString(R.string.twitter);
+                return context.getResources().getString(R.string.timeline);
             case 1:
+                return context.getResources().getString(R.string.twitter);
+            case 2:
                 return context.getResources().getString(R.string.user);
         }
         return null;

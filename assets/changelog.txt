@@ -1,4 +1,5 @@
 <b>Version 2.3.1:</b><br/><br/>
+    &#8226; Page for searching your own timeline<br/>
     &#8226; Changes for DashClock<br/>
     &#8226; Fixed Tweetmarker<br/>
     &#8226; Fixed auto loading tweets at the top of the timeline<br/>
