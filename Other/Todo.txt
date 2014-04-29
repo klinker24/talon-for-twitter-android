@@ -1,24 +1,21 @@
 - Features:
-    - interactions with dashclock
     - attach pictures from the talon pull compose
     - user lists on their profiles
     - QSlide for LG
     - gallery of picture on searching
-    - give the widgets preview pictures (for the homescreen, when viewing them in the drawer)
     - tweetmarker in lists
     - switch accounts from the widget
     - rotation on tweet viewer
     - identify conversations from timeline
     - accept followers on protected account (not possible with current apis)
+    - view multiple picture on a tweet
 
 - Bugs:
     - check out the loading of the profile picture and background. They don't seem to work right
     - talon pull not always getting retweets
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
-    - lag loading plain text articles
     - trim failed toast on my phone, not tablet
-    - fix immersive mode with new pull to refresh
 
 - For Launcher Fragment:
 
@@ -27,8 +24,8 @@
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
-        - convert search to fragments with user search and twitter search
         - switch mentions to save the position instead of current unread method
+        - timeline search fragment
 
     Version 2.4.0
         - auto-complete hashtags
@@ -37,7 +34,6 @@
             - mute by app source
 
     Version 2.5.0
-        - "search timeline" option for searching
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
             - second account mentions page on timeline
