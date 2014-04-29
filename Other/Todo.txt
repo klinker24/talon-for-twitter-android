@@ -26,7 +26,7 @@
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
         - switch mentions to save the position instead of current unread method
-        - timeline search fragment
+        - tesla unread badges
 
     Version 2.4.0
         - auto-complete hashtags
