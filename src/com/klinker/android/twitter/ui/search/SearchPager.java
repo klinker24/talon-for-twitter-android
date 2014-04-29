@@ -116,7 +116,7 @@ public class SearchPager extends Activity {
         Utils.setUpTheme(context, settings);
 
         Utils.setUpTheme(context, settings);
-        setContentView(R.layout.trends_activity);
+        setContentView(R.layout.search_pager);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));

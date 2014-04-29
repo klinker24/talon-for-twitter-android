@@ -45,6 +45,7 @@ import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.setup.TutorialActivity;
 import com.klinker.android.twitter.ui.setup.Version2Setup;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
+import com.klinker.android.twitter.utils.UpdateUtils;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
@@ -118,8 +119,11 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences shared = getSharedPreferences("com.klinker.android.twitter_world_preferences", Context.MODE_WORLD_READABLE);
-        shared.edit().putBoolean("testing", true).commit();
+        //SharedPreferences defaultSP = PreferenceManager.getDefaultSharedPreferences(this);
+        //if (defaultSP.getBoolean("version_2_2_7_1", true)) {
+           // AppSettings.invalidate();
+            //defaultSP.edit().putBoolean("addon_themes", false).commit();
+        //}
 
         MainActivity.sendHandler = new Handler();
 
@@ -374,7 +378,8 @@ public class MainActivity extends DrawerActivity {
 
         if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) ||
                 sharedPrefs.getBoolean("launcher_frag_switch", false) ||
-                theme != settings.theme) {
+                (theme != settings.theme && !settings.addonTheme)) {
+
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false).commit();
 
             AppSettings.invalidate();
