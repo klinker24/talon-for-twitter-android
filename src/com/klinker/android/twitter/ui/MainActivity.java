@@ -119,12 +119,6 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //SharedPreferences defaultSP = PreferenceManager.getDefaultSharedPreferences(this);
-        //if (defaultSP.getBoolean("version_2_2_7_1", true)) {
-           // AppSettings.invalidate();
-            //defaultSP.edit().putBoolean("addon_themes", false).commit();
-        //}
-
         MainActivity.sendHandler = new Handler();
 
         context = this;

@@ -97,10 +97,16 @@ public class TalonDashClockExtension extends DashClockExtension {
             b.putBoolean("dashclock", true);
             intent.putExtras(b);
 
+            String smallStatus = (homeTweets == 0 ? "" : homeTweets + " | ")
+                    + (mentionsTweets == 0 ? "" : mentionsTweets + " | ")
+                    + (dmTweets == 0 ? "" : dmTweets + " | ");
+
+            smallStatus = smallStatus.substring(0, smallStatus.length() - 3);
+
             return new ExtensionData()
                     .visible(true)
                     .icon(R.drawable.ic_stat_icon)
-                    .status(homeTweets + mentionsTweets + dmTweets + "")
+                    .status(smallStatus)
                     .expandedTitle(NotificationUtils.getTitle(unreads, this, currentAccount)[0])
                     .expandedBody(TweetLinkUtils.removeColorHtml(NotificationUtils.getLongTextNoHtml(unreads, this, currentAccount), AppSettings.getInstance(this)))
                     .clickIntent(intent);
