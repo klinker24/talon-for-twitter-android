@@ -885,6 +885,7 @@ public abstract class DrawerActivity extends Activity {
 
         if (sharedPrefs.getBoolean("version_2_2_7_1", true)) {
             UpdateUtils.updateToGlobalPrefs(context);
+            return;
         }
 
         invalidateOptionsMenu();

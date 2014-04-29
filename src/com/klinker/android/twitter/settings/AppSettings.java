@@ -266,7 +266,6 @@ public class AppSettings {
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
 
-
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));
         mentionsRefresh = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "0"));
