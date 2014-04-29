@@ -19,7 +19,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:layoutDirection="ltr">
 
             <!-- The tweeters picture -->
             <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
@@ -83,6 +84,7 @@
             android:tag="tweet"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
+            android:paddingRight="5dp"
             android:paddingTop="6dp" />
 
         <com.klinker.android.twitter.manipulations.widgets.HoloTextView

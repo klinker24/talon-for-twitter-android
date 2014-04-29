@@ -405,12 +405,12 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
     public boolean barShowing = false;
     public void showBar() {
-        if (barShowing || !translucent) {
+        if (barShowing || immersiveMode || Build.VERSION.SDK_INT < 18) {
             return;
         } else {
             barShowing = true;
         }
-        Animation anim = resHelper.getAnimation("fade_in");//AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        Animation anim = resHelper.getAnimation("fade_in");
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -431,12 +431,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     }
 
     public void hideBar() {
-        if (!barShowing || !translucent) {
+        if (!barShowing || immersiveMode || Build.VERSION.SDK_INT < 18) {
             return;
         } else {
             barShowing = false;
         }
-        Animation anim = resHelper.getAnimation("fade_out");//AnimationUtils.loadAnimation(context, R.anim.fade_out);
+
+        Animation anim = resHelper.getAnimation("fade_out");
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -503,6 +504,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public View background;
     public View rootLayout;
 
+    public boolean immersiveMode = false;
+
     public boolean switchedAccounts = false;
 
     @Override
@@ -512,9 +515,10 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             int immersive = android.provider.Settings.System.getInt(context.getContentResolver(), "immersive_mode");
 
             if (immersive == 1) {
-                translucent = false;
+                immersiveMode = true;
             }
         } catch (Exception e) {
+
         }
 
         rootLayout = layout;
