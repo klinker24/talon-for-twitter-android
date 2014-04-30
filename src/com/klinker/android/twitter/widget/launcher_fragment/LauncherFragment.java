@@ -345,13 +345,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
-                    /*if (i == SCROLL_STATE_IDLE) {
-                        MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
-                        MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
+                    if (i == SCROLL_STATE_IDLE) {
+                        sendHandler.removeCallbacks(hideSend);
+                        sendHandler.postDelayed(showSend, 600);
                     } else {
-                        MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
-                        MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                    }*/
+                        sendHandler.removeCallbacks(showSend);
+                        sendHandler.postDelayed(hideSend, 300);
+                    }
                 }
 
                 @Override
