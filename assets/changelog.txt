@@ -1,6 +1,6 @@
 <b>Version 2.3.2:</b><br/><br/>
     &#8226; TeslaUnread for homescreen unread badges<br/>
-    &#8226; Random bug fixes<br/>
+    &#8226; Small random bug fixes<br/>
 <br/><br/>
 
 <b>Version 2.3.1:</b><br/><br/>
