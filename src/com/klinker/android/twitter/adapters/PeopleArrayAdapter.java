@@ -512,6 +512,8 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                     result = mCache.get(url, null);
                 } catch (Exception e) {
                     return null;
+                } catch (OutOfMemoryError e) {
+                    return null;
                 }
 
                 if (null == result) {

@@ -717,7 +717,11 @@ public class ProfileFragment extends Fragment {
                                 String url = user.getProfileBannerURL();
                                 ImageUtils.loadImage(context, background, url, mCache);
                             } else {
-                                Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
+                                try {
+                                    Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    // not attached
+                                }
                             }
                             spinner.setVisibility(View.GONE);
                             canRefresh = false;
