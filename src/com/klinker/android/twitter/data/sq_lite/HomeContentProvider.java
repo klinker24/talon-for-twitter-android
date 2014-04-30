@@ -146,8 +146,12 @@ public class HomeContentProvider extends ContentProvider {
                 ContentValues unread = new ContentValues();
                 unread.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "");
 
-                db.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
-                db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{tweetId + ""});
+                try {
+                    db.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
+                    db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{tweetId + ""});
+                } catch (Exception e) {
+
+                }
             }
         } else {
             long id = Long.parseLong(selectionArgs[1]);
@@ -163,8 +167,12 @@ public class HomeContentProvider extends ContentProvider {
             ContentValues unread = new ContentValues();
             unread.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "");
 
-            db.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
-            db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{id + ""});
+            try {
+                db.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
+                db.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{id + ""});
+            } catch (Exception e) {
+
+            }
         }
 
         context.getContentResolver().notifyChange(uri, null);
