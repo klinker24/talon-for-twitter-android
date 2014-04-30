@@ -3,6 +3,7 @@ package com.klinker.android.twitter.utils;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -214,6 +215,34 @@ public class NotificationUtils {
                     favUsersNotification(currentAccount, context);
                 }
             }
+        }
+
+        try {
+
+            ContentValues cv = new ContentValues();
+
+            cv.put("tag", "com.klinker.android.twitter/com.klinker.android.twitter.ui.MainActivity");
+
+            // add the direct messages and mentions
+            cv.put("count", unreadCounts[1] + unreadCounts[2]);
+
+            context.getContentResolver().insert(Uri
+                            .parse("content://com.teslacoilsw.notifier/unread_count"),
+                    cv);
+
+        } catch (IllegalArgumentException ex) {
+
+            /* Fine, TeslaUnread is not installed. */
+
+        } catch (Exception ex) {
+
+            /* Some other error, possibly because the format
+               of the ContentValues are incorrect.
+
+                Log but do not crash over this. */
+
+            ex.printStackTrace();
+
         }
     }
 
