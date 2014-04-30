@@ -1005,7 +1005,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
                     isToastShowing = true;
                     toastBar.setVisibility(View.VISIBLE);
 
-                    Animation anim = resHelper.getAnimation("slide_in_right");//AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                    Animation anim = resHelper.getAnimation("slide_in_right");
                     anim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
