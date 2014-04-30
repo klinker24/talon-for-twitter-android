@@ -507,9 +507,10 @@ public class TalonPullNotificationService extends Service {
                     int currentAccount = sharedPreferences.getInt("current_account", 1);
                     HomeDataSource home = HomeDataSource.getInstance(mContext);
                     if (!home.tweetExists(status.getId(), currentAccount)) {
-                        HomeContentProvider.insertTweet(status, currentAccount, mContext);
-                        //HomeDataSource.getInstance(mContext).createTweet(status, currentAccount);
+                        //HomeContentProvider.insertTweet(status, currentAccount, mContext);
+                        home.createTweet(status, currentAccount);
                         sharedPreferences.edit().putLong("account_" + currentAccount + "_lastid", status.getId()).commit();
+                        getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
                     }
 
                     pullUnread++;
