@@ -530,7 +530,8 @@
         <service android:name=".services.WidgetRefreshService">
         </service>
 
-        <service android:name=".services.MentionsRefreshService">
+        <service android:name=".services.MentionsRefreshService"
+            android:exported="true">
         </service>
 
         <service android:name=".services.SecondMentionsRefreshService">

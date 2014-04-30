@@ -35,6 +35,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.services.CatchupPull;
+import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -1204,6 +1205,8 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
             unread = numberNew;
             statuses.clear();
+
+            talonContext.startService(new Intent(talonContext, MentionsRefreshService.class));
 
             return numberNew;
 
