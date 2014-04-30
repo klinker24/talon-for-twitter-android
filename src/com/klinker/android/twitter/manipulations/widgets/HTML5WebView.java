@@ -69,6 +69,8 @@ public class HTML5WebView extends WebView {
         s.setAppCacheEnabled(false);
         s.setPluginState(WebSettings.PluginState.OFF);
 
+        clearCache(true);
+
         // enable navigator.geolocation
         s.setGeolocationEnabled(true);
         s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
