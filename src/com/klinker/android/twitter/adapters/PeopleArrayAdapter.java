@@ -537,6 +537,17 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                         result = mCache.put(url, b);
                     }
 
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+
+                    }
+
                 } else {
                     Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
                 }
