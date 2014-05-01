@@ -647,6 +647,17 @@ public class ImageUtils {
                         return null;
                     }
 
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+
+                    }
+
                 } else {
                     Log.d("talon_image_cache", "Got from Cache: " + url);
                 }
