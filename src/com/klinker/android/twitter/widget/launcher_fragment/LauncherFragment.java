@@ -1103,6 +1103,9 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public int doRefresh() {
         int numberNew = 0;
 
+        // TODO: start a service to make sure talon is opened to the correct place here.
+        // commit the account to shared prefs, invalidate settings, and force update on start
+
         if (TimelineRefreshService.isRunning || WidgetRefreshService.isRunning || CatchupPull.isRunning) {
             // quit if it is running in the background
             return 0;
