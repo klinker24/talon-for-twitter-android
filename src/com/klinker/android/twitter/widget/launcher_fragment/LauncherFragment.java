@@ -600,6 +600,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         final ImageView proPic2 = (ImageView) layout.findViewById(resHelper.getId("profile_pic_2"));
         final LinearLayout logoutLayout = (LinearLayout) layout.findViewById(resHelper.getId("logoutLayout"));
         ImageButton sendButton = (ImageButton) layout.findViewById(resHelper.getId("send_button"));
+        ImageButton openApp = (ImageButton) layout.findViewById(resHelper.getId("open_app_button"));
 
         final String backgroundUrl = settings.myBackgroundUrl;
         final String profilePicUrl = settings.myProfilePicUrl;
@@ -630,6 +631,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
 
         drawerToListDivider.setBackgroundDrawable(color);
         drawerList.setDivider(color);
+
+        openApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                talonContext.startActivity(new Intent(talonContext, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
