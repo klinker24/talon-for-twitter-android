@@ -30,6 +30,19 @@
             android:maxWidth="56dp" android:maxHeight="56dp"
             android:contentDescription="Profile Picture - Account 2"
             android:layout_marginTop="6dp" />
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/open_app_button"
+            android:minHeight="56dp" android:minWidth="56dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:maxWidth="56dp" android:maxHeight="56dp"
+            android:contentDescription="Open App"
+            android:layout_marginTop="6dp"
+            android:src="@mipmap/ic_launcher"
+            android:background="@drawable/pressed_toast"/>
+
     </LinearLayout>
 
 
