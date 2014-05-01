@@ -964,18 +964,23 @@ public class HomeDataSource {
     public synchronized int getPosition(int account, long id) {
         int pos = 0;
 
-        Cursor cursor = getCursor(account);
-        if (cursor.moveToLast()) {
-            do {
-                if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
-                    break;
-                } else {
-                    pos++;
-                }
-            } while (cursor.moveToPrevious());
-        }
+        try {
+            Cursor cursor = getCursor(account);
+            if (cursor.moveToLast()) {
+                do {
+                    if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
+                        break;
+                    } else {
+                        pos++;
+                    }
+                } while (cursor.moveToPrevious());
+            }
 
-        cursor.close();
+            cursor.close();
+        } catch (Exception e) {
+            // we will return -1 and let the shared pref handle it
+            return -1;
+        }
 
         return pos;
     }
