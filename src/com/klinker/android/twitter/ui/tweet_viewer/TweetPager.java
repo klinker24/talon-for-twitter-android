@@ -612,7 +612,8 @@ public class TweetPager extends YouTubeBaseActivity {
                         fItems[i] = tags.get(i);
                     }
 
-                    final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    final SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
                     if (fItems.length > 1) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
