@@ -153,19 +153,19 @@ public class LocalTrends extends Fragment implements
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (currentTrends != null) {
-                                listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
-                                listView.setVisibility(View.VISIBLE);
-                            } else {
-                                try {
+                            try {
+                                if (currentTrends != null) {
+                                    listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
+                                    listView.setVisibility(View.VISIBLE);
+                                } else {
                                     Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    // it isn't attached to the main activity anymore
                                 }
-                            }
 
-                            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
-                            spinner.setVisibility(View.GONE);
+                                LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                                spinner.setVisibility(View.GONE);
+                            } catch (Exception e) {
+                                // not attached to activity
+                            }
                         }
                     });
                 } catch (Throwable e) {

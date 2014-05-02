@@ -410,17 +410,21 @@ public class MainActivity extends DrawerActivity {
                     } catch (InterruptedException e) {
 
                     }
-                    Cursor cursor = FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, "");
-                    if (cursor.moveToFirst()) {
-                        do {
-                            suggestions.saveRecentQuery(
-                                    "@" + cursor.getString(cursor.getColumnIndex(FollowersSQLiteHelper.COLUMN_SCREEN_NAME)),
-                                    null);
-                        } while (cursor.moveToNext());
-                    }
-                    cursor.close();
+                    try {
+                        Cursor cursor = FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, "");
+                        if (cursor.moveToFirst()) {
+                            do {
+                                suggestions.saveRecentQuery(
+                                        "@" + cursor.getString(cursor.getColumnIndex(FollowersSQLiteHelper.COLUMN_SCREEN_NAME)),
+                                        null);
+                            } while (cursor.moveToNext());
+                        }
+                        cursor.close();
 
-                    sharedPrefs.edit().putBoolean("insert_users_to_search", false).commit();
+                        sharedPrefs.edit().putBoolean("insert_users_to_search", false).commit();
+                    } catch (Exception e) {
+
+                    }
 
                 }
             }).start();
