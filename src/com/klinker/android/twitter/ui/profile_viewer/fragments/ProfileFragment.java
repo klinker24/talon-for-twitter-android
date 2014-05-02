@@ -542,20 +542,24 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (thisUser != null && thisUser.isProtected()) {
-                                Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
-                                if(settings.roundContactImages) {
-                                    ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
-                                } else {
-                                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                                }
+                            try {
+                                if (thisUser != null && thisUser.isProtected()) {
+                                    Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
+                                    if (settings.roundContactImages) {
+                                        ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                    } else {
+                                        ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                    }
 
-                                String url = thisUser.getProfileBannerURL();
-                                ImageUtils.loadImage(context, background, url, mCache);
-                            } else {
-                                Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
+                                    String url = thisUser.getProfileBannerURL();
+                                    ImageUtils.loadImage(context, background, url, mCache);
+                                } else {
+                                    Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
+                                }
+                                spinner.setVisibility(View.GONE);
+                            } catch (Exception e) {
+                                // not attached to activity
                             }
-                            spinner.setVisibility(View.GONE);
                             canRefresh = false;
                             hasMore = false;
                         }
@@ -706,24 +710,24 @@ public class ProfileFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (user != null && user.isProtected()) {
-                                Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
-                                if(settings.roundContactImages) {
-                                    ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
-                                } else {
-                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
-                                }
+                            try {
+                                if (user != null && user.isProtected()) {
+                                    Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
+                                    if (settings.roundContactImages) {
+                                        ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
+                                    } else {
+                                        ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
+                                    }
 
-                                String url = user.getProfileBannerURL();
-                                ImageUtils.loadImage(context, background, url, mCache);
-                            } else {
-                                try {
+                                    String url = user.getProfileBannerURL();
+                                    ImageUtils.loadImage(context, background, url, mCache);
+                                } else {
                                     Toast.makeText(context, getResources().getString(R.string.error_loading_timeline), Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    // not attached
                                 }
+                                spinner.setVisibility(View.GONE);
+                            } catch (Exception e) {
+                                // fragment not attached
                             }
-                            spinner.setVisibility(View.GONE);
                             canRefresh = false;
                             hasMore = false;
                         }
