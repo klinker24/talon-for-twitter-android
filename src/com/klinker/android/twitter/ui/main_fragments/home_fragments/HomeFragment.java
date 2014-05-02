@@ -1438,12 +1438,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            //HomeContentProvider.updateCurrent(currentAccount, context, id);
-                            HomeDataSource.getInstance(context).markPosition(currentAccount, id);
-                        } catch (Throwable t) {
-
-                        }
+                        markRead(currentAccount, context, id);
                     }
                 }).start();
             } else {
@@ -1454,12 +1449,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                HomeDataSource.getInstance(context).markPosition(currentAccount, id);
-                                //HomeContentProvider.updateCurrent(currentAccount, context, id);
-                            } catch (Throwable t) {
-
-                            }
+                            markRead(currentAccount, context, id);
                         }
                     }).start();
                 }
@@ -1478,6 +1468,14 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         } catch (StaleDataException e) {
             e.printStackTrace();
             // do nothing here i guess
+        }
+    }
+
+    public void markRead(int currentAccount, Context context, long id) {
+        try {
+            HomeDataSource.getInstance(context).markPosition(currentAccount, id);
+        } catch (Throwable t) {
+
         }
     }
 

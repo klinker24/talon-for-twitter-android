@@ -786,8 +786,8 @@ public class TalonPullNotificationService extends Service {
             am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);*/
 
             //pushStream.clearListeners();
-            pushStream.shutdown();
-            pushStream.cleanUp();
+            //pushStream.shutdown();
+            //pushStream.cleanUp();
         }
     };
 
