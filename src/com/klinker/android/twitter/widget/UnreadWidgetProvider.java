@@ -118,18 +118,22 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 views.setOnClickPendingIntent(R.id.dms, dmsPending);
 
                 // get the counts
-                SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-                int currentAccount = sharedPrefs.getInt("current_account", 1);
-                String dm = sharedPrefs.getInt("dm_unread_" + currentAccount, 0) + "";
-                String mention = MentionsDataSource.getInstance(this).getUnreadCount(currentAccount) + "";
-                String home = HomeDataSource.getInstance(this).getPosition(currentAccount, sharedPrefs.getLong("current_position_" + currentAccount, 0)) + "";
+                try {
+                    SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                    int currentAccount = sharedPrefs.getInt("current_account", 1);
+                    String dm = sharedPrefs.getInt("dm_unread_" + currentAccount, 0) + "";
+                    String mention = MentionsDataSource.getInstance(this).getUnreadCount(currentAccount) + "";
+                    String home = HomeDataSource.getInstance(this).getPosition(currentAccount, sharedPrefs.getLong("current_position_" + currentAccount, 0)) + "";
 
-                views.setTextViewText(R.id.home_text, home);
-                views.setTextViewText(R.id.mention_text, mention);
-                views.setTextViewText(R.id.dm_text, dm);
+                    views.setTextViewText(R.id.home_text, home);
+                    views.setTextViewText(R.id.mention_text, mention);
+                    views.setTextViewText(R.id.dm_text, dm);
 
-                mgr.updateAppWidget(appWidgetId, views);
+                    mgr.updateAppWidget(appWidgetId, views);
+                } catch (Exception e) {
+
+                }
 
                 try {
                     Thread.sleep(500);
