@@ -384,6 +384,17 @@ public class PeopleCursorAdapter extends CursorAdapter {
                         result = mCache.put(url, b);
                     }
 
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+
+                    }
+
                 }
 
                 return result;
