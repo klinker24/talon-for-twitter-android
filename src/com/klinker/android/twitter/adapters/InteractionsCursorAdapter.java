@@ -317,6 +317,17 @@ public class InteractionsCursorAdapter extends CursorAdapter {
                         }
                     }
 
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+
+                    }
+
                 }
 
                 return result;
