@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import org.apache.http.HttpResponse;
@@ -40,6 +41,11 @@ public class TweetMarkerHelper extends APIHelper {
 
         postURL = "http://api.tweetmarker.net/v2/lastread?api_key=" + Uri.encode(TWEETMARKER_API_KEY) +
                 "&username=" + Uri.encode(screenname);
+    }
+
+    public boolean contentProvider = false;
+    public void setUseContentProvider(boolean use) {
+        contentProvider = use;
     }
 
     public boolean sendCurrentId(String collection, long id) {
@@ -193,7 +199,12 @@ public class TweetMarkerHelper extends APIHelper {
 
         Log.v("talon_launcher_stuff", "writing " + currentId + " to shared prefs");
         sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId).commit();
-        HomeContentProvider.updateCurrent(currentAccount, context, currentId);
+        if (contentProvider) {
+            HomeContentProvider.updateCurrent(currentAccount, context, currentId);
+        } else {
+            HomeDataSource.getInstance(context).markPosition(currentAccount, currentId);
+        }
+
 
         return updated;
     }

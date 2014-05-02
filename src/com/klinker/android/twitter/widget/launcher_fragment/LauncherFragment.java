@@ -1355,4 +1355,13 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         cursorAdapter.changeCursor(null);
     }
+
+    @Override
+    public void markRead(int currentAccount, Context context, long id) {
+        try {
+            HomeContentProvider.updateCurrent(currentAccount, context, id);
+        } catch (Throwable t) {
+
+        }
+    }
 }
