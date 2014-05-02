@@ -127,6 +127,22 @@ public class MobilizedFragment extends Fragment {
                     } catch (Exception x) {
                         // not attached
                     }
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                    try {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    webText.setText(getResources().getString(R.string.error_loading_page));
+                                } catch (Exception e) {
+                                    // fragment not attached
+                                }
+                            }
+                        });
+                    } catch (Exception x) {
+                        // not attached
+                    }
                 }
             }
         });
