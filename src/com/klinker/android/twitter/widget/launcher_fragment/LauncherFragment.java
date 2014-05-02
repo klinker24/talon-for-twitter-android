@@ -638,6 +638,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
         openApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                markReadForLoad();
                 talonContext.startActivity(new Intent(talonContext, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
