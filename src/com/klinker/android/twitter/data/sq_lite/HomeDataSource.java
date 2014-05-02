@@ -945,6 +945,23 @@ public class HomeDataSource {
         }
     }
 
+    public synchronized void markPosition(int account, long id) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "1");
+
+        ContentValues unread = new ContentValues();
+        unread.put(HomeSQLiteHelper.COLUMN_CURRENT_POS, "");
+
+        try {
+            database.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{id + ""});
+        } catch (Exception e) {
+            open();
+            database.update(HomeSQLiteHelper.TABLE_HOME, unread, HomeSQLiteHelper.COLUMN_CURRENT_POS + " = ? AND " + HomeSQLiteHelper.COLUMN_ACCOUNT + " = ?", new String[]{"1", account + ""});
+            database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{id + ""});
+        }
+    }
     public synchronized void deleteDups(int account) {
 
         try {

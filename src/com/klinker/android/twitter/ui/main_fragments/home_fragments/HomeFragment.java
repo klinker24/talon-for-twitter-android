@@ -132,7 +132,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             } catch (Exception e) {
 
                             }
-                            HomeContentProvider.updateCurrent(currentAccount, context, id);
+                            HomeDataSource.getInstance(context).markPosition(currentAccount, id);
+                            //HomeContentProvider.updateCurrent(currentAccount, context, id);
 
                             trueLive = true;
                             loadToTop = true;
@@ -514,7 +515,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-                HomeContentProvider.updateCurrent(currentAccount, context, id);
+                HomeDataSource.getInstance(context).markPosition(currentAccount, id);
+                //HomeContentProvider.updateCurrent(currentAccount, context, id);
             }
         } catch (Exception e) {
 
@@ -977,6 +979,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+        context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         super.onStop();
     }
@@ -1436,7 +1439,8 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                     @Override
                     public void run() {
                         try {
-                            HomeContentProvider.updateCurrent(currentAccount, context, id);
+                            //HomeContentProvider.updateCurrent(currentAccount, context, id);
+                            HomeDataSource.getInstance(context).markPosition(currentAccount, id);
                         } catch (Throwable t) {
 
                         }
@@ -1451,7 +1455,8 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                         @Override
                         public void run() {
                             try {
-                                HomeContentProvider.updateCurrent(currentAccount, context, id);
+                                HomeDataSource.getInstance(context).markPosition(currentAccount, id);
+                                //HomeContentProvider.updateCurrent(currentAccount, context, id);
                             } catch (Throwable t) {
 
                             }
