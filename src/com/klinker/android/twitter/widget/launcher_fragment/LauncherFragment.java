@@ -177,6 +177,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+
                     TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                             sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
                             Utils.getTwitter(context, new AppSettings(context)), sharedPrefs);
@@ -192,6 +193,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
     @Override
     public void onStart() {
         super.onStart();
+
         sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
@@ -202,6 +204,7 @@ public class LauncherFragment extends HomeFragment implements LoaderManager.Load
             setViews(layout);
             getLoaderManager().restartLoader(0, null, this);
         }
+
     }
 
     @Override

@@ -91,6 +91,10 @@ public class NotificationUtils {
             boolean useExpanded = useExp(context);
             boolean addButton = addBtn(unreadCounts);
 
+            if (title == null) {
+                return;
+            }
+
             Intent resultIntent;
 
             if (unreadCounts[1] != 0 && unreadCounts[0] == 0) {
@@ -291,17 +295,23 @@ public class NotificationUtils {
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             name = mentions.getNewestName(currentAccount);
             String n = mentions.getNewestNames(currentAccount);
+            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
             for (String s : n.split("  ")) {
                 if (!s.equals("") &&
-                        !context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
-                                .getString("twitter_screen_name_" + currentAccount, "").equals(s) &&
+                        !sharedPrefs.getString("twitter_screen_name_" + currentAccount, "").equals(s) &&
                         !s.equals(name)) {
                     names += "@" + s + " ";
                 }
-
             }
             text = context.getResources().getString(R.string.mentioned_by) + " @" + name;
+
+            // if they are muted, and you don't want them to show muted mentions
+            // then just quit
+            if (sharedPrefs.getString("muted_users", "").contains(name) &&
+                    !sharedPrefs.getBoolean("show_muted_mentions", false)) {
+                return null;
+            }
         } else if (homeTweets == 0 && mentionsTweets == 0 && dmTweets == 1) { // they have 1 new direct message
             DMDataSource dm = DMDataSource.getInstance(context);
             name = dm.getNewestName(currentAccount);
@@ -683,6 +693,16 @@ public class NotificationUtils {
 
         if (numberNew == 1) {
             name = data.getNewestName(secondAccount);
+
+            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            // if they are muted, and you don't want them to show muted mentions
+            // then just quit
+            if (sharedPrefs.getString("muted_users", "").contains(name) &&
+                    !sharedPrefs.getBoolean("show_muted_mentions", false)) {
+                return;
+            }
+
             message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
             messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
             largeIcon = getImage(context, name);

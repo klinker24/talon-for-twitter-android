@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -888,6 +889,8 @@ public abstract class DrawerActivity extends Activity {
             return;
         }
 
+        cancelTeslaUnread();
+
         invalidateOptionsMenu();
     }
 
@@ -1110,5 +1113,30 @@ public abstract class DrawerActivity extends Activity {
 
     public void hideStatusBar() {
         DrawerActivity.statusBar.setVisibility(View.GONE);
+    }
+
+    public void cancelTeslaUnread() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ContentValues cv = new ContentValues();
+                    cv.put("tag", "com.klinker.android.twitter/com.klinker.android.twitter.ui.MainActivity");
+                    cv.put("count", 0); // back to zero
+
+                    context.getContentResolver().insert(Uri
+                                    .parse("content://com.teslacoilsw.notifier/unread_count"),
+                            cv);
+                } catch (IllegalArgumentException ex) {
+                    /* Fine, TeslaUnread is not installed. */
+                } catch (Exception ex) {
+                    /* Some other error, possibly because the format
+                       of the ContentValues are incorrect.
+
+                        Log but do not crash over this. */
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

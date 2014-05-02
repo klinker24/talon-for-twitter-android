@@ -70,7 +70,7 @@ public class SecondMentionsRefreshService extends IntentService {
 
             List<Status> statuses = twitter.getMentionsTimeline(paging);
 
-            numberNew = dataSource.insertTweets(statuses, currentAccount);
+            numberNew = MentionsDataSource.getInstance(context).insertTweets(statuses, currentAccount);
 
             if (numberNew > 0 && settings.notifications && settings.mentionsNot) {
                 NotificationUtils.notifySecondMentions(context, currentAccount);

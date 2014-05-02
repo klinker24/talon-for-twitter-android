@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -42,6 +41,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import twitter4j.ConnectionLifeCycleListener;
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
 import twitter4j.StallWarning;
@@ -83,6 +83,11 @@ public class TalonPullNotificationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (TalonPullNotificationService.isRunning) {
+            stopSelf();
+            return;
+        }
 
         TalonPullNotificationService.isRunning = true;
 
@@ -220,57 +225,83 @@ public class TalonPullNotificationService extends Service {
                     e.printStackTrace();
                     TalonPullNotificationService.isRunning = false;
 
-                    // schedule an alarm to try to restart again since this one failed, probably no data connection
-                    AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-
-                    long now = Calendar.getInstance().getTimeInMillis();
-                    long alarm = now + 60000; // schedule it to begin in 1 min
-
-                    PendingIntent pendingIntent = PendingIntent.getService(mContext, 236, new Intent(mContext, CatchupPull.class), 0);
-
-                    am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
-                    am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
-
                     pullUnread = 0;
 
-                    new Thread(new Runnable() {
+                    Thread stop = new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            TalonPullNotificationService.shuttingDown = true;
                             try {
                                 pushStream.removeListener(userStream);
                             } catch (Exception x) {
 
                             }
+                            try {
+                                pushStream.cleanUp();
+                                pushStream.shutdown();
+                                Log.v("twitter_stream_push", "stopping push notifications");
+                            } catch (Exception e) {
+                                // it isn't running
+                                e.printStackTrace();
+                                // try twice to shut it down i guess
+                                try {
+                                    Thread.sleep(2000);
+                                    pushStream.cleanUp();
+                                    pushStream.shutdown();
+                                    Log.v("twitter_stream_push", "stopping push notifications");
+                                } catch (Exception x) {
+                                    // it isn't running
+                                    x.printStackTrace();
+                                }
+                            }
+
+                            TalonPullNotificationService.shuttingDown = false;
                         }
-                    }).start();
+                    });
+
+                    stop.setPriority(Thread.MAX_PRIORITY);
+                    stop.start();
 
                     stopSelf();
                 } catch (OutOfMemoryError e) {
                     TalonPullNotificationService.isRunning = false;
 
-                    // schedule an alarm to try to restart again since this one failed, probably no data connection
-                    AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-
-                    long now = Calendar.getInstance().getTimeInMillis();
-                    long alarm = now + 60000; // schedule it to begin in 1 min
-
-                    PendingIntent pendingIntent = PendingIntent.getService(mContext, 236, new Intent(mContext, CatchupPull.class), 0);
-
-                    am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
-                    am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
-
-                    pullUnread = 0;
-
-                    new Thread(new Runnable() {
+                    Thread stop = new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            TalonPullNotificationService.shuttingDown = true;
                             try {
                                 pushStream.removeListener(userStream);
                             } catch (Exception x) {
 
                             }
+                            try {
+                                pushStream.cleanUp();
+                                pushStream.shutdown();
+                                Log.v("twitter_stream_push", "stopping push notifications");
+                            } catch (Exception e) {
+                                // it isn't running
+                                e.printStackTrace();
+                                // try twice to shut it down i guess
+                                try {
+                                    Thread.sleep(2000);
+                                    pushStream.cleanUp();
+                                    pushStream.shutdown();
+                                    Log.v("twitter_stream_push", "stopping push notifications");
+                                } catch (Exception x) {
+                                    // it isn't running
+                                    x.printStackTrace();
+                                }
+                            }
+
+                            TalonPullNotificationService.shuttingDown = false;
                         }
-                    }).start();
+                    });
+
+                    stop.setPriority(Thread.MAX_PRIORITY);
+                    stop.start();
+
+                    pullUnread = 0;
 
                     stopSelf();
                 }
@@ -742,6 +773,21 @@ public class TalonPullNotificationService extends Service {
         public void onException(Exception ex) {
             ex.printStackTrace();
             Log.v("twitter_stream_push", "onException:" + ex.getMessage());
+
+            // schedule an alarm to try to restart again since this one failed, probably no data connection
+            /*AlarmManager am = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+
+            long now = Calendar.getInstance().getTimeInMillis();
+            long alarm = now + 300000; // schedule it to begin in 5 mins
+
+            PendingIntent pendingIntent = PendingIntent.getService(mContext, 236, new Intent(mContext, CatchupPull.class), 0);
+
+            am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
+            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);*/
+
+            //pushStream.clearListeners();
+            pushStream.shutdown();
+            pushStream.cleanUp();
         }
     };
 

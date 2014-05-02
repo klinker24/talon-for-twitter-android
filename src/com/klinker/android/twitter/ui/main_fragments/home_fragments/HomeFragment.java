@@ -120,7 +120,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
                     sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                    long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
+                    final long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
 
                     new Thread(new Runnable() {
@@ -132,7 +132,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             } catch (Exception e) {
 
                             }
-                            HomeContentProvider.updateCurrent(currentAccount, context, cursorAdapter.getCount() - 1);
+                            HomeContentProvider.updateCurrent(currentAccount, context, id);
 
                             trueLive = true;
                             loadToTop = true;
@@ -514,8 +514,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-
-                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+                HomeContentProvider.updateCurrent(currentAccount, context, id);
             }
         } catch (Exception e) {
 
@@ -1437,7 +1436,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                     @Override
                     public void run() {
                         try {
-                            HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - current);
+                            HomeContentProvider.updateCurrent(currentAccount, context, id);
                         } catch (Throwable t) {
 
                         }
@@ -1445,14 +1444,14 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 }).start();
             } else {
                 if (cursor.moveToLast()) {
-                    long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+                    final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
 
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                HomeContentProvider.updateCurrent(currentAccount, context, cursor.getCount() - 1);
+                                HomeContentProvider.updateCurrent(currentAccount, context, id);
                             } catch (Throwable t) {
 
                             }
