@@ -24,12 +24,10 @@
 -- For Release --
 
     - todo on launcher fragment to insure the correct account
-    - make sure notifications dont go off for muted users
 
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
-        - tesla unread badges
 
     Version 2.4.0
         - auto-complete hashtags

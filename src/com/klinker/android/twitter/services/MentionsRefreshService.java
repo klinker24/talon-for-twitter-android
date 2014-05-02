@@ -40,15 +40,11 @@ public class MentionsRefreshService extends IntentService {
             return;
         }
 
-        boolean update = false;
-        int numberNew = 0;
-
         try {
             Twitter twitter = Utils.getTwitter(context, settings);
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-            User user = twitter.verifyCredentials();
             MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
 
             long[] lastId = dataSource.getLastIds(currentAccount);
@@ -60,7 +56,7 @@ public class MentionsRefreshService extends IntentService {
 
             List<twitter4j.Status> statuses = twitter.getMentionsTimeline(paging);
 
-            int inserted = dataSource.insertTweets(statuses, currentAccount);
+            int inserted = MentionsDataSource.getInstance(context).insertTweets(statuses, currentAccount);
 
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
