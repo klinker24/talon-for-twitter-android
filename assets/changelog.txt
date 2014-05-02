@@ -1,3 +1,7 @@
+<b>Version 2.3.4:</b><br/><br/>
+    &#8226; Random bug fixes for release<br/>
+<br/><br/>
+
 <b>Version 2.3.3:</b><br/><br/>
     &#8226; Clear the TeslaUnread badges correctly<br/>
     &#8226; Don't notify you of a mention from a muted user<br/>
