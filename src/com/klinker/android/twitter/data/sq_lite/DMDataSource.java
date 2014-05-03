@@ -163,7 +163,6 @@ public class DMDataSource {
                     allColumns, DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (" + DMSQLiteHelper.COLUMN_SCREEN_NAME + " = ? OR " + DMSQLiteHelper.COLUMN_RETWEETER + " = ?)", new String[] {name, name}, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " DESC", null);
         }
 
-
         return cursor;
     }
 

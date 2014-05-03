@@ -63,7 +63,8 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class LauncherFragment extends HomeFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class LauncherFragment extends com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public ImageView backgroundPic;
     public ImageView profilePic;

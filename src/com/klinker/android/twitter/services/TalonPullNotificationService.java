@@ -232,7 +232,7 @@ public class TalonPullNotificationService extends Service {
                         public void run() {
                             TalonPullNotificationService.shuttingDown = true;
                             try {
-                                pushStream.removeListener(userStream);
+                                //pushStream.removeListener(userStream);
                             } catch (Exception x) {
 
                             }
@@ -271,7 +271,7 @@ public class TalonPullNotificationService extends Service {
                         public void run() {
                             TalonPullNotificationService.shuttingDown = true;
                             try {
-                                pushStream.removeListener(userStream);
+                                //pushStream.removeListener(userStream);
                             } catch (Exception x) {
 
                             }
@@ -438,7 +438,7 @@ public class TalonPullNotificationService extends Service {
                 @Override
                 public void run() {
                     try {
-                        pushStream.removeListener(userStream);
+                        //pushStream.removeListener(userStream);
                     } catch (Exception x) {
 
                     }
