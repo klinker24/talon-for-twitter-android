@@ -570,6 +570,12 @@ TalonはTwitPicに画像をアップロードします。</string>
     <string name="viewer_page_summary">ツイートを表示したときに開くデフォルトページです。</string>
     <string name="browser_settings">ブラウザ設定</string>
     <string name="memory_manage">メモリ管理</string>
+    <string name="protected_account">非公開のアカウントです!</string>
+    <string name="mute_rt">リツイートをミュート</string>
+    <string name="unmute_rt">リツイートのミュートを解除</string>
+    <string name="muted_rts">ミュートしたリツイート</string>
+    <string name="twitter">Twitter</string>
+    <string name="user">ユーザー</string>
     <string name="open_to_web">ツイートのURLを直接開く</string>
     <string name="open_to_web_summary">ツイートにURLが含まれている場合に、ツイート自体ではなくそのURLを直接開くようにします。</string>
 </resources>

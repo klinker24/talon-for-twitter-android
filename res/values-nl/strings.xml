@@ -6,7 +6,7 @@
     <!-- Action Bar -->
     <string name="menu_refresh">Vernieuw Timeline</string>
     <string name="menu_compose">Nieuwe tweet</string>
-    <string name="menu_logout">Uitloggen</string>
+    <string name="menu_logout">Log uit</string>
     <string name="menu_settings">Instellingen </string>
     <string name="menu_follow">Volg gebruiker</string>
     <string name="menu_unfollow">Ontvolg gebruiker</string>

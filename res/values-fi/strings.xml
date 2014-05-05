@@ -530,6 +530,23 @@ Oletus (kun pois käytöstä):\n
     <string name="widget_trans_light">Läpinäkyvä vaalea</string>
     <string name="widget_trans_black">Läpinäkyvä musta</string>
     <string name="ui_settings">Käyttöliittymä</string>
+    <string name="talon_large_widget">Talon - Aikajana</string>
+    <string name="menu_view_drafts">Näytä luonnokset</string>
+    <string name="menu_schedule_tweet">Ajasta twiitti</string>
+    <string name="menu_save_draft">Tallenna luonnos</string>
+    <string name="saved_draft">Luonnos tallennettu</string>
+    <string name="delete_draft">Poista luonnos</string>
+    <string name="no_tweet">Ei twiittiä!</string>
+    <string name="menu_attach_picture">Liitä kuva</string>
+    <string name="twitpic_disclaimer">TwitPicin vastuuvapauslauseke</string>
+    <string name="dont_show_again">Älä näytä uudelleen</string>
+    <string name="error_attaching_image">Virhe liittäessä kuva!</string>
+    <string name="sending_tweet">Lähetetään twiittiä...</string>
+    <string name="attached_images">Liitetty</string>
+    <string name="loading_webpage">Ladataan verkkosivua...</string>
+    <string name="layout_full_screen">Koko näyttö</string>
+    <string name="web_page">Verkkosivu</string>
+    <string name="conversation_page">Keskustelusivu</string>
     <string name="open_to_web">Avaa twiitit verkkosivulle</string>
     <string name="open_to_web_summary">Jos twiitti sisältää URL-osoitteen, se avautuu suoraan kyseiseen URLiin twiitin sijaan.</string>
 </resources>
