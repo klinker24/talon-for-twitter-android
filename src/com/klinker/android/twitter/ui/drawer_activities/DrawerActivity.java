@@ -843,12 +843,16 @@ public abstract class DrawerActivity extends Activity {
         InteractionsDataSource inters = InteractionsDataSource.getInstance(context);
         inters.deleteAllInteractions(currentAccount);
 
-        long account1List1 = sharedPrefs.getLong("account_" + currentAccount + "_list_1", 0l);
-        long account1List2 = sharedPrefs.getLong("account_" + currentAccount + "_list_2", 0l);
+        try {
+            long account1List1 = sharedPrefs.getLong("account_" + currentAccount + "_list_1", 0l);
+            long account1List2 = sharedPrefs.getLong("account_" + currentAccount + "_list_2", 0l);
 
-        ListDataSource list = ListDataSource.getInstance(context);
-        list.deleteAllTweets(account1List1);
-        list.deleteAllTweets(account1List2);
+            ListDataSource list = ListDataSource.getInstance(context);
+            list.deleteAllTweets(account1List1);
+            list.deleteAllTweets(account1List2);
+        } catch (Exception x) {
+
+        }
 
         SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);

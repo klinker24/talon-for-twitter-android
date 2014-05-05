@@ -163,7 +163,11 @@ public class LoginActivity extends Activity {
         progressBar.setProgress(100);
 
         mWebView = (WebView)findViewById(R.id.loginWebView);
-        mWebView.getSettings().setJavaScriptEnabled(true);
+        try {
+            mWebView.getSettings().setJavaScriptEnabled(true);
+        } catch (Exception e) {
+            
+        }
         mWebView.getSettings().setAppCacheEnabled(false);
         mWebView.getSettings().setSavePassword(false);
         mWebView.getSettings().setSaveFormData(false);

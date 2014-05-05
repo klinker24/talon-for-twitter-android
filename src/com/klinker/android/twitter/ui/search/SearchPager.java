@@ -354,7 +354,7 @@ public class SearchPager extends Activity {
 
         overridePendingTransition(0,0);
         finish();
-        Intent restart = new Intent(context, TwitterSearchFragment.class);
+        Intent restart = new Intent(context, SearchPager.class);
         restart.putExtra(SearchManager.QUERY, searchQuery);
         restart.setAction(Intent.ACTION_SEARCH);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

@@ -1,3 +1,8 @@
+<b>Version 2.3.5:</b><br/><br/>
+    &#8226; Fixed the custom notification sounds<br/>
+    &#8226; Crash fixes<br/>
+<br/><br/>
+
 <b>Version 2.3.4:</b><br/><br/>
     &#8226; Random bug fixes for release<br/>
 <br/><br/>
