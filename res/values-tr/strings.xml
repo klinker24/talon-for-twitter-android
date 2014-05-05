@@ -387,6 +387,7 @@ Standart (devre dışı bırakıldığında):\n
     <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
     <string name="use_inapp_browser">Uygulamayı Tarayıcıda Kullanın</string>
+    <string name="use_browser_on_tweet">Tweet Tarayıcı Sayfası</string>
     <string name="dismiss_all">Tümünü Kapat</string>
     <string name="handle_and_name">Ekran handle ve isim</string>
     <string name="notification_types">Bildirim Türleri</string>
@@ -531,8 +532,11 @@ Standart (devre dışı bırakıldığında):\n
     <string name="widget_trans_black">Şeffaf Siyah Renk Tema</string>
     <string name="ui_settings">Kullanıcı Arayüzü Ayarları</string>
     <string name="show_pos_dashclock">Ana Sayfa Pozisyonunu Göster</string>
+    <string name="show_pos_dashclock_summary">Ana sayfa üzerinde yeni tweet sayısı yerine mevcut konumunu göster.</string>
     <string name="talon_large_widget">Talon - Ana Sayfa</string>
     <string name="unread_bar_widget">Talon - Okunmamış Çubuğu</string>
+    <string name="show_muted_mentions">Sessiz Bildirimleri Göster</string>
+    <string name="force_overflow_summary">Her zaman Eylem Çubuğun\'da 3-Nokta \"Taşma Menüsü\" göstermektedir. Telefonlar için Fiziksel menü butonu ile kullanılır.</string>
     <string name="menu_view_drafts">Taslakları Görüntüle</string>
     <string name="menu_schedule_tweet">Bir Tweet Programlayın</string>
     <string name="menu_save_draft">Taslağı Kaydet</string>
@@ -541,16 +545,31 @@ Standart (devre dışı bırakıldığında):\n
     <string name="no_tweet">Tweet Yok!</string>
     <string name="menu_attach_picture">Resim Ekle</string>
     <string name="twitpic_disclaimer">TwitPic Yasal Uyarı</string>
+    <string name="twitpic_disclaimer_summary">Twitter\'ın API\'leri doğrudan mesajlara bir görüntü ekleyemeyi desteklemez. Bu nedenle, Talon TwitPic ile resmi yüklemek ve alıcı ile bu resim linkini paylaşmak.\n\n
+Bu resim senin TwitPic profilinde görüntülemek için kullanılabilir olacaktır.</string>
     <string name="dont_show_again">Tekrar Gösterme</string>
     <string name="error_attaching_image">Resim ekleme hatası!</string>
     <string name="sending_tweet">Tweet Gönderiliyor...</string>
     <string name="attached_images">Ekli</string>
+    <string name="twitpic_disclaimer_multi_summary">Twitter\'ın API\'leri bir tweete daha fazla görüntü ekleme desteği yoktur.\n\n
+Talon yerine TwitPic kullanarak resim yükleme.</string>
     <string name="loading_webpage">Web Sayfası Yükleniyor...</string>
     <string name="plain_text_browser">Düz Metin Tarayıcı</string>
+    <string name="plain_text_summary">Web tarayıcı görüntüleri ve biçimlendirmeyi kaldırır ve sadece bir web sayfasındaki metinleri gösterir.</string>
+    <string name="plain_text_on_data">Mobil Veri üzerinden Düz Metin</string>
+    <string name="plain_text_on_data_summary">Sadece WiFi üzerinden değil, bir mobil veri bağlantısı üzerinde de düz metin tarayıcısını etkinleştirin.</string>
     <string name="layout_full_screen">Tam Ekran</string>
     <string name="pre_cache_images">Ön Bellekteki Görüntüler</string>
+    <string name="pre_cache_summary">Onlar canlı akış veya çizelgesinin bir arka plan yenilemesini alınan olarak derhal görüntüleri indirin.</string>
     <string name="pre_cache_settings">Ön Bellek Ayarları</string>
     <string name="pre_cache_only_wifi">Yalnızca WİFİ ile</string>
+    <string name="tweet_page">Tweet Sayfası</string>
+    <string name="web_page">Web Sayfası</string>
+    <string name="conversation_page">Konuşma Sayfası</string>
+    <string name="viewer_page">Tweet Görüntüleyici</string>
+    <string name="viewer_page_summary">Bir tweet\' i görüntülemek için varsayılan sayfa.</string>
+    <string name="browser_settings">Tarayıcı Ayarları</string>
+    <string name="memory_manage">Bellek Yönetimi</string>
     <string name="open_to_web">Twetleri web sayfasında göster</string>
     <string name="open_to_web_summary">Tweet bir web bağlantısı içeriyorsa, o bağlantı yerine tweet\'in kendisi doğrudan açılacaktır.</string>
 </resources>

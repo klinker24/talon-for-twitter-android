@@ -570,6 +570,12 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="viewer_page_summary">Standard visning ved tap på tweet</string>
     <string name="browser_settings">Browser indstillinger</string>
     <string name="memory_manage">Hukommelse indstillinger</string>
+    <string name="protected_account">Bruger har en beskyttet konto</string>
+    <string name="mute_rt">Mute Retweets</string>
+    <string name="unmute_rt">Un-mute Retweets</string>
+    <string name="muted_rts">Muted Retweeter\'s</string>
+    <string name="twitter">Twitter</string>
+    <string name="user">Brugere</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
     <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for at vise tweetet</string>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon para Twitter</string>
-    <string name="extension_description">Muestra la cantidad de tweets no leídos, menciones y mensajes directos mientras son actualizados.</string>
+    <string name="extension_description">Muestra la cantidad de tweets no leídos, menciones y mensajes directos en tiempo real.</string>
     <!-- Action Bar -->
     <string name="menu_refresh">Actualizar Timeline</string>
     <string name="menu_compose">Nuevo tweet</string>
@@ -20,10 +20,10 @@
     <string name="menu_change_banner">Cambiar foto de encabezado</string>
     <string name="menu_direct_message">Nuevo mensaje directo</string>
     <string name="menu_save_image">Guardar imagen</string>
-    <string name="menu_favorite">Marcar como favorito</string>
-    <string name="menu_unfavorite">Desmarcar como favorito</string>
+    <string name="menu_favorite">Marcar usuario como favorito</string>
+    <string name="menu_unfavorite">Desmarcar usuario favorito</string>
     <string name="menu_create_list">Crear nueva lista</string>
-    <string name="menu_spam">Marcar como spam</string>
+    <string name="menu_spam">Marcar como Spam</string>
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
     <string name="just_now">ahora</string>
@@ -35,7 +35,7 @@
     <string name="days_ago">hace %s días</string>
     <!-- Muting -->
     <string name="mute">Silenciar</string>
-    <string name="unmute">Mostrar en el timeline</string>
+    <string name="unmute">No silenciar</string>
     <string name="muted_users">Usuarios silenciados</string>
     <string name="no_users">No hay usuarios</string>
     <!-- Main Activity -->
@@ -52,7 +52,7 @@
     <string name="world_trends">Tendencias globales</string>
     <string name="search">Buscar</string>
     <string name="lists">Listas</string>
-    <string name="search_hint">\@usuario o búsqueda...</string>
+    <string name="search_hint">Búsqueda...</string>
     <string name="new_tweet">Nuevo tweet</string>
     <string name="new_tweets">nuevos tweets</string>
     <string name="no_new_tweets">No hay tweets nuevos</string>
@@ -62,7 +62,7 @@
     <string name="new_direct_message">nuevo mensaje directo</string>
     <string name="new_direct_messages">nuevos mensajes directos</string>
     <string name="no_new_direct_messages">No hay mensajes directos nuevos</string>
-    <string name="tap_to_setup">Tocar para configurar</string>
+    <string name="tap_to_setup">Toca para configurar</string>
     <string name="new_account">Nueva cuenta</string>
     <string name="from_top">desde arriba</string>
     <string name="jump_to_top">Ir al inicio</string>
@@ -95,7 +95,7 @@
     <string name="new_interactions">Nuevas interacciones</string>
     <string name="retweeted">retweeteó tu estado</string>
     <string name="favorited">marcó tu estado como favorito</string>
-    <string name="followed">le ha seguido</string>
+    <string name="followed">te ha seguido</string>
     <string name="new_retweets">retweets</string>
     <string name="new_favorites">favoritos</string>
     <string name="new_tweets_upper">Nuevos tweets</string>
@@ -122,8 +122,8 @@
     <string name="follow_me_description">¡Sigue a @TalonAndroid y @lukeklinker para obtener novedades y soporte!</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Nuevo tweet</string>
-    <string name="compose_tweet_hint">Escriba el tweet aquí...</string>
-    <string name="send_to">Ingrese el nombre de usuario</string>
+    <string name="compose_tweet_hint">Escribe el tweet aquí...</string>
+    <string name="send_to">Ingresa el nombre de usuario</string>
     <string name="direct_message_sent">Mensaje directo enviado</string>
     <string name="type_user">Buscar usuario</string>
     <string name="add_user">Añadir usuario</string>
@@ -147,7 +147,7 @@
     <string name="cancel">Cancelar</string>
     <string name="delete_direct_message">¿Borrar mensaje?</string>
     <string name="save_image">Imagen guardada</string>
-    <string name="tweet_success">Tweet publicado correctamente</string>
+    <string name="tweet_success">Tweet publicado</string>
     <string name="error_sending_tweet">Error al enviar el tweet</string>
     <string name="tweet_to_long">¡El tweet es muy largo!</string>
     <string name="ok">Sí</string>
@@ -210,7 +210,7 @@
     <string name="saved_picture">Imagen guardada correctamente</string>
     <string name="retweet_success">Retweeteado con éxito</string>
     <string name="favorite_success">Marcado como favorito</string>
-    <string name="success">Éxito</string>
+    <string name="success">¡Hecho!</string>
     <!-- User Lists -->
     <string name="view_users">Ver usuarios</string>
     <string name="delete_list">Borrar lista</string>
@@ -230,7 +230,7 @@
     <string name="added_to_list">Añadido a la lista</string>
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\n¡Accede a las características\nal tocar los ítems\nen el\npanel de\nnavegación!</string>
-    <string name="part_1_phone">\n¡Abra el panel\nde navegación\ndeslizando\nhacia la izquierda!</string>
+    <string name="part_1_phone">\n¡Abre el panel\nde navegación\ndeslizando\nhacia la izquierda!</string>
     <string name="part_2">\n¡Cambia entre\ntimelines\ndeslizando en\nel centro de\nla pantalla!</string>
     <string name="part_3">¡Eso es todo!\n\n¡Toca la\npantalla\npara iniciar!</string>
     <!-- Settings Menu -->
@@ -330,11 +330,11 @@
     <string name="current_cache_size">Tamaño actual de caché</string>
     <string name="cache_dialog_summary">Esta acción no puede deshacerse.</string>
     <string name="timeline_size">Tamaño del timeline</string>
-    <string name="timeline_size_summary">Número máximo de tweets guardados</string>
+    <string name="timeline_size_summary">Número máximo de tweets guardados.</string>
     <string name="mentions_size">Tamaño de las menciones</string>
-    <string name="mentions_size_summary">Número máximo de menciones guardadas</string>
+    <string name="mentions_size_summary">Número máximo de menciones guardadas.</string>
     <string name="dm_size">Tamaño de los mensajes directos</string>
-    <string name="dm_size_summary">Número máximo de mensajes directos guardados</string>
+    <string name="dm_size_summary">Número máximo de mensajes directos guardados.</string>
     <string name="auto_trim">Auto-ajustar las bases de datos</string>
     <string name="trim_now">Ajustar bases de datos ahora</string>
     <string name="trim_dialog">¿Ajustar bases de datos ahora?</string>
@@ -386,7 +386,7 @@
     <string name="manual">Manual</string>
     <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
-    <string name="use_inapp_browser">Usar navegador integrado</string>
+    <string name="use_inapp_browser">Navegador integrado en el timeline</string>
     <string name="use_browser_on_tweet">Página del navegador en el tweet</string>
     <string name="dismiss_all">Descartar todo</string>
     <string name="handle_and_name">Mostrar usuario y nombre real</string>
@@ -396,7 +396,7 @@
     <string name="new_followers">Nuevos seguidores</string>
     <string name="discussion">Discusión</string>
     <string name="no_replies">No hay respuestas</string>
-    <string name="rt_style_quotes">Preferir \"RT\" para citar</string>
+    <string name="rt_style_quotes">Preferir estilo \"RT\" para citar</string>
     <string name="rt_style_quotes_summary">Usar el estilo \"RT @usuario: ...\" para citar en lugar del método de Talon.\n\nDisponible desde la Barra de Acciones o el menú de cada tweet.</string>
     <string name="absolute_date">Usar fechas absolutas</string>
     <string name="clear_searches">Limpiar búsquedas</string>
@@ -427,7 +427,7 @@
     <string name="roboto_condensed">Roboto Condensed</string>
     <string name="font_type">Tipo de letra</string>
     <string name="our_website">Sitio web</string>
-    <string name="alert_types">Tipos de alertas</string>
+    <string name="alert_types">Métodos de alertas</string>
     <string name="timeline_notifications">Notificaciones del timeline</string>
     <string name="interactions_notifications">Notificaciones de interacciones</string>
     <string name="timelines_settings">Ajustes del timeline</string>
@@ -518,14 +518,14 @@
     <string name="display_options">Opciones de visualización</string>
     <string name="third_party_services">Servicios de terceros</string>
     <string name="open_keyboard">Abrir teclado automáticamente</string>
-    <string name="open_keyboard_summary">Abrir el teclado automáticamente para responder desde el visualizador de tweets</string>
+    <string name="open_keyboard_summary">Abrir el teclado automáticamente para responder desde el visualizador de tweets.</string>
     <string name="no_retweets">No hay retweets</string>
     <string name="profile">Perfil</string>
     <string name="favorites">Favoritos</string>
     <string name="load_pictures">Cargar imágenes</string>
     <string name="pic_search_disclaimer">Busca imágenes en la cronología del usuario. Puede tardar algún tiempo dependiendo de cuán recientes sean sus imágenes.</string>
     <string name="widget_theme">Tema del widget</string>
-    <string name="widget_theme_summary">Aplicar a los widgets de la pantalla principal</string>
+    <string name="widget_theme_summary">Aplicado a los widgets de la pantalla principal.</string>
     <string name="widget_light">Tema claro</string>
     <string name="widget_dark">Tema oscuro</string>
     <string name="widget_trans_light">Tema claro transparente</string>
@@ -563,6 +563,19 @@
     <string name="pre_cache_summary">Descargar imágenes inmediatamente mientras se carga en vivo o cuando se carga en el fondo.</string>
     <string name="pre_cache_settings">Opciones Pre-Cache</string>
     <string name="pre_cache_only_wifi">Solo sobre WiFi</string>
+    <string name="tweet_page">Página de tweet</string>
+    <string name="web_page">Página web</string>
+    <string name="conversation_page">Página de conversación</string>
+    <string name="viewer_page">Visor de tweet</string>
+    <string name="viewer_page_summary">Página por defecto que abrir al ver un tweet.</string>
+    <string name="browser_settings">Ajustes de navegador</string>
+    <string name="memory_manage">Administración de memoria</string>
+    <string name="protected_account">¡Usuario con cuenta protegida!</string>
+    <string name="mute_rt">Silenciar Retweets</string>
+    <string name="unmute_rt">No silenciar Retweets</string>
+    <string name="muted_rts">Retweeteadores silenciados</string>
+    <string name="twitter">Twitter</string>
+    <string name="user">Usuarios</string>
     <string name="open_to_web">Abrir enlaces web en el tweet</string>
     <string name="open_to_web_summary">Si el tweet contiene un enlace web, este se abrirá directamente en lugar de abrir el tweet.</string>
 </resources>

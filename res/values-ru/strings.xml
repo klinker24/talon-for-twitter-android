@@ -504,7 +504,7 @@
     <string name="manually_config_location">Ввести локацию вручную</string>
     <string name="country_region">Страна/регион</string>
     <string name="city">Город</string>
-    <string name="menu_apply_picture_filter">Применить фильтр изображений</string>
+    <string name="menu_apply_picture_filter">Фильтровать картинки</string>
     <string name="menu_remove_rt">Скрыть ретвиты</string>
     <string name="input_expression">Фильтруемая фраза...</string>
     <string name="mute_expression">Скрыть фразы</string>
@@ -570,6 +570,12 @@
     <string name="viewer_page_summary">Какую страницу открывать по умолчанию.</string>
     <string name="browser_settings">Браузер</string>
     <string name="memory_manage">Управление памятью</string>
+    <string name="protected_account">Это приватный аккаунт!</string>
+    <string name="mute_rt">Не уведомлять о ретвитах</string>
+    <string name="unmute_rt">Уведомлять о ретвитах</string>
+    <string name="muted_rts">Скрытые ретвиты</string>
+    <string name="twitter">Твиттер</string>
+    <string name="user">Пользователи</string>
     <string name="open_to_web">Открывать ссылки в твитах</string>
     <string name="open_to_web_summary">Если твит содержит ссылку, будет открываться страница с ней, а не сам твит.</string>
 </resources>

@@ -93,8 +93,8 @@
     <string name="new_interaction_upper">Neue Interaktion</string>
     <string name="new_interactions_lower">neue Interaktionen</string>
     <string name="new_interactions">Neue Interaktionen</string>
-    <string name="retweeted">hat deinen Tweet retweetet</string>
-    <string name="favorited">hat deinen Tweet favorisiert</string>
+    <string name="retweeted">retweetete deinen Tweet</string>
+    <string name="favorited">favorisierte deinen Tweet</string>
     <string name="followed">folgt dir</string>
     <string name="new_retweets">Retweets</string>
     <string name="new_favorites">Favoriten</string>
@@ -398,7 +398,7 @@
     <string name="no_replies">Keine Antworten</string>
     <string name="rt_style_quotes">Mit \"RT\" zitieren</string>
     <string name="rt_style_quotes_summary">\"RT @benutzername: ...\" anstelle von Talons Methode zum Zitieren verwenden.\n\nEs kann über die Aktionsleiste, das Menü oder jeden Tweets zitiert werden.</string>
-    <string name="absolute_date">Genaue Zeitangaben</string>
+    <string name="absolute_date">Genaue Zeitangaben verwenden</string>
     <string name="clear_searches">Lösche Suchverlauf</string>
     <string name="compose_with_search">Tweet mit Suche erstellen</string>
     <string name="use_toast">\"Zum Anfang\"-Leiste verwenden</string>
