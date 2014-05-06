@@ -23,8 +23,6 @@
 
 -- For Release --
 
-    - todo on launcher fragment to insure the correct account
-
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
