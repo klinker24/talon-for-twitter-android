@@ -1,3 +1,8 @@
+<b>Version 2.3.6:</b><br/><br/>
+    &#8226; Hopefully fixed a bug with refresh on startup sometimes causing duplicates<br/>
+    &#8226; Reported bug and crash fixes<br/>
+<br/><br/>
+
 <b>Version 2.3.5:</b><br/><br/>
     &#8226; Fixed the custom notification sounds<br/>
     &#8226; Crash fixes<br/>
