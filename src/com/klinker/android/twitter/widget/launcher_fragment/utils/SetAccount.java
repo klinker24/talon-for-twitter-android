@@ -2,10 +2,12 @@ package com.klinker.android.twitter.widget.launcher_fragment.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.MainActivity;
 
 public class SetAccount extends Activity {
 
@@ -32,5 +34,9 @@ public class SetAccount extends Activity {
         overridePendingTransition(0,0);
         finish();
         overridePendingTransition(0,0);
+
+        if (getIntent().getBooleanExtra("start_main", false)) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 }
