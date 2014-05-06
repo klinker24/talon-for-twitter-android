@@ -4,10 +4,13 @@ import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.net.Uri;
+import android.os.Binder;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.util.Log;
@@ -47,6 +50,10 @@ public class HomeContentProvider extends ContentProvider {
     public synchronized Uri insert(Uri uri, ContentValues values) {
         Log.d(TAG, "insert uri: " + uri.toString());
 
+        if (!checkUID(context)) {
+            return null;
+        }
+
         SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
         long rowID;
         try {
@@ -65,10 +72,45 @@ public class HomeContentProvider extends ContentProvider {
 
     @Override
     public synchronized int bulkInsert(Uri uri, ContentValues[] allValues) {
-        HomeDataSource dataSource = HomeDataSource.getInstance(context);
-        int inserted = dataSource.insertMultiple(allValues);
-        context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
-        return inserted;
+
+        if (checkUID(context)) {
+            HomeDataSource dataSource = HomeDataSource.getInstance(context);
+            int inserted = dataSource.insertMultiple(allValues);
+            context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
+            return inserted;
+        } else {
+            return 0;
+        }
+
+    }
+
+    private boolean checkUID(Context context) {
+        int callingUid = Binder.getCallingUid();
+
+        final PackageManager pm = context.getPackageManager();
+        List<ApplicationInfo> packages = pm.getInstalledApplications(
+                PackageManager.GET_META_DATA);
+
+        int launcherUid = 0;
+        int twitterUid = 0;
+
+        for (ApplicationInfo packageInfo : packages) {
+
+            if(packageInfo.packageName.equals("com.klinker.android.twitter")){
+                //get the UID for the selected app
+                twitterUid = packageInfo.uid;
+            }
+            if(packageInfo.packageName.equals("com.klinker.android.launcher")){
+                //get the UID for the selected app
+                launcherUid = packageInfo.uid;
+            }
+        }
+
+        if (callingUid == launcherUid || callingUid == twitterUid) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private int insertMultiple(ContentValues[] allValues) {
@@ -122,6 +164,10 @@ public class HomeContentProvider extends ContentProvider {
     @Override
     public synchronized int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
+
+        if (!checkUID(context)) {
+            return 0;
+        }
 
         boolean positionSent = Boolean.parseBoolean(selectionArgs[2]);
 
@@ -182,6 +228,10 @@ public class HomeContentProvider extends ContentProvider {
 
     @Override
     public synchronized int delete(Uri uri, String id, String[] selectionArgs) {
+
+        if (!checkUID(context)) {
+            return 0;
+        }
         Log.d(TAG, "delete uri: " + uri.toString());
         SQLiteDatabase db = HomeDataSource.getInstance(getContext()).getDatabase();
         int count;
@@ -201,6 +251,11 @@ public class HomeContentProvider extends ContentProvider {
     @Override
     public synchronized Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
+
+        if (!checkUID(context)) {
+            return null;
+        }
+        
         Log.d(TAG, "query with uri: " + uri.toString());
 
         //SQLiteDatabase db = helper.getWritableDatabase();

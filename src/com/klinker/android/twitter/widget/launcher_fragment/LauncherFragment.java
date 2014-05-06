@@ -231,14 +231,14 @@ public class LauncherFragment extends BaseLauncherPage
 
     }
 
-    @Override
+    /*@Override
     public void onStop() {
         if (scrolled) {
             scrolled = false;
             markReadForLoad();
         }
         super.onStop();
-    }
+    }*/
 
     public CursorAdapter returnAdapter(Cursor c) {
         return new LauncherTimelineCursorAdapter(talonContext, context, c, false, true);
@@ -832,7 +832,7 @@ public class LauncherFragment extends BaseLauncherPage
                     return;
                 }
 
-                markReadForLoad();
+                //markReadForLoad();
 
                 final Intent popup = new Intent("android.intent.action.MAIN");
                 popup.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.RedirectToLauncherPopup"));
@@ -2026,9 +2026,6 @@ public class LauncherFragment extends BaseLauncherPage
 
     @Override
     public void onPause() {
-        if (!isLauncher()) {
-            markReadForLoad();
-        }
 
         context.unregisterReceiver(pullReceiver);
         context.unregisterReceiver(markRead);
