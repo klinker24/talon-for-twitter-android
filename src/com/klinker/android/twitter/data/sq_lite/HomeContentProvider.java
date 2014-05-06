@@ -255,7 +255,7 @@ public class HomeContentProvider extends ContentProvider {
         if (!checkUID(context)) {
             return null;
         }
-        
+
         Log.d(TAG, "query with uri: " + uri.toString());
 
         //SQLiteDatabase db = helper.getWritableDatabase();
