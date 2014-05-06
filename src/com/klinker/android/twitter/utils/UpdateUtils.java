@@ -17,9 +17,7 @@ import com.klinker.android.twitter.ui.MainActivity;
 
 import java.io.File;
 
-/**
- * Created by luke on 4/22/14.
- */
+
 public class UpdateUtils {
 
     public static void updateToGlobalPrefs(final Context context) {
