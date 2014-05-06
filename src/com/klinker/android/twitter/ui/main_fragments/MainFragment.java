@@ -2,6 +2,7 @@ package com.klinker.android.twitter.ui.main_fragments;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +41,7 @@ import org.lucasr.smoothie.ItemManager;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public abstract class MainFragment extends com.klinker.android.launcher.api.BaseLauncherPage {
+public abstract class MainFragment extends Fragment {
 
     protected Twitter twitter;
 
@@ -86,16 +87,6 @@ public abstract class MainFragment extends com.klinker.android.launcher.api.Base
             toTop();
         }
     };
-
-    @Override
-    public View[] getBackground() {
-        return null;
-    }
-
-    @Override
-    public BaseLauncherPage getFragment(int pos) {
-        return null;
-    }
 
 
     public AppSettings settings;
