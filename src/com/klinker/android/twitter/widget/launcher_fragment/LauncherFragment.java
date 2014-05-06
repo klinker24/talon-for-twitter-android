@@ -231,14 +231,14 @@ public class LauncherFragment extends BaseLauncherPage
 
     }
 
-    /*@Override
+    @Override
     public void onStop() {
         if (scrolled) {
             scrolled = false;
             markReadForLoad();
         }
         super.onStop();
-    }*/
+    }
 
     public CursorAdapter returnAdapter(Cursor c) {
         return new LauncherTimelineCursorAdapter(talonContext, context, c, false, true);
