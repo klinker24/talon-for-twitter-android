@@ -654,7 +654,12 @@ public class LauncherFragment extends BaseLauncherPage
             @Override
             public void onClick(View view) {
                 markReadForLoad();
-                talonContext.startActivity(new Intent(talonContext, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        talonContext.startActivity(new Intent(talonContext, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    }
+                }, 200);
             }
         });
 
@@ -890,9 +895,8 @@ public class LauncherFragment extends BaseLauncherPage
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-
                                     final Intent pull = new Intent("android.intent.action.MAIN");
-                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.StartPull"));
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.StartPull"));
                                     pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     pull.putExtra("current_account", 2);
 
@@ -956,7 +960,7 @@ public class LauncherFragment extends BaseLauncherPage
                                 public void run() {
 
                                     final Intent pull = new Intent("android.intent.action.MAIN");
-                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.StartPull"));
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.StartPull"));
                                     pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     pull.putExtra("current_account", 1);
 
@@ -1022,8 +1026,12 @@ public class LauncherFragment extends BaseLauncherPage
     public int doRefresh() {
         int numberNew = 0;
 
-        // TODO: start a service to make sure talon is opened to the correct place here.
-        // commit the account to shared prefs, invalidate settings, and force update on start
+        final Intent setAccount = new Intent("android.intent.action.MAIN");
+        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.SetAccount"));
+        setAccount.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        setAccount.putExtra("current_account", currentAccount);
+
+        talonContext.startActivity(setAccount);
 
         if (TimelineRefreshService.isRunning || WidgetRefreshService.isRunning || CatchupPull.isRunning) {
             // quit if it is running in the background
@@ -1117,6 +1125,10 @@ public class LauncherFragment extends BaseLauncherPage
                 }
             } catch (NullPointerException e) {
                 return 0;
+            }
+
+            if (numberNew > statuses.size()) {
+                numberNew = statuses.size();
             }
 
             if (numberNew > 0 && statuses.size() > 0) {

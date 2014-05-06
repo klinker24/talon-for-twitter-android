@@ -618,6 +618,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 return 0;
             }
 
+            if (numberNew > statuses.size()) {
+                numberNew = statuses.size();
+            }
+
             if (numberNew > 0 && statuses.size() > 0) {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
             }

@@ -289,7 +289,16 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".utils.redirects.StartPull"
+        <activity android:name=".widget.launcher_fragment.utils.StartPull"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TalonDark.Popup"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+
+        <activity android:name=".widget.launcher_fragment.utils.SetAccount"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
