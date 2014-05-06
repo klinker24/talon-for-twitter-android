@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.utils.redirects;
+package com.klinker.android.twitter.widget.launcher_fragment.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import com.klinker.android.twitter.services.TalonPullNotificationService;
 import com.klinker.android.twitter.settings.AppSettings;
-
 
 public class StartPull extends Activity {
 
