@@ -1038,7 +1038,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             Log.v("talon_home_frag", "getting cursor adapter in on start");
             resetTimeline(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-        } else { // otherwise, if there are no new ones, it should start the refresh (this is what was causing the jumping before)
+        } else if (!sharedPrefs.getBoolean("dont_refresh", false)) { // otherwise, if there are no new ones, it should start the refresh
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1062,6 +1062,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 }
             }, 600);
         }
+
+        sharedPrefs.edit().putBoolean("dont_refresh", false).commit();
 
         if (settings.liveStreaming && settings.tweetmarker) {
             new Handler().postDelayed(new Runnable() {

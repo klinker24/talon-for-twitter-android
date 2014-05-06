@@ -375,6 +375,7 @@ public class MainActivity extends DrawerActivity {
                 (theme != settings.theme && !settings.addonTheme)) {
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false).commit();
+            sharedPrefs.edit().putBoolean("dont_refresh", true).commit();
 
             AppSettings.invalidate();
 
