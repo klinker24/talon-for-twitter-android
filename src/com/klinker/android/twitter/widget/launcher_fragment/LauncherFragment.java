@@ -1121,9 +1121,11 @@ public class LauncherFragment extends BaseLauncherPage
                     launcherRefreshing = false;
                     numberNew = insertTweets(statuses, new long[]{0, 0, 0, 0, 0});
                 } else {
+                    talonContext.startService(new Intent(talonContext, MentionsRefreshService.class));
                     return 0;
                 }
             } catch (NullPointerException e) {
+                talonContext.startService(new Intent(talonContext, MentionsRefreshService.class));
                 return 0;
             }
 
