@@ -983,7 +983,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
-        context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
+        //context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         super.onStop();
     }

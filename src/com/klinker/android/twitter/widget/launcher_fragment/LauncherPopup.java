@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.ui.MainActivityPopup;
 
-
 public class LauncherPopup extends MainActivityPopup {
 
     @Override
@@ -31,7 +30,11 @@ public class LauncherPopup extends MainActivityPopup {
         drawer.setVisibility(View.GONE);
     }
 
+    @Override
     public Intent getRestartIntent() {
-        return new Intent(context, LauncherPopup.class);
+        Intent restart = new Intent(context, LauncherPopup.class);
+        restart.putExtra("launcher_page", getIntent().getIntExtra("launcher_page", 0));
+        restart.putExtra("from_launcher", true);
+        return restart;
     }
 }

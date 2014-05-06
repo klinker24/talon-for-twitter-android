@@ -12,6 +12,7 @@ public class MainActivityPopup extends MainActivity {
     public void setDim() {
         // don't dim here
     }
+
     @Override
     public void setUpWindow() {
         try {
@@ -39,6 +40,7 @@ public class MainActivityPopup extends MainActivity {
         MainActivity.isPopup = true;
     }
 
+    @Override
     public Intent getRestartIntent() {
         return new Intent(context, MainActivityPopup.class);
     }

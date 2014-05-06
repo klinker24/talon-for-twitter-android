@@ -654,10 +654,17 @@ public class LauncherFragment extends BaseLauncherPage
             @Override
             public void onClick(View view) {
                 markReadForLoad();
+                showMoreDrawer.performClick();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        talonContext.startActivity(new Intent(talonContext, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        final Intent setAccount = new Intent("android.intent.action.MAIN");
+                        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.SetAccount"));
+                        setAccount.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        setAccount.putExtra("current_account", currentAccount);
+                        setAccount.putExtra("start_main", true);
+
+                        talonContext.startActivity(setAccount);
                     }
                 }, 200);
             }
@@ -838,6 +845,9 @@ public class LauncherFragment extends BaseLauncherPage
                 }
 
                 //markReadForLoad();
+
+                // set this to false so that it doesn't accidentally pick up the wrong account on the timeline
+                scrolled = false;
 
                 final Intent popup = new Intent("android.intent.action.MAIN");
                 popup.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.utils.redirects.RedirectToLauncherPopup"));
