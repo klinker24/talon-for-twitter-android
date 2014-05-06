@@ -382,7 +382,7 @@ public class MainActivity extends DrawerActivity {
 
             finish();
             overridePendingTransition(0, 0);
-            startActivity(new Intent(context, MainActivity.class));
+            startActivity(getRestartIntent());
             overridePendingTransition(0, 0);
 
             MainActivity.caughtstarting = true;
@@ -438,6 +438,10 @@ public class MainActivity extends DrawerActivity {
 
         // clear the pull unread
         sharedPrefs.edit().putInt("pull_unread", 0).commit();
+    }
+
+    public Intent getRestartIntent() {
+        return new Intent(context, MainActivity.class);
     }
 
     @Override

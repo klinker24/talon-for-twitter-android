@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.ui;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.Window;
@@ -36,6 +37,10 @@ public class MainActivityPopup extends MainActivity {
         }
 
         MainActivity.isPopup = true;
+    }
+
+    public Intent getRestartIntent() {
+        return new Intent(context, MainActivityPopup.class);
     }
 
     @Override

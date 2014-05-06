@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.widget.launcher_fragment;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,7 +26,12 @@ public class LauncherPopup extends MainActivityPopup {
     @Override
     public void setLauncherPage() {
         mViewPager.setCurrentItem(getIntent().getIntExtra("launcher_page", 0));
+
         LinearLayout drawer = (LinearLayout) findViewById(R.id.left_drawer);
         drawer.setVisibility(View.GONE);
+    }
+
+    public Intent getRestartIntent() {
+        return new Intent(context, LauncherPopup.class);
     }
 }
