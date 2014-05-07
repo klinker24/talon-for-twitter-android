@@ -202,7 +202,11 @@ public class TweetMarkerHelper extends APIHelper {
         if (contentProvider) {
             HomeContentProvider.updateCurrent(currentAccount, context, currentId);
         } else {
-            HomeDataSource.getInstance(context).markPosition(currentAccount, currentId);
+            try {
+                HomeDataSource.getInstance(context).markPosition(currentAccount, currentId);
+            } catch (Exception e) {
+
+            }
         }
 
 
