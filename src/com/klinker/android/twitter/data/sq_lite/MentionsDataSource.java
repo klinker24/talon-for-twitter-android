@@ -268,6 +268,9 @@ public class MentionsDataSource {
         String users = sharedPrefs.getString("muted_users", "");
         String hashtags = sharedPrefs.getString("muted_hashtags", "");
         String expressions = sharedPrefs.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (!users.equals("") && !mutedMentions) {
@@ -327,6 +330,9 @@ public class MentionsDataSource {
         String users = sharedPrefs.getString("muted_users", "");
         String hashtags = sharedPrefs.getString("muted_hashtags", "");
         String expressions = sharedPrefs.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + MentionsSQLiteHelper.COLUMN_UNREAD + " = ?";
 
         if (!users.equals("") && !mutedMentions) {

@@ -342,6 +342,8 @@ public class HomeDataSource {
         String expressions = sharedPreferences.getString("muted_regex", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
+        expressions = expressions.replaceAll("'", "''");
+
         if (!users.equals("")) {
             String[] split = users.split(" ");
             for (String s : split) {
@@ -446,6 +448,9 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         if (!users.equals("")) {
@@ -501,6 +506,9 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?";
 
         if (!users.equals("")) {
@@ -566,6 +574,9 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'";
 
         if (!users.equals("")) {
@@ -654,6 +665,9 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'";
 
         if (!users.equals("")) {

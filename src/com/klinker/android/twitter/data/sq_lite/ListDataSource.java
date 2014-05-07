@@ -257,6 +257,9 @@ public class ListDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
         String where = ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId;
 
         if (!users.equals("")) {
