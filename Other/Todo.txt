@@ -4,10 +4,8 @@
     - QSlide for LG
     - gallery of picture on searching
     - tweetmarker in lists
-    - switch accounts from the widget
     - rotation on tweet viewer
     - identify conversations from timeline
-    - accept followers on protected account (not possible with current apis)
     - view multiple picture on a tweet
 
 - Bugs:
