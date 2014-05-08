@@ -55,9 +55,7 @@ import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.services.SendTweet;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
-import com.klinker.android.twitter.ui.compose.RetryCompose;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
@@ -66,15 +64,11 @@ import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
-import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
-import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
 import com.klinker.android.twitter.utils.text.TextUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -651,6 +645,7 @@ public class TweetFragment extends Fragment {
 
         reply.setSelection(reply.getText().length());
         replyButton.setEnabled(false);
+        replyButton.setAlpha(.5f);
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -791,6 +786,7 @@ public class TweetFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if (!replyButton.isEnabled()) {
                     replyButton.setEnabled(true);
+                    replyButton.setAlpha(1.0f);
                 }
                 countHandler.removeCallbacks(getCount);
                 countHandler.postDelayed(getCount, 200);
