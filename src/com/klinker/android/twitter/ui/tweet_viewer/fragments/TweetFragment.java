@@ -650,7 +650,7 @@ public class TweetFragment extends Fragment {
         }
 
         reply.setSelection(reply.getText().length());
-
+        replyButton.setEnabled(false);
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -789,6 +789,9 @@ public class TweetFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                if (!replyButton.isEnabled()) {
+                    replyButton.setEnabled(true);
+                }
                 countHandler.removeCallbacks(getCount);
                 countHandler.postDelayed(getCount, 200);
             }
