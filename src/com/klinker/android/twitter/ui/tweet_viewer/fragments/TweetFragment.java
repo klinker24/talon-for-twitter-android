@@ -645,7 +645,7 @@ public class TweetFragment extends Fragment {
 
         reply.setSelection(reply.getText().length());
         replyButton.setEnabled(false);
-        replyButton.setAlpha(.5f);
+        replyButton.setAlpha(.4f);
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

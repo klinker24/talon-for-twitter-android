@@ -26,6 +26,7 @@
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
+        - Translate tweet just by sending it to the website
 
     Version 2.4.0
         - auto-complete hashtags

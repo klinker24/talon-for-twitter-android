@@ -1,3 +1,7 @@
+<b>Version 2.3.7:</b><br/><br/>
+    &#8226; Disable the send button on tweet viewer until you have typed something<br/>
+<br/><br/>
+
 <b>Version 2.3.6:</b><br/><br/>
     &#8226; Hopefully fixed a bug with refresh on startup sometimes causing duplicates<br/>
     &#8226; Fixed problem with muted expressions containing apostrophes<br/>
