@@ -7,6 +7,7 @@
     - rotation on tweet viewer
     - identify conversations from timeline
     - view multiple picture on a tweet
+    - directly share photos instead of saving then sharing
 
 - Bugs:
     - check out the loading of the profile picture and background. They don't seem to work right
