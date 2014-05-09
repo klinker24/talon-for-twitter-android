@@ -1167,6 +1167,11 @@ public class LauncherFragment extends BaseLauncherPage
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Log.v("talon_loader", "creating the loader on account: " + currentAccount);
+
+        if (cursorAdapter != null) {
+            // we have to save the position since the content observer will automatically load the new tweets
+            markReadForLoad();
+        }
         try {
             talonContext = context.createPackageContext("com.klinker.android.twitter", Context.CONTEXT_IGNORE_SECURITY);
             sharedPrefs = talonContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -1330,13 +1335,6 @@ public class LauncherFragment extends BaseLauncherPage
     protected View.OnClickListener toTopListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            toTop();
-        }
-    };
-
-    public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
             toTop();
         }
     };
@@ -1560,32 +1558,10 @@ public class LauncherFragment extends BaseLauncherPage
         }
     }
 
-    public static final int HOME_REFRESH_ID = 121;
-
     public int unread;
 
     public boolean initial = true;
     public boolean newTweets = false;
-
-    private View.OnClickListener toMentionsListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int page1Type = sharedPrefs.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
-            int page2Type = sharedPrefs.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
-
-            int extraPages = 0;
-            if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-                extraPages++;
-            }
-
-            if (page2Type != AppSettings.PAGE_TYPE_NONE) {
-                extraPages++;
-            }
-
-            MainActivity.mViewPager.setCurrentItem(1 + extraPages, true);
-            hideToastBar(400);
-        }
-    };
 
     protected View.OnClickListener liveStreamRefresh = new View.OnClickListener() {
         @Override
@@ -1610,63 +1586,6 @@ public class LauncherFragment extends BaseLauncherPage
 
     public int liveUnread = 0;
     public boolean loadToTop = false;
-
-    public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-
-            liveUnread++;
-            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-            if (liveUnread != 0) {
-                try {
-                    showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                            getResources().getString(R.string.view),
-                            400,
-                            true,
-                            liveStreamRefresh,
-                            true);
-                } catch (Exception e) {
-                    // fragment not attached to activity
-                }
-            }
-
-            newTweets = true;
-        }
-    };
-
-    public BroadcastReceiver markRead = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-            markReadForLoad();
-            if (settings.tweetmarker) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                                sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                                Utils.getTwitter(context, new AppSettings(context)),
-                                sharedPrefs);
-
-                        long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
-                        helper.sendCurrentId("timeline", currentId);
-
-                    }
-                }).start();
-            }
-        }
-    };
-
-    public BroadcastReceiver homeClosed = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-            Log.v("talon_home_frag", "home closed broadcast received on home fragment");
-            if (!dontGetCursor) {
-                resetTimeline(true);
-            }
-            dontGetCursor = false;
-        }
-    };
 
     public void getCursorAdapter(boolean showSpinner) {
 
@@ -2016,44 +1935,6 @@ public class LauncherFragment extends BaseLauncherPage
         }
     };
 
-    @Override
-    public void onPause() {
-
-        context.unregisterReceiver(pullReceiver);
-        context.unregisterReceiver(markRead);
-        context.unregisterReceiver(homeClosed);
-
-        super.onPause();
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.NEW_TWEET");
-        context.registerReceiver(pullReceiver, filter);
-
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.RESET_HOME");
-        context.registerReceiver(homeClosed, filter);
-
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.MARK_POSITION");
-        context.registerReceiver(markRead, filter);
-
-        if (isLauncher()) {
-            return;
-        }
-
-        if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
-            //getLoaderManager().restartLoader(0, null, HomeFragment.this);
-            Log.v("talon_home_frag", "getting cursor adapter in on resume");
-            resetTimeline(true);
-            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-        }
-    }
 
     public boolean refreshTweetmarker = false;
 
