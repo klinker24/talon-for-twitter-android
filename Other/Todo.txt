@@ -22,6 +22,8 @@
 
 -- For Release --
 
+    - refresh bar without ui extras on
+
     Version 2.3.0
         - Scheduled Tweets
         - queue tweets to send when connected to a data connection if they weren't before
