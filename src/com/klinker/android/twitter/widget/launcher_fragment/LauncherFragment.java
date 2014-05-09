@@ -1614,55 +1614,23 @@ public class LauncherFragment extends BaseLauncherPage
     public BroadcastReceiver pullReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
-            if (!isLauncher()) {
-                if (listView.getFirstVisiblePosition() == 0) {
-                    // we want to automatically show the new one if the user is at the top of the list
-                    // so we set the current position to the id of the top tweet
 
-                    context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
-
-                    sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                    final long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // sleep so that everyting loads correctly
-                            try {
-                                Thread.sleep(2000);
-                            } catch (Exception e) {
-
-                            }
-                            HomeDataSource.getInstance(context).markPosition(currentAccount, id);
-                            //HomeContentProvider.updateCurrent(currentAccount, context, id);
-
-                            trueLive = true;
-                            loadToTop = true;
-
-                            resetTimeline(false);
-                        }
-                    }).start();
-
-                } else {
-                    liveUnread++;
-                    sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                    if (liveUnread != 0) {
-                        try {
-                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                    getResources().getString(R.string.view),
-                                    400,
-                                    true,
-                                    liveStreamRefresh,
-                                    true);
-                        } catch (Exception e) {
-                            // fragment not attached to activity
-                        }
-                    }
-
-                    newTweets = true;
+            liveUnread++;
+            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+            if (liveUnread != 0) {
+                try {
+                    showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
+                            getResources().getString(R.string.view),
+                            400,
+                            true,
+                            liveStreamRefresh,
+                            true);
+                } catch (Exception e) {
+                    // fragment not attached to activity
                 }
             }
+
+            newTweets = true;
         }
     };
 
