@@ -829,6 +829,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == extraPages) {
+                    // they clicked the home button
                     return;
                 }
 
