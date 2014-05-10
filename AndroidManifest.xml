@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.klinker.android.twitter"
 
-          android:versionCode="116"
-          android:versionName="2.3.6" >
+          android:versionCode="117"
+          android:versionName="2.3.7" >
 
     <uses-sdk
             android:minSdkVersion="14"
@@ -32,6 +32,9 @@
 
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <meta-data android:name="launcher_fragment"
+            android:value=".ui.launcher_page.LauncherFragment" />
 
         <provider
             android:name=".data.sq_lite.HomeContentProvider"
@@ -274,7 +277,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".widget.launcher_fragment.LauncherPopup"
+        <activity android:name=".ui.launcher_page.LauncherPopup"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
@@ -289,7 +292,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".widget.launcher_fragment.utils.StartPull"
+        <activity android:name=".ui.launcher_page.utils.StartPull"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
@@ -298,7 +301,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".widget.launcher_fragment.utils.SetAccount"
+        <activity android:name=".ui.launcher_page.utils.SetAccount"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:configChanges="orientation|screenSize"
@@ -552,7 +555,7 @@
         <service android:name=".services.TrimDataService">
         </service>
 
-        <service android:name=".widget.launcher_fragment.utils.HandleScrollService"
+        <service android:name=".ui.launcher_page.utils.HandleScrollService"
             android:exported="true" >
         </service>
 
@@ -628,9 +631,6 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight"
             android:exported="true" />
-
-        <meta-data android:name="launcher_fragment"
-            android:value=".widget.launcher_fragment.LauncherFragment" />
 
     </application>
 </manifest>

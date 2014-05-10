@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.widget.launcher_fragment.utils;
+package com.klinker.android.twitter.ui.launcher_page.utils;
 
 import android.app.Activity;
 import android.content.Context;

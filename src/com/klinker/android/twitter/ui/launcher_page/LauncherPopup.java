@@ -1,7 +1,6 @@
-package com.klinker.android.twitter.widget.launcher_fragment;
+package com.klinker.android.twitter.ui.launcher_page;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;

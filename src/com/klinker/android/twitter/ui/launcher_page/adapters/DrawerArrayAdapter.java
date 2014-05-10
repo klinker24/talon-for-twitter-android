@@ -1,16 +1,13 @@
-package com.klinker.android.twitter.widget.launcher_fragment.adapters;
+package com.klinker.android.twitter.ui.launcher_page.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.klinker.android.launcher.api.ResourceHelper;
-import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.ArrayList;

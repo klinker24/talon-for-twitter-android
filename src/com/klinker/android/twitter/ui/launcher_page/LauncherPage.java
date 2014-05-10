@@ -1,16 +1,12 @@
-package com.klinker.android.twitter.widget.launcher_fragment;
+package com.klinker.android.twitter.ui.launcher_page;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.LoaderManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -30,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -45,14 +40,11 @@ import android.widget.Toast;
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.CursorListLoader;
 import com.klinker.android.twitter.adapters.LauncherListLoader;
-import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.services.CatchupPull;
@@ -62,13 +54,11 @@ import com.klinker.android.twitter.services.WidgetRefreshService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
-import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
-import com.klinker.android.twitter.widget.launcher_fragment.adapters.DrawerArrayAdapter;
-import com.klinker.android.twitter.widget.launcher_fragment.adapters.LauncherTimelineCursorAdapter;
+import com.klinker.android.twitter.ui.launcher_page.adapters.DrawerArrayAdapter;
+import com.klinker.android.twitter.ui.launcher_page.adapters.LauncherTimelineCursorAdapter;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -76,7 +66,6 @@ import org.lucasr.smoothie.ItemManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -87,8 +76,7 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class LauncherFragment extends BaseLauncherPage
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+public class LauncherPage extends BaseLauncherPage implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public ImageView backgroundPic;
     public ImageView profilePic;
@@ -164,7 +152,7 @@ public class LauncherFragment extends BaseLauncherPage
 
     @Override
     public BaseLauncherPage getFragment(int position) {
-        LauncherFragment fragment = new LauncherFragment();
+        LauncherPage fragment = new LauncherPage();
         return fragment;
     }
 
@@ -310,7 +298,7 @@ public class LauncherFragment extends BaseLauncherPage
                     if (openedFrag) {
                         openedFrag = false;
                         final Intent handleScroll = new Intent("android.intent.action.MAIN");
-                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.HandleScrollService"));
+                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.HandleScrollService"));
                         handleScroll.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         talonContext.startService(handleScroll);
                     }
@@ -383,7 +371,7 @@ public class LauncherFragment extends BaseLauncherPage
                     if (openedFrag) {
                         openedFrag = false;
                         final Intent handleScroll = new Intent("android.intent.action.MAIN");
-                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.HandleScrollService"));
+                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.HandleScrollService"));
                         handleScroll.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         talonContext.startService(handleScroll);
                     }
@@ -659,7 +647,7 @@ public class LauncherFragment extends BaseLauncherPage
                     @Override
                     public void run() {
                         final Intent setAccount = new Intent("android.intent.action.MAIN");
-                        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.SetAccount"));
+                        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.SetAccount"));
                         setAccount.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         setAccount.putExtra("current_account", currentAccount);
                         setAccount.putExtra("start_main", true);
@@ -906,7 +894,7 @@ public class LauncherFragment extends BaseLauncherPage
                                 @Override
                                 public void run() {
                                     final Intent pull = new Intent("android.intent.action.MAIN");
-                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.StartPull"));
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.StartPull"));
                                     pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     pull.putExtra("current_account", 2);
 
@@ -936,7 +924,7 @@ public class LauncherFragment extends BaseLauncherPage
                                         public void run() {
                                             switchedAccounts = true;
                                             setViews(rootLayout);
-                                            context.getLoaderManager().restartLoader(0, null, LauncherFragment.this);
+                                            context.getLoaderManager().restartLoader(0, null, LauncherPage.this);
                                         }
                                     });
                                 }
@@ -970,7 +958,7 @@ public class LauncherFragment extends BaseLauncherPage
                                 public void run() {
 
                                     final Intent pull = new Intent("android.intent.action.MAIN");
-                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.StartPull"));
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.StartPull"));
                                     pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     pull.putExtra("current_account", 1);
 
@@ -999,7 +987,7 @@ public class LauncherFragment extends BaseLauncherPage
                                         public void run() {
                                             switchedAccounts = true;
                                             setViews(rootLayout);
-                                            context.getLoaderManager().restartLoader(0, null, LauncherFragment.this);
+                                            context.getLoaderManager().restartLoader(0, null, LauncherPage.this);
                                         }
                                     });
 
@@ -1037,7 +1025,7 @@ public class LauncherFragment extends BaseLauncherPage
         int numberNew = 0;
 
         final Intent setAccount = new Intent("android.intent.action.MAIN");
-        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.widget.launcher_fragment.utils.SetAccount"));
+        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.SetAccount"));
         setAccount.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         setAccount.putExtra("current_account", currentAccount);
 
