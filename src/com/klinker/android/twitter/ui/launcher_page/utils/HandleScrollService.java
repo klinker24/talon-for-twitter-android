@@ -1,12 +1,9 @@
-package com.klinker.android.twitter.widget.launcher_fragment.utils;
+package com.klinker.android.twitter.ui.launcher_page.utils;
 
 import android.app.IntentService;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.klinker.android.twitter.settings.AppSettings;

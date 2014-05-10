@@ -23,6 +23,7 @@
 -- For Release --
 
     - refresh bar without ui extras on
+    - move the logout button to the bottom
 
     Version 2.3.0
         - Scheduled Tweets

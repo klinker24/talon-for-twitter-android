@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -16,7 +15,6 @@ import com.klinker.android.twitter.ui.main_fragments.home_fragments.extentions.L
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.ListFragment;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.extentions.PicFragment;
-import com.klinker.android.twitter.widget.launcher_fragment.LauncherFragment;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
