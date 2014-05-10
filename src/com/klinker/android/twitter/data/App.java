@@ -3,6 +3,7 @@ package com.klinker.android.twitter.data;
 import android.app.Application;
 import android.content.Context;
 
+import com.klinker.android.twitter.ui.launcher_page.LauncherPage;
 import com.klinker.android.twitter.utils.EmojiUtils;
 
 import java.io.File;
@@ -11,6 +12,12 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class App extends Application {
     private BitmapLruCache mCache;
+
+    public App() {
+        super();
+        ClassLoader mClassLoader = LauncherPage.class.getClassLoader();
+        Thread.currentThread().setContextClassLoader(mClassLoader);
+    }
 
     @Override
     public void onCreate() {
