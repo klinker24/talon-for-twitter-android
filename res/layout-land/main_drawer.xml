@@ -79,12 +79,23 @@
 
         </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
         <Button android:id="@+id/logoutButton"
             android:layout_height="60dp"
             android:layout_width="match_parent"
             android:text="@string/menu_logout"
             android:contentDescription="Logout from Twitter"
             android:background="@drawable/pressed_button"/>
+
+
+        <View
+            android:id="@+id/nav_bar_seperator"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
 
     </LinearLayout>
 
