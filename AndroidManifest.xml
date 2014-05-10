@@ -34,7 +34,7 @@
             android:value="@integer/google_play_services_version" />
 
         <meta-data android:name="launcher_fragment"
-            android:value=".ui.launcher_page.LauncherFragment" />
+            android:value=".ui.launcher_page.LauncherPage" />
 
         <provider
             android:name=".data.sq_lite.HomeContentProvider"
