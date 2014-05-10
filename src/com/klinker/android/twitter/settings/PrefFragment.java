@@ -620,7 +620,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         });
 
-        Preference download = findPreference("download_portal");
+        /*Preference download = findPreference("download_portal");
         download.setSummary(context.getResources().getString(R.string.download_portal_summary) + "\n\n" + context.getResources().getString(R.string.currently_in_beta));
         download.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -667,7 +667,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                 return false;
             }
-        });
+        });*/
 
         final Preference layout = findPreference("layout");
         final Preference theme = findPreference("theme");
