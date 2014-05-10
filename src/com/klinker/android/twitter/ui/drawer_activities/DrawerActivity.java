@@ -590,6 +590,24 @@ public abstract class DrawerActivity extends Activity {
             }
         }
 
+        View navBarSeperater = findViewById(R.id.nav_bar_seperator);
+
+        if (translucent && Utils.hasNavBar(context)) {
+            try {
+                RelativeLayout.LayoutParams navParams = (RelativeLayout.LayoutParams) navBarSeperater.getLayoutParams();
+                navParams.height = navBarHeight;
+                navBarSeperater.setLayoutParams(navParams);
+            } catch (Exception e) {
+                try {
+                    LinearLayout.LayoutParams navParams = (LinearLayout.LayoutParams) navBarSeperater.getLayoutParams();
+                    navParams.height = navBarHeight;
+                    navBarSeperater.setLayoutParams(navParams);
+                } catch (Exception x) {
+                    // in the trends
+                }
+            }
+        }
+
         if (translucent) {
             if (Utils.hasNavBar(context)) {
                 View footer = new View(context);
