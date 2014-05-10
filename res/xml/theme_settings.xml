@@ -76,11 +76,11 @@
                 android:data="https://github.com/klinker24/talon_theme" />
         </Preference>
 
-        <Preference
+        <!--<Preference
             android:key="download_portal"
             android:title="@string/download_portal"
             android:summary="@string/download_portal_summary" >
-        </Preference>
+        </Preference>-->
 
         <Preference
             android:summary="@string/addon_note">
