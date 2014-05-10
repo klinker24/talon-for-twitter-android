@@ -298,7 +298,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
                     if (openedFrag) {
                         openedFrag = false;
                         final Intent handleScroll = new Intent("android.intent.action.MAIN");
-                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.HandleScrollService"));
+                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_page.utils.HandleScrollService"));
                         handleScroll.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         talonContext.startService(handleScroll);
                     }
@@ -371,7 +371,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
                     if (openedFrag) {
                         openedFrag = false;
                         final Intent handleScroll = new Intent("android.intent.action.MAIN");
-                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.HandleScrollService"));
+                        handleScroll.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_page.utils.HandleScrollService"));
                         handleScroll.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         talonContext.startService(handleScroll);
                     }
@@ -647,7 +647,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
                     @Override
                     public void run() {
                         final Intent setAccount = new Intent("android.intent.action.MAIN");
-                        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.SetAccount"));
+                        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_page.utils.SetAccount"));
                         setAccount.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         setAccount.putExtra("current_account", currentAccount);
                         setAccount.putExtra("start_main", true);
@@ -894,7 +894,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
                                 @Override
                                 public void run() {
                                     final Intent pull = new Intent("android.intent.action.MAIN");
-                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.StartPull"));
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_page.utils.StartPull"));
                                     pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     pull.putExtra("current_account", 2);
 
@@ -958,7 +958,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
                                 public void run() {
 
                                     final Intent pull = new Intent("android.intent.action.MAIN");
-                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.StartPull"));
+                                    pull.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_page.utils.StartPull"));
                                     pull.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     pull.putExtra("current_account", 1);
 
@@ -1025,7 +1025,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
         int numberNew = 0;
 
         final Intent setAccount = new Intent("android.intent.action.MAIN");
-        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_fragment.utils.SetAccount"));
+        setAccount.setComponent(new ComponentName("com.klinker.android.twitter", "com.klinker.android.twitter.ui.launcher_page.utils.SetAccount"));
         setAccount.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         setAccount.putExtra("current_account", currentAccount);
 
