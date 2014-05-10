@@ -416,7 +416,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
 
     public boolean barShowing = false;
     public void showBar() {
-        if (barShowing || immersiveMode || Build.VERSION.SDK_INT < 18) {
+        if (barShowing || immersiveMode || Build.VERSION.SDK_INT < 19) {
             return;
         } else {
             barShowing = true;
@@ -442,7 +442,7 @@ public class LauncherPage extends BaseLauncherPage implements LoaderManager.Load
     }
 
     public void hideBar() {
-        if (!barShowing || immersiveMode || Build.VERSION.SDK_INT < 18) {
+        if (!barShowing || immersiveMode || Build.VERSION.SDK_INT < 19) {
             return;
         } else {
             barShowing = false;
