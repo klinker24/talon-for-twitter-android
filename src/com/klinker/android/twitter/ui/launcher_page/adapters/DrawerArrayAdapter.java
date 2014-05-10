@@ -115,7 +115,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
                 holder.icon.setImageDrawable(helper.getDrawable("ic_action_picture_" + color));
                 break;
             case TYPE_LINK:
-                holder.icon.setImageDrawable(helper.getDrawable("trends_" + color));
+                holder.icon.setImageDrawable(helper.getDrawable("drawer_trends_" + color));
                 break;
             case TYPE_LIST:
                 holder.icon.setImageDrawable(helper.getDrawable("list_" + color));
