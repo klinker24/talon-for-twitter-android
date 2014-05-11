@@ -2,6 +2,7 @@
     &#8226; Disable the send button on tweet viewer until you have typed something<br/>
     &#8226; Move the logout button to the bottom of the drawer<br/>
     &#8226; Fixed the timeline losing its position when you mute something<br/>
+    &#8226; Resolve twitpics new urls to display on pictures on timeline<br/>
 <br/><br/>
 
 <b>Version 2.3.6:</b><br/><br/>

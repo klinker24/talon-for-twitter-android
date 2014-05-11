@@ -84,23 +84,7 @@ public class PhotoViewerDialog extends Activity {
         }
 
         // get higher quality twitpic and imgur pictures
-        if (url.contains("twitpic")) {
-            try {
-                URL address = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
-                connection.setConnectTimeout(1000);
-                connection.setInstanceFollowRedirects(false);
-                connection.setReadTimeout(1000);
-                connection.connect();
-                String expandedURL = connection.getHeaderField("Location");
-                if(expandedURL != null) {
-                    url = expandedURL;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
+
         if (url.contains("imgur")) {
             url = url.replace("t.jpg", ".jpg");
         }
