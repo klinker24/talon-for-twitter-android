@@ -313,7 +313,7 @@ public class ProfileFragment extends Fragment {
         background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(spinner.getVisibility() == View.GONE) {
+                if(spinner.getVisibility() == View.GONE && thisUser != null) {
                     startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getProfileBannerURL()));
                 } else {
                     // it isn't ready to be opened just yet
