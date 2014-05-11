@@ -1275,7 +1275,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         try {
             if (cursor.moveToLast()) {
                 do {
-                    if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) == id) {
+                    if (cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) < id) {
                         break;
                     } else {
                         pos++;
