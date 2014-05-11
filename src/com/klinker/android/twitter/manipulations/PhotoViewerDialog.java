@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.Random;
 
@@ -84,8 +85,22 @@ public class PhotoViewerDialog extends Activity {
 
         // get higher quality twitpic and imgur pictures
         if (url.contains("twitpic")) {
-            url = url.replace("thumb", "full");
+            try {
+                URL address = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
+                connection.setConnectTimeout(1000);
+                connection.setInstanceFollowRedirects(false);
+                connection.setReadTimeout(1000);
+                connection.connect();
+                String expandedURL = connection.getHeaderField("Location");
+                if(expandedURL != null) {
+                    url = expandedURL;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        
         if (url.contains("imgur")) {
             url = url.replace("t.jpg", ".jpg");
         }
