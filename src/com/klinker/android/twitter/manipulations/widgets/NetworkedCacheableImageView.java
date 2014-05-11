@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.RejectedExecutionException;
 
@@ -102,7 +103,25 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     return null;
                 }
 
-                final String url = params[0];
+                String url = params[0];
+
+                if (url.contains("twitpic")) {
+                    try {
+                        URL address = new URL(url);
+                        HttpURLConnection connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
+                        connection.setConnectTimeout(1000);
+                        connection.setInstanceFollowRedirects(false);
+                        connection.setReadTimeout(1000);
+                        connection.connect();
+                        String expandedURL = connection.getHeaderField("Location");
+                        if(expandedURL != null) {
+                            url = expandedURL;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
 
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
