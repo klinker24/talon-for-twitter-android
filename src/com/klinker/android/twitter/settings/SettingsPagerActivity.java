@@ -24,7 +24,6 @@ import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter.ui.launcher_page.LauncherPage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,9 +61,6 @@ public class SettingsPagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
-
-        BaseLauncherPage launcher = new LauncherPage();
-        Log.v("launcher_fragment", launcher.toString());
 
         AppSettings.invalidate();
 
