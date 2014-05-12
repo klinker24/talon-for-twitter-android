@@ -57,6 +57,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         private final OnImageLoadedListener mListener;
 
         private final BitmapFactory.Options mDecodeOpts;
+        private String url;
 
         private int transform;
         private Context context;
@@ -103,7 +104,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     return null;
                 }
 
-                String url = params[0];
+                url = params[0];
 
                 if (url.contains("twitpic")) {
                     try {
@@ -253,6 +254,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 final ImageView iv = mImageViewRef.get();
                 if (null != iv && iv.getVisibility() != View.GONE) {
                     iv.setImageDrawable(result);
+                    iv.setTag(url);
                     Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
                     iv.startAnimation(fadeInAnimation);
