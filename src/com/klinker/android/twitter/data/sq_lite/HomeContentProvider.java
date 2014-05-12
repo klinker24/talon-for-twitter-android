@@ -95,7 +95,6 @@ public class HomeContentProvider extends ContentProvider {
         int twitterUid = 0;
 
         for (ApplicationInfo packageInfo : packages) {
-
             if(packageInfo.packageName.equals("com.klinker.android.twitter")){
                 //get the UID for the selected app
                 twitterUid = packageInfo.uid;
