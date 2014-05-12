@@ -130,7 +130,12 @@ public class PhotoViewerDialog extends Activity {
                     } else {
                         restart = new Intent(context, PhotoViewerDialog.class);
                     }
-                    restart.putExtra("url", url);
+                    if (url.contains("twitpic")) {
+                        Log.v("talon_picture", picture.getTag().toString());
+                        restart.putExtra("url", picture.getTag().toString());
+                    } else {
+                        restart.putExtra("url", url);
+                    }
                     restart.putExtra("from_cache", true);
                     restart.putExtra("restart", false);
                     overridePendingTransition(0,0);
