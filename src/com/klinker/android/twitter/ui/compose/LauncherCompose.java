@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.ui.compose;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -29,6 +30,14 @@ public class LauncherCompose extends ComposeActivity {
     @Override
     public void setUpLayout() {
         super.setUpLayout();
-        attachButton.setVisibility(View.GONE);
+
+        attachButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(0,0);
+                startActivity(new Intent(context, ComposeActivity.class).putExtra("start_attach", true));
+            }
+        });
     }
 }

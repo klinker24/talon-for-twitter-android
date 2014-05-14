@@ -198,6 +198,11 @@ public abstract class Compose extends Activity implements
         }
 
         Utils.setActionBar(context, false);
+
+        if (getIntent().getBooleanExtra("start_attach", false)) {
+            attachButton.performClick();
+            overflow.performClick();
+        }
     }
 
     public void setUpWindow() {
@@ -643,8 +648,7 @@ public abstract class Compose extends Activity implements
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
+        Log.v("talon_image_attach", "got the result, code: " + requestCode);
         switch(requestCode) {
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
@@ -749,6 +753,8 @@ public abstract class Compose extends Activity implements
                 countHandler.post(getCount);
                 break;
         }
+
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
     }
 
     @Override

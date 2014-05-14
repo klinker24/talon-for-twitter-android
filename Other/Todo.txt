@@ -1,5 +1,5 @@
 - Features:
-    - attach pictures from the talon pull compose
+    - Watch API stuff
     - user lists on their profiles
     - QSlide for LG
     - gallery of picture on searching
@@ -16,12 +16,8 @@
     - trim failed toast on my phone, not tablet
     - switch mentions to save the position instead of current unread method
 
-- For Launcher Fragment:
-    - immersive mode crashes
 
 -- For Release --
-
-    - refresh bar without ui extras on
 
     Version 2.3.0
         - Scheduled Tweets
