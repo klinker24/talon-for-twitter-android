@@ -42,6 +42,7 @@ import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
@@ -50,6 +51,7 @@ import com.klinker.android.twitter.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -697,6 +699,25 @@ public class TweetPager extends YouTubeBaseActivity {
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.no_links), Toast.LENGTH_SHORT).show();
                 }
+                return super.onOptionsItemSelected(item);
+            case R.id.menu_translate:
+                try {
+                    String query = URLEncoder.encode(tweet, "utf-8");
+                    String url = "https://translate.google.com/#auto/en/" + query;
+                    if (settings.inAppBrowser) {
+                        Intent brows = new Intent(context, BrowserActivity.class);
+                        brows.putExtra("url", url);
+                        startActivity(brows);
+                    } else {
+                        Uri uri = Uri.parse(url);
+                        Intent browser = new Intent(Intent.ACTION_VIEW, uri);
+                        browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(browser);
+                    }
+                } catch (Exception e) {
+
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
