@@ -49,4 +49,9 @@
           android:orderInCategory="9"
           android:showAsAction="never" />
 
+    <item android:id="@+id/menu_translate"
+        android:title="@string/menu_translate"
+        android:orderInCategory="10"
+        android:showAsAction="never" />
+
 </menu>
