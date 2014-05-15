@@ -28,6 +28,7 @@ public class HomeContentProvider extends ContentProvider {
     public static final String AUTHORITY = "com.klinker.android.twitter.provider";
     static final String BASE_PATH = "tweet_id";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
+    public static final Uri STREAM_NOTI = Uri.parse("content://" + AUTHORITY + "/" + "stream");
 
     private Context context;
 
