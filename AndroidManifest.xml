@@ -515,6 +515,10 @@
         <service android:name=".services.SendTweet">
         </service>
 
+
+        <service android:name=".services.SendQueue">
+        </service>
+
         <service android:name=".services.CatchupPull">
         </service>
 
@@ -563,6 +567,12 @@
         </receiver>
 
         <receiver android:name=".receivers.ConnectivityChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.QueueTweets" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

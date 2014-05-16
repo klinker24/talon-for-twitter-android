@@ -102,6 +102,37 @@ public class QueuedDataSource {
         }
     }
 
+    public synchronized void createQueuedTweet(String message, int account) {
+        ContentValues values = new ContentValues();
+
+        values.put(QueuedSQLiteHelper.COLUMN_ACCOUNT, account);
+        values.put(QueuedSQLiteHelper.COLUMN_TEXT, message);
+        values.put(QueuedSQLiteHelper.COLUMN_TIME, 0l);
+        values.put(QueuedSQLiteHelper.COLUMN_ALARM_ID, 0l);
+        values.put(QueuedSQLiteHelper.COLUMN_TYPE, QueuedSQLiteHelper.TYPE_QUEUED_TWEET);
+
+        try {
+            database.insert(QueuedSQLiteHelper.TABLE_QUEUED, null, values);
+        } catch (Exception e) {
+            open();
+            database.insert(QueuedSQLiteHelper.TABLE_QUEUED, null, values);
+        }
+    }
+
+    public synchronized void deleteQueuedTweet(String message) {
+
+        try {
+            database.delete(QueuedSQLiteHelper.TABLE_QUEUED,
+                    QueuedSQLiteHelper.COLUMN_TEXT + " = ?",
+                    new String[] {message});
+        } catch (Exception e) {
+            open();
+            database.delete(QueuedSQLiteHelper.TABLE_QUEUED,
+                    QueuedSQLiteHelper.COLUMN_TEXT + " = ?",
+                    new String[] {message});
+        }
+    }
+
     public synchronized void deleteAllDrafts() {
 
         try {
@@ -151,5 +182,51 @@ public class QueuedDataSource {
             draftArr[i] = drafts.get(i);
         }
         return draftArr;
+    }
+
+    public synchronized Cursor getQueuedTweetsCursor(int account) {
+
+        Cursor cursor;
+        try {
+            cursor = database.query(QueuedSQLiteHelper.TABLE_QUEUED,
+                    allColumns,
+                    QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_QUEUED_TWEET +
+                            " AND " + QueuedSQLiteHelper.COLUMN_ACCOUNT + " = ?",
+                    new String[] {"" + account}, null, null, null);
+
+        } catch (Exception e) {
+            open();
+            cursor = database.query(QueuedSQLiteHelper.TABLE_QUEUED,
+                    allColumns,
+                    QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_QUEUED_TWEET +
+                            " AND " + QueuedSQLiteHelper.COLUMN_ACCOUNT + " = ?",
+                    new String[] {"" + account}, null, null, null);
+        }
+
+        return cursor;
+    }
+
+    public String[] getQueuedTweets(int account) {
+
+        Cursor cursor = getQueuedTweetsCursor(account);
+
+        ArrayList<String> queued = new ArrayList<String>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                String draft = cursor.getString(cursor.getColumnIndex(QueuedSQLiteHelper.COLUMN_TEXT));
+                if (!draft.equals("")) {
+                    queued.add(draft);
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        String[] arr = new String[queued.size()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = queued.get(i);
+        }
+        return arr;
     }
 }
