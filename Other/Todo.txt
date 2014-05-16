@@ -19,18 +19,16 @@
 
 -- For Release --
 
-    Version 2.3.0
-        - Scheduled Tweets
-        - queue tweets to send when connected to a data connection if they weren't before
-        - Translate tweet just by sending it to the website
-
     Version 2.4.0
+        - Scheduled Tweets
+
+    Version 2.5.0
         - auto-complete hashtags
         - more muting options
             - mute users for a time period
             - mute by app source
 
-    Version 2.5.0
+    Version 2.6.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
             - second account mentions page on timeline

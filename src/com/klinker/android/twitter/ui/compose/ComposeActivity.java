@@ -39,6 +39,8 @@ import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -433,6 +435,17 @@ public class ComposeActivity extends Compose {
         EditText editText = (EditText) findViewById(R.id.tweet_content);
         final String status = editText.getText().toString();
 
+        if (!Utils.hasInternetConnection(context) && !status.isEmpty() && imagesAttached == 0) {
+            // we are going to queue this tweet to send for when they get a connection
+            QueuedDataSource.getInstance(context).createQueuedTweet(status, currentAccount);
+            Toast.makeText(context, R.string.tweet_queued, Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (!Utils.hasInternetConnection(context) && imagesAttached > 0) {
+            // we only queue tweets without pictures
+            Toast.makeText(context, R.string.only_queue_no_pic, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         // Check for blank text
         if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
             // update status
@@ -616,6 +629,37 @@ public class ComposeActivity extends Compose {
                 return true;
             /*case R.id.menu_schedule_tweet:
                 return true;*/
+            case R.id.menu_view_queued:
+                final String[] queued = QueuedDataSource.getInstance(this).getQueuedTweets(currentAccount);
+                builder = new AlertDialog.Builder(context);
+                builder.setItems(queued, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int item) {
+
+                        new AlertDialog.Builder(context)
+                                .setTitle(context.getResources().getString(R.string.keep_queued_tweet))
+                                .setMessage(queued[item])
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        QueuedDataSource.getInstance(context).deleteQueuedTweet(queued[item]);
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .create()
+                                .show();
+
+                        dialog.dismiss();
+                    }
+                });
+                alert = builder.create();
+                alert.show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

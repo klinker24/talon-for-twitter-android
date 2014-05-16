@@ -603,5 +603,9 @@
     <string name="twitter">Twitter</string>
     <string name="user">Users</string>
     <string name="menu_translate">Translate Tweet</string>
+    <string name="tweet_queued">Queued Tweet!</string>
+    <string name="only_queue_no_pic">We can only queue tweets with no pictures!</string>
+    <string name="menu_view_queued">View Queued Tweets</string>
+    <string name="keep_queued_tweet">Keep Queued Tweet?</string>
 
 </resources>
