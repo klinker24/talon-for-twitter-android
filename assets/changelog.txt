@@ -1,3 +1,9 @@
+<b>Version 2.4.0:</b><br/><br/>
+    &#8226; Automatically queue tweets to send from the compose window when data connection is established<br/>
+    &#8226; Tranlate tweets (redirects to website)<br/>
+    &#8226; Attach pictures from the Talon Pull compose button<br/>
+<br/><br/>
+
 <b>Version 2.3.7:</b><br/><br/>
     &#8226; Disable the send button on tweet viewer until you have typed something<br/>
     &#8226; Move the logout button to the bottom of the drawer<br/>
