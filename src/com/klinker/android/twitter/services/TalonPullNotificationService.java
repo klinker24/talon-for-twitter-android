@@ -541,6 +541,7 @@ public class TalonPullNotificationService extends Service {
                         //HomeContentProvider.insertTweet(status, currentAccount, mContext);
                         home.createTweet(status, currentAccount);
                         sharedPreferences.edit().putLong("account_" + currentAccount + "_lastid", status.getId()).commit();
+                        getContentResolver().notifyChange(HomeContentProvider.STREAM_NOTI, null);
                         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
                     }
 

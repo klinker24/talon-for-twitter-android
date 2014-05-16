@@ -33,6 +33,12 @@
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <meta-data android:name="launcher_card"
+            android:value=".launcher.Me" />
+
+        <meta-data android:name="launcher_card_title"
+            android:value="@string/app_name_full" />
+
         <provider
             android:name=".data.sq_lite.HomeContentProvider"
             android:multiprocess="true"
