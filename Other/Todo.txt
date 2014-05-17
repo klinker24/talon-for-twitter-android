@@ -19,8 +19,8 @@
 
 -- For Release --
 
-    Version 2.4.0
-        - Scheduled Tweets
+    - always use the pic.twitter.com links from the timeline as well
+    - direct messages with pictures from the twitter app
 
     Version 2.5.0
         - auto-complete hashtags
