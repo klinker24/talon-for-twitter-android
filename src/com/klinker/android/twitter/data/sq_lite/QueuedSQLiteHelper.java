@@ -21,6 +21,7 @@ public class QueuedSQLiteHelper extends SQLiteOpenHelper {
 
     public static final int TYPE_SCHEDULED = 0;
     public static final int TYPE_DRAFT = 1;
+    public static final int TYPE_QUEUED_TWEET = 2;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "

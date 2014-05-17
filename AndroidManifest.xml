@@ -123,6 +123,20 @@
             android:theme="@style/Theme.TalonDark" >
         </activity>
 
+        <activity android:name=".ui.scheduled_tweets.NewScheduledTweet"
+            android:label="@string/scheduled_tweets"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.TalonDark" >
+        </activity>
+
+        <activity android:name=".ui.scheduled_tweets.ViewScheduledTweets"
+            android:label="@string/scheduled_tweets"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.TalonDark" >
+        </activity>
+
         <activity android:name=".ui.drawer_activities.SavedSearchesActivity"
             android:label="@string/saved_searches"
             android:configChanges="orientation|screenSize"
@@ -521,6 +535,10 @@
         <service android:name=".services.SendTweet">
         </service>
 
+
+        <service android:name=".services.SendQueue">
+        </service>
+
         <service android:name=".services.CatchupPull">
         </service>
 
@@ -555,6 +573,9 @@
         <service android:name=".services.DirectMessageRefreshService">
         </service>
 
+        <service android:name=".services.SendScheduledTweet">
+        </service>
+
         <service android:name=".services.TrimDataService">
         </service>
 
@@ -569,6 +590,12 @@
         </receiver>
 
         <receiver android:name=".receivers.ConnectivityChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.QueueTweets" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

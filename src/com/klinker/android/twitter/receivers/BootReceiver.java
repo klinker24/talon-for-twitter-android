@@ -8,16 +8,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.klinker.android.twitter.data.ScheduledTweet;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.services.CatchupPull;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
+import com.klinker.android.twitter.services.SendScheduledTweet;
 import com.klinker.android.twitter.services.TimelineRefreshService;
 import com.klinker.android.twitter.services.TrimDataService;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter.ui.scheduled_tweets.ViewScheduledTweets;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -32,6 +37,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        this.context = context;
         AppSettings settings = AppSettings.getInstance(context);
 
         if (settings.timelineRefresh != 0) { // user only wants manual
@@ -87,9 +93,41 @@ public class BootReceiver extends BroadcastReceiver {
         }
 
         if (settings.pushNotifications) {
-            //context.startService(new Intent(context, TalonPullNotificationService.class));
             context.startService(new Intent(context, CatchupPull.class));
         }
 
+        ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
+
+        for (ScheduledTweet s : tweets) {
+            Intent serviceIntent = new Intent(context.getApplicationContext(), SendScheduledTweet.class);
+
+            Log.v("talon_scheduled_tweets", "in boot text: " + s.text);
+
+            serviceIntent.putExtra(ViewScheduledTweets.EXTRA_TEXT, s.text);
+            serviceIntent.putExtra("account", s.account);
+            serviceIntent.putExtra("alarm_id", s.alarmId);
+
+            PendingIntent pi = getDistinctPendingIntent(serviceIntent, s.alarmId);
+
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+            am.set(AlarmManager.RTC_WAKEUP,
+                    s.time,
+                    pi);
+        }
+
     }
+
+    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
+        PendingIntent pi =
+                PendingIntent.getService(
+                        context,
+                        requestId,
+                        intent,
+                        0);
+
+        return pi;
+    }
+
+
 }
