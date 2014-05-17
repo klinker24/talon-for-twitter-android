@@ -603,5 +603,6 @@
     <string name="twitter">Twitter</string>
     <string name="user">Users</string>
     <string name="menu_translate">Translate Tweet</string>
+    <string name="add_new_tweet">Add New Tweet</string>
 
 </resources>
