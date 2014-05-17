@@ -16,68 +16,54 @@
 
 package com.klinker.android.twitter.ui.scheduled_tweets;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListPopupWindow;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
 import com.klinker.android.twitter.data.ScheduledTweet;
+import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.services.SendScheduledTweet;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.Utils;
 
+import junit.framework.Test;
+
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class NewScheduledSmsActivity extends Activity {
+public class NewScheduledTweet extends Activity {
 
     private Context context;
 
@@ -132,7 +118,8 @@ public class NewScheduledSmsActivity extends Activity {
 
         Intent intent = getIntent();
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         context = this;
 
@@ -140,19 +127,79 @@ public class NewScheduledSmsActivity extends Activity {
         emojiButton = (ImageButton) findViewById(R.id.emojiButton);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
 
+        final ListPopupWindow autocomplete = new ListPopupWindow(context);
+        autocomplete.setAnchorView(mEditText);
+        autocomplete.setHeight(Utils.toDP(100, context));
+        autocomplete.setWidth(Utils.toDP(275, context));
+        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, mEditText.getText().toString()), mEditText));
+        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                autocomplete.dismiss();
+            }
+        });
+
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String searchText = mEditText.getText().toString();
+
+                try {
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                        autocomplete.show();
+
+                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                        autocomplete.dismiss();
+                    } else if (autocomplete.isShowing()) {
+                        String[] split = mEditText.getText().toString().split(" ");
+                        String adapterText;
+                        if (split.length > 1) {
+                            adapterText = split[split.length - 1];
+                        } else {
+                            adapterText = split[0];
+                        }
+                        adapterText = adapterText.replace("@", "");
+                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), mEditText));
+                    }
+                } catch (Exception e) {
+                    // there is no text
+                    try {
+                        autocomplete.dismiss();
+                    } catch (Exception x) {
+                        // something went really wrong i guess haha
+                    }
+                }
+            }
+        });
+
         if (!sharedPrefs.getBoolean("keyboard_type", true)) {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
             mEditText.setImeOptions(EditorInfo.IME_ACTION_NONE);
         }
 
-        startDate = intent.getStringExtra(ScheduledActivity.EXTRA_TIME);
-        startMessage = intent.getStringExtra(ScheduledActivity.EXTRA_TEXT);
+        startDate = intent.getStringExtra(ViewScheduledTweets.EXTRA_TIME);
+        startMessage = intent.getStringExtra(ViewScheduledTweets.EXTRA_TEXT);
 
-        if (startDate == null) {
+        if (TextUtils.isEmpty(startDate)) {
             startDate = "";
         }
 
-        if (startMessage == null) {
+        if (TextUtils.isEmpty(startMessage)) {
             startMessage = "";
         }
 
@@ -253,15 +300,22 @@ public class NewScheduledSmsActivity extends Activity {
         final View customActionBarView = inflater.inflate(
                 R.layout.actionbar_done_discard, null);
 
-        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+        FrameLayout done = (FrameLayout) customActionBarView.findViewById(R.id.actionbar_done);
+        ((TextView)done.findViewById(R.id.done)).setText(R.string.done_label);
+        done.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         doneClick();
                     }
-                });
+                }
+        );
 
-        customActionBarView.findViewById(R.id.actionbar_discard).setOnClickListener(
+        FrameLayout discard = (FrameLayout) customActionBarView.findViewById(R.id.actionbar_discard);
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(ViewScheduledTweets.EXTRA_TIME))) {
+            ((TextView) discard.findViewById(R.id.discard)).setText(R.string.delete);
+        }
+        discard.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -365,11 +419,15 @@ public class NewScheduledSmsActivity extends Activity {
             prefEdit.putInt("scheduled_alarm_id", alarmIdNum);
             prefEdit.commit();
 
-            ScheduledTweet tweet = new ScheduledTweet(mEditText.getText().toString(), alarmIdNum, setDate.getTime());
+            ScheduledTweet tweet = new ScheduledTweet(mEditText.getText().toString(), alarmIdNum, setDate.getTime(), settings.currentAccount);
+            QueuedDataSource.getInstance(context).createScheduledTweet(tweet);
+            createAlarm(alarmIdNum);
+
+            finish();
 
         } else {
             Context context = getApplicationContext();
-            CharSequence text = "Please complete the form!";
+            CharSequence text = getString(R.string.complete_form);
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
@@ -381,11 +439,12 @@ public class NewScheduledSmsActivity extends Activity {
     public void createAlarm(int alarmId) {
         Intent serviceIntent = new Intent(getApplicationContext(), SendScheduledTweet.class);
 
-        serviceIntent.putExtra(ScheduledActivity.EXTRA_TEXT, mEditText.getText().toString());
+        serviceIntent.putExtra(ViewScheduledTweets.EXTRA_TEXT, mEditText.getText().toString());
+        serviceIntent.putExtra("account", settings.currentAccount);
+        serviceIntent.putExtra("alarm_id", alarmId);
 
         PendingIntent pi = getDistinctPendingIntent(serviceIntent, alarmId);
 
-        // Schedule the alarm!
         AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
         am.set(AlarmManager.RTC_WAKEUP,

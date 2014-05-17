@@ -1,11 +1,17 @@
 package com.klinker.android.twitter.services;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -16,60 +22,68 @@ import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
-import com.klinker.android.twitter.ui.scheduled_tweets.ViewScheduledTweets;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 
-import java.util.Set;
 import java.util.regex.Matcher;
 
 import twitter4j.Twitter;
 
-public class SendScheduledTweet extends IntentService {
 
-    SharedPreferences sharedPrefs;
+public class SendQueue extends Service {
 
-    public SendScheduledTweet() {
-        super("ScheduledService");
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
-        Log.v("talon_scheduled_tweet", "started service");
+    public int onStartCommand(Intent intent, int i, int x) {
 
-        final String text = intent.getStringExtra(ViewScheduledTweets.EXTRA_TEXT);
-        final int account = intent.getIntExtra("account", 1);
-        final int alarmId = intent.getIntExtra("alarm_id", 0);
+        Log.v("talon_queued", "starting to send queued tweets");
 
         final Context context = this;
-        final AppSettings settings = AppSettings.getInstance(context);
+        final AppSettings settings = AppSettings.getInstance(this);
+
+        try {
+            if (intent == null) {
+                return START_NOT_STICKY;
+            }
+        } catch (Exception e) {
+            // null pointer... what the hell...
+        }
+
+        final String[] queued = QueuedDataSource.getInstance(context)
+                .getQueuedTweets(AppSettings.getInstance(context).currentAccount);
+
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                sendingNotification();
-                boolean sent = sendTweet(settings, context, text, account);
+                for (String s : queued) {
 
-                if (sent) {
-                    finishedTweetingNotification();
-                    QueuedDataSource.getInstance(context).deleteScheduledTweet(alarmId);
-                } else {
-                    makeFailedNotification(text, settings);
+                    sendingNotification();
+                    boolean sent = sendTweet(settings, context, s);
+
+                    if (sent) {
+                        finishedTweetingNotification();
+                        QueuedDataSource.getInstance(context).deleteQueuedTweet(s);
+                    } else {
+                        makeFailedNotification(s, settings);
+                    }
                 }
 
+                stopSelf();
             }
         }).start();
+
+        return START_STICKY;
     }
 
-    public boolean sendTweet(AppSettings settings, Context context, String message, int account) {
+    public boolean sendTweet(AppSettings settings, Context context, String message) {
         try {
-            Twitter twitter;
-            if (account == settings.currentAccount) {
-                twitter = Utils.getTwitter(context, settings);
-            } else {
-                twitter = Utils.getSecondTwitter(context);
-            }
+            Twitter twitter =  Utils.getTwitter(context, settings);
 
             int size = getCount(message);
 
@@ -117,6 +131,7 @@ public class SendScheduledTweet extends IntentService {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.sending_tweet))
+                                //.setTicker(getResources().getString(R.string.sending_tweet))
                         .setOngoing(true)
                         .setProgress(100, 0, true);
 

@@ -21,7 +21,6 @@
 
     Version 2.4.0
         - Scheduled Tweets
-        - queue tweets to send when connected to a data connection if they weren't before
 
     Version 2.5.0
         - auto-complete hashtags

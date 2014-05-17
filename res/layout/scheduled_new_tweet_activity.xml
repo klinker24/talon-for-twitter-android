@@ -19,114 +19,66 @@ limitations under the License.
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <View
-            android:id="@+id/sentBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <com.klinker.android.evolve_sms.ui.view.HoloEditText
-            android:id="@+id/contactEntry"
-            android:layout_width="fill_parent"
+    <RelativeLayout
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:hint="@string/contact_entry"
-            android:textCursorDrawable="@null">
-    </com.klinker.android.evolve_sms.ui.view.HoloEditText>
+            android:layout_width="match_parent">
 
-    <ScrollView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_below="@+id/contactEntry"
-            android:id="@+id/scrollView"
-            android:layout_above="@+id/sendBar">
-
-        <RelativeLayout
+        <LinearLayout
+                style="?android:attr/buttonBarStyle"
+                android:id="@+id/selectDate"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
-            <LinearLayout
-                    style="?android:attr/buttonBarStyle"
-                    android:id="@+id/selectDate"
-                    android:layout_width="fill_parent"
+            <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:id="@+id/setDate"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
-
-                <Button
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:id="@+id/setDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/date_picker"/>
-                <Button
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:id="@+id/setTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/time_picker"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/time_and_date"
-                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Pick Date"/>
+            <Button
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:id="@+id/setTime"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/selectDate"
-                    android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
+                    android:layout_weight="1"
+                    android:text="Pick Time"/>
 
-                <TextView
-                        android:id="@+id/currentDate"
-                        android:layout_height="wrap_content"
-                        android:layout_width="fill_parent"
-                        android:layout_weight="1"
-                        android:textSize="25sp"
-                        android:gravity="center"/>
+        </LinearLayout>
 
-                <TextView
-                        android:id="@+id/currentTime"
-                        android:layout_height="wrap_content"
-                        android:layout_width="fill_parent"
-                        android:layout_weight="1"
-                        android:textSize="25sp"
-                        android:gravity="center"/>
+        <LinearLayout
+                android:id="@+id/time_and_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/selectDate"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/spinner"
-                    android:layout_width="fill_parent"
+            <TextView
+                    android:id="@+id/currentDate"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/time_and_date"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:gravity="center_vertical">
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:textSize="25sp"
+                    android:gravity="center"/>
 
-                <com.klinker.android.evolve_sms.ui.view.HoloTextView
-                        android:id="@+id/repetitionText"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textSize="25sp"
-                        android:text="@string/repetition"/>
+            <TextView
+                    android:id="@+id/currentTime"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:textSize="25sp"
+                    android:gravity="center"/>
 
-                <Spinner
-                        android:id="@+id/repetitionSpinner"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="15dp"/>
+        </LinearLayout>
 
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
+    </RelativeLayout>
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -141,14 +93,14 @@ limitations under the License.
                 android:layout_alignParentLeft="true"
                 android:layout_alignTop="@+id/messageEntry2"
                 android:layout_alignBottom="@+id/messageEntry2"
-                android:src="?emojiButton"
+                android:src="?emoji_button"
                 android:background="@drawable/pressed_button"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:layout_marginRight="-7dp"
                 android:scaleType="fitCenter"/>
 
-        <com.klinker.android.evolve_sms.ui.view.HoloEditText
+        <com.klinker.android.twitter.manipulations.widgets.HoloEditText
                 android:id="@+id/messageEntry2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,13 +110,10 @@ limitations under the License.
                 android:ems="10"
                 android:hint="@string/type_message"
                 android:inputType="textCapSentences|textMultiLine|textShortMessage"
-                android:maxLines="5"
+                android:maxLines="8"
                 android:minHeight="50dp"
                 android:minLines="2"
-                android:singleLine="true"
-                android:textSize="14sp">
-
-        </com.klinker.android.evolve_sms.ui.view.HoloEditText>
+                android:textSize="17sp" />
 
         <include layout="@layout/emoji_keyboard"
                  android:layout_below="@+id/messageEntry2"/>

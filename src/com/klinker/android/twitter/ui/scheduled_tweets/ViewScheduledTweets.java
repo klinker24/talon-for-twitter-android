@@ -19,12 +19,12 @@ package com.klinker.android.twitter.ui.scheduled_tweets;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,63 +35,71 @@ import android.widget.ListView;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ScheduledArrayAdapter;
 import com.klinker.android.twitter.data.ScheduledTweet;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.services.SendScheduledTweet;
-import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.settings.AppSettings;
 
 import java.util.ArrayList;
 
-public class ScheduledActivity extends Activity {
+public class ViewScheduledTweets extends Activity {
 
     public final static String EXTRA_TIME = "com.klinker.android.twitter.scheduled.TIME";
     public final static String EXTRA_TEXT = "com.klinker.android.twitter.scheduled.TEXT";
     public final static String EXTRA_ALARM_ID = "com.klinker.android..twitter.scheduled.ALARM_ID";
 
     public static Context context;
-    public ListView sms;
+    public ListView listView;
     public Button addNew;
     public SharedPreferences sharedPrefs;
     public ArrayList<ScheduledTweet> tweets;
+    private ScheduledArrayAdapter adapter;
 
     @Override
-    public void setUpView() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.scheduled_tweet_viewer);
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(5);
-
-        sms = (ListView) findViewById(R.id.smsListView);
+        listView = (ListView) findViewById(R.id.smsListView);
         addNew = (Button) findViewById(R.id.addNewButton);
 
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         context = this;
 
-        tweets = IOUtils.readScheduled(this, true);
+        tweets = QueuedDataSource.getInstance(context).getScheduledTweets(AppSettings.getInstance(context).currentAccount);
 
-        ScheduledArrayAdapter adapter = new ScheduledArrayAdapter(this, tweets);
-        sms.setAdapter(adapter);
-        sms.setStackFromBottom(false);
+        adapter = new ScheduledArrayAdapter(this, tweets);
+        listView.setAdapter(adapter);
+        listView.setStackFromBottom(false);
 
-        sms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 new AlertDialog.Builder(context)
-                        .setMessage(context.getResources().getString(R.string.delete))
+                        .setMessage(context.getResources().getString(R.string.delete) + " " + getResources().getString(R.string.tweet) + "?")
                         .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                try {
-                                    cancelAlarm(tweets.get(i).alarmId);
-                                } catch (Exception e) {
+                                cancelAlarm(tweets.get(i).alarmId);
 
-                                }
+                                QueuedDataSource.getInstance(context).deleteScheduledTweet(tweets.get(i).alarmId);
 
                                 tweets.remove(i);
-
-                                IOUtils.writeScheduled(context, text);
+                                adapter.notifyDataSetChanged();
                             }
                         })
                         .setNegativeButton(context.getResources().getString(R.string.edit), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent edit = new Intent(context, NewScheduledTweet.class);
+                                edit.putExtra(EXTRA_TEXT, tweets.get(i).text);
+                                edit.putExtra(EXTRA_TIME, tweets.get(i).time + "");
+
+                                QueuedDataSource.getInstance(context).deleteScheduledTweet(tweets.get(i).alarmId);
+                                cancelAlarm(tweets.get(i).alarmId);
+
+                                tweets.remove(i);
+                                adapter.notifyDataSetChanged();
+
+                                startActivity(edit);
+
                                 dialog.dismiss();
                             }
                         }).show();
@@ -102,13 +110,7 @@ public class ScheduledActivity extends Activity {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(context, NewScheduledSmsActivity.class);
-
-                intent.putExtra(EXTRA_NUMBER, "");
-                intent.putExtra(EXTRA_DATE, "");
-                intent.putExtra(EXTRA_REPEAT, "0");
-                intent.putExtra(EXTRA_MESSAGE, "");
-
+                Intent intent = new Intent(context, NewScheduledTweet.class);
                 startActivity(intent);
             }
 
@@ -116,8 +118,12 @@ public class ScheduledActivity extends Activity {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onResume() {
+        super.onResume();
+
+        tweets = QueuedDataSource.getInstance(context).getScheduledTweets(AppSettings.getInstance(context).currentAccount);
+        adapter = new ScheduledArrayAdapter((Activity)context, tweets);
+        listView.setAdapter(adapter);
     }
 
 

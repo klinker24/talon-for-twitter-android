@@ -18,6 +18,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.RetryCompose;
@@ -84,7 +85,7 @@ public class SendTweet extends Service {
                 if (sent) {
                     finishedTweetingNotification();
                 } else {
-                    makeFailedNotification(message);
+                    makeFailedNotification(message, settings);
                 }
 
                 finished = true;
@@ -99,7 +100,7 @@ public class SendTweet extends Service {
             public void run() {
                 if (!finished) {
                     stopForeground(true);
-                    makeFailedNotification(message);
+                    makeFailedNotification(message, settings);
                     stopSelf();
                 }
             }
@@ -307,7 +308,7 @@ public class SendTweet extends Service {
         //mNotificationManager.notify(6, mBuilder.build());
     }
 
-    public void makeFailedNotification(String text) {
+    public void makeFailedNotification(String text, AppSettings settings) {
         try {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
@@ -316,8 +317,7 @@ public class SendTweet extends Service {
                             .setContentText(getResources().getString(R.string.tap_to_retry));
 
             Intent resultIntent = new Intent(this, RetryCompose.class);
-            getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit().putString("draft", text);
+            QueuedDataSource.getInstance(this).createDraft(text, settings.currentAccount);
             resultIntent.setAction(Intent.ACTION_SEND);
             resultIntent.setType("text/plain");
             resultIntent.putExtra(Intent.EXTRA_TEXT, text);

@@ -7,10 +7,12 @@ public class ScheduledTweet {
     public String text;
     public int alarmId;
     public long time;
+    public int account;
 
-    public ScheduledTweet(String text, int alarmId, long time) {
+    public ScheduledTweet(String text, int alarmId, long time, int account) {
         this.text = text;
         this.alarmId = alarmId;
         this.time = time;
+        this.account = account;
     }
 }

@@ -52,6 +52,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
@@ -547,9 +548,9 @@ public abstract class Compose extends Activity implements
                         .setContentText(getResources().getString(R.string.tap_to_retry));
 
         Intent resultIntent = new Intent(this, RetryCompose.class);
+        QueuedDataSource.getInstance(this).createDraft(text, settings.currentAccount);
         resultIntent.setAction(Intent.ACTION_SEND);
         resultIntent.setType("text/plain");
-        sharedPrefs.edit().putString("draft", text);
         resultIntent.putExtra("failed_notification", true);
 
         PendingIntent resultPendingIntent =
