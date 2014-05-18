@@ -21,6 +21,9 @@
 
     - always use the pic.twitter.com links from the timeline as well
     - direct messages with pictures from the twitter app
+    - launcher page needs to refresh on start as well
+    - RTL not working again?
+    - twipple thumbnails
 
     Version 2.5.0
         - auto-complete hashtags
@@ -33,3 +36,4 @@
             - search fragment (with search box and saved search) on main timelines
             - second account mentions page on timeline
             - second account timeline page
+            - Activity fragment
