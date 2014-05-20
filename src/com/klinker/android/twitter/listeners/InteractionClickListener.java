@@ -10,8 +10,12 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
@@ -58,6 +62,9 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         HoloTextView title = (HoloTextView) view.findViewById(R.id.title);
         String mTitle = title.getText().toString();
+
+        HoloTextView text = (HoloTextView) view.findViewById(R.id.text);
+        String mText = text.getText().toString();
 
         // get the datasource ready to read/write
         InteractionsDataSource data = InteractionsDataSource.getInstance(context);
@@ -127,19 +134,29 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                     i,
                     DrawerActivity.oldInteractions.getText().toString().equals(context.getResources().getString(R.string.old_interactions))).split(" ");
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setItems(fItems, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
+            LayoutInflater factory = LayoutInflater.from(context);
+            View content = factory.inflate(R.layout.interaction_dialog, null);
+
+            TextView textView = (TextView) content.findViewById(R.id.text);
+            textView.setText(mText);
+
+            ListView lv = (ListView) content.findViewById(R.id.list);
+            lv.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_selectable_list_item, fItems));
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int item, long l) {
                     String touched = fItems[item];
 
                     Intent user = new Intent(context, ProfilePager.class);
                     user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
                     user.putExtra("proPic", "");
                     context.startActivity(user);
-
-                    dialog.dismiss();
                 }
             });
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setView(content);
+
             AlertDialog alert = builder.create();
             alert.show();
         } else if (mTitle.contains(context.getResources().getString(R.string.followed))) { // someone new followed you

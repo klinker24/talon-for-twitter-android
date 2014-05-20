@@ -596,37 +596,41 @@ public class ComposeActivity extends Compose {
                 return true;
             case R.id.menu_view_drafts:
                 final String[] drafts = QueuedDataSource.getInstance(this).getDrafts();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setItems(drafts, new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int item) {
+                if (drafts.length > 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(drafts, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int item) {
 
-                        new AlertDialog.Builder(context)
-                                .setTitle(context.getResources().getString(R.string.apply))
-                                .setMessage(drafts[item])
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        reply.setText(drafts[item]);
-                                        reply.setSelection(reply.getText().length());
-                                        QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .create()
-                                .show();
+                            new AlertDialog.Builder(context)
+                                    .setTitle(context.getResources().getString(R.string.apply))
+                                    .setMessage(drafts[item])
+                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            reply.setText(drafts[item]);
+                                            reply.setSelection(reply.getText().length());
+                                            QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
 
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else {
+                    Toast.makeText(context, R.string.no_drafts, Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.menu_schedule_tweet:
                 startActivity(new Intent(context, ViewScheduledTweets.class));
@@ -634,34 +638,38 @@ public class ComposeActivity extends Compose {
                 return true;
             case R.id.menu_view_queued:
                 final String[] queued = QueuedDataSource.getInstance(this).getQueuedTweets(currentAccount);
-                builder = new AlertDialog.Builder(context);
-                builder.setItems(queued, new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int item) {
+                if (queued.length > 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(queued, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int item) {
 
-                        new AlertDialog.Builder(context)
-                                .setTitle(context.getResources().getString(R.string.keep_queued_tweet))
-                                .setMessage(queued[item])
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        QueuedDataSource.getInstance(context).deleteQueuedTweet(queued[item]);
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .create()
-                                .show();
+                            new AlertDialog.Builder(context)
+                                    .setTitle(context.getResources().getString(R.string.keep_queued_tweet))
+                                    .setMessage(queued[item])
+                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            QueuedDataSource.getInstance(context).deleteQueuedTweet(queued[item]);
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
 
-                        dialog.dismiss();
-                    }
-                });
-                alert = builder.create();
-                alert.show();
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else {
+                    Toast.makeText(context, R.string.no_queued, Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
