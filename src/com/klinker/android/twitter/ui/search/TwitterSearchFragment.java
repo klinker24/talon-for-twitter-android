@@ -68,10 +68,19 @@ public class TwitterSearchFragment extends Fragment {
         this.onlyStatus = false;
     }
 
+    public boolean topTweets = false;
+
     private BroadcastReceiver newSearch = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             searchQuery = intent.getStringExtra("query");
+
+            if (searchQuery.contains(" TOP")) {
+                topTweets = true;
+                searchQuery = searchQuery.replace(" TOP", "");
+            } else {
+                topTweets = false;
+            }
             doSearch(searchQuery);
         }
     };
@@ -206,6 +215,11 @@ public class TwitterSearchFragment extends Fragment {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     query = new Query(searchQuery);
+                    if (topTweets) {
+                        query.setResultType(Query.POPULAR);
+                    } else {
+                        query.setResultType(null);
+                    }
                     QueryResult result = twitter.search(query);
 
                     tweets.clear();
@@ -270,6 +284,11 @@ public class TwitterSearchFragment extends Fragment {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     Log.v("talon_searching", "query in frag: " + mQuery);
                     query = new Query(mQuery);
+                    if (topTweets) {
+                        query.setResultType(Query.POPULAR);
+                    } else {
+                        query.setResultType(null);
+                    }
                     QueryResult result = twitter.search(query);
 
                     tweets.clear();

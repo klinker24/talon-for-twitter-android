@@ -33,8 +33,15 @@
         android:checkable="true"
         android:checked="false"/>
 
-    <item android:id="@+id/menu_settings"
+    <item android:title="@string/menu_show_top_tweets"
+        android:id="@+id/menu_show_top_tweets"
         android:orderInCategory="6"
+        android:showAsAction="never"
+        android:checkable="true"
+        android:checked="false"/>
+
+    <item android:id="@+id/menu_settings"
+        android:orderInCategory="7"
         android:title="@string/menu_settings"
         android:showAsAction="never" />
 
