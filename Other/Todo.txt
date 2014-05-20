@@ -19,11 +19,8 @@
 
 -- For Release --
 
-    - always use the pic.twitter.com links from the timeline as well
     - direct messages with pictures from the twitter app
-    - launcher page needs to refresh on start as well
-    - RTL not working again?
-    - twipple thumbnails (http://p.twipple.jp/wiki/API_Thumbnhenail)
+    - can't research from the search page
 
     Version 2.5.0
         - auto-complete hashtags

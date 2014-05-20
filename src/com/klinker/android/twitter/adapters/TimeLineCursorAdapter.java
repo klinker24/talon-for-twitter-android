@@ -1335,8 +1335,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     }
 
-
-
                     if(changed) {
                         full = "";
                         for (String p : split) {
