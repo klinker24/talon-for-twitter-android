@@ -52,6 +52,7 @@ public class UserSearchFragment extends Fragment {
     public UserSearchFragment(String query, boolean translucent) {
         this.translucent = translucent;
         this.searchQuery = query.replaceAll("@", "");
+        searchQuery = searchQuery.replace(" TOP", "");
     }
 
     public UserSearchFragment() {

@@ -59,6 +59,7 @@ public class TimelineSearchFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             searchQuery = intent.getStringExtra("query");
+            searchQuery = searchQuery.replace(" TOP", "");
             doSearch(searchQuery);
         }
     };

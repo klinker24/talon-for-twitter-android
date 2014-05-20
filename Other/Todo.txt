@@ -21,6 +21,7 @@
 
     - direct messages with pictures from the twitter app
     - can't research from the search page
+    - put quotes around searched hashtags
 
     Version 2.5.0
         - auto-complete hashtags

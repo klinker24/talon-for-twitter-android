@@ -2,6 +2,7 @@
     &#8226; Tranlate tweets (redirects to website)<br/>
     &#8226; Schedule tweets from the compose window<br/>
     &#8226; Automatically queue tweets to send from the compose window when data connection is established<br/>
+    &#8226; Filter in "top tweets" when searching<br/>
     &#8226; Attach pictures from the Talon Pull compose button<br/>
     &#8226; A little better handling of drafts<br/>
     &#8226; Better handling of clicks on the interaction drawer<br/>

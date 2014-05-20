@@ -343,6 +343,21 @@ public class SearchPager extends Activity {
 
                 return super.onOptionsItemSelected(item);
 
+            case R.id.menu_show_top_tweets:
+                if (!item.isChecked()) {
+                    searchQuery += " TOP";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace(" TOP", "");
+                    item.setChecked(false);
+                }
+
+                broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
+                broadcast.putExtra("query", searchQuery);
+                context.sendBroadcast(broadcast);
+
+                return super.onOptionsItemSelected(item);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
