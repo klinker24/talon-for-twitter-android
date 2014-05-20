@@ -85,7 +85,8 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:paddingRight="5dp"
-            android:paddingTop="6dp" />
+            android:paddingTop="6dp"
+            android:layoutDirection="locale" />
 
         <com.klinker.android.twitter.manipulations.widgets.HoloTextView
             android:id="@+id/retweeter"

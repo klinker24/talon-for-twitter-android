@@ -50,7 +50,6 @@
                 android:layout_width="wrap_content"
                 android:textStyle="bold"
                 android:textSize="18dp"
-                android:text="Name"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="8dp"/>
@@ -88,7 +87,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
                 android:paddingBottom="10dp"
-                android:text="@string/placeholder"/>
+                android:layoutDirection="locale"/>
 
             <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                 android:id="@+id/retweeter"
