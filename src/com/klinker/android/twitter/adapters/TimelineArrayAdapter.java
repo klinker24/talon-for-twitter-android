@@ -1556,6 +1556,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else if (url.contains("p.twipple.jp")) {
+
                 }
 
                 // Now we're not on the main thread we can check all caches

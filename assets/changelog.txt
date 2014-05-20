@@ -5,6 +5,9 @@
     &#8226; Attach pictures from the Talon Pull compose button<br/>
     &#8226; A little better handling of drafts<br/>
     &#8226; Better handling of clicks on the interaction drawer<br/>
+    &#8226; Improvements for RTL<br/>
+    &#8226; Changed the way that picture links are displayed<br/>
+    &#8226; In-line twipple image support<br/>
 <br/><br/>
 
 <b>Version 2.3.7:</b><br/><br/>
