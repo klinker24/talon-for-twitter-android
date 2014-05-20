@@ -90,7 +90,8 @@
                     android:layout_below="@+id/screenname"
                     android:paddingBottom="5dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginLeft="12dp" />
+                    android:layout_marginLeft="12dp"
+                    android:layoutDirection="locale"/>
 
             <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:id="@+id/retweeter"
