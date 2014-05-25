@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.klinker.android.twitter.settings.AppSettings;
 
+import java.util.ArrayList;
+
 import twitter4j.DirectMessage;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
@@ -360,6 +362,130 @@ public class TweetLinkUtils {
         }
 
         return new String[] { tweetTexts, imageUrl, otherUrl, mHashtags, mUsers };
+    }
+
+    public static ArrayList<String> getAllPictures(Status status) {
+        URLEntity[] urls = status.getURLEntities();
+        String expandedUrls = "";
+        String compressedUrls = "";
+
+        for (URLEntity entity : urls) {
+            String url = entity.getExpandedURL();
+            if (url.length() > 1) {
+                expandedUrls += url + "  ";
+                compressedUrls += entity.getURL() + "  ";
+            }
+        }
+
+        MediaEntity[] medias = status.getMediaEntities();
+        String mediaExp = "";
+        String mediaComp = "";
+
+        for (MediaEntity e : medias) {
+            String url = e.getURL();
+            if (url.length() > 1) {
+                mediaComp += url + "  ";
+                mediaExp += e.getExpandedURL() + "  ";
+            }
+        }
+
+        String[] sExpandedUrls;
+        String[] sCompressedUrls;
+        String[] sMediaExp;
+        String[] sMediaComp;
+
+        try {
+            sCompressedUrls = compressedUrls.split("  ");
+        } catch (Exception e) {
+            sCompressedUrls = new String[0];
+        }
+
+        try {
+            sExpandedUrls = expandedUrls.split("  ");
+        } catch (Exception e) {
+            sExpandedUrls = new String[0];
+        }
+
+        try {
+            sMediaComp = mediaComp.split("  ");
+        } catch (Exception e) {
+            sMediaComp = new String[0];
+        }
+
+        try {
+            sMediaExp = mediaExp.split("  ");
+        } catch (Exception e) {
+            sMediaExp = new String[0];
+        }
+
+        ArrayList<String> images = new ArrayList<String>();
+
+        for (int i = 0; i < sCompressedUrls.length; i++) {
+            String comp = sCompressedUrls[i];
+            String exp = sExpandedUrls[i];
+
+            if (comp.length() > 1 && exp.length() > 1) {
+                String str = exp.toLowerCase();
+
+                if(str.contains("instag") && !str.contains("blog.insta")) {
+                    images.add(exp + "media/?size=m");
+                } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user"))) {
+                    // first get the youtube video code
+                    int start = exp.indexOf("v=") + 2;
+                    int end = exp.length();
+                    if (exp.substring(start).contains("&")) {
+                        end = exp.indexOf("&");
+                    } else if (exp.substring(start).contains("?")) {
+                        end = exp.indexOf("?");
+                    }
+                    try {
+                        images.add("http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg");
+                    } catch (Exception e) {
+                        images.add("http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/hqdefault.jpg");
+                    }
+                } else if (str.contains("youtu.be")) {
+                    // first get the youtube video code
+                    int start = exp.indexOf(".be/") + 4;
+                    int end = exp.length();
+                    if (exp.substring(start).contains("&")) {
+                        end = exp.indexOf("&");
+                    } else if (exp.substring(start).contains("?")) {
+                        end = exp.indexOf("?");
+                    }
+                    try {
+                        images.add("http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg");
+                    } catch (Exception e) {
+                        images.add("http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/mqefault.jpg");
+                    }
+                } else if (str.contains("twitpic")) {
+                    int start = exp.indexOf(".com/") + 5;
+                    images.add("http://twitpic.com/show/full/" + exp.substring(start).replace("/",""));
+                } else if (str.contains("i.imgur") && !str.contains("/a/")) {
+                    images.add(("http://i.imgur.com/" + exp.replace("http://i.imgur.com/", "").replace(".jpg", "") + "m.jpg").replace("gallery/", ""));
+                } else if (str.contains("imgur") && !str.contains("/a/")) {
+                    images.add(("http://i.imgur.com/" + exp.replace("http://imgur.com/", "").replace(".jpg", "") + "m.jpg").replace("gallery/", "").replace("a/", ""));
+                } else if (str.contains("pbs.twimg.com")) {
+                    images.add(exp);
+                } else if (str.contains("ow.ly/i")) {
+                    images.add("http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg");
+                } else if (str.contains("p.twipple.jp")) {
+                    images.add("http://p.twipple.jp/show/large/" + exp.replace("p.twipple.jp/", "").replace("http://", "").replace("https://", "").replace("www.", ""));
+                } else if (str.contains(".jpg") || str.contains(".png")) {
+                    images.add(exp);
+                }
+            }
+        }
+
+        for (int i = 0; i < sMediaComp.length; i++) {
+            String comp = sMediaComp[i];
+            String exp = sMediaExp[i];
+
+            if (comp.length() > 1 && exp.length() > 1) {
+                images.add(status.getMediaEntities()[0].getMediaURL());
+            }
+        }
+
+        return images;
     }
 
     public static String removeColorHtml(String text, AppSettings settings) {
