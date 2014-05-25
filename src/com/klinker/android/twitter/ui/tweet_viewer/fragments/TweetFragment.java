@@ -57,6 +57,7 @@ import com.klinker.android.twitter.services.SendTweet;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter.ui.tweet_viewer.ViewPictures;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
@@ -64,6 +65,7 @@ import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.text.TextUtils;
 
@@ -72,6 +74,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -1000,7 +1003,7 @@ public class TweetFragment extends Fragment {
                 boolean retweetedByMe = false;
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
-                    twitter4j.Status status = twitter.showStatus(tweetId);
+                    final twitter4j.Status status = twitter.showStatus(tweetId);
 
                     GeoLocation loc = status.getGeoLocation();
                     try {
@@ -1045,7 +1048,7 @@ public class TweetFragment extends Fragment {
                     final boolean fRet = retweetedByMe;
                     final long fTime = realTime;
                     final Status fStatus = status;
-                            ((Activity) context).runOnUiThread(new Runnable() {
+                    ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
@@ -1089,6 +1092,20 @@ public class TweetFragment extends Fragment {
 
                                 favButton.clearColorFilter();
                             }
+
+                            final ArrayList<String> images = TweetLinkUtils.getAllPictures(status);
+
+                            if (images.size() > 1) {
+                                pictureIv.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent viewPics = new Intent(context, ViewPictures.class);
+                                        viewPics.putExtra("images", images);
+                                        startActivity(viewPics);
+                                    }
+                                });
+                            }
+
                         }
                     });
                 } catch (Exception e) {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
@@ -156,6 +157,27 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
 
     }
 
+    public void bindView(final View view, Context mContext, final String url) {
+        final ViewHolder holder = (ViewHolder) view.getTag();
+
+        holder.iv.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
+            @Override
+            public void onImageLoaded(CacheableBitmapDrawable result) {
+                holder.iv.setBackgroundDrawable(null);
+            }
+        });
+
+        holder.iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewImage = new Intent(context, PhotoViewerDialog.class);
+                viewImage.putExtra("url", url);
+                context.startActivity(viewImage);
+            }
+        });
+
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -177,7 +199,11 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
             }
         }
 
-        bindView(v, context, text.get(position), statuses.get(position));
+        if (statuses != null) {
+            bindView(v, context, text.get(position), statuses.get(position));
+        } else {
+            bindView(v, context, text.get(position));
+        }
 
         return v;
     }

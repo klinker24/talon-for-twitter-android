@@ -1,5 +1,6 @@
 <b>Version 2.4.0:</b><br/><br/>
     &#8226; Tranlate tweets (redirects to website)<br/>
+    &#8226; View multiple images in a tweet<br/>
     &#8226; Schedule tweets from the compose window<br/>
     &#8226; Automatically queue tweets to send from the compose window when data connection is established<br/>
     &#8226; Filter in "top tweets" when searching<br/>
