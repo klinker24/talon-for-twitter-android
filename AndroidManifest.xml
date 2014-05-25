@@ -489,6 +489,13 @@
             android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 
+        <activity android:name=".ui.tweet_viewer.ViewPictures"
+            android:label="@string/view_retweeters"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.TalonDark.Popup">
+        </activity>
+
         <activity android:name=".ui.drawer_activities.discover.people.PeopleSearch"
             android:label="@string/suggested_users"
             android:configChanges="orientation"
