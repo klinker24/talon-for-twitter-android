@@ -57,6 +57,8 @@
         <item>24</item>
         <item>25</item>
         <item>30</item>
+        <item>32</item>
+        <item>34</item>
     </string-array>
 
     <string-array name="sync_interval">

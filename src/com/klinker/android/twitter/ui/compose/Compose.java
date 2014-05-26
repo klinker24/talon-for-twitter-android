@@ -593,29 +593,35 @@ public abstract class Compose extends Activity implements
     }
 
     public void finishedTweetingNotification() {
-        try {
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.ic_stat_icon)
-                            .setContentTitle(getResources().getString(R.string.tweet_success))
-                            .setOngoing(false)
-                            .setTicker(getResources().getString(R.string.tweet_success));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setContentTitle(getResources().getString(R.string.tweet_success))
+                                    .setOngoing(false)
+                                    .setTicker(getResources().getString(R.string.tweet_success));
 
-            if (settings.vibrate) {
-                Log.v("talon_vibrate", "vibrate on compose");
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                long[] pattern = { 0, 50, 500 };
-                v.vibrate(pattern, -1);
+                    if (settings.vibrate) {
+                        Log.v("talon_vibrate", "vibrate on compose");
+                        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        long[] pattern = { 0, 50, 500 };
+                        v.vibrate(pattern, -1);
+                    }
+
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(6, mBuilder.build());
+                    // cancel it immediately, the ticker will just go off
+                    mNotificationManager.cancel(6);
+                } catch (Exception e) {
+                    // not attached?
+                }
             }
+        }, 500);
 
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(6, mBuilder.build());
-            // cancel it immediately, the ticker will just go off
-            mNotificationManager.cancel(6);
-        } catch (Exception e) {
-            // not attached?
-        }
     }
 
     @Override

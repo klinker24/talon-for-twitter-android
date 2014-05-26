@@ -281,7 +281,7 @@ public class SearchedTrendsActivity extends Activity {
 
             case R.id.menu_compose_with_search:
                 Intent compose = new Intent(context, ComposeActivity.class);
-                compose.putExtra("user", searchQuery + " ");
+                compose.putExtra("user", searchQuery.replaceAll("\"", "") + " ");
                 startActivity(compose);
                 return  super.onOptionsItemSelected(item);
 
@@ -292,7 +292,7 @@ public class SearchedTrendsActivity extends Activity {
                     public void run() {
                         try {
                             Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
-                            twitter.createSavedSearch(searchQuery);
+                            twitter.createSavedSearch(searchQuery.replaceAll("\"", ""));
 
                             ((Activity)context).runOnUiThread(new Runnable() {
                                 @Override
