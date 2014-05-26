@@ -341,6 +341,14 @@ public class SendTweet extends Service {
     }
 
     public void finishedTweetingNotification() {
+        // sometimes it just would keep making the notification for some reason...
+        // so delay it to insure it clears everything correctly
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+
+        }
+
         try {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(MainActivity.sContext)
@@ -349,7 +357,7 @@ public class SendTweet extends Service {
                             .setOngoing(false)
                             .setTicker(getResources().getString(R.string.tweet_success));
 
-            if (AppSettings.getInstance(this).vibrate) {
+            if (AppSettings.getInstance(getApplicationContext()).vibrate) {
                 Log.v("talon_vibrate", "vibrate on compose");
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 long[] pattern = { 0, 50, 500 };
@@ -366,5 +374,6 @@ public class SendTweet extends Service {
         } catch (Exception e) {
             // not attached to activity
         }
+
     }
 }

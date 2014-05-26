@@ -78,7 +78,7 @@ public class TrendsArrayAdapter extends ArrayAdapter<User> {
             public void onClick(View view) {
                 Intent search = new Intent(context, SearchedTrendsActivity.class);
                 search.setAction(Intent.ACTION_SEARCH);
-                search.putExtra(SearchManager.QUERY, trend);
+                search.putExtra(SearchManager.QUERY, "\"" + trend + "\"");
                 context.startActivity(search);
             }
         });

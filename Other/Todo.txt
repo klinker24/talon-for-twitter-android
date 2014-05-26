@@ -9,23 +9,18 @@
     - directly share photos instead of saving then sharing
 
 - Bugs:
-    - talon pull not always getting retweets
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
     - trim failed toast on my phone, not tablet
     - switch mentions to save the position instead of current unread method
+    - can't re-search from the search page
+    - duplicate followers and following with low numbers
 
 
 -- For Release --
 
     - direct messages with pictures from the twitter app
-    - can't re-search from the search page
-    - put quotes around searched hashtags
     - view multiple picture on a tweet (needs tested)
-    - 32 and 34 dp text sizes
-    - delay removal of the send notification to make sure it is cleared every time
-    - duplicate followers and following with low numbers
-    - change webview background to white after 85% or 90%
 
     Version 2.5.0
         - auto-complete hashtags

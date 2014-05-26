@@ -3,6 +3,7 @@ package com.klinker.android.twitter.ui.search;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -251,7 +252,7 @@ public class SearchPager extends Activity {
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 
         // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchPager.class)));
         searchView.setIconifiedByDefault(true);
 
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
