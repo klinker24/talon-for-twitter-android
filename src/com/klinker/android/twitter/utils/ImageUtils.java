@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.RejectedExecutionException;
 
@@ -416,8 +417,27 @@ public class ImageUtils {
 
                     if (null == result || profile) {
 
+                        String mUrl = url;
+
+                        if (url.contains("twitpic")) {
+                            try {
+                                URL address = new URL(url);
+                                HttpURLConnection connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
+                                connection.setConnectTimeout(1000);
+                                connection.setInstanceFollowRedirects(false);
+                                connection.setReadTimeout(1000);
+                                connection.connect();
+                                String expandedURL = connection.getHeaderField("Location");
+                                if(expandedURL != null) {
+                                    mUrl = expandedURL;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                         // The bitmap isn't cached so download from the web
-                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                        HttpURLConnection conn = (HttpURLConnection) new URL(mUrl).openConnection();
                         InputStream is = new BufferedInputStream(conn.getInputStream());
 
                         Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
@@ -435,7 +455,7 @@ public class ImageUtils {
 
                         // Add to cache
                         if (b != null) {
-                            result = mCache.put(url, b);
+                            result = mCache.put(mUrl, b);
                         }
                     }
 

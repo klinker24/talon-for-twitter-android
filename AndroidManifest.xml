@@ -490,7 +490,7 @@
         </activity>
 
         <activity android:name=".ui.tweet_viewer.ViewPictures"
-            android:label="@string/view_retweeters"
+            android:label="@string/pictures"
             android:configChanges="orientation"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.TalonDark.Popup">

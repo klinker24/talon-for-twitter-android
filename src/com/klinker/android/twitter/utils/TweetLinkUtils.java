@@ -364,7 +364,7 @@ public class TweetLinkUtils {
         return new String[] { tweetTexts, imageUrl, otherUrl, mHashtags, mUsers };
     }
 
-    public static ArrayList<String> getAllPictures(Status status) {
+    public static ArrayList<String> getAllExternalPictures(Status status) {
         URLEntity[] urls = status.getURLEntities();
         String expandedUrls = "";
         String compressedUrls = "";
