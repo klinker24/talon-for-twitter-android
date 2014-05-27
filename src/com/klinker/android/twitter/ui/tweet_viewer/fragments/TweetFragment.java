@@ -3,13 +3,9 @@ package com.klinker.android.twitter.ui.tweet_viewer.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -24,9 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
@@ -67,6 +61,7 @@ import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.File;
@@ -1003,7 +998,11 @@ public class TweetFragment extends Fragment {
                 boolean retweetedByMe = false;
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
+
+                    TwitterMultipleImageHelper helper = new TwitterMultipleImageHelper();
                     final twitter4j.Status status = twitter.showStatus(tweetId);
+
+                    final ArrayList<String> images = helper.getImageURLs(status, twitter);
 
                     GeoLocation loc = status.getGeoLocation();
                     try {
@@ -1093,18 +1092,21 @@ public class TweetFragment extends Fragment {
                                 favButton.clearColorFilter();
                             }
 
-                            final ArrayList<String> images = TweetLinkUtils.getAllPictures(status);
-
+                            for (String s : images) {
+                                Log.v("talon_image", s);
+                            }
                             if (images.size() > 1) {
-                                pictureIv.setOnClickListener(new View.OnClickListener() {
+                                Log.v("talon_images", "size: " + images.size());
+                                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
                                     @Override
-                                    public void onClick(View view) {
+                                    public void onViewTap(View view, float x, float y) {
                                         Intent viewPics = new Intent(context, ViewPictures.class);
                                         viewPics.putExtra("images", images);
                                         startActivity(viewPics);
                                     }
                                 });
                             }
+
 
                         }
                     });

@@ -123,6 +123,8 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     }
                 }
 
+                Log.v("talon_images", "url: " + url);
+
 
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;

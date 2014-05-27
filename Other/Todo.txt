@@ -7,6 +7,7 @@
     - rotation on tweet viewer
     - identify conversations from timeline
     - directly share photos instead of saving then sharing
+    - transparent status bar xposed
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)

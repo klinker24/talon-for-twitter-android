@@ -81,6 +81,8 @@ public class ViewPictures extends Activity {
 
         listView.setAdapter(new PicturesArrayAdapter(this, images, null));
 
+        spinner.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
     }
 
     public void setUpWindow() {

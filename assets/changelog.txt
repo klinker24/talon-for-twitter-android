@@ -1,3 +1,7 @@
+<b>Version 2.4.1:</b><br/><br/>
+    &#8226; More on viewing multiple images. Twitter releases this feature tomorrow.<br/>
+<br/><br/>
+
 <b>Version 2.4.0:</b><br/><br/>
     &#8226; Translate tweets (redirects to website)<br/>
     &#8226; View multiple images in a tweet<br/>
