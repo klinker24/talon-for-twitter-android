@@ -52,8 +52,6 @@ import twitter4j.auth.AccessToken;
 
 public class TwitterMultipleImageHelper {
 
-    private static String GET_URL = "https://api.twitter.com/1.1/statuses/show.json?id=";
-
     public ArrayList<String> getImageURLs (Status status, Twitter twitter) {
 
         ArrayList<String> images = TweetLinkUtils.getAllExternalPictures(status);
@@ -78,18 +76,15 @@ public class TwitterMultipleImageHelper {
             // the parameter string must be in alphabetical order, "text" parameter added at end
             String parameter_string = "oauth_consumer_key=" + AppSettings.TWITTER_CONSUMER_KEY + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
                     "&oauth_timestamp=" + oauth_timestamp + "&oauth_token=" + encode(oauth_token) + "&oauth_version=1.0";
-            System.out.println("parameter_string=" + parameter_string);
 
             String twitter_endpoint = "https://api.twitter.com/1.1/statuses/show/" + status.getId() + ".json";
             String twitter_endpoint_host = "api.twitter.com";
             String twitter_endpoint_path = "/1.1/statuses/show/" + status.getId() + ".json";
             String signature_base_string = get_or_post + "&"+ encode(twitter_endpoint) + "&" + encode(parameter_string);
-            System.out.println("signature_base_string=" + signature_base_string);
             String oauth_signature = computeSignature(signature_base_string, AppSettings.TWITTER_CONSUMER_SECRET + "&" + encode(oauth_token_secret));
 
             String authorization_header_string = "OAuth oauth_consumer_key=\"" + AppSettings.TWITTER_CONSUMER_KEY + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
                     "\",oauth_nonce=\"" + oauth_nonce + "\",oauth_version=\"1.0\",oauth_signature=\"" + encode(oauth_signature) + "\",oauth_token=\"" + encode(oauth_token) + "\"";
-            System.out.println("authorization_header_string=" + authorization_header_string);
 
 
             HttpParams params = new BasicHttpParams();
@@ -153,8 +148,6 @@ public class TwitterMultipleImageHelper {
 
                 }
             }
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

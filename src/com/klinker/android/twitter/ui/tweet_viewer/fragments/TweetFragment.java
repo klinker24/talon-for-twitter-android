@@ -1002,7 +1002,13 @@ public class TweetFragment extends Fragment {
                     TwitterMultipleImageHelper helper = new TwitterMultipleImageHelper();
                     final twitter4j.Status status = twitter.showStatus(tweetId);
 
-                    final ArrayList<String> images = helper.getImageURLs(status, twitter);
+                    ArrayList<String> i = new ArrayList<String>();
+
+                    if (picture) {
+                        i = helper.getImageURLs(status, twitter);
+                    }
+
+                    final ArrayList<String> images = i;
 
                     GeoLocation loc = status.getGeoLocation();
                     try {
