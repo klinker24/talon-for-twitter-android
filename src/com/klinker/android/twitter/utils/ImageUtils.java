@@ -133,7 +133,9 @@ public class ImageUtils {
         try {
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
 
-            Bitmap bitmap = currentImage;
+            return Bitmap.createScaledBitmap(currentImage, scale, scale, true);
+
+            /*Bitmap bitmap = currentImage;
             Bitmap output = Bitmap.createBitmap(scale,
                     scale, Bitmap.Config.ARGB_8888);
 
@@ -145,7 +147,7 @@ public class ImageUtils {
             canvas.drawARGB(0, 0, 0, 0);
             canvas.drawBitmap(bitmap, null, rect, paint);
 
-            return output;
+            return output;*/
         } catch (OutOfMemoryError e) {
             return currentImage;
         }
