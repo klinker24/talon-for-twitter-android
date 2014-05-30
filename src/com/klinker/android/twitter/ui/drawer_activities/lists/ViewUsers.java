@@ -154,9 +154,17 @@ public class ViewUsers extends Activity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
     }
 
+    ArrayList<User> array;
+    UserListMembersArrayAdapter people;
+
     class GetUsers extends AsyncTask<String, Void, ArrayList<User>> {
 
         protected ArrayList<User> doInBackground(String... urls) {
+
+            if (array == null) {
+                array = new ArrayList<User>();
+            }
+
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
@@ -164,13 +172,11 @@ public class ViewUsers extends Activity {
 
                 currCursor = users.getNextCursor();
 
-                ArrayList<User> array = new ArrayList<User>();
-
                 for (User user : users) {
                     array.add(user);
                 }
 
-                bigEnough = array.size() > 19;
+                bigEnough = users.size() > 16;
 
                 return array;
             } catch (Exception e) {
@@ -181,21 +187,12 @@ public class ViewUsers extends Activity {
 
         protected void onPostExecute(ArrayList<User> users) {
             if (users != null) {
-                final UserListMembersArrayAdapter people = new UserListMembersArrayAdapter(context, users, listId);
-                final int firstVisible = listView.getFirstVisiblePosition();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setAdapter(people);
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                listView.setSelection(firstVisible);
-                            }
-                        }, 100);
-                    }
-                });
+                if (people == null) {
+                    people = new UserListMembersArrayAdapter(context, users, listId);
+                    listView.setAdapter(people);
+                } else {
+                    people.notifyDataSetChanged();
+                }
             }
 
             listView.setVisibility(View.VISIBLE);

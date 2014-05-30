@@ -29,6 +29,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,9 +84,6 @@ public class NewScheduledTweet extends Activity {
     private int setHour = -1;
     private int setMinute = -1;
 
-    static final int DATE_DIALOG_ID = 0;
-    static final int TIME_DIALOG_ID = 1;
-
     private Button btDate;
     private Button btTime;
 
@@ -126,6 +124,12 @@ public class NewScheduledTweet extends Activity {
         mEditText = (EditText) findViewById(R.id.messageEntry2);
         emojiButton = (ImageButton) findViewById(R.id.emojiButton);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
+
+        // if they are coming from the compose window with text, then display it
+        if (getIntent().getBooleanExtra("has_text", false)) {
+            mEditText.setText(getIntent().getStringExtra("text"));
+            mEditText.setSelection(mEditText.getText().length());
+        }
 
         final ListPopupWindow autocomplete = new ListPopupWindow(context);
         autocomplete.setAnchorView(mEditText);
@@ -225,7 +229,9 @@ public class NewScheduledTweet extends Activity {
             btTime.setEnabled(false);
         }
 
-        mEditText.setText(startMessage);
+        if (mEditText.getText().toString().isEmpty()) {
+            mEditText.setText(startMessage);
+        }
 
         if (!startDate.equals("")) {
             Date startDateObj = new Date(Long.parseLong(startDate));

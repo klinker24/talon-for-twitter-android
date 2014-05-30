@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -59,6 +60,8 @@ public class ViewScheduledTweets extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.scheduled_tweet_viewer);
+
+        final String text = getIntent().getStringExtra("text");
 
         listView = (ListView) findViewById(R.id.smsListView);
         addNew = (Button) findViewById(R.id.addNewButton);
@@ -111,6 +114,11 @@ public class ViewScheduledTweets extends Activity {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(context, NewScheduledTweet.class);
+                if (getIntent().getBooleanExtra("has_text", false)) {
+                    intent.putExtra("has_text", true);
+                    intent.putExtra("text", text);
+                    getIntent().putExtra("has_text", false);
+                }
                 startActivity(intent);
             }
 
