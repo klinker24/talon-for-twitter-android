@@ -1,3 +1,8 @@
+<b>Version 2.4.2:</b><br/><br/>
+    &#8226; Improved list member viewing<br/>
+    &#8226; Insert composed text into a scheduled tweet<br/>
+<br/><br/>
+
 <b>Version 2.4.1:</b><br/><br/>
     &#8226; More on viewing multiple images. Twitter releases this feature tomorrow.<br/>
 <br/><br/>

@@ -633,7 +633,12 @@ public class ComposeActivity extends Compose {
                 }
                 return true;
             case R.id.menu_schedule_tweet:
-                startActivity(new Intent(context, ViewScheduledTweets.class));
+                Intent schedule = new Intent(context, ViewScheduledTweets.class);
+                if (!reply.getText().toString().isEmpty()) {
+                    schedule.putExtra("has_text", true);
+                    schedule.putExtra("text", reply.getText().toString());
+                }
+                startActivity(schedule);
                 finish();
                 return true;
             case R.id.menu_view_queued:
