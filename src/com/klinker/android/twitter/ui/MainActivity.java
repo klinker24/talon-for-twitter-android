@@ -45,6 +45,7 @@ import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.setup.TutorialActivity;
 import com.klinker.android.twitter.ui.setup.Version2Setup;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
+import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.UpdateUtils;
 
 import java.lang.reflect.Field;
@@ -439,6 +440,18 @@ public class MainActivity extends DrawerActivity {
 
         // clear the pull unread
         sharedPrefs.edit().putInt("pull_unread", 0).commit();
+
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+
+                }
+                NotificationUtils.refreshNotification(context);
+            }
+        }).start();*/
     }
 
     public Intent getRestartIntent() {

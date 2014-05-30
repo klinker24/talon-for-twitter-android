@@ -206,16 +206,20 @@ public class NotificationUtils {
                 if (settings.led)
                     mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
-                NotificationManager mNotificationManager =
+                /*NotificationManager mNotificationManager =
                         (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(1, mBuilder.build());
+                mNotificationManager.notify(1, mBuilder.build());*/
 
                 // Get an instance of the NotificationManager service
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(context);
 
+                Notification notification =
+                        new WearableNotifications.Builder(mBuilder)
+                                .build();
+
                 // Build the notification and issues it with notification manager.
-                notificationManager.notify(notificationId, notification);
+                notificationManager.notify(1, notification);
 
                 // if we want to wake the screen on a new message
                 if (settings.wakeScreen) {
