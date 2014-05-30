@@ -17,6 +17,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
+import android.preview.support.wearable.notifications.*;
+import android.preview.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.NotificationCompat;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
@@ -206,6 +209,13 @@ public class NotificationUtils {
                 NotificationManager mNotificationManager =
                         (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.notify(1, mBuilder.build());
+
+                // Get an instance of the NotificationManager service
+                NotificationManagerCompat notificationManager =
+                        NotificationManagerCompat.from(context);
+
+                // Build the notification and issues it with notification manager.
+                notificationManager.notify(notificationId, notification);
 
                 // if we want to wake the screen on a new message
                 if (settings.wakeScreen) {
