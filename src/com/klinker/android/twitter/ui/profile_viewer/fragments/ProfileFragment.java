@@ -109,20 +109,6 @@ public class ProfileFragment extends Fragment {
         context = activity;
     }
 
-    /*@Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-
-        if (level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_RUNNING_LOW) {
-            try {
-                ((BitmapDrawable)background.getDrawable()).getBitmap().recycle();
-            } catch (Exception e) { }
-            try {
-                ((BitmapDrawable)profilePicture.getDrawable()).getBitmap().recycle();
-            } catch (Exception e) { }
-        }
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -546,7 +532,7 @@ public class ProfileFragment extends Fragment {
                                 if (thisUser != null && thisUser.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
                                     if (settings.roundContactImages) {
-                                        ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                        ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
                                     } else {
                                         ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                                     }
@@ -609,7 +595,7 @@ public class ProfileFragment extends Fragment {
                             }
 
                             if(settings.roundContactImages) {
-                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
                             } else {
                                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                             }
@@ -629,7 +615,7 @@ public class ProfileFragment extends Fragment {
                             if (user != null && user.isProtected()) {
                                 Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
                                 if(settings.roundContactImages) {
-                                    ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
+                                    ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
                                 } else {
                                     ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
                                 }
@@ -692,7 +678,7 @@ public class ProfileFragment extends Fragment {
                             }
 
                             if(settings.roundContactImages) {
-                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
                             } else {
                                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                             }
@@ -714,7 +700,7 @@ public class ProfileFragment extends Fragment {
                                 if (user != null && user.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
                                     if (settings.roundContactImages) {
-                                        ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
+                                        ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
                                     } else {
                                         ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
                                     }
@@ -776,7 +762,7 @@ public class ProfileFragment extends Fragment {
                             }
 
                             if(settings.roundContactImages) {
-                                ImageUtils.loadCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, true);
+                                ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
                             } else {
                                 ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
                             }
@@ -798,7 +784,7 @@ public class ProfileFragment extends Fragment {
                                 if (user != null && user.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
                                     if (settings.roundContactImages) {
-                                        ImageUtils.loadCircleImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache, true);
+                                        ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
                                     } else {
                                         ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
                                     }

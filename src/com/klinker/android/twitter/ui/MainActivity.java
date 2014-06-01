@@ -44,6 +44,7 @@ import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.ui.setup.TutorialActivity;
 import com.klinker.android.twitter.ui.setup.Version2Setup;
+import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.UpdateUtils;
@@ -364,6 +365,16 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        if (settings.layout == AppSettings.LAYOUT_TALON && !settings.addonTheme && sharedPrefs.getBoolean("clear_cache", true)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    IOUtils.trimCache(context);
+                    sharedPrefs.edit().putBoolean("clear_cache", false).commit();
+                }
+            }).start();
+        }
 
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
