@@ -84,11 +84,56 @@ public class ImageUtils {
         return output;
     }
 
+    public static Bitmap getSizedCircle(Bitmap currentImage, Context context, int dp) {
+
+        int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+
+        Bitmap output;
+        try {
+            output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
+
+        Canvas canvas = new Canvas(output);
+        Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+        Rect rect = new Rect(0, 0, scale, scale);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        try {
+            canvas.drawBitmap(currentImage, null, rect, paint);
+        } catch (Exception e) {
+            // bitmap is null i guess
+
+        }
+
+        ResourceHelper helper = new ResourceHelper(context, "com.klinker.android.twitter");
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(helper.getDimension("contact_picture_border"));
+
+        try {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circle_border});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            paint.setColor(context.getResources().getColor(resource));
+        } catch (Exception e) {
+            paint.setColor(helper.getColor("circle_outline_dark"));
+        }
+
+        canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
+
+        return resizeImage(context, output, dp);
+    }
+
     public static Bitmap getBiggerCircle(Bitmap currentImage, Context context) {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, context.getResources().getDisplayMetrics());
 
         Bitmap bitmap = currentImage;
         Bitmap output;
+
         try {
             output = Bitmap.createBitmap(scale,
                     scale, Bitmap.Config.ARGB_8888);
@@ -134,20 +179,16 @@ public class ImageUtils {
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
 
             return Bitmap.createScaledBitmap(currentImage, scale, scale, true);
+        } catch (OutOfMemoryError e) {
+            return currentImage;
+        }
+    }
 
-            /*Bitmap bitmap = currentImage;
-            Bitmap output = Bitmap.createBitmap(scale,
-                    scale, Bitmap.Config.ARGB_8888);
+    public static Bitmap resizeImage(Context context, Bitmap currentImage, int dp) {
+        try {
+            int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
 
-            Canvas canvas = new Canvas(output);
-            Paint paint = new Paint();
-            Rect rect = new Rect(0, 0, scale, scale);
-
-            paint.setAntiAlias(true);
-            canvas.drawARGB(0, 0, 0, 0);
-            canvas.drawBitmap(bitmap, null, rect, paint);
-
-            return output;*/
+            return Bitmap.createScaledBitmap(currentImage, scale, scale, true);
         } catch (OutOfMemoryError e) {
             return currentImage;
         }
@@ -592,6 +633,24 @@ public class ImageUtils {
         }
     }
 
+    public static void loadSizedCircleImage(Context context, final ImageView iv, String url, BitmapLruCache mCache, int dp) {
+
+        // don't want to find the cached one
+        iv.setImageDrawable(null);
+
+        ImageUrlCircleSizedAsyncTask mCurrentTask = new ImageUrlCircleSizedAsyncTask(context, iv, mCache, dp);
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                SDK11.executeOnThreadPool(mCurrentTask, url);
+            } else {
+                mCurrentTask.execute(url);
+            }
+        } catch (RejectedExecutionException e) {
+            // This shouldn't happen, but might.
+        }
+    }
+
     public static void loadCircleImage(Context context, final ImageView iv, String url, BitmapLruCache mCache, boolean largerProfile) {
 
         // don't want to find the cached one
@@ -665,6 +724,105 @@ public class ImageUtils {
                     // Add to cache
                     if (b != null && mCache != null) {
                         result = mCache.put(url, b);
+                    } else {
+                        return null;
+                    }
+
+                    try {
+                        is.close();
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+
+                    }
+
+                } else {
+                    Log.d("talon_image_cache", "Got from Cache: " + url);
+                }
+
+                return result;
+
+            } catch (IOException e) {
+                Log.e("talon_image_cache", e.toString());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(CacheableBitmapDrawable result) {
+            super.onPostExecute(result);
+
+            try {
+                final ImageView iv = mImageViewRef.get();
+
+                if (null != iv && iv.getVisibility() != View.GONE) {
+                    iv.setImageDrawable(result);
+                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+                    iv.startAnimation(fadeInAnimation);
+                }
+
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    private static class ImageUrlCircleSizedAsyncTask
+            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
+
+        private final BitmapLruCache mCache;
+        private Context context;
+        private final WeakReference<ImageView> mImageViewRef;
+        private ImageView iv;
+        private int dp;
+
+        ImageUrlCircleSizedAsyncTask(Context context, ImageView imageView, BitmapLruCache cache, int dp) {
+            this.context = context;
+            mCache = cache;
+            mImageViewRef = new WeakReference<ImageView>(imageView);
+            iv = imageView;
+            this.dp = dp;
+        }
+
+        @Override
+        protected CacheableBitmapDrawable doInBackground(String... params) {
+            try {
+                // Return early if the ImageView has disappeared.
+                if (null == mImageViewRef.get()) {
+                    return null;
+                }
+                final String url = params[0];
+
+                // Now we're not on the main thread we can check all caches
+                CacheableBitmapDrawable result;
+
+                try {
+                    result = mCache.get(url + "_profile");
+                } catch (OutOfMemoryError e) {
+                    return null;
+                }
+
+                Log.v("talon_image_cache", "result: " + result);
+
+                if (null == result) {
+                    Log.d("talon_image_cache", "Downloading: " + url);
+
+                    // The bitmap isn't cached so download from the web
+                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                    InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                    Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                    b = getSizedCircle(b, context, dp);
+
+                    // Add to cache
+                    if (b != null && mCache != null) {
+                        result = mCache.put(url + "_profile", b);
                     } else {
                         return null;
                     }
