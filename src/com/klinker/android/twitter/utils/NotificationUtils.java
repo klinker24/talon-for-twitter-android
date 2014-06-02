@@ -60,6 +60,9 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class NotificationUtils {
 
+    // Key for the string that's delivered in the action's intent
+    public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
+
     public static void refreshNotification(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
 
@@ -114,46 +117,21 @@ public class NotificationUtils {
 
             NotificationCompat.Builder mBuilder;
 
-            if (useExpanded) {
-                mBuilder = new NotificationCompat.Builder(context)
-                        .setContentTitle(title[0])
-                        .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setLargeIcon(getIcon(context, unreadCounts, title[1]))
-                        .setContentIntent(resultPendingIntent)
-                        .setAutoCancel(true)
-                        .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
-                        .setDeleteIntent(readPending)
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
+            //if (useExpanded) {
+            mBuilder = new NotificationCompat.Builder(context)
+                    .setContentTitle(title[0])
+                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
+                    .setSmallIcon(R.drawable.ic_stat_icon)
+                    .setLargeIcon(getIcon(context, unreadCounts, title[1]))
+                    .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true)
+                    .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
+                    .setDeleteIntent(readPending)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ?
+                            longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
-                if (addButton) { // the reply and read button should be shown
-                    Intent reply;
-                    if (unreadCounts[1] == 1) {
-                        reply = new Intent(context, NotificationCompose.class);
-                    } else {
-                        reply = new Intent(context, NotificationDMCompose.class);
-                    }
 
-                    Log.v("username_for_noti", title[1]);
-                    sharedPrefs.edit().putString("from_notification", "@" + title[1] + " " + title[2]).commit();
-                    MentionsDataSource data = MentionsDataSource.getInstance(context);
-                    long id = data.getLastIds(currentAccount)[0];
-                    PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
-                    sharedPrefs.edit().putLong("from_notification_long", id).commit();
-
-                    mBuilder.addAction(R.drawable.ic_action_reply_dark, context.getResources().getString(R.string.noti_reply), replyPending);
-
-                    mBuilder.addAction(R.drawable.ic_action_read_dark, context.getResources().getString(R.string.mark_read), readPending);
-                } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
-                    Intent popup = new Intent(context, RedirectToPopup.class);
-                    popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    popup.putExtra("from_notification", true);
-
-                    PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
-
-                    mBuilder.addAction(R.drawable.ic_popup, context.getResources().getString(R.string.popup), popupPending);
-                }
-            } else {
+            /*} else {
                 mBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle(title[0])
                         .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
@@ -163,7 +141,7 @@ public class NotificationUtils {
                         .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                         .setDeleteIntent(readPending)
                         .setAutoCancel(true);
-            }
+            }*/
 
             // Pebble notification
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
@@ -206,20 +184,61 @@ public class NotificationUtils {
                 if (settings.led)
                     mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
-                /*NotificationManager mNotificationManager =
-                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(1, mBuilder.build());*/
-
                 // Get an instance of the NotificationManager service
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(context);
 
-                Notification notification =
-                        new WearableNotifications.Builder(mBuilder)
-                                .build();
+                WearableNotifications.Builder wearableBuilder =
+                        new WearableNotifications.Builder(mBuilder);
+
+                if (addButton) { // the reply and read button should be shown
+                    Intent reply;
+                    if (unreadCounts[1] == 1) {
+                        reply = new Intent(context, NotificationCompose.class);
+                    } else {
+                        reply = new Intent(context, NotificationDMCompose.class);
+                    }
+
+                    Log.v("username_for_noti", title[1]);
+                    sharedPrefs.edit().putString("from_notification", "@" + title[1] + " " + title[2]).commit();
+                    MentionsDataSource data = MentionsDataSource.getInstance(context);
+                    long id = data.getLastIds(currentAccount)[0];
+                    PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+                    sharedPrefs.edit().putLong("from_notification_long", id).commit();
+
+                    // Create the remote input
+                    RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
+                            .setLabel("@" + title[1] + " ")
+                            .build();
+
+                    // Create the notification action
+                    WearableNotifications.Action replyAction = new WearableNotifications.Action.Builder(R.drawable.ic_action_reply_dark,
+                            context.getResources().getString(R.string.noti_reply), replyPending)
+                            .addRemoteInput(remoteInput)
+                            .build();
+
+                    WearableNotifications.Action.Builder action = new WearableNotifications.Action.Builder(
+                            R.drawable.ic_action_read_dark,
+                            context.getResources().getString(R.string.mark_read), readPending);
+
+                    wearableBuilder.addAction(replyAction);
+                    wearableBuilder.addAction(action.build());
+                } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
+                    Intent popup = new Intent(context, RedirectToPopup.class);
+                    popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    popup.putExtra("from_notification", true);
+
+                    PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
+
+                    WearableNotifications.Action.Builder action = new WearableNotifications.Action.Builder(
+                            R.drawable.ic_popup,
+                            context.getResources().getString(R.string.popup), popupPending);
+
+                    wearableBuilder.addAction(action.build());
+                }
 
                 // Build the notification and issues it with notification manager.
-                notificationManager.notify(1, notification);
+                notificationManager.notify(1, wearableBuilder.build());
 
                 // if we want to wake the screen on a new message
                 if (settings.wakeScreen) {
@@ -604,7 +623,7 @@ public class NotificationUtils {
             // return because there is a mention notification for this already
             return;
         }
-        if (context.getResources().getBoolean(R.bool.expNotifications)) {
+        //if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
@@ -613,7 +632,7 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
-        } else {
+        /*} else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
@@ -621,7 +640,7 @@ public class NotificationUtils {
                     .setLargeIcon(largeIcon)
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true);
-        }
+        }*/
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -639,9 +658,17 @@ public class NotificationUtils {
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
-            NotificationManager mNotificationManager =
+            /*NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(2, mBuilder.build());
+            mNotificationManager.notify(2, mBuilder.build());*/
+
+            NotificationManagerCompat notificationManager =
+                    NotificationManagerCompat.from(context);
+
+            WearableNotifications.Builder wearableBuilder =
+                    new WearableNotifications.Builder(mBuilder);
+
+            notificationManager.notify(2, wearableBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -731,7 +758,7 @@ public class NotificationUtils {
 
         AppSettings settings = AppSettings.getInstance(context);
 
-        if (context.getResources().getBoolean(R.bool.expNotifications)) {
+        //if (context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
@@ -741,7 +768,7 @@ public class NotificationUtils {
                     .setDeleteIntent(readPending)
                     .setAutoCancel(true)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
-        } else {
+        /*} else {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
                     .setContentText(TweetLinkUtils.removeColorHtml(messageLong, settings))
@@ -750,7 +777,7 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setDeleteIntent(readPending)
                     .setAutoCancel(true);
-        }
+        }*/
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -768,9 +795,17 @@ public class NotificationUtils {
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
-            NotificationManager mNotificationManager =
+            /*NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(9, mBuilder.build());
+            mNotificationManager.notify(9, mBuilder.build());*/
+
+            NotificationManagerCompat notificationManager =
+                    NotificationManagerCompat.from(context);
+
+            WearableNotifications.Builder wearableBuilder =
+                    new WearableNotifications.Builder(mBuilder);
+
+            notificationManager.notify(9, wearableBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -890,9 +925,17 @@ public class NotificationUtils {
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
-            NotificationManager mNotificationManager =
+            /*NotificationManager mNotificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(4, mBuilder.build());
+            mNotificationManager.notify(4, mBuilder.build());*/
+
+            NotificationManagerCompat notificationManager =
+                    NotificationManagerCompat.from(context);
+
+            WearableNotifications.Builder wearableBuilder =
+                    new WearableNotifications.Builder(mBuilder);
+
+            notificationManager.notify(4, wearableBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {

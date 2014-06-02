@@ -1,6 +1,8 @@
 <b>Version 2.4.2:</b><br/><br/>
+    &#8226; Android Wear support<br/>
     &#8226; Improved list member viewing<br/>
     &#8226; Insert composed text into a scheduled tweet<br/>
+    &#8226; Few changes for loading circle images<br/>
 <br/><br/>
 
 <b>Version 2.4.1:</b><br/><br/>
