@@ -570,6 +570,12 @@ Talon yerine TwitPic kullanarak resim yükleme.</string>
     <string name="viewer_page_summary">Bir tweet\' i görüntülemek için varsayılan sayfa.</string>
     <string name="browser_settings">Tarayıcı Ayarları</string>
     <string name="memory_manage">Bellek Yönetimi</string>
+    <string name="protected_account">Kullanıcının korunan bir hesabı var!</string>
+    <string name="mute_rt">Sessiz Retweetler</string>
+    <string name="unmute_rt">Tekrar Aktif Edilen Retweetler</string>
+    <string name="muted_rts">Sessizleştiriln Retwetler</string>
+    <string name="twitter">Twitter</string>
+    <string name="user">Kullanıcılar</string>
     <string name="open_to_web">Twetleri web sayfasında göster</string>
     <string name="open_to_web_summary">Tweet bir web bağlantısı içeriyorsa, o bağlantı yerine tweet\'in kendisi doğrudan açılacaktır.</string>
 </resources>
