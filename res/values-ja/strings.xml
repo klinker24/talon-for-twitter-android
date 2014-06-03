@@ -576,6 +576,20 @@ TalonはTwitPicに画像をアップロードします。</string>
     <string name="muted_rts">ミュートしたリツイート</string>
     <string name="twitter">Twitter</string>
     <string name="user">ユーザー</string>
+    <string name="menu_translate">ツイートの翻訳</string>
+    <string name="add_new_tweet">新規ツイートの追加</string>
+    <string name="scheduled_tweets">スケジュールしたツイート</string>
+    <string name="done_label">完了</string>
+    <string name="tweet_queued">ツイートをキューに追加しました!</string>
+    <string name="only_queue_no_pic">画像がついていないツイートだけキュー出来ます!</string>
+    <string name="menu_view_queued">キューに追加したツイートを表示</string>
+    <string name="keep_queued_tweet">キューに追加したツイートをそのままにしますか?</string>
+    <string name="date_picker">日付の選択</string>
+    <string name="time_picker">時間の選択</string>
+    <string name="complete_form">フォームを埋めてください!</string>
+    <string name="no_drafts">下書きがありません</string>
+    <string name="no_queued">キューに追加したツイートはありません</string>
+    <string name="menu_show_top_tweets">トップツイートをフィルタする</string>
     <string name="open_to_web">ツイートのURLを直接開く</string>
     <string name="open_to_web_summary">ツイートにURLが含まれている場合に、ツイート自体ではなくそのURLを直接開くようにします。</string>
 </resources>

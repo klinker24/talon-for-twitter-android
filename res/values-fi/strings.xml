@@ -52,7 +52,7 @@
     <string name="world_trends">Maailman trendit</string>
     <string name="search">Etsi</string>
     <string name="lists">Listat</string>
-    <string name="search_hint">\@käyttäjänimi tai etsi...</string>
+    <string name="search_hint">Etsi...</string>
     <string name="new_tweet">uusi twiitti</string>
     <string name="new_tweets">uusia twiitteja</string>
     <string name="no_new_tweets">Ei uusia twiittejä</string>

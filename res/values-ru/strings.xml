@@ -576,6 +576,20 @@
     <string name="muted_rts">Скрытые ретвиты</string>
     <string name="twitter">Твиттер</string>
     <string name="user">Пользователи</string>
+    <string name="menu_translate">Перевести твит</string>
+    <string name="add_new_tweet">Добавить твит</string>
+    <string name="scheduled_tweets">Запланированные твиты</string>
+    <string name="done_label">Готово</string>
+    <string name="tweet_queued">Твит в очереди!</string>
+    <string name="only_queue_no_pic">В очередь можно поставить только твиты без картинок!</string>
+    <string name="menu_view_queued">Показать очередь</string>
+    <string name="keep_queued_tweet">Оставить твит в очереди?</string>
+    <string name="date_picker">Выберите дату</string>
+    <string name="time_picker">Выберите время</string>
+    <string name="complete_form">Пожалуйста, заполните форму!</string>
+    <string name="no_drafts">Нет черновиков</string>
+    <string name="no_queued">Очередь пуста</string>
+    <string name="menu_show_top_tweets">Фильтровать \"Топовые твиты\"</string>
     <string name="open_to_web">Открывать ссылки в твитах</string>
     <string name="open_to_web_summary">Если твит содержит ссылку, будет открываться страница с ней, а не сам твит.</string>
 </resources>

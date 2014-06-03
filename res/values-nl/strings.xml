@@ -52,7 +52,7 @@
     <string name="world_trends">Wereld Trends</string>
     <string name="search">Zoeken</string>
     <string name="lists">Lijsten</string>
-    <string name="search_hint">\@gebruikersnaam of zoeken... </string>
+    <string name="search_hint">Zoeken...</string>
     <string name="new_tweet">nieuwe tweet</string>
     <string name="new_tweets">nieuwe tweets</string>
     <string name="no_new_tweets">Geen nieuwe tweets</string>
@@ -568,6 +568,26 @@ In plaats daarvan, zal Talon de afbeeldingen uploaden met behulp van TwitPic.</s
     <string name="viewer_page_summary">Standaard pagina die geopend wordt tijdens het weergeven van een tweet</string>
     <string name="browser_settings">Browser instellingen</string>
     <string name="memory_manage">Geheugenbeheer</string>
+    <string name="protected_account">Gebruiker heeft een afgeschermd account!</string>
+    <string name="mute_rt">Demp Retweets</string>
+    <string name="unmute_rt">Dempen Retweets ongedaan maken</string>
+    <string name="muted_rts">Gedempte Retweeters</string>
+    <string name="twitter">Twitter</string>
+    <string name="user">Gebruikers</string>
+    <string name="menu_translate">Vertaal Tweet</string>
+    <string name="add_new_tweet">Voeg nieuwe tweet toe</string>
+    <string name="scheduled_tweets">Geplande Tweets</string>
+    <string name="done_label">Klaar</string>
+    <string name="tweet_queued">Tweet ingepland!</string>
+    <string name="only_queue_no_pic">We kunnen alleen tweets zonder afbeeldingen inplannen!</string>
+    <string name="menu_view_queued">Bekijk ingeplande tweets</string>
+    <string name="keep_queued_tweet">Ingeplande tweet behouden?</string>
+    <string name="date_picker">Kies Datum</string>
+    <string name="time_picker">Kies Tijd</string>
+    <string name="complete_form">Maak het formulier alstublieft compleet!</string>
+    <string name="no_drafts">Geen concepten gevonden</string>
+    <string name="no_queued">Geen ingeplande tweets</string>
+    <string name="menu_show_top_tweets">Filter \'Top Tweets\'</string>
     <string name="open_to_web">Open naar webpagina</string>
     <string name="open_to_web_summary">Wanneer een tweet een web url bevat, zal direct die url geopend worden i.p.v. de tweet zelf.</string>
 </resources>

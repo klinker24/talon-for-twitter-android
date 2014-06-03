@@ -576,6 +576,20 @@
     <string name="muted_rts">Retweeteadores silenciados</string>
     <string name="twitter">Twitter</string>
     <string name="user">Usuarios</string>
+    <string name="menu_translate">Traducir tweet</string>
+    <string name="add_new_tweet">Agregar tweet nuevo</string>
+    <string name="scheduled_tweets">Tweets programados</string>
+    <string name="done_label">Listo</string>
+    <string name="tweet_queued">¡Tweet agregado a la cola!</string>
+    <string name="only_queue_no_pic">¡Solo podemos agregar tweets sin imágenes!</string>
+    <string name="menu_view_queued">Ver tweets en la cola</string>
+    <string name="keep_queued_tweet">¿Mantener tweet en la cola?</string>
+    <string name="date_picker">Elegir fecha</string>
+    <string name="time_picker">Elegir hora</string>
+    <string name="complete_form">¡Por favor completa el formulario!</string>
+    <string name="no_drafts">No se encontraron borradores</string>
+    <string name="no_queued">No hay tweets en la cola</string>
+    <string name="menu_show_top_tweets">Filtrar \"Tweets Destacados\"</string>
     <string name="open_to_web">Abrir enlaces web en el tweet</string>
     <string name="open_to_web_summary">Si el tweet contiene un enlace web, este se abrirá directamente en lugar de abrir el tweet.</string>
 </resources>
