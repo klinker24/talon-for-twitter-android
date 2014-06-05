@@ -21,7 +21,7 @@
 -- For Release --
 
     - direct messages with pictures from the twitter app
-    - view multiple picture on a tweet (needs tested)
+    - top tweets on search page and on trend search not working
 
     Version 2.5.0
         - auto-complete hashtags

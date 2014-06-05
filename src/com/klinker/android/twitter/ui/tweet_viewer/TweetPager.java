@@ -668,8 +668,6 @@ public class TweetPager extends YouTubeBaseActivity {
                         fItems[i] = urls.get(i);
                     }
 
-                    final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
                     if (fItems.length > 1) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setItems(fItems, new DialogInterface.OnClickListener() {
@@ -704,16 +702,12 @@ public class TweetPager extends YouTubeBaseActivity {
                 try {
                     String query = URLEncoder.encode(tweet, "utf-8");
                     String url = "https://translate.google.com/#auto/en/" + query;
-                    if (settings.inAppBrowser) {
-                        Intent brows = new Intent(context, BrowserActivity.class);
-                        brows.putExtra("url", url);
-                        startActivity(brows);
-                    } else {
-                        Uri uri = Uri.parse(url);
-                        Intent browser = new Intent(Intent.ACTION_VIEW, uri);
-                        browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(browser);
-                    }
+                    Uri uri = Uri.parse(url);
+
+                    Intent browser = new Intent(Intent.ACTION_VIEW, uri);
+                    browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    startActivity(browser);
                 } catch (Exception e) {
 
                 }

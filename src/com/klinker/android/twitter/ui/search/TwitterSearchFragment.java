@@ -285,7 +285,7 @@ public class TwitterSearchFragment extends Fragment {
                     Log.v("talon_searching", "query in frag: " + mQuery);
                     query = new Query(mQuery);
                     if (topTweets) {
-                        query.setResultType(Query.POPULAR);
+                        query.setResultType(Query.ResultType.popular);
                     } else {
                         query.setResultType(null);
                     }

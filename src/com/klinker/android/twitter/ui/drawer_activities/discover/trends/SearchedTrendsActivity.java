@@ -336,6 +336,19 @@ public class SearchedTrendsActivity extends Activity {
                 doSearch(searchQuery);
                 return super.onOptionsItemSelected(item);
 
+            case R.id.menu_show_top_tweets:
+                if (!item.isChecked()) {
+                    searchQuery += " TOP";
+                    item.setChecked(true);
+                } else {
+                    searchQuery = searchQuery.replace(" TOP", "");
+                    item.setChecked(false);
+                }
+
+                doSearch(searchQuery);
+
+                return super.onOptionsItemSelected(item);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -434,7 +447,14 @@ public class SearchedTrendsActivity extends Activity {
             public void run() {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
-                    query = new Query(mQuery);
+
+                    query = new Query();
+
+                    if (mQuery.contains(" TOP")) {
+                        query.setResultType(Query.ResultType.popular);
+                    }
+
+                    query.setQuery(mQuery.replace(" TOP", ""));
                     QueryResult result;
                     try {
                         result = twitter.search(query);
