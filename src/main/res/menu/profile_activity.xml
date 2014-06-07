@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_tweet"
+          android:orderInCategory="1"
+          android:title="@string/menu_tweet"
+          android:icon="?sendButton"
+          android:showAsAction="always"  />
+
+    <item android:id="@+id/menu_follow"
+          android:orderInCategory="2"
+          android:title="@string/menu_follow"
+          android:showAsAction="never"  />
+
+    <item android:id="@+id/menu_unfollow"
+          android:orderInCategory="3"
+          android:title="@string/menu_unfollow"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_favorite"
+        android:orderInCategory="4"
+        android:title="@string/menu_favorite"
+        android:showAsAction="never"  />
+
+    <item android:id="@+id/menu_unfavorite"
+        android:orderInCategory="5"
+        android:title="@string/menu_unfavorite"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_block"
+          android:orderInCategory="6"
+          android:title="@string/menu_block"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_unblock"
+          android:orderInCategory="7"
+          android:title="@string/menu_unblock"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_add_to_list"
+          android:orderInCategory="8"
+          android:title="@string/menu_add_to_list"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_dm"
+          android:orderInCategory="9"
+          android:title="@string/menu_dm"
+          android:showAsAction="never"  />
+
+    <item android:id="@+id/menu_change_picture"
+          android:orderInCategory="10"
+          android:title="@string/menu_change_picture"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_change_banner"
+          android:orderInCategory="11"
+          android:title="@string/menu_change_banner"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_change_bio"
+          android:orderInCategory="12"
+          android:title="@string/menu_change_bio"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_mute"
+          android:orderInCategory="13"
+          android:title="@string/mute"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_unmute"
+        android:orderInCategory="14"
+        android:title="@string/unmute"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_mute_rt"
+        android:orderInCategory="15"
+        android:title="@string/mute_rt"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_unmute_rt"
+        android:orderInCategory="16"
+        android:title="@string/unmute_rt"
+        android:showAsAction="never" />
+</menu>

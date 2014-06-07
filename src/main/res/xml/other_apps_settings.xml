@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/dev_name" >
+
+        <Preference
+            android:key="evolvesms"
+            android:title="@string/evolvesms" />
+
+        <Preference
+            android:key="sliding_messaging"
+            android:title="@string/sliding_messaging" />
+
+        <Preference
+            android:key="theme_engine"
+            android:title="@string/sliding_theme_engine" />
+
+        <Preference
+            android:key="emoji_keyboard"
+            android:title="@string/emoji_keyboard" />
+
+        <Preference
+            android:key="emoji_keyboard_ios"
+            android:title="@string/emoji_keyboard_ios" />
+
+        <Preference
+            android:key="emoji_keyboard_unlock"
+            android:title="@string/emoji_keyboard_unlock" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/dev_name_open_source" >
+
+        <Preference
+            android:key="halopop"
+            android:title="@string/halopop" />
+
+        <Preference
+            android:key="floating_windows"
+            android:title="@string/floating_windows" />
+
+        <Preference
+            android:key="slideover_messaging"
+            android:title="@string/slideover_messaging" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
