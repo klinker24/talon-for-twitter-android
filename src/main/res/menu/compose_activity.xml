@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_save_draft"
+        android:orderInCategory="0"
+        android:title="@string/menu_save_draft"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_view_drafts"
+        android:orderInCategory="1"
+        android:title="@string/menu_view_drafts"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_view_queued"
+        android:orderInCategory="2"
+        android:title="@string/menu_view_queued"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_schedule_tweet"
+        android:orderInCategory="3"
+        android:title="@string/menu_schedule_tweet"
+        android:showAsAction="never" />
+
+</menu>

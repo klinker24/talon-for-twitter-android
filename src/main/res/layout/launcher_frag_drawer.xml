@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/left_drawer"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" >
+
+    <include layout="@layout/launcher_frag_user_header"
+             android:id="@+id/header"
+             android:layout_height="150dp"
+             android:layout_width="match_parent"/>
+
+
+    <!-- second profile stuff -->
+    <LinearLayout
+        android:id="@+id/logoutLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:gravity="center_horizontal" >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/profile_pic_2"
+            android:minHeight="56dp" android:minWidth="56dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:maxWidth="56dp" android:maxHeight="56dp"
+            android:contentDescription="Profile Picture - Account 2"
+            android:layout_marginTop="6dp" />
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/open_app_button"
+            android:minHeight="56dp" android:minWidth="56dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:maxWidth="56dp" android:maxHeight="56dp"
+            android:contentDescription="Open App"
+            android:layout_marginTop="6dp"
+            android:src="@mipmap/ic_launcher"
+            android:background="@drawable/pressed_toast"/>
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/drawer_list"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:dividerHeight="1dp"
+        android:divider="@color/dark_text_drawer"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"/>
+
+</LinearLayout>

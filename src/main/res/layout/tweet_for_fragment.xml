@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/background"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" >
+
+    <!-- Tweet's Content -->
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+        <!-- Holds the name, screen name, and time-->
+        <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    android:id="@+id/tweet"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textSize="14dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:textIsSelectable="true"
+                    android:paddingBottom="15dp" />
+
+            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    android:id="@+id/time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginStart="8dp"
+                    android:textSize="11dp"
+                    android:layout_below="@id/tweet"
+                    android:background="@drawable/pressed_button"
+                    android:textColor="?dateColor"  />
+
+            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    android:id="@+id/retweeter"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textSize="11dp"
+                    android:layout_below="@id/time"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="?dateColor"
+                    android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

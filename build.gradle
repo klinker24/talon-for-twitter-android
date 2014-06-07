@@ -1,0 +1,142 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.10.+'
+        classpath 'org.robolectric.gradle:gradle-android-test-plugin:+'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'android'
+apply plugin: 'android-test'
+
+android {
+    packagingOptions {
+        exclude 'LICENSE'
+        exclude 'README.md'
+        exclude 'Other/'
+        exclude 'keystore.jks'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+	exclude 'META-INF/DEPENDENCIES'
+    }
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 19
+        versionCode 125
+        versionName "2.4.4"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore")
+            storePassword "klinker1127"
+            keyAlias "talon"
+            keyPassword "klinker1127"
+        }
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    sourceSets {
+        androidTest {
+            setRoot('src/test')
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+androidTest {
+    include '**/*Test.class'
+    exclude '**/espresso/**/*.class'
+}
+
+dependencies {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+        flatDir {
+            dirs 'lib'
+        }
+    }
+    // Espresso
+    androidTestCompile files('lib/espresso-1.1.jar', 'lib/testrunner-1.1.jar', 'lib/testrunner-runtime-1.1.jar')
+    androidTestCompile 'com.google.guava:guava:14.0.1',
+            'com.squareup.dagger:dagger:1.1.0',
+            'org.hamcrest:hamcrest-integration:1.1',
+            'org.hamcrest:hamcrest-core:1.1',
+            'org.hamcrest:hamcrest-library:1.1'
+
+    androidTestCompile('junit:junit:4.11') {
+        exclude module: 'hamcrest-core'
+    }
+    androidTestCompile('org.robolectric:robolectric:+') {
+        exclude module: 'classworlds'
+        exclude module: 'maven-artifact'
+        exclude module: 'maven-artifact-manager'
+        exclude module: 'maven-error-diagnostics'
+        exclude module: 'maven-model'
+        exclude module: 'maven-plugin-registry'
+        exclude module: 'maven-profile'
+        exclude module: 'maven-project'
+        exclude module: 'maven-settings'
+        exclude module: 'nekohtml'
+        exclude module: 'plexus-container-default'
+        exclude module: 'plexus-interpolation'
+        exclude module: 'plexus-utils'
+        exclude module: 'wagon-file'
+        exclude module: 'wagon-http-lightweight'
+        exclude module: 'wagon-http-shared'
+        exclude module: 'wagon-provider-api'
+    }
+    androidTestCompile 'com.squareup:fest-android:1.0.+'
+
+    compile 'com.android.support:support-v13:+'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
+    compile 'com.github.chrisbanes.photoview:library:1.2.3'
+    compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
+    compile 'com.google.android.gms:play-services:+'
+    compile 'org.twitter4j:twitter4j-core:4.0.1'
+    compile 'org.twitter4j:twitter4j-stream:4.0.1'
+    compile 'org.lucasr.smoothie:smoothie:0.1.0'
+
+    compile files('lib/httpmime-4.3.2.jar', 'lib/httpcore-4.3.1.jar')
+    compile files('lib/wearable-preview-support.jar', 'lib/dashclock-api-r2.0.jar', 'lib/YouTubeAndroidPlayerApi.jar')
+    compile files('lib/Android-BitmapCache-2.3.jar', 'lib/jsoup-1.7.3.jar', 'lib/disklrucache-2.0.1.jar')
+
+    compile(name:'datetimepicker', ext:'aar')
+    compile(name:'launcher-api', ext:'aar')
+}
+
+apply plugin: 'idea'
+
+idea {
+    module {
+        testOutputDir = file('build/test-classes/debug')
+    }
+}
