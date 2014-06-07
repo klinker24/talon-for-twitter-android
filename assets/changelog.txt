@@ -1,3 +1,7 @@
+<b>Version 2.4.4:</b><br/><br/>
+    &#8226; Use the correct theme on scheduled tweets<br/>
+<br/><br/>
+
 <b>Version 2.4.3:</b><br/><br/>
     &#8226; Force external browser for translations<br/>
     &#8226; Fix top tweets on trends<br/>

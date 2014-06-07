@@ -39,6 +39,7 @@ import com.klinker.android.twitter.data.ScheduledTweet;
 import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.services.SendScheduledTweet;
 import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,8 @@ public class ViewScheduledTweets extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.scheduled_tweet_viewer);
+
+        Utils.setUpTheme(this, AppSettings.getInstance(this));
 
         final String text = getIntent().getStringExtra("text");
 

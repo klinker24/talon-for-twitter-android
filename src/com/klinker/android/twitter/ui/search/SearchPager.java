@@ -174,7 +174,11 @@ public class SearchPager extends Activity {
                 } else if (replace.contains("?")) {
                     replace = replace.substring(0, replace.indexOf("?"));
                 }
-                id = Long.parseLong(replace);
+                try {
+                    id = Long.parseLong(replace);
+                } catch (Exception e) {
+                    id = 0l;
+                }
                 searchQuery = id + "";
                 onlyStatus = true;
             } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D")) { // going to try searching for users i guess

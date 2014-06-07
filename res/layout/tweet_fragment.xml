@@ -98,49 +98,54 @@
 
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/buttons"
-            android:background="@drawable/background_card"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content"
+        <ScrollView
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom"
-            android:layout_margin="@dimen/tweet_activ_margin"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone">
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true">
 
-            <ImageButton
-                android:id="@+id/at_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/pressed_button"
-                android:contentDescription="Find User"
-                android:src="@drawable/mentions_light"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="#807f7f" />
+            <LinearLayout
+                android:id="@+id/buttons"
+                android:background="@drawable/background_card"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom"
+                android:layout_margin="@dimen/tweet_activ_margin"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone">
 
-            <ImageButton
-                android:id="@+id/attach_button"
-                android:contentDescription="Attach Picture"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_attach_light"
-                android:background="@drawable/pressed_button" />
+                <ImageButton
+                    android:id="@+id/at_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/pressed_button"
+                    android:contentDescription="Find User"
+                    android:src="@drawable/mentions_light"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#807f7f" />
 
-            <ImageButton
-                android:id="@+id/emoji"
-                android:contentDescription="Emojis"
-                android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="@drawable/ic_emoji_keyboard_dark"
-                android:background="@drawable/pressed_button" />
+                <ImageButton
+                    android:id="@+id/attach_button"
+                    android:contentDescription="Attach Picture"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_attach_light"
+                    android:background="@drawable/pressed_button" />
 
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/emoji"
+                    android:contentDescription="Emojis"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/ic_emoji_keyboard_dark"
+                    android:background="@drawable/pressed_button" />
+
+            </LinearLayout>
 
 
+        </ScrollView>
 
         <ImageView
             android:layout_alignParentBottom="true"

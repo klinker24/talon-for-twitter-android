@@ -700,8 +700,8 @@ public class TweetPager extends YouTubeBaseActivity {
                 return super.onOptionsItemSelected(item);
             case R.id.menu_translate:
                 try {
-                    String query = URLEncoder.encode(tweet, "utf-8");
-                    String url = "https://translate.google.com/#auto/en/" + query;
+                    String query = tweet.replaceAll(" ", "+");
+                    String url = "http://translate.google.com/#auto|en|" + query;
                     Uri uri = Uri.parse(url);
 
                     Intent browser = new Intent(Intent.ACTION_VIEW, uri);
