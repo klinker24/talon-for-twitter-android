@@ -46,124 +46,131 @@
             </LinearLayout>
 
 
-        <LinearLayout
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/bottom_bar">
+
+            <LinearLayout
                 android:id="@+id/buttons"
                 android:background="@drawable/background_card"
-                android:layout_alignParentRight="true"
-                android:layout_above="@+id/bottom_bar"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:gravity="bottom"
                 android:layout_margin="5dp"
                 android:layout_marginBottom="10dp"
                 android:visibility="gone">
 
-            <!-- checkboxes at the top for the different accounts -->
-            <LinearLayout
-                android:id="@+id/select_account"
-                android:layout_above="@+id/bottom_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
+                <!-- checkboxes at the top for the different accounts -->
                 <LinearLayout
-                    android:id="@+id/account_one"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/select_account"
+                    android:layout_above="@+id/bottom_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|left">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <CheckBox
-                        android:id="@+id/account_one_check"
+                    <LinearLayout
+                        android:id="@+id/account_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"/>
+                        android:gravity="center_vertical|left">
 
-                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                        android:id="@+id/account_one_name"
+                        <CheckBox
+                            android:id="@+id/account_one_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"/>
+
+                        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                            android:id="@+id/account_one_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/account_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:textColor="@android:color/black"/>
+                        android:gravity="center_vertical|left">
+
+                        <CheckBox
+                            android:id="@+id/account_two_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="false"/>
+
+                        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                            android:id="@+id/account_two_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"/>
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/account_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|left">
+                    android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/account_two_check"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"/>
+                    <ImageButton
+                        android:id="@+id/at_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Attach User"
+                        android:background="@drawable/pressed_button"
+                        android:src="@drawable/mentions_light"
+                        android:gravity="center"
+                        android:layout_gravity="center" />
 
-                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                        android:id="@+id/account_two_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:textColor="@android:color/black"/>
+                    <ImageButton
+                        android:id="@+id/location"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:src="@drawable/ic_action_place_light"
+                        android:background="@drawable/pressed_button"
+                        android:contentDescription="Add Location"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp" />
 
+                    <ImageButton
+                        android:id="@+id/attach"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:contentDescription="Attach Picture"
+                        android:src="@drawable/ic_attach_light"
+                        android:background="@drawable/pressed_button"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp" />
+
+                    <ImageButton
+                        android:id="@+id/emoji"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:contentDescription="Add Emojis"
+                        android:src="@drawable/ic_emoji_keyboard_dark"
+                        android:background="@drawable/pressed_button"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        </ScrollView>
 
-                <ImageButton
-                    android:id="@+id/at_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="Attach User"
-                    android:background="@drawable/pressed_button"
-                    android:src="@drawable/mentions_light"
-                    android:gravity="center"
-                    android:layout_gravity="center" />
-
-                <ImageButton
-                    android:id="@+id/location"
-                    android:layout_height="48dp"
-                    android:layout_width="48dp"
-                    android:src="@drawable/ic_action_place_light"
-                    android:background="@drawable/pressed_button"
-                    android:contentDescription="Add Location"
-                    android:minHeight="48dp" android:minWidth="48dp"
-                    android:scaleType="center" android:adjustViewBounds="true"
-                    android:maxWidth="48dp" android:maxHeight="48dp" />
-
-                <ImageButton
-                    android:id="@+id/attach"
-                    android:layout_height="48dp"
-                    android:layout_width="48dp"
-                    android:contentDescription="Attach Picture"
-                    android:src="@drawable/ic_attach_light"
-                    android:background="@drawable/pressed_button"
-                    android:minHeight="48dp" android:minWidth="48dp"
-                    android:scaleType="center" android:adjustViewBounds="true"
-                    android:maxWidth="48dp" android:maxHeight="48dp" />
-
-                <ImageButton
-                    android:id="@+id/emoji"
-                    android:layout_height="48dp"
-                    android:layout_width="48dp"
-                    android:contentDescription="Add Emojis"
-                    android:src="@drawable/ic_emoji_keyboard_dark"
-                    android:background="@drawable/pressed_button"
-                    android:minHeight="48dp" android:minWidth="48dp"
-                    android:scaleType="center" android:adjustViewBounds="true"
-                    android:maxWidth="48dp" android:maxHeight="48dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <LinearLayout
                 android:id="@+id/bottom_bar"
