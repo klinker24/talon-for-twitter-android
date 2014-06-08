@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.klinker.android.twitter"
-
-          android:versionCode="125"
-          android:versionName="2.4.4" >
-
-    <uses-sdk
-            android:minSdkVersion="14"
-            android:targetSdkVersion="19"/>
+          package="com.klinker.android.twitter">
 
     <uses-feature
         android:glEsVersion="0x00020000"
