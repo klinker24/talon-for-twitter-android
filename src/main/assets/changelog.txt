@@ -1,5 +1,6 @@
 <b>Version 2.4.4:</b><br/><br/>
     &#8226; Use the correct theme on scheduled tweets<br/>
+    &#8226; Background cleanup and fixes<br/>
 <br/><br/>
 
 <b>Version 2.4.3:</b><br/><br/>
