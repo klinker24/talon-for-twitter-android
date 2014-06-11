@@ -21,7 +21,14 @@
 -- For Release --
 
     - direct messages with pictures from the twitter app
-    - top tweets on search page and on trend search not working
+    - + in the translation
+    - delete all drafts feature
+    - bugs
+        - spinner behind small images
+        - duplicate names in search
+        - not going to the correct page when coming from another drawer activity
+        - can't attach images if you open a tweet from the widget
+        - can't tweet images from the widget
 
     Version 2.5.0
         - auto-complete hashtags
