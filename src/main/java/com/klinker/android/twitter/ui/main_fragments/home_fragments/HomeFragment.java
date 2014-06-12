@@ -1042,6 +1042,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    if (sharedPrefs.getBoolean("dont_refresh", false)) {
+                        sharedPrefs.edit().putBoolean("dont_refresh", false).commit();
+                        return;
+                    }
+
                     if((settings.refreshOnStart) &&
                             (listView.getFirstVisiblePosition() == 0) &&
                             !MainActivity.isPopup &&
@@ -1059,11 +1064,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                     waitOnRefresh.removeCallbacks(applyRefresh);
                     waitOnRefresh.postDelayed(applyRefresh, 30000);
+                    sharedPrefs.edit().putBoolean("dont_refresh", false).commit();
+
                 }
             }, 600);
         }
 
-        sharedPrefs.edit().putBoolean("dont_refresh", false).commit();
 
         if (settings.liveStreaming && settings.tweetmarker) {
             new Handler().postDelayed(new Runnable() {
