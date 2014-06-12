@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.manipulations.widgets;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -304,6 +305,8 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             Animation fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
 
             startAnimation(fadeInAnimation);
+
+            getContext().sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
@@ -350,6 +353,9 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             Animation fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
 
             startAnimation(fadeInAnimation);
+
+            getContext().sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
+
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
@@ -400,6 +406,9 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             Animation fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
 
             startAnimation(fadeInAnimation);
+
+            getContext().sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
+
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
