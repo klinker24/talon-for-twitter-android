@@ -166,6 +166,7 @@ public class UserSearchFragment extends Fragment {
         listView.setVisibility(View.GONE);
         spinner.setVisibility(View.VISIBLE);
         hasMore = true;
+        canRefresh = false;
 
         new Thread(new Runnable() {
             @Override
@@ -195,6 +196,8 @@ public class UserSearchFragment extends Fragment {
                             listView.setVisibility(View.VISIBLE);
 
                             spinner.setVisibility(View.GONE);
+
+                            canRefresh = true;
                         }
                     });
                 } catch (Exception e) {
@@ -207,6 +210,8 @@ public class UserSearchFragment extends Fragment {
                         }
                     });
                     hasMore = false;
+
+                    canRefresh = true;
                 }
             }
         }).start();

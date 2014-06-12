@@ -8,6 +8,7 @@
     - identify conversations from timeline
     - directly share photos instead of saving then sharing
     - transparent status bar xposed
+    - Night mode for themes
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
@@ -21,7 +22,6 @@
 -- For Release --
 
     - direct messages with pictures from the twitter app
-    - + in the translation
     - delete all drafts feature
     - bugs
         - spinner behind small images
