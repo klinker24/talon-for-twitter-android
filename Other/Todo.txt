@@ -25,8 +25,6 @@
     - delete all drafts feature
     - bugs
         - spinner behind small images
-        - can't attach images if you open a tweet from the widget
-        - can't tweet images from the widget
 
     Version 2.5.0
         - auto-complete hashtags

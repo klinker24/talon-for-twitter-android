@@ -4,8 +4,10 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -326,15 +328,26 @@ public class PhotoViewerDialog extends Activity {
 
     public boolean isRunning = true;
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+            spinner.setVisibility(View.GONE);
+        }
+    };
+
     @Override
     public void onResume() {
         super.onResume();
         isRunning = true;
+
+        registerReceiver(receiver, new IntentFilter("com.klinker.android.twitter.IMAGE_LOADED"));
     }
 
     @Override
     public void onPause() {
         isRunning = false;
+        unregisterReceiver(receiver);
         super.onPause();
     }
 
