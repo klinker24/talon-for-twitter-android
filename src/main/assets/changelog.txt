@@ -1,3 +1,10 @@
+<b>Version 2.4.6:</b><br/><br/>
+    &#8226; Changes to refresh on startup<br/>
+    &#8226; Better translations<br/>
+    &#8226; Fix duplicate users while searching<br/>
+    &#8226; Some changes for attaching pictures on KitKat<br/>
+<br/><br/>
+
 <b>Version 2.4.5:</b><br/><br/>
     &#8226; A few crash fixes<br/>
 <br/><br/>
