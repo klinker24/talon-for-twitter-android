@@ -272,6 +272,10 @@ public class MainActivity extends DrawerActivity {
         }
 
         setLauncherPage();
+
+        if (getIntent().getBooleanExtra("from_drawer", false)) {
+            mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 3));
+        }
     }
 
     public void setLauncherPage() {
