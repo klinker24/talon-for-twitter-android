@@ -401,6 +401,7 @@ public class MainActivity extends DrawerActivity {
             MainActivity.caughtstarting = true;
 
             // return so that it doesn't start the background refresh, that is what caused the dups.
+            sharedPrefs.edit().putBoolean("dont_refresh_on_start", true).commit();
             return;
         }
 
