@@ -89,7 +89,8 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     public void run() {
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        intent.putExtra("page_to_open", pos + extraPages);
+                        intent.putExtra("open_a_page", true);
+                        intent.putExtra("open_what_page", pos + extraPages);
                         intent.putExtra("from_drawer", true);
 
                         sharedPreferences.edit().putBoolean("should_refresh", false).commit();

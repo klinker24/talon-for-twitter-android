@@ -304,7 +304,8 @@ public class MainActivity extends DrawerActivity {
         finish();
         Intent restart = new Intent(context, MainActivity.class);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        restart.putExtra("page_to_open", mViewPager.getCurrentItem());
+        restart.putExtra("open_a_page", true);
+        restart.putExtra("open_what_page", mViewPager.getCurrentItem());
         overridePendingTransition(0, 0);
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         startActivity(restart);
