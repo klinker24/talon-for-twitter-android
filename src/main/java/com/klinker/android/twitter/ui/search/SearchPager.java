@@ -232,6 +232,22 @@ public class SearchPager extends Activity {
         handleIntent(intent);
         removeKeyboard();
         actionBar.setDisplayShowHomeEnabled(false);
+
+        Log.v("talon_searching", "on new intent, query: " + searchQuery);
+
+        // since this is the single top activity, it won't launch a new one to research,
+        // so we have to do the re search stuff when it receives the new intent
+        /*Intent broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
+        broadcast.putExtra("query", searchQuery);
+        context.sendBroadcast(broadcast);*/
+        //recreate();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        removeKeyboard();
     }
 
     public void removeKeyboard() {
@@ -313,10 +329,10 @@ public class SearchPager extends Activity {
                 return  super.onOptionsItemSelected(item);
 
             case R.id.menu_search:
-                overridePendingTransition(0,0);
-                finish();
-                overridePendingTransition(0,0);
-                return super.onOptionsItemSelected(item);
+                //overridePendingTransition(0,0);
+                //finish();
+                //overridePendingTransition(0,0);
+                //return super.onOptionsItemSelected(item);
 
             case R.id.menu_pic_filter:
                 if (!item.isChecked()) {

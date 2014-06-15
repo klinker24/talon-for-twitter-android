@@ -81,6 +81,7 @@ public class TwitterSearchFragment extends Fragment {
             } else {
                 topTweets = false;
             }
+
             doSearch(searchQuery);
         }
     };
@@ -177,7 +178,7 @@ public class TwitterSearchFragment extends Fragment {
         spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         spinner.setVisibility(View.GONE);
 
-        if (searchQuery != null && !searchQuery.equals("") && !searchQuery.contains("@")) {
+        if (searchQuery != null && !searchQuery.equals("")) {
             BitmapLruCache cache = App.getInstance(context).getBitmapCache();
             ArrayListLoader loader = new ArrayListLoader(cache, context);
 
