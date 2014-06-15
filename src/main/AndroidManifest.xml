@@ -56,6 +56,7 @@
 
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
+
         </activity>
 
         <activity android:name=".ui.drawer_activities.RetweetActivity"
@@ -158,8 +159,7 @@
         <activity android:name=".ui.search.SearchPager"
             android:label="@string/search"
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.TalonDark" >
 
             <intent-filter>
