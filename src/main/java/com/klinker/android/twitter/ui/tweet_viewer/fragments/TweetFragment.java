@@ -696,62 +696,9 @@ public class TweetFragment extends Fragment {
         attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                //builder.setTitle(getResources().getString(R.string.open_what) + "?");
-                builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if(item == 0) { // take picture
-                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+                attachClick();
 
-                            if (!f.exists()) {
-                                try {
-                                    f.getParentFile().mkdirs();
-                                    f.createNewFile();
-                                } catch (IOException e) {
-
-                                }
-                            }
-
-                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                            startActivityForResult(captureIntent, CAPTURE_IMAGE);
-                        } else { // attach picture
-                            if (attachedUri == null || attachedUri.equals("")) {
-                                Intent photoPickerIntent = new Intent();
-                                photoPickerIntent.setType("image/*");
-                                photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                                try {
-                                    startActivityForResult(Intent.createChooser(photoPickerIntent,
-                                            "Select Picture"), SELECT_PHOTO);
-                                } catch (Throwable t) {
-                                    // no app to preform this..? hmm, tell them that I guess
-                                    Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                attachedUri = "";
-
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
-                                attachImage.setImageDrawable(context.getResources().getDrawable(resource));
-                                Intent photoPickerIntent = new Intent();
-                                photoPickerIntent.setType("image/*");
-                                photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                                try {
-                                    startActivityForResult(Intent.createChooser(photoPickerIntent,
-                                            "Select Picture"), SELECT_PHOTO);
-                                } catch (Throwable t) {
-                                    // no app to preform this..? hmm, tell them that I guess
-                                    Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-
-                        overflow.performClick();
-                    }
-                });
-
-                builder.create().show();
+                overflow.performClick();
             }
         });
 
@@ -887,6 +834,80 @@ public class TweetFragment extends Fragment {
         TextUtils.linkifyText(context, retweetertv, null, true, "", true);
         TextUtils.linkifyText(context, tweettv, null, true, "", true);
 
+    }
+
+    public void attachClick() {
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.ATTACH_BUTTON"));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //builder.setTitle(getResources().getString(R.string.open_what) + "?");
+        builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                if(item == 0) { // take picture
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+
+                    if (!f.exists()) {
+                        try {
+                            f.getParentFile().mkdirs();
+                            f.createNewFile();
+                        } catch (IOException e) {
+
+                        }
+                    }
+
+                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                } else { // attach picture
+                    if (attachedUri == null || attachedUri.equals("")) {
+                        Intent photoPickerIntent = new Intent();
+                        photoPickerIntent.setType("image/*");
+                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        try {
+                            startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                    "Select Picture"), SELECT_PHOTO);
+                        } catch (Throwable t) {
+                            // no app to preform this..? hmm, tell them that I guess
+                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        attachedUri = "";
+
+                        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
+                        int resource = a.getResourceId(0, 0);
+                        a.recycle();
+                        attachImage.setImageDrawable(context.getResources().getDrawable(resource));
+
+                        if (Build.VERSION.SDK_INT < 19) {
+                            Intent photoPickerIntent = new Intent();
+                            photoPickerIntent.setType("image/*");
+                            photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                            try {
+                                startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                        "Select Picture"), SELECT_PHOTO);
+                            } catch (Throwable t) {
+                                // no app to preform this..? hmm, tell them that I guess
+                                Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            intent.setType("image/*");
+                            try {
+                                startActivityForResult(Intent.createChooser(intent,
+                                        "Select Picture"), SELECT_PHOTO);
+                            } catch (Throwable t) {
+                                // no app to preform this..? hmm, tell them that I guess
+                                Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    }
+                }
+            }
+        });
+
+        builder.create().show();
     }
 
     private boolean isFavorited = false;

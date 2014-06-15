@@ -36,8 +36,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 125
-        versionName "2.4.4"
+        versionCode 126
+        versionName "2.4.5"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
@@ -128,6 +128,7 @@ dependencies {
     compile files('lib/httpmime-4.3.2.jar', 'lib/httpcore-4.3.1.jar')
     compile files('lib/wearable-preview-support.jar', 'lib/dashclock-api-r2.0.jar', 'lib/YouTubeAndroidPlayerApi.jar')
     compile files('lib/Android-BitmapCache-2.3.jar', 'lib/jsoup-1.7.3.jar', 'lib/disklrucache-2.0.1.jar')
+    compile files('lib/nineoldandroids-2.4.0.jar')
 
     compile(name:'datetimepicker', ext:'aar')
     compile(name:'launcher-api', ext:'aar')

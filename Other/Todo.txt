@@ -8,6 +8,7 @@
     - identify conversations from timeline
     - directly share photos instead of saving then sharing
     - transparent status bar xposed
+    - Night mode for themes
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
@@ -21,7 +22,9 @@
 -- For Release --
 
     - direct messages with pictures from the twitter app
-    - top tweets on search page and on trend search not working
+    - delete all drafts feature
+    - refresh second account direct messages
+    - add dividers between direct messages in person fullscreen layout
 
     Version 2.5.0
         - auto-complete hashtags
