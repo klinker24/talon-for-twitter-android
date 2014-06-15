@@ -6,6 +6,8 @@
     &#8226; Some changes for attaching pictures on KitKat<br/>
     &#8226; Open to the correct page when going to the timeline from a drawer activity<br/>
     &#8226; Changes to attaching pictures from the widget tweet viewer<br/>
+    &#8226; Hopefully block alert dialogs coming from the in-app browser<br/>
+    &#8226; Added separator in direct message list (full screen layout)<br/>
 <br/><br/>
 
 <b>Version 2.4.5:</b><br/><br/>

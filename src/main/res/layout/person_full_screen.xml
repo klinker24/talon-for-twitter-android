@@ -73,7 +73,7 @@
 
     </LinearLayout>
 
-    <!--<LinearLayout
+    <LinearLayout
         android:id="@+id/my_divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,6 +86,6 @@
             android:layout_height="1dp"
             android:background="?drawerDividerColor" />
 
-    </LinearLayout>-->
+    </LinearLayout>
 
 </LinearLayout>
