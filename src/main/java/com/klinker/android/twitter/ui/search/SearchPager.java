@@ -256,7 +256,7 @@ public class SearchPager extends Activity {
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 
         // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchPager.class)));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true);
 
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
