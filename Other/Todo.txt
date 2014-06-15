@@ -24,6 +24,7 @@
     - delete all drafts feature
     - refresh second account direct messages
     - add dividers between direct messages in person fullscreen layout
+    - manual tweetmarker
 
     Version 2.5.0
         - auto-complete hashtags
