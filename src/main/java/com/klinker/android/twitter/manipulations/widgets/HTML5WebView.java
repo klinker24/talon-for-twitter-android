@@ -2,7 +2,7 @@ package com.klinker.android.twitter.manipulations.widgets;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.webkit.GeolocationPermissions;
+import android.webkit.*;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,10 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.GeolocationPermissions;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.klinker.android.twitter.R;
@@ -175,6 +171,11 @@ public class HTML5WebView extends WebView {
         @Override
         public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
             callback.invoke(origin, true, false);
+        }
+
+        @Override
+        public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
+            return false;
         }
     }
 
