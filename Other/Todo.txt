@@ -21,9 +21,7 @@
 -- For Release --
 
     - direct messages with pictures from the twitter app
-    - delete all drafts feature
     - refresh second account direct messages
-    - add dividers between direct messages in person fullscreen layout
     - manual tweetmarker
 
     Version 2.5.0

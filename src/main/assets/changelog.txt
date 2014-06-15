@@ -1,5 +1,6 @@
 <b>Version 2.4.6:</b><br/><br/>
     &#8226; Fix re-searching<br/>
+    &#8226; Added a delete all button to the drafts list<br/>
     &#8226; Changes to refresh on startup<br/>
     &#8226; Better translation of tweets<br/>
     &#8226; Fix duplicate users while searching<br/>
