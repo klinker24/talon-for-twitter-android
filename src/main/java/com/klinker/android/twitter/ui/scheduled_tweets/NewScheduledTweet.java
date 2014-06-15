@@ -135,8 +135,12 @@ public class NewScheduledTweet extends Activity {
         autocomplete.setAnchorView(mEditText);
         autocomplete.setHeight(Utils.toDP(100, context));
         autocomplete.setWidth(Utils.toDP(275, context));
-        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
-                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, mEditText.getText().toString()), mEditText));
+        try {
+            autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                    FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, mEditText.getText().toString()), mEditText));
+        } catch (Exception e) {
+            // not really sure why
+        }
         autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
         autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {

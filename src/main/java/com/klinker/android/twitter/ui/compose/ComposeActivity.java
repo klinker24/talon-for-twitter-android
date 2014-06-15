@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -365,15 +366,28 @@ public class ComposeActivity extends Compose {
                     }
                 } else { // attach picture
 
-                    Intent photoPickerIntent = new Intent();
-                    photoPickerIntent.setType("image/*");
-                    photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                    try {
-                        startActivityForResult(Intent.createChooser(photoPickerIntent,
-                                "Select Picture"), SELECT_PHOTO);
-                    } catch (Throwable t) {
-                        // no app to preform this..? hmm, tell them that I guess
-                        Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT < 19) {
+                        Intent photoPickerIntent = new Intent();
+                        photoPickerIntent.setType("image/*");
+                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        try {
+                            startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                    "Select Picture"), SELECT_PHOTO);
+                        } catch (Throwable t) {
+                            // no app to preform this..? hmm, tell them that I guess
+                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("image/*");
+                        try {
+                            startActivityForResult(Intent.createChooser(intent,
+                                    "Select Picture"), SELECT_PHOTO);
+                        } catch (Throwable t) {
+                            // no app to preform this..? hmm, tell them that I guess
+                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 

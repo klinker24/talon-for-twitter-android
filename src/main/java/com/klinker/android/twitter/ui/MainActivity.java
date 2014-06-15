@@ -272,6 +272,10 @@ public class MainActivity extends DrawerActivity {
         }
 
         setLauncherPage();
+
+        if (getIntent().getBooleanExtra("from_drawer", false)) {
+            mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 3));
+        }
     }
 
     public void setLauncherPage() {
@@ -304,7 +308,8 @@ public class MainActivity extends DrawerActivity {
         finish();
         Intent restart = new Intent(context, MainActivity.class);
         restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        restart.putExtra("page_to_open", mViewPager.getCurrentItem());
+        restart.putExtra("open_a_page", true);
+        restart.putExtra("open_what_page", mViewPager.getCurrentItem());
         overridePendingTransition(0, 0);
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         startActivity(restart);
@@ -401,6 +406,7 @@ public class MainActivity extends DrawerActivity {
             MainActivity.caughtstarting = true;
 
             // return so that it doesn't start the background refresh, that is what caused the dups.
+            sharedPrefs.edit().putBoolean("dont_refresh_on_start", true).commit();
             return;
         }
 
