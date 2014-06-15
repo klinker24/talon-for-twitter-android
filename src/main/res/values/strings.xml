@@ -616,5 +616,6 @@
     <string name="no_drafts">No drafts found</string>
     <string name="no_queued">No queued tweets</string>
     <string name="menu_show_top_tweets">Filter \"Top Tweets\"</string>
+    <string name="delete_all">Delete all drafts</string>
 
 </resources>

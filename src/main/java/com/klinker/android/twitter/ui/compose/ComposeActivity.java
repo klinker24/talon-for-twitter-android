@@ -611,33 +611,62 @@ public class ComposeActivity extends Compose {
             case R.id.menu_view_drafts:
                 final String[] drafts = QueuedDataSource.getInstance(this).getDrafts();
                 if (drafts.length > 0) {
+                    final String[] draftsAndDelete = new String[drafts.length + 1];
+                    draftsAndDelete[0] = getString(R.string.delete_all);
+                    for (int i = 1; i < draftsAndDelete.length; i++) {
+                        draftsAndDelete[i] = drafts[i - 1];
+                    }
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(drafts, new DialogInterface.OnClickListener() {
+                    builder.setItems(draftsAndDelete, new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int item) {
 
-                            new AlertDialog.Builder(context)
-                                    .setTitle(context.getResources().getString(R.string.apply))
-                                    .setMessage(drafts[item])
-                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            reply.setText(drafts[item]);
-                                            reply.setSelection(reply.getText().length());
-                                            QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
+                            if (item == 0) {
+                                // clicked the delete all item
+                                new AlertDialog.Builder(context)
+                                        .setMessage(getString(R.string.delete_all) + "?")
+                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                QueuedDataSource.getInstance(context).deleteAllDrafts();
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .create()
+                                        .show();
 
-                            dialog.dismiss();
+                                dialog.dismiss();
+                            } else {
+                                new AlertDialog.Builder(context)
+                                        .setTitle(context.getResources().getString(R.string.apply))
+                                        .setMessage(drafts[item])
+                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                reply.setText(drafts[item]);
+                                                reply.setSelection(reply.getText().length());
+                                                QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .create()
+                                        .show();
+
+                                dialog.dismiss();
+                            }
                         }
                     });
                     AlertDialog alert = builder.create();
