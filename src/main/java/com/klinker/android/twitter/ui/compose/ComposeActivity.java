@@ -645,20 +645,20 @@ public class ComposeActivity extends Compose {
                             } else {
                                 new AlertDialog.Builder(context)
                                         .setTitle(context.getResources().getString(R.string.apply))
-                                        .setMessage(drafts[item])
+                                        .setMessage(draftsAndDelete[item])
                                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                reply.setText(drafts[item]);
+                                                reply.setText(draftsAndDelete[item]);
                                                 reply.setSelection(reply.getText().length());
-                                                QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                                QueuedDataSource.getInstance(context).deleteDraft(draftsAndDelete[item]);
                                                 dialogInterface.dismiss();
                                             }
                                         })
                                         .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-                                                QueuedDataSource.getInstance(context).deleteDraft(drafts[item]);
+                                                QueuedDataSource.getInstance(context).deleteDraft(draftsAndDelete[item]);
                                                 dialogInterface.dismiss();
                                             }
                                         })

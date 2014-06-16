@@ -1,3 +1,8 @@
+<b>Version 2.4.6.1:</b><br/><br/>
+    &#8226; Force close on drafts<br/>
+<br/><br/>
+
+
 <b>Version 2.4.6:</b><br/><br/>
     &#8226; Fix re-searching<br/>
     &#8226; Added a delete all button to the drafts list<br/>
