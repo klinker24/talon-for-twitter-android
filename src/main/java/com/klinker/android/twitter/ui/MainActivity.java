@@ -160,10 +160,10 @@ public class MainActivity extends DrawerActivity {
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
-        } else if (!sharedPrefs.getBoolean("setup_v_two", false) && !PreferenceManager.getDefaultSharedPreferences(context).getBoolean("setup_v_two", false)) {
+        } /*else if (!sharedPrefs.getBoolean("setup_v_two", false) && !PreferenceManager.getDefaultSharedPreferences(context).getBoolean("setup_v_two", false)) {
             Intent setupV2 = new Intent(context, Version2Setup.class);
             startActivity(setupV2);
-        }
+        }*/
 
         mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs, getIntent().getBooleanExtra("from_launcher", false));
 
@@ -371,16 +371,6 @@ public class MainActivity extends DrawerActivity {
     public void onStart() {
         super.onStart();
 
-        if (settings.layout == AppSettings.LAYOUT_TALON && !settings.addonTheme && sharedPrefs.getBoolean("clear_cache", true)) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    IOUtils.trimCache(context);
-                    sharedPrefs.edit().putBoolean("clear_cache", false).commit();
-                }
-            }).start();
-        }
-
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
@@ -416,38 +406,6 @@ public class MainActivity extends DrawerActivity {
             }
         } else {
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-        }
-
-        if (sharedPrefs.getBoolean("insert_users_to_search", true)) {
-            final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-
-                    }
-                    try {
-                        Cursor cursor = FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, "");
-                        if (cursor.moveToFirst()) {
-                            do {
-                                suggestions.saveRecentQuery(
-                                        "@" + cursor.getString(cursor.getColumnIndex(FollowersSQLiteHelper.COLUMN_SCREEN_NAME)),
-                                        null);
-                            } while (cursor.moveToNext());
-                        }
-                        cursor.close();
-
-                        sharedPrefs.edit().putBoolean("insert_users_to_search", false).commit();
-                    } catch (Exception e) {
-
-                    }
-
-                }
-            }).start();
-
         }
 
         // cancel the alarm to start the catchup service
