@@ -904,6 +904,11 @@ public abstract class DrawerActivity extends Activity {
         if (sharedPrefs.getBoolean("remake_me", false) && !MainActivity.isPopup) {
             sharedPrefs.edit().putBoolean("remake_me", false).commit();
             recreate();
+
+            sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
+                              .putBoolean("dont_refresh", true).commit();
+
+            return;
         }
 
         cancelTeslaUnread();
