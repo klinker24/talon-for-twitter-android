@@ -906,11 +906,6 @@ public abstract class DrawerActivity extends Activity {
             recreate();
         }
 
-        if (sharedPrefs.getBoolean("version_2_2_7_1", true)) {
-            UpdateUtils.updateToGlobalPrefs(context);
-            return;
-        }
-
         cancelTeslaUnread();
 
         invalidateOptionsMenu();
