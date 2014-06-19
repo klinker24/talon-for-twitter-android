@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 
+import android.util.Log;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
@@ -20,12 +21,15 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 
 public class PreCacheService extends IntentService {
+
+    private static final boolean DEBUG = false;
 
     SharedPreferences sharedPrefs;
 
@@ -36,11 +40,19 @@ public class PreCacheService extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
 
+        if (DEBUG) {
+            Log.v("talon_pre_cache", "starting the service, current time: " + Calendar.getInstance().getTime().toString());
+        }
+
         // if they want it only over wifi and they are on mobile data
         if (getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
                 .getBoolean("pre_cache_wifi_only", false) &&
                 Utils.getConnectionStatus(this)) {
+
+            if (DEBUG) {
+                Log.v("talon_pre_cache", "quit for connection");
+            }
 
             // just quit because we don't want it to happen
             return;
@@ -51,6 +63,9 @@ public class PreCacheService extends IntentService {
         Cursor cursor = HomeDataSource.getInstance(this).getUnreadCursor(settings.currentAccount);
 
         if (cursor.moveToFirst()) {
+            if (DEBUG) {
+                Log.v("talon_pre_cache", "found database and moved to first picture. cursor size: " + cursor.getCount());
+            }
             boolean cont = true;
             do {
                 String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
@@ -70,8 +85,14 @@ public class PreCacheService extends IntentService {
                         }
 
                         mCache.put(profilePic, image);
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
+                        if (DEBUG) {
+                            Log.v("talon_pre_cache", "found an exception while downloading profile pic");
+                            e.printStackTrace();
+                        }
 
+                        // just stop I guess
+                        cont = false;
                     }
                 }
 
@@ -85,16 +106,23 @@ public class PreCacheService extends IntentService {
                             Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
 
                             mCache.put(imageUrl, image);
-                        } catch (Exception e) {
+                        } catch (Throwable e) {
+                            if (DEBUG) {
+                                Log.v("talon_pre_cache", "found an exception while downloading image");
+                                e.printStackTrace();
+                            }
 
-                        } catch (OutOfMemoryError e) {
-                            // just stop I suppose
+                            // just stop I guess
                             cont = false;
                         }
                     }
                 }
 
             } while (cursor.moveToNext() && cont);
+
+            if (DEBUG) {
+                Log.v("talon_pre_cache", "done with service. time: " + Calendar.getInstance().getTime().toString());
+            }
         }
     }
 

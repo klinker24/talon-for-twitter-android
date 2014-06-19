@@ -371,6 +371,8 @@ public class MainActivity extends DrawerActivity {
     public void onStart() {
         super.onStart();
 
+        Log.v("talon_starting", "main activity starting");
+
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
@@ -381,8 +383,8 @@ public class MainActivity extends DrawerActivity {
                 sharedPrefs.getBoolean("launcher_frag_switch", false) ||
                 (theme != settings.theme && !settings.addonTheme)) {
 
-            sharedPrefs.edit().putBoolean("launcher_frag_switch", false).commit();
-            sharedPrefs.edit().putBoolean("dont_refresh", true).commit();
+            sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
+                              .putBoolean("dont_refresh", true).commit();
 
             AppSettings.invalidate();
 
@@ -398,6 +400,10 @@ public class MainActivity extends DrawerActivity {
             // return so that it doesn't start the background refresh, that is what caused the dups.
             sharedPrefs.edit().putBoolean("dont_refresh_on_start", true).commit();
             return;
+        } else {
+            sharedPrefs.edit().putBoolean("dont_refresh", false)
+                              .putBoolean("should_refresh", true).commit();
+
         }
 
         if(DrawerActivity.settings.pushNotifications) {

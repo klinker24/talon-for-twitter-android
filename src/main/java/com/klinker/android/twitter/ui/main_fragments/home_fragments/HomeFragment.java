@@ -1042,11 +1042,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (sharedPrefs.getBoolean("dont_refresh", false)) {
-                        sharedPrefs.edit().putBoolean("dont_refresh", false).commit();
-                        return;
-                    }
-
                     if((settings.refreshOnStart) &&
                             (listView.getFirstVisiblePosition() == 0) &&
                             !MainActivity.isPopup &&
