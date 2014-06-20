@@ -57,6 +57,7 @@ import com.klinker.android.twitter.utils.SDK11;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TwitterDMPicHelper;
 import com.klinker.android.twitter.utils.text.TextUtils;
 import com.klinker.android.twitter.utils.text.TouchableMovementMethod;
 
@@ -1804,21 +1805,29 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 if (null == result) {
 
-                    // The bitmap isn't cached so download from the web
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
+                    Bitmap b;
+                    if (url.contains("ton.twitter.com")) {
+                        // it is a direct message picture
+                        TwitterDMPicHelper helper = new TwitterDMPicHelper();
+                        b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)));
+                    } else {
 
-                    Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                        // The bitmap isn't cached so download from the web
+                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                        InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    try {
-                        is.close();
-                    } catch (Exception e) {
+                        b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
 
-                    }
-                    try {
-                        conn.disconnect();
-                    } catch (Exception e) {
+                        try {
+                            is.close();
+                        } catch (Exception e) {
 
+                        }
+                        try {
+                            conn.disconnect();
+                        } catch (Exception e) {
+
+                        }
                     }
 
                     // Add to cache
