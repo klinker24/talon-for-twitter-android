@@ -24,12 +24,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +45,7 @@ import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
+import com.klinker.android.twitter.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter.data.ScheduledTweet;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
@@ -56,8 +54,6 @@ import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.services.SendScheduledTweet;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.Utils;
-
-import junit.framework.Test;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -136,7 +132,7 @@ public class NewScheduledTweet extends Activity {
         autocomplete.setHeight(Utils.toDP(100, context));
         autocomplete.setWidth(Utils.toDP(275, context));
         try {
-            autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+            autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
                     FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, mEditText.getText().toString()), mEditText));
         } catch (Exception e) {
             // not really sure why
@@ -181,7 +177,7 @@ public class NewScheduledTweet extends Activity {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                        autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
                                 FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), mEditText));
                     }
                 } catch (Exception e) {

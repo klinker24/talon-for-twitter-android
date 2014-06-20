@@ -1,6 +1,5 @@
 package com.klinker.android.twitter.ui.compose;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,14 +24,12 @@ import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
+import com.klinker.android.twitter.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
-import com.klinker.android.twitter.utils.IOUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ComposeDMActivity extends Compose {
@@ -41,7 +37,7 @@ public class ComposeDMActivity extends Compose {
     @Override
     public void onDestroy() {
         try {
-            ((AutoCompetePeopleAdapter)autocomplete.getListView().getAdapter()).getCursor().close();
+            ((AutoCompletePeopleAdapter) userAutoComplete.getListView().getAdapter()).getCursor().close();
         } catch (Exception e) {
 
         }
@@ -65,18 +61,18 @@ public class ComposeDMActivity extends Compose {
             contactEntry.setSelection(contactEntry.getText().toString().length());
         }
 
-        autocomplete = new ListPopupWindow(context);
-        autocomplete.setAnchorView(contactEntry);
-        autocomplete.setHeight(toDP(150));
-        autocomplete.setWidth(toDP(275));
-        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+        userAutoComplete = new ListPopupWindow(context);
+        userAutoComplete.setAnchorView(contactEntry);
+        userAutoComplete.setHeight(toDP(150));
+        userAutoComplete.setWidth(toDP(275));
+        userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
-        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+        userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
-        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autocomplete.dismiss();
+                userAutoComplete.dismiss();
             }
         });
 
@@ -98,10 +94,10 @@ public class ComposeDMActivity extends Compose {
 
                 try {
                     if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
-                        autocomplete.show();
+                        userAutoComplete.show();
                     } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        autocomplete.dismiss();
-                    } else if (autocomplete.isShowing()) {
+                        userAutoComplete.dismiss();
+                    } else if (userAutoComplete.isShowing()) {
                         String[] split = searchText.split(" ");
                         String adapterText;
                         if (split.length > 1) {
@@ -110,12 +106,12 @@ public class ComposeDMActivity extends Compose {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                        userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
                                 FollowersDataSource.getInstance(context).getCursor(currentAccount, adapterText), contactEntry, false));
                     }
                 } catch (Exception e) {
                     // there is no text
-                    autocomplete.dismiss();
+                    userAutoComplete.dismiss();
                 }
 
             }

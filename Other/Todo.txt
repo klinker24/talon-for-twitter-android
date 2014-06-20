@@ -28,7 +28,6 @@
         - auto-complete hashtags
         - more muting options
             - mute users for a time period
-            - mute by app source
 
     Version 2.6.0
         - More fragments to choose from

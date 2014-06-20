@@ -43,7 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.AutoCompetePeopleAdapter;
+import com.klinker.android.twitter.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
@@ -59,7 +59,6 @@ import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
 import com.klinker.android.twitter.utils.ImageUtils;
-import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter.utils.text.TextUtils;
@@ -331,7 +330,7 @@ public class TweetFragment extends Fragment {
         autocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
         autocomplete.setHeight(Utils.toDP(100, context));
         autocomplete.setWidth(Utils.toDP(275, context));
-        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+        autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
         autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
@@ -373,7 +372,7 @@ public class TweetFragment extends Fragment {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompetePeopleAdapter(context,
+                        autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
                                 FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
                     }
                 } catch (Exception e) {
@@ -559,7 +558,7 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        timetv.setOnLongClickListener(new View.OnLongClickListener() {
+        /*timetv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if (status != null) {
@@ -594,7 +593,7 @@ public class TweetFragment extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
 
         if (retweeter.length() > 0 ) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
