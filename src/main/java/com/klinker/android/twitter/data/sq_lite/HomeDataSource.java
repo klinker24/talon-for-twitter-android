@@ -123,7 +123,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, status.getSource());
+        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, android.text.Html.fromHtml(status.getSource()).toString());
 
         try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -164,7 +164,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, status.getSource());
+        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, android.text.Html.fromHtml(status.getSource()).toString());
 
         try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -213,7 +213,7 @@ public class HomeDataSource {
                 values.put(HomeSQLiteHelper.COLUMN_URL, url);
                 values.put(HomeSQLiteHelper.COLUMN_USERS, users);
                 values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-                values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, status.getSource());
+                values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, android.text.Html.fromHtml(status.getSource()).toString());
             } else {
                 values = null;
             }
