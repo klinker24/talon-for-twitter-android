@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +45,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.AutoCompleteHashtagAdapter;
 import com.klinker.android.twitter.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter.services.SendTweet;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -110,7 +114,8 @@ public class TweetFragment extends Fragment {
     private String[] otherLinks;
     private boolean isMyTweet;
 
-    private ListPopupWindow autocomplete;
+    private ListPopupWindow userAutocomplete;
+    private ListPopupWindow hashtagAutocomplete;
 
     private boolean addonTheme;
 
@@ -326,18 +331,38 @@ public class TweetFragment extends Fragment {
             }
         }
 
-        autocomplete = new ListPopupWindow(context);
-        autocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
-        autocomplete.setHeight(Utils.toDP(100, context));
-        autocomplete.setWidth(Utils.toDP(275, context));
-        autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
-        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
 
-        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        userAutocomplete = new ListPopupWindow(context);
+        userAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
+        userAutocomplete.setHeight(Utils.toDP(100, context));
+        userAutocomplete.setWidth((int)(width * .75));
+        userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
+                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
+        userAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        userAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autocomplete.dismiss();
+                userAutocomplete.dismiss();
+            }
+        });
+
+        hashtagAutocomplete = new ListPopupWindow(context);
+        hashtagAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
+        hashtagAutocomplete.setHeight(Utils.toDP(100, context));
+        hashtagAutocomplete.setWidth((int)(width * .75));
+        hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+                HashtagDataSource.getInstance(context).getCursor(reply.getText().toString()), reply));
+        hashtagAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        hashtagAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                hashtagAutocomplete.dismiss();
             }
         });
 
@@ -359,11 +384,11 @@ public class TweetFragment extends Fragment {
 
                 try {
                     if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
-                        autocomplete.show();
+                        userAutocomplete.show();
 
                     } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        autocomplete.dismiss();
-                    } else if (autocomplete.isShowing()) {
+                        userAutocomplete.dismiss();
+                    } else if (userAutocomplete.isShowing()) {
                         String[] split = reply.getText().toString().split(" ");
                         String adapterText;
                         if (split.length > 1) {
@@ -372,15 +397,39 @@ public class TweetFragment extends Fragment {
                             adapterText = split[0];
                         }
                         adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
+                        userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
                                 FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
+                    }
+
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
+                        hashtagAutocomplete.show();
+
+                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                        hashtagAutocomplete.dismiss();
+                    } else if (hashtagAutocomplete.isShowing()) {
+                        String[] split = reply.getText().toString().split(" ");
+                        String adapterText;
+                        if (split.length > 1) {
+                            adapterText = split[split.length - 1];
+                        } else {
+                            adapterText = split[0];
+                        }
+                        adapterText = adapterText.replace("#", "");
+                        hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+                                HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
                     }
                 } catch (Exception e) {
                     // there is no text
                     try {
-                        autocomplete.dismiss();
+                        userAutocomplete.dismiss();
                     } catch (Exception x) {
                         // something went really wrong i guess haha
+                    }
+
+                    try {
+                        hashtagAutocomplete.dismiss();
+                    } catch (Exception x) {
+
                     }
                 }
 
