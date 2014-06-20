@@ -26,7 +26,7 @@ public class HomeSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USERS = "users";
     public static final String COLUMN_EXTRA_ONE = "extra_one";
     public static final String COLUMN_CURRENT_POS = "extra_two";
-    public static final String COLUMN_EXTRA_THREE = "extra_three";
+    public static final String COLUMN_CLIENT_SOURCE = "extra_three";
 
     private static final String DATABASE_NAME = "tweets.db";
     private static final int DATABASE_VERSION = 1;
@@ -51,7 +51,7 @@ public class HomeSQLiteHelper extends SQLiteOpenHelper {
             + " text users, " + COLUMN_RETWEETER
             + " text original name, " + COLUMN_EXTRA_ONE
             + " text extra one, " + COLUMN_CURRENT_POS
-            + " text extra two, " + COLUMN_EXTRA_THREE
+            + " text extra two, " + COLUMN_CLIENT_SOURCE
             + " text extra three);";
 
     public HomeSQLiteHelper(Context context) {
