@@ -549,6 +549,39 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return false;
             }
         });
+
+        Preference clients = findPreference("manage_muted_clients");
+        clients.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final String[] tags = sharedPrefs.getString("muted_clients", "").split("   ");
+
+                if (tags.length == 0 || (tags.length == 1 && tags[0].equals(""))) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_clients), Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(tags, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            String newClients = "";
+
+                            for (int i = 0; i < tags.length; i++) {
+                                if (i != item) {
+                                    newClients += tags[i] + "   ";
+                                }
+                            }
+
+                            sharedPrefs.edit().putString("muted_clients", newClients).commit();
+
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                return false;
+            }
+        });
     }
 
     public void setUpThemeSettings() {

@@ -57,6 +57,12 @@
             />
 
         <Preference
+            android:key="manage_muted_clients"
+            android:title="@string/muted_clients"
+            android:summary="@string/muted_clients_summary"
+            />
+
+        <Preference
             android:key="mute_regex"
             android:title="@string/mute_expression"
             android:summary="@string/regex_disclaimer"

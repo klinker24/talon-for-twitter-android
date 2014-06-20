@@ -471,7 +471,9 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_delete_tweet:
                 new DeleteTweet().execute();
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("just_muted", true).commit();
+                getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                        .edit().putBoolean("just_muted", true).commit();
                 return true;
 
             case R.id.menu_share:
@@ -594,7 +596,9 @@ public class TweetPager extends YouTubeBaseActivity {
 
             case R.id.menu_spam:
                 new MarkSpam().execute();
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("just_muted", true).commit();
+                getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                        .edit().putBoolean("just_muted", true).commit();
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_mute_hashtags:
