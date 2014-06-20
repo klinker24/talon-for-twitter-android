@@ -1,7 +1,8 @@
 <b>Version 2.4.7:</b><br/><br/>
     &#8226; Fix for refresh on startup<br/>
     &#8226; Better restoring of settings backups<br/>
-    &#8826; Various stability and performance improvements<br/>
+    &#8226; Changes to attaching images on KitKat<br/>
+    &#8826; Various stability and small performance improvements<br/>
 <br/><br/>
 
 <b>Version 2.4.6.1:</b><br/><br/>
