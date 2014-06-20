@@ -79,7 +79,7 @@ public class HashtagDataSource {
         try {
             database.insert(HashtagSQLiteHelper.TABLE_HASHTAGS, null, values);
         } catch (Exception e) {
-            // already exist. primary key must be unique
+
         }
     }
 
