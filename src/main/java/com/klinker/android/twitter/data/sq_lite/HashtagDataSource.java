@@ -86,11 +86,11 @@ public class HashtagDataSource {
     public synchronized void deleteTag(String tag) {
         try {
             database.delete(HashtagSQLiteHelper.TABLE_HASHTAGS, HashtagSQLiteHelper.COLUMN_TAG
-                    + " = " + tag, null);
+                    + " = ?", new String[] {tag});
         } catch (Exception e) {
             open();
             database.delete(HashtagSQLiteHelper.TABLE_HASHTAGS, HashtagSQLiteHelper.COLUMN_TAG
-                    + " = " + tag, null);
+                    + " = ?", new String[] {tag});
         }
     }
 
