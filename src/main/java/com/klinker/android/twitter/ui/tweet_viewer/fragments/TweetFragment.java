@@ -558,7 +558,7 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        /*timetv.setOnLongClickListener(new View.OnLongClickListener() {
+        timetv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if (status != null) {
@@ -593,7 +593,7 @@ public class TweetFragment extends Fragment {
                 }
                 return false;
             }
-        });*/
+        });
 
         if (retweeter.length() > 0 ) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
