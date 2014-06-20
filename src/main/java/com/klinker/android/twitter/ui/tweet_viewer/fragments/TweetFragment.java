@@ -559,6 +559,43 @@ public class TweetFragment extends Fragment {
             }
         });
 
+        timetv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (status != null) {
+                    // we allow them to mute the client
+                    final String client = android.text.Html.fromHtml(status.getSource()).toString();
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.mute_client) + "?")
+                            .setMessage(client)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    String current = sharedPrefs.getString("muted_clients", "");
+                                    sharedPrefs.edit().putString("muted_clients", current + client + "   ").commit();
+                                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+
+                                    dialogInterface.dismiss();
+
+                                    ((Activity) context).finish();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    // tell them the client hasn't been found
+                    Toast.makeText(context, R.string.client_not_found, Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
         if (retweeter.length() > 0 ) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
             retweetertv.setVisibility(View.VISIBLE);
@@ -1008,6 +1045,8 @@ public class TweetFragment extends Fragment {
         }
     }
 
+    private Status status = null;
+
     public void getInfo(final ImageButton favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
 
         Thread getInfo = new Thread(new Runnable() {
@@ -1021,7 +1060,7 @@ public class TweetFragment extends Fragment {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
                     TwitterMultipleImageHelper helper = new TwitterMultipleImageHelper();
-                    final twitter4j.Status status = twitter.showStatus(tweetId);
+                    status = twitter.showStatus(tweetId);
 
                     ArrayList<String> i = new ArrayList<String>();
 
@@ -1045,7 +1084,6 @@ public class TweetFragment extends Fragment {
                         location = "";
                     }
 
-                    Log.v("talon_source", android.text.Html.fromHtml(status.getSource()).toString());
                     via = android.text.Html.fromHtml(status.getSource()).toString();
 
                     final String sfavCount;

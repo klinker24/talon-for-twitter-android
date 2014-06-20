@@ -343,6 +343,7 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+        String clients = sharedPreferences.getString("muted_clients", "");
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         expressions = expressions.replaceAll("'", "''");
@@ -369,6 +370,13 @@ public class HomeDataSource {
             String[] split = expressions.split("   ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!clients.equals("")) {
+            String[] split = clients.split("   ");
+            for (String s : split) {
+                where += " AND (" + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " NOT LIKE " + "'%" + s + "%'" + " OR " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " is NULL)" ;
             }
         }
 
@@ -451,6 +459,7 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+        String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
 
@@ -478,6 +487,13 @@ public class HomeDataSource {
             String[] split = expressions.split("   ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!clients.equals("")) {
+            String[] split = clients.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " NOT LIKE " + "'%" + s + "%'" + " OR " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " is NULL" ;
             }
         }
 
@@ -509,6 +525,7 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+        String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
 
@@ -536,6 +553,13 @@ public class HomeDataSource {
             String[] split = expressions.split("   ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!clients.equals("")) {
+            String[] split = clients.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " NOT LIKE " + "'%" + s + "%'" + " OR " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " is NULL" ;
             }
         }
 
@@ -577,6 +601,7 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+        String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
 
@@ -604,6 +629,13 @@ public class HomeDataSource {
             String[] split = expressions.split("   ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!clients.equals("")) {
+            String[] split = clients.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " NOT LIKE " + "'%" + s + "%'" + " OR " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " is NULL" ;
             }
         }
 
@@ -668,6 +700,7 @@ public class HomeDataSource {
         String rts = sharedPreferences.getString("muted_rts", "");
         String hashtags = sharedPreferences.getString("muted_hashtags", "");
         String expressions = sharedPreferences.getString("muted_regex", "");
+        String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
 
@@ -695,6 +728,13 @@ public class HomeDataSource {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!clients.equals("")) {
+            String[] split = clients.split("   ");
+            for (String s : split) {
+                where += " AND (" + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " NOT LIKE " + "'%" + s + "%'" + " OR " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " is NULL)" ;
             }
         }
 
