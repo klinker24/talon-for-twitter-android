@@ -21,13 +21,11 @@
 -- For Release --
 
     - direct messages with pictures from the twitter app
-    - refresh second account direct messages
-    - manual tweetmarker
 
     Version 2.5.0
-        - auto-complete hashtags
-        - more muting options
-            - mute users for a time period
+        - manual tweetmarker
+        - refresh second account direct messages
+        - mute users for a time period
 
     Version 2.6.0
         - More fragments to choose from
