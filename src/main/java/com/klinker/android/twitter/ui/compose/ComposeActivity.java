@@ -366,7 +366,7 @@ public class ComposeActivity extends Compose {
                     }
                 } else { // attach picture
 
-                    if (Build.VERSION.SDK_INT < 19) {
+                    //if (Build.VERSION.SDK_INT < 19) {
                         Intent photoPickerIntent = new Intent();
                         photoPickerIntent.setType("image/*");
                         photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -377,7 +377,7 @@ public class ComposeActivity extends Compose {
                             // no app to preform this..? hmm, tell them that I guess
                             Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
+                    /*} else {
                         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                         intent.addCategory(Intent.CATEGORY_OPENABLE);
                         intent.setType("image/*");
@@ -388,7 +388,7 @@ public class ComposeActivity extends Compose {
                             // no app to preform this..? hmm, tell them that I guess
                             Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    }*/
                 }
 
                 overflow.performClick();
