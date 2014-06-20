@@ -1045,6 +1045,7 @@ public class TweetFragment extends Fragment {
                         location = "";
                     }
 
+                    Log.v("talon_source", android.text.Html.fromHtml(status.getSource()).toString());
                     via = android.text.Html.fromHtml(status.getSource()).toString();
 
                     final String sfavCount;
