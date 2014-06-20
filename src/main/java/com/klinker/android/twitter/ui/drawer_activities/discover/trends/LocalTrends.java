@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TrendsArrayAdapter;
+import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.utils.Utils;
@@ -168,6 +170,24 @@ public class LocalTrends extends Fragment implements
                             }
                         }
                     });
+
+                    HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                    for (String s : currentTrends) {
+                        Log.v("talon_hashtag", "trend: " + s);
+                        if (s.contains("#")) {
+                            // we want to add it to the auto complete
+                            Log.v("talon_hashtag", "adding: " + s);
+
+                            // could be much more efficient by querying and checking first, but I
+                            // just didn't feel like it when there is only ever 10 of them here
+                            source.deleteTag(s);
+
+                            // add it to the userAutoComplete database
+                            source.createTag(s);
+                        }
+                    }
+
                 } catch (Throwable e) {
                     e.printStackTrace();
                     ((Activity)context).runOnUiThread(new Runnable() {

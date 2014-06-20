@@ -56,11 +56,11 @@
             android:summary="@string/muted_hashtags_summary"
             />
 
-        <Preference
+        <!--<Preference
             android:key="manage_muted_clients"
             android:title="@string/muted_clients"
             android:summary="@string/muted_clients_summary"
-            />
+            />-->
 
         <Preference
             android:key="mute_regex"

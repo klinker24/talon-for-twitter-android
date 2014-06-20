@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.TweetPagerAdapter;
+import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
@@ -328,6 +329,37 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         tweet = restoreLinks(tweet);
+
+        if (hashtags != null) {
+            // we will add them to the auto complete
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<String> tags = new ArrayList<String>();
+                    if (hashtags != null) {
+                        for (String s : hashtags) {
+                            if (!s.equals("")) {
+                                tags.add("#" + s);
+                            }
+                        }
+                    }
+
+
+                    HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                    for (String s : tags) {
+                        Log.v("talon_hashtag", "trend: " + s);
+                        if (s.contains("#")) {
+                            // we want to add it to the auto complete
+                            Log.v("talon_hashtag", "adding: " + s);
+
+                            source.deleteTag(s);
+                            source.createTag(s);
+                        }
+                    }
+                }
+            }).start();
+        }
     }
 
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {

@@ -13,6 +13,7 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Menu;
@@ -34,6 +35,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ArrayListLoader;
 import com.klinker.android.twitter.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
@@ -234,12 +236,23 @@ public class SearchedTrendsActivity extends Activity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
-            String query = searchQuery;//searchQuery.replace("@", "from:");
+            String query = searchQuery;
             doSearch(query);
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
             suggestions.saveRecentQuery(searchQuery, null);
+
+            if (searchQuery.contains("#")) {
+                // we want to add it to the userAutoComplete
+                Log.v("talon_hashtag", "adding: " + searchQuery.replaceAll("\"", ""));
+                HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                if (source != null) {
+                    source.deleteTag(searchQuery.replaceAll("\"", ""));
+                    source.createTag(searchQuery.replaceAll("\"", ""));
+                }
+            }
         }
     }
 

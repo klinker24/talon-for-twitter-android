@@ -9,16 +9,16 @@ import com.klinker.android.twitter.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.utils.ImageUtils;
 
-public class AutoCompetePeopleAdapter extends SearchedPeopleCursorAdapter {
+public class AutoCompletePeopleAdapter extends SearchedPeopleCursorAdapter {
 
     private boolean insertSpace;
 
-    public AutoCompetePeopleAdapter(Context context, Cursor cursor, EditText text) {
+    public AutoCompletePeopleAdapter(Context context, Cursor cursor, EditText text) {
         super(context, cursor, text);
         this.insertSpace = true;
     }
 
-    public AutoCompetePeopleAdapter(Context context, Cursor cursor, EditText text, boolean insertSpace) {
+    public AutoCompletePeopleAdapter(Context context, Cursor cursor, EditText text, boolean insertSpace) {
         super(context, cursor, text);
         this.insertSpace = insertSpace;
     }
