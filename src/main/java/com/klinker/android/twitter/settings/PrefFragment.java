@@ -1401,11 +1401,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
             if (cache != null) {
                 cache.setSummary(getResources().getString(R.string.current_cache_size) + ": " + size / 1048576 + " MB");
-                if (deleted) {
+                //if (deleted) {
                     Toast.makeText(context, context.getResources().getString(R.string.trim_success), Toast.LENGTH_SHORT).show();
-                } else {
+                /*} else {
                     Toast.makeText(context, context.getResources().getString(R.string.trim_fail), Toast.LENGTH_SHORT).show();
-                }
+                }*/
             } else {
                 fin = true;
             }

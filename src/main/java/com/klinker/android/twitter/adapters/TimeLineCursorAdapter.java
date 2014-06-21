@@ -433,6 +433,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             retweeter = "";
         }
 
+        /*if (isDM) {
+            tweetTexts = tweetTexts.replace(picUrl, "");
+        }*/
+
         final String tweetText = tweetTexts;
 
         if(!settings.reverseClickActions) {
