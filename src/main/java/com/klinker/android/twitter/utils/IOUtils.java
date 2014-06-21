@@ -15,14 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
-import com.klinker.android.twitter.data.sq_lite.InteractionsSQLiteHelper;
-import com.klinker.android.twitter.data.sq_lite.ListDataSource;
-import com.klinker.android.twitter.data.sq_lite.ListSQLiteHelper;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.*;
 import com.klinker.android.twitter.settings.AppSettings;
 
 import java.io.File;
@@ -339,6 +332,22 @@ public class IOUtils {
                 if(timeline.moveToPosition(timeline.getCount() - settings.dmSize)) {
                     do {
                         dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
+                    } while (timeline.moveToPrevious());
+                }
+            }
+
+            timeline.close();
+
+            HashtagDataSource hashtag = HashtagDataSource.getInstance(context);
+
+            timeline = hashtag.getCursor("");
+
+            Log.v("trimming", "hashtag size: " + timeline.getCount());
+
+            if (timeline.getCount() > 300) {
+                if(timeline.moveToPosition(timeline.getCount() - 300)) {
+                    do {
+                        hashtag.deleteTag(timeline.getString(timeline.getColumnIndex(HashtagSQLiteHelper.COLUMN_TAG)));
                     } while (timeline.moveToPrevious());
                 }
             }
