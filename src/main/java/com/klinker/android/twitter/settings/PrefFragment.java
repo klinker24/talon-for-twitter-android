@@ -550,7 +550,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        Preference clients = findPreference("manage_muted_clients");
+        /*Preference clients = findPreference("manage_muted_clients");
         clients.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -581,7 +581,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                 return false;
             }
-        });
+        });*/
     }
 
     public void setUpThemeSettings() {

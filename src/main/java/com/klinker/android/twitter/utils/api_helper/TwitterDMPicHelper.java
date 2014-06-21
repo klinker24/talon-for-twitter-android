@@ -35,14 +35,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
-/**
- * Created by luke on 6/20/14.
- */
+
 public class TwitterDMPicHelper {
 
     public Bitmap getDMPicture (String picUrl, Twitter twitter) {
 
-        try {
+        return null;
+
+        /*try {
             AccessToken token = twitter.getOAuthAccessToken();
             String oauth_token = token.getToken();
             String oauth_token_secret = token.getTokenSecret();
@@ -133,7 +133,7 @@ public class TwitterDMPicHelper {
             e.printStackTrace();
         }
 
-        return null;
+        return null;*/
     }
 
     public String encode(String value)

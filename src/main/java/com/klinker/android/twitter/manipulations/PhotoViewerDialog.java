@@ -263,7 +263,7 @@ public class PhotoViewerDialog extends Activity {
                 download.performClick();
                 return true;
 
-            case R.id.menu_share_image:
+            /*case R.id.menu_share_image:
 
                 // get the bitmap
                 Bitmap bitmap = ((BitmapDrawable)picture.getDrawable()).getBitmap();
@@ -279,7 +279,7 @@ public class PhotoViewerDialog extends Activity {
 
                 // start the chooser
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "));
-                return true;
+                return true;*/
 
             default:
                 return true;
