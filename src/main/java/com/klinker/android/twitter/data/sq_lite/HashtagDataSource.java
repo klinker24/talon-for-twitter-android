@@ -89,8 +89,16 @@ public class HashtagDataSource {
                     + " = ?", new String[] {tag});
         } catch (Exception e) {
             open();
-            database.delete(HashtagSQLiteHelper.TABLE_HASHTAGS, HashtagSQLiteHelper.COLUMN_TAG
-                    + " = ?", new String[] {tag});
+            try {
+                database.delete(HashtagSQLiteHelper.TABLE_HASHTAGS, HashtagSQLiteHelper.COLUMN_TAG
+                        + " = ?", new String[] {tag});
+            } catch (SQLException x) {
+                // something was wrong with the syntax on on of the tags '#2point8' was the bad one
+                // log just said error compiling with syntax error at 'point8'
+
+                // do not know what would cause this just yet or why it didn't happen on mine
+                // the auto complete works for it as well. not sure what is going on
+            }
         }
     }
 
