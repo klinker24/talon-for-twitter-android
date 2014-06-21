@@ -66,9 +66,12 @@ public class TwitterDMPicHelper {
 
             String twitter_endpoint = picUrl;
             String twitter_endpoint_host = picUrl.substring(0, picUrl.indexOf("1.1")).replace("https://", "").replace("/", "");
-            String twitter_endpoint_path = picUrl.replace("ton.twitter.com", "");
+            String twitter_endpoint_path = picUrl.replace("ton.twitter.com", "").replace("https://", "");
             String signature_base_string = get_or_post + "&"+ encode(twitter_endpoint) + "&" + encode(parameter_string);
             String oauth_signature = computeSignature(signature_base_string, AppSettings.TWITTER_CONSUMER_SECRET + "&" + encode(oauth_token_secret));
+
+            Log.v("talon_dm_image", "endpoint_host: " + twitter_endpoint_host);
+            Log.v("talon_dm_image", "endpoint_path: " + twitter_endpoint_path);
 
             String authorization_header_string = "OAuth oauth_consumer_key=\"" + AppSettings.TWITTER_CONSUMER_KEY + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
                     "\",oauth_nonce=\"" + oauth_nonce + "\",oauth_version=\"1.0\",oauth_signature=\"" + encode(oauth_signature) + "\",oauth_token=\"" + encode(oauth_token) + "\"";
@@ -111,18 +114,20 @@ public class TwitterDMPicHelper {
             response2.setParams(params);
             httpexecutor.postProcess(response2, httpproc, context);
 
-            conn.close();
-
             StatusLine statusLine = response2.getStatusLine();
             int statusCode = statusLine.getStatusCode();
-            if (statusCode == 200) {
+            if (statusCode == 200 || statusCode == 302) {
                 HttpEntity entity = response2.getEntity();
                 byte[] bytes = EntityUtils.toByteArray(entity);
 
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0,
                         bytes.length);
                 return bitmap;
+            } else {
+                Log.v("talon_dm_image", statusCode + "");
             }
+
+            conn.close();
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.SDK11;
 
@@ -28,6 +29,8 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.RejectedExecutionException;
 
+import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.api_helper.TwitterDMPicHelper;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.bitmapcache.CacheableImageView;
@@ -137,37 +140,43 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 }
 
                 if (null == result) {
-                    Log.d("ImageUrlAsyncTask", "Downloading: " + url);
-
-                    // The bitmap isn't cached so download from the web
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
 
                     Bitmap b;
-
-                    b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-
-                    if (b != null) {
-                        if (transform == CIRCLE) {
-                            b = ImageUtils.getCircle(b, context);
-                        } else if (transform == BLUR) {
-                            b = ImageUtils.blur(b);
-                        } else if (transform == THUMBNAIL) {
-                            b = ImageUtils.overlayPlay(b, context);
-                        }
-
-                        // Add to cache
-                        try {
-                            if(fromCache) {
-                                result = mCache.put(url, b);
-                            } else {
-                                result = mCache.put("no_cache", b);
-                            }
-                        } catch (NullPointerException e) {
-                            // the bitmap couldn't be found
-                        }
+                    if (url.contains("ton.twitter.com")) {
+                        // it is a direct message picture
+                        TwitterDMPicHelper helper = new TwitterDMPicHelper();
+                        b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)));
                     } else {
-                        return null;
+
+                        // The bitmap isn't cached so download from the web
+                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                        InputStream is = new BufferedInputStream(conn.getInputStream());
+
+
+                        b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                        if (b != null) {
+                            if (transform == CIRCLE) {
+                                b = ImageUtils.getCircle(b, context);
+                            } else if (transform == BLUR) {
+                                b = ImageUtils.blur(b);
+                            } else if (transform == THUMBNAIL) {
+                                b = ImageUtils.overlayPlay(b, context);
+                            }
+
+                            // Add to cache
+                            try {
+                                if (fromCache) {
+                                    result = mCache.put(url, b);
+                                } else {
+                                    result = mCache.put("no_cache", b);
+                                }
+                            } catch (NullPointerException e) {
+                                // the bitmap couldn't be found
+                            }
+                        } else {
+                            return null;
+                        }
                     }
 
                 } else {

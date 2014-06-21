@@ -20,8 +20,6 @@
 
 -- For Release --
 
-    - direct messages with pictures from the twitter app
-
     Version 2.5.0
         - manual tweetmarker
         - refresh second account direct messages
