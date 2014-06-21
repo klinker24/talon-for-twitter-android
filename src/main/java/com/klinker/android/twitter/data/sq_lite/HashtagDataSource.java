@@ -96,6 +96,8 @@ public class HashtagDataSource {
                 // something was wrong with the syntax on on of the tags '#2point8' was the bad one
                 // log just said error compiling with syntax error at 'point8'
 
+                // seems like it is being reported by any tweets with a '#' then a number immediately following it
+
                 // do not know what would cause this just yet or why it didn't happen on mine
                 // the auto complete works for it as well. not sure what is going on
             }
