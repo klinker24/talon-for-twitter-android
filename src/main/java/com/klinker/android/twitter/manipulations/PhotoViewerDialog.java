@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Menu;
@@ -45,6 +47,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.IOUtils;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -66,6 +69,7 @@ public class PhotoViewerDialog extends Activity {
     public String url;
     public NetworkedCacheableImageView picture;
     public HoloTextView download;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,7 +128,7 @@ public class PhotoViewerDialog extends Activity {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
                 if (isRunning) {
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0, 0);
                     finish();
                     Intent restart;
                     if (fromLauncher) {
@@ -140,7 +144,7 @@ public class PhotoViewerDialog extends Activity {
                     }
                     restart.putExtra("from_cache", true);
                     restart.putExtra("restart", false);
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0, 0);
                     startActivity(restart);
                 }
             }
@@ -230,6 +234,8 @@ public class PhotoViewerDialog extends Activity {
             }
         });
 
+
+
         ActionBar ab = getActionBar();
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
@@ -257,9 +263,34 @@ public class PhotoViewerDialog extends Activity {
                 download.performClick();
                 return true;
 
+            case R.id.menu_share_image:
+
+                // get the bitmap
+                Bitmap bitmap = ((BitmapDrawable)picture.getDrawable()).getBitmap();
+
+                // create the intent
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                sharingIntent.setType("image/*");
+
+                // add the bitmap uri to the intent
+                Uri uri = getImageUri(context, bitmap);
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+                // start the chooser
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "));
+                return true;
+
             default:
                 return true;
         }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "talon-share-image", null);
+        return Uri.parse(path);
     }
 
     public Bitmap decodeSampledBitmapFromResourceMemOpt(

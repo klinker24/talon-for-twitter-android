@@ -6,17 +6,14 @@
     - tweetmarker in lists
     - rotation on tweet viewer
     - identify conversations from timeline
-    - directly share photos instead of saving then sharing
     - transparent status bar xposed
     - Night mode for themes
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - false toast on local trends failed (no idea where this is coming from...)
-    - trim failed toast on my phone, not tablet
     - switch mentions to save the position instead of current unread method
     - duplicate followers and following with low numbers
-
 
 -- For Release --
 
