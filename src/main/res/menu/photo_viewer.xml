@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--<item android:id="@+id/menu_share_image"
+    <item android:id="@+id/menu_share_image"
           android:orderInCategory="0"
           android:title="@string/menu_share"
           android:icon="@drawable/ic_action_share_dark"
-          android:showAsAction="always" />-->
+          android:showAsAction="always" />
 
     <item android:id="@+id/menu_save_image"
         android:orderInCategory="1"

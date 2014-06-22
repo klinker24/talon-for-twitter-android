@@ -167,7 +167,7 @@ public class ComposeActivity extends Compose {
                                 FollowersDataSource.getInstance(context).getCursor(currentAccount, adapterText), reply));
                     }
 
-                    /*if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
                         hashtagAutoComplete.show();
 
                     } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
@@ -183,7 +183,7 @@ public class ComposeActivity extends Compose {
                         adapterText = adapterText.replace("#", "");
                         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
                                 HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
-                    }*/
+                    }
                 } catch (Exception e) {
                     // there is no text
                     try {
@@ -192,11 +192,11 @@ public class ComposeActivity extends Compose {
                         // something went really wrong i guess haha
                     }
 
-                    /*try {
+                    try {
                         hashtagAutoComplete.dismiss();
                     } catch (Exception x) {
                         // something went really wrong i guess haha
-                    }*/
+                    }
                 }
 
             }

@@ -40,9 +40,7 @@ public class TwitterDMPicHelper {
 
     public Bitmap getDMPicture (String picUrl, Twitter twitter) {
 
-        return null;
-
-        /*try {
+        try {
             AccessToken token = twitter.getOAuthAccessToken();
             String oauth_token = token.getToken();
             String oauth_token_secret = token.getTokenSecret();
@@ -133,7 +131,7 @@ public class TwitterDMPicHelper {
             e.printStackTrace();
         }
 
-        return null;*/
+        return null;
     }
 
     public String encode(String value)

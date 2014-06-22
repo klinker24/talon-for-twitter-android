@@ -1,3 +1,10 @@
+<b>Version 2.5.0:</b><br/><br/>
+    &#8226; Auto-complete hashtags<br/>
+    &#8226; Mute by client (long press the timestamp)<br/>
+    &#8226; View pictures from twitters native client in direct messages<br/>
+    &#8226; Share your pictures from the photo viewer dialog to any apps<br/>
+<br/><br/>
+
 <b>Version 2.4.7:</b><br/><br/>
     &#8226; Fix for refresh on startup<br/>
     &#8226; Better restoring of settings backups<br/>

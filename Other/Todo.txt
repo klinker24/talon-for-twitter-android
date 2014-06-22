@@ -31,14 +31,6 @@
             - long press on the timestamp
             - photo viewer dialog menu_share_image click
 
-
-            <b>Version 2.5.0:</b><br/><br/>
-                &#8226; Auto-complete hashtags<br/>
-                &#8226; Mute by client (long press the timestamp)<br/>
-                &#8226; View pictures from twitters native client in direct messages<br/>
-                &#8226; Share your pictures from the photo viewer dialog to any apps<br/>
-            <br/><br/>
-
     Version 2.6.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines

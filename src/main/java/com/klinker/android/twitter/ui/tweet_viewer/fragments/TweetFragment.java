@@ -401,7 +401,7 @@ public class TweetFragment extends Fragment {
                                 FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
                     }
 
-                    /*if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
+                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
                         hashtagAutocomplete.show();
 
                     } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
@@ -417,7 +417,7 @@ public class TweetFragment extends Fragment {
                         adapterText = adapterText.replace("#", "");
                         hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
                                 HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
-                    }*/
+                    }
                 } catch (Exception e) {
                     // there is no text
                     try {
@@ -426,11 +426,11 @@ public class TweetFragment extends Fragment {
                         // something went really wrong i guess haha
                     }
 
-                    /*try {
+                    try {
                         hashtagAutocomplete.dismiss();
                     } catch (Exception x) {
 
-                    }*/
+                    }
                 }
 
             }
@@ -607,7 +607,7 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        /*timetv.setOnLongClickListener(new View.OnLongClickListener() {
+        timetv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if (status != null) {
@@ -642,7 +642,7 @@ public class TweetFragment extends Fragment {
                 }
                 return false;
             }
-        });*/
+        });
 
         if (retweeter.length() > 0 ) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
