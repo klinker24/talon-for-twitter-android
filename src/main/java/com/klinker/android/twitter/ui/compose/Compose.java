@@ -353,8 +353,7 @@ public abstract class Compose extends Activity implements
         String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
         if (sharedText != null) {
             if (!isDM) {
-                Log.v("username_for_noti", "shared text: " + sharedText);
-                if (subject != null) {
+                if (subject != null && !subject.equals(sharedText)) {
                     reply.setText(subject + " - " + sharedText);
                 } else {
                     reply.setText(sharedText);
