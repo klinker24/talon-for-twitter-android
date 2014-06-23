@@ -543,6 +543,22 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     return false;
                 }
             });
+        } else {
+            // need to clear the click listener so it isn't left over from another profile
+            holder.profilePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
+            holder.profilePic.setOnLongClickListener(new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View view) {
+                    return true;
+                }
+            });
         }
 
         if (talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
