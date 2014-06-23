@@ -1,6 +1,8 @@
 package com.klinker.android.twitter.ui;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -30,6 +32,13 @@ public class PlainTextBrowserActivity extends BrowserActivity {
         webText = (HoloTextView) findViewById(R.id.webpage_text);
         scrollView = (ScrollView) findViewById(R.id.scrollview);
         spinner = (LinearLayout) findViewById(R.id.spinner);
+
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        }
 
         getTextFromSite();
     }
