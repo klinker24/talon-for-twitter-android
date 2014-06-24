@@ -35,5 +35,17 @@ public class NotificationCompose extends ComposeActivity {
         sharedPrefs.edit().putLong("from_notification_id", 0).commit();
         sharedPrefs.edit().putString("from_notification", "").commit();
         sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
+
+        // try from android wear device
+        String voiceReply = getIntent().getStringExtra("extra_voice_reply");
+        if (voiceReply != null) {
+            if (!voiceReply.equals("")) {
+                // set the text
+                reply.setText(voiceReply);
+
+                // send the message
+                doneClick();
+            }
+        }
     }
 }
