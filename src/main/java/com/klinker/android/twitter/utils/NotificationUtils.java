@@ -15,11 +15,10 @@ import android.net.Uri;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
 import android.text.Html;
 import android.util.Log;
-import android.preview.support.wearable.notifications.*;
-import android.preview.support.v4.app.NotificationManagerCompat;
-import android.support.v4.app.NotificationCompat;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.App;
@@ -188,8 +187,7 @@ public class NotificationUtils {
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(context);
 
-                WearableNotifications.Builder wearableBuilder =
-                        new WearableNotifications.Builder(mBuilder);
+                NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
 
                 if (addButton) { // the reply and read button should be shown
                     Intent reply;
@@ -212,17 +210,17 @@ public class NotificationUtils {
                             .build();
 
                     // Create the notification action
-                    WearableNotifications.Action replyAction = new WearableNotifications.Action.Builder(R.drawable.ic_action_reply_dark,
+                    NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_dark,
                             context.getResources().getString(R.string.noti_reply), replyPending)
                             .addRemoteInput(remoteInput)
                             .build();
 
-                    WearableNotifications.Action.Builder action = new WearableNotifications.Action.Builder(
+                    NotificationCompat.Action.Builder action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_action_read_dark,
                             context.getResources().getString(R.string.mark_read), readPending);
 
-                    wearableBuilder.addAction(replyAction);
-                    wearableBuilder.addAction(action.build());
+                    extender.addAction(replyAction);
+                    extender.addAction(action.build());
                 } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
                     Intent popup = new Intent(context, RedirectToPopup.class);
                     popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -230,15 +228,15 @@ public class NotificationUtils {
 
                     PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
 
-                    WearableNotifications.Action.Builder action = new WearableNotifications.Action.Builder(
+                    NotificationCompat.Action.Builder action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_popup,
                             context.getResources().getString(R.string.popup), popupPending);
 
-                    wearableBuilder.addAction(action.build());
+                    extender.addAction(action.build());
                 }
 
                 // Build the notification and issues it with notification manager.
-                notificationManager.notify(1, wearableBuilder.build());
+                notificationManager.notify(1, mBuilder.extend(extender).build());
 
                 // if we want to wake the screen on a new message
                 if (settings.wakeScreen) {
@@ -665,10 +663,9 @@ public class NotificationUtils {
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
-            WearableNotifications.Builder wearableBuilder =
-                    new WearableNotifications.Builder(mBuilder);
+            NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
 
-            notificationManager.notify(2, wearableBuilder.build());
+            notificationManager.notify(2, mBuilder.extend(extender).build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -802,10 +799,7 @@ public class NotificationUtils {
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
-            WearableNotifications.Builder wearableBuilder =
-                    new WearableNotifications.Builder(mBuilder);
-
-            notificationManager.notify(9, wearableBuilder.build());
+            notificationManager.notify(9, mBuilder.extend(new NotificationCompat.WearableExtender()).build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -932,10 +926,7 @@ public class NotificationUtils {
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
-            WearableNotifications.Builder wearableBuilder =
-                    new WearableNotifications.Builder(mBuilder);
-
-            notificationManager.notify(4, wearableBuilder.build());
+            notificationManager.notify(4, mBuilder.extend(new NotificationCompat.WearableExtender()).build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
