@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="400dp">
 
-    <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
         android:id="@+id/picture"
         android:layout_height="match_parent"
         android:layout_width="match_parent"

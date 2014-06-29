@@ -5,19 +5,22 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.10.+'
-        classpath 'org.robolectric.gradle:gradle-android-test-plugin:+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
     }
 }
 
 allprojects {
     repositories {
         mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
 }
 
 apply plugin: 'android'
-apply plugin: 'android-test'
+apply plugin: 'robolectric'
 
 android {
     packagingOptions {
@@ -30,14 +33,14 @@ android {
         exclude 'META-INF/NOTICE'
 	exclude 'META-INF/DEPENDENCIES'
     }
-    compileSdkVersion 20
-    buildToolsVersion "19.1.0"
+    compileSdkVersion "android-L"
+    buildToolsVersion "20.0.0"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 20
-        versionCode 130
-        versionName "2.4.8"
+        minSdkVersion "L"
+        targetSdkVersion "L"
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
@@ -68,17 +71,13 @@ android {
     }
 }
 
-androidTest {
+robolectric {
     include '**/*Test.class'
     exclude '**/espresso/**/*.class'
 }
 
 dependencies {
     repositories {
-        mavenCentral()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
         flatDir {
             dirs 'lib'
         }
@@ -115,7 +114,7 @@ dependencies {
     }
     androidTestCompile 'com.squareup:fest-android:1.0.+'
 
-    compile 'com.android.support:support-v13:20.0.0'
+    compile 'com.android.support:support-v13:+'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'

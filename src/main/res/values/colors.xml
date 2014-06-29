@@ -17,6 +17,12 @@ limitations under the License.
 
 <resources>
 
+    <!-- material colors -->
+    <color name="primary">#ff9800</color>
+    <color name="darker_primary">#e65100</color>
+    <color name="accent">#d4e157</color>
+
+
     <color name="app_color">#FF8800</color>
     <color name="pressed_app_color">#77FF8800</color>
     <color name="holo_blue">#33B5E5</color>

@@ -19,7 +19,7 @@
             style="@android:style/Widget.Holo.Light.ProgressBar.Large"
             android:indeterminateOnly="true" />
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading_tweets"
@@ -28,7 +28,7 @@
             android:textSize="15dp"/>
     </LinearLayout>
 
-    <com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout
+    <com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -46,7 +46,7 @@
             android:visibility="gone"
             />
 
-    </com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout>
+    </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout>
 
 
 
@@ -68,7 +68,7 @@
             android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:layout_width="0dp"
                 android:layout_weight="1.5"
                 android:layout_height="match_parent"
@@ -89,7 +89,7 @@
                 android:background="@android:color/white"
                 android:alpha="20"/>
 
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"

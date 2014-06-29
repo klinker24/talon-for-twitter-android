@@ -17,9 +17,9 @@ limitations under the License.
 
 <resources>
 
-    <style name="Theme.TalonBlack" parent="@android:style/Theme.Holo">
+    <style name="Theme.TalonBlack" parent="@style/AppTheme">
 
-        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Dark</item>
+        <!--<item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Dark</item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:colorBackground">@android:color/black</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -38,7 +38,7 @@ limitations under the License.
         <item name="android:listChoiceBackgroundIndicator">@drawable/twitter_list_selector_holo_dark</item>
         <item name="android:activatedBackgroundIndicator">@drawable/twitter_activated_background_holo_dark</item>
         <item name="android:fastScrollThumbDrawable">@drawable/twitter_fastscroll_thumb_holo</item>
-        <item name="android:seekBarStyle">@style/SeekBarTwitter</item>
+        <item name="android:seekBarStyle">@style/SeekBarTwitter</item>-->
 
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_black</item>
