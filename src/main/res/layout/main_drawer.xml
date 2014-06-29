@@ -46,7 +46,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp" >
 
-                <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                     android:layout_width="@dimen/pro_pic_size"
                     android:layout_height="@dimen/pro_pic_size"
                     android:id="@+id/profile_pic_2"
@@ -71,7 +71,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp" >
 
-                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                         android:id="@+id/name_2"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
                         android:textStyle="bold"
                         android:textColor="?textColor"/>
 
-                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                         android:id="@+id/screen_name_2"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"

@@ -100,7 +100,7 @@ limitations under the License.
                 android:layout_marginRight="-7dp"
                 android:scaleType="fitCenter"/>
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloEditText
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
                 android:id="@+id/messageEntry2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
