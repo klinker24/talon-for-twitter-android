@@ -16,6 +16,9 @@ allprojects {
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
+        flatDir {
+            dirs 'lib'
+        }
     }
 }
 
@@ -77,11 +80,6 @@ robolectric {
 }
 
 dependencies {
-    repositories {
-        flatDir {
-            dirs 'lib'
-        }
-    }
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar', 'lib/testrunner-1.1.jar', 'lib/testrunner-runtime-1.1.jar')
     androidTestCompile 'com.google.guava:guava:14.0.1',
