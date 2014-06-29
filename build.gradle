@@ -5,19 +5,25 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.10.+'
-        classpath 'org.robolectric.gradle:gradle-android-test-plugin:+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
     }
 }
 
 allprojects {
     repositories {
         mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+        flatDir {
+            dirs 'lib'
+        }
     }
 }
 
 apply plugin: 'android'
-apply plugin: 'android-test'
+apply plugin: 'robolectric'
 
 android {
     packagingOptions {
@@ -68,21 +74,12 @@ android {
     }
 }
 
-androidTest {
+robolectric {
     include '**/*Test.class'
     exclude '**/espresso/**/*.class'
 }
 
 dependencies {
-    repositories {
-        mavenCentral()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
-        flatDir {
-            dirs 'lib'
-        }
-    }
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar', 'lib/testrunner-1.1.jar', 'lib/testrunner-runtime-1.1.jar')
     androidTestCompile 'com.google.guava:guava:14.0.1',
