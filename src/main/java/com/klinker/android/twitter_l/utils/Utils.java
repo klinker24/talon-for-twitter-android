@@ -254,6 +254,20 @@ public class Utils {
         }
     }
 
+    public static void setUpComposeTheme(Context context, AppSettings settings) {
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                context.setTheme(R.style.Theme_TalonLight_Compose);
+                break;
+            case AppSettings.THEME_DARK:
+                context.setTheme(R.style.Theme_TalonDark_Compose);
+                break;
+            case AppSettings.THEME_BLACK:
+                context.setTheme(R.style.Theme_TalonBlack_Popup);
+                break;
+        }
+    }
+
     public static void setUpNotifTheme(Context context, AppSettings settings) {
         if (settings.layout == AppSettings.LAYOUT_TALON) {
             switch (settings.theme) {

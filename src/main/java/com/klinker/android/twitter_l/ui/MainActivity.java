@@ -10,6 +10,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -51,7 +54,10 @@ public class MainActivity extends DrawerActivity {
     public static Runnable showSend = new Runnable() {
         @Override
         public void run() {
-            if (settings.floatingCompose && sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+            if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+
+                sContext.sendBroadcast(new Intent("com.klinker.android.twitter.SHOW_TOAST"));
+
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_in);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -70,7 +76,6 @@ public class MainActivity extends DrawerActivity {
 
                     }
                 });
-                anim.setDuration(300);
                 sendLayout.startAnimation(anim);
             }
         }
@@ -78,7 +83,9 @@ public class MainActivity extends DrawerActivity {
     public static Runnable hideSend = new Runnable() {
         @Override
         public void run() {
-            if (settings.floatingCompose && sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+            if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+
+                sContext.sendBroadcast(new Intent("com.klinker.android.twitter.HIDE_TOAST"));
 
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_out);
                 anim.setAnimationListener(new Animation.AnimationListener() {
@@ -98,7 +105,6 @@ public class MainActivity extends DrawerActivity {
 
                     }
                 });
-                anim.setDuration(300);
                 sendLayout.startAnimation(anim);
             }
         }
@@ -133,11 +139,20 @@ public class MainActivity extends DrawerActivity {
         MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendButton = (ImageButton) findViewById(R.id.send_button);
+        MainActivity.sendLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getWindow().setExitTransition(new Explode());
+
+                Intent compose = new Intent(context, ComposeActivity.class);
+                startActivity(compose);
+            }
+        });
         MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent compose = new Intent(context, ComposeActivity.class);
-                startActivity(compose);
+                MainActivity.sendLayout.performClick();
             }
         });
 
@@ -306,6 +321,9 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+
+        getWindow().setExitTransition(new Explode());
 
         MainActivity.showIsRunning = false;
         MainActivity.hideIsRunning = false;
