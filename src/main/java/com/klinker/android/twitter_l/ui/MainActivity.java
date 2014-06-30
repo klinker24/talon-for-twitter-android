@@ -52,7 +52,7 @@ public class MainActivity extends DrawerActivity {
         @Override
         public void run() {
             if (settings.floatingCompose && sendLayout.getVisibility() == View.GONE && !showIsRunning) {
-                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_in_left);
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_in);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -79,7 +79,8 @@ public class MainActivity extends DrawerActivity {
         @Override
         public void run() {
             if (settings.floatingCompose && sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
-                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.slide_out_right);
+
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_out);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {

@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -40,27 +41,27 @@
 
             <LinearLayout
                 android:id="@+id/send_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="?background_card"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:visibility="invisible"
+                android:background="@drawable/floating_action_button"
+                android:elevation="2dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="-2dp"
-                android:layout_marginBottom="100dp" >
+                android:layout_marginBottom="65dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center" >
 
                 <ImageButton
                     android:id="@+id/send_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:minHeight="48dp" android:minWidth="48dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:minHeight="24dp" android:minWidth="24dp"
                     android:scaleType="fitCenter" android:adjustViewBounds="true"
-                    android:maxWidth="48dp" android:maxHeight="48dp"
-                    android:padding="6dp"
-                    android:paddingRight="10dp"
-                    android:src="?sendButton"
+                    android:maxWidth="24dp" android:maxHeight="24dp"
+                    android:src="@drawable/ic_action_new_dark"
                     android:contentDescription="New Tweet"
-                    android:background="@drawable/pressed_toast"/>
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
             </LinearLayout>
 

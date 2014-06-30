@@ -24,7 +24,7 @@ limitations under the License.
         <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
         <item name="android:colorPrimaryDark">@color/darker_primary</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">@color/primary</item>
+        <item name="android:colorAccent">@color/accent</item>
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">true</item>
