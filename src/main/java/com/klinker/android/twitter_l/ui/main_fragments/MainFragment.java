@@ -78,7 +78,7 @@ public abstract class MainFragment extends Fragment {
         @Override
         public void onClick(View view) {
             toTop();
-            hideToastBar(500);
+            hideToastBar(300);
         }
     };
 
@@ -86,7 +86,7 @@ public abstract class MainFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             toTop();
-            hideToastBar(500);
+            hideToastBar(300);
         }
     };
     public BroadcastReceiver showToast = new BroadcastReceiver() {
@@ -100,7 +100,7 @@ public abstract class MainFragment extends Fragment {
     public BroadcastReceiver hideToast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            hideToastBar(500);
+            hideToastBar(300);
         }
     };
 
@@ -372,7 +372,7 @@ public abstract class MainFragment extends Fragment {
 
         toastBar.setVisibility(View.VISIBLE);
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -410,7 +410,7 @@ public abstract class MainFragment extends Fragment {
             return;
         }
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
