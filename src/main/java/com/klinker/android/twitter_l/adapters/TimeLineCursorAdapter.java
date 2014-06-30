@@ -391,6 +391,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.retweetCount.setTextSize(settings.textSize + 1);
         holder.reply.setTextSize(settings.textSize);
 
+        holder.profilePic.setClipToOutline(true);
+        holder.image.setClipToOutline(true);
+
         v.setTag(holder);
 
         return v;
@@ -815,13 +818,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 // we need to manually set the background for click feedback because the spannable
                                 // absorbs the click on the background
                                 if (!holder.preventNextClick) {
-                                    holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
-                                    new Handler().postDelayed(new Runnable() {
+                                    //holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
+                                    /*new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
                                         }
-                                    }, 25);
+                                    }, 25);*/
                                 }
 
                                 holder.background.performClick();
@@ -847,13 +850,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             public void onClick(View view) {
                                 if (!TouchableMovementMethod.touched) {
                                     if (!holder.preventNextClick) {
-                                        holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
+                                        /*holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
                                                 holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
                                             }
-                                        }, 25);
+                                        }, 25);*/
                                     }
 
                                     holder.background.performClick();

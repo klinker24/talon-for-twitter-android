@@ -17,29 +17,14 @@ limitations under the License.
 
 <resources>
 
-    <style name="Theme.TalonLight" parent="@style/AppTheme">
+    <style name="Theme.TalonLight" parent="android:Theme.Material.Light.DarkActionBar">
 
-        <!--<item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Light</item>
-        <item name="android:windowBackground">@color/light_background</item>
-        <item name="android:colorBackground">@color/light_background</item>
-        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:actionBarStyle">@style/LightActionBar</item>
-        <item name="android:editTextBackground">@drawable/twitter_edit_text_holo_light</item>
-        <item name="android:textColorHighlight">#99ff8800</item>
-        <item name="android:textSelectHandleLeft">@drawable/twitter_text_select_handle_left</item>
-        <item name="android:textSelectHandleRight">@drawable/twitter_text_select_handle_right</item>
-        <item name="android:textSelectHandle">@drawable/twitter_text_select_handle_middle</item>
-        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewTwitter.Light</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/twitter_btn_check_holo_light</item>
-        <item name="android:buttonStyle">@style/ButtonTwitter.Light</item>
-        <item name="android:imageButtonStyle">@style/ImageButtonTwitter.Light</item>
-        <item name="android:dropDownSpinnerStyle">@style/SpinnerTwitter.Light</item>
-        <item name="android:progressBarStyleHorizontal">@style/ProgressBarTwitter.Light</item>
-        <item name="android:listChoiceBackgroundIndicator">@drawable/twitter_list_selector_holo_light</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/twitter_activated_background_holo_light</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/twitter_fastscroll_thumb_holo</item>
-        <item name="android:seekBarStyle">@style/SeekBarTwitter.Light</item>-->
+        <!--   your app's branding color (for the app bar) -->
+        <item name="android:colorPrimary">@color/primary</item>
+        <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
+        <item name="android:colorPrimaryDark">@color/darker_primary</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/primary</item>
 
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>
@@ -63,7 +48,7 @@ limitations under the License.
         <item name="cancelButton">@drawable/ic_cancel_light</item>
         <item name="sendButton">@drawable/ic_send_light</item>
         <item name="attachButton">@drawable/ic_attach_light</item>
-        <item name="drawerIcon">@drawable/ic_drawer</item>
+        <item name="drawerIcon">@drawable/ic_drawer_dark</item>
         <item name="newIcon">@drawable/ic_action_new_light</item>
         <item name="drawerDrawable">@drawable/drawer_background_light</item>
         <item name="acceptButton">@drawable/ic_action_accept_light</item>
@@ -108,13 +93,8 @@ limitations under the License.
         <item name="listIcon">@drawable/list_light</item>
         <item name="memManagement">@drawable/ic_action_sd_storage_light</item>
 
-        <item name="actionbar">@drawable/ab_solid_light_holo</item>
         <item name="searchIcon">@drawable/ic_action_search_light</item>
 
-    </style>
-
-    <style name="Theme.TalonLight.Settings" parent="@style/Theme.TalonLight">
-        <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
     </style>
 
     <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight">
@@ -147,10 +127,6 @@ limitations under the License.
 
     <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
         <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <style name="LightActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@drawable/ab_solid_light_holo</item>
     </style>
 
     <style name="AutoCompleteTextViewTwitter.Light" parent="android:Widget.Holo.Light.AutoCompleteTextView">

@@ -750,7 +750,7 @@ public abstract class DrawerActivity extends Activity {
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
             translucent = true;
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
             try {
                 int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
@@ -789,7 +789,7 @@ public abstract class DrawerActivity extends Activity {
             title = (TextView) findViewById(actionBarTitleId);
         }
 
-        switch (settings.theme) {
+        /*switch (settings.theme) {
             case AppSettings.THEME_LIGHT:
                 getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_light_holo));
                 if (title != null) {
@@ -810,7 +810,7 @@ public abstract class DrawerActivity extends Activity {
                 break;
         }
 
-        Utils.setActionBar(context, true);
+        Utils.setActionBar(context, true);*/
     }
 
     @Override
@@ -950,7 +950,7 @@ public abstract class DrawerActivity extends Activity {
 
             int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
             ImageView view = (ImageView) searchView.findViewById(searchImgId);
-            view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
+            view.setImageResource(R.drawable.ic_action_search_dark);
 
         } catch (Exception e) {
 
@@ -1036,15 +1036,18 @@ public abstract class DrawerActivity extends Activity {
     public MenuItem noti;
     public void setNotificationFilled(boolean isFilled) {
         if (isFilled) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button});
+            noti.setIcon(getResources().getDrawable(R.drawable.ic_action_notification_dark));
+            /*TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button});
             int resource = a.getResourceId(0, 0);
             a.recycle();
-            noti.setIcon(resource);
+            noti.setIcon(resource);*/
         } else {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button_empty});
+            /*TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button_empty});
             int resource = a.getResourceId(0, 0);
-            a.recycle();
-            noti.setIcon(resource);
+            a.recycle();*/
+
+            noti.setIcon(getResources().getDrawable(R.drawable.ic_action_notification_none_dark));
+            //noti.setIcon(resource);
         }
     }
 
