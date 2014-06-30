@@ -19,7 +19,7 @@ limitations under the License.
 
     <!-- material colors -->
     <color name="primary">#ff9800</color>
-    <color name="darker_primary">#ef6c00</color>
+    <color name="darker_primary">#f57c00</color>
     <color name="accent">#3f51b5</color>
     <color name="accent_ligher">#9fa8da</color>
     <color name="snack_bar">#DD323232</color>

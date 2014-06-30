@@ -764,14 +764,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
 
                             Intent viewImage = new Intent(context, PhotoViewerDialog.class);
-                            viewImage.putExtra("url", holder.picUrl);
+                            viewImage.putExtra("url", hogit commlder.picUrl);
 
-                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
-                                            Pair.create((View)holder.image, "large_image"),
-                                            Pair.create((View)holder.tweet, "tweet_text"),
-                                            Pair.create((View)holder.retweeter, "retweeter_name"));
-
-                            context.startActivity(viewImage, options.toBundle());
+                            context.startActivity(viewImage);
                         }
                     });
 
