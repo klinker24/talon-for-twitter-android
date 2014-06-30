@@ -764,7 +764,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
 
                             Intent viewImage = new Intent(context, PhotoViewerDialog.class);
-                            viewImage.putExtra("url", hogit commlder.picUrl);
+                            viewImage.putExtra("url", holder.picUrl);
 
                             context.startActivity(viewImage);
                         }
