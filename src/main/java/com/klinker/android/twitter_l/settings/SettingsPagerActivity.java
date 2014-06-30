@@ -52,14 +52,14 @@ public class SettingsPagerActivity extends FragmentActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+        //overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+        //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
 
         AppSettings.invalidate();
 

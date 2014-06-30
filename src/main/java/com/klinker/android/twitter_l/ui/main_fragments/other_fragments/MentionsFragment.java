@@ -76,15 +76,9 @@ public class MentionsFragment extends MainFragment {
                                 if (!landscape && !isTablet) {
                                     actionBar.hide();
                                 }
-                                if (!isToastShowing && DrawerActivity.settings.useToast) {
-                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
-                                }
                             } else if (firstVisibleItem > mLastFirstVisibleItem) {
                                 if (!landscape && !isTablet) {
                                     actionBar.show();
-                                }
-                                if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
-                                    hideToastBar(400);
                                 }
                             }
 
@@ -94,13 +88,6 @@ public class MentionsFragment extends MainFragment {
                         if (!landscape && !isTablet) {
                             actionBar.show();
                         }
-                        if (!infoBar && DrawerActivity.settings.useToast) {
-                            hideToastBar(400);
-                        }
-                    }
-
-                    if (isToastShowing && !infoBar && DrawerActivity.settings.useToast) {
-                        updateToastText(firstVisibleItem + " " + fromTop);
                     }
 
                     if (MainActivity.translucent && actionBar.isShowing()) {

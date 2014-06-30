@@ -79,7 +79,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             }
 
             MainActivity.mViewPager.setCurrentItem(1 + extraPages, true);
-            hideToastBar(400);
         }
     };
 
@@ -96,7 +95,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 @Override
                 public void run() {
                     infoBar = false;
-                    hideToastBar(400);
                 }
             }, 500);
 
@@ -143,18 +141,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 } else {
                     liveUnread++;
                     sharedPrefs.edit().putBoolean("refresh_me", false).commit();
-                    if (liveUnread != 0) {
-                        try {
-                            showToastBar(liveUnread + " " + (liveUnread == 1 ? getResources().getString(R.string.new_tweet) : getResources().getString(R.string.new_tweets)),
-                                    getResources().getString(R.string.view),
-                                    400,
-                                    true,
-                                    liveStreamRefresh,
-                                    true);
-                        } catch (Exception e) {
-                            // fragment not attached to activity
-                        }
-                    }
 
                     newTweets = true;
                 }
@@ -229,12 +215,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                     if (!landscape && !isTablet) {
                                         actionBar.hide();
                                     }
-                                    showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
                                 } else if (firstVisibleItem > mLastFirstVisibleItem) {
                                     if (!landscape && !isTablet) {
                                         actionBar.show();
                                     }
-                                    hideToastBar(400);
                                 }
 
                                 mLastFirstVisibleItem = firstVisibleItem;
@@ -243,9 +227,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             if (!landscape && !isTablet) {
                                 actionBar.show();
                             }
-                            if (liveUnread == 0) {
-                                hideToastBar(400);
-                            }
                         }
 
                         if (MainActivity.translucent && actionBar.isShowing()) {
@@ -253,8 +234,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         } else if (MainActivity.translucent) {
                             hideStatusBar();
                         }
-                    } else {
-                        hideToastBar(400);
                     }
 
                     // this is for when they are live streaming and get to the top of the feed, the "View" button comes up.
@@ -297,11 +276,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                     false,
                                     liveStreamRefresh,
                                     true);
-                        } else {
-                            hideToastBar(400);
                         }
-                    } else {
-                        hideToastBar(400);
                     }
 
                     if (settings.uiExtras) {
@@ -712,7 +687,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             @Override
             protected void onPostExecute(Boolean result) {
-                hideToastBar(400);
 
                 MainActivity.canSwitch = true;
 
@@ -1376,51 +1350,6 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
     }
 
     public boolean isHiding = false;
-
-    public void hideToastBar(long length) {
-        hideToastBar(length, false);
-    }
-
-    public void hideToastBar(long length, boolean force) {
-        try {
-            mLength = length;
-
-            // quit if the toast isn't showing or it is an info bar, since those will hide automatically
-            if (!isToastShowing || infoBar || isHiding) {
-                if (force && toastBar.getVisibility() == View.VISIBLE) {
-
-                } else {
-                    return;
-                }
-            }
-
-            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    isHiding = true;
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    isToastShowing = false;
-                    topViewToastShowing = false;
-                    infoBar = false;
-                    isHiding = false;
-                    toastBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            anim.setDuration(length);
-            toastBar.startAnimation(anim);
-        } catch (Exception e) {
-            // fragment not attached
-        }
-    }
 
     public void markReadForLoad() {
         try {

@@ -102,6 +102,10 @@ limitations under the License.
 
     </style>
 
+    <style name="Theme.TalonDark.Compose" parent="@style/Theme.TalonDark">
+        <item name="android:windowContentTransitions">false</item>
+    </style>
+
     <style name="Theme.TalonDark.Hangouts" parent="@style/Theme.TalonDark">
         <item name="tweetBackground">@drawable/received_background_hangouts_dark</item>
     </style>

@@ -126,6 +126,10 @@ limitations under the License.
 
     </style>
 
+    <style name="Theme.TalonLight.Compose" parent="@style/Theme.TalonLight">
+        <item name="android:windowContentTransitions">false</item>
+    </style>
+
     <style name="Theme.TalonLight.Hangouts" parent="@style/Theme.TalonLight">
         <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
     </style>

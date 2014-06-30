@@ -78,6 +78,7 @@ public abstract class MainFragment extends Fragment {
         @Override
         public void onClick(View view) {
             toTop();
+            hideToastBar(500);
         }
     };
 
@@ -85,15 +86,31 @@ public abstract class MainFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             toTop();
+            hideToastBar(500);
         }
     };
-
+    public BroadcastReceiver showToast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (listView.getFirstVisiblePosition() > 3) {
+                showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 500, false, toTopListener);
+            }
+        }
+    };
+    public BroadcastReceiver hideToast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            hideToastBar(500);
+        }
+    };
 
     public AppSettings settings;
     
     public void setAppSettings() {
         settings = AppSettings.getInstance(context);
     }
+
+
 
     @Override
     public void onResume() {
@@ -102,12 +119,22 @@ public abstract class MainFragment extends Fragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TOP_TIMELINE");
         context.registerReceiver(jumpTopReceiver, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.SHOW_TOAST");
+        context.registerReceiver(showToast, filter);
+
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.HIDE_TOAST");
+        context.registerReceiver(hideToast, filter);
     }
 
     @Override
     public void onPause() {
 
         context.unregisterReceiver(jumpTopReceiver);
+        context.unregisterReceiver(showToast);
+        context.unregisterReceiver(hideToast);
 
         super.onPause();
     }
@@ -336,14 +363,6 @@ public abstract class MainFragment extends Fragment {
         toastBar = view.findViewById(R.id.toastBar);
         toastDescription = (TextView) view.findViewById(R.id.toastDescription);
         toastButton = (TextView) view.findViewById(R.id.toastButton);
-        if (settings.addonTheme) {
-            LinearLayout toastBackground = (LinearLayout) view.findViewById(R.id.toast_background);
-            try {
-                toastBackground.setBackgroundColor(Color.parseColor("#DD" + settings.accentColor));
-            } catch (Exception e) {
-                // they messed up the theme
-            }
-        }
     }
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
@@ -391,7 +410,7 @@ public abstract class MainFragment extends Fragment {
             return;
         }
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

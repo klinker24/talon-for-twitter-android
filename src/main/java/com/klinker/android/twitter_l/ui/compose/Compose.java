@@ -188,8 +188,7 @@ public abstract class Compose extends Activity implements
         mLocationClient = new LocationClient(context, this, this);
         mLocationClient.connect();
 
-        Utils.setUpPopupTheme(context, settings);
-        setUpWindow();
+        Utils.setUpComposeTheme(context, settings);
         setUpLayout();
         setUpDoneDiscard();
         setUpReplyText();

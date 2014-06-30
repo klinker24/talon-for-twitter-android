@@ -1086,7 +1086,7 @@ public abstract class DrawerActivity extends Activity {
                 Intent settings = new Intent(context, SettingsPagerActivity.class);
                 finish();
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+                //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
                 startActivity(settings);
                 return super.onOptionsItemSelected(item);
 
