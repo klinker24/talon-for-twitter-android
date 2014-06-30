@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- res/transition/move_image.xml -->
+<!-- (see also Shared Transitions below) -->
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+    <explode/>
+</transitionSet>

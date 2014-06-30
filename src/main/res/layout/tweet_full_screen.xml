@@ -296,6 +296,7 @@
                 android:scaleType="centerCrop"
                 android:visibility="gone"
                 android:background="@drawable/rounded_rect"
+                android:viewName="large_image"
                 />
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView

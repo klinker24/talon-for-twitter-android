@@ -86,8 +86,6 @@ public class ProfilePager extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
-
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -103,12 +101,6 @@ public class ProfilePager extends Activity {
             }
         } catch (Exception ex) {
             // Ignore
-        }
-
-        if (getIntent().getBooleanExtra("from_widget", false) ||
-                ((settings.advanceWindowed && !getIntent().getBooleanExtra("long_click", false)) ||
-                !settings.advanceWindowed && getIntent().getBooleanExtra("long_click", false))) {
-            setUpWindow();
         }
 
         setUpTheme();
@@ -536,7 +528,6 @@ public class ProfilePager extends Activity {
         } catch (Exception e) {
 
         }
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
     }
 
     private final int SELECT_PRO_PIC = 57;

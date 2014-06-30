@@ -26,6 +26,13 @@ limitations under the License.
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/accent</item>
 
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/move_image</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/move_image</item>
+
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_dark</item>
         <item name="drawerDividerColor">@color/dark_text_drawer</item>
