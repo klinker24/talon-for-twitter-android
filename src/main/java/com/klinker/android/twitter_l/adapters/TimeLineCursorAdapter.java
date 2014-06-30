@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.adapters;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -761,7 +763,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                         .commit();
                             }
 
-                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
+                            Intent viewImage = new Intent(context, PhotoViewerDialog.class);
+                            viewImage.putExtra("url", holder.picUrl);
+
+                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
+                                            Pair.create((View)holder.image, "large_image"),
+                                            Pair.create((View)holder.tweet, "tweet_text"),
+                                            Pair.create((View)holder.retweeter, "retweeter_name"));
+
+                            context.startActivity(viewImage, options.toBundle());
                         }
                     });
 
@@ -814,19 +824,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         @Override
                         public void onClick(View view) {
                             if (!TouchableMovementMethod.touched) {
-                                Log.v("talon_clickable", "clicked in the cursor adapter");
-                                // we need to manually set the background for click feedback because the spannable
-                                // absorbs the click on the background
-                                if (!holder.preventNextClick) {
-                                    //holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
-                                    /*new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
-                                        }
-                                    }, 25);*/
-                                }
-
                                 holder.background.performClick();
                             }
                         }
@@ -849,16 +846,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             @Override
                             public void onClick(View view) {
                                 if (!TouchableMovementMethod.touched) {
-                                    if (!holder.preventNextClick) {
-                                        /*holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
-                                            }
-                                        }, 25);*/
-                                    }
-
                                     holder.background.performClick();
                                 }
                             }

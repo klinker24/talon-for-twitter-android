@@ -81,8 +81,6 @@ public class TweetPager extends YouTubeBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
-
         try {
             getWindow().requestFeature(Window.FEATURE_PROGRESS);
         } catch (Exception e) {
@@ -113,14 +111,6 @@ public class TweetPager extends YouTubeBaseActivity {
             youtube = webpage.contains("youtu") || linkString.contains("youtu");
         } else {
             youtube = true;
-        }
-
-        // cases: (youtube will ALWAYS be full screen...)
-        // from widget
-        // the user set the preference to advance windowed
-        // has a webview and want to advance windowed
-        if (fromWidget || settingsVal) {
-            setUpWindow(youtube);
         }
 
         setUpTheme();
@@ -830,11 +820,5 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         return full;
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
     }
 }
