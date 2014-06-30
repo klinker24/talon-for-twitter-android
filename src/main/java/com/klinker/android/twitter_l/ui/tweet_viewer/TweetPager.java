@@ -231,7 +231,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
     public void setUpTheme() {
 
-        Utils.setUpPopupTheme(context, settings);
+        Utils.setUpTheme(context, settings);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

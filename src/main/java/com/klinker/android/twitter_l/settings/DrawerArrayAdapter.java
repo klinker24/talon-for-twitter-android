@@ -58,6 +58,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
             viewHolder.name = (TextView) rowView.findViewById(R.id.title);
             viewHolder.icon = (ImageView) rowView.findViewById(R.id.icon);
 
+
             rowView.setTag(viewHolder);
         }
 
@@ -65,6 +66,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
 
         holder.name.setText(settingName);
         holder.name.setTextSize(18);
+        holder.name.setVisibility(View.VISIBLE);
 
         if (text.get(position).equals(context.getResources().getString(R.string.ui_settings))) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.themeSettings});
@@ -152,6 +154,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
 
         holder.icon.setColorFilter(context.getResources().getColor(resource));
         holder.name.setTextColor(context.getResources().getColor(resource));
+
         return rowView;
     }
 }

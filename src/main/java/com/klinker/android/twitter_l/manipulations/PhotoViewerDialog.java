@@ -111,12 +111,36 @@ public class PhotoViewerDialog extends Activity {
         picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
-        picture.loadImage(url, false, null, 0, fromCache);
+        picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
+            @Override
+            public void onImageLoaded(CacheableBitmapDrawable result) {
+                if (isRunning) {
+                    overridePendingTransition(0, 0);
+                    finish();
+                    Intent restart;
+                    if (fromLauncher) {
+                        restart = new Intent(context, LauncherPhotoViewerDialog.class);
+                    } else {
+                        restart = new Intent(context, PhotoViewerDialog.class);
+                    }
+                    if (url.contains("twitpic")) {
+                        Log.v("talon_picture", picture.getTag().toString());
+                        restart.putExtra("url", picture.getTag().toString());
+                    } else {
+                        restart.putExtra("url", url);
+                    }
+                    restart.putExtra("from_cache", true);
+                    restart.putExtra("restart", false);
+                    overridePendingTransition(0, 0);
+                    startActivity(restart);
+                }
+            }
+        } : null, 0, fromCache); // no transform
 
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
-                ((Activity)context).finishAfterTransition();
+                ((Activity)context).finish();
             }
         });
 
@@ -196,6 +220,8 @@ public class PhotoViewerDialog extends Activity {
                 finish();
             }
         });
+
+
 
         ActionBar ab = getActionBar();
         if (ab != null) {
@@ -362,10 +388,5 @@ public class PhotoViewerDialog extends Activity {
                 overridePendingTransition(0, 0);
             }
         }, 250);
-    }
-
-    @Override
-    public void onBackPressed() {
-        finishAfterTransition();
     }
 }

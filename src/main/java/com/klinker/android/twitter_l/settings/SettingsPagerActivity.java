@@ -265,7 +265,6 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         });
 
-        mDrawerLayout.openDrawer(Gravity.START);
     }
 
     public void setUpTheme() {
