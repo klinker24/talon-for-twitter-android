@@ -17,28 +17,14 @@ limitations under the License.
 
 <resources>
 
-    <style name="Theme.TalonDark" parent="@style/AppTheme">
+    <style name="Theme.TalonDark" parent="android:Theme.Material">
 
-        <!--<item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Dark</item>
-        <item name="android:windowBackground">@color/dark_background</item>
-        <item name="android:colorBackground">@color/dark_background</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:actionBarStyle">@style/DarkActionBar</item>
-        <item name="android:editTextBackground">@drawable/twitter_edit_text_holo_dark</item>
-        <item name="android:textColorHighlight">#99ff8800</item>
-        <item name="android:textSelectHandleLeft">@drawable/twitter_text_select_handle_left</item>
-        <item name="android:textSelectHandleRight">@drawable/twitter_text_select_handle_right</item>
-        <item name="android:textSelectHandle">@drawable/twitter_text_select_handle_middle</item>
-        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewTwitter</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/twitter_btn_check_holo_dark</item>
-        <item name="android:buttonStyle">@style/ButtonTwitter</item>
-        <item name="android:imageButtonStyle">@style/ImageButtonTwitter</item>
-        <item name="android:dropDownSpinnerStyle">@style/SpinnerTwitter</item>
-        <item name="android:progressBarStyleHorizontal">@style/ProgressBarTwitter</item>
-        <item name="android:listChoiceBackgroundIndicator">@drawable/twitter_list_selector_holo_dark</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/twitter_activated_background_holo_dark</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/twitter_fastscroll_thumb_holo</item>
-        <item name="android:seekBarStyle">@style/SeekBarTwitter</item>-->
+        <!--   your app's branding color (for the app bar) -->
+        <item name="android:colorPrimary">@color/primary</item>
+        <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
+        <item name="android:colorPrimaryDark">@color/darker_primary</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/accent</item>
 
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_dark</item>
@@ -107,9 +93,6 @@ limitations under the License.
         <item name="listIcon">@drawable/list_dark</item>
         <item name="memManagement">@drawable/ic_action_sd_storage_dark</item>
 
-        <item name="actionbar">@drawable/ab_solid_dark</item>
-        <item name="searchIcon">@drawable/ic_action_search_dark</item>
-
     </style>
 
     <style name="Theme.TalonDark.Hangouts" parent="@style/Theme.TalonDark">
@@ -123,10 +106,6 @@ limitations under the License.
     <style name="Theme.TalonDark.Hangouts.Popup.Notif" parent="@style/Theme.TalonDark.Popup.Notif">
         <item name="tweetBackground">@drawable/received_background_hangouts_dark</item>
         <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <style name="Theme.TalonDark.Settings" parent="@style/Theme.TalonDark">
-        <item name="android:homeAsUpIndicator">@drawable/ic_drawer_dark</item>
     </style>
 
     <style name="Theme.TalonDark.Popup" parent="@style/Theme.TalonDark">
@@ -146,10 +125,6 @@ limitations under the License.
 
     <style name="Theme.TalonDark.Popup.Notif" parent="@style/Theme.TalonDark.Popup" >
         <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <style name="DarkActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">@drawable/ab_solid_dark</item>
     </style>
 
     <style name="AutoCompleteTextViewTwitter" parent="android:Widget.Holo.AutoCompleteTextView">
