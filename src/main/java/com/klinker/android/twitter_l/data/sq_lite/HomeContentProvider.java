@@ -288,7 +288,7 @@ public class HomeContentProvider extends ContentProvider {
         values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getOriginalProfileImageURL());
         values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
         values.put(HomeSQLiteHelper.COLUMN_TIME, time);
         values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
@@ -338,7 +338,7 @@ public class HomeContentProvider extends ContentProvider {
             values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
             values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, mId);
             values.put(HomeSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-            values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+            values.put(HomeSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getOriginalProfileImageURL());
             values.put(HomeSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
             values.put(HomeSQLiteHelper.COLUMN_TIME, time);
             values.put(HomeSQLiteHelper.COLUMN_RETWEETER, originalName);
