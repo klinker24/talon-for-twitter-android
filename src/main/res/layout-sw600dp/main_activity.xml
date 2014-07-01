@@ -36,7 +36,7 @@
             <View android:id="@+id/activity_status_bar"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:background="@android:color/black"
+                android:background="@android:color/transparent"
                 android:visibility="gone"/>
 
             <LinearLayout

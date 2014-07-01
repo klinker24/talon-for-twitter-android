@@ -53,6 +53,7 @@ import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
+import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.SendTweet;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -95,14 +96,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private TextView timetv;
     private ImageView pictureIv;
-    private ImageButton emojiButton;
-    private EmojiKeyboard emojiKeyboard;
     private PhotoViewAttacher mAttacher;
-    private EditText reply;
-    private ImageButton replyButton;
-
-    private ImageView attachImage;
-    private String attachedUri = "";
 
     public String name;
     public String screenName;
@@ -120,44 +114,6 @@ public class TweetPager extends YouTubeBaseActivity {
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
 
-    private ListPopupWindow userAutocomplete;
-    private ListPopupWindow hashtagAutocomplete;
-
-    private boolean addonTheme;
-
-    private TextView charRemaining;
-
-    final Pattern p = Patterns.WEB_URL;
-
-    private Handler countHandler;
-    private Runnable getCount = new Runnable() {
-        @Override
-        public void run() {
-            String text = reply.getText().toString();
-
-            if (!text.contains("http")) { // no links, normal tweet
-                try {
-                    charRemaining.setText(140 - reply.getText().length() - (attachedUri.equals("") ? 0 : 23) + "");
-                } catch (Exception e) {
-                    charRemaining.setText("0");
-                }
-            } else {
-                int count = text.length();
-                Matcher m = p.matcher(text);
-                while(m.find()) {
-                    String url = m.group();
-                    count -= url.length(); // take out the length of the url
-                    count += 23; // add 23 for the shortened url
-                }
-
-                if (!attachedUri.equals("")) {
-                    count += 23;
-                }
-
-                charRemaining.setText(140 - count + "");
-            }
-        }
-    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -169,8 +125,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
         }
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION|WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         context = this;
         settings = AppSettings.getInstance(this);
@@ -188,7 +143,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
         getFromIntent();
 
-        setUpTheme();
+        Utils.setUpTheme(context, settings);
 
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -199,26 +154,41 @@ public class TweetPager extends YouTubeBaseActivity {
 
         setContentView(R.layout.tweet_fragment);
 
-        countHandler = new Handler();
-
-        if(settings == null) {
-            settings = AppSettings.getInstance(context);
-        }
+        setUpTheme();
 
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
 
     }
 
-    public void setUpTheme() {
+    public View insetsBackground;
 
-        Utils.setUpTheme(context, settings);
+    public void setUpTheme() {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(new ColorDrawable(android.R.color.transparent));
+        actionBar.setTitle("");
+        actionBar.setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
 
-        Utils.setActionBar(context);
+        insetsBackground = findViewById(R.id.actionbar_and_status_bar);
+
+        ViewGroup.LayoutParams statusParams = insetsBackground.getLayoutParams();
+        statusParams.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);
+        insetsBackground.setLayoutParams(statusParams);
+        insetsBackground.setAlpha(0);
+
+        NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
+        scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                final int headerHeight = findViewById(R.id.profile_pic_contact).getHeight() - getActionBar().getHeight();
+                final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+                final int newAlpha = (int) (ratio * 255);
+                Log.v("talon_action_bar", "new alpha: " + newAlpha);
+                insetsBackground.setAlpha(ratio);
+            }
+        });
     }
 
     public void setUpWindow(boolean youtube) {
@@ -803,213 +773,35 @@ public class TweetPager extends YouTubeBaseActivity {
         TextView nametv;
         TextView screennametv;
         TextView tweettv;
-        ImageButton attachButton;
-        ImageButton at;
         ImageButton quote = null;
         ImageButton viewRetweeters = null;
         final TextView retweetertv;
-        final LinearLayout background;
-        final ImageButton expand;
         final NetworkedCacheableImageView profilePic;
         final ImageButton favoriteButton;
         final ImageButton retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
-        final ImageButton overflow;
-        final LinearLayout buttons;
 
-        if (!addonTheme) {
-            nametv = (TextView) layout.findViewById(R.id.name);
-            screennametv = (TextView) layout.findViewById(R.id.screen_name);
-            tweettv = (TextView) layout.findViewById(R.id.tweet);
-            retweetertv = (TextView) layout.findViewById(R.id.retweeter);
-            background = (LinearLayout) layout.findViewById(R.id.linLayout);
-            expand = (ImageButton) layout.findViewById(R.id.expand);
-            profilePic = (NetworkedCacheableImageView) layout.findViewById(R.id.profile_pic_contact);
-            favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
-            quote = (ImageButton) layout.findViewById(R.id.quote_button);
-            retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
-            favoriteCount = (TextView) layout.findViewById(R.id.fav_count);
-            retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
-            reply = (EditText) layout.findViewById(R.id.reply);
-            replyButton = (ImageButton) layout.findViewById(R.id.reply_button);
-            attachButton = (ImageButton) layout.findViewById(R.id.attach_button);
-            overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
-            buttons = (LinearLayout) layout.findViewById(R.id.buttons);
-            charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
-            at = (ImageButton) layout.findViewById(R.id.at_button);
-            emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
-            emojiKeyboard = (EmojiKeyboard) layout.findViewById(R.id.emojiKeyboard);
-            timetv = (TextView) layout.findViewById(R.id.time);
-            pictureIv = (ImageView) layout.findViewById(R.id.imageView);
-            attachImage = (ImageView) layout.findViewById(R.id.attach);
-            viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
-        } else {
-            Resources res;
-            try {
-                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-            } catch (Exception e) {
-                res = null;
-            }
+        nametv = (TextView) layout.findViewById(R.id.name);
+        screennametv = (TextView) layout.findViewById(R.id.screen_name);
+        tweettv = (TextView) layout.findViewById(R.id.tweet);
+        retweetertv = (TextView) layout.findViewById(R.id.retweeter);
+        profilePic = (NetworkedCacheableImageView) layout.findViewById(R.id.profile_pic_contact);
+        favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
+        quote = (ImageButton) layout.findViewById(R.id.quote_button);
+        retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
+        favoriteCount = (TextView) layout.findViewById(R.id.fav_count);
+        retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
+        timetv = (TextView) layout.findViewById(R.id.time);
+        pictureIv = (ImageView) layout.findViewById(R.id.imageView);
+        viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
 
-            nametv = (TextView) layout.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
-            screennametv = (TextView) layout.findViewById(res.getIdentifier("screen_name", "id", settings.addonThemePackage));
-            tweettv = (TextView) layout.findViewById(res.getIdentifier("tweet", "id", settings.addonThemePackage));
-            retweetertv = (TextView) layout.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
-            background = (LinearLayout) layout.findViewById(res.getIdentifier("linLayout", "id", settings.addonThemePackage));
-            expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
-            profilePic = (NetworkedCacheableImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
-            favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-            retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
-            favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
-            retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
-            reply = (EditText) layout.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
-            replyButton = (ImageButton) layout.findViewById(res.getIdentifier("reply_button", "id", settings.addonThemePackage));
-            attachButton = (ImageButton) layout.findViewById(res.getIdentifier("attach_button", "id", settings.addonThemePackage));
-            overflow = (ImageButton) layout.findViewById(res.getIdentifier("overflow_button", "id", settings.addonThemePackage));
-            buttons = (LinearLayout) layout.findViewById(res.getIdentifier("buttons", "id", settings.addonThemePackage));
-            charRemaining = (TextView) layout.findViewById(res.getIdentifier("char_remaining", "id", settings.addonThemePackage));
-            at = (ImageButton) layout.findViewById(res.getIdentifier("at_button", "id", settings.addonThemePackage));
-            emojiButton = null;
-            emojiKeyboard = null;
-            timetv = (TextView) layout.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
-            pictureIv = (ImageView) layout.findViewById(res.getIdentifier("imageView", "id", settings.addonThemePackage));
-            attachImage = (ImageView) layout.findViewById(res.getIdentifier("attach", "id", settings.addonThemePackage));
-            try {
-                viewRetweeters = (ImageButton) layout.findViewById(res.getIdentifier("view_retweeters", "id", settings.addonThemePackage));
-            } catch (Exception e) {
-                // it doesn't exist in the theme;
-            }
-            try {
-                quote = (ImageButton) layout.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
-            } catch (Exception e) {
-                // didn't exist when the theme was created.
-            }
-        }
 
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-
-        userAutocomplete = new ListPopupWindow(context);
-        userAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
-        userAutocomplete.setHeight(Utils.toDP(100, context));
-        userAutocomplete.setWidth((int)(width * .75));
-        userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
-        userAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
-
-        userAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                userAutocomplete.dismiss();
-            }
-        });
-
-        hashtagAutocomplete = new ListPopupWindow(context);
-        hashtagAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
-        hashtagAutocomplete.setHeight(Utils.toDP(100, context));
-        hashtagAutocomplete.setWidth((int)(width * .75));
-        hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
-                HashtagDataSource.getInstance(context).getCursor(reply.getText().toString()), reply));
-        hashtagAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
-
-        hashtagAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                hashtagAutocomplete.dismiss();
-            }
-        });
-
-        reply.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                String searchText = reply.getText().toString();
-
-                try {
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
-                        userAutocomplete.show();
-
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        userAutocomplete.dismiss();
-                    } else if (userAutocomplete.isShowing()) {
-                        String[] split = reply.getText().toString().split(" ");
-                        String adapterText;
-                        if (split.length > 1) {
-                            adapterText = split[split.length - 1];
-                        } else {
-                            adapterText = split[0];
-                        }
-                        adapterText = adapterText.replace("@", "");
-                        userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
-                    }
-
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
-                        hashtagAutocomplete.show();
-
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        hashtagAutocomplete.dismiss();
-                    } else if (hashtagAutocomplete.isShowing()) {
-                        String[] split = reply.getText().toString().split(" ");
-                        String adapterText;
-                        if (split.length > 1) {
-                            adapterText = split[split.length - 1];
-                        } else {
-                            adapterText = split[0];
-                        }
-                        adapterText = adapterText.replace("#", "");
-                        hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
-                                HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
-                    }
-                } catch (Exception e) {
-                    // there is no text
-                    try {
-                        userAutocomplete.dismiss();
-                    } catch (Exception x) {
-                        // something went really wrong i guess haha
-                    }
-
-                    try {
-                        hashtagAutocomplete.dismiss();
-                    } catch (Exception x) {
-
-                    }
-                }
-
-            }
-        });
-
-        nametv.setTextSize(settings.textSize +2);
-        screennametv.setTextSize(settings.textSize);
         tweettv.setTextSize(settings.textSize);
         timetv.setTextSize(settings.textSize - 3);
         retweetertv.setTextSize(settings.textSize - 3);
         favoriteCount.setTextSize(13);
         retweetCount.setTextSize(13);
-        reply.setTextSize(settings.textSize);
-
-        if (settings.addonTheme) {
-            try {
-                Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                int back = resourceAddon.getIdentifier("reply_entry_background", "drawable", settings.addonThemePackage);
-                reply.setBackgroundDrawable(resourceAddon.getDrawable(back));
-            } catch (Exception e) {
-                // theme does not include a reply entry box
-            }
-        }
 
         if (viewRetweeters != null) {
             viewRetweeters.setOnClickListener(new View.OnClickListener() {
@@ -1044,42 +836,6 @@ public class TweetPager extends YouTubeBaseActivity {
             });
         }
 
-        overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (buttons.getVisibility() == View.VISIBLE) {
-
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate_back);
-                    ranim.setFillAfter(true);
-                    overflow.startAnimation(ranim);
-
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
-
-                    buttons.setVisibility(View.GONE);
-                } else {
-                    buttons.setVisibility(View.VISIBLE);
-
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate);
-                    ranim.setFillAfter(true);
-                    overflow.startAnimation(ranim);
-
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
-                }
-            }
-        });
-
-        if (settings.theme == 0 && !addonTheme) {
-            nametv.setTextColor(getResources().getColor(android.R.color.black));
-            nametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
-            screennametv.setTextColor(getResources().getColor(android.R.color.black));
-            screennametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
-        }
-
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1108,26 +864,7 @@ public class TweetPager extends YouTubeBaseActivity {
             pictureIv.setVisibility(View.VISIBLE);
             ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
 
-            expand.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(background.getVisibility() == View.VISIBLE) {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
-                        ranim.setFillAfter(true);
-                        expand.startAnimation(ranim);
-                    } else {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
-                        ranim.setFillAfter(true);
-                        expand.startAnimation(ranim);
-                    }
 
-                    ExpansionAnimation expandAni = new ExpansionAnimation(background, 450);
-                    background.startAnimation(expandAni);
-                }
-            });
-
-        } else {
-            expand.setVisibility(View.GONE);
         }
 
         nametv.setText(name);
@@ -1262,7 +999,7 @@ public class TweetPager extends YouTubeBaseActivity {
             extraNames += "@" + retweeter + " ";
         }
 
-        if (!screenName.equals(settings.myScreenName)) {
+        /*if (!screenName.equals(settings.myScreenName)) {
             reply.setText("@" + screenName + " " + extraNames);
         } else {
             reply.setText(extraNames);
@@ -1274,275 +1011,12 @@ public class TweetPager extends YouTubeBaseActivity {
                     reply.append("#" + s + " ");
                 }
             }
-        }
-
-        reply.setSelection(reply.getText().length());
-        replyButton.setEnabled(false);
-        replyButton.setAlpha(.4f);
-        replyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
-                        if (Integer.parseInt(charRemaining.getText().toString()) < 0) {
-                            new AlertDialog.Builder(context)
-                                    .setTitle(context.getResources().getString(R.string.tweet_to_long))
-                                    .setMessage(context.getResources().getString(R.string.select_shortening_service))
-                                    .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
-                                        }
-                                    })
-                                    .setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            try {
-                                                Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
-                                                pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
-                                                startActivityForResult(pwiccer, 420);
-                                            } catch (Throwable e) {
-                                                // open the play store here
-                                                // they don't have pwiccer installed
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
-                                            }
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
-                        } else {
-                            replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
-                        }
-                    } else {
-                        Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        attachButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attachClick();
-
-                overflow.performClick();
-            }
-        });
-
-        if (settings.openKeyboard) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    reply.requestFocus();
-                    InputMethodManager inputMethodManager=(InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInputFromWindow(reply.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-                }
-            }, 500);
-        }
-
-        charRemaining.setText(140 - reply.getText().length() + "");
-
-        reply.setHint(context.getResources().getString(R.string.reply));
-        reply.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!replyButton.isEnabled()) {
-                    replyButton.setEnabled(true);
-                    replyButton.setAlpha(1.0f);
-                }
-                countHandler.removeCallbacks(getCount);
-                countHandler.postDelayed(getCount, 200);
-            }
-        });
-
-
-        if (!settings.useEmoji || emojiButton == null) {
-            try {
-                emojiButton.setVisibility(View.GONE);
-            } catch (Exception e) {
-                // it is a custom layout, so the emoji isn't gonna work :(
-            }
-        } else {
-            emojiKeyboard.setAttached((HoloEditText) reply);
-
-            reply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (emojiKeyboard.isShowing()) {
-                        emojiKeyboard.setVisibility(false);
-
-                        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
-                        int resource = a.getResourceId(0, 0);
-                        a.recycle();
-                        emojiButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_emoji_keyboard_dark));
-                    }
-                }
-            });
-
-            emojiButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (emojiKeyboard.isShowing()) {
-                        emojiKeyboard.setVisibility(false);
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                InputMethodManager imm = (InputMethodManager)context.getSystemService(
-                                        Context.INPUT_METHOD_SERVICE);
-                                imm.showSoftInput(reply, 0);
-                            }
-                        }, 250);
-
-                        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
-                        int resource = a.getResourceId(0, 0);
-                        a.recycle();
-                        emojiButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_emoji_keyboard_dark));
-                    } else {
-                        InputMethodManager imm = (InputMethodManager)context.getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                emojiKeyboard.setVisibility(true);
-                            }
-                        }, 250);
-
-                        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.keyboardButton});
-                        int resource = a.getResourceId(0, 0);
-                        a.recycle();
-                        emojiButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_keyboard_light));
-                    }
-                }
-            });
-        }
-
-        at.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context, sharedPrefs.getInt("current_account", 1)).
-                        setTitle(getResources().getString(R.string.type_user)).
-                        setTitleColor(getResources().getColor(R.color.app_color)).
-                        setDividerColor(getResources().getColor(R.color.app_color));
-
-                qustomDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        reply.append(qustomDialogBuilder.text.getText().toString());
-                    }
-                });
-
-                qustomDialogBuilder.show();
-
-                overflow.performClick();
-            }
-        });
+        }*/
 
         // last bool is whether it should open in the external browser or not
         TextUtils.linkifyText(context, retweetertv, null, true, "", true);
         TextUtils.linkifyText(context, tweettv, null, true, "", true);
 
-    }
-
-    public void attachClick() {
-        context.sendBroadcast(new Intent("com.klinker.android.twitter.ATTACH_BUTTON"));
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        //builder.setTitle(getResources().getString(R.string.open_what) + "?");
-        builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                if(item == 0) { // take picture
-                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
-
-                    if (!f.exists()) {
-                        try {
-                            f.getParentFile().mkdirs();
-                            f.createNewFile();
-                        } catch (IOException e) {
-
-                        }
-                    }
-
-                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
-                } else { // attach picture
-                    if (attachedUri == null || attachedUri.equals("")) {
-                        Intent photoPickerIntent = new Intent();
-                        photoPickerIntent.setType("image/*");
-                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                        try {
-                            startActivityForResult(Intent.createChooser(photoPickerIntent,
-                                    "Select Picture"), SELECT_PHOTO);
-                        } catch (Throwable t) {
-                            // no app to preform this..? hmm, tell them that I guess
-                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        attachedUri = "";
-
-                        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.attachButton});
-                        int resource = a.getResourceId(0, 0);
-                        a.recycle();
-                        attachImage.setImageDrawable(context.getResources().getDrawable(resource));
-
-                        //if (Build.VERSION.SDK_INT < 19) {
-                        Intent photoPickerIntent = new Intent();
-                        photoPickerIntent.setType("image/*");
-                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                        try {
-                            startActivityForResult(Intent.createChooser(photoPickerIntent,
-                                    "Select Picture"), SELECT_PHOTO);
-                        } catch (Throwable t) {
-                            // no app to preform this..? hmm, tell them that I guess
-                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                        }
-                        /*} else {
-                            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                            intent.addCategory(Intent.CATEGORY_OPENABLE);
-                            intent.setType("image/*");
-                            try {
-                                startActivityForResult(Intent.createChooser(intent,
-                                        "Select Picture"), SELECT_PHOTO);
-                            } catch (Throwable t) {
-                                // no app to preform this..? hmm, tell them that I guess
-                                Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                            }
-                        }*/
-
-                    }
-                }
-            }
-        });
-
-        builder.create().show();
     }
 
     private boolean isFavorited = false;
@@ -1892,189 +1366,6 @@ public class TweetPager extends YouTubeBaseActivity {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(reply.getWindowToken(), 0);
-    }
-
-    public void replyToStatus(EditText message, long tweetId, int remainingChars) {
-        Intent intent = new Intent(context, SendTweet.class);
-        intent.putExtra("message", message.getText().toString());
-        intent.putExtra("tweet_id", tweetId);
-        intent.putExtra("char_remaining", remainingChars);
-        intent.putExtra("pwiccer", pwiccer);
-        intent.putExtra("attached_uri", attachedUri);
-
-        context.startService(intent);
-
-        removeKeyboard(message);
-        ((Activity)context).finish();
-    }
-
-    private Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
-        InputStream input = context.getContentResolver().openInputStream(uri);
-        int reqWidth = 150;
-        int reqHeight = 150;
-
-        byte[] byteArr = new byte[0];
-        byte[] buffer = new byte[1024];
-        int len;
-        int count = 0;
-
-        try {
-            while ((len = input.read(buffer)) > -1) {
-                if (len != 0) {
-                    if (count + len > byteArr.length) {
-                        byte[] newbuf = new byte[(count + len) * 2];
-                        System.arraycopy(byteArr, 0, newbuf, 0, count);
-                        byteArr = newbuf;
-                    }
-
-                    System.arraycopy(buffer, 0, byteArr, count, len);
-                    count += len;
-                }
-            }
-
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    public Bitmap getBitmapToSend(Uri uri) throws IOException {
-        InputStream input = context.getContentResolver().openInputStream(uri);
-        int reqWidth = 750;
-        int reqHeight = 750;
-
-        byte[] byteArr = new byte[0];
-        byte[] buffer = new byte[1024];
-        int len;
-        int count = 0;
-
-        try {
-            while ((len = input.read(buffer)) > -1) {
-                if (len != 0) {
-                    if (count + len > byteArr.length) {
-                        byte[] newbuf = new byte[(count + len) * 2];
-                        System.arraycopy(byteArr, 0, newbuf, 0, count);
-                        byteArr = newbuf;
-                    }
-
-                    System.arraycopy(buffer, 0, byteArr, count, len);
-                    count += len;
-                }
-            }
-
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    private static int getPowerOfTwoForSampleRatio(double ratio){
-        int k = Integer.highestOneBit((int)Math.floor(ratio));
-        if(k==0) return 1;
-        else return k;
-    }
-
-    private static final int SELECT_PHOTO = 100;
-    private static final int CAPTURE_IMAGE = 101;
-    private static final int PWICCER = 420;
-
-    public boolean pwiccer = false;
-
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        switch(requestCode) {
-            case SELECT_PHOTO:
-                if(resultCode == ((Activity)context).RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-
-                    try {
-                        attachImage.setImageBitmap(getThumbnail(selectedImage));
-                        attachedUri = selectedImage.toString();
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                    } catch (IOException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                    }
-
-                    attachImage.setVisibility(View.VISIBLE);
-                }
-                break;
-            case CAPTURE_IMAGE:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
-
-                    try {
-                        attachImage.setImageBitmap(getThumbnail(selectedImage));
-                        attachedUri = selectedImage.toString();
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                    } catch (IOException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                    }
-
-                    attachImage.setVisibility(View.VISIBLE);
-                }
-                break;
-
-            case PWICCER:
-                if (resultCode == Activity.RESULT_OK) {
-                    String path = imageReturnedIntent.getStringExtra("RESULT");
-                    attachedUri = Uri.fromFile(new File(path)).toString();
-
-                    try {
-                        attachImage.setImageBitmap(getThumbnail(Uri.parse(attachedUri)));
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                    } catch (IOException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                    }
-
-                    String currText = imageReturnedIntent.getStringExtra("RESULT_TEXT");
-                    if (currText != null) {
-                        reply.setText(currText);
-                        charRemaining.setText("0");
-                    }
-
-                    Log.v("talon_pwiccer", "length = " + currText.length());
-                    Log.v("talon_pwiccer", currText);
-
-                    pwiccer = true;
-
-                    replyButton.performClick();
-                } else {
-                    Toast.makeText(context, "Pwiccer failed to generate image! Is it installed?", Toast.LENGTH_SHORT).show();
-                }
-        }
     }
 
     public Bitmap decodeSampledBitmapFromResourceMemOpt(

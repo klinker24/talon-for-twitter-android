@@ -5,102 +5,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/prompt_pos"
-        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <ScrollView
+
+        <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" >
+            android:layout_alignParentTop="true"
+                android:id="@+id/notify_scroll_view"
+                android:overScrollMode="never">
 
+            <!-- Holds all the content that can be scrolled -->
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:id="@+id/profile_pic_contact"
-                        android:scaleType="centerCrop"
-                        android:contentDescription="Profile Picture"
-                        android:viewName="profile_picture"/>
+                <!-- This is the persons header with name, picture, and handle -->
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="300dp">
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/profile_pic_contact"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Profile Picture"
+                            android:viewName="profile_picture"/>
+
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical"
+                                  android:layout_alignParentBottom="true"
+                                  android:layout_marginLeft="100dp"
+                                  android:layout_marginBottom="25dp">
+
+                        <TextView
+                                android:id="@+id/screen_name"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:singleLine="true"
+                                android:paddingBottom="3dp"
+                                android:textSize="24sp"
+                                android:shadowColor="@android:color/black"
+                                android:shadowDy="1"
+                                android:shadowRadius="3"
+                                android:textColor="@android:color/white"
+                                android:viewName="person_handle"/>
+
+                        <TextView
+                                android:id="@+id/name"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:singleLine="true"
+                                android:textSize="45sp"
+                                android:layout_marginTop="-10dp"
+                                android:shadowColor="@android:color/black"
+                                android:shadowDy="1"
+                                android:shadowRadius="3"
+                                android:textColor="@android:color/white"
+                                android:viewName="person_name"/>
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?tweetBackgroundNoDialog"
-                    android:layout_margin="@dimen/tweet_activ_margin">
+                    android:background="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textDirection="ltr">
-                            <LinearLayout
-                                    android:layout_toRightOf="@+id/pro_pic_layout"
-                                    android:layout_alignTop="@+id/pro_pic_layout"
-                                    android:orientation="vertical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:layout_marginTop="4dp"
-                                    android:layout_marginLeft="10dp">
-
-                                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                                        android:id="@+id/name"
-                                        android:layout_height="wrap_content"
-                                        android:layout_width="wrap_content"
-                                        android:maxLines="1"
-                                        android:textStyle="bold"
-                                        android:shadowColor="?textShadowColor"
-                                        android:shadowDy="1"
-                                        android:shadowRadius="3"
-                                        android:textColor="@android:color/white"
-                                        android:viewName="person_name"/>
-
-                                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                                        android:id="@+id/screen_name"
-                                        android:layout_height="wrap_content"
-                                        android:layout_width="wrap_content"
-                                        android:maxLines="1"
-                                        android:paddingBottom="3dp"
-                                        android:shadowColor="?textShadowColor"
-                                        android:shadowDy="1"
-                                        android:shadowRadius="3"
-                                        android:textColor="@android:color/white"
-                                        android:viewName="person_handle"/>
-
-                            </LinearLayout>
-
-                            <ImageButton
-                                android:id="@+id/expand"
-                                android:layout_height="48dp"
-                                android:layout_width="48dp"
-                                android:src="?showMoreButton"
-                                android:scaleType="fitCenter"
-                                android:adjustViewBounds="true"
-                                android:contentDescription="Expand Picture"
-                                android:background="@drawable/pressed_button"
-                                android:layout_margin="10dp"
-                                android:rotation="180"/>
-
-                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/linLayout"
@@ -130,71 +114,16 @@
                         android:visibility="gone" />
 
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp" />
-            </LinearLayout>
-
-        </ScrollView>
-
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true">
-
-            <LinearLayout
-                android:id="@+id/buttons"
-                android:background="@drawable/background_card"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="bottom"
-                android:layout_margin="@dimen/tweet_activ_margin"
-                android:layout_marginBottom="10dp"
-                android:visibility="gone">
-
-                <ImageButton
-                    android:id="@+id/at_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/pressed_button"
-                    android:contentDescription="Find User"
-                    android:src="@drawable/mentions_light"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:textColor="#807f7f" />
-
-                <ImageButton
-                    android:id="@+id/attach_button"
-                    android:contentDescription="Attach Picture"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_attach_light"
-                    android:background="@drawable/pressed_button" />
-
-                <ImageButton
-                    android:id="@+id/emoji"
-                    android:contentDescription="Emojis"
-                    android:layout_height="48dp"
-                    android:layout_width="48dp"
-                    android:src="@drawable/ic_emoji_keyboard_dark"
-                    android:background="@drawable/pressed_button" />
 
             </LinearLayout>
 
+        </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
 
-        </ScrollView>
 
-        <ImageView
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:id="@+id/attach"
-            android:layout_height="96dp"
-            android:layout_width="wrap_content"
-            android:scaleType="fitCenter"
-            android:layout_marginBottom="15dp"
-            android:visibility="gone"/>
+        <View android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:id="@+id/actionbar_and_status_bar"
+              android:background="@color/primary"/>
 
     </RelativeLayout>
 
@@ -202,6 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginBottom="56dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/bottom_bar" >
 
@@ -394,60 +324,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="bottom" >
-
-            <ImageButton
-                android:id="@+id/overflow_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="?showMoreButton"
-                android:rotation="-90"
-                android:contentDescription="Overflow Options"
-                android:background="@drawable/pressed_button" />
-
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
-                android:id="@+id/reply"
-                android:layout_height="wrap_content"
-                android:maxLines="5"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:hint="@string/reply"
-                android:layout_gravity="center_vertical"
-                android:inputType="textMultiLine|textCapSentences"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content">
-
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                    android:layout_height="13dp"
-                    android:layout_width="match_parent"
-                    android:textSize="10dp"
-                    android:gravity="right"
-                    android:paddingRight="5dp"
-                    android:id="@+id/char_remaining" />
-
-                <ImageButton
-                    android:id="@+id/reply_button"
-                    android:layout_marginTop="-16dp"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="?sendButton"
-                    android:contentDescription="Send Reply"
-                    android:background="@drawable/pressed_button" />
-
-            </LinearLayout>
-
-        </LinearLayout>
     </LinearLayout>
-
-    <include layout="@layout/emoji_keyboard"/>
 
 </LinearLayout>
