@@ -14,7 +14,7 @@
 
         <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
                 android:id="@+id/notify_scroll_view"
                 android:overScrollMode="never">
@@ -23,11 +23,13 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="match_parent" >
 
                 <!-- This is the persons header with name, picture, and handle -->
-                <RelativeLayout android:layout_width="match_parent"
-                                android:layout_height="300dp">
+                <RelativeLayout
+                        android:id="@+id/pro_pic_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp">
 
                     <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                             android:layout_width="match_parent"
@@ -78,28 +80,15 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:background="@android:color/white">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                    <include android:id="@+id/tweet_background"
+                        layout="@layout/tweet_for_fragment"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent" />
 
-                        <LinearLayout
-                            android:id="@+id/linLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-
-                            <include android:id="@+id/tweet_background"
-                                layout="@layout/tweet_for_fragment"
-                                android:layout_height="wrap_content"
-                                android:layout_width="match_parent" />
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
 
                     <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                         android:id="@+id/imageView"
@@ -121,7 +110,7 @@
 
 
         <View android:layout_width="match_parent"
-              android:layout_height="40dp"
+              android:layout_height="0dp"
               android:id="@+id/actionbar_and_status_bar"
               android:background="@color/primary"/>
 
@@ -132,7 +121,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="56dp"
+        android:background="@android:color/white"
         android:layout_alignParentBottom="true"
+        android:elevation="5dp"
         android:id="@+id/bottom_bar" >
 
         <View

@@ -836,7 +836,7 @@ public class TweetPager extends YouTubeBaseActivity {
             });
         }
 
-        profilePic.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener viewPro = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent viewProfile = new Intent(context, ProfilePager.class);
@@ -848,23 +848,29 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 context.startActivity(viewProfile);
             }
-        });
+        };
 
         if(picture) { // if there is a picture already loaded
-            Log.v("talon_picture_loading", "picture load started");
 
-            mAttacher = new PhotoViewAttacher(pictureIv);
-            mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+            profilePic.loadImage(webpage, false, null);
+            profilePic.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onViewTap(View view, float x, float y) {
+                public void onClick(View view) {
                     context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
                 }
             });
 
-            pictureIv.setVisibility(View.VISIBLE);
-            ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
+            RelativeLayout proPicContainer = (RelativeLayout) findViewById(R.id.pro_pic_container);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) proPicContainer.getLayoutParams();
+            params.height = Utils.toDP(500, context);
+            profilePic.setLayoutParams(params);
 
+            nametv.setOnClickListener(viewPro);
+            screennametv.setOnClickListener(viewPro);
 
+        } else {
+            profilePic.loadImage(proPic, false, null);
+            profilePic.setOnClickListener(viewPro);
         }
 
         nametv.setText(name);
@@ -979,8 +985,6 @@ public class TweetPager extends YouTubeBaseActivity {
                 return false;
             }
         });
-
-        ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
 
         getInfo(favoriteButton, favoriteCount, retweetCount, tweetId, retweetButton);
 
