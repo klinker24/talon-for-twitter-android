@@ -9,7 +9,7 @@
     <!-- Tweet's Content -->
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
 
@@ -17,8 +17,7 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:background="@android:color/white"
                     android:padding="36dp">
 
@@ -40,7 +39,8 @@
                         android:textSize="14sp"
                         android:fontFamily="sans-serif-light"
                         android:background="@drawable/pressed_button"
-                        android:textColor="?dateColor"  />
+                        android:textColor="@android:color/black"
+                        android:alpha=".6"/>
 
                 <TextView
                         android:id="@+id/retweeter"
@@ -48,10 +48,53 @@
                         android:layout_width="match_parent"
                         android:textSize="14sp"
                         android:fontFamily="sans-serif-light"
-                        android:textColor="?dateColor"
-                        android:visibility="gone" />
+                        android:textColor="@android:color/black"
+                        android:visibility="gone"
+                        android:alpha=".6"/>
 
             </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:paddingLeft="36dp"
+                      android:paddingRight="36dp">
+
+            <ImageButton
+                    android:id="@+id/retweet"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="Retweet"
+                    android:scaleType="fitCenter"
+                    android:src="?retweetButton"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:textSize="14sp"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:id="@+id/retweet_count" />
+
+            <ImageButton
+                    android:id="@+id/favorite"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="Favorite Tweet"
+                    android:src="?notFavoritedButton"
+                    android:scaleType="fitCenter"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:textSize="14sp"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:id="@+id/fav_count" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

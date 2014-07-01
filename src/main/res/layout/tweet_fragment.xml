@@ -3,8 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:background="@android:color/white">
+    android:layout_height="match_parent" >
 
 
     <RelativeLayout
@@ -96,7 +95,6 @@
                         android:layout_width="match_parent" />
 
 
-
                 </LinearLayout>
 
             </LinearLayout>
@@ -118,7 +116,8 @@
         android:layout_marginBottom="56dp"
         android:background="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:id="@+id/bottom_bar" >
+        android:id="@+id/bottom_bar"
+            android:visibility="gone">
 
         <View
             android:layout_width="match_parent"
@@ -177,13 +176,7 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/favorite"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="Favorite Tweet"
-                        android:src="?notFavoritedButton"
-                        android:background="@drawable/pressed_button"/>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -205,15 +198,7 @@
                             android:gravity="bottom|right"
                             android:layoutDirection="ltr">
 
-                            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:layout_marginLeft="-4dp"
-                                android:layout_marginBottom="2dp"
-                                android:textSize="13dp"
-                                android:singleLine="true"
-                                android:paddingRight="3dp"
-                                android:id="@+id/fav_count" />
+
 
                         </LinearLayout>
 
@@ -233,13 +218,7 @@
                     android:layout_height="37dp"
                     android:layout_weight="1">
 
-                    <ImageButton
-                        android:id="@+id/retweet"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="Retweet"
-                        android:src="?retweetButton"
-                        android:background="@drawable/pressed_button"/>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -262,16 +241,7 @@
                             android:gravity="bottom|right"
                             android:layoutDirection="ltr">
 
-                            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:layout_marginLeft="-4dp"
-                                android:layout_marginBottom="2dp"
-                                android:paddingRight="3dp"
-                                android:textSize="13dp"
-                                android:singleLine="true"
-                                android:gravity="bottom|right"
-                                android:id="@+id/retweet_count" />
+
 
                         </LinearLayout>
 
