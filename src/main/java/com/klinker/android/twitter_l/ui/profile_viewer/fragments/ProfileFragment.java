@@ -526,11 +526,8 @@ public class ProfileFragment extends Fragment {
                             try {
                                 if (thisUser != null && thisUser.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
-                                    if (settings.roundContactImages) {
-                                        ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
-                                    } else {
-                                        ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                                    }
+
+                                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
 
                                     String url = thisUser.getProfileBannerURL();
                                     ImageUtils.loadImage(context, background, url, mCache);
@@ -589,11 +586,7 @@ public class ProfileFragment extends Fragment {
                                 followersAdapter.notifyDataSetChanged();
                             }
 
-                            if(settings.roundContactImages) {
-                                ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
-                            } else {
-                                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                            }
+                            ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
 
                             String url = user.getProfileBannerURL();
                             ImageUtils.loadImage(context, background, url, mCache);
@@ -609,11 +602,8 @@ public class ProfileFragment extends Fragment {
                         public void run() {
                             if (user != null && user.isProtected()) {
                                 Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
-                                if(settings.roundContactImages) {
-                                    ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
-                                } else {
-                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
-                                }
+
+                                ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
 
                                 String url = user.getProfileBannerURL();
                                 ImageUtils.loadImage(context, background, url, mCache);
@@ -672,11 +662,7 @@ public class ProfileFragment extends Fragment {
                                 followingAdapter.notifyDataSetChanged();
                             }
 
-                            if(settings.roundContactImages) {
-                                ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
-                            } else {
-                                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                            }
+                            ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
 
                             String url = user.getProfileBannerURL();
                             ImageUtils.loadImage(context, background, url, mCache);
@@ -694,11 +680,8 @@ public class ProfileFragment extends Fragment {
                             try {
                                 if (user != null && user.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
-                                    if (settings.roundContactImages) {
-                                        ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
-                                    } else {
-                                        ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
-                                    }
+
+                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
 
                                     String url = user.getProfileBannerURL();
                                     ImageUtils.loadImage(context, background, url, mCache);
@@ -756,11 +739,7 @@ public class ProfileFragment extends Fragment {
                                 listView.setAdapter(timelineAdapter);
                             }
 
-                            if(settings.roundContactImages) {
-                                ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
-                            } else {
-                                ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
-                            }
+                            ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
 
                             String url = user.getProfileBannerURL();
                             ImageUtils.loadImage(context, background, url, mCache);
@@ -778,11 +757,8 @@ public class ProfileFragment extends Fragment {
                             try {
                                 if (user != null && user.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
-                                    if (settings.roundContactImages) {
-                                        ImageUtils.loadSizedCircleImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache, 96);
-                                    } else {
-                                        ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
-                                    }
+
+                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
 
                                     String url = user.getProfileBannerURL();
                                     ImageUtils.loadImage(context, background, url, mCache);

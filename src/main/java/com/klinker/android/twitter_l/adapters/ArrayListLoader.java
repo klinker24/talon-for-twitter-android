@@ -24,16 +24,12 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
     final BitmapLruCache mCache;
     private Context context;
-    private boolean circleImages;
 
     public ArrayListLoader(BitmapLruCache cache, Context context) {
         mCache = cache;
         this.context = context;
 
         AppSettings settings = AppSettings.getInstance(context);
-
-        // if the layout is talon's, then they should have circle images
-        circleImages = settings.roundContactImages;
     }
 
     @Override
@@ -69,7 +65,7 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
                 try {
                     is.close();
@@ -80,10 +76,6 @@ public class ArrayListLoader extends SimpleItemLoader<String, CacheableBitmapDra
                     conn.disconnect();
                 } catch (Exception e) {
 
-                }
-
-                if (circleImages) {
-                    image = ImageUtils.getCircle(image, context);
                 }
 
                 wrapper = mCache.put(url, image);

@@ -77,11 +77,7 @@ public class PreCacheService extends IntentService {
                         HttpURLConnection conn = (HttpURLConnection) new URL(profilePic).openConnection();
                         InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                        Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-
-                        if (settings.roundContactImages) {
-                            image = ImageUtils.getCircle(image, this);
-                        }
+                        Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
                         mCache.put(profilePic, image);
                     } catch (Throwable e) {

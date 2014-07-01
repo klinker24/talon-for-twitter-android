@@ -241,9 +241,6 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 URL mUrl = new URL(url);
 
                 Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                if (settings.roundContactImages) {
-                    image = ImageUtils.getCircle(image, mContext);
-                }
 
                 wrapper = mCache.put(url, image);
             } catch (Exception e) {

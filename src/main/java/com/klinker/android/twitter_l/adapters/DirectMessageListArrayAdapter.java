@@ -198,11 +198,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         }
 
         //holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
-        if(settings.roundContactImages) {
-            ImageUtils.loadCircleImage(context, holder.picture, dm.getPicture(), mCache);
-        } else {
-            ImageUtils.loadImage(context, holder.picture, dm.getPicture(), mCache);
-        }
+        ImageUtils.loadImage(context, holder.picture, dm.getPicture(), mCache);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

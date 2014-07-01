@@ -542,7 +542,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     .commit();
                         }
 
-                        context.startActivity(viewTweet);
+                        /*ActivityOptions options = ActivityOptions
+                                .makeSceneTransitionAnimation((Activity) context,
+                                        Pair.create((View)holder.profilePic, "profile_picture"),
+                                        Pair.create((View)holder.name, "person_name"),
+                                        Pair.create((View)holder.screenTV, "person_handle"),
+                                        Pair.create((View)holder.image, "large_image"));*/
+
+                        context.startActivity(viewTweet/*, options.toBundle()*/);
                     }
                 };
                 holder.background.setOnClickListener(click);
@@ -628,31 +635,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
 
                 context.startActivity(viewProfile);
-            }
-        });
-
-        holder.profilePic.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View view) {
-
-                Intent viewProfile = new Intent(context, ProfilePager.class);
-                viewProfile.putExtra("name", name);
-                viewProfile.putExtra("screenname", screenname);
-                viewProfile.putExtra("proPic", profilePic);
-                viewProfile.putExtra("tweetid", holder.tweetId);
-                viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
-                viewProfile.putExtra("long_click", true);
-
-                if (isHomeTimeline) {
-                    sharedPrefs.edit()
-                            .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                            .commit();
-                }
-
-                context.startActivity(viewProfile);
-
-                return false;
             }
         });
 

@@ -145,25 +145,15 @@ public class InteractionsCursorAdapter extends CursorAdapter {
             holder.text.setVisibility(View.GONE);
         }
 
-        if(settings.roundContactImages) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.check.equals(title)) {
-                        loadCircleImage(context, holder, url, mCache, title);
-                    }
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (holder.check.equals(title)) {
+                    loadImage(context, holder, url, mCache, title);
                 }
-            }, 500);
-        } else {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.check.equals(title)) {
-                        loadImage(context, holder, url, mCache, title);
-                    }
-                }
-            }, 500);
-        }
+            }
+        }, 500);
 
         // set the background color
         if (unread == 1) {
@@ -216,7 +206,8 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         if (null != wrapper && holder.picture.getVisibility() != View.GONE) {
             // The cache has it, so just display it
-            holder.picture.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+            holder.picture.setImageDrawable(wrapper);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
             holder.picture.startAnimation(fadeInAnimation);
         } else {
@@ -224,37 +215,6 @@ public class InteractionsCursorAdapter extends CursorAdapter {
             holder.picture.setImageDrawable(null);
 
             mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, title);
-
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    SDK11.executeOnThreadPool(mCurrentTask, url);
-                } else {
-                    mCurrentTask.execute(url);
-                }
-            } catch (RejectedExecutionException e) {
-                // This shouldn't happen, but might.
-            }
-
-        }
-    }
-
-    public void loadCircleImage(Context context, final ViewHolder holder, final String url, BitmapLruCache mCache, final String title) {
-        if (url == null) {
-            return;
-        }
-
-        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
-
-        if (null != wrapper && holder.picture.getVisibility() != View.GONE) {
-            // The cache has it, so just display it
-            holder.picture.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-
-            holder.picture.startAnimation(fadeInAnimation);
-        } else {
-            // Memory Cache doesn't have the URL, do threaded request...
-            holder.picture.setImageDrawable(null);
-
-            ImageUrlCircleAsyncTask mCurrentTask = new ImageUrlCircleAsyncTask(context, holder, mCache, title);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -423,94 +383,4 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         }
     }
 
-    private static class ImageUrlCircleAsyncTask
-            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
-
-        private final BitmapLruCache mCache;
-        private Context context;
-        private ViewHolder holder;
-        private String title;
-
-        ImageUrlCircleAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, String title) {
-            this.context = context;
-            mCache = cache;
-            this.holder = holder;
-            this.title = title;
-        }
-
-        @Override
-        protected CacheableBitmapDrawable doInBackground(String... params) {
-            try {
-                // Return early if the ImageView has disappeared.
-                if (!holder.check.equals(title)) {
-                    return null;
-                }
-                final String url = params[0];
-
-                // Now we're not on the main thread we can check all caches
-                CacheableBitmapDrawable result;
-
-                try {
-                    result = mCache.get(url, null);
-                } catch (OutOfMemoryError e) {
-                    return null;
-                }
-
-                if (null == result) {
-                    Log.d("ImageUrlAsyncTask", "Downloading: " + url);
-
-                    // The bitmap isn't cached so download from the web
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                    Bitmap b = BitmapFactory.decodeStream(is);
-                    b = ImageUtils.getCircle(b, context);
-
-                    try {
-                        is.close();
-                    } catch (Exception e) {
-
-                    }
-                    try {
-                        conn.disconnect();
-                    } catch (Exception e) {
-
-                    }
-
-
-                    // Add to cache
-                    if (b != null) {
-                        result = mCache.put(url, b);
-                    }
-
-                } else {
-                    Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
-                }
-
-                return result;
-
-            } catch (IOException e) {
-                Log.e("ImageUrlAsyncTask", e.toString());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(CacheableBitmapDrawable result) {
-            super.onPostExecute(result);
-
-            try {
-                if (result != null && holder.check.equals(title)) {
-                    holder.picture.setImageDrawable(result);
-                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-
-                    holder.picture.startAnimation(fadeInAnimation);
-                }
-
-            } catch (Exception e) {
-
-            }
-        }
-    }
 }

@@ -208,25 +208,15 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
         //holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
         final String url = user.getBiggerProfileImageURL();
-        if(settings.roundContactImages) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadCircleImage(context, holder, url, mCache, id);
-                    }
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (holder.userId == id) {
+                    loadImage(context, holder, url, mCache, id);
                 }
-            }, 500);
-        } else {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadImage(context, holder, url, mCache, id);
-                    }
-                }
-            }, 500);
-        }
+            }
+        }, 500);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,37 +279,6 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
             holder.picture.setImageDrawable(null);
 
             mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId);
-
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    SDK11.executeOnThreadPool(mCurrentTask, url);
-                } else {
-                    mCurrentTask.execute(url);
-                }
-            } catch (RejectedExecutionException e) {
-                // This shouldn't happen, but might.
-            }
-
-        }
-    }
-
-    public void loadCircleImage(Context context, final ViewHolder holder, final String url, BitmapLruCache mCache, final long tweetId) {
-        if (url == null) {
-            return;
-        }
-
-        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
-
-        if (null != wrapper && holder.picture.getVisibility() != View.GONE) {
-            // The cache has it, so just display it
-            holder.picture.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-
-            holder.picture.startAnimation(fadeInAnimation);
-        } else {
-            // Memory Cache doesn't have the URL, do threaded request...
-            holder.picture.setImageDrawable(null);
-
-            ImageUrlCircleAsyncTask mCurrentTask = new ImageUrlCircleAsyncTask(context, holder, mCache, tweetId);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -481,101 +440,4 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         }
     }
 
-    private static class ImageUrlCircleAsyncTask
-            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
-
-        private final BitmapLruCache mCache;
-        private Context context;
-        private ViewHolder holder;
-        private long userId;
-
-        ImageUrlCircleAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long userId) {
-            this.context = context;
-            mCache = cache;
-            this.holder = holder;
-            this.userId = userId;
-        }
-
-        @Override
-        protected CacheableBitmapDrawable doInBackground(String... params) {
-            try {
-                // Return early if the ImageView has disappeared.
-                if (holder.userId != userId) {
-                    return null;
-                }
-                final String url = params[0];
-
-                // Now we're not on the main thread we can check all caches
-                CacheableBitmapDrawable result;
-
-                try {
-                    result = mCache.get(url, null);
-                } catch (Exception e) {
-                    return null;
-                } catch (OutOfMemoryError e) {
-                    return null;
-                }
-
-                if (null == result) {
-                    Log.d("ImageUrlAsyncTask", "Downloading: " + url);
-
-                    // The bitmap isn't cached so download from the web
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                    Bitmap b;
-                    try {
-                        b = BitmapFactory.decodeStream(is);
-                        b = ImageUtils.getCircle(b, context);
-                    } catch (OutOfMemoryError e) {
-                        b = null;
-                        return null;
-                    }
-
-                    // Add to cache
-                    if (b != null) {
-                        result = mCache.put(url, b);
-                    }
-
-                    try {
-                        is.close();
-                    } catch (Exception e) {
-
-                    }
-                    try {
-                        conn.disconnect();
-                    } catch (Exception e) {
-
-                    }
-
-                } else {
-                    Log.d("ImageUrlAsyncTask", "Got from Cache: " + url);
-                }
-
-                return result;
-
-            } catch (IOException e) {
-                Log.e("ImageUrlAsyncTask", e.toString());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(CacheableBitmapDrawable result) {
-            super.onPostExecute(result);
-
-            try {
-                if (result != null && holder.userId == userId) {
-                    holder.picture.setImageDrawable(result);
-                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-
-                    holder.picture.startAnimation(fadeInAnimation);
-                }
-
-            } catch (Exception e) {
-
-            }
-        }
-    }
 }

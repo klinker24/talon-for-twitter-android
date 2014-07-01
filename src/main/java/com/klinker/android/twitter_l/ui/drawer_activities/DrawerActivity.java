@@ -413,13 +413,8 @@ public abstract class DrawerActivity extends Activity {
         }
 
         try {
-            if(settings.roundContactImages) {
-                //profilePic.loadImage(profilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-                ImageUtils.loadCircleImage(context, profilePic, profilePicUrl, mCache);
-            } else {
-                profilePic.loadImage(profilePicUrl, false, null);
-                ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
-            }
+            //profilePic.loadImage(profilePicUrl, false, null);
+            ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
         } catch (Exception e) {
             // empty path again
         }
@@ -478,13 +473,8 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
                 try {
-                    if(settings.roundContactImages) {
-                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null, NetworkedCacheableImageView.CIRCLE);
-                        ImageUtils.loadCircleImage(context, proPic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
-                    } else {
-                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null);
-                        ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
-                    }
+                    //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_2", ""), true, null);
+                    ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
                 } catch (Exception e) {
 
                 }
@@ -523,13 +513,8 @@ public abstract class DrawerActivity extends Activity {
                 name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
                 try {
-                    if(settings.roundContactImages) {
-                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null, NetworkedCacheableImageView.CIRCLE);
-                        ImageUtils.loadCircleImage(context, proPic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
-                    } else {
-                        //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null);
-                        ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
-                    }
+                    //proPic2.loadImage(sharedPrefs.getString("profile_pic_url_1", ""), true, null);
+                    ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
                 } catch (Exception e) {
 
                 }
