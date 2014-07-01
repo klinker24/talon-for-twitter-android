@@ -52,6 +52,7 @@ import com.klinker.android.twitter_l.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.services.SendTweet;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -167,6 +168,9 @@ public class TweetPager extends YouTubeBaseActivity {
         } catch (Exception e) {
 
         }
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION|WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
 
         context = this;
         settings = AppSettings.getInstance(this);
@@ -806,7 +810,7 @@ public class TweetPager extends YouTubeBaseActivity {
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
-        final ImageView profilePic;
+        final NetworkedCacheableImageView profilePic;
         final ImageButton favoriteButton;
         final ImageButton retweetButton;
         final TextView favoriteCount;
@@ -821,7 +825,7 @@ public class TweetPager extends YouTubeBaseActivity {
             retweetertv = (TextView) layout.findViewById(R.id.retweeter);
             background = (LinearLayout) layout.findViewById(R.id.linLayout);
             expand = (ImageButton) layout.findViewById(R.id.expand);
-            profilePic = (ImageView) layout.findViewById(R.id.profile_pic_contact);
+            profilePic = (NetworkedCacheableImageView) layout.findViewById(R.id.profile_pic_contact);
             favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
             quote = (ImageButton) layout.findViewById(R.id.quote_button);
             retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
@@ -854,7 +858,7 @@ public class TweetPager extends YouTubeBaseActivity {
             retweetertv = (TextView) layout.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
             background = (LinearLayout) layout.findViewById(res.getIdentifier("linLayout", "id", settings.addonThemePackage));
             expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
-            profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
+            profilePic = (NetworkedCacheableImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
             favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
             retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
             favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
@@ -1239,7 +1243,6 @@ public class TweetPager extends YouTubeBaseActivity {
             }
         });
 
-        //profilePic.loadImage(proPic, false, null);
         ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
 
         getInfo(favoriteButton, favoriteCount, retweetCount, tweetId, retweetButton);

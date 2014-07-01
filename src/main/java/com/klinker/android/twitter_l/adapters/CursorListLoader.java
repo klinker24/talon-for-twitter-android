@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 
@@ -69,6 +70,8 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
                 Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
+
+                Log.v("talon_image_cache", "image width: " + image.getWidth() + " image height: " + image.getHeight());
 
                 try {
                     is.close();
