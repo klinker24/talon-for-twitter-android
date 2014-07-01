@@ -26,55 +26,60 @@
                 android:layout_height="match_parent" >
 
                 <!-- This is the persons header with name, picture, and handle -->
-                <RelativeLayout
+                <LinearLayout
+                        android:orientation="vertical"
                         android:id="@+id/pro_pic_container"
                         android:layout_width="match_parent"
                         android:layout_height="300dp">
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/profile_pic_contact"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="Profile Picture"
+                                android:viewName="profile_picture"/>
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/profile_pic_contact"
-                            android:scaleType="centerCrop"
-                            android:contentDescription="Profile Picture"
-                            android:viewName="profile_picture"/>
+                        <LinearLayout android:layout_width="wrap_content"
+                                      android:layout_height="wrap_content"
+                                      android:orientation="vertical"
+                                      android:layout_alignParentBottom="true"
+                                      android:layout_marginLeft="100dp"
+                                      android:layout_marginBottom="25dp">
 
-                    <LinearLayout android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"
-                                  android:orientation="vertical"
-                                  android:layout_alignParentBottom="true"
-                                  android:layout_marginLeft="100dp"
-                                  android:layout_marginBottom="25dp">
+                            <TextView
+                                    android:id="@+id/screen_name"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:singleLine="true"
+                                    android:paddingBottom="3dp"
+                                    android:textSize="24sp"
+                                    android:shadowColor="@android:color/black"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="3"
+                                    android:textColor="@android:color/white"
+                                    android:viewName="person_handle"/>
 
-                        <TextView
-                                android:id="@+id/screen_name"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:singleLine="true"
-                                android:paddingBottom="3dp"
-                                android:textSize="24sp"
-                                android:shadowColor="@android:color/black"
-                                android:shadowDy="1"
-                                android:shadowRadius="3"
-                                android:textColor="@android:color/white"
-                                android:viewName="person_handle"/>
-
-                        <TextView
-                                android:id="@+id/name"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:singleLine="true"
-                                android:textSize="45sp"
-                                android:layout_marginTop="-10dp"
-                                android:shadowColor="@android:color/black"
-                                android:shadowDy="1"
-                                android:shadowRadius="3"
-                                android:textColor="@android:color/white"
-                                android:viewName="person_name"/>
+                            <TextView
+                                    android:id="@+id/name"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:singleLine="true"
+                                    android:textSize="45sp"
+                                    android:layout_marginTop="-10dp"
+                                    android:shadowColor="@android:color/black"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="3"
+                                    android:textColor="@android:color/white"
+                                    android:viewName="person_name"/>
 
 
-                    </LinearLayout>
-                </RelativeLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -123,7 +128,6 @@
         android:layout_marginBottom="56dp"
         android:background="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:elevation="5dp"
         android:id="@+id/bottom_bar" >
 
         <View
