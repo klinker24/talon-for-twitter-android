@@ -153,12 +153,10 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                         InputStream is = new BufferedInputStream(conn.getInputStream());
 
 
-                        b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                        b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
                         if (b != null) {
-                            if (transform == CIRCLE) {
-                                b = ImageUtils.getCircle(b, context);
-                            } else if (transform == BLUR) {
+                            if (transform == BLUR) {
                                 b = ImageUtils.blur(b);
                             } else if (transform == THUMBNAIL) {
                                 b = ImageUtils.overlayPlay(b, context);

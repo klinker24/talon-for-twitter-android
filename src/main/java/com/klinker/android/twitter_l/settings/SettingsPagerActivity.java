@@ -290,7 +290,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             int resource = a.getResourceId(0, 0);
             a.recycle();
 
-            getWindow().getDecorView().setBackgroundResource(resource);
+            //getWindow().getDecorView().setBackgroundResource(resource);
         }
     }
 

@@ -40,25 +40,15 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
         holder.screenName.setText("@" + user.getScreenName());
 
         final String url = user.getBiggerProfileImageURL();
-        if(settings.roundContactImages) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadCircleImage(context, holder, url, mCache, id);
-                    }
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (holder.userId == id) {
+                    loadImage(context, holder, url, mCache, id);
                 }
-            }, 500);
-        } else {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadImage(context, holder, url, mCache, id);
-                    }
-                }
-            }, 500);
-        }
+            }
+        }, 500);
 
         holder.picture.setOnClickListener(new View.OnClickListener() {
             @Override

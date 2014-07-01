@@ -26,19 +26,15 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDrawable> {
     final BitmapLruCache mCache;
     private Context context;
-    private boolean circleImages;
 
     public CursorListLoader(BitmapLruCache cache, Context context) {
         mCache = cache;
         this.context = context;
-
-        circleImages = (AppSettings.getInstance(context)).roundContactImages;
     }
 
     public CursorListLoader(BitmapLruCache cache, Context context, boolean circle) {
         mCache = cache;
         this.context = context;
-        circleImages = circle;
     }
 
     @Override
@@ -72,7 +68,7 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
                 HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
                 try {
                     is.close();
@@ -83,10 +79,6 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
                     conn.disconnect();
                 } catch (Exception e) {
 
-                }
-
-                if (circleImages) {
-                    image = ImageUtils.getCircle(image, context);
                 }
 
                 wrapper = mCache.put(url, image);

@@ -25,7 +25,8 @@
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:contentDescription="Profile Picture"
                 android:layout_marginRight="2dp"
-                android:layout_marginLeft="2dp"/>
+                android:layout_marginLeft="2dp"
+                    android:viewName="profile_picture"/>
 
             </LinearLayout>
 
@@ -49,7 +50,8 @@
                 android:shadowColor="?textShadowColor"
                 android:shadowDy="1"
                 android:shadowRadius="3"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                    android:viewName="person_name"/>
 
             <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                     android:id="@+id/screen_name"
@@ -60,7 +62,8 @@
                     android:shadowColor="?textShadowColor"
                     android:shadowDy="1"
                     android:shadowRadius="3"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white"
+                    android:viewName="person_handle"/>
 
         </LinearLayout>
 

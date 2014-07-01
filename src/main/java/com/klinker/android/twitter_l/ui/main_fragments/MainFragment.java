@@ -372,7 +372,7 @@ public abstract class MainFragment extends Fragment {
 
         toastBar.setVisibility(View.VISIBLE);
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

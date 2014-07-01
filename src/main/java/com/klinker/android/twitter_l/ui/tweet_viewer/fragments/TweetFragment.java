@@ -687,13 +687,8 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        if(settings.roundContactImages) {
-            //profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
-            ImageUtils.loadCircleImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
-        } else {
-            //profilePic.loadImage(proPic, false, null);
-            ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
-        }
+        //profilePic.loadImage(proPic, false, null);
+        ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
 
         getInfo(favoriteButton, favoriteCount, retweetCount, tweetId, retweetButton);
 
