@@ -68,17 +68,6 @@ public class NetworkedCacheableImageView extends CacheableImageView {
         private boolean fromCache;
 
         ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache,
-                          BitmapFactory.Options decodeOpts, OnImageLoadedListener listener) {
-            this.context = context;
-            mCache = cache;
-            mImageViewRef = new WeakReference<ImageView>(imageView);
-            mListener = listener;
-            mDecodeOpts = decodeOpts;
-            transform = 0;
-            fromCache = true;
-        }
-
-        ImageUrlAsyncTask(Context context, ImageView imageView, BitmapLruCache cache,
                           BitmapFactory.Options decodeOpts, OnImageLoadedListener listener, int transform) {
             this.context = context;
             mCache = cache;
@@ -148,10 +137,11 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                         b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)));
                     } else {
 
+                        Log.v("talon_image_cache", "getting image, not from cache");
+
                         // The bitmap isn't cached so download from the web
                         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                         InputStream is = new BufferedInputStream(conn.getInputStream());
-
 
                         b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 

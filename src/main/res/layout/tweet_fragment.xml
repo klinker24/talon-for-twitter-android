@@ -25,6 +25,15 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
+
+                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:id="@+id/profile_pic_contact"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Profile Picture"
+                        android:viewName="profile_picture"/>
+
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -43,12 +52,41 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:textDirection="ltr">
+                            <LinearLayout
+                                    android:layout_toRightOf="@+id/pro_pic_layout"
+                                    android:layout_alignTop="@+id/pro_pic_layout"
+                                    android:orientation="vertical"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginTop="4dp"
+                                    android:layout_marginLeft="10dp">
 
-                            <include layout="@layout/contact_info"
-                                android:id="@+id/contact_info"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:layout_margin="10dp" />
+                                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                                        android:id="@+id/name"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:maxLines="1"
+                                        android:textStyle="bold"
+                                        android:shadowColor="?textShadowColor"
+                                        android:shadowDy="1"
+                                        android:shadowRadius="3"
+                                        android:textColor="@android:color/white"
+                                        android:viewName="person_name"/>
+
+                                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                                        android:id="@+id/screen_name"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:maxLines="1"
+                                        android:paddingBottom="3dp"
+                                        android:shadowColor="?textShadowColor"
+                                        android:shadowDy="1"
+                                        android:shadowRadius="3"
+                                        android:textColor="@android:color/white"
+                                        android:viewName="person_handle"/>
+
+                            </LinearLayout>
 
                             <ImageButton
                                 android:id="@+id/expand"

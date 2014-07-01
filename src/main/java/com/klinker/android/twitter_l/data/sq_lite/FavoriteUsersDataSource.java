@@ -76,7 +76,7 @@ public class FavoriteUsersDataSource {
         long id = user.getId();
         String screenName = user.getScreenName();
         String name = user.getName();
-        String proPicUrl = user.getBiggerProfileImageURL();
+        String proPicUrl = user.getOriginalProfileImageURL();
 
         values.put(FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(FavoriteUsersSQLiteHelper.COLUMN_ID, id);

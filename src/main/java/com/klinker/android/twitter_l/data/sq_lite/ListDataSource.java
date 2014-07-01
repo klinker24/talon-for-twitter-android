@@ -119,7 +119,7 @@ public class ListDataSource {
         values.put(ListSQLiteHelper.COLUMN_TEXT, text);
         values.put(ListSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(ListSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(ListSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(ListSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getOriginalProfileImageURL());
         values.put(ListSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
         values.put(ListSQLiteHelper.COLUMN_TIME, time);
         values.put(ListSQLiteHelper.COLUMN_RETWEETER, originalName);
@@ -164,7 +164,7 @@ public class ListDataSource {
             values.put(ListSQLiteHelper.COLUMN_TEXT, text);
             values.put(ListSQLiteHelper.COLUMN_TWEET_ID, id);
             values.put(ListSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-            values.put(ListSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+            values.put(ListSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getOriginalProfileImageURL());
             values.put(ListSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
             values.put(ListSQLiteHelper.COLUMN_TIME, time);
             values.put(ListSQLiteHelper.COLUMN_RETWEETER, originalName);
