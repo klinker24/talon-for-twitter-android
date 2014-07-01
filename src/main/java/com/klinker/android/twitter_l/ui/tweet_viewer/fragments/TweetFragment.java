@@ -285,7 +285,7 @@ public class TweetFragment extends Fragment {
             emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
             emojiKeyboard = (EmojiKeyboard) layout.findViewById(R.id.emojiKeyboard);
             timetv = (TextView) layout.findViewById(R.id.time);
-            pictureIv = (ImageView) layout.findViewById(R.id.imageView);
+            pictureIv = null;//(ImageView) layout.findViewById(R.id.imageView);
             attachImage = (ImageView) layout.findViewById(R.id.attach);
             viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
         } else {

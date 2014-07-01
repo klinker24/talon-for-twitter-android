@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+        android:background="@android:color/white">
 
 
     <RelativeLayout
@@ -95,17 +96,6 @@
                         android:layout_width="match_parent" />
 
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                        android:id="@+id/imageView"
-                        android:layout_height="wrap_content"
-                        android:layout_width="fill_parent"
-                        android:background="@android:color/transparent"
-                        android:viewName="large_image"
-                        android:scaleType="centerCrop"
-                        android:adjustViewBounds="true"
-                        android:layout_margin="@dimen/tweet_activ_margin"
-                        android:paddingRight="6dp"
-                        android:visibility="gone" />
 
                 </LinearLayout>
 
