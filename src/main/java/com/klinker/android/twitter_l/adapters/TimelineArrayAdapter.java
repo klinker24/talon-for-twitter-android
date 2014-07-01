@@ -394,7 +394,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         holder.tweetId = thisStatus.getId();
         final long id = holder.tweetId;
-        final String profilePic = user.getBiggerProfileImageURL();
+        final String profilePic = user.getOriginalProfileImageURL();
         String tweetTexts = thisStatus.getText();
         final String name = user.getName();
         final String screenname = user.getScreenName();

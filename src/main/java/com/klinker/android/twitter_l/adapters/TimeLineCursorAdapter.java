@@ -878,7 +878,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            holder.profilePic.setImageDrawable(context.getResources().getDrawable(border));
+            holder.profilePic.setImageDrawable(transparent);
             if (holder.image.getVisibility() == View.VISIBLE) {
                 holder.image.setVisibility(View.GONE);
             }

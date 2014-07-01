@@ -469,7 +469,7 @@ public class ProfileFragment extends Fragment {
                         e.putString("twitter_users_name_" + currentAccount, thisUser.getName()).commit();
                         e.putString("twitter_screen_name_" + currentAccount, thisUser.getScreenName()).commit();
                         e.putLong("twitter_id_" + currentAccount, thisUser.getId()).commit();
-                        e.putString("profile_pic_url_" + currentAccount, thisUser.getBiggerProfileImageURL());
+                        e.putString("profile_pic_url_" + currentAccount, thisUser.getOriginalProfileImageURL());
                         e.putString("twitter_background_url_" + currentAccount, thisUser.getProfileBannerURL());
                         e.commit();
                     }
@@ -527,7 +527,7 @@ public class ProfileFragment extends Fragment {
                                 if (thisUser != null && thisUser.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
 
-                                    ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                                    ImageUtils.loadImage(context, profilePicture, thisUser.getOriginalProfileImageURL(), mCache);
 
                                     String url = thisUser.getProfileBannerURL();
                                     ImageUtils.loadImage(context, background, url, mCache);
@@ -586,7 +586,7 @@ public class ProfileFragment extends Fragment {
                                 followersAdapter.notifyDataSetChanged();
                             }
 
-                            ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            ImageUtils.loadImage(context, profilePicture, thisUser.getOriginalProfileImageURL(), mCache);
 
                             String url = user.getProfileBannerURL();
                             ImageUtils.loadImage(context, background, url, mCache);
@@ -603,7 +603,7 @@ public class ProfileFragment extends Fragment {
                             if (user != null && user.isProtected()) {
                                 Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
 
-                                ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
+                                ImageUtils.loadImage(context, profilePicture, user.getOriginalProfileImageURL(), mCache);
 
                                 String url = user.getProfileBannerURL();
                                 ImageUtils.loadImage(context, background, url, mCache);
@@ -662,7 +662,7 @@ public class ProfileFragment extends Fragment {
                                 followingAdapter.notifyDataSetChanged();
                             }
 
-                            ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            ImageUtils.loadImage(context, profilePicture, thisUser.getOriginalProfileImageURL(), mCache);
 
                             String url = user.getProfileBannerURL();
                             ImageUtils.loadImage(context, background, url, mCache);
@@ -681,7 +681,7 @@ public class ProfileFragment extends Fragment {
                                 if (user != null && user.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
 
-                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
+                                    ImageUtils.loadImage(context, profilePicture, user.getOriginalProfileImageURL(), mCache);
 
                                     String url = user.getProfileBannerURL();
                                     ImageUtils.loadImage(context, background, url, mCache);
@@ -739,7 +739,7 @@ public class ProfileFragment extends Fragment {
                                 listView.setAdapter(timelineAdapter);
                             }
 
-                            ImageUtils.loadImage(context, profilePicture, thisUser.getBiggerProfileImageURL(), mCache);
+                            ImageUtils.loadImage(context, profilePicture, thisUser.getOriginalProfileImageURL(), mCache);
 
                             String url = user.getProfileBannerURL();
                             ImageUtils.loadImage(context, background, url, mCache);
@@ -758,7 +758,7 @@ public class ProfileFragment extends Fragment {
                                 if (user != null && user.isProtected()) {
                                     Toast.makeText(context, getResources().getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
 
-                                    ImageUtils.loadImage(context, profilePicture, user.getBiggerProfileImageURL(), mCache);
+                                    ImageUtils.loadImage(context, profilePicture, user.getOriginalProfileImageURL(), mCache);
 
                                     String url = user.getProfileBannerURL();
                                     ImageUtils.loadImage(context, background, url, mCache);

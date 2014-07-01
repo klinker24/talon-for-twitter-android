@@ -268,7 +268,7 @@ public class TweetFragment extends Fragment {
             tweettv = (TextView) layout.findViewById(R.id.tweet);
             retweetertv = (TextView) layout.findViewById(R.id.retweeter);
             background = (LinearLayout) layout.findViewById(R.id.linLayout);
-            expand = (ImageButton) layout.findViewById(R.id.expand);
+            expand = null;//(ImageButton) layout.findViewById(R.id.expand);
             profilePic = (ImageView) layout.findViewById(R.id.profile_pic_contact);
             favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
             quote = (ImageButton) layout.findViewById(R.id.quote_button);
@@ -277,7 +277,7 @@ public class TweetFragment extends Fragment {
             retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
             reply = (EditText) layout.findViewById(R.id.reply);
             replyButton = (ImageButton) layout.findViewById(R.id.reply_button);
-            attachButton = (ImageButton) layout.findViewById(R.id.attach_button);
+            attachButton = null;//(ImageButton) layout.findViewById(R.id.attach_button);
             overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
             buttons = (LinearLayout) layout.findViewById(R.id.buttons);
             charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
