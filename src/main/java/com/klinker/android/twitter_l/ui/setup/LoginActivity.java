@@ -424,13 +424,13 @@ public class LoginActivity extends Activity {
                     sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).commit();
                     sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).commit();
                     sharedPrefs.edit().putString("twitter_background_url_1", user.getProfileBannerURL()).commit();
-                    sharedPrefs.edit().putString("profile_pic_url_1", user.getBiggerProfileImageURL()).commit();
+                    sharedPrefs.edit().putString("profile_pic_url_1", user.getOriginalProfileImageURL()).commit();
                     sharedPrefs.edit().putLong("twitter_id_1", user.getId()).commit();
                 } else {
                     sharedPrefs.edit().putString("twitter_users_name_2", user.getName()).commit();
                     sharedPrefs.edit().putString("twitter_screen_name_2", user.getScreenName()).commit();
                     sharedPrefs.edit().putString("twitter_background_url_2", user.getProfileBannerURL()).commit();
-                    sharedPrefs.edit().putString("profile_pic_url_2", user.getBiggerProfileImageURL()).commit();
+                    sharedPrefs.edit().putString("profile_pic_url_2", user.getOriginalProfileImageURL()).commit();
                     sharedPrefs.edit().putLong("twitter_id_2", user.getId()).commit();
                 }
 
