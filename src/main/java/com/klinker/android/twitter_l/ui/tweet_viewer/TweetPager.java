@@ -34,6 +34,7 @@ import android.util.Patterns;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
@@ -88,15 +89,11 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TweetPager extends YouTubeBaseActivity {
 
-    private TweetPagerAdapter mSectionsPagerAdapter;
-    private ViewPager pager;
     public Context context;
     public AppSettings settings;
     public SharedPreferences sharedPrefs;
 
     private TextView timetv;
-    private ImageView pictureIv;
-    private PhotoViewAttacher mAttacher;
 
     public String name;
     public String screenName;
@@ -769,6 +766,8 @@ public class TweetPager extends YouTubeBaseActivity {
         return full;
     }
 
+    public NetworkedCacheableImageView profilePic;
+
     public void setUIElements(final View layout) {
         TextView nametv;
         TextView screennametv;
@@ -776,7 +775,6 @@ public class TweetPager extends YouTubeBaseActivity {
         ImageButton quote = null;
         ImageButton viewRetweeters = null;
         final TextView retweetertv;
-        final NetworkedCacheableImageView profilePic;
         final ImageButton favoriteButton;
         final ImageButton retweetButton;
         final TextView favoriteCount;
@@ -793,7 +791,6 @@ public class TweetPager extends YouTubeBaseActivity {
         favoriteCount = (TextView) layout.findViewById(R.id.fav_count);
         retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
         timetv = (TextView) layout.findViewById(R.id.time);
-        pictureIv = (ImageView) layout.findViewById(R.id.imageView);
         viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
 
 
@@ -860,10 +857,10 @@ public class TweetPager extends YouTubeBaseActivity {
                 }
             });
 
-            RelativeLayout proPicContainer = (RelativeLayout) findViewById(R.id.pro_pic_container);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) proPicContainer.getLayoutParams();
-            params.height = Utils.toDP(500, context);
-            profilePic.setLayoutParams(params);
+            LinearLayout proPicContainer = (LinearLayout) findViewById(R.id.pro_pic_container);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
+            params.height = Utils.toDP(600, context);
+            proPicContainer.setLayoutParams(params);
 
             nametv.setOnClickListener(viewPro);
             screennametv.setOnClickListener(viewPro);
@@ -1239,9 +1236,9 @@ public class TweetPager extends YouTubeBaseActivity {
                             }
                             if (images.size() > 1) {
                                 Log.v("talon_images", "size: " + images.size());
-                                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                                profilePic.setOnClickListener(new View.OnClickListener() {
                                     @Override
-                                    public void onViewTap(View view, float x, float y) {
+                                    public void onClick(View view) {
                                         Intent viewPics = new Intent(context, ViewPictures.class);
                                         viewPics.putExtra("images", images);
                                         startActivity(viewPics);
