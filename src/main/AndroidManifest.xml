@@ -30,7 +30,7 @@
             android:name="com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider"
             android:multiprocess="true"
             android:exported="true"
-            android:authorities="com.klinker.android.twitter_l.provider" />
+            android:authorities="com.klinker.android.twitter_l.material.android_l_provider" />
 
         <activity android:name="com.klinker.android.twitter_l.ui.setup.TutorialActivity"
             android:theme="@style/Theme.Tutorial"/>

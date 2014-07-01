@@ -81,6 +81,7 @@ import java.util.regex.Pattern;
 
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import org.w3c.dom.Text;
 import twitter4j.GeoLocation;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -775,8 +776,8 @@ public class TweetPager extends YouTubeBaseActivity {
         ImageButton quote = null;
         ImageButton viewRetweeters = null;
         final TextView retweetertv;
-        final ImageButton favoriteButton;
-        final ImageButton retweetButton;
+        final LinearLayout favoriteButton;
+        final LinearLayout retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
 
@@ -785,13 +786,13 @@ public class TweetPager extends YouTubeBaseActivity {
         tweettv = (TextView) layout.findViewById(R.id.tweet);
         retweetertv = (TextView) layout.findViewById(R.id.retweeter);
         profilePic = (NetworkedCacheableImageView) layout.findViewById(R.id.profile_pic_contact);
-        favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
+        favoriteButton = (LinearLayout) layout.findViewById(R.id.favorite);
         quote = (ImageButton) layout.findViewById(R.id.quote_button);
-        retweetButton = (ImageButton) layout.findViewById(R.id.retweet);
+        retweetButton = (LinearLayout) layout.findViewById(R.id.retweet);
         favoriteCount = (TextView) layout.findViewById(R.id.fav_count);
         retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
         timetv = (TextView) layout.findViewById(R.id.time);
-        viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
+        viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
 
         if (viewRetweeters != null) {
             viewRetweeters.setOnClickListener(new View.OnClickListener() {
@@ -949,17 +950,20 @@ public class TweetPager extends YouTubeBaseActivity {
             isRetweet = true;
         }
 
+        final TextView favoriteText = (TextView) findViewById(R.id.favorite_text);
+        final TextView retweetText = (TextView) findViewById(R.id.retweet_text);
+
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                favoriteStatus(favoriteCount, favoriteButton, tweetId);
+                favoriteStatus(favoriteCount, favoriteText, tweetId);
             }
         });
 
         retweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retweetStatus(retweetCount, tweetId, retweetButton);
+                retweetStatus(retweetCount, tweetId, retweetText);
             }
         });
 
@@ -971,7 +975,7 @@ public class TweetPager extends YouTubeBaseActivity {
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                new RemoveRetweet(tweetId, retweetButton).execute();
+                                new RemoveRetweet(tweetId, retweetText).execute();
                             }
                         })
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -986,7 +990,7 @@ public class TweetPager extends YouTubeBaseActivity {
             }
         });
 
-        getInfo(favoriteButton, favoriteCount, retweetCount, tweetId, retweetButton);
+        getInfo(favoriteText, favoriteCount, retweetCount, tweetId, retweetText);
 
         String text = tweet;
         String extraNames = "";
@@ -1026,46 +1030,30 @@ public class TweetPager extends YouTubeBaseActivity {
     private boolean isFavorited = false;
     private boolean isRetweet = false;
 
-    public void getFavoriteCount(final TextView favs, final ImageButton favButton, final long tweetId) {
+    public void getFavoriteCount(final TextView favs, final TextView favText, final long tweetId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
-                    twitter4j.Status status = twitter.showStatus(tweetId);
+                    Status status = twitter.showStatus(tweetId);
                     if (status.isRetweet()) {
-                        twitter4j.Status retweeted = status.getRetweetedStatus();
+                        Status retweeted = status.getRetweetedStatus();
                         status = retweeted;
                     }
 
-                    final twitter4j.Status fStatus = status;
+                    final Status fStatus = status;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             favs.setText(" " + fStatus.getFavoriteCount());
 
                             if (fStatus.isFavorited()) {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
-
-                                if (!settings.addonTheme) {
-                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                } else {
-                                    favButton.setColorFilter(settings.accentInt);
-                                }
-
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                favText.setTextColor(context.getResources().getColor(R.color.accent));
                                 isFavorited = true;
                             } else {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
-
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                favText.setTextColor(context.getResources().getColor(android.R.color.black));
                                 isFavorited = false;
-
-                                favButton.clearColorFilter();
                             }
                         }
                     });
@@ -1079,11 +1067,11 @@ public class TweetPager extends YouTubeBaseActivity {
     class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
-        private ImageButton retweetButton;
+        private TextView retweetText;
 
-        public RemoveRetweet(long tweetId, ImageButton retweetButton) {
+        public RemoveRetweet(long tweetId, TextView retweetText) {
             this.tweetId = tweetId;
-            this.retweetButton = retweetButton;
+            this.retweetText = retweetText;
         }
 
         protected void onPreExecute() {
@@ -1107,7 +1095,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
         protected void onPostExecute(Boolean deleted) {
 
-            retweetButton.clearColorFilter();
+            retweetText.setTextColor(context.getResources().getColor(android.R.color.black));
 
             try {
                 if (deleted) {
@@ -1123,7 +1111,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private Status status = null;
 
-    public void getInfo(final ImageButton favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void getInfo(final TextView favoriteText, final TextView favCount, final TextView retweetCount, final long tweetId, final TextView retweetText) {
 
         Thread getInfo = new Thread(new Runnable() {
             @Override
@@ -1196,13 +1184,9 @@ public class TweetPager extends YouTubeBaseActivity {
                             retweetCount.setText(" " + retCount);
 
                             if (fRet) {
-                                if (!settings.addonTheme) {
-                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                } else {
-                                    retweetButton.setColorFilter(settings.accentInt);
-                                }
+                                retweetText.setTextColor(context.getResources().getColor(R.color.accent));
                             } else {
-                                retweetButton.clearColorFilter();
+                                retweetText.setTextColor(context.getResources().getColor(android.R.color.black));
                             }
 
                             timetv.setText(timeDisplay + fVia);
@@ -1211,27 +1195,11 @@ public class TweetPager extends YouTubeBaseActivity {
                             favCount.setText(" " + sfavCount);
 
                             if (fStatus.isFavorited()) {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
-
-                                if (!settings.addonTheme) {
-                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                } else {
-                                    favButton.setColorFilter(settings.accentInt);
-                                }
-
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                favoriteText.setTextColor(context.getResources().getColor(R.color.accent));
                                 isFavorited = true;
                             } else {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
-
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                favoriteText.setTextColor(context.getResources().getColor(android.R.color.black));
                                 isFavorited = false;
-
-                                favButton.clearColorFilter();
                             }
 
                             for (String s : images) {
@@ -1262,7 +1230,7 @@ public class TweetPager extends YouTubeBaseActivity {
         getInfo.start();
     }
 
-    public void getRetweetCount(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void getRetweetCount(final TextView retweetCount, final long tweetId, final TextView retweetText) {
 
         new Thread(new Runnable() {
             @Override
@@ -1284,13 +1252,9 @@ public class TweetPager extends YouTubeBaseActivity {
                             retweetCount.setText(" " + retCount);
 
                             if (fRet) {
-                                if (!settings.addonTheme) {
-                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                } else {
-                                    retweetButton.setColorFilter(settings.accentInt);
-                                }
+                                retweetText.setTextColor(context.getResources().getColor(R.color.accent));
                             } else {
-                                retweetButton.clearColorFilter();
+                                retweetText.setTextColor(context.getResources().getColor(android.R.color.black));
                             }
                         }
                     });
@@ -1301,7 +1265,7 @@ public class TweetPager extends YouTubeBaseActivity {
         }).start();
     }
 
-    public void favoriteStatus(final TextView favs, final ImageButton favButton, final long tweetId) {
+    public void favoriteStatus(final TextView favs, final TextView favoriteText, final long tweetId) {
         if (!isFavorited) {
             Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
         } else {
@@ -1325,7 +1289,7 @@ public class TweetPager extends YouTubeBaseActivity {
                         public void run() {
                             try {
                                 Toast.makeText(context, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-                                getFavoriteCount(favs, favButton, tweetId);
+                                getFavoriteCount(favs, favoriteText, tweetId);
                             } catch (Exception e) {
                                 // they quit out of the activity
                             }
@@ -1338,7 +1302,7 @@ public class TweetPager extends YouTubeBaseActivity {
         }).start();
     }
 
-    public void retweetStatus(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void retweetStatus(final TextView retweetCount, final long tweetId, final TextView retweetText) {
         Toast.makeText(context, getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
 
         new Thread(new Runnable() {
@@ -1353,7 +1317,7 @@ public class TweetPager extends YouTubeBaseActivity {
                         public void run() {
                             try {
                                 Toast.makeText(context, getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
-                                getRetweetCount(retweetCount, tweetId, retweetButton);
+                                getRetweetCount(retweetCount, tweetId, retweetText);
                             } catch (Exception e) {
 
                             }
