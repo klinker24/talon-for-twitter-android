@@ -5,4 +5,6 @@
     <dimen name="drawer_size_port">225dp</dimen>
     <dimen name="drawer_size_land">280dp</dimen>
 
+    <dimen name="tweet_viewer_name_margin_left">100dp</dimen>
+
 </resources>

@@ -1,284 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-
-    <RelativeLayout
+    <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+            android:id="@+id/notify_scroll_view"
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
-
-        <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
+        <!-- Holds all the content that can be scrolled -->
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-                android:id="@+id/notify_scroll_view"
-                android:overScrollMode="never">
+            android:layout_height="match_parent" >
 
-            <!-- Holds all the content that can be scrolled -->
+            <!-- This is the persons header with name, picture, and handle -->
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/pro_pic_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/profile_pic_contact"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Profile Picture"
+                            android:viewName="profile_picture"/>
+
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical"
+                                  android:layout_alignParentBottom="true"
+                                  android:layout_marginLeft="@dimen/tweet_viewer_name_margin_left"
+                                  android:layout_marginBottom="25dp">
+
+                        <TextView
+                                android:id="@+id/screen_name"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:singleLine="true"
+                                android:paddingBottom="3dp"
+                                android:textSize="24sp"
+                                android:shadowColor="@android:color/black"
+                                android:shadowDy="1"
+                                android:shadowRadius="3"
+                                android:textColor="@android:color/white"
+                                android:viewName="person_handle"/>
+
+                        <TextView
+                                android:id="@+id/name"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:singleLine="true"
+                                android:textSize="45sp"
+                                android:layout_marginTop="-10dp"
+                                android:shadowColor="@android:color/black"
+                                android:shadowDy="1"
+                                android:shadowRadius="3"
+                                android:textColor="@android:color/white"
+                                android:viewName="person_name"/>
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/white">
 
-                <!-- This is the persons header with name, picture, and handle -->
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:id="@+id/pro_pic_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp">
-                    <RelativeLayout android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:id="@+id/profile_pic_contact"
-                                android:scaleType="centerCrop"
-                                android:contentDescription="Profile Picture"
-                                android:viewName="profile_picture"/>
+                <include android:id="@+id/tweet_background"
+                    layout="@layout/tweet_for_fragment"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent" />
 
-                        <LinearLayout android:layout_width="wrap_content"
-                                      android:layout_height="wrap_content"
-                                      android:orientation="vertical"
-                                      android:layout_alignParentBottom="true"
-                                      android:layout_marginLeft="100dp"
-                                      android:layout_marginBottom="25dp">
-
-                            <TextView
-                                    android:id="@+id/screen_name"
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="wrap_content"
-                                    android:singleLine="true"
-                                    android:paddingBottom="3dp"
-                                    android:textSize="24sp"
-                                    android:shadowColor="@android:color/black"
-                                    android:shadowDy="1"
-                                    android:shadowRadius="3"
-                                    android:textColor="@android:color/white"
-                                    android:viewName="person_handle"/>
-
-                            <TextView
-                                    android:id="@+id/name"
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="wrap_content"
-                                    android:singleLine="true"
-                                    android:textSize="45sp"
-                                    android:layout_marginTop="-10dp"
-                                    android:shadowColor="@android:color/black"
-                                    android:shadowDy="1"
-                                    android:shadowRadius="3"
-                                    android:textColor="@android:color/white"
-                                    android:viewName="person_name"/>
-
-
-                        </LinearLayout>
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/white">
-
-                    <include android:id="@+id/tweet_background"
-                        layout="@layout/tweet_for_fragment"
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent" />
-
-
-                </LinearLayout>
 
             </LinearLayout>
 
-        </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
-
-
-        <View android:layout_width="match_parent"
-              android:layout_height="0dp"
-              android:id="@+id/actionbar_and_status_bar"
-              android:background="@color/primary"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="56dp"
-        android:background="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/bottom_bar"
-            android:visibility="gone">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?drawerDividerColor"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"/>
-
-        <LinearLayout
-            android:id="@+id/expansion"
-            android:paddingTop="4dp"
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="6dp"
-            android:paddingLeft="6dp">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingRight="3dp"
-                android:layout_gravity="center_vertical">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="37dp"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <ImageButton
-                        android:id="@+id/quote_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="?quote_button"
-                        android:contentDescription="Quote Tweet"
-                        android:minHeight="32dp" android:minWidth="32dp"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true"
-                        android:maxWidth="32dp" android:maxHeight="32dp"
-                        android:background="@drawable/pressed_button"
-                        android:layout_marginLeft="5dp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:background="?drawerDividerColor" />
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="37dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_horizontal|bottom"
-                        android:orientation="horizontal"
-                        android:layoutDirection="ltr">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:minHeight="32dp" android:minWidth="32dp"
-                            android:scaleType="fitCenter" android:adjustViewBounds="true"
-                            android:maxWidth="32dp" android:maxHeight="32dp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom|right"
-                            android:layoutDirection="ltr">
-
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:background="?drawerDividerColor" />
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="37dp"
-                    android:layout_weight="1">
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_horizontal|bottom"
-                        android:orientation="horizontal"
-                        android:layoutDirection="ltr">
-
-                        <ImageView
-                            android:layout_width="37dp"
-                            android:layout_height="37dp"
-                            android:minHeight="37dp" android:minWidth="37dp"
-                            android:scaleType="fitCenter" android:adjustViewBounds="true"
-                            android:maxWidth="37dp" android:maxHeight="37dp"
-                            android:background="@drawable/pressed_button" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom|right"
-                            android:layoutDirection="ltr">
-
-
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:background="?drawerDividerColor" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="37dp"
-                    android:gravity="center">
-
-                    <ImageButton
-                        android:id="@+id/view_retweeters"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="View Retweeters"
-                        android:minHeight="37dp" android:minWidth="37dp"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true"
-                        android:maxWidth="37dp" android:maxHeight="37dp"
-                        android:background="@drawable/pressed_button"
-                        android:src="?favUser"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            <View android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:background="@android:color/holo_orange_dark"/>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
 
-</LinearLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:id="@+id/actionbar_and_status_bar"
+          android:background="@color/primary"/>
+
+</RelativeLayout>

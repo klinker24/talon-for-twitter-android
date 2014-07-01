@@ -287,7 +287,7 @@ public class TweetFragment extends Fragment {
             timetv = (TextView) layout.findViewById(R.id.time);
             pictureIv = null;//(ImageView) layout.findViewById(R.id.imageView);
             attachImage = (ImageView) layout.findViewById(R.id.attach);
-            viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
+            viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
         } else {
             Resources res;
             try {
