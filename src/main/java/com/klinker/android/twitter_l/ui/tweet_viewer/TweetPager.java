@@ -793,13 +793,6 @@ public class TweetPager extends YouTubeBaseActivity {
         timetv = (TextView) layout.findViewById(R.id.time);
         viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
 
-
-        tweettv.setTextSize(settings.textSize);
-        timetv.setTextSize(settings.textSize - 3);
-        retweetertv.setTextSize(settings.textSize - 3);
-        favoriteCount.setTextSize(13);
-        retweetCount.setTextSize(13);
-
         if (viewRetweeters != null) {
             viewRetweeters.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -847,7 +840,12 @@ public class TweetPager extends YouTubeBaseActivity {
             }
         };
 
-        if(picture) { // if there is a picture already loaded
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int height = size.y;
+
+        if (picture) { // if there is a picture already loaded
 
             profilePic.loadImage(webpage, false, null);
             profilePic.setOnClickListener(new View.OnClickListener() {
@@ -859,7 +857,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
             LinearLayout proPicContainer = (LinearLayout) findViewById(R.id.pro_pic_container);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
-            params.height = Utils.toDP(600, context);
+            params.height = (int) (height * .65);
             proPicContainer.setLayoutParams(params);
 
             nametv.setOnClickListener(viewPro);
@@ -868,6 +866,11 @@ public class TweetPager extends YouTubeBaseActivity {
         } else {
             profilePic.loadImage(proPic, false, null);
             profilePic.setOnClickListener(viewPro);
+
+            LinearLayout proPicContainer = (LinearLayout) findViewById(R.id.pro_pic_container);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
+            params.height = (int) (height * .4);
+            proPicContainer.setLayoutParams(params);
         }
 
         nametv.setText(name);
