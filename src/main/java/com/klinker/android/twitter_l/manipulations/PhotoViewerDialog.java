@@ -89,7 +89,7 @@ public class PhotoViewerDialog extends Activity {
         AppSettings settings = new AppSettings(context);
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION|WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
         setContentView(R.layout.photo_dialog_layout);
@@ -227,8 +227,8 @@ public class PhotoViewerDialog extends Activity {
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
             ab.setBackgroundDrawable(transparent);
-            ab.setDisplayHomeAsUpEnabled(false);
-            ab.setDisplayShowHomeEnabled(false);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(true);
             ab.setTitle("");
             ab.setIcon(transparent);
         }
@@ -246,6 +246,10 @@ public class PhotoViewerDialog extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             case R.id.menu_save_image:
                 download.performClick();
                 return true;
