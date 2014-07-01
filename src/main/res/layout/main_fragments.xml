@@ -60,7 +60,7 @@
 
         <LinearLayout
             android:id="@+id/toast_background"
-            android:layout_width="300dp"
+            android:layout_width="@dimen/snack_bar_size"
             android:layout_height="wrap_content"
             android:background="@drawable/snack_bar"
             android:baselineAligned="true"

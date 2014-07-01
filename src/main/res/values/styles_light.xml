@@ -126,6 +126,11 @@ limitations under the License.
 
     </style>
 
+    <style name="Theme.TalonLight.ImageViewer" parent="@style/Theme.TalonLight">
+        <item name="android:windowEnterTransition">@transition/slide</item>
+        <item name="android:windowExitTransition">@transition/slide</item>
+    </style>
+
     <style name="Theme.TalonLight.Compose" parent="@style/Theme.TalonLight">
         <item name="android:windowContentTransitions">false</item>
     </style>

@@ -3,7 +3,7 @@
     android:id="@+id/background"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:background="@color/photo_dialog_background" >
+    android:background="@android:color/black" >
 
     <LinearLayout android:id="@+id/list_progress"
         android:orientation="vertical"

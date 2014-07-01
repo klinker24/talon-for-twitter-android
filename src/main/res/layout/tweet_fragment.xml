@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <View android:layout_width="match_parent" android:layout_height="match_parent"
+          android:background="@android:color/white" />
+
     <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:elevation="5dp"
                 android:background="@android:color/white">
 
                 <include android:id="@+id/tweet_background"
