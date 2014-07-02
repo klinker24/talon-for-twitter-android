@@ -197,7 +197,7 @@
             <LinearLayout android:id="@+id/convo_title"
                           android:orientation="horizontal"
                           android:layout_width="match_parent"
-                          android:layout_height="wrap_content">
+                          android:layout_height="wrap_content" >
 
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
@@ -215,7 +215,8 @@
                               android:orientation="vertical"
                               android:layout_height="wrap_content"
                               android:layout_width="wrap_content"
-                              android:gravity="center" >
+                              android:gravity="center"
+                              android:layout_marginLeft="8dp" >
 
                     <ProgressBar
                             android:layout_width="wrap_content"
@@ -241,8 +242,7 @@
 
             <View android:layout_width="match_parent"
                   android:id="@+id/nav_bar_seperator"
-                  android:layout_height="56dp"
-                    android:visibility="gone"/>
+                  android:layout_height="56dp" />
 
 
         </LinearLayout>
