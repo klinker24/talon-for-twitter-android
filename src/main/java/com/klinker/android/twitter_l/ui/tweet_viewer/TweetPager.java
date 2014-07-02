@@ -8,10 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -22,20 +19,14 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.PagerTitleStrip;
-import android.support.v4.view.ViewPager;
-import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -43,38 +34,23 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.manipulations.EmojiKeyboard;
-import com.klinker.android.twitter_l.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
-import com.klinker.android.twitter_l.manipulations.QustomDialogBuilder;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
-import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
-import com.klinker.android.twitter_l.services.SendTweet;
+import com.klinker.android.twitter_l.manipulations.RetweetersPopupLayout;
+import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -83,17 +59,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
-import org.w3c.dom.Text;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class TweetPager extends YouTubeBaseActivity {
 
@@ -118,7 +90,7 @@ public class TweetPager extends YouTubeBaseActivity {
     public String linkString;
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
-    
+
     private LinearLayout convoTitle;
     private View convoDivider;
     private LinearLayout progressSpinner;
@@ -246,7 +218,8 @@ public class TweetPager extends YouTubeBaseActivity {
             findViewById(R.id.web_text).setVisibility(View.GONE);
         }
 
-        if (youtube) {
+        // youtube player isn't working right now
+        if (false){//youtube) {
             TweetYouTubeFragment frag = new TweetYouTubeFragment(settings, youtubeVideo);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.youtube_view, frag);
@@ -294,6 +267,14 @@ public class TweetPager extends YouTubeBaseActivity {
         }
         super.onBackPressed();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (retweetersList.isShowing()) {
+            retweetersList.hide();
+        }
+    }
     @Override
     public void finish() {
         isRunning = false;
@@ -338,6 +319,15 @@ public class TweetPager extends YouTubeBaseActivity {
                 } else {
                     scroll.setInterceptTouch(true);
                 }
+            }
+        });
+        scroll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (retweetersList != null && retweetersList.isShowing()) {
+                    retweetersList.hide();
+                }
+                return false;
             }
         });
 
@@ -949,6 +939,8 @@ public class TweetPager extends YouTubeBaseActivity {
     public NetworkedCacheableImageView[] retweeters;
     public LinearLayout viewRetweeters;
 
+    public RetweetersPopupLayout retweetersList;
+
     public void setUIElements(final View layout) {
         TextView nametv;
         TextView screennametv;
@@ -984,17 +976,19 @@ public class TweetPager extends YouTubeBaseActivity {
             retweeters[i].setClipToOutline(true);
         }
 
-        if (viewRetweeters != null) {
-            viewRetweeters.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //open up the activity to see who retweeted it
-                    Intent viewRetweeters = new Intent(context, ViewRetweeters.class);
-                    viewRetweeters.putExtra("id", tweetId);
-                    startActivity(viewRetweeters);
+        retweetersList = new RetweetersPopupLayout(context);
+        retweetersList.setWidthByPercent(.4f);
+        retweetersList.setHeightByPercent(.4f);
+
+        viewRetweeters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (retweetersList != null) {
+                    retweetersList.setOnTopOfView(viewRetweeters);
+                    retweetersList.show();
                 }
-            });
-        }
+            }
+        });
 
         if (quote != null) {
             quote.setOnClickListener(new View.OnClickListener() {
@@ -1572,8 +1566,10 @@ public class TweetPager extends YouTubeBaseActivity {
                     ResponseList<twitter4j.Status> lists = twitter.getRetweets(id);
 
                     final ArrayList<String> urls = new ArrayList<String>();
+                    final ArrayList<User> users = new ArrayList<User>();
 
                     for (Status s : lists) {
+                        users.add(s.getUser());
                         urls.add(s.getUser().getBiggerProfileImageURL());
                     }
 
@@ -1584,6 +1580,8 @@ public class TweetPager extends YouTubeBaseActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            retweetersList.setData(users);
+
                             for (int i = 0; i < 3; i++) {
                                 try {
                                     retweeters[i].loadImage(urls.get(i), false, null);
