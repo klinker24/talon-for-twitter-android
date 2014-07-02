@@ -39,9 +39,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
 import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
+import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TweetPagerAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
@@ -768,6 +770,7 @@ public class TweetPager extends YouTubeBaseActivity {
     }
 
     public NetworkedCacheableImageView profilePic;
+    public NetworkedCacheableImageView[] retweeters;
 
     public void setUIElements(final View layout) {
         TextView nametv;
@@ -781,6 +784,7 @@ public class TweetPager extends YouTubeBaseActivity {
         final TextView favoriteCount;
         final TextView retweetCount;
         final ImageButton replyButton;
+        retweeters = new NetworkedCacheableImageView[3];
 
         nametv = (TextView) layout.findViewById(R.id.name);
         screennametv = (TextView) layout.findViewById(R.id.screen_name);
@@ -795,6 +799,14 @@ public class TweetPager extends YouTubeBaseActivity {
         timetv = (TextView) layout.findViewById(R.id.time);
         viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
         replyButton = (ImageButton) layout.findViewById(R.id.send_button);
+
+        retweeters[0] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_1);
+        retweeters[1] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_2);
+        retweeters[2] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_3);
+
+        for (int i = 0; i < 3; i++) {
+            retweeters[i].setClipToOutline(true);
+        }
 
         if (viewRetweeters != null) {
             viewRetweeters.setOnClickListener(new View.OnClickListener() {
@@ -1126,6 +1138,59 @@ public class TweetPager extends YouTubeBaseActivity {
         }
     }
 
+    public void getRetweeters() {
+        Thread getRetweeters = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Twitter twitter =  Utils.getTwitter(context, settings);
+
+                    long id = tweetId;
+                    Status stat = twitter.showStatus(id);
+                    if (stat.isRetweet()) {
+                        id = stat.getRetweetedStatus().getId();
+                    }
+
+                    // can get 100 retweeters is all
+                    ResponseList<twitter4j.Status> lists = twitter.getRetweets(id);
+
+                    final ArrayList<String> urls = new ArrayList<String>();
+
+                    for (Status s : lists) {
+                        urls.add(s.getUser().getBiggerProfileImageURL());
+                    }
+
+                    if (urls.size() > 3) {
+                        urls.subList(0, 2);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int i = 0; i < 3; i++) {
+                                try {
+                                    retweeters[i].loadImage(urls.get(i), false, null);
+                                } catch (Exception e) {
+
+                                }
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+
+                }
+            }
+        });
+
+        getRetweeters.setPriority(Thread.MAX_PRIORITY);
+        getRetweeters.start();
+    }
+
     private Status status = null;
 
     public void getInfo(final TextView favoriteText, final TextView favCount, final TextView retweetCount, final long tweetId, final TextView retweetText) {
@@ -1180,6 +1245,10 @@ public class TweetPager extends YouTubeBaseActivity {
 
                     retweetedByMe = status.isRetweetedByMe();
                     final String retCount = "" + status.getRetweetCount();
+
+                    if (status.getRetweetCount() > 0) {
+                        getRetweeters();
+                    }
 
                     final String timeDisplay;
 
