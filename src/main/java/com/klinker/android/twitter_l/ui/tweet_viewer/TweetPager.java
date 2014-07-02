@@ -207,7 +207,27 @@ public class TweetPager extends YouTubeBaseActivity {
         WebView web = (WebView) findViewById(R.id.webview);
         if (hasWebpage) {
             web.loadUrl(webpages.get(0));
+
+            web.getSettings().setBuiltInZoomControls(true);
+            web.getSettings().setDisplayZoomControls(false);
+            web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+            web.getSettings().setUseWideViewPort(true);
+            web.getSettings().setLoadWithOverviewMode(true);
+            web.getSettings().setSavePassword(true);
+            web.getSettings().setSaveFormData(true);
+            web.getSettings().setJavaScriptEnabled(true);
+            web.getSettings().setAppCacheEnabled(false);
+            web.getSettings().setPluginState(WebSettings.PluginState.OFF);
+
+            // enable navigator.geolocation
+            web.getSettings().setGeolocationEnabled(true);
+            web.getSettings().setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
+
+            // enable Web Storage: localStorage, sessionStorage
+            web.getSettings().setDomStorageEnabled(true);
+
             web.setWebViewClient(new HelloWebViewClient());
+
             // Configure the webview
             web.setOnTouchListener(new View.OnTouchListener() {
                 // Setting on Touch Listener for handling the touch inside ScrollView
