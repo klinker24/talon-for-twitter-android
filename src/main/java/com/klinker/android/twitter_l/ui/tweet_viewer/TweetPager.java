@@ -36,6 +36,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.*;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -114,6 +117,9 @@ public class TweetPager extends YouTubeBaseActivity {
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
 
+    private ViewPager pager;
+    private TweetPagerAdapter mSectionsPagerAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -158,6 +164,82 @@ public class TweetPager extends YouTubeBaseActivity {
 
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
 
+        // methods for advancing windowed
+        boolean settingsVal = settings.advanceWindowed;
+        boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
+        final boolean youtube;
+        if (webpage != null && linkString != null) {
+            youtube = webpage.contains("youtu") || linkString.contains("youtu");
+        } else {
+            youtube = true;
+        }
+
+        ArrayList<String> webpages = new ArrayList<String>();
+
+        if (otherLinks == null) {
+            otherLinks = new String[0];
+        }
+
+        boolean hasWebpage;
+        if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
+            for (String s : otherLinks) {
+                if (s.contains("youtu")) {
+                    //video = s;
+                    //youtube = true;
+                    break;
+                } else {
+                    if (!s.contains("pic.twitt")) {
+                        webpages.add(s);
+                    }
+                }
+            }
+
+            if (webpages.size() >= 1 && settings.inAppBrowser) {
+                hasWebpage = true;
+            } else {
+                hasWebpage = false;
+            }
+
+        } else {
+            hasWebpage = false;
+        }
+
+        WebView web = (WebView) findViewById(R.id.webview);
+        if (hasWebpage) {
+            web.loadUrl(webpages.get(0));
+            web.setWebViewClient(new HelloWebViewClient());
+            // Configure the webview
+            web.setOnTouchListener(new View.OnTouchListener() {
+                // Setting on Touch Listener for handling the touch inside ScrollView
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // Disallow the touch request for parent scroll on touch of child view
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
+        } else {
+            web.setVisibility(View.GONE);
+            findViewById(R.id.web_divider).setVisibility(View.GONE);
+            findViewById(R.id.web_text).setVisibility(View.GONE);
+        }
+
+        final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scroll.smoothScrollTo(0, 0);
+            }
+        }, 250);
+
+    }
+
+    private class HelloWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 
     public View insetsBackground;
@@ -189,6 +271,20 @@ public class TweetPager extends YouTubeBaseActivity {
                 insetsBackground.setAlpha(ratio);
             }
         });
+
+        View navBarSeperator = findViewById(R.id.nav_bar_seperator);
+        navBarSeperator.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context)));
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int height = size.y;
+
+        View webView = findViewById(R.id.webview);
+        int dpFive = Utils.toDP(5, context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (height * .75));
+        params.setMargins(dpFive, dpFive, dpFive, dpFive);
+        webView.setLayoutParams(params);
     }
 
     public void setUpWindow(boolean youtube) {
@@ -771,13 +867,13 @@ public class TweetPager extends YouTubeBaseActivity {
 
     public NetworkedCacheableImageView profilePic;
     public NetworkedCacheableImageView[] retweeters;
+    public LinearLayout viewRetweeters;
 
     public void setUIElements(final View layout) {
         TextView nametv;
         TextView screennametv;
         TextView tweettv;
         ImageButton quote = null;
-        ImageButton viewRetweeters = null;
         final TextView retweetertv;
         final LinearLayout favoriteButton;
         final LinearLayout retweetButton;
@@ -797,7 +893,7 @@ public class TweetPager extends YouTubeBaseActivity {
         favoriteCount = (TextView) layout.findViewById(R.id.fav_count);
         retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
         timetv = (TextView) layout.findViewById(R.id.time);
-        viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
+        viewRetweeters = (LinearLayout) layout.findViewById(R.id.view_retweeters);
         replyButton = (ImageButton) layout.findViewById(R.id.send_button);
 
         retweeters[0] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_1);
@@ -1171,7 +1267,7 @@ public class TweetPager extends YouTubeBaseActivity {
                                 try {
                                     retweeters[i].loadImage(urls.get(i), false, null);
                                 } catch (Exception e) {
-
+                                    retweeters[i].setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -1248,6 +1344,13 @@ public class TweetPager extends YouTubeBaseActivity {
 
                     if (status.getRetweetCount() > 0) {
                         getRetweeters();
+                    } else {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                viewRetweeters.setVisibility(View.GONE);
+                            }
+                        });
                     }
 
                     final String timeDisplay;
