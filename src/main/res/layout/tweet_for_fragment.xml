@@ -98,81 +98,82 @@
 
             <LinearLayout android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:orientation="vertical"
-                          android:id="@+id/retweet"
-                          android:padding="12dp"
-                          android:background="?android:attr/selectableItemBackground" >
-
-                <TextView
-                        android:id="@+id/retweet_text"
-                        android:text="@string/retweet_lower"
-                        android:textAllCaps="true"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="@android:color/black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                <TextView
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:textSize="13sp"
-                        android:gravity="right"
-                        android:textColor="@android:color/black"
-                        android:fontFamily="sans-serif-light"
-                        android:alpha=".6"
-                        android:id="@+id/retweet_count" />
-
-            </LinearLayout>
-
-            <View android:layout_width="16dp" android:layout_height="match_parent" />
-
-            <LinearLayout android:layout_width="0dp"
-                          android:layout_height="match_parent"
-                          android:layout_weight="1"
                           android:orientation="horizontal"
-                          android:gravity="center_vertical"
-                          android:id="@+id/view_retweeters" >
+                          android:id="@+id/retweet"
+                          android:background="?android:attr/selectableItemBackground">
 
-                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:id="@+id/retweeter_1"
-                        android:minHeight="36dp" android:minWidth="36dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="true"
-                        android:maxWidth="36dp" android:maxHeight="36dp"
-                        android:background="@drawable/pro_pic_clip"/>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:padding="12dp" >
 
-                <View android:layout_width="8dp" android:layout_height="match_parent" />
+                    <TextView
+                            android:id="@+id/retweet_text"
+                            android:text="@string/retweet_lower"
+                            android:textAllCaps="true"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:textColor="@android:color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:id="@+id/retweeter_2"
-                        android:minHeight="36dp" android:minWidth="36dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="true"
-                        android:maxWidth="36dp" android:maxHeight="36dp"
-                        android:background="@drawable/pro_pic_clip"/>
+                    <TextView
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:textSize="13sp"
+                            android:gravity="right"
+                            android:textColor="@android:color/black"
+                            android:fontFamily="sans-serif-light"
+                            android:alpha=".6"
+                            android:id="@+id/retweet_count" />
 
-                <View android:layout_width="8dp" android:layout_height="match_parent" />
+                </LinearLayout>
 
-                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:id="@+id/retweeter_3"
-                        android:minHeight="36dp" android:minWidth="36dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="true"
-                        android:maxWidth="36dp" android:maxHeight="36dp"
-                        android:background="@drawable/pro_pic_clip"/>
+                <View android:layout_width="16dp" android:layout_height="match_parent" />
+
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_height="match_parent"
+                              android:layout_weight="1"
+                              android:orientation="horizontal"
+                              android:gravity="center_vertical"
+                              android:id="@+id/view_retweeters" >
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/retweeter_1"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                            android:maxWidth="36dp" android:maxHeight="36dp"
+                            android:background="@drawable/pro_pic_clip"/>
+
+                    <View android:layout_width="8dp" android:layout_height="match_parent" />
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/retweeter_2"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                            android:maxWidth="36dp" android:maxHeight="36dp"
+                            android:background="@drawable/pro_pic_clip"/>
+
+                    <View android:layout_width="8dp" android:layout_height="match_parent" />
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/retweeter_3"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                            android:maxWidth="36dp" android:maxHeight="36dp"
+                            android:background="@drawable/pro_pic_clip"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-            <View android:layout_width="match_parent" android:layout_height="56dp"
-                  android:background="@android:color/transparent"
-                  android:id="@+id/navigation_bar"/>
         </LinearLayout>
 
     </LinearLayout>
