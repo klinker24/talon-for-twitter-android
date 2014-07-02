@@ -596,7 +596,7 @@
         </receiver>
 
         <provider android:name="com.klinker.android.twitter_l.utils.MySuggestionsProvider"
-            android:authorities="com.klinker.android.MySuggestionsProvider" />
+            android:authorities="com.klinker.android.twitter_l.MySuggestionsProvider" />
 
         <!-- Widget -->
         <receiver android:name="com.klinker.android.twitter_l.widget.WidgetProvider"

@@ -32,8 +32,8 @@ public class AppSettings {
 
     public SharedPreferences sharedPrefs;
 
-    public static String TWITTER_CONSUMER_KEY = "V9yijGrKf79jlYi0l3ekpA";
-    public static String TWITTER_CONSUMER_SECRET = "IHHoYqukYC951gsP8gkhr1RUSBJYYwhGO0P3uuCDkA";
+    public static String TWITTER_CONSUMER_KEY = "4i8JnA4fnWRMuE7zXrXQQgfI9";
+    public static String TWITTER_CONSUMER_SECRET = "biUAl6lAmjSVIkL4VYiIpkQBovA1pcmIjZ1pRnRpep8qGmL0EN";
 
     public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
 
@@ -254,8 +254,8 @@ public class AppSettings {
         }
 
         // Integers
-        theme = Integer.parseInt(sharedPrefs.getString("theme", "1")); // default is dark
-        layout = Integer.parseInt(sharedPrefs.getString("layout", "0")); // default is talon
+        theme = Integer.parseInt(sharedPrefs.getString("theme", "0")); // default is light
+        layout = Integer.parseInt(sharedPrefs.getString("layout", "2")); // default is full screen
         currentAccount = sharedPrefs.getInt("current_account", 1);
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
@@ -286,7 +286,7 @@ public class AppSettings {
             if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
                     (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
                 nightMode = true;
-                theme = sharedPrefs.getInt("night_theme", 1);
+                theme = sharedPrefs.getInt("night_theme", 0);
             }
         }
 
@@ -489,8 +489,8 @@ public class AppSettings {
         }
 
         // Integers
-        theme = Integer.parseInt(sharedPrefs.getString("theme", "1")); // default is dark
-        layout = Integer.parseInt(sharedPrefs.getString("layout", "0")); // default is talon
+        theme = Integer.parseInt(sharedPrefs.getString("theme", "0")); // default is dark
+        layout = Integer.parseInt(sharedPrefs.getString("layout", "2")); // default is talon
         currentAccount = sharedPrefs.getInt("current_account", 1);
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
@@ -522,7 +522,7 @@ public class AppSettings {
             if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
                     (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
                 nightMode = true;
-                theme = sharedPrefs.getInt("night_theme", 1);
+                theme = sharedPrefs.getInt("night_theme", 0);
             }
         }
 
@@ -622,7 +622,7 @@ public class AppSettings {
     }
 
     public static int getCurrentTheme(SharedPreferences sharedPrefs) {
-        int theme = Integer.parseInt(sharedPrefs.getString("theme", "1")); // default is dark
+        int theme = Integer.parseInt(sharedPrefs.getString("theme", "0")); // default is dark
         if (sharedPrefs.getBoolean("night_mode", false)) {
             int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);
             int nightStartMin = sharedPrefs.getInt("night_start_min", 0);
@@ -639,7 +639,7 @@ public class AppSettings {
 
             if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
                     (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
-                theme = sharedPrefs.getInt("night_theme", 1);
+                theme = sharedPrefs.getInt("night_theme", 0);
             }
         }
 
