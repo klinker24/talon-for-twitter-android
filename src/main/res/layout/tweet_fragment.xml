@@ -161,6 +161,28 @@
                     android:padding="30dp"/>
 
             <View android:layout_width="match_parent"
+                  android:id="@+id/youtube_divider"
+                  android:layout_height="1dp"
+                  android:background="?drawerDividerColor"
+                  android:layout_marginLeft="36dp"
+                  android:layout_marginBottom="36dp"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/web_text"
+                      android:textAllCaps="true"
+                      android:text="web"
+                      android:textSize="16sp"
+                      android:paddingLeft="36dp"
+                      android:layout_marginBottom="36dp"
+                      android:textColor="@android:color/black"
+                      android:alpha=".6"/>
+
+            <WebView android:layout_width="match_parent" android:layout_height="500dp"
+                     android:id="@+id/webview"
+                     android:padding="30dp"/>
+
+            <View android:layout_width="match_parent"
                   android:id="@+id/nav_bar_seperator"
                   android:layout_height="56dp"/>
 
