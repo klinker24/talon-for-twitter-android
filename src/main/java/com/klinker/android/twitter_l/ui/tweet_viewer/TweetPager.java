@@ -15,6 +15,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -42,12 +43,12 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
-import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
-import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
-import com.klinker.android.twitter_l.adapters.TweetPagerAdapter;
+import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
@@ -58,6 +59,7 @@ import com.klinker.android.twitter_l.manipulations.ExpansionAnimation;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.SendTweet;
@@ -86,14 +88,15 @@ import java.util.regex.Pattern;
 
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import org.lucasr.smoothie.AsyncListView;
+import org.lucasr.smoothie.ItemManager;
 import org.w3c.dom.Text;
-import twitter4j.GeoLocation;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.Twitter;
+import twitter4j.*;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class TweetPager extends YouTubeBaseActivity {
+public class TweetPager extends YouTubeBaseActivity implements
+        YouTubePlayer.OnInitializedListener {
 
     public Context context;
     public AppSettings settings;
@@ -117,8 +120,14 @@ public class TweetPager extends YouTubeBaseActivity {
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
 
-    private ViewPager pager;
-    private TweetPagerAdapter mSectionsPagerAdapter;
+
+    private YouTubePlayerView player;
+    private YouTubePlayer realPlayer;
+    private YouTubePlayer.OnInitializedListener listener;
+    private LinearLayout convoTitle;
+    private View convoDivider;
+    private LinearLayout progressSpinner;
+    private AsyncListView replyList;
 
 
     @Override
@@ -160,19 +169,16 @@ public class TweetPager extends YouTubeBaseActivity {
 
         setContentView(R.layout.tweet_fragment);
 
+        convoTitle = (LinearLayout) findViewById(R.id.convo_title);
+        convoDivider = findViewById(R.id.convo_divider);
+        replyList = (AsyncListView) findViewById(R.id.listView);
+        progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
+
         setUpTheme();
 
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
 
-        // methods for advancing windowed
-        boolean settingsVal = settings.advanceWindowed;
-        boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
-        final boolean youtube;
-        if (webpage != null && linkString != null) {
-            youtube = webpage.contains("youtu") || linkString.contains("youtu");
-        } else {
-            youtube = true;
-        }
+        boolean youtube = false;
 
         ArrayList<String> webpages = new ArrayList<String>();
 
@@ -184,8 +190,8 @@ public class TweetPager extends YouTubeBaseActivity {
         if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
             for (String s : otherLinks) {
                 if (s.contains("youtu")) {
-                    //video = s;
-                    //youtube = true;
+                    youtubeVideo = s;
+                    youtube = true;
                     break;
                 } else {
                     if (!s.contains("pic.twitt")) {
@@ -234,6 +240,7 @@ public class TweetPager extends YouTubeBaseActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     // Disallow the touch request for parent scroll on touch of child view
+
                     v.getParent().requestDisallowInterceptTouchEvent(true);
                     return false;
                 }
@@ -243,6 +250,30 @@ public class TweetPager extends YouTubeBaseActivity {
             findViewById(R.id.web_divider).setVisibility(View.GONE);
             findViewById(R.id.web_text).setVisibility(View.GONE);
         }
+
+        player = (YouTubePlayerView) findViewById(R.id.youtube_view);
+
+        if (youtube) {
+            try {
+                player.initialize(AppSettings.YOUTUBE_API_KEY, this);
+            } catch (IllegalArgumentException e) {
+                // it is throwing something here for some reason
+            }
+            listener = this;
+        } else {
+            player.setVisibility(View.GONE);
+            findViewById(R.id.youtube_divider).setVisibility(View.GONE);
+            findViewById(R.id.youtube_text).setVisibility(View.GONE);
+        }
+
+        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
+        ArrayListLoader loader = new ArrayListLoader(cache, context);
+
+        ItemManager.Builder builder = new ItemManager.Builder(loader);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
+        builder.setThreadPoolSize(2);
+
+        replyList.setItemManager(builder.build());
 
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         new Handler().postDelayed(new Runnable() {
@@ -254,12 +285,78 @@ public class TweetPager extends YouTubeBaseActivity {
 
     }
 
+    String youtubeVideo = "";
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        String video;
+
+        try {
+            if (youtubeVideo.contains("youtube")) { // normal youtube link
+                // first get the youtube video code
+                int start = youtubeVideo.indexOf("v=") + 2;
+                int end;
+                if (youtubeVideo.substring(start).contains("&")) {
+                    end = youtubeVideo.indexOf("&");
+                    video = youtubeVideo.substring(start, end);
+                } else if (youtubeVideo.substring(start).contains("?")) {
+                    end = youtubeVideo.indexOf("?");
+                    video = youtubeVideo.substring(start, end);
+                } else {
+                    video = youtubeVideo.substring(start);
+                }
+            } else { // shortened youtube link
+                // first get the youtube video code
+                int start = youtubeVideo.indexOf(".be/") + 4;
+                int end;
+                if (youtubeVideo.substring(start).contains("&")) {
+                    end = youtubeVideo.indexOf("&");
+                    video = youtubeVideo.substring(start, end);
+                } else if (youtubeVideo.substring(start).contains("?")) {
+                    end = youtubeVideo.indexOf("?");
+                    video = youtubeVideo.substring(start, end);
+                } else {
+                    video = youtubeVideo.substring(start);
+                }
+            }
+        } catch (Exception e) {
+            video = "";
+        }
+
+        youTubePlayer.loadVideo(video);
+        youTubePlayer.setShowFullscreenButton(true);
+
+        realPlayer = youTubePlayer;
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        player.setVisibility(View.GONE);
+        findViewById(R.id.youtube_divider).setVisibility(View.GONE);
+        findViewById(R.id.youtube_text).setVisibility(View.GONE);
+    }
+
     private class HelloWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        hideConversationSection();
+        View web = findViewById(R.id.webview);
+        if (web.getVisibility() == View.VISIBLE) {
+            web.setVisibility(View.INVISIBLE);
+        }
+        super.onBackPressed();
+    }
+    @Override
+    public void finish() {
+        isRunning = false;
+        super.finish();
     }
 
     public View insetsBackground;
@@ -280,20 +377,33 @@ public class TweetPager extends YouTubeBaseActivity {
         insetsBackground.setLayoutParams(statusParams);
         insetsBackground.setAlpha(0);
 
-        NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
+        final int abHeight = Utils.getActionBarHeight(context);
+        final View header = findViewById(R.id.profile_pic_contact);
+
+        final View bottom = findViewById(R.id.bottom);
+
+        final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-                final int headerHeight = findViewById(R.id.profile_pic_contact).getHeight() - getActionBar().getHeight();
+                final int headerHeight = header.getHeight() - abHeight;
                 final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
                 final int newAlpha = (int) (ratio * 255);
-                Log.v("talon_action_bar", "new alpha: " + newAlpha);
                 insetsBackground.setAlpha(ratio);
+
+                Rect scrollBounds = new Rect();
+                who.getHitRect(scrollBounds);
+                if (bottom.getLocalVisibleRect(scrollBounds)) {
+                    scroll.setInterceptTouch(false);
+                } else {
+                    scroll.setInterceptTouch(true);
+                }
             }
         });
 
         View navBarSeperator = findViewById(R.id.nav_bar_seperator);
-        navBarSeperator.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context)));
+        LinearLayout.LayoutParams navBar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+        navBarSeperator.setLayoutParams(navBar);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -305,6 +415,16 @@ public class TweetPager extends YouTubeBaseActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (height * .75));
         params.setMargins(dpFive, dpFive, dpFive, dpFive);
         webView.setLayoutParams(params);
+
+        View footer = new View(context);
+        AbsListView.LayoutParams bar = new AbsListView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+
+        footer.setLayoutParams(bar);
+        replyList.addFooterView(footer);
+
+        LinearLayout.LayoutParams list = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                height - Utils.getActionBarHeight(context) - Utils.getStatusBarHeight(context) - Utils.toDP(75, context));
+        replyList.setLayoutParams(list);
     }
 
     public void setUpWindow(boolean youtube) {
@@ -1254,6 +1374,247 @@ public class TweetPager extends YouTubeBaseActivity {
         }
     }
 
+    public void hideConversationSection() {
+        if (convoDivider.getVisibility() == View.VISIBLE) {
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    convoDivider.setVisibility(View.GONE);
+                    convoTitle.setVisibility(View.GONE);
+                    replyList.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            anim.setDuration(400);
+            convoDivider.startAnimation(anim);
+            convoTitle.startAnimation(anim);
+            replyList.startAnimation(anim);
+        }
+
+        findViewById(R.id.nav_bar_seperator).setVisibility(View.VISIBLE);
+    }
+
+    public void adjustConversationSectionSize(AsyncListView listView) {
+        findViewById(R.id.nav_bar_seperator).setVisibility(View.GONE);
+    }
+
+    public boolean isRunning = true;
+    public ArrayList<Status> replies;
+    public TimelineArrayAdapter adapter;
+
+    public void getConversation() {
+        Thread getConvo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!isRunning) {
+                    return;
+                }
+
+                Twitter twitter = Utils.getTwitter(context, settings);
+                replies = new ArrayList<twitter4j.Status>();
+                try {
+
+                    if (status.isRetweet()) {
+                        status = status.getRetweetedStatus();
+                    }
+
+                    twitter4j.Status replyStatus = twitter.showStatus(status.getInReplyToStatusId());
+
+                    try {
+                        while(!replyStatus.getText().equals("")) {
+                            if (!isRunning) {
+                                return;
+                            }
+                            replies.add(replyStatus);
+                            Log.v("reply_status", replyStatus.getText());
+
+                            replyStatus = twitter.showStatus(replyStatus.getInReplyToStatusId());
+                        }
+
+                    } catch (Exception e) {
+                        // the list of replies has ended, but we dont want to go to null
+                    }
+
+
+
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                }
+
+                if (status != null && replies.size() > 0) {
+                    replies.add(0, status);
+                }
+
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (replies.size() > 0) {
+
+                                ArrayList<twitter4j.Status> reversed = new ArrayList<twitter4j.Status>();
+                                for (int i = replies.size() - 1; i >= 0; i--) {
+                                    reversed.add(replies.get(i));
+                                }
+
+                                replies = reversed;
+
+                                adapter = new TimelineArrayAdapter(context, replies);
+                                replyList.setAdapter(adapter);
+                                replyList.setVisibility(View.VISIBLE);
+                                adjustConversationSectionSize(replyList);
+                                progressSpinner.setVisibility(View.GONE);
+
+                            }
+                        } catch (Exception e) {
+                            // none and it got the null object
+                        }
+
+
+                        if (status != null) {
+                            // everything here worked, so get the discussion on the tweet
+                            getDiscussion();
+                        }
+                    }
+                });
+            }
+        });
+
+        getConvo.setPriority(Thread.NORM_PRIORITY);
+        getConvo.start();
+    }
+
+    public Query query;
+
+    public void getDiscussion() {
+
+        Thread getReplies = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (!isRunning) {
+                    return;
+                }
+
+                ArrayList<twitter4j.Status> all = null;
+                Twitter twitter = Utils.getTwitter(context, settings);
+                try {
+                    Log.v("talon_replies", "looking for discussion");
+
+                    long id = status.getId();
+                    String screenname = status.getUser().getScreenName();
+
+                    query = new Query("@" + screenname + " since_id:" + id);
+
+                    Log.v("talon_replies", "query string: " + query.getQuery());
+
+                    try {
+                        query.setCount(30);
+                    } catch (Throwable e) {
+                        // enlarge buffer error?
+                        query.setCount(30);
+                    }
+
+                    QueryResult result = twitter.search(query);
+                    Log.v("talon_replies", "result: " + result.getTweets().size());
+
+                    all = new ArrayList<twitter4j.Status>();
+
+                    do {
+                        Log.v("talon_replies", "do loop repetition");
+                        if (!isRunning) {
+                            return;
+                        }
+                        List<Status> tweets = result.getTweets();
+
+                        for(twitter4j.Status tweet : tweets){
+                            if (tweet.getInReplyToStatusId() == id) {
+                                all.add(tweet);
+                                Log.v("talon_replies", tweet.getText());
+                            }
+                        }
+
+                        if (all.size() > 0) {
+                            for (int i = all.size() - 1; i >= 0; i--) {
+                                Log.v("talon_replies", "inserting into arraylist:" + all.get(i).getText());
+                                replies.add(all.get(i));
+                            }
+
+                            all.clear();
+
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressSpinner.setVisibility(View.GONE);
+                                    try {
+                                        if (replies.size() > 0) {
+                                            if (adapter == null || adapter.getCount() == 0) {
+                                                adapter = new TimelineArrayAdapter(context, replies);
+                                                replyList.setAdapter(adapter);
+                                                replyList.setVisibility(View.VISIBLE);
+                                                adjustConversationSectionSize(replyList);
+                                            } else {
+                                                adapter.notifyDataSetChanged();
+                                                adjustConversationSectionSize(replyList);
+                                            }
+                                        } else {
+                                            hideConversationSection();
+                                        }
+                                    } catch (Exception e) {
+                                        // none and it got the null object
+                                        e.printStackTrace();
+                                        hideConversationSection();
+                                    }
+                                }
+                            });
+                        }
+
+                        try {
+                            Thread.sleep(250);
+                        } catch (Exception e) {
+                            // since we are changing the arraylist for the adapter in the background, we need to make sure it
+                            // gets updated before continuing
+                        }
+
+                        query = result.nextQuery();
+
+                        if (query != null)
+                            result = twitter.search(query);
+
+                    } while (query != null);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                }
+
+                if (replies.size() == 0) {
+                    // nothing to show, so tell them that
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideConversationSection();
+                        }
+                    });
+                }
+            }
+        });
+
+        getReplies.setPriority(8);
+        getReplies.start();
+
+    }
+
     public void getRetweeters() {
         Thread getRetweeters = new Thread(new Runnable() {
             @Override
@@ -1262,7 +1623,7 @@ public class TweetPager extends YouTubeBaseActivity {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
                     long id = tweetId;
-                    Status stat = twitter.showStatus(id);
+                    Status stat = status;
                     if (stat.isRetweet()) {
                         id = stat.getRetweetedStatus().getId();
                     }
@@ -1372,6 +1733,8 @@ public class TweetPager extends YouTubeBaseActivity {
                             }
                         });
                     }
+
+                    getConversation();
 
                     final String timeDisplay;
 
