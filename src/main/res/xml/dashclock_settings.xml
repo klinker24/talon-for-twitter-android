@@ -35,27 +35,4 @@
             android:defaultValue="false" />
 
     </PreferenceCategory>
-    <!-- <PreferenceCategory
-        android:title="@string/interactions_notifications" >
-
-        <CheckBoxPreference
-            android:key="dashclock_timeline"
-            android:title="@string/timeline"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="dashclock_mentions"
-            android:title="@string/mentions"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="dashclock_dms"
-            android:title="@string/direct_messages"
-            android:defaultValue="true"
-            />
-
-    </PreferenceCategory> -->
-
 </PreferenceScreen>
