@@ -38,26 +38,14 @@ public class AutoCompletePeopleAdapter extends SearchedPeopleCursorAdapter {
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 
-        //holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
-        if(settings.roundContactImages) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadCircleImage(context, holder, url, mCache, id);
-                    }
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (holder.userId == id) {
+                    loadImage(context, holder, url, mCache, id);
                 }
-            }, 500);
-        } else {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadImage(context, holder, url, mCache, id);
-                    }
-                }
-            }, 500);
-        }
+            }
+        }, 500);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

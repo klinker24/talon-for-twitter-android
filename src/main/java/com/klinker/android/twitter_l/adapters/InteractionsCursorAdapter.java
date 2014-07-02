@@ -52,7 +52,6 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
     public int layout;
     public Resources res;
-    public boolean talonLayout;
     public BitmapLruCache mCache;
     public int border;
     public ColorDrawable color;
@@ -84,16 +83,10 @@ public class InteractionsCursorAdapter extends CursorAdapter {
     }
 
     public void setUpLayout() {
-        talonLayout = settings.layout == AppSettings.LAYOUT_TALON;
-
         layout = R.layout.interaction;
 
-        TypedArray b;
-        if (talonLayout) {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        } else {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
-        }
+        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+
         border = b.getResourceId(0, 0);
         b.recycle();
 
@@ -118,9 +111,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.picture);
 
-        // sets up the font sizes
-        holder.title.setTextSize(15);
-        holder.text.setTextSize(14);
+        holder.picture.setClipToOutline(true);
 
         v.setTag(holder);
         return v;

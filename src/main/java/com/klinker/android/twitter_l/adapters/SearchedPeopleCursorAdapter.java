@@ -27,49 +27,13 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         View v = null;
         final ViewHolder holder = new ViewHolder();
-        if (settings.addonTheme) {
-            try {
-                Context viewContext = null;
 
-                if (res == null) {
-                    res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                }
+        v = inflater.inflate(layout, viewGroup, false);
 
-                try {
-                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if (res != null && viewContext != null) {
-                    int id = res.getIdentifier("person", "layout", settings.addonThemePackage);
-                    v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
-
-
-                    holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
-                    holder.screenName = (TextView) v.findViewById(res.getIdentifier("screen_name", "id", settings.addonThemePackage));
-                    holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
-                    holder.picture = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                v = inflater.inflate(layout, viewGroup, false);
-
-                holder.name = (TextView) v.findViewById(R.id.name);
-                holder.screenName = (TextView) v.findViewById(R.id.screen_name);
-                holder.background = (LinearLayout) v.findViewById(R.id.background);
-                holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
-            }
-        } else {
-            v = inflater.inflate(layout, viewGroup, false);
-
-            holder.name = (TextView) v.findViewById(R.id.name);
-            holder.screenName = (TextView) v.findViewById(R.id.screen_name);
-            holder.background = (LinearLayout) v.findViewById(R.id.background);
-            holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
-        }
+        holder.name = (TextView) v.findViewById(R.id.name);
+        holder.screenName = (TextView) v.findViewById(R.id.screen_name);
+        holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
 
         // sets up the font sizes
         holder.name.setTextSize(settings.textSize + 4);
@@ -96,26 +60,14 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 
-        //holder.picture.loadImage(url, true, null, NetworkedCacheableImageView.CIRCLE);
-        if(settings.roundContactImages) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadCircleImage(context, holder, url, mCache, id);
-                    }
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (holder.userId == id) {
+                    loadImage(context, holder, url, mCache, id);
                 }
-            }, 500);
-        } else {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.userId == id) {
-                        loadImage(context, holder, url, mCache, id);
-                    }
-                }
-            }, 500);
-        }
+            }
+        }, 500);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

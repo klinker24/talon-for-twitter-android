@@ -32,6 +32,7 @@
                 android:contentDescription="Profile Picture"
                 android:src="?circleBorder"
                 android:scaleType="fitCenter"
+                android:background="@drawable/pro_pic_clip"
                 android:adjustViewBounds="true"
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"/>
@@ -41,31 +42,38 @@
         <!-- Tweet's Content -->
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <!-- Holds the name, screen name, and time-->
+            <!-- Holds the name and screen name-->
             <RelativeLayout
                 android:orientation="horizontal"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <TextView
                     android:id="@+id/name"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textStyle="bold"
+                    android:layout_width="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="8dp"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="sans-serif-light"/>
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <TextView
                     android:id="@+id/screen_name"
                     android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_below="@id/name"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
-                    android:paddingBottom="5dp"/>
+                    android:paddingBottom="5dp"
+                    android:singleLine="true"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-light" />
 
             </RelativeLayout>
 
@@ -77,9 +85,8 @@
         android:id="@+id/my_divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:paddingTop="16dp"
+        android:paddingLeft="64dp" >
 
         <View
             android:layout_width="match_parent"

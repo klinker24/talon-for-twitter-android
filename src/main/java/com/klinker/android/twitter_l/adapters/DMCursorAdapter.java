@@ -30,6 +30,5 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
         final String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
         final String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
 
-
     }
 }
