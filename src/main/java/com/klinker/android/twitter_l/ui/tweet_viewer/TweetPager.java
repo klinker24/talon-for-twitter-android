@@ -95,8 +95,7 @@ import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class TweetPager extends YouTubeBaseActivity implements
-        YouTubePlayer.OnInitializedListener {
+public class TweetPager extends YouTubeBaseActivity {
 
     public Context context;
     public AppSettings settings;
@@ -119,11 +118,7 @@ public class TweetPager extends YouTubeBaseActivity implements
     public String linkString;
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
-
-
-    private YouTubePlayerView player;
-    private YouTubePlayer realPlayer;
-    private YouTubePlayer.OnInitializedListener listener;
+    
     private LinearLayout convoTitle;
     private View convoDivider;
     private LinearLayout progressSpinner;
@@ -251,15 +246,12 @@ public class TweetPager extends YouTubeBaseActivity implements
             findViewById(R.id.web_text).setVisibility(View.GONE);
         }
 
-        //player = (YouTubePlayerView) findViewById(R.id.youtube_view);
-
         if (youtube) {
             TweetYouTubeFragment frag = new TweetYouTubeFragment(settings, youtubeVideo);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.youtube_view, frag);
             ft.commit();
         } else {
-            //player.setVisibility(View.GONE);
             findViewById(R.id.youtube_divider).setVisibility(View.GONE);
             findViewById(R.id.youtube_text).setVisibility(View.GONE);
         }
@@ -284,55 +276,6 @@ public class TweetPager extends YouTubeBaseActivity implements
     }
 
     String youtubeVideo = "";
-
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-        String video;
-
-        try {
-            if (youtubeVideo.contains("youtube")) { // normal youtube link
-                // first get the youtube video code
-                int start = youtubeVideo.indexOf("v=") + 2;
-                int end;
-                if (youtubeVideo.substring(start).contains("&")) {
-                    end = youtubeVideo.indexOf("&");
-                    video = youtubeVideo.substring(start, end);
-                } else if (youtubeVideo.substring(start).contains("?")) {
-                    end = youtubeVideo.indexOf("?");
-                    video = youtubeVideo.substring(start, end);
-                } else {
-                    video = youtubeVideo.substring(start);
-                }
-            } else { // shortened youtube link
-                // first get the youtube video code
-                int start = youtubeVideo.indexOf(".be/") + 4;
-                int end;
-                if (youtubeVideo.substring(start).contains("&")) {
-                    end = youtubeVideo.indexOf("&");
-                    video = youtubeVideo.substring(start, end);
-                } else if (youtubeVideo.substring(start).contains("?")) {
-                    end = youtubeVideo.indexOf("?");
-                    video = youtubeVideo.substring(start, end);
-                } else {
-                    video = youtubeVideo.substring(start);
-                }
-            }
-        } catch (Exception e) {
-            video = "";
-        }
-
-        youTubePlayer.loadVideo(video);
-        youTubePlayer.setShowFullscreenButton(true);
-
-        realPlayer = youTubePlayer;
-    }
-
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        player.setVisibility(View.GONE);
-        findViewById(R.id.youtube_divider).setVisibility(View.GONE);
-        findViewById(R.id.youtube_text).setVisibility(View.GONE);
-    }
 
     private class HelloWebViewClient extends WebViewClient {
         @Override

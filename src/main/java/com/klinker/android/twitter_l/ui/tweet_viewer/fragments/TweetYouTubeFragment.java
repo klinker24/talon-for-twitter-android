@@ -56,7 +56,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         try {
             player.initialize(AppSettings.YOUTUBE_API_KEY, this);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         listener = this;
