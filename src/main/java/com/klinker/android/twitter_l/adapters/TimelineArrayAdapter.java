@@ -90,7 +90,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int layout;
     public XmlResourceParser addonLayout = null;
     public Resources res;
-    public int talonLayout;
     public BitmapLruCache mCache;
 
     public ColorDrawable transparent;
@@ -189,35 +188,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-        talonLayout = settings.layout;
+        layout = R.layout.tweet_full_screen;
 
-        if (settings.addonTheme) {
-            try {
-                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        switch (talonLayout) {
-            case AppSettings.LAYOUT_TALON:
-                layout = R.layout.tweet;
-                break;
-            case AppSettings.LAYOUT_HANGOUT:
-                layout = R.layout.tweet_hangout;
-                break;
-            case AppSettings.LAYOUT_FULL_SCREEN:
-                layout = R.layout.tweet_full_screen;
-                break;
-        }
-
-        TypedArray b;
-        if (settings.roundContactImages) {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        } else {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
-        }
+        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         border = b.getResourceId(0, 0);
         b.recycle();
 
@@ -245,101 +218,30 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public View newView(ViewGroup viewGroup) {
         View v = null;
         final ViewHolder holder = new ViewHolder();
-        if (settings.addonTheme) {
-            try {
-                Context viewContext = null;
 
-                if (res == null) {
-                    res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                }
+        v = inflater.inflate(layout, viewGroup, false);
 
-                try {
-                    viewContext = context.createPackageContext(settings.addonThemePackage, Context.CONTEXT_IGNORE_SECURITY);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if (res != null && viewContext != null) {
-                    int id = res.getIdentifier("tweet", "layout", settings.addonThemePackage);
-                    v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
-
-                    holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
-                    holder.profilePic = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
-                    holder.time = (TextView) v.findViewById(res.getIdentifier("time", "id", settings.addonThemePackage));
-                    holder.tweet = (TextView) v.findViewById(res.getIdentifier("tweet", "id", settings.addonThemePackage));
-                    holder.reply = (EditText) v.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
-                    holder.favorite = (ImageButton) v.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-                    holder.retweet = (ImageButton) v.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
-                    holder.favCount = (TextView) v.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
-                    holder.retweetCount = (TextView) v.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
-                    holder.expandArea = (LinearLayout) v.findViewById(res.getIdentifier("expansion", "id", settings.addonThemePackage));
-                    holder.replyButton = (ImageButton) v.findViewById(res.getIdentifier("reply_button", "id", settings.addonThemePackage));
-                    holder.image = (ImageView) v.findViewById(res.getIdentifier("image", "id", settings.addonThemePackage));
-                    holder.retweeter = (TextView) v.findViewById(res.getIdentifier("retweeter", "id", settings.addonThemePackage));
-                    holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
-                    holder.playButton = (ImageView) v.findViewById(res.getIdentifier("play_button", "id", settings.addonThemePackage));
-                    holder.screenTV = (TextView) v.findViewById(res.getIdentifier("screenname", "id", settings.addonThemePackage));
-                    try {
-                        holder.quoteButton = (ImageButton) v.findViewById(res.getIdentifier("quote_button", "id", settings.addonThemePackage));
-                        holder.shareButton = (ImageButton) v.findViewById(res.getIdentifier("share_button", "id", settings.addonThemePackage));
-                    } catch (Exception e) {
-                        // they don't exist because the theme was made before they were added
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                v = inflater.inflate(layout, viewGroup, false);
-
-                holder.name = (TextView) v.findViewById(R.id.name);
-                holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
-                holder.time = (TextView) v.findViewById(R.id.time);
-                holder.tweet = (TextView) v.findViewById(R.id.tweet);
-                holder.reply = (EditText) v.findViewById(R.id.reply);
-                holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
-                holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
-                holder.favCount = (TextView) v.findViewById(R.id.fav_count);
-                holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
-                holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-                holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
-                holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
-                holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
-                holder.background = (LinearLayout) v.findViewById(R.id.background);
-                holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
-                holder.screenTV = (TextView) v.findViewById(R.id.screenname);
-                try {
-                    holder.quoteButton = (ImageButton) v.findViewById(R.id.quote_button);
-                    holder.shareButton = (ImageButton) v.findViewById(R.id.share_button);
-                } catch (Exception x) {
-                    // theme was made before they were added
-                }
-            }
-        } else {
-            v = inflater.inflate(layout, viewGroup, false);
-
-            holder.name = (TextView) v.findViewById(R.id.name);
-            holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
-            holder.time = (TextView) v.findViewById(R.id.time);
-            holder.tweet = (TextView) v.findViewById(R.id.tweet);
-            holder.reply = (EditText) v.findViewById(R.id.reply);
-            holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
-            holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
-            holder.favCount = (TextView) v.findViewById(R.id.fav_count);
-            holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
-            holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-            holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
-            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
-            holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
-            holder.background = (LinearLayout) v.findViewById(R.id.background);
-            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
-            holder.screenTV = (TextView) v.findViewById(R.id.screenname);
-            try {
-                holder.quoteButton = (ImageButton) v.findViewById(R.id.quote_button);
-                holder.shareButton = (ImageButton) v.findViewById(R.id.share_button);
-            } catch (Exception x) {
-                // theme was made before they were added
-            }
+        holder.name = (TextView) v.findViewById(R.id.name);
+        holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
+        holder.time = (TextView) v.findViewById(R.id.time);
+        holder.tweet = (TextView) v.findViewById(R.id.tweet);
+        holder.reply = (EditText) v.findViewById(R.id.reply);
+        holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
+        holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
+        holder.favCount = (TextView) v.findViewById(R.id.fav_count);
+        holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
+        holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
+        holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
+        holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+        holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+        holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+        holder.screenTV = (TextView) v.findViewById(R.id.screenname);
+        try {
+            holder.quoteButton = (ImageButton) v.findViewById(R.id.quote_button);
+            holder.shareButton = (ImageButton) v.findViewById(R.id.share_button);
+        } catch (Exception x) {
+            // theme was made before they were added
         }
 
         holder.profilePic.setClipToOutline(true);
@@ -564,23 +466,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        if (talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
-            if (holder.screenTV.getVisibility() == View.GONE) {
-                holder.screenTV.setVisibility(View.VISIBLE);
-            }
-            holder.screenTV.setText("@" + screenname);
-            holder.name.setText(name);
-        } else {
-            if (!settings.showBoth) {
-                holder.name.setText(settings.displayScreenName ? "@" + screenname : name);
-            } else {
-                if (holder.screenTV.getVisibility() == View.GONE) {
-                    holder.screenTV.setVisibility(View.VISIBLE);
-                }
-                holder.name.setText(name);
-                holder.screenTV.setText("@" + screenname);
-            }
+
+        if (holder.screenTV.getVisibility() == View.GONE) {
+            holder.screenTV.setVisibility(View.VISIBLE);
         }
+
+        holder.screenTV.setText("@" + screenname);
+        holder.name.setText(name);
+
 
         if (!settings.absoluteDate) {
             holder.time.setText(Utils.getTimeAgo(time, context));
@@ -1442,36 +1335,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         protected void onPostExecute(String count) {
             removeExpansionWithAnimation(holder);
             removeKeyboard(holder);
-        }
-    }
-
-    class GetImage extends AsyncTask<String, Void, String> {
-
-        private ViewHolder holder;
-        private long tweetId;
-
-        public GetImage(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter4j.Status status = twitter.showStatus(tweetId);
-
-                MediaEntity[] entities = status.getMediaEntities();
-
-
-
-                return entities[0].getMediaURL();
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String url) {
-
         }
     }
 

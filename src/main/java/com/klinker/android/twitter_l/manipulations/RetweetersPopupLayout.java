@@ -16,9 +16,6 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 
-/**
- * Created by luke on 7/2/14.
- */
 public class RetweetersPopupLayout extends PopupLayout {
 
     private AsyncListView listView;
