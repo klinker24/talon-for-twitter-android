@@ -251,17 +251,15 @@ public class TweetPager extends YouTubeBaseActivity implements
             findViewById(R.id.web_text).setVisibility(View.GONE);
         }
 
-        player = (YouTubePlayerView) findViewById(R.id.youtube_view);
+        //player = (YouTubePlayerView) findViewById(R.id.youtube_view);
 
         if (youtube) {
-            try {
-                player.initialize(AppSettings.YOUTUBE_API_KEY, this);
-            } catch (IllegalArgumentException e) {
-                // it is throwing something here for some reason
-            }
-            listener = this;
+            TweetYouTubeFragment frag = new TweetYouTubeFragment(settings, youtubeVideo);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.youtube_view, frag);
+            ft.commit();
         } else {
-            player.setVisibility(View.GONE);
+            //player.setVisibility(View.GONE);
             findViewById(R.id.youtube_divider).setVisibility(View.GONE);
             findViewById(R.id.youtube_text).setVisibility(View.GONE);
         }
@@ -388,12 +386,11 @@ public class TweetPager extends YouTubeBaseActivity implements
             public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
                 final int headerHeight = header.getHeight() - abHeight;
                 final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-                final int newAlpha = (int) (ratio * 255);
                 insetsBackground.setAlpha(ratio);
 
                 Rect scrollBounds = new Rect();
                 who.getHitRect(scrollBounds);
-                if (bottom.getLocalVisibleRect(scrollBounds)) {
+                if (bottom.getLocalVisibleRect(scrollBounds) && replies.size() > 3) {
                     scroll.setInterceptTouch(false);
                 } else {
                     scroll.setInterceptTouch(true);

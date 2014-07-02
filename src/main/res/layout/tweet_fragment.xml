@@ -178,7 +178,7 @@
                       android:textColor="@android:color/black"
                       android:alpha=".6"/>
 
-            <com.google.android.youtube.player.YouTubePlayerView
+            <LinearLayout
                     android:id="@+id/youtube_view"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"

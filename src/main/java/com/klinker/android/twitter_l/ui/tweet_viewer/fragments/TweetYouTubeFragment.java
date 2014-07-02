@@ -53,7 +53,11 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         player = (YouTubePlayerView) layout.findViewById(R.id.youtube_view);
         error = (HoloTextView) layout.findViewById(R.id.error);
 
-        player.initialize(AppSettings.YOUTUBE_API_KEY, this);
+        try {
+            player.initialize(AppSettings.YOUTUBE_API_KEY, this);
+        } catch (Exception e) {
+
+        }
 
         listener = this;
 
