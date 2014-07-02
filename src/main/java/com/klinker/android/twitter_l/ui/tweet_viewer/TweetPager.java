@@ -780,6 +780,7 @@ public class TweetPager extends YouTubeBaseActivity {
         final LinearLayout retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
+        final LinearLayout replyButton;
 
         nametv = (TextView) layout.findViewById(R.id.name);
         screennametv = (TextView) layout.findViewById(R.id.screen_name);
@@ -793,6 +794,7 @@ public class TweetPager extends YouTubeBaseActivity {
         retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
         timetv = (TextView) layout.findViewById(R.id.time);
         viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
+        replyButton = (LinearLayout) layout.findViewById(R.id.send_layout);
 
         if (viewRetweeters != null) {
             viewRetweeters.setOnClickListener(new View.OnClickListener() {
@@ -1007,19 +1009,31 @@ public class TweetPager extends YouTubeBaseActivity {
             extraNames += "@" + retweeter + " ";
         }
 
-        /*if (!screenName.equals(settings.myScreenName)) {
-            reply.setText("@" + screenName + " " + extraNames);
+        String sendString;
+        if (!screenName.equals(settings.myScreenName)) {
+            sendString = "@" + screenName + " " + extraNames;
         } else {
-            reply.setText(extraNames);
+            sendString = extraNames;
         }
 
         if (settings.autoInsertHashtags && hashtags != null) {
             for (String s : hashtags) {
                 if (!s.equals("")) {
-                    reply.append("#" + s + " ");
+                    sendString += "#" + s + " ";
                 }
             }
-        }*/
+        }
+
+        final String fsendString = sendString;
+
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent compose = new Intent(context, ComposeActivity.class);
+                compose.putExtra("user", fsendString);
+                compose.putExtra("id", tweetId);
+            }
+        });
 
         // last bool is whether it should open in the external browser or not
         TextUtils.linkifyText(context, retweetertv, null, true, "", true);
