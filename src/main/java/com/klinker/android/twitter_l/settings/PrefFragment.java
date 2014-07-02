@@ -390,20 +390,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        final Preference both = findPreference("both_handle_name");
-        both.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (((CheckBoxPreference)both).isChecked()) {
-                    showHandle.setEnabled(true);
-                } else {
-                    showHandle.setEnabled(false);
-                }
-
-                return true;
-            }
-        });
-
         Preference pages = findPreference("pages");
         pages.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -696,121 +682,18 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });*/
 
-        final Preference layout = findPreference("layout");
         final Preference theme = findPreference("theme");
 
         if (sharedPrefs.getBoolean("addon_themes", false)) {
             nightMode.setEnabled(false);
-            layout.setEnabled(false);
             theme.setEnabled(false);
             deviceFont.setEnabled(false);
         } else {
             nightMode.setEnabled(true);
-            layout.setEnabled(true);
             theme.setEnabled(true);
             deviceFont.setEnabled(true);
         }
 
-        final Preference addonTheme = findPreference("addon_themes");
-
-        String pack = sharedPrefs.getString("addon_theme_package", null);
-        if (pack != null) {
-            try {
-                addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
-            } catch (Exception e) {
-                sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
-            }
-        }
-
-        addonTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-
-                final PackageManager pm = context.getPackageManager();
-                final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-
-                for (int i = 0; i < packages.size(); i++) {
-                    Bundle metaData = packages.get(i).metaData;
-                    if (metaData == null) {
-                        packages.remove(i--);
-                        continue;
-                    }
-
-                    try {
-                        boolean theme = metaData.getString("talon_theme").startsWith("version");
-                        if (!theme) {
-                            packages.remove(i--);
-                        }
-                    } catch (Exception e) {
-                        packages.remove(i--);
-                    }
-                }
-
-                final Item[] items = new Item[packages.size() + 1];
-
-                items[0] = new Item(getString(R.string.none), getResources().getDrawable(R.mipmap.ic_launcher));
-                for (int i = 0; i < packages.size(); i++) {
-                    items[i + 1] = new Item(packages.get(i).loadLabel(pm).toString(), pm.getApplicationIcon(packages.get(i)));
-                }
-
-                ListAdapter adapter = new ArrayAdapter<Item>(
-                        context,
-                        android.R.layout.select_dialog_item,
-                        android.R.id.text1,
-                        items) {
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        View v = super.getView(position, convertView, parent);
-                        TextView tv = (TextView) v.findViewById(android.R.id.text1);
-                        tv.setCompoundDrawablesWithIntrinsicBounds(items[position].actualIcon, null, null, null);
-                        tv.setCompoundDrawablePadding((int) (5 * getResources().getDisplayMetrics().density + 0.5f));
-                        tv.setText(items[position].text);
-                        return v;
-                    }
-                };
-
-                AlertDialog.Builder attachBuilder = new AlertDialog.Builder(context);
-                attachBuilder.setTitle(R.string.addon_themes);
-                attachBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        if (arg1 == 0) {
-                            sharedPrefs.edit().putBoolean("addon_themes", false).commit();
-                            sharedPrefs.edit().putString("addon_theme_package", null).commit();
-                            addonTheme.setSummary(sharedPrefs.getString("addon_theme_package", null));
-                            layout.setEnabled(true);
-                            theme.setEnabled(true);
-                            nightMode.setEnabled(true);
-                            deviceFont.setEnabled(true);
-                        } else {
-                            arg1 -= 1;
-                            layout.setEnabled(false);
-                            theme.setEnabled(false);
-                            nightMode.setEnabled(false);
-                            deviceFont.setEnabled(false);
-                            sharedPrefs.edit()
-                                    .putString("addon_theme_package", packages.get(arg1).packageName)
-                                    .putBoolean("addon_themes", true)
-                                    .commit();
-                            try {
-                                String pack = packages.get(arg1).packageName;
-                                addonTheme.setSummary(context.getPackageManager().getApplicationLabel(context.getPackageManager().getApplicationInfo(pack, 0)));
-                            } catch (Exception e) {
-                                sharedPrefs.edit().putBoolean("addon_theme", false).putString("addon_theme_package", null).commit();
-                            }
-                        }
-
-                        context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                        new TrimCache(null).execute();
-                    }
-
-                });
-
-                attachBuilder.create().show();
-
-                return true;
-            }
-        });
     }
 
     public String getTime(int hours, int mins, boolean militaryTime) {

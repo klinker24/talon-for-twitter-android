@@ -70,7 +70,6 @@
                     android:layout_below="@id/name"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
-                    android:paddingBottom="5dp"
                     android:singleLine="true"
                     android:textSize="14sp"
                     android:fontFamily="sans-serif-light" />

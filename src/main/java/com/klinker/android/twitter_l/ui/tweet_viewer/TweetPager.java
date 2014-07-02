@@ -314,7 +314,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 Rect scrollBounds = new Rect();
                 who.getHitRect(scrollBounds);
-                if (bottom.getLocalVisibleRect(scrollBounds) && replies.size() > 3) {
+                if (bottom.getLocalVisibleRect(scrollBounds) && replies != null && replies.size() > 3) {
                     scroll.setInterceptTouch(false);
                 } else {
                     scroll.setInterceptTouch(true);
@@ -326,8 +326,10 @@ public class TweetPager extends YouTubeBaseActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (retweetersList != null && retweetersList.isShowing()) {
                     retweetersList.hide();
+                    return true;
+                } else {
+                    return false;
                 }
-                return false;
             }
         });
 

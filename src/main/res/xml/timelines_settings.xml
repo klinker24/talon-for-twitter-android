@@ -1,41 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="@string/tweet_look_options" >
 
-        <CheckBoxPreference
-            android:key="inline_pics"
-            android:title="@string/inline_pics"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="both_handle_name"
-            android:title="@string/handle_and_name"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="display_screen_name"
-            android:title="@string/use_screen_name"
-            android:summary="@string/use_screen_name_summary"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="military_time"
-            android:title="@string/timestamp"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="absolute_date"
-            android:title="@string/absolute_date"
-            android:defaultValue="false"
-            />
-
-        </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/limiting_options" >
@@ -90,15 +56,6 @@
 
     <PreferenceCategory
         android:title="@string/other_options" >
-
-        <ListPreference
-            android:key="viewer_page"
-            android:title="@string/viewer_page"
-            android:summary="@string/viewer_page_summary"
-            android:defaultValue="0"
-            android:entries="@array/viewer_page"
-            android:entryValues="@array/viewer_page_inserted"
-            />
 
         <CheckBoxPreference
             android:key="reverse_click_option"
