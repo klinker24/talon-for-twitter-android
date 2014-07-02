@@ -72,7 +72,7 @@ public class ConversationFragment extends Fragment {
         layout = inflater.inflate(R.layout.conversation_fragment, null, false);
         final AsyncListView replyList = (AsyncListView) layout.findViewById(R.id.listView);
         final LinearLayout progressSpinner = (LinearLayout) layout.findViewById(R.id.list_progress);
-        final HoloTextView none = (HoloTextView) layout.findViewById(R.id.no_conversation);
+        final HoloTextView none = null;//(HoloTextView) layout.findViewById(R.id.no_conversation);
         none.setText(getResources().getString(R.string.no_tweets));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();

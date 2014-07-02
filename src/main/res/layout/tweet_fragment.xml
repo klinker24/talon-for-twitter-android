@@ -129,7 +129,6 @@
                     </LinearLayout>
                 </RelativeLayout>
 
-
                 <include android:id="@+id/tweet_background"
                     layout="@layout/tweet_for_fragment"
                     android:layout_height="match_parent"
@@ -149,7 +148,7 @@
                       android:layout_height="wrap_content"
                       android:id="@+id/web_text"
                     android:textAllCaps="true"
-                    android:text="web"
+                    android:text="@string/webpage"
                     android:textSize="16sp"
                     android:paddingLeft="36dp"
                     android:layout_marginBottom="36dp"
@@ -161,8 +160,89 @@
                     android:padding="30dp"/>
 
             <View android:layout_width="match_parent"
+                  android:id="@+id/youtube_divider"
+                  android:layout_height="1dp"
+                  android:background="?drawerDividerColor"
+                  android:layout_marginLeft="36dp"
+                  android:layout_marginTop="36dp"
+                  android:layout_marginBottom="36dp"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/youtube_text"
+                      android:textAllCaps="true"
+                      android:text="@string/tweet_youtube"
+                      android:textSize="16sp"
+                      android:paddingLeft="36dp"
+                      android:layout_marginBottom="36dp"
+                      android:textColor="@android:color/black"
+                      android:alpha=".6"/>
+
+            <com.google.android.youtube.player.YouTubePlayerView
+                    android:id="@+id/youtube_view"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:adjustViewBounds="true"
+                    android:layout_margin="5dp"
+                    />
+
+            <View android:layout_width="match_parent"
+                  android:id="@+id/convo_divider"
+                  android:layout_height="1dp"
+                  android:background="?drawerDividerColor"
+                  android:layout_marginLeft="36dp"
+                  android:layout_marginTop="36dp"
+                  android:layout_marginBottom="36dp"/>
+
+            <LinearLayout android:id="@+id/convo_title"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content">
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/convo_text"
+                          android:textAllCaps="true"
+                          android:text="@string/conversation"
+                          android:textSize="16sp"
+                          android:paddingLeft="36dp"
+                          android:layout_marginBottom="36dp"
+                          android:textColor="@android:color/black"
+                          android:alpha=".6"/>
+
+
+                <LinearLayout android:id="@+id/list_progress"
+                              android:orientation="vertical"
+                              android:layout_height="wrap_content"
+                              android:layout_width="wrap_content"
+                              android:gravity="center" >
+
+                    <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@android:style/Widget.Material.Light.ProgressBar.Small.Title"
+                            android:indeterminateOnly="true" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <org.lucasr.smoothie.AsyncListView
+                    android:id="@+id/listView"
+                    android:layout_height="500dp"
+                    android:layout_width="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:scrollbars="vertical"
+                    android:listSelector="@android:color/transparent"
+                    android:visibility="gone"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+
+            <View android:layout_width="match_parent"
                   android:id="@+id/nav_bar_seperator"
-                  android:layout_height="56dp"/>
+                  android:layout_height="56dp"
+                    android:visibility="gone"/>
 
 
         </LinearLayout>
