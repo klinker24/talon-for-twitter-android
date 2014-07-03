@@ -51,6 +51,7 @@
                     android:layout_height="@dimen/pro_pic_size"
                     android:id="@+id/profile_pic_2"
                     android:src="?circleBorder"
+                    android:background="@drawable/pro_pic_clip"
                     android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
                     android:scaleType="fitCenter" android:adjustViewBounds="true"
                     android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
