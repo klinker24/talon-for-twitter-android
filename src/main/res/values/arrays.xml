@@ -4,13 +4,11 @@
     <string-array name="choose_theme">
         <item>@string/theme_light</item>
         <item>@string/theme_dark</item>
-        <item>@string/theme_black</item>
     </string-array>
 
     <string-array name="choose_theme_inserted">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
     </string-array>
 
     <string-array name="viewer_page">
