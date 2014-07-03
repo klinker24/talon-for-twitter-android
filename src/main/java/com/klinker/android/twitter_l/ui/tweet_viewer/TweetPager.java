@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
@@ -62,6 +63,10 @@ import java.util.Random;
 
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
@@ -93,7 +98,8 @@ public class TweetPager extends YouTubeBaseActivity {
 
     private LinearLayout convoTitle;
     private View convoDivider;
-    private LinearLayout progressSpinner;
+    private LinearLayout convoSpinner;
+    private LinearLayout webSpinner;
     private AsyncListView replyList;
 
 
@@ -127,19 +133,13 @@ public class TweetPager extends YouTubeBaseActivity {
 
         Utils.setUpTheme(context, settings);
 
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }
-
         setContentView(R.layout.tweet_fragment);
 
         convoTitle = (LinearLayout) findViewById(R.id.convo_title);
         convoDivider = findViewById(R.id.convo_divider);
         replyList = (AsyncListView) findViewById(R.id.listView);
-        progressSpinner = (LinearLayout) findViewById(R.id.list_progress);
+        convoSpinner = (LinearLayout) findViewById(R.id.convo_progress);
+        webSpinner = (LinearLayout) findViewById(R.id.web_progress);
 
         setUpTheme();
 
@@ -178,8 +178,9 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         WebView web = (WebView) findViewById(R.id.webview);
-        if (hasWebpage) {
+        if (hasWebpage && !settings.alwaysMobilize && !(Utils.getConnectionStatus(context) && settings.mobilizeOnData)) {
             web.loadUrl(webpages.get(0));
+            webSpinner.setVisibility(View.GONE);
 
             web.getSettings().setBuiltInZoomControls(true);
             web.getSettings().setDisplayZoomControls(false);
@@ -212,8 +213,14 @@ public class TweetPager extends YouTubeBaseActivity {
                     return false;
                 }
             });
+        } else if (hasWebpage && settings.alwaysMobilize || (Utils.getConnectionStatus(context) && settings.mobilizeOnData)) {
+            web.setVisibility(View.GONE);
+            HoloTextView mobilizedBrowser = (HoloTextView) findViewById(R.id.webpage_text);
+            mobilizedBrowser.setVisibility(View.VISIBLE);
+            getTextFromSite(webpages.get(0), mobilizedBrowser);
         } else {
             web.setVisibility(View.GONE);
+            webSpinner.setVisibility(View.GONE);
             findViewById(R.id.web_divider).setVisibility(View.GONE);
             findViewById(R.id.web_text).setVisibility(View.GONE);
         }
@@ -246,6 +253,90 @@ public class TweetPager extends YouTubeBaseActivity {
             }
         }, 250);
 
+    }
+
+    public void getTextFromSite(final String url, final HoloTextView browser) {
+        Thread getText = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Document doc = Jsoup.connect(url).get();
+
+                    String text = "";
+                    String title = doc.title();
+
+                    if(doc != null) {
+                        Elements paragraphs = doc.getElementsByTag("p");
+
+                        if (paragraphs.hasText()) {
+                            for (int i = 0; i < paragraphs.size(); i++) {
+                                Element s = paragraphs.get(i);
+                                if (!s.html().contains("<![CDATA")) {
+                                    text += paragraphs.get(i).html().replaceAll("<br/>", "") + "<br/><br/>";
+                                }
+                            }
+                        }
+                    }
+
+                    final String article =
+                            "<strong><big>" + title + "</big></strong>" +
+                                    "<br/><br/>" +
+                                    text.replaceAll("<img.+?>", "") +
+                                    "<br/>"; // one space at the bottom to make it look nicer
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                browser.setText(Html.fromHtml(article));
+                                //webText.setText(article);
+                                browser.setMovementMethod(LinkMovementMethod.getInstance());
+                                browser.setTextSize(settings.textSize);
+
+                                webSpinner.setVisibility(View.GONE);
+                            } catch (Exception e) {
+                                // fragment not attached
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    browser.setText(getResources().getString(R.string.error_loading_page));
+                                } catch (Exception e) {
+                                    // fragment not attached
+                                }
+                            }
+                        });
+                    } catch (Exception x) {
+                        // not attached
+                    }
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+                    try {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    browser.setText(getResources().getString(R.string.error_loading_page));
+                                } catch (Exception e) {
+                                    // fragment not attached
+                                }
+                            }
+                        });
+                    } catch (Exception x) {
+                        // not attached
+                    }
+                }
+            }
+        });
+
+        getText.setPriority(8);
+        getText.start();
     }
 
     String youtubeVideo = "";
@@ -1408,7 +1499,7 @@ public class TweetPager extends YouTubeBaseActivity {
                                 replyList.setAdapter(adapter);
                                 replyList.setVisibility(View.VISIBLE);
                                 adjustConversationSectionSize(replyList);
-                                progressSpinner.setVisibility(View.GONE);
+                                convoSpinner.setVisibility(View.GONE);
 
                             }
                         } catch (Exception e) {
@@ -1490,7 +1581,7 @@ public class TweetPager extends YouTubeBaseActivity {
                             ((Activity)context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progressSpinner.setVisibility(View.GONE);
+                                    convoSpinner.setVisibility(View.GONE);
                                     try {
                                         if (replies.size() > 0) {
                                             if (adapter == null || adapter.getCount() == 0) {
