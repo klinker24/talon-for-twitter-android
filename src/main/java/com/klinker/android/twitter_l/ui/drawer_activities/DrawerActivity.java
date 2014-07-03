@@ -412,12 +412,13 @@ public abstract class DrawerActivity extends Activity {
             // 7 inch tablet in portrait
         }
 
-        profilePic.setClipToOutline(true);
         try {
             ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
         } catch (Exception e) {
             // empty path again
         }
+
+        profilePic.setClipToOutline(true);
 
         MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
         drawerList.setAdapter(adapter);
@@ -744,52 +745,6 @@ public abstract class DrawerActivity extends Activity {
         }
 
         Utils.setUpTheme(context, settings);
-
-        /*if (settings.addonTheme) {
-            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
-        } else {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-
-            getWindow().getDecorView().setBackgroundResource(resource);
-        }*/
-
-        // this is a super hacky workaround for the theme problems that some people were having... but it works ok
-        int actionBarTitleId = 0;
-        TextView title = null;
-        try {
-            actionBarTitleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-        } catch (Exception e) {
-            // just in case
-        }
-
-        if (actionBarTitleId > 0) {
-            title = (TextView) findViewById(actionBarTitleId);
-        }
-
-        /*switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_light_holo));
-                if (title != null) {
-                    title.setTextColor(Color.BLACK);
-                }
-                break;
-            case AppSettings.THEME_DARK:
-                getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_dark));
-                if (title != null) {
-                    title.setTextColor(Color.WHITE);
-                }
-                break;
-            case AppSettings.THEME_BLACK:
-                getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_black));
-                if (title != null) {
-                    title.setTextColor(Color.WHITE);
-                }
-                break;
-        }
-
-        Utils.setActionBar(context, true);*/
     }
 
     @Override

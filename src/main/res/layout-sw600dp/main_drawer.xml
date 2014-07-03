@@ -67,7 +67,8 @@
                     android:layout_width="wrap_content"
                     android:maxLines="1"
                     android:textStyle="bold"
-                    android:textColor="?textColor"/>
+                    android:textColor="?textColor"
+                       android:visibility="invisible" />
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                     android:id="@+id/screen_name_2"
@@ -75,7 +76,8 @@
                     android:layout_width="wrap_content"
                     android:maxLines="1"
                     android:paddingBottom="3dp"
-                    android:textColor="?textColor"/>
+                    android:textColor="?textColor"
+                        android:visibility="invisible"/>
 
             </LinearLayout>
 
