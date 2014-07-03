@@ -84,34 +84,27 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                 } catch (Exception e) {
                     // landscape mode
                 }
-                new Thread(new Runnable() {
+
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("page_to_open", pos + extraPages);
+                intent.putExtra("from_drawer", true);
+
+                sharedPreferences.edit().putBoolean("should_refresh", false).commit();
+
+                final Intent fIntent = intent;
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        intent.putExtra("page_to_open", pos + extraPages);
-                        intent.putExtra("from_drawer", true);
-
-                        sharedPreferences.edit().putBoolean("should_refresh", false).commit();
-
-                        if (!noWait) {
-                            try {
-                                Thread.sleep(400);
-                            } catch (Exception e) {
-
-                            }
-                        }
-
                         try {
-                            context.startActivity(intent);
-                            ((Activity)context).overridePendingTransition(0,0);
-                            ((Activity)context).finish();
+                            context.startActivity(fIntent);
+                            ((Activity) context).overridePendingTransition(0, 0);
+                            ((Activity) context).finish();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
-                }).start();
+                }, noWait ? 0 : 400);
 
             }
         } else {
@@ -121,51 +114,43 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
             } catch (Exception e) {
                 // landscape mode
             }
-            new Thread(new Runnable() {
+            Intent intent = null;
+
+            switch (pos) {
+                case 3:
+                    intent = new Intent(context, DiscoverPager.class);
+                    break;
+                case 4:
+                    intent = new Intent(context, ListsActivity.class);
+                    break;
+                case 5:
+                    intent = new Intent(context, FavoriteUsersActivity.class);
+                    break;
+                case 6:
+                    intent = new Intent(context, RetweetActivity.class);
+                    break;
+                case 7:
+                    intent = new Intent(context, FavoritesActivity.class);
+                    break;
+                case 8:
+                    intent = new Intent(context, SavedSearchesActivity.class);
+                    break;
+            }
+
+            final Intent fIntent = intent;
+
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = null;
-
-                    switch (pos) {
-                        case 3:
-                            intent = new Intent(context, DiscoverPager.class);
-                            break;
-                        case 4:
-                            intent = new Intent(context, ListsActivity.class);
-                            break;
-                        case 5:
-                            intent = new Intent(context, FavoriteUsersActivity.class);
-                            break;
-                        case 6:
-                            intent = new Intent(context, RetweetActivity.class);
-                            break;
-                        case 7:
-                            intent = new Intent(context, FavoritesActivity.class);
-                            break;
-                        case 8:
-                            intent = new Intent(context, SavedSearchesActivity.class);
-                            break;
-                    }
-
-                    if(!noWait) {
-                        try {
-                            Thread.sleep(400);
-                        } catch (Exception e) {
-
-                        }
-                    }
-
                     try {
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        context.startActivity(intent);
-                        ((Activity)context).overridePendingTransition(0,0);
+                        context.startActivity(fIntent);
                         ((Activity)context).finish();
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
-
                 }
-            }).start();
+            }, noWait ? 0 : 400);
+
         }
 
     }
