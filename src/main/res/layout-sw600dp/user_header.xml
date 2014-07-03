@@ -34,6 +34,7 @@
             android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
+            android:background="@drawable/pro_pic_clip"
             android:contentDescription="Profile Picture" />
 
         <View android:id="@+id/divider"
