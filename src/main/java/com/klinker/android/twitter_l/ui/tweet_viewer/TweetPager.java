@@ -245,13 +245,13 @@ public class TweetPager extends YouTubeBaseActivity {
 
         replyList.setItemManager(builder.build());
 
-        final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
+        /*final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 scroll.smoothScrollTo(0, 0);
             }
-        }, 250);
+        }, 250);*/
 
     }
 
@@ -352,6 +352,7 @@ public class TweetPager extends YouTubeBaseActivity {
     @Override
     public void onBackPressed() {
         hideConversationSection();
+        hideExtraContent();
         View web = findViewById(R.id.webview);
         if (web.getVisibility() == View.VISIBLE) {
             web.setVisibility(View.INVISIBLE);
@@ -1402,6 +1403,9 @@ public class TweetPager extends YouTubeBaseActivity {
     }
 
     public void hideConversationSection() {
+        hideConversationSection(400);
+    }
+    public void hideConversationSection(long time) {
         if (convoDivider.getVisibility() == View.VISIBLE) {
             Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
             anim.setAnimationListener(new Animation.AnimationListener() {
@@ -1422,13 +1426,41 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 }
             });
-            anim.setDuration(400);
+            anim.setDuration(time);
             convoDivider.startAnimation(anim);
             convoTitle.startAnimation(anim);
             replyList.startAnimation(anim);
         }
 
         findViewById(R.id.nav_bar_seperator).setVisibility(View.VISIBLE);
+    }
+
+    public void hideExtraContent() {
+        final LinearLayout extra = (LinearLayout) findViewById(R.id.extra_content);
+        final View back = findViewById(R.id.background);
+        if (extra.getVisibility() == View.VISIBLE) {
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    extra.setVisibility(View.INVISIBLE);
+                    back.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            anim.setDuration(150);
+            extra.startAnimation(anim);
+            back.startAnimation(anim);
+        }
     }
 
     public void adjustConversationSectionSize(AsyncListView listView) {

@@ -5,6 +5,7 @@
     android:layout_height="match_parent" >
 
     <View android:layout_width="match_parent" android:layout_height="match_parent"
+          android:id="@+id/background"
           android:background="@android:color/white" />
 
     <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
@@ -12,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
             android:id="@+id/notify_scroll_view"
-            android:fillViewport="true"
             android:overScrollMode="never">
 
         <!-- Holds all the content that can be scrolled -->
@@ -26,7 +26,8 @@
                     android:orientation="vertical"
                     android:id="@+id/pro_pic_container"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp">
+                    android:layout_height="300dp"
+                    android:focusableInTouchMode="true">
                 <RelativeLayout android:layout_width="match_parent"
                                 android:layout_height="match_parent">
                     <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
@@ -86,7 +87,9 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_marginTop="-32dp"
-                android:elevation="5dp">
+                android:elevation="5dp"
+                android:viewName="tweet_view">
+
 
                 <RelativeLayout android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -137,146 +140,152 @@
 
             </LinearLayout>
 
-            <View android:layout_width="match_parent"
-                  android:id="@+id/web_divider"
-                  android:layout_height="1dp"
-                  android:background="?drawerDividerColor"
-                  android:layout_marginLeft="36dp"
-                  android:layout_marginBottom="36dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/extra_content">
 
-            <LinearLayout android:id="@+id/web_title"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content" >
+                <View android:layout_width="match_parent"
+                      android:id="@+id/web_divider"
+                      android:layout_height="1dp"
+                      android:background="?drawerDividerColor"
+                      android:layout_marginLeft="36dp"
+                      android:layout_marginBottom="36dp"/>
+
+                <LinearLayout android:id="@+id/web_title"
+                              android:orientation="horizontal"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content" >
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:id="@+id/web_text"
+                              android:textAllCaps="true"
+                              android:text="@string/webpage"
+                              android:textSize="16sp"
+                              android:paddingLeft="36dp"
+                              android:layout_marginBottom="36dp"
+                              android:textColor="@android:color/black"
+                              android:alpha=".6"/>
+
+
+                    <LinearLayout android:id="@+id/web_progress"
+                                  android:orientation="vertical"
+                                  android:layout_height="wrap_content"
+                                  android:layout_width="wrap_content"
+                                  android:gravity="center"
+                                  android:layout_marginLeft="8dp" >
+
+                        <ProgressBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@android:style/Widget.Material.Light.ProgressBar.Small.Title"
+                                android:indeterminateOnly="true" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <WebView android:layout_width="match_parent" android:layout_height="500dp"
+                        android:id="@+id/webview"
+                        android:padding="30dp"/>
+
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                        android:id="@+id/webpage_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:visibility="gone"/>
+
+                <View android:layout_width="match_parent"
+                      android:id="@+id/youtube_divider"
+                      android:layout_height="1dp"
+                      android:background="?drawerDividerColor"
+                      android:layout_marginLeft="36dp"
+                      android:layout_marginTop="36dp"
+                      android:layout_marginBottom="36dp"/>
 
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:id="@+id/web_text"
+                          android:id="@+id/youtube_text"
                           android:textAllCaps="true"
-                          android:text="@string/webpage"
+                          android:text="@string/tweet_youtube"
                           android:textSize="16sp"
                           android:paddingLeft="36dp"
                           android:layout_marginBottom="36dp"
                           android:textColor="@android:color/black"
                           android:alpha=".6"/>
 
+                <LinearLayout
+                        android:id="@+id/youtube_view"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:adjustViewBounds="true"
+                        android:layout_margin="5dp"
+                        />
 
-                <LinearLayout android:id="@+id/web_progress"
-                              android:orientation="vertical"
+                <View android:layout_width="match_parent"
+                      android:id="@+id/convo_divider"
+                      android:layout_height="1dp"
+                      android:background="?drawerDividerColor"
+                      android:layout_marginLeft="36dp"
+                      android:layout_marginTop="36dp"
+                      android:layout_marginBottom="36dp"/>
+
+                <LinearLayout android:id="@+id/convo_title"
+                              android:orientation="horizontal"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content" >
+
+                    <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
-                              android:layout_width="wrap_content"
-                              android:gravity="center"
-                              android:layout_marginLeft="8dp" >
+                              android:id="@+id/convo_text"
+                              android:textAllCaps="true"
+                              android:text="@string/conversation"
+                              android:textSize="16sp"
+                              android:paddingLeft="36dp"
+                              android:layout_marginBottom="36dp"
+                              android:textColor="@android:color/black"
+                              android:alpha=".6"/>
 
-                    <ProgressBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@android:style/Widget.Material.Light.ProgressBar.Small.Title"
-                            android:indeterminateOnly="true" />
+
+                    <LinearLayout android:id="@+id/convo_progress"
+                                  android:orientation="vertical"
+                                  android:layout_height="wrap_content"
+                                  android:layout_width="wrap_content"
+                                  android:gravity="center"
+                                  android:layout_marginLeft="8dp" >
+
+                        <ProgressBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@android:style/Widget.Material.Light.ProgressBar.Small.Title"
+                                android:indeterminateOnly="true" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
+                <org.lucasr.smoothie.AsyncListView
+                        android:id="@+id/listView"
+                        android:layout_height="500dp"
+                        android:layout_width="match_parent"
+                        android:divider="@null"
+                        android:dividerHeight="0dp"
+                        android:scrollbars="vertical"
+                        android:listSelector="@android:color/transparent"
+                        android:visibility="gone"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        />
 
-            <WebView android:layout_width="match_parent" android:layout_height="500dp"
-                    android:id="@+id/webview"
-                    android:padding="30dp"/>
+                <View android:layout_width="match_parent"
+                      android:id="@+id/nav_bar_seperator"
+                      android:layout_height="56dp" />
 
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                    android:id="@+id/webpage_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:visibility="gone"/>
-
-            <View android:layout_width="match_parent"
-                  android:id="@+id/youtube_divider"
-                  android:layout_height="1dp"
-                  android:background="?drawerDividerColor"
-                  android:layout_marginLeft="36dp"
-                  android:layout_marginTop="36dp"
-                  android:layout_marginBottom="36dp"/>
-
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/youtube_text"
-                      android:textAllCaps="true"
-                      android:text="@string/tweet_youtube"
-                      android:textSize="16sp"
-                      android:paddingLeft="36dp"
-                      android:layout_marginBottom="36dp"
-                      android:textColor="@android:color/black"
-                      android:alpha=".6"/>
-
-            <LinearLayout
-                    android:id="@+id/youtube_view"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:adjustViewBounds="true"
-                    android:layout_margin="5dp"
-                    />
-
-            <View android:layout_width="match_parent"
-                  android:id="@+id/convo_divider"
-                  android:layout_height="1dp"
-                  android:background="?drawerDividerColor"
-                  android:layout_marginLeft="36dp"
-                  android:layout_marginTop="36dp"
-                  android:layout_marginBottom="36dp"/>
-
-            <LinearLayout android:id="@+id/convo_title"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content" >
-
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/convo_text"
-                          android:textAllCaps="true"
-                          android:text="@string/conversation"
-                          android:textSize="16sp"
-                          android:paddingLeft="36dp"
-                          android:layout_marginBottom="36dp"
-                          android:textColor="@android:color/black"
-                          android:alpha=".6"/>
-
-
-                <LinearLayout android:id="@+id/convo_progress"
-                              android:orientation="vertical"
-                              android:layout_height="wrap_content"
-                              android:layout_width="wrap_content"
-                              android:gravity="center"
-                              android:layout_marginLeft="8dp" >
-
-                    <ProgressBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@android:style/Widget.Material.Light.ProgressBar.Small.Title"
-                            android:indeterminateOnly="true" />
-                </LinearLayout>
+                <View android:layout_width="match_parent"
+                      android:id="@+id/bottom"
+                      android:layout_height="1dp" />
 
             </LinearLayout>
-
-            <org.lucasr.smoothie.AsyncListView
-                    android:id="@+id/listView"
-                    android:layout_height="500dp"
-                    android:layout_width="match_parent"
-                    android:divider="@null"
-                    android:dividerHeight="0dp"
-                    android:scrollbars="vertical"
-                    android:listSelector="@android:color/transparent"
-                    android:visibility="gone"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    />
-
-            <View android:layout_width="match_parent"
-                  android:id="@+id/nav_bar_seperator"
-                  android:layout_height="56dp" />
-
-            <View android:layout_width="match_parent"
-                  android:id="@+id/bottom"
-                  android:layout_height="1dp" />
 
 
         </LinearLayout>
