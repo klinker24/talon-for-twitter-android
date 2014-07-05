@@ -32,6 +32,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.WidgetRefreshService;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivityWidget;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -50,7 +51,7 @@ public class WidgetProvider extends AppWidgetProvider {
             Intent updateWidget = new Intent(context, CardWidgetService2.class);
             context.startService(updateWidget);
         } else if (intent.getAction().equals("OPEN_APP")) {
-            Intent viewTweet = new Intent(context, TweetActivityWidget.class);
+            Intent viewTweet = new Intent(context, TweetActivity.class);
             viewTweet.putExtra("name", intent.getStringExtra("name"));
             viewTweet.putExtra("screenname", intent.getStringExtra("screenname"));
             viewTweet.putExtra("time", intent.getLongExtra("time", 0));

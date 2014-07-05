@@ -32,7 +32,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.NotificationCompose;
 import com.klinker.android.twitter_l.ui.compose.NotificationDMCompose;
-import com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetPager;
+import com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetActivity;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
@@ -587,7 +587,7 @@ public class NotificationUtils {
         if (toDrawer) {
             resultIntent = new Intent(context, RedirectToDrawer.class);
         } else {
-            resultIntent = new Intent(context, NotiTweetPager.class);
+            resultIntent = new Intent(context, NotiTweetActivity.class);
         }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );

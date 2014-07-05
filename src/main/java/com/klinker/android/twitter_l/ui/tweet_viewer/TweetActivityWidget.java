@@ -6,12 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class TweetActivityWidget extends TweetPager {
+public class TweetActivityWidget extends TweetActivity {
 
     BroadcastReceiver attach = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            startActivity(new Intent(context, TweetPager.class).putExtras(getIntent()));
+            startActivity(new Intent(context, TweetActivity.class).putExtras(getIntent()));
             finish();
         }
     };

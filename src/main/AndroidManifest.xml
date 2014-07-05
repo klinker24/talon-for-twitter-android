@@ -443,14 +443,14 @@
             android:theme="@style/Theme.TalonLight">
         </activity>
 
-        <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.TweetPager"
+        <activity android:name=".ui.tweet_viewer.TweetActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
                   android:theme="@style/Theme.TalonLight">
         </activity>
 
-        <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.LauncherTweetPager"
+        <activity android:name=".ui.tweet_viewer.LauncherTweetActivity"
             android:label="@string/app_name"
             android:configChanges="orientation"
             android:launchMode="singleInstance"
@@ -460,7 +460,7 @@
             android:theme="@style/Theme.TalonLight">
         </activity>
 
-        <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetPager"
+        <activity android:name=".ui.tweet_viewer.NotiTweetActivity"
             android:label="@string/app_name"
             android:configChanges="orientation"
             android:launchMode="singleInstance"

@@ -72,7 +72,7 @@ import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class TweetPager extends YouTubeBaseActivity {
+public class TweetActivity extends YouTubeBaseActivity {
 
     public Context context;
     public AppSettings settings;

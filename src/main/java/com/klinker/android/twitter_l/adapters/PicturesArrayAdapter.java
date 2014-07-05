@@ -13,7 +13,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetPager;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 
 import java.util.ArrayList;
@@ -137,7 +137,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
                 }
 
                 Log.v("tweet_page", "clicked");
-                Intent viewTweet = new Intent(context, TweetPager.class);
+                Intent viewTweet = new Intent(context, TweetActivity.class);
                 viewTweet.putExtra("name", name);
                 viewTweet.putExtra("screenname", screenname);
                 viewTweet.putExtra("time", time);
