@@ -1457,7 +1457,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
                 }
             });
-            anim.setDuration(150);
+            anim.setDuration(10gi0);
             extra.startAnimation(anim);
             back.startAnimation(anim);
         }
