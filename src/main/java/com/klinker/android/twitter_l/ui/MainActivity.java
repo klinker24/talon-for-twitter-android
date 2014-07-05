@@ -114,6 +114,8 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.v("talon_starting", "starting main activity");
+
         MainActivity.sendHandler = new Handler();
 
         context = this;
@@ -278,6 +280,8 @@ public class MainActivity extends DrawerActivity {
         if (getIntent().getBooleanExtra("from_drawer", false)) {
             mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 3));
         }
+
+        Log.v("talon_starting", "ending on create");
     }
 
     public void setLauncherPage() {
@@ -296,32 +300,14 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        try {
-            mDrawerToggle.onConfigurationChanged(newConfig);
-        } catch (Exception e) { }
-
-        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-
-        sharedPrefs.edit().putBoolean("open_a_page", true).commit();
-        sharedPrefs.edit().putInt("open_what_page", mViewPager.getCurrentItem()).commit();
-
-        overridePendingTransition(0, 0);
-        finish();
-        Intent restart = new Intent(context, MainActivity.class);
-        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        restart.putExtra("open_a_page", true);
-        restart.putExtra("open_what_page", mViewPager.getCurrentItem());
-        overridePendingTransition(0, 0);
-        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-        startActivity(restart);
-        overridePendingTransition(0, 0);
+        recreate();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
+        Log.v("talon_starting", "onResume()");
 
         getWindow().setExitTransition(new Explode());
 
@@ -341,6 +327,8 @@ public class MainActivity extends DrawerActivity {
             sharedPrefs.edit().putBoolean("open_interactions", false).commit();
             mDrawerLayout.openDrawer(Gravity.END);
         }
+
+        Log.v("talon_starting", "ending onResume()");
     }
 
     @Override
@@ -376,7 +364,7 @@ public class MainActivity extends DrawerActivity {
     public void onStart() {
         super.onStart();
 
-        Log.v("talon_starting", "main activity starting");
+        Log.v("talon_starting", "onStart()");
 
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -438,6 +426,9 @@ public class MainActivity extends DrawerActivity {
                 NotificationUtils.refreshNotification(context);
             }
         }).start();*/
+
+
+        Log.v("talon_starting", "ending onStart()");
     }
 
     public Intent getRestartIntent() {
