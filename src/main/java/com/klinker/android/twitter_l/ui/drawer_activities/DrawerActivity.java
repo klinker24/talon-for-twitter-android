@@ -526,15 +526,10 @@ public abstract class DrawerActivity extends Activity {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION").putExtra("current_account", current));
 
                             Toast.makeText(context, "Preparing to switch", Toast.LENGTH_SHORT).show();
-                            new Thread(new Runnable() {
+                            
+                            new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        Thread.sleep(1000);
-                                    } catch (Exception e) {
-
-                                    }
-
                                     sharedPrefs.edit().putInt("current_account", 1).commit();
                                     sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
                                     AppSettings.invalidate();
@@ -542,7 +537,7 @@ public abstract class DrawerActivity extends Activity {
                                     Intent next = new Intent(context, MainActivity.class);
                                     startActivity(next);
                                 }
-                            }).start();
+                            }, 1000);
                         }
                     }
                 });
