@@ -1,13 +1,11 @@
 package com.klinker.android.twitter_l.adapters;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -25,7 +23,6 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Pair;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +47,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetPager;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.SDK11;
@@ -319,7 +316,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             link = otherUrl.split("  ")[0];
                         }
 
-                        Intent viewTweet = new Intent(context, TweetPager.class);
+                        Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
                         viewTweet.putExtra("time", longTime);
@@ -384,7 +381,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             link = otherUrl.split("  ")[0];
                         }
 
-                        Intent viewTweet = new Intent(context, TweetPager.class);
+                        Intent viewTweet = new Intent(context, TweetActivity.class);
                         viewTweet.putExtra("name", name);
                         viewTweet.putExtra("screenname", screenname);
                         viewTweet.putExtra("time", longTime);
@@ -549,7 +546,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 link = otherUrl.split("  ")[0];
                             }
 
-                            Intent viewTweet = new Intent(context, TweetPager.class);
+                            Intent viewTweet = new Intent(context, TweetActivity.class);
                             viewTweet.putExtra("name", name);
                             viewTweet.putExtra("screenname", screenname);
                             viewTweet.putExtra("time", longTime);

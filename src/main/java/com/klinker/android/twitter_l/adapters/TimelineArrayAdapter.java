@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -40,7 +39,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableIma
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetPager;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.SDK11;
@@ -61,7 +60,6 @@ import java.util.Date;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.regex.Pattern;
 
-import twitter4j.MediaEntity;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -325,7 +323,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     }
 
                     Log.v("tweet_page", "clicked");
-                    Intent viewTweet = new Intent(context, TweetPager.class);
+                    Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
                     viewTweet.putExtra("time", time);
@@ -381,7 +379,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     }
 
                     Log.v("tweet_page", "clicked");
-                    Intent viewTweet = new Intent(context, TweetPager.class);
+                    Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
                     viewTweet.putExtra("time", time);
@@ -516,7 +514,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                 link = otherUrl.split("  ")[0];
                             }
 
-                            Intent viewTweet = new Intent(context, TweetPager.class);
+                            Intent viewTweet = new Intent(context, TweetActivity.class);
                             viewTweet.putExtra("name", name);
                             viewTweet.putExtra("screenname", screenname);
                             viewTweet.putExtra("time", time);

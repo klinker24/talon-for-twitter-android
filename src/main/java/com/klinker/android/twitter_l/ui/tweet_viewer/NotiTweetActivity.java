@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-public class NotiTweetPager extends TweetPager {
+public class NotiTweetActivity extends TweetActivity {
 
     @Override
     public void getFromIntent() {

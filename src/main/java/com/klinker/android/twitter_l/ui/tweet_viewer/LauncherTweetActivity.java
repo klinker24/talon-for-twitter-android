@@ -8,7 +8,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 /**
  * Created by luke on 4/21/14.
  */
-public class LauncherTweetPager extends TweetPager {
+public class LauncherTweetActivity extends TweetActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
