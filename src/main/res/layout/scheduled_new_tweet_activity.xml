@@ -140,4 +140,5 @@ limitations under the License.
                  android:layout_below="@+id/messageEntry2"/>
 
     </RelativeLayout>
+
 </RelativeLayout>
