@@ -88,7 +88,7 @@ public class DMDataSource {
         values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, status.getSender().getScreenName());
         values.put(DMSQLiteHelper.COLUMN_TIME, time);
         values.put(DMSQLiteHelper.COLUMN_RETWEETER, status.getRecipientScreenName());
-        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getBiggerProfileImageURL());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getOriginalProfileImageURL());
         values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
         values.put(HomeSQLiteHelper.COLUMN_PIC_URL, TweetLinkUtils.getLinksInStatus(status)[1]);
 
