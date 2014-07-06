@@ -972,10 +972,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 timeline.setEnabled(false);
                 onStart.setEnabled(false);
             }
-            dms.setEnabled(false);
 
             if (!mentionsChanges) {
                 mentions.setEnabled(false);
+                dms.setEnabled(false);
                 mobileOnly.setEnabled(false);
             }
         }
@@ -1014,11 +1014,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         timeline.setEnabled(false);
                         onStart.setEnabled(false);
                     }
-                    dms.setEnabled(false);
                     mobileOnly.setEnabled(false);
 
                     if (!mentionsChanges) {
                         mentions.setEnabled(false);
+                        dms.setEnabled(false);
                     }
 
                     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
