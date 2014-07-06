@@ -344,7 +344,6 @@ public class TweetPager extends YouTubeBaseActivity {
                         }
                     }
 
-
                     HashtagDataSource source = HashtagDataSource.getInstance(context);
 
                     for (String s : tags) {
