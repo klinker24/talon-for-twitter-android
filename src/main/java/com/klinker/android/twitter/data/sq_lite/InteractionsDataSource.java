@@ -97,7 +97,7 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(InteractionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(InteractionsSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, user.getBiggerProfileImageURL());
+        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, user.getOriginalProfileImageURL());
         values.put(InteractionsSQLiteHelper.COLUMN_TIME, time);
         values.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
         values.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
@@ -126,7 +126,7 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(InteractionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(InteractionsSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, user.getBiggerProfileImageURL());
+        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, user.getOriginalProfileImageURL());
         values.put(InteractionsSQLiteHelper.COLUMN_TIME, time);
         values.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
         values.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
@@ -174,7 +174,7 @@ public class InteractionsDataSource {
         values.put(InteractionsSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(InteractionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(InteractionsSQLiteHelper.COLUMN_TWEET_ID, id);
-        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getBiggerProfileImageURL());
+        values.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getOriginalProfileImageURL());
         values.put(InteractionsSQLiteHelper.COLUMN_TIME, time);
         values.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
         values.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
@@ -216,7 +216,7 @@ public class InteractionsDataSource {
                 cv.put(InteractionsSQLiteHelper.COLUMN_UNREAD, 1);
                 cv.put(InteractionsSQLiteHelper.COLUMN_USERS, users);
                 cv.put(InteractionsSQLiteHelper.COLUMN_TITLE, title);
-                cv.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getBiggerProfileImageURL());
+                cv.put(InteractionsSQLiteHelper.COLUMN_PRO_PIC, source.getOriginalProfileImageURL());
                 cv.put(InteractionsSQLiteHelper.COLUMN_TIME, new GregorianCalendar().getTimeInMillis());
 
                 try {

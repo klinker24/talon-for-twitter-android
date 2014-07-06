@@ -251,7 +251,7 @@ public class ProfilePager extends Activity {
             if (isMyProfile) {
                 if (thisUser != null) {
                     // put in the banner and profile pic to shared prefs
-                    sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getBiggerProfileImageURL()).commit();
+                    sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getOriginalProfileImageURL()).commit();
                     sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getProfileBannerURL()).commit();
                 }
                 return null;
@@ -1082,7 +1082,7 @@ public class ProfilePager extends Activity {
                 }
 
 
-                String profileURL = user.getBiggerProfileImageURL();
+                String profileURL = user.getOriginalProfileImageURL();
                 sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
 
                 return true;

@@ -99,7 +99,7 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getOriginalProfileImageURL());
         values.put(MentionsSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
         values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
         values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
@@ -135,7 +135,7 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
         values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
         values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-        values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+        values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getOriginalProfileImageURL());
         values.put(MentionsSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
         values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
         values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
@@ -176,7 +176,7 @@ public class MentionsDataSource {
             values.put(MentionsSQLiteHelper.COLUMN_TEXT, text);
             values.put(MentionsSQLiteHelper.COLUMN_TWEET_ID, id);
             values.put(MentionsSQLiteHelper.COLUMN_NAME, status.getUser().getName());
-            values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getBiggerProfileImageURL());
+            values.put(MentionsSQLiteHelper.COLUMN_PRO_PIC, status.getUser().getOriginalProfileImageURL());
             values.put(MentionsSQLiteHelper.COLUMN_SCREEN_NAME, status.getUser().getScreenName());
             values.put(MentionsSQLiteHelper.COLUMN_TIME, time);
             values.put(MentionsSQLiteHelper.COLUMN_RETWEETER, originalName);
