@@ -122,12 +122,15 @@ dependencies {
     compile 'org.twitter4j:twitter4j-stream:4.0.1'
     compile 'org.lucasr.smoothie:smoothie:0.1.0'
 
-    compile files('lib/httpmime-4.3.2.jar', 'lib/httpcore-4.3.1.jar')
-    compile files('lib/dashclock-api-r2.0.jar', 'lib/YouTubeAndroidPlayerApi.jar')
-    compile files('lib/Android-BitmapCache-2.3.jar', 'lib/jsoup-1.7.3.jar', 'lib/disklrucache-2.0.1.jar')
+    compile files('lib/httpmime-4.3.2.jar')
+    compile files('lib/dashclock-api-r2.0.jar')
+    compile files('lib/YouTubeAndroidPlayerApi.jar')
+    compile files('lib/httpcore-4.3.1.jar')
+    compile files('lib/jsoup-1.7.3.jar')
     compile files('lib/nineoldandroids-2.4.0.jar')
 
     compile(name:'datetimepicker', ext:'aar')
+    compile(name: 'bitmap-cache', ext:'aar')
     compile(name:'launcher-api', ext:'aar')
 }
 
