@@ -18,7 +18,6 @@
 -- For Release --
 
     Version 2.5.0
-        - clear cache on first run
         - manual tweetmarker
         - mute users for a time period
 
