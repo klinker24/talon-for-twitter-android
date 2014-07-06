@@ -100,23 +100,45 @@ limitations under the License.
                 android:layout_marginRight="-7dp"
                 android:scaleType="fitCenter"/>
 
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
+        <LinearLayout
                 android:id="@+id/messageEntry2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
                 android:layout_alignParentRight="true"
-                android:layout_toRightOf="@+id/emojiButton"
-                android:paddingRight="10dp"
-                android:ems="10"
-                android:hint="@string/compose_tweet_hint"
-                android:inputType="textCapSentences|textMultiLine|textShortMessage"
-                android:maxLines="8"
-                android:minHeight="50dp"
-                android:minLines="2"
-                android:textSize="17sp" />
+                android:layout_toRightOf="@+id/emojiButton">
+
+            <com.klinker.android.twitter.manipulations.widgets.HoloEditText
+                    android:id="@+id/tweet_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:ems="10"
+                    android:hint="@string/compose_tweet_hint"
+                    android:inputType="textCapSentences|textMultiLine|textShortMessage"
+                    android:maxLines="8"
+                    android:minHeight="50dp"
+                    android:minLines="2"
+                    android:textSize="17sp" />
+
+
+            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    android:id="@+id/char_remaining"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:gravity="center"/>
+
+
+
+        </LinearLayout>
+
 
         <include layout="@layout/emoji_keyboard"
                  android:layout_below="@+id/messageEntry2"/>
 
     </RelativeLayout>
+
 </RelativeLayout>
