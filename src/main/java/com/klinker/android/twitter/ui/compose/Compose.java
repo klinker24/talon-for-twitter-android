@@ -52,12 +52,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.api_helper.TwitPicHelper;
@@ -69,6 +71,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1094,11 +1097,44 @@ public abstract class Compose extends Activity implements
                                 media.setLocation(geolocation);
                             }
 
+                            twitter4j.Status s = null;
                             if (accountOneCheck.isChecked()) {
-                                twitter.updateStatus(media);
+                                s = twitter.updateStatus(media);
                             }
                             if (accountTwoCheck.isChecked()) {
-                                twitter2.updateStatus(media);
+                                s = twitter2.updateStatus(media);
+                            }
+
+                            if (s != null) {
+                                final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
+
+                                if (hashtags != null) {
+                                    // we will add them to the auto complete
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ArrayList<String> tags = new ArrayList<String>();
+                                            if (hashtags != null) {
+                                                for (String s : hashtags) {
+                                                    if (!s.equals("")) {
+                                                        tags.add("#" + s);
+                                                    }
+                                                }
+                                            }
+
+                                            HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                                            for (String s : tags) {
+                                                if (s.contains("#")) {
+                                                    // we want to add it to the auto complete
+
+                                                    source.deleteTag(s);
+                                                    source.createTag(s);
+                                                }
+                                            }
+                                        }
+                                    }).start();
+                                }
                             }
 
                             return true;
