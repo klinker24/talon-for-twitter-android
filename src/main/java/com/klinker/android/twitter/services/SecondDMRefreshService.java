@@ -4,27 +4,23 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
 import com.klinker.android.twitter.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
+import twitter4j.*;
 
 import java.util.List;
 
-import twitter4j.DirectMessage;
-import twitter4j.Paging;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
-
-public class DirectMessageRefreshService extends IntentService {
+/**
+ * Created by luke on 7/6/14.
+ */
+public class SecondDMRefreshService extends IntentService {
 
     SharedPreferences sharedPrefs;
 
-    public DirectMessageRefreshService() {
+    public SecondDMRefreshService() {
         super("DirectMessageRefreshService");
     }
 
@@ -45,9 +41,15 @@ public class DirectMessageRefreshService extends IntentService {
         int numberNew = 0;
 
         try {
-            Twitter twitter = Utils.getTwitter(context, settings);
+            Twitter twitter = Utils.getSecondTwitter(context);
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+            if (currentAccount == 1) {
+                currentAccount = 2;
+            } else {
+                currentAccount = 1;
+            }
 
             User user = twitter.verifyCredentials();
             long lastId = sharedPrefs.getLong("last_direct_message_id_" + currentAccount, 0);
@@ -97,11 +99,7 @@ public class DirectMessageRefreshService extends IntentService {
                 int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
                 sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).commit();
 
-                NotificationUtils.refreshNotification(context);
-            }
-
-            if (settings.syncSecondMentions) {
-                startService(new Intent(context, SecondDMRefreshService.class));
+                NotificationUtils.notifySecondDMs(context, currentAccount);
             }
 
         } catch (TwitterException e) {

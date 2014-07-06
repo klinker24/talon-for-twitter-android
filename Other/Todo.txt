@@ -19,9 +19,7 @@
 
     Version 2.5.0
         - manual tweetmarker
-        - refresh second account direct messages
         - mute users for a time period
-        - counter for the length of scheduled tweets
 
         -- commented out:
             - xml pref for mute clients (also in the pref fragment)

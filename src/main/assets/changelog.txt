@@ -3,8 +3,10 @@
     &#8226; Mute by client (long press the timestamp)<br/>
     &#8226; View pictures from twitters native client in direct messages<br/>
     &#8226; Share your pictures from the photo viewer dialog to any apps<br/>
+    &#8226; Background sync of your second account's DM's<br/>
     &#8226; Some rotation fixes<br/>
     &#8226; Character counter on the scheduled tweets<br/>
+    &#8226; Better backup of settings<br/>
 <br/><br/>
 
 <b>Version 2.4.7:</b><br/><br/>

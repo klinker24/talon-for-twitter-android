@@ -973,10 +973,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 onStart.setEnabled(false);
             }
             dms.setEnabled(false);
-            mobileOnly.setEnabled(false);
 
             if (!mentionsChanges) {
                 mentions.setEnabled(false);
+                mobileOnly.setEnabled(false);
             }
         }
 

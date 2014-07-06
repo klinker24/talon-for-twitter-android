@@ -711,6 +711,115 @@ public class NotificationUtils {
         }
     }
 
+    public static void notifySecondDMs(Context context, int secondAccount) {
+        DMDataSource data = DMDataSource.getInstance(context);
+
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        int numberNew = sharedPrefs.getInt("dm_unread_" + secondAccount, 0);
+
+        int smallIcon = R.drawable.ic_stat_icon;
+        Bitmap largeIcon;
+
+        Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
+
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+        NotificationCompat.Builder mBuilder;
+
+        String title = context.getResources().getString(R.string.app_name) + " - " + context.getResources().getString(R.string.sec_acc);
+        String name;
+        String message;
+        String messageLong;
+
+        if (numberNew == 1) {
+            name = data.getNewestName(secondAccount);
+
+            // if they are muted, and you don't want them to show muted mentions
+            // then just quit
+            if (sharedPrefs.getString("muted_users", "").contains(name) &&
+                    !sharedPrefs.getBoolean("show_muted_mentions", false)) {
+                return;
+            }
+
+            message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
+            messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
+            largeIcon = getImage(context, name);
+        } else { // more than one mention
+            message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
+            messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
+            largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+        }
+
+        Intent markRead = new Intent(context, MarkReadSecondAccService.class);
+        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+
+        AppSettings settings = AppSettings.getInstance(context);
+
+        //if (context.getResources().getBoolean(R.bool.expNotifications)) {
+        mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(title)
+                .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
+                .setSmallIcon(smallIcon)
+                .setLargeIcon(largeIcon)
+                .setContentIntent(resultPendingIntent)
+                .setDeleteIntent(readPending)
+                .setAutoCancel(true)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+        /*} else {
+            mBuilder = new NotificationCompat.Builder(context)
+                    .setContentTitle(title)
+                    .setContentText(TweetLinkUtils.removeColorHtml(messageLong, settings))
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(largeIcon)
+                    .setContentIntent(resultPendingIntent)
+                    .setDeleteIntent(readPending)
+                    .setAutoCancel(true);
+        }*/
+
+        if (settings.vibrate) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        }
+
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
+                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            }
+        }
+
+        if (settings.led)
+            mBuilder.setLights(0xFFFFFF, 1000, 1000);
+
+        if (settings.notifications) {
+            /*NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(9, mBuilder.build());*/
+
+            NotificationManagerCompat notificationManager =
+                    NotificationManagerCompat.from(context);
+
+            notificationManager.notify(9, mBuilder.extend(new NotificationCompat.WearableExtender()).build());
+
+            // if we want to wake the screen on a new message
+            if (settings.wakeScreen) {
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+                wakeLock.acquire(5000);
+            }
+
+            // Pebble notification
+            if(sharedPrefs.getBoolean("pebble_notification", false)) {
+                sendAlertToPebble(context, title, messageLong);
+            }
+
+            // Light Flow notification
+            sendToLightFlow(context, title, messageLong);
+        }
+    }
+
     public static void notifySecondMentions(Context context, int secondAccount) {
         MentionsDataSource data = MentionsDataSource.getInstance(context);
         int numberNew = data.getUnreadCount(secondAccount);
