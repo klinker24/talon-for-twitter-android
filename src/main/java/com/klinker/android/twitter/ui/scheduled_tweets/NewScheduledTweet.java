@@ -24,10 +24,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,7 @@ import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.services.SendScheduledTweet;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.Utils;
@@ -59,6 +62,8 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewScheduledTweet extends Activity {
 
@@ -87,6 +92,7 @@ public class NewScheduledTweet extends Activity {
     private TextView dateDisplay;
 
     private EditText mEditText;
+    private HoloTextView counter;
     private ImageButton emojiButton;
     private EmojiKeyboard emojiKeyboard;
 
@@ -101,12 +107,42 @@ public class NewScheduledTweet extends Activity {
 
     private AppSettings settings;
 
+    final Pattern p = Patterns.WEB_URL;
+
+    public Handler countHandler;
+    public Runnable getCount = new Runnable() {
+        @Override
+        public void run() {
+            String text = mEditText.getText().toString();
+
+            if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
+                try {
+                    counter.setText(140 - mEditText.getText().length() + "");
+                } catch (Exception e) {
+                    counter.setText("0");
+                }
+            } else {
+                int count = text.length();
+                Matcher m = p.matcher(text);
+                while(m.find()) {
+                    String url = m.group();
+                    count -= url.length(); // take out the length of the url
+                    count += 23; // add 23 for the shortened url
+                }
+
+                counter.setText(140 - count + "");
+            }
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settings = AppSettings.getInstance(this);
 
         Utils.setUpTheme(this, settings);
+
+        countHandler = new Handler();
 
         setContentView(R.layout.scheduled_new_tweet_activity);
 
@@ -117,7 +153,8 @@ public class NewScheduledTweet extends Activity {
 
         context = this;
 
-        mEditText = (EditText) findViewById(R.id.messageEntry2);
+        mEditText = (EditText) findViewById(R.id.tweet_content);
+        counter = (HoloTextView) findViewById(R.id.char_remaining);
         emojiButton = (ImageButton) findViewById(R.id.emojiButton);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
 
@@ -188,6 +225,9 @@ public class NewScheduledTweet extends Activity {
                         // something went really wrong i guess haha
                     }
                 }
+
+                countHandler.removeCallbacks(getCount);
+                countHandler.postDelayed(getCount, 300);
             }
         });
 
