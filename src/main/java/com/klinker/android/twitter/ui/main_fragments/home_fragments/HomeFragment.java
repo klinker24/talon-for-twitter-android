@@ -949,9 +949,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     @Override
     public void onPause() {
-        if (!isLauncher()) {
-            markReadForLoad();
-        }
+
+        markReadForLoad();
 
         context.unregisterReceiver(pullReceiver);
         context.unregisterReceiver(markRead);
@@ -962,7 +961,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     @Override
     public void onStop() {
-        Log.v("talon_stopping", "stopping here");
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
@@ -1433,9 +1431,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 return;
             }
 
-            if (!isLauncher()) {
-                HomeDataSource.getInstance(context).markAllRead(currentAccount);
-            }
+            HomeDataSource.getInstance(context).markAllRead(currentAccount);
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "");
