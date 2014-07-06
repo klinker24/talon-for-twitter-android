@@ -16,39 +16,21 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        try {
-            File cacheDir = new File(createPackageContext("com.klinker.android.twitter", CONTEXT_IGNORE_SECURITY).getCacheDir(), "talon");
-            cacheDir.mkdirs();
+        File cacheDir = new File(getCacheDir(), "talon");
+        cacheDir.mkdirs();
 
-            BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
-            builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
-            builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
+        BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
+        builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
+        builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
 
-            mCache = builder.build();
+        mCache = builder.build();
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    EmojiUtils.init(App.this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EmojiUtils.init(App.this);
                 }
             }).start();
-        } catch (Exception e) {
-            File cacheDir = new File(getCacheDir(), "talon");
-            cacheDir.mkdirs();
-
-            BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
-            builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
-            builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
-
-            mCache = builder.build();
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    EmojiUtils.init(App.this);
-                }
-            }).start();
-        }
     }
 
     public BitmapLruCache getBitmapCache() {
