@@ -136,6 +136,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 if (fromCache) {
                     result = mCache.get(url, mDecodeOpts);
                 } else {
+                    Log.v("from_cache", "not from cache");
                     result = null;
                 }
 
