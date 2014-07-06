@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 
+import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.InteractionsSQLiteHelper;
@@ -60,8 +61,8 @@ public class InteractionsCursorAdapter extends CursorAdapter {
     public Handler mHandler;
 
     public static class ViewHolder {
-        public HoloTextView title;
-        public HoloTextView text;
+        public TextView title;
+        public TextView text;
         public NetworkedCacheableImageView picture;
         public LinearLayout background;
         public String check;
@@ -106,8 +107,8 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         v = inflater.inflate(layout, viewGroup, false);
 
-        holder.title = (HoloTextView) v.findViewById(R.id.title);
-        holder.text = (HoloTextView) v.findViewById(R.id.text);
+        holder.title = (TextView) v.findViewById(R.id.title);
+        holder.text = (TextView) v.findViewById(R.id.text);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.picture);
 
