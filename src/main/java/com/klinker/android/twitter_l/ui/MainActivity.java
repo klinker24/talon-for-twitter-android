@@ -40,6 +40,7 @@ import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.setup.TutorialActivity;
+import com.klinker.android.twitter_l.utils.IOUtils;
 
 public class MainActivity extends DrawerActivity {
 
@@ -414,6 +415,16 @@ public class MainActivity extends DrawerActivity {
 
         // clear the pull unread
         sharedPrefs.edit().putInt("pull_unread", 0).commit();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (sharedPrefs.getBoolean("version_2_5", true)) {
+                    sharedPrefs.edit().putBoolean("version_2_5", false).commit();
+                    IOUtils.trimCache(context);
+                }
+            }
+        }).start();
 
         /*new Thread(new Runnable() {
             @Override

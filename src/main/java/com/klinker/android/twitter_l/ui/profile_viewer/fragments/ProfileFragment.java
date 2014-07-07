@@ -307,7 +307,9 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if (spinner.getVisibility() == View.GONE) {
                     try {
-                        startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", thisUser.getOriginalProfileImageURL()));
+                        startActivity(new Intent(context, PhotoViewerDialog.class)
+                                .putExtra("url", thisUser.getOriginalProfileImageURL())
+                                .putExtra("from_cache", false));
                     } catch (Exception e) {
                         // this user doesn't exist...
                     }
