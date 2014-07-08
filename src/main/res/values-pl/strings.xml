@@ -577,6 +577,26 @@ Ten obrazek będzie dostępny do wyświetlenia na Twoim profilu TwitPic.</string
     <string name="muted_rts">Wyciszeni retweetujący</string>
     <string name="twitter">Twitter</string>
     <string name="user">Użytkownicy</string>
+    <string name="menu_translate">Tłumacz tweeta</string>
+    <string name="add_new_tweet">Dodaj nowy tweet</string>
+    <string name="scheduled_tweets">Zaplanowane tweety</string>
+    <string name="done_label">Gotowe</string>
+    <string name="tweet_queued">Tweet zaplanowany!</string>
+    <string name="only_queue_no_pic">Jedynie tweety bez obrazków mogą zostać zaplanowane!</string>
+    <string name="menu_view_queued">Zobacz zaplanowane tweety</string>
+    <string name="keep_queued_tweet">Zachować zaplanowany kweet?</string>
+    <string name="date_picker">Wskaż datę</string>
+    <string name="time_picker">Wskaż godzinę</string>
+    <string name="complete_form">Proszę wypełnić wszystkie pola!</string>
+    <string name="no_drafts">Nie znaleziono szkiców</string>
+    <string name="no_queued">Brak zaplanowanych tweetów</string>
+    <string name="menu_show_top_tweets">Filtruj \"Najciekawsze tweety\"</string>
+    <string name="delete_all">Usuń wszystkie szkice</string>
+    <string name="muted_clients">Wyciszone aplikacje</string>
+    <string name="mute_client">Wycisz aplikację</string>
+    <string name="no_clients">Brak wyciszonych</string>
+    <string name="muted_clients_summary">Pozwala wyciszyć wszystkie tweety przesłane przez konkretną aplikację</string>
+    <string name="client_not_found">Nie znaleziono aplikacji!</string>
     <string name="open_to_web">Otwieranie w przeglądarce</string>
     <string name="open_to_web_summary">Jeżeli tweet zawiera link, dotknięcie go przeniesie od razu pod wskazany adres.</string>
 </resources>

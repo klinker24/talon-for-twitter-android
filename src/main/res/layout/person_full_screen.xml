@@ -31,8 +31,8 @@
                 android:id="@+id/profile_pic"
                 android:contentDescription="Profile Picture"
                 android:src="?circleBorder"
-                android:scaleType="fitCenter"
                 android:background="@drawable/pro_pic_clip"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"/>

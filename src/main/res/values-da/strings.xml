@@ -52,7 +52,7 @@
     <string name="world_trends">Globale trends</string>
     <string name="search">Søg</string>
     <string name="lists">Lister</string>
-    <string name="search_hint">\@brugernavn</string>
+    <string name="search_hint">Søg efter...</string>
     <string name="new_tweet">Nyt tweet</string>
     <string name="new_tweets">Nye tweets</string>
     <string name="no_new_tweets">Ingen nye tweets</string>
@@ -304,7 +304,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="sync_failed">Synkroniserings fejl</string>
     <string name="push_notification_options">"\"Push notifikationer\" indstillinger"</string>
     <string name="push_notifications">Talon Pull</string>
-    <string name="push_notifications_summary">Aktiverer overvågning for nye interaktioner såsom direkte beskeder, meninger, favoritter, retweets eller nye følgere</string>
+    <string name="push_notifications_summary">Aktiverer overvågning for nye interaktioner såsom direkte beskeder, meninger, favoritter, retweets og nye følgere</string>
     <string name="push_notification_warning">Tap her for at læse mere om denne indstilling</string>
     <string name="notification_settings">Notifikations indstillinger</string>
     <string name="pebble_notifications">Pebble notifikationer</string>
@@ -537,7 +537,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="unread_bar_widget">Talon - toast for ulæste</string>
     <string name="show_muted_mentions">Vis muted meninger</string>
     <string name="force_overflow_summary">Vis altid de 3 prikker i action baren for adgang til indstillinger. Bruges på telefoner med en fysisk menu knap</string>
-    <string name="menu_view_drafts">Se kladder</string>
+    <string name="menu_view_drafts">Vis kladder</string>
     <string name="menu_schedule_tweet">Planlæg et tweet</string>
     <string name="menu_save_draft">Gem kladde</string>
     <string name="saved_draft">Gemt kladde</string>
@@ -553,7 +553,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="attached_images">Vedhæftet</string>
     <string name="twitpic_disclaimer_multi_summary">Twitter´s API´s understøtter ikke vedhæftning af mere end ét billede til et tweet\n\n
  Talon vil uploade billedet til TwitPic i stedet</string>
-    <string name="loading_webpage">Åbner webside...</string>
+    <string name="loading_webpage">Henter indhold...</string>
     <string name="plain_text_browser">Readability browser</string>
     <string name="plain_text_summary">Fjerner billeder og anden formatering fra web browseren, så kun teksten på en webside vises</string>
     <string name="plain_text_on_data">Readability browser på mobildata</string>
@@ -590,6 +590,12 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="no_drafts">Ingen kladder fundet</string>
     <string name="no_queued">Ingen tweets i kø</string>
     <string name="menu_show_top_tweets">Filter \"Top Tweets\"</string>
+    <string name="delete_all">Slet alle kladder</string>
+    <string name="muted_clients">Muted apps</string>
+    <string name="mute_client">Mute app</string>
+    <string name="no_clients">Ingen apps</string>
+    <string name="muted_clients_summary">Gør mute alle tweets fra en specifik applikation, muligt</string>
+    <string name="client_not_found">App ikke fundet!</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
     <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for at vise tweetet</string>
 </resources>
