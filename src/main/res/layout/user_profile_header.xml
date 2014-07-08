@@ -99,7 +99,7 @@
         android:src="?circleBorder"
         android:layout_alignParentLeft="true"
         android:minHeight="96dp" android:minWidth="96dp"
-        android:scaleType="fitCenter" android:adjustViewBounds="true"
+        android:scaleType="centerCrop" android:adjustViewBounds="true"
         android:maxWidth="96dp" android:maxHeight="96dp"
         android:contentDescription="@string/placeholder"
         android:layout_marginLeft="20dp"

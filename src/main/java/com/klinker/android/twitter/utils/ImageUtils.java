@@ -43,8 +43,28 @@ public class ImageUtils {
     public static Bitmap getCircle(Bitmap currentImage, Context context) {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 96, context.getResources().getDisplayMetrics());
 
-        Bitmap bitmap = currentImage;
+        Bitmap bitmap;
+
+        if (currentImage.getWidth() >= currentImage.getHeight()){
+            bitmap = Bitmap.createBitmap(
+                    currentImage,
+                    currentImage.getWidth() / 2 - currentImage.getHeight() / 2,
+                    0,
+                    currentImage.getHeight(),
+                    currentImage.getHeight()
+            );
+        } else {
+            bitmap = Bitmap.createBitmap(
+                    currentImage,
+                    0,
+                    currentImage.getHeight()/2 - currentImage.getWidth()/2,
+                    currentImage.getWidth(),
+                    currentImage.getWidth()
+            );
+        }
+
         Bitmap output;
+
         try {
             output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
         } catch (OutOfMemoryError e) {
@@ -59,11 +79,11 @@ public class ImageUtils {
         canvas.drawARGB(0, 0, 0, 0);
         canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
         try {
             canvas.drawBitmap(bitmap, null, rect, paint);
         } catch (Exception e) {
             // bitmap is null i guess
-
         }
 
         ResourceHelper helper = new ResourceHelper(context, "com.klinker.android.twitter");
@@ -88,7 +108,26 @@ public class ImageUtils {
 
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
 
+        if (currentImage.getWidth() >= currentImage.getHeight()) {
+            currentImage = Bitmap.createBitmap(
+                    currentImage,
+                    currentImage.getWidth()/2 - currentImage.getHeight()/2,
+                    0,
+                    currentImage.getHeight(),
+                    currentImage.getHeight()
+            );
+        } else {
+            currentImage = Bitmap.createBitmap(
+                    currentImage,
+                    0,
+                    currentImage.getHeight()/2 - currentImage.getWidth()/2,
+                    currentImage.getWidth(),
+                    currentImage.getWidth()
+            );
+        }
+
         Bitmap output;
+
         try {
             output = Bitmap.createBitmap(scale, scale, Bitmap.Config.ARGB_8888);
         } catch (OutOfMemoryError e) {
@@ -103,11 +142,11 @@ public class ImageUtils {
         canvas.drawARGB(0, 0, 0, 0);
         canvas.drawCircle(scale / 2, scale / 2, (scale / 2) - (scale / 25), paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
         try {
             canvas.drawBitmap(currentImage, null, rect, paint);
         } catch (Exception e) {
             // bitmap is null i guess
-
         }
 
         ResourceHelper helper = new ResourceHelper(context, "com.klinker.android.twitter");
@@ -131,7 +170,26 @@ public class ImageUtils {
     public static Bitmap getBiggerCircle(Bitmap currentImage, Context context) {
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 400, context.getResources().getDisplayMetrics());
 
-        Bitmap bitmap = currentImage;
+        Bitmap bitmap;
+
+        if (currentImage.getWidth() >= currentImage.getHeight()) {
+            bitmap = Bitmap.createBitmap(
+                    currentImage,
+                    currentImage.getWidth() / 2 - currentImage.getHeight() / 2,
+                    0,
+                    currentImage.getHeight(),
+                    currentImage.getHeight()
+            );
+        } else {
+            bitmap = Bitmap.createBitmap(
+                    currentImage,
+                    0,
+                    currentImage.getHeight()/2 - currentImage.getWidth()/2,
+                    currentImage.getWidth(),
+                    currentImage.getWidth()
+            );
+        }
+
         Bitmap output;
 
         try {

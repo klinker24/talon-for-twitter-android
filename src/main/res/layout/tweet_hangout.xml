@@ -23,7 +23,7 @@
             android:src="?squareBorder"
             android:contentDescription="Profile Picture"
             android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:scaleType="centerCrop" android:adjustViewBounds="true"
             android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
             android:layout_marginLeft="2dp"/>
 
