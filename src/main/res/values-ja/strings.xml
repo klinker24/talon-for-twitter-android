@@ -52,7 +52,7 @@
     <string name="world_trends">世界のトレンド</string>
     <string name="search">検索</string>
     <string name="lists">リスト</string>
-    <string name="search_hint">\@ユーザー名か単語検索...</string>
+    <string name="search_hint">検索...</string>
     <string name="new_tweet">件の未読ツイート</string>
     <string name="new_tweets">件の未読ツイート</string>
     <string name="no_new_tweets">未読ツイートなし</string>
@@ -288,8 +288,8 @@
     <string name="quiet_hours">通知しない時間帯</string>
     <string name="max_number_on_refresh">更新時に読み込むツイート数</string>
     <string name="fav_users_notifications">お気に入りユーザー通知</string>
-    <string name="sync_second_mentions">二つ目のアカウントの＠ツイートを同期</string>
-    <string name="sync_second_mentions_summary">一つ目のアカウントの＠ツイートを同期するとき二つ目のアカウントも同期するようにします。</string>
+    <string name="sync_second_mentions">二つ目のアカウントを同期</string>
+    <string name="sync_second_mentions_summary">一つ目のアカウントの＠ツイートとメッセージを同期するとき二つ目のアカウントも同期するようにします。</string>
     <string name="max_number_summary">多くすると更新が遅くなります。</string>
     <string name="auto_refresh_category">自動更新オプション</string>
     <string name="refresh_on_startup">起動時に更新</string>
@@ -330,7 +330,7 @@
     <string name="current_cache_size">現在のキャッシュサイズ</string>
     <string name="cache_dialog_summary">元に戻すことは出来ません。</string>
     <string name="timeline_size">タイムラインサイズ</string>
-    <string name="timeline_size_summary">データベースに保存するタイムラインのツイートの最大数を設定します。</string>
+    <string name="timeline_size_summary">データベースに保存するツイートの最大数を設定します。</string>
     <string name="mentions_size">＠ツイートサイズ</string>
     <string name="mentions_size_summary">データベースに保存する＠ツイートの最大数を設定します。</string>
     <string name="dm_size">メッセージサイズ</string>
@@ -386,7 +386,7 @@
     <string name="manual">手動</string>
     <string name="layout_hangouts">ハングアウト</string>
     <!-- added after release -->
-    <string name="use_inapp_browser">内蔵ブラウザを使用</string>
+    <string name="use_inapp_browser">内蔵ブラウザをタイムラインで使用</string>
     <string name="use_browser_on_tweet">ツイートのブラウザページ</string>
     <string name="dismiss_all">全て無視</string>
     <string name="handle_and_name">ユーザー名と名前を表示</string>
@@ -452,7 +452,7 @@
     <string name="removing_retweet">リツイートを取り消し中</string>
     <string name="retweeting_status">リツイート中</string>
     <string name="removing_favorite">お気に入りを解除中</string>
-    <string name="favoriting_status">お気に入りに登録中</string>
+    <string name="favoriting_status">お気に入りに登録</string>
     <string name="jumping_workaround">タイムライン移動バグ修正</string>
     <string name="jumping_workaround_summary">更新した後にタイムラインが下に移動してしまう場合これを有効にしてください。</string>
     <string name="menu_share_link">リンクの共有</string>
@@ -590,6 +590,12 @@ TalonはTwitPicに画像をアップロードします。</string>
     <string name="no_drafts">下書きがありません</string>
     <string name="no_queued">キューに追加したツイートはありません</string>
     <string name="menu_show_top_tweets">トップツイートをフィルタする</string>
+    <string name="delete_all">全ての下書きを削除</string>
+    <string name="muted_clients">ミュートしたクライアント</string>
+    <string name="mute_client">クライアントのミュート</string>
+    <string name="no_clients">クライアントなし</string>
+    <string name="muted_clients_summary">特定のクライアントから送信されたツイートをミュートします。</string>
+    <string name="client_not_found">クライアントが見つかりません!</string>
     <string name="open_to_web">ツイートのURLを直接開く</string>
     <string name="open_to_web_summary">ツイートにURLが含まれている場合に、ツイート自体ではなくそのURLを直接開くようにします。</string>
 </resources>
