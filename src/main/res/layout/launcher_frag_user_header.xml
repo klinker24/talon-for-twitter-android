@@ -32,7 +32,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginBottom="10dp"
             android:minHeight="56dp" android:minWidth="56dp"
-            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:scaleType="centerCrop" android:adjustViewBounds="true"
             android:maxWidth="56dp" android:maxHeight="56dp"
             android:contentDescription="Profile Picture" />
 

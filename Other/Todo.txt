@@ -21,14 +21,6 @@
         - manual tweetmarker
         - mute users for a time period
 
-        -- commented out:
-            - xml pref for mute clients (also in the pref fragment)
-            - xml menu for the photoviewer
-            - popup list view for autocomplete hashtags on composeactivity and tweet fragment
-            - always just return null when trying to download a dm picture
-            - long press on the timestamp
-            - photo viewer dialog menu_share_image click
-
     Version 2.6.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
