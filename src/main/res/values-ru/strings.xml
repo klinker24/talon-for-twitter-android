@@ -590,6 +590,12 @@
     <string name="no_drafts">Нет черновиков</string>
     <string name="no_queued">Очередь пуста</string>
     <string name="menu_show_top_tweets">Фильтровать \"Топовые твиты\"</string>
+    <string name="delete_all">Удалить все черновики</string>
+    <string name="muted_clients">Скрытые клиенты</string>
+    <string name="mute_client">Скрыть клиент</string>
+    <string name="no_clients">Нет клиентов</string>
+    <string name="muted_clients_summary">Позволяет скрывать в ленте все твиты, отправленные из определённого приложения.</string>
+    <string name="client_not_found">Клиент не найден!</string>
     <string name="open_to_web">Открывать ссылки в твитах</string>
     <string name="open_to_web_summary">Если твит содержит ссылку, будет открываться страница с ней, а не сам твит.</string>
 </resources>
