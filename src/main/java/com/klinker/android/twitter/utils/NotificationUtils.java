@@ -187,8 +187,6 @@ public class NotificationUtils {
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(context);
 
-                NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
-
                 if (addButton) { // the reply and read button should be shown
                     Intent reply;
                     if (unreadCounts[1] == 1) {
@@ -219,8 +217,8 @@ public class NotificationUtils {
                             R.drawable.ic_action_read_dark,
                             context.getResources().getString(R.string.mark_read), readPending);
 
-                    extender.addAction(replyAction);
-                    extender.addAction(action.build());
+                    mBuilder.addAction(replyAction);
+                    mBuilder.addAction(action.build());
                 } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
                     Intent popup = new Intent(context, RedirectToPopup.class);
                     popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -232,11 +230,11 @@ public class NotificationUtils {
                             R.drawable.ic_popup,
                             context.getResources().getString(R.string.popup), popupPending);
 
-                    extender.addAction(action.build());
+                    mBuilder.addAction(action.build());
                 }
 
                 // Build the notification and issues it with notification manager.
-                notificationManager.notify(1, mBuilder.extend(extender).build());
+                notificationManager.notify(1, mBuilder.build());
 
                 // if we want to wake the screen on a new message
                 if (settings.wakeScreen) {
@@ -663,9 +661,7 @@ public class NotificationUtils {
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
-            NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
-
-            notificationManager.notify(2, mBuilder.extend(extender).build());
+            notificationManager.notify(2, mBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -801,7 +797,7 @@ public class NotificationUtils {
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
-            notificationManager.notify(9, mBuilder.extend(new NotificationCompat.WearableExtender()).build());
+            notificationManager.notify(9, mBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -908,7 +904,7 @@ public class NotificationUtils {
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
-            notificationManager.notify(9, mBuilder.extend(new NotificationCompat.WearableExtender()).build());
+            notificationManager.notify(9, mBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -1035,7 +1031,7 @@ public class NotificationUtils {
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
-            notificationManager.notify(4, mBuilder.extend(new NotificationCompat.WearableExtender()).build());
+            notificationManager.notify(4, mBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {

@@ -425,7 +425,10 @@ public class MainActivity extends DrawerActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                IOUtils.trimCache(context);
+                if (sharedPrefs.getBoolean("version_2_5", true)) {
+                    sharedPrefs.edit().putBoolean("version_2_5", false).commit();
+                    IOUtils.trimCache(context);
+                }
             }
         }).start();
 
