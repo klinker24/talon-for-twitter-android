@@ -1,3 +1,8 @@
+<b>Version 2.5.2:</b><br/><br/>
+    &#8226; Full release<br/>
+    &#8226; Fixed some pictures getting stretched<br/>
+<br/><br/>
+
 <b>Version 2.5.1:</b><br/><br/>
     &#8226; Few fixes<br/>
     &#8226; Updated translations<br/>

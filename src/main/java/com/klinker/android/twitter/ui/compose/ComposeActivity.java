@@ -405,30 +405,15 @@ public class ComposeActivity extends Compose {
                         Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
                     }
                 } else { // attach picture
-
-                    //if (Build.VERSION.SDK_INT < 19) {
-                        Intent photoPickerIntent = new Intent();
-                        photoPickerIntent.setType("image/*");
-                        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                        try {
-                            startActivityForResult(Intent.createChooser(photoPickerIntent,
-                                    "Select Picture"), SELECT_PHOTO);
-                        } catch (Throwable t) {
-                            // no app to preform this..? hmm, tell them that I guess
-                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                        }
-                    /*} else {
-                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.setType("image/*");
-                        try {
-                            startActivityForResult(Intent.createChooser(intent,
-                                    "Select Picture"), SELECT_PHOTO);
-                        } catch (Throwable t) {
-                            // no app to preform this..? hmm, tell them that I guess
-                            Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                        }
-                    }*/
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    try {
+                        startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                "Select Picture"), SELECT_PHOTO);
+                    } catch (Throwable t) {
+                        // no app to preform this..? hmm, tell them that I guess
+                        Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 overflow.performClick();
