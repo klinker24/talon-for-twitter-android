@@ -1050,6 +1050,7 @@ public class NotificationUtils {
         }
     }
 
+
     public static void sendAlertToPebble(Context context, String title, String body) {
         final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
 
