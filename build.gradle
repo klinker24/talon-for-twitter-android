@@ -43,7 +43,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 20
         versionCode 132
-        versionName "2.5.0.1"
+        versionName "2.5.1"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
