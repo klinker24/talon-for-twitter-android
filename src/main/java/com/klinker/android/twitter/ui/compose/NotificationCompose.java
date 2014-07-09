@@ -2,8 +2,11 @@ package com.klinker.android.twitter.ui.compose;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import android.support.v4.app.RemoteInput;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 
 public class NotificationCompose extends ComposeActivity {
@@ -37,7 +40,7 @@ public class NotificationCompose extends ComposeActivity {
         sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
 
         // try from android wear device
-        String voiceReply = getIntent().getStringExtra("extra_voice_reply");
+        CharSequence voiceReply = getVoiceReply(getIntent());
         if (voiceReply != null) {
             if (!voiceReply.equals("")) {
                 // set the text
@@ -45,7 +48,17 @@ public class NotificationCompose extends ComposeActivity {
 
                 // send the message
                 doneClick();
+
+                finish();
             }
         }
+    }
+
+    public CharSequence getVoiceReply(Intent intent) {
+        Bundle remoteInput = RemoteInput.getResultsFromIntent(intent);
+        if (remoteInput != null) {
+            return remoteInput.getCharSequence("extra_voice_reply");
+        }
+        return null;
     }
 }
