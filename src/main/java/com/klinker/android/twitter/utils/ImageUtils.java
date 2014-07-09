@@ -45,6 +45,10 @@ public class ImageUtils {
 
         Bitmap bitmap;
 
+        if (currentImage == null) {
+            return null;
+        }
+
         if (currentImage.getWidth() >= currentImage.getHeight()){
             bitmap = Bitmap.createBitmap(
                     currentImage,
