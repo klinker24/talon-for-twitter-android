@@ -134,6 +134,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         public long tweetId;
         public boolean isFavorited;
+        public String proPicUrl;
         public String screenName;
         public String picUrl;
         public String retweeterName;
@@ -416,6 +417,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
         holder.tweetId = id;
         final String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
+        holder.proPicUrl = profilePic;
         String tweetTexts = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
         final String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         final String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));

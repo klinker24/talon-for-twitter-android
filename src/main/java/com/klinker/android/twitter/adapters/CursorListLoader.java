@@ -106,7 +106,7 @@ public class CursorListLoader extends SimpleItemLoader<String, CacheableBitmapDr
     public void displayItem(View itemView, CacheableBitmapDrawable result, boolean fromMemory) {
         final TimeLineCursorAdapter.ViewHolder holder = (TimeLineCursorAdapter.ViewHolder) itemView.getTag();
 
-        if (result == null) {
+        if (result == null || !result.getUrl().equals(holder.proPicUrl)) {
             return;
         }
 
