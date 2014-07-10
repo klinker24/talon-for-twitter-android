@@ -568,6 +568,7 @@ public abstract class Compose extends Activity implements
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(5, mBuilder.build());
+        mNotificationManager.cancel(6);
     }
 
     public void makeTweetingNotification() {
@@ -866,12 +867,26 @@ public abstract class Compose extends Activity implements
     class updateTwitterStatus extends AsyncTask<String, String, Boolean> {
 
         String text;
+        private boolean secondTry;
         private int remaining;
         private InputStream stream;
 
         public updateTwitterStatus(String text, int length) {
             this.text = text;
             this.remaining = length;
+            this.secondTry = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    makeTweetingNotification();
+                }
+            }, 200);
+        }
+
+        public updateTwitterStatus(String text, int length, boolean secondTry) {
+            this.text = text;
+            this.remaining = length;
+            this.secondTry = secondTry;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -996,6 +1011,11 @@ public abstract class Compose extends Activity implements
 
                             Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
                             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                            if (secondTry) {
+                                bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+                            }
+
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                             byte[] bitmapdata = bos.toByteArray();
 
@@ -1144,7 +1164,14 @@ public abstract class Compose extends Activity implements
                 }
 
             } catch (Exception e) {
+                Log.v("talon_sending_tweet", "error sending the tweet, message: " + e.getMessage());
                 e.printStackTrace();
+
+                if (e.getMessage().contains("the uploaded media is too large.")) {
+                    tryingAgain = true;
+                    new updateTwitterStatus(text, remaining, true).execute(status);
+                    return false;
+                }
             } catch (OutOfMemoryError e) {
                 e.printStackTrace();
                 outofmem = true;
@@ -1153,6 +1180,7 @@ public abstract class Compose extends Activity implements
         }
 
         boolean outofmem = false;
+        boolean tryingAgain = false;
 
         protected void onPostExecute(Boolean success) {
             // dismiss the dialog after getting all products
@@ -1162,12 +1190,14 @@ public abstract class Compose extends Activity implements
                 e.printStackTrace();
             }
 
-            if (success) {
-                finishedTweetingNotification();
-            } else if (outofmem) {
-                Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
-            } else {
-                makeFailedNotification(text);
+            if (!tryingAgain) {
+                if (success) {
+                    finishedTweetingNotification();
+                } else if (outofmem) {
+                    Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                } else {
+                    makeFailedNotification(text);
+                }
             }
         }
     }
