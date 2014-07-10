@@ -1,3 +1,7 @@
+<b>Version 2.5.4:</b><br/><br/>
+    &#8226; Bug fixes<br/>
+<br/><br/>
+
 <b>Version 2.5.3:</b><br/><br/>
     &#8226; Android Wear fixes<br/>
     &#8226; Crash fix<br/>
