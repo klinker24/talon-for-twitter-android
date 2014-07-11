@@ -110,6 +110,13 @@ public class HomeDataSource {
         String hashtags = html[3];
         String users = html[4];
 
+        String source;
+        if (status.isRetweet()) {
+            source = android.text.Html.fromHtml(status.getRetweetedStatus().getSource()).toString();
+        } else {
+            source = android.text.Html.fromHtml(status.getSource()).toString();
+        }
+
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
@@ -123,7 +130,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, android.text.Html.fromHtml(status.getSource()).toString());
+        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
 
         try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -151,6 +158,13 @@ public class HomeDataSource {
         String hashtags = html[3];
         String users = html[4];
 
+        String source;
+        if (status.isRetweet()) {
+            source = android.text.Html.fromHtml(status.getRetweetedStatus().getSource()).toString();
+        } else {
+            source = android.text.Html.fromHtml(status.getSource()).toString();
+        }
+
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
@@ -164,7 +178,7 @@ public class HomeDataSource {
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, android.text.Html.fromHtml(status.getSource()).toString());
+        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
 
         try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -200,6 +214,13 @@ public class HomeDataSource {
                 String hashtags = html[3];
                 String users = html[4];
 
+                String source;
+                if (status.isRetweet()) {
+                    source = android.text.Html.fromHtml(status.getRetweetedStatus().getSource()).toString();
+                } else {
+                    source = android.text.Html.fromHtml(status.getSource()).toString();
+                }
+
                 values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
                 values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
                 values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, mId);
@@ -213,7 +234,7 @@ public class HomeDataSource {
                 values.put(HomeSQLiteHelper.COLUMN_URL, url);
                 values.put(HomeSQLiteHelper.COLUMN_USERS, users);
                 values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-                values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, android.text.Html.fromHtml(status.getSource()).toString());
+                values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
             } else {
                 values = null;
             }
