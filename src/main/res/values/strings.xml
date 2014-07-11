@@ -622,5 +622,7 @@
     <string name="no_clients">No Clients</string>
     <string name="muted_clients_summary">Allows you to mute all tweets coming from a specific application.</string>
     <string name="client_not_found">Client not found!</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
 
 </resources>

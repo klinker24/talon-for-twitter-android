@@ -39,15 +39,14 @@ limitations under the License.
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Pick Date"/>
+                    android:text="@string/pick_date"/>
             <Button
                     style="?android:attr/buttonBarButtonStyle"
                     android:id="@+id/setTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Pick Time"/>
-
+                    android:text="@string/pick_time"/>
         </LinearLayout>
 
         <LinearLayout
