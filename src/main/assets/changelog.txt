@@ -1,3 +1,8 @@
+<b>Version 2.5.5:</b><br/><br/>
+    &#8226; Profile pictures getting mixed up<br/>
+    &#8226; Better client muting<br/>
+<br/><br/>
+
 <b>Version 2.5.4:</b><br/><br/>
     &#8226; Bug fixes<br/>
 <br/><br/>
