@@ -1,5 +1,4 @@
 - Features:
-    - Watch API stuff
     - user lists on their profiles
     - QSlide for LG
     - gallery of picture on searching
@@ -20,6 +19,10 @@
     Version 2.5.0
         - manual tweetmarker
         - mute users for a time period
+        - update trends
+        - mute client doesn't account for retweets (if it is retweet, get the source of the original tweet)
+        - pictures in direct messages may have had a url change
+        - pick time and pick date strings not available
 
     Version 2.6.0
         - More fragments to choose from
