@@ -287,6 +287,13 @@ public class HomeContentProvider extends ContentProvider {
         String hashtags = html[3];
         String users = html[4];
 
+        String source;
+        if (status.isRetweet()) {
+            source = android.text.Html.fromHtml(status.getRetweetedStatus().getSource()).toString();
+        } else {
+            source = android.text.Html.fromHtml(status.getSource()).toString();
+        }
+
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
         values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
         values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, id);
@@ -300,6 +307,7 @@ public class HomeContentProvider extends ContentProvider {
         values.put(HomeSQLiteHelper.COLUMN_URL, url);
         values.put(HomeSQLiteHelper.COLUMN_USERS, users);
         values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+        values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
 
         context.getContentResolver().insert(HomeContentProvider.CONTENT_URI, values);
     }
@@ -337,6 +345,13 @@ public class HomeContentProvider extends ContentProvider {
             String hashtags = html[3];
             String users = html[4];
 
+            String source;
+            if (status.isRetweet()) {
+                source = android.text.Html.fromHtml(status.getRetweetedStatus().getSource()).toString();
+            } else {
+                source = android.text.Html.fromHtml(status.getSource()).toString();
+            }
+
             values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
             values.put(HomeSQLiteHelper.COLUMN_TEXT, text);
             values.put(HomeSQLiteHelper.COLUMN_TWEET_ID, mId);
@@ -350,6 +365,7 @@ public class HomeContentProvider extends ContentProvider {
             values.put(HomeSQLiteHelper.COLUMN_URL, url);
             values.put(HomeSQLiteHelper.COLUMN_USERS, users);
             values.put(HomeSQLiteHelper.COLUMN_HASHTAGS, hashtags);
+            values.put(HomeSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
 
             valueses[i] = values;
         }
