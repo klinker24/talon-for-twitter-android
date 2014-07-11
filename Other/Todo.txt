@@ -19,7 +19,6 @@
     Version 2.5.0
         - manual tweetmarker
         - mute users for a time period
-        - update trends
 
     Version 2.6.0
         - More fragments to choose from
