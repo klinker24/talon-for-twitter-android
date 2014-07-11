@@ -2,17 +2,11 @@ package com.klinker.android.twitter_l.ui.compose;
 
 import android.app.NotificationManager;
 import android.content.Context;
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/compose/NotificationCompose.java
 
-import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-=======
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-
 import android.support.v4.app.RemoteInput;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/compose/NotificationCompose.java
+import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 
 public class NotificationCompose extends ComposeActivity {
 
