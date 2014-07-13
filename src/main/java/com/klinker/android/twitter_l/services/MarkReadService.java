@@ -37,12 +37,10 @@ public class MarkReadService extends IntentService {
         // we can just mark everything as read because it isnt taxing at all and won't do anything in the mentions if there isn't one
         // and the shared prefs are easy.
         // this is only called from the notification and there will only ever be one thing that is unread when this button is availible
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                MentionsDataSource.getInstance(context).markAllRead(currentAccount);
-            }
-        }, 10000);
+
+        MentionsDataSource.getInstance(context).markAllRead(1);
+        MentionsDataSource.getInstance(context).markAllRead(2);
+
         InteractionsDataSource.getInstance(context).markAllRead(currentAccount);
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();

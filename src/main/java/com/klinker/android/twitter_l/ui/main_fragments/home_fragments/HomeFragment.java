@@ -414,7 +414,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             } else {
                                 size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             }
-                            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+                            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 0 : 1), size);
                         } else if (tweets != 0) {
                             unread = tweets;
                             int size;
@@ -423,7 +423,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             } else {
                                 size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             }
-                            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround || isLauncher() ? 1 : 2), size);
+                            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 0 : 1), size);
                         } else {
                             listView.setSelectionFromTop(0, 0);
                         }
@@ -760,6 +760,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                                 if (unread > 0) {
                                     final CharSequence text;
+
+                                    numberNew = HomeDataSource.getInstance(context).getUnreadCount(currentAccount);
 
                                     text = numberNew == 1 ?  numberNew + " " + sNewTweet :  numberNew + " " + sNewTweets;
 
