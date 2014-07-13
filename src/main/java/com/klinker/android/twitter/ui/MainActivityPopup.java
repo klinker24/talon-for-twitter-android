@@ -54,6 +54,12 @@ public class MainActivityPopup extends MainActivity {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        MainActivity.isPopup = true;
+    }
+
+    @Override
     public void onPause() {
         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
         super.onPause();

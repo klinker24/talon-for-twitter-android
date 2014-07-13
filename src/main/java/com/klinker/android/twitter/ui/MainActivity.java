@@ -371,6 +371,8 @@ public class MainActivity extends DrawerActivity {
     public void onStart() {
         super.onStart();
 
+        MainActivity.isPopup = false;
+
         Log.v("talon_starting", "main activity starting");
 
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",

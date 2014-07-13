@@ -63,6 +63,9 @@ public class NotificationUtils {
     public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
 
     public static void refreshNotification(Context context) {
+        refreshNotification(context, false);
+    }
+    public static void refreshNotification(Context context, boolean noTimeline) {
         AppSettings settings = AppSettings.getInstance(context);
 
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -73,7 +76,7 @@ public class NotificationUtils {
         int[] unreadCounts = getUnreads(context);
 
         // if they don't want that type of notification, simply set it to zero
-        if (!settings.timelineNot || (settings.pushNotifications && settings.liveStreaming)) {
+        if (!settings.timelineNot || (settings.pushNotifications && settings.liveStreaming) || noTimeline) {
             unreadCounts[0] = 0;
         }
         if (!settings.mentionsNot) {
