@@ -13,7 +13,7 @@
     - switch mentions to save the position instead of current unread method
     - duplicate followers and following with low numbers
     - sometimes will jump down a tweet when loading data
-
+    - switching accounts on the launcher sometimes confuses and mixes up the timelines
 
 -- For Release --
 
