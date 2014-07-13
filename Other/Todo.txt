@@ -10,19 +10,16 @@
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
-    - false toast on local trends failed (no idea where this is coming from...)
     - switch mentions to save the position instead of current unread method
     - duplicate followers and following with low numbers
+    - sometimes will jump down a tweet when loading data
+    - switching accounts on the launcher sometimes confuses and mixes up the timelines
 
 -- For Release --
 
     Version 2.5.0
         - manual tweetmarker
         - mute users for a time period
-        - update trends
-        - mute client doesn't account for retweets (if it is retweet, get the source of the original tweet)
-        - pictures in direct messages may have had a url change
-        - pick time and pick date strings not available
 
     Version 2.6.0
         - More fragments to choose from

@@ -61,7 +61,11 @@ public class MentionsRefreshService extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
             if (settings.notifications && settings.mentionsNot && inserted > 0) {
-                NotificationUtils.refreshNotification(context);
+                if (intent.getBooleanExtra("from_launcher", false)) {
+                    NotificationUtils.refreshNotification(context, true);
+                } else {
+                    NotificationUtils.refreshNotification(context);
+                }
             }
 
             if (settings.syncSecondMentions) {
