@@ -11,7 +11,7 @@
     <string name="menu_follow">Suivre l\'utilisateur</string>
     <string name="menu_unfollow">Ne plus suivre l\'utilisateur</string>
     <string name="menu_tweet">Envoyer le tweet</string>
-    <string name="menu_dm">Envoyer le message privé</string>
+    <string name="menu_dm">Envoyer un message privé</string>
     <string name="menu_block">Bloquer l\'utilisateur</string>
     <string name="menu_unblock">Débloquer l\'utilisateur</string>
     <string name="menu_add_to_list">Ajouter à la liste</string>
@@ -34,9 +34,9 @@
     <string name="yesterday">Hier</string>
     <string name="days_ago">Il y a %s jours</string>
     <!-- Muting -->
-    <string name="mute">Mute</string>
+    <string name="mute">Mettre en sourdine</string>
     <string name="unmute">Un-Mute</string>
-    <string name="muted_users">Utilisateurs mutés</string>
+    <string name="muted_users">Utilisateurs mis en sourdines</string>
     <string name="no_users">Aucun utilisateur</string>
     <!-- Main Activity -->
     <string name="links">Liens</string>
@@ -387,7 +387,7 @@ Défaut (quand c\'est désactivé) \n
     <string name="layout_hangouts">Hangouts</string>
     <!-- added after release -->
     <string name="use_inapp_browser">Utiliser le navigateur intégré</string>
-    <string name="use_browser_on_tweet">Page du navigateur sur le tweet</string>
+    <string name="use_browser_on_tweet">Page du navigateur présente sur le tweet</string>
     <string name="dismiss_all">Tout rejeter</string>
     <string name="handle_and_name">Afficher le pseudo et le nom complet</string>
     <string name="notification_types">Type de notification</string>
@@ -405,11 +405,11 @@ Défaut (quand c\'est désactivé) \n
     <string name="ignore_retweets">Ignorer les retweets</string>
     <string name="ignore_retweets_summary">Ne pas afficher les retweets dans votre timeline</string>
     <string name="view">Vue</string>
-    <string name="muted_hashtags">Hastags Mutés</string>
+    <string name="muted_hashtags">Hastags mise en sourdines</string>
     <string name="muted_hashtags_summary">Appuyez sur le hastags pour supprimer le mute</string>
     <string name="no_hashtags">Pas de hastags</string>
-    <string name="mute_hashtags">Muter le Hastags</string>
-    <string name="muted">Muté</string>
+    <string name="mute_hashtags">Mettre en sourdine le Hastags</string>
+    <string name="muted">Mis en sourdine</string>
     <string name="auto_insert_hashtags">Insertion automatique des Hastags</string>
     <string name="to_replies">Insérer n\'importe quel hastags qui se trouve dans le tweet auquel vous répondez</string>
     <string name="clean_now">Vider les bases de données maintenant</string>
@@ -554,13 +554,48 @@ Cette image sera disponible dans votre profil TwitPic.</string>
     <string name="twitpic_disclaimer_multi_summary">L\'API Twitter ne prends pas en charge l\'ajout de plusieurs images dans un tweet.\n\n
 A la place, Talon permettra le téléchargement des photos via TwitPic.</string>
     <string name="loading_webpage">Chargement de la page</string>
-    <string name="plain_text_browser">Texte simple pour le navigateur</string>
-    <string name="plain_text_summary">Supprimer les images et le formatage à partir du navigateur web et juste montrer le texte sur la page web.</string>
-    <string name="plain_text_on_data">Texte simple en data</string>
-    <string name="plain_text_on_data_summary">Activer le texte simple dans le navigateur uniquement en data, pas en WiFi.</string>
+    <string name="plain_text_browser">Texte brut pour le navigateur</string>
+    <string name="plain_text_summary">Supprimer les images et le formatage à partir du navigateur web et montrer uniquement le texte sur la page web.</string>
+    <string name="plain_text_on_data">Texte brut en data</string>
+    <string name="plain_text_on_data_summary">Activer le texte brut dans le navigateur uniquement en data, pas en WiFi.</string>
     <string name="layout_full_screen">Plein Ecran</string>
-    <string name="pre_cache_images">Pre-Cache Images</string>
-    <string name="pre_cache_summary">Télécharger les images immédiatement dès qu\'elles sont en streaming ou récupérées à partir d\'une actualisation en arrière-plan de la timeline.</string>
-    <string name="open_to_web">Ouvrir le tweet dans une pag web</string>
+    <string name="pre_cache_images">Pre-Cache des images</string>
+    <string name="pre_cache_summary">Télécharger les images immédiatement dès qu\'elles sont en streaming ou récupérées lors d\'une actualisation en arrière-plan de la timeline.</string>
+    <string name="pre_cache_settings">Pre-Cache Options</string>
+    <string name="pre_cache_only_wifi">Seulement sur le Wi-Fi</string>
+    <string name="tweet_page">Page Tweet</string>
+    <string name="web_page">Page Web</string>
+    <string name="conversation_page">Page Conversation</string>
+    <string name="viewer_page">Visualiser un Tweet</string>
+    <string name="viewer_page_summary">Page par défaut à ouvrir lors de la lecture d\'un tweet</string>
+    <string name="browser_settings">Paramètres du Navigateur</string>
+    <string name="memory_manage">Gestion de la mémoire</string>
+    <string name="protected_account">L\'utilisateur a un compte protégé !</string>
+    <string name="mute_rt">Mettre en sourdine les Retweets</string>
+    <string name="unmute_rt">Un-mute les Retweets</string>
+    <string name="muted_rts">Retweeteurs mis en sourdine</string>
+    <string name="twitter">Twitter</string>
+    <string name="user">Utilisateurs</string>
+    <string name="menu_translate">Traduire le Tweet</string>
+    <string name="add_new_tweet">Ajouter un nouveau Tweet</string>
+    <string name="scheduled_tweets">Tweets Planifiés</string>
+    <string name="done_label">Terminé</string>
+    <string name="tweet_queued">Tweet mis en attente !</string>
+    <string name="only_queue_no_pic">Nous pouvons uniquement mettre en attente les tweets qui ne contiennent pas d\'image!</string>
+    <string name="menu_view_queued">Voir les tweets en attente</string>
+    <string name="keep_queued_tweet">Garder le tweet en attente ?</string>
+    <string name="date_picker">Choisir la date</string>
+    <string name="time_picker">Choisir l\'heure</string>
+    <string name="complete_form">S\'il vous plaît remplissez le formulaire!</string>
+    <string name="no_drafts">Aucun brouillon trouvé</string>
+    <string name="no_queued">Pas de tweets en attente</string>
+    <string name="menu_show_top_tweets">Filtrer \"Top Tweets\"</string>
+    <string name="delete_all">Supprimer tous les brouillons</string>
+    <string name="muted_clients">Clients mis en sourdine</string>
+    <string name="mute_client">Mettre en sourdine le client</string>
+    <string name="no_clients">Pas de clients</string>
+    <string name="muted_clients_summary">Vous permet de couper tous les tweets en provenance d\'une application spécifique.</string>
+    <string name="client_not_found">Client non trouvé!</string>
+    <string name="open_to_web">Ouvrir le tweet dans une page web</string>
     <string name="open_to_web_summary">Si un tweet contient un lien, il ouvrira directement ce lien à la place du tweet.</string>
 </resources>

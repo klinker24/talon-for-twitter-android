@@ -52,7 +52,7 @@
     <string name="world_trends">Globale trends</string>
     <string name="search">Søg</string>
     <string name="lists">Lister</string>
-    <string name="search_hint">Søg efter...</string>
+    <string name="search_hint">Søg...</string>
     <string name="new_tweet">Nyt tweet</string>
     <string name="new_tweets">Nye tweets</string>
     <string name="no_new_tweets">Ingen nye tweets</string>
@@ -192,7 +192,7 @@
     <string name="retweet_lower">retweet</string>
     <string name="retweeter">retweetet af @</string>
     <!-- Tweet Activity -->
-    <string name="menu_open_web">Åbn Web Link</string>
+    <string name="menu_open_web">Åbn web link</string>
     <string name="menu_copy_text">Kopiér tweet tekst</string>
     <string name="menu_share">Del tweet</string>
     <string name="menu_delete_tweet">Slet tweet</string>
@@ -291,15 +291,15 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="sync_second_mentions">Synkr. sekundær konto, meninger</string>
     <string name="sync_second_mentions_summary">Tjek og informer automatisk for nye meninger, både for din primære og sekundære konto</string>
     <string name="max_number_summary">Høj max. grænse betyder langsommere opdatering</string>
-    <string name="auto_refresh_category">Auto-opdater indstillinger</string>
+    <string name="auto_refresh_category">Auto-opdatér indstillinger</string>
     <string name="refresh_on_startup">Opdater når app\'en åbnes</string>
-    <string name="timeline_sync_interval">Tidslinjen\'s opdaterings interval</string>
-    <string name="mentions_sync_interval">Meninger\'s opdaterings interval</string>
-    <string name="dm_sync_interval">Direkte beskeder\'s opdaterings interval</string>
-    <string name="sync_friends">Synkr. venners data</string>
-    <string name="sync_friends_summary2">Synkronisér venners data til brug ved skrivning af tweets</string>
-    <string name="sync_friends_summary">Synkronisérer manuelt venne listen\n\nDet blev gjort ved log ind og de bliver automatisk tilføjet når du følger nogen fra Talon. Denne funktion vil tilføje de seneste personer du har valgt at følge\n\n
- Disse data bliver brugt når der søges efter brugere, ifbm. skrivning af tweets</string>
+    <string name="timeline_sync_interval">Opdaterings interval for Tidslinje</string>
+    <string name="mentions_sync_interval">Opdaterings interval for Meninger</string>
+    <string name="dm_sync_interval">Opdaterings interval for Direkte besk.</string>
+    <string name="sync_friends">Synkronisér venners data</string>
+    <string name="sync_friends_summary2">Synkronisérer venners @brugernavn til brug ved skrivning af tweets</string>
+    <string name="sync_friends_summary">Synkronisérer manuelt venne listen\n\nDet blev gjort ved log ind og de bliver automatisk tilføjet når du vælger at følge nogen via Talon. Denne funktion vil tilføje de allersidste personer du har valgt at følge\n\n
+ Disse data bliver brugt når der søges efter brugere ifbm. skrivning af tweets</string>
     <string name="sync_success">Synkroniseret</string>
     <string name="sync_failed">Synkroniserings fejl</string>
     <string name="push_notification_options">"\"Push notifikationer\" indstillinger"</string>
@@ -330,11 +330,11 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="current_cache_size">Nuværende størrelse på cache</string>
     <string name="cache_dialog_summary">Dette kan ikke fortrydes</string>
     <string name="timeline_size">Størrelse for tidslinje</string>
-    <string name="timeline_size_summary">Maksimale antal af tweets der gemmes i databasen </string>
+    <string name="timeline_size_summary">Max. antal tweets der gemmes i databasen</string>
     <string name="mentions_size">Størrelse for meninger</string>
-    <string name="mentions_size_summary">Maksimale antal af meninger der gemmes i databasen</string>
+    <string name="mentions_size_summary">Max. antal meninger der gemmes i databasen</string>
     <string name="dm_size">Størrelse for direkte beskeder</string>
-    <string name="dm_size_summary">Maksimale antal af direkte beskeder der gemmes i databasen</string>
+    <string name="dm_size_summary">Max. antal direkte beskeder der gemmes i databasen</string>
     <string name="auto_trim">Auto-trim databaser</string>
     <string name="trim_now">Trim databaser nu</string>
     <string name="trim_dialog">Trim databaser nu?</string>
@@ -523,7 +523,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="profile">Profil</string>
     <string name="favorites">Favoritter</string>
     <string name="load_pictures">Vis billeder</string>
-    <string name="pic_search_disclaimer">Gennemsøger tidslinjen for billeder. Det kan tage lidt tid, afhængig af antallet af billeder</string>
+    <string name="pic_search_disclaimer">Gennemsøger tidslinjen for billeder. Det kan tage lidt tid afhængig af antallet</string>
     <string name="widget_theme">Widget tema</string>
     <string name="widget_theme_summary">Tilføjet til widget på start skærmen</string>
     <string name="widget_light">Lyst tema</string>
@@ -569,7 +569,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="viewer_page">Vis ved tap på tweet</string>
     <string name="viewer_page_summary">Standard visning ved tap på tweet</string>
     <string name="browser_settings">Browser indstillinger</string>
-    <string name="memory_manage">Hukommelse indstillinger</string>
+    <string name="memory_manage">Hukommelses indstillinger</string>
     <string name="protected_account">Bruger har en beskyttet konto</string>
     <string name="mute_rt">Mute retweets</string>
     <string name="unmute_rt">Un-mute retweets</string>
