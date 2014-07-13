@@ -14,6 +14,13 @@
     - switch mentions to save the position instead of current unread method
     - duplicate followers and following with low numbers
 
+
+
+    - Doesn't show the right number of new tweets if you are switching between launcher and main app
+    - change the unread count to just always show the position
+    - get rid of the number of new tweets on the notification when you refresh from launcher page
+    - just get the position when pulling to refresh the home timeline and that will tell you how many new tweets there were
+
 -- For Release --
 
     Version 2.5.0
