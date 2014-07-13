@@ -882,7 +882,7 @@ public class HomeDataSource {
 
     public synchronized int getUnreadCount(int account) {
 
-        Cursor cursor = getUnreadCursor(account);
+        /*Cursor cursor = getUnreadCursor(account);
 
         int count;
         try {
@@ -894,7 +894,9 @@ public class HomeDataSource {
 
         cursor.close();
 
-        return count;
+        return count;*/
+
+        return getPosition(account);
     }
 
     public synchronized void markAllRead(int account) {

@@ -10,16 +10,14 @@
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
-    - false toast on local trends failed (no idea where this is coming from...)
     - switch mentions to save the position instead of current unread method
     - duplicate followers and following with low numbers
-
+    - sometimes will jump down a tweet when loading data
 
 
     - Doesn't show the right number of new tweets if you are switching between launcher and main app
     - change the unread count to just always show the position
     - get rid of the number of new tweets on the notification when you refresh from launcher page
-    - just get the position when pulling to refresh the home timeline and that will tell you how many new tweets there were
 
 -- For Release --
 
