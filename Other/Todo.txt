@@ -15,10 +15,6 @@
     - sometimes will jump down a tweet when loading data
 
 
-    - Doesn't show the right number of new tweets if you are switching between launcher and main app
-    - change the unread count to just always show the position
-    - get rid of the number of new tweets on the notification when you refresh from launcher page
-
 -- For Release --
 
     Version 2.5.0
