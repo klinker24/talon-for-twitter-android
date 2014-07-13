@@ -245,14 +245,40 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         replyList.setItemManager(builder.build());
 
-        /*final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
-        new Handler().postDelayed(new Runnable() {
+        // delay displaying the extra content just a little bit to get rid of some weird animations
+        final View extra = findViewById(R.id.extra_content);
+        final View name = findViewById(R.id.name);
+        final View screenname = findViewById(R.id.screen_name);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void run() {
-                scroll.smoothScrollTo(0, 0);
-            }
-        }, 250);*/
+            public void onAnimationStart(Animation animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (extra.getVisibility() != View.VISIBLE) {
+                    extra.setVisibility(View.VISIBLE);
+                }
+                if (name.getVisibility() != View.VISIBLE) {
+                    name.setVisibility(View.VISIBLE);
+                }
+                if (screenname.getVisibility() != View.VISIBLE) {
+                    screenname.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        anim.setDuration(300);
+        anim.setStartOffset(200);
+        extra.startAnimation(anim);
+        name.startAnimation(anim);
+        screenname.startAnimation(anim);
     }
 
     public void getTextFromSite(final String url, final HoloTextView browser) {
