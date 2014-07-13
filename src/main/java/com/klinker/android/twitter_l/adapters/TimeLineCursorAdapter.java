@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.adapters;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -405,12 +407,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         /*ActivityOptions options = ActivityOptions
                                 .makeSceneTransitionAnimation((Activity) context,
-                                        Pair.create((View)holder.profilePic, "profile_picture"),
+                                        Pair.create((View) holder.profilePic, "profile_picture"),
                                         Pair.create((View)holder.name, "person_name"),
                                         Pair.create((View)holder.screenTV, "person_handle"),
                                         Pair.create((View)holder.image, "large_image"));*/
 
                         context.startActivity(viewTweet/*, options.toBundle()*/);
+                        //((Activity) context).getFragmentManager().executePendingTransactions();
                     }
                 };
                 holder.background.setOnClickListener(click);
