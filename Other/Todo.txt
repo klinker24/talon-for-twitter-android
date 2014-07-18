@@ -21,6 +21,8 @@
         - manual tweetmarker
         - mute users for a time period
 
+        - redo notifications using the message style stuff
+
     Version 2.6.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
