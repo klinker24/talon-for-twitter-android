@@ -42,8 +42,6 @@ import com.klinker.android.twitter.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
-
 
 public class ComposeActivity extends Compose {
 
@@ -102,12 +100,12 @@ public class ComposeActivity extends Compose {
         int width = size.x;
 
         userAutoComplete = new ListPopupWindow(context);
-        userAutoComplete.setAnchorView(findViewById(R.id.prompt_pos));
+        userAutoComplete.setAnchorView(reply);
         userAutoComplete.setHeight(toDP(150));
         userAutoComplete.setWidth((int)(width * .75));
         userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(currentAccount, reply.getText().toString()), reply));
-        userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+        userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
 
         userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -117,7 +115,7 @@ public class ComposeActivity extends Compose {
         });
 
         hashtagAutoComplete = new ListPopupWindow(context);
-        hashtagAutoComplete.setAnchorView(findViewById(R.id.prompt_pos));
+        hashtagAutoComplete.setAnchorView(reply);
         hashtagAutoComplete.setHeight(toDP(150));
         hashtagAutoComplete.setWidth((int)(width * .75));
         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
@@ -201,8 +199,6 @@ public class ComposeActivity extends Compose {
 
             }
         });
-
-        mAttacher = new PhotoViewAttacher(attachImage);
 
         overflow = (ImageButton) findViewById(R.id.overflow_button);
         overflow.setOnClickListener(new View.OnClickListener() {

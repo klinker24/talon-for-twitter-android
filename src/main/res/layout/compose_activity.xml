@@ -5,45 +5,194 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:id="@+id/prompt_pos"
-            />
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent" >
 
-        <ImageView
-                android:id="@+id/picture"
-                android:layout_height="0dp"
-                android:layout_above="@+id/bottom_bar"
-                android:layout_alignParentTop="true"
-                android:layout_width="match_parent"
-                android:scaleType="fitCenter"
-                android:layout_margin="15dp"
-                android:adjustViewBounds="true"
-                android:padding="4dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_above="@+id/bottom_bar">
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:gravity="center_vertical">
 
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                android:id="@+id/number_attached"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:gravity="center"
-                android:background="@drawable/background_card"
-                android:textColor="@android:color/black"
-                android:visibility="gone"/>
+                <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+                        android:id="@+id/profile_pic"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:scaleType="fitCenter"/>
+
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                        android:id="@+id/current_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"/>
 
             </LinearLayout>
+
+            <com.klinker.android.twitter.manipulations.widgets.HoloEditText
+                    android:id="@+id/tweet_content"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textColor="?textColor"
+                    android:padding="15dp"
+                    android:layout_gravity="top"
+                    android:textSize="16sp"
+                    android:hint="@string/compose_tweet_hint"
+                    android:background="@android:color/transparent"
+                    android:inputType="textCapSentences|textMultiLine" />
+
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/prompt_pos"
+                    />
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/picture1"
+                        android:layout_height="150dp"
+                        android:layout_width="150dp"
+                        android:padding="4dp"
+                        android:minHeight="150dp" android:minWidth="150dp"
+                        android:scaleType="centerCrop" android:adjustViewBounds="false"
+                        android:maxWidth="150dp" android:maxHeight="150dp"/>
+
+
+                <ImageView
+                        android:id="@+id/picture2"
+                        android:layout_height="150dp"
+                        android:layout_width="150dp"
+                        android:padding="4dp"
+                        android:layout_marginLeft="30dp"
+                        android:minHeight="150dp" android:minWidth="150dp"
+                        android:scaleType="centerCrop" android:adjustViewBounds="false"
+                        android:maxWidth="150dp" android:maxHeight="150dp"/>
+
+
+                <ImageView
+                        android:id="@+id/picture3"
+                        android:layout_height="150dp"
+                        android:layout_width="150dp"
+                        android:padding="4dp"
+                        android:layout_marginLeft="60dp"
+                        android:minHeight="150dp" android:minWidth="150dp"
+                        android:scaleType="centerCrop" android:adjustViewBounds="false"
+                        android:maxWidth="150dp" android:maxHeight="150dp"/>
+
+
+                <ImageView
+                        android:id="@+id/picture4"
+                        android:layout_height="150dp"
+                        android:layout_width="150dp"
+                        android:padding="4dp"
+                        android:layout_marginLeft="90dp"
+                        android:background="@drawable/pressed_toast"
+                        android:minHeight="150dp" android:minWidth="150dp"
+                        android:scaleType="centerCrop" android:adjustViewBounds="false"
+                        android:maxWidth="150dp" android:maxHeight="150dp"/>
+
+
+
+            </RelativeLayout>
+            
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="?drawerDividerColor">
+
+        <ImageButton
+                android:id="@+id/attach"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="Attach Image"
+                android:background="@drawable/pressed_button"
+                android:src="?attachButton"
+                android:gravity="center"
+                android:layout_gravity="center" />
+
+        <ImageButton
+                android:id="@+id/at_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="Attach User"
+                android:background="@drawable/pressed_button"
+                android:src="?mentionItem"
+                android:gravity="center"
+                android:layout_gravity="center" />
+
+        <ImageButton
+                android:id="@+id/location"
+                android:layout_height="48dp"
+                android:layout_width="48dp"
+                android:src="?location_button"
+                android:background="@drawable/pressed_button"
+                android:contentDescription="Add Location"
+                android:minHeight="48dp" android:minWidth="48dp"
+                android:scaleType="center" android:adjustViewBounds="true"
+                android:maxWidth="48dp" android:maxHeight="48dp" />
+
+
+        <ImageButton
+                android:id="@+id/emoji"
+                android:layout_height="48dp"
+                android:layout_width="48dp"
+                android:contentDescription="Add Emojis"
+                android:src="?emoji_button"
+                android:background="@drawable/pressed_button"
+                android:minHeight="48dp" android:minWidth="48dp"
+                android:scaleType="center" android:adjustViewBounds="true"
+                android:maxWidth="48dp" android:maxHeight="48dp" />
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/char_remaining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"/>
+
+            <ImageView
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:contentDescription="Send Button"
+                    android:src="?sendButton"
+                    android:background="@drawable/pressed_button"
+                    android:minHeight="48dp" android:minWidth="48dp"
+                    android:scaleType="center" android:adjustViewBounds="true"
+                    android:maxWidth="48dp" android:maxHeight="48dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp" >
 
 
         <ScrollView
@@ -120,50 +269,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal" >
 
-                    <ImageButton
-                        android:id="@+id/at_button"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="Attach User"
-                        android:background="@drawable/pressed_button"
-                        android:src="@drawable/mentions_light"
-                        android:gravity="center"
-                        android:layout_gravity="center" />
-
-                    <ImageButton
-                        android:id="@+id/location"
-                        android:layout_height="48dp"
-                        android:layout_width="48dp"
-                        android:src="@drawable/ic_action_place_light"
-                        android:background="@drawable/pressed_button"
-                        android:contentDescription="Add Location"
-                        android:minHeight="48dp" android:minWidth="48dp"
-                        android:scaleType="center" android:adjustViewBounds="true"
-                        android:maxWidth="48dp" android:maxHeight="48dp" />
-
-                    <ImageButton
-                        android:id="@+id/attach"
-                        android:layout_height="48dp"
-                        android:layout_width="48dp"
-                        android:contentDescription="Attach Picture"
-                        android:src="@drawable/ic_attach_light"
-                        android:background="@drawable/pressed_button"
-                        android:minHeight="48dp" android:minWidth="48dp"
-                        android:scaleType="center" android:adjustViewBounds="true"
-                        android:maxWidth="48dp" android:maxHeight="48dp" />
-
-                    <ImageButton
-                        android:id="@+id/emoji"
-                        android:layout_height="48dp"
-                        android:layout_width="48dp"
-                        android:contentDescription="Add Emojis"
-                        android:src="@drawable/ic_emoji_keyboard_dark"
-                        android:background="@drawable/pressed_button"
-                        android:minHeight="48dp" android:minWidth="48dp"
-                        android:scaleType="center" android:adjustViewBounds="true"
-                        android:maxWidth="48dp" android:maxHeight="48dp" />
 
                 </LinearLayout>
 
@@ -179,16 +286,6 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
-            <com.klinker.android.twitter.manipulations.widgets.HoloEditText
-                    android:id="@+id/tweet_content"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:maxLines="5"
-                    android:minLines="2"
-                    android:textColor="?textColor"
-                    android:hint="@string/compose_tweet_hint"
-                    android:inputType="textCapSentences|textMultiLine" />
 
             <LinearLayout
                     android:id="@+id/overflow"
@@ -196,12 +293,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                        android:id="@+id/char_remaining"
-                        android:layout_width="48dp"
-                        android:layout_height="wrap_content"
-                        android:textSize="10dp"
-                        android:gravity="center"/>
+
 
                 <ImageButton
                         android:id="@+id/overflow_button"
