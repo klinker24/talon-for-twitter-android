@@ -183,7 +183,7 @@
                 android:layout_height="48dp"
                 android:layout_width="48dp"
                 android:contentDescription="Add Emojis"
-                android:src="?emoji_button"
+                android:src="?emoji_button_changing"
                 android:background="@drawable/pressed_toast"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="center" android:adjustViewBounds="true"
