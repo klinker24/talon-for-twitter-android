@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -38,6 +39,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -54,10 +56,12 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -74,6 +78,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.klinker.android.twitter_l.utils.text.TextUtils;
 import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -91,7 +96,7 @@ public abstract class Compose extends Activity implements
 
     public EditText contactEntry;
     public EditText reply;
-    public ImageView attachImage;
+    public ImageView[] attachImage = new ImageView[4];
     public ImageButton attachButton;
     public ImageButton emojiButton;
     public EmojiKeyboard emojiKeyboard;
@@ -101,11 +106,8 @@ public abstract class Compose extends Activity implements
     public ListPopupWindow hashtagAutoComplete;
     public HoloTextView numberAttached;
 
-    public LinearLayout selectAccounts;
-    public CheckBox accountOneCheck;
-    public CheckBox accountTwoCheck;
-    public HoloTextView accountOneName;
-    public HoloTextView accountTwoName;
+    protected boolean useAccOne = true;
+    protected boolean useAccTwo = false;
 
     // attach up to four images
     public String[] attachedUri = new String[] {"","","",""};
@@ -116,6 +118,7 @@ public abstract class Compose extends Activity implements
     public boolean isDM = false;
 
     public long notiId = 0;
+    public String replyText = "";
 
     public int currentAccount;
 
@@ -152,14 +155,14 @@ public abstract class Compose extends Activity implements
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         countHandler = new Handler();
 
@@ -192,8 +195,9 @@ public abstract class Compose extends Activity implements
         mLocationClient.connect();
 
         Utils.setUpComposeTheme(context, settings);
+        setUpWindow();
         setUpLayout();
-        setUpDoneDiscard();
+        setUpActionBar();
         setUpReplyText();
 
         if (reply.getText().toString().contains(" RT @")) {
@@ -206,10 +210,17 @@ public abstract class Compose extends Activity implements
             attachButton.performClick();
             overflow.performClick();
         }
+
+        if (notiId != 0) {
+            HoloTextView replyTo = (HoloTextView) findViewById(R.id.reply_to);
+            replyTo.setText(replyText);
+            TextUtils.linkifyText(context, replyTo, null, true, "", true);
+            replyTo.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setUpWindow() {
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
@@ -219,6 +230,7 @@ public abstract class Compose extends Activity implements
         params.alpha = 1.0f;    // lower than one makes it more transparent
         params.dimAmount = .6f;  // set it higher if you want to dim behind the window
         getWindow().setAttributes(params);
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         // Gets the display size so that you can set the window to a percent of that
         Display display = getWindowManager().getDefaultDisplay();
@@ -229,18 +241,14 @@ public abstract class Compose extends Activity implements
 
         // You could also easily used an integer value from the shared preferences to set the percent
         if (height > width) {
-            getWindow().setLayout((int) (width * .9), (int) (height * .8));
+            getWindow().setLayout((int) (width * .9), (int) (height * .9));
         } else {
             getWindow().setLayout((int) (width * .7), (int) (height * .8));
         }
     }
 
-    public void setUpDoneDiscard() {
-        LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View customActionBarView = inflater.inflate(
-                R.layout.actionbar_send_discard, null);
-        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+    public void setUpActionBar() {
+        findViewById(R.id.send_button).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -283,7 +291,7 @@ public abstract class Compose extends Activity implements
                         }
                     }
                 });
-        customActionBarView.findViewById(R.id.actionbar_discard).setOnClickListener(
+        findViewById(R.id.discard_button).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -296,27 +304,39 @@ public abstract class Compose extends Activity implements
                     }
                 });
 
-        // Show the custom action bar view and hide the normal Home icon and title.
-        final ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM,
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
-                        | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     public void setUpSimilar() {
-        attachImage = (ImageView) findViewById(R.id.picture);
+        attachImage[0] = (ImageView) findViewById(R.id.picture1);
+        attachImage[1] = (ImageView) findViewById(R.id.picture2);
+        attachImage[2] = (ImageView) findViewById(R.id.picture3);
+        attachImage[3] = (ImageView) findViewById(R.id.picture4);
         attachButton = (ImageButton) findViewById(R.id.attach);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
         reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
-        numberAttached = (HoloTextView) findViewById(R.id.number_attached);
 
-        numberAttached.setText("0 " + getString(R.string.attached_images));
+        findViewById(R.id.prompt_pos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("talon_input", "clicked the view");
+                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .showSoftInput(reply, InputMethodManager.SHOW_FORCED);
+            }
+        });
+
+        NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+        HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
+
+        if (settings.roundContactImages) {
+            pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+        } else {
+            pic.loadImage(settings.myProfilePicUrl, false, null);
+        }
+        currentName.setText("@" + settings.myScreenName);
+
+        //numberAttached.setText("0 " + getString(R.string.attached_images));
 
         charRemaining.setText(140 - reply.getText().length() + "");
 
@@ -406,6 +426,8 @@ public abstract class Compose extends Activity implements
 
             ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+            b = ImageUtils.cropSquare(b);
 
             return rotateBitmap(b, orientation);
 
@@ -522,19 +544,20 @@ public abstract class Compose extends Activity implements
         if (imageUri != null) {
             //String filePath = IOUtils.getPath(imageUri, context);
             try {
-                attachImage.setImageBitmap(getThumbnail(imageUri));
+                attachImage[imagesAttached].setImageBitmap(getThumbnail(imageUri));
+                attachImage[imagesAttached].setVisibility(View.VISIBLE);
                 attachedUri[imagesAttached] = imageUri.toString();
                 imagesAttached++;
-                numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
-                numberAttached.setVisibility(View.VISIBLE);
+                //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                //numberAttached.setVisibility(View.VISIBLE);
             } catch (FileNotFoundException e) {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                numberAttached.setText("");
-                numberAttached.setVisibility(View.GONE);
+                //numberAttached.setText("");
+                //numberAttached.setVisibility(View.GONE);
             } catch (IOException e) {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                numberAttached.setText("");
-                numberAttached.setVisibility(View.GONE);
+                //numberAttached.setText("");
+                //numberAttached.setVisibility(View.GONE);
             }
         }
     }
@@ -669,25 +692,26 @@ public abstract class Compose extends Activity implements
                         Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
 
                         try {
-                            attachImage.setImageBitmap(getThumbnail(selectedImage));
+                            attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
+                            attachImage[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
-                            numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
-                            numberAttached.setVisibility(View.VISIBLE);
+                            //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                            //numberAttached.setVisibility(View.VISIBLE);
                         } catch (FileNotFoundException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            numberAttached.setText("");
-                            numberAttached.setVisibility(View.GONE);
+                            //numberAttached.setText("");
+                            //numberAttached.setVisibility(View.GONE);
                         } catch (IOException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            numberAttached.setText("");
-                            numberAttached.setVisibility(View.GONE);
+                            //numberAttached.setText("");
+                            //numberAttached.setVisibility(View.GONE);
                         }
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        numberAttached.setText("");
-                        numberAttached.setVisibility(View.GONE);
+                        //numberAttached.setText("");
+                        //numberAttached.setVisibility(View.GONE);
                     }
                 }
                 countHandler.post(getCount);
@@ -698,26 +722,27 @@ public abstract class Compose extends Activity implements
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
 
                         try {
-                            attachImage.setImageBitmap(getThumbnail(selectedImage));
+                            attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
+                            attachImage[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
-                            numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
-                            numberAttached.setVisibility(View.VISIBLE);
+                            //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                            //numberAttached.setVisibility(View.VISIBLE);
                         } catch (FileNotFoundException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            numberAttached.setText("");
-                            numberAttached.setVisibility(View.GONE);
+                            //numberAttached.setText("");
+                            //numberAttached.setVisibility(View.GONE);
                         } catch (IOException e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            numberAttached.setText("");
-                            numberAttached.setVisibility(View.GONE);
+                            //numberAttached.setText("");
+                            //numberAttached.setVisibility(View.GONE);
                         }
 
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        numberAttached.setText("");
-                        numberAttached.setVisibility(View.GONE);
+                        //numberAttached.setText("");
+                        //numberAttached.setVisibility(View.GONE);
                     }
                 }
                 countHandler.post(getCount);
@@ -728,18 +753,19 @@ public abstract class Compose extends Activity implements
                     attachedUri[imagesAttached] = Uri.fromFile(new File(path)).toString();
 
                     try {
-                        attachImage.setImageBitmap(getThumbnail(Uri.parse(attachedUri[imagesAttached])));
+                        attachImage[imagesAttached].setImageBitmap(getThumbnail(Uri.parse(attachedUri[imagesAttached])));
+                        attachImage[imagesAttached].setVisibility(View.VISIBLE);
                         imagesAttached++;
-                        numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
-                        numberAttached.setVisibility(View.VISIBLE);
+                        //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
+                        //numberAttached.setVisibility(View.VISIBLE);
                     } catch (FileNotFoundException e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                        numberAttached.setText("");
-                        numberAttached.setVisibility(View.GONE);
+                        //numberAttached.setText("");
+                        //numberAttached.setVisibility(View.GONE);
                     } catch (IOException e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                        numberAttached.setText("");
-                        numberAttached.setVisibility(View.GONE);
+                        //numberAttached.setText("");
+                        //numberAttached.setVisibility(View.GONE);
                     }
 
 
@@ -771,7 +797,7 @@ public abstract class Compose extends Activity implements
         if (emojiKeyboard.isShowing()) {
             emojiKeyboard.setVisibility(false);
 
-            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button_changing});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             emojiButton.setImageResource(resource);
@@ -906,7 +932,7 @@ public abstract class Compose extends Activity implements
 
                     boolean isDone = false;
 
-                    if (accountOneCheck.isChecked()) {
+                    if (useAccOne) {
                         TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
 
                         if (notiId != 0) {
@@ -940,7 +966,7 @@ public abstract class Compose extends Activity implements
                         }
                     }
 
-                    if (accountTwoCheck.isChecked()) {
+                    if (useAccTwo) {
                         TwitLongerHelper helper = new TwitLongerHelper(text, twitter2);
 
                         if (notiId != 0) {
@@ -990,10 +1016,10 @@ public abstract class Compose extends Activity implements
                             media.setLocation(geolocation);
                         }
 
-                        if (accountOneCheck.isChecked()) {
+                        if (useAccOne) {
                             twitter.updateStatus(media);
                         }
-                        if (accountTwoCheck.isChecked()) {
+                        if (useAccTwo) {
                             twitter2.updateStatus(media);
                         }
 
@@ -1026,7 +1052,7 @@ public abstract class Compose extends Activity implements
                         if (settings.twitpic || imagesAttached > 1) {
                             boolean isDone = false;
 
-                            if (accountOneCheck.isChecked()) {
+                            if (useAccOne) {
                                 for (int i = 1; i < imagesAttached; i++) {
                                     TwitPicHelper helper = new TwitPicHelper(twitter, "", files[i], context);
                                     text += " " + helper.uploadForUrl();
@@ -1058,7 +1084,7 @@ public abstract class Compose extends Activity implements
                                     isDone = true;
                                 }
                             }
-                            if (accountTwoCheck.isChecked()) {
+                            if (useAccTwo) {
                                 for (int i = 1; i < imagesAttached; i++) {
                                     TwitPicHelper helper = new TwitPicHelper(twitter2, "", files[i], context);
                                     text += " " + helper.uploadForUrl();
@@ -1116,10 +1142,10 @@ public abstract class Compose extends Activity implements
                             }
 
                             twitter4j.Status s = null;
-                            if (accountOneCheck.isChecked()) {
+                            if (useAccOne) {
                                 s = twitter.updateStatus(media);
                             }
-                            if (accountTwoCheck.isChecked()) {
+                            if (useAccTwo) {
                                 s = twitter2.updateStatus(media);
                             }
 

@@ -201,6 +201,7 @@ public class NotificationUtils {
                     long id = data.getLastIds(currentAccount)[0];
                     PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
                     sharedPrefs.edit().putLong("from_notification_long", id).commit();
+                    sharedPrefs.edit().putString("from_notification_text", "@" + title[1] + ": " + TweetLinkUtils.removeColorHtml(shortText, settings)).commit();
 
                     // Create the remote input
                     RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)

@@ -92,6 +92,7 @@ limitations under the License.
         <item name="background_card">@drawable/send_card_black</item>
         <item name="notification_button">@drawable/ic_action_notification_dark</item>
         <item name="notification_button_empty">@drawable/ic_action_notification_none_dark</item>
+        <item name="hashtag_button">@drawable/ic_action_hashtag_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="notificationSettings">@drawable/drawer_notifications_dark</item>
@@ -109,6 +110,9 @@ limitations under the License.
 
         <item name="actionbar">@drawable/ab_solid_black</item>
         <item name="searchIcon">@drawable/ic_action_search_dark</item>
+        <item name="circle_overflow">@drawable/ic_action_circle_overflow_dark</item>
+
+        <item name="compose_window_background">@drawable/compose_background_black</item>
 
     </style>
 

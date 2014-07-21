@@ -279,7 +279,7 @@ public class TweetFragment extends Fragment {
             replyButton = (ImageButton) layout.findViewById(R.id.reply_button);
             attachButton = null;//(ImageButton) layout.findViewById(R.id.attach_button);
             overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
-            buttons = (LinearLayout) layout.findViewById(R.id.buttons);
+            buttons = null;//(LinearLayout) layout.findViewById(R.id.buttons);
             charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
             at = (ImageButton) layout.findViewById(R.id.at_button);
             emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
