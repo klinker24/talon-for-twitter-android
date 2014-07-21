@@ -412,7 +412,7 @@ public class ComposeActivity extends Compose {
                     if (emojiKeyboard.isShowing()) {
                         emojiKeyboard.setVisibility(false);
 
-                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button_changing});
                         int resource = a.getResourceId(0, 0);
                         a.recycle();
                         emojiButton.setImageResource(resource);
@@ -435,7 +435,7 @@ public class ComposeActivity extends Compose {
                             }
                         }, 250);
 
-                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button_changing});
                         int resource = a.getResourceId(0, 0);
                         a.recycle();
                         emojiButton.setImageResource(resource);
@@ -451,7 +451,7 @@ public class ComposeActivity extends Compose {
                             }
                         }, 250);
 
-                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboardButton});
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.keyboard_button_changing});
                         int resource = a.getResourceId(0, 0);
                         a.recycle();
                         emojiButton.setImageResource(resource);

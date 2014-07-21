@@ -106,11 +106,8 @@ public abstract class Compose extends Activity implements
     public ListPopupWindow hashtagAutoComplete;
     public HoloTextView numberAttached;
 
-    public LinearLayout selectAccounts;
-    public CheckBox accountOneCheck;
-    public CheckBox accountTwoCheck;
-    public HoloTextView accountOneName;
-    public HoloTextView accountTwoName;
+    protected boolean useAccOne = true;
+    protected boolean useAccTwo = false;
 
     // attach up to four images
     public String[] attachedUri = new String[] {"","","",""};
@@ -796,7 +793,7 @@ public abstract class Compose extends Activity implements
         if (emojiKeyboard.isShowing()) {
             emojiKeyboard.setVisibility(false);
 
-            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button_changing});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             emojiButton.setImageResource(resource);
@@ -931,7 +928,7 @@ public abstract class Compose extends Activity implements
 
                     boolean isDone = false;
 
-                    if (accountOneCheck.isChecked()) {
+                    if (useAccOne) {
                         TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
 
                         if (notiId != 0) {
@@ -965,7 +962,7 @@ public abstract class Compose extends Activity implements
                         }
                     }
 
-                    if (accountTwoCheck.isChecked()) {
+                    if (useAccTwo) {
                         TwitLongerHelper helper = new TwitLongerHelper(text, twitter2);
 
                         if (notiId != 0) {
@@ -1015,10 +1012,10 @@ public abstract class Compose extends Activity implements
                             media.setLocation(geolocation);
                         }
 
-                        if (accountOneCheck.isChecked()) {
+                        if (useAccOne) {
                             twitter.updateStatus(media);
                         }
-                        if (accountTwoCheck.isChecked()) {
+                        if (useAccTwo) {
                             twitter2.updateStatus(media);
                         }
 
@@ -1051,7 +1048,7 @@ public abstract class Compose extends Activity implements
                         if (settings.twitpic || imagesAttached > 1) {
                             boolean isDone = false;
 
-                            if (accountOneCheck.isChecked()) {
+                            if (useAccOne) {
                                 for (int i = 1; i < imagesAttached; i++) {
                                     TwitPicHelper helper = new TwitPicHelper(twitter, "", files[i], context);
                                     text += " " + helper.uploadForUrl();
@@ -1083,7 +1080,7 @@ public abstract class Compose extends Activity implements
                                     isDone = true;
                                 }
                             }
-                            if (accountTwoCheck.isChecked()) {
+                            if (useAccTwo) {
                                 for (int i = 1; i < imagesAttached; i++) {
                                     TwitPicHelper helper = new TwitPicHelper(twitter2, "", files[i], context);
                                     text += " " + helper.uploadForUrl();
@@ -1141,10 +1138,10 @@ public abstract class Compose extends Activity implements
                             }
 
                             twitter4j.Status s = null;
-                            if (accountOneCheck.isChecked()) {
+                            if (useAccOne) {
                                 s = twitter.updateStatus(media);
                             }
-                            if (accountTwoCheck.isChecked()) {
+                            if (useAccTwo) {
                                 s = twitter2.updateStatus(media);
                             }
 
