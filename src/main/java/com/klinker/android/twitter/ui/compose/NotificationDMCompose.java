@@ -19,6 +19,10 @@ public class NotificationDMCompose extends ComposeDMActivity {
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
 
+        notiId = 1;
+        replyText = sharedPrefs.getString("from_notification_text", "");
+        sharedPrefs.edit().putString("from_notification_text", "").commit();
+
         contactEntry.setText(sharedPrefs.getString("from_notification", "").replace(" ", ""));
         reply.requestFocus();
 
