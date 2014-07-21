@@ -76,6 +76,9 @@ limitations under the License.
     <attr name="notification_button" format="reference"/>
     <attr name="notification_button_empty" format="reference"/>
 
+    <!-- Backgrounds -->
+    <attr name="compose_window_background" format="reference"/>
+
     <!-- Drawer Icons -->
     <attr name="drawerIcon" format="reference"/>
     <attr name="themeSettings" format="reference"/>
@@ -97,5 +100,6 @@ limitations under the License.
     <attr name="done" format="reference"/>
     <attr name="searchIcon" format="reference"/>
     <attr name="newMessage" format="reference"/>
+    <attr name="circle_overflow" format="reference"/>
 
 </resources>

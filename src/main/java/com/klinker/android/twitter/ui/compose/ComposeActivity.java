@@ -204,29 +204,7 @@ public class ComposeActivity extends Compose {
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout buttons = (LinearLayout) findViewById(R.id.buttons);
-                if (buttons.getVisibility() == View.VISIBLE) {
 
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate_back);
-                    ranim.setFillAfter(true);
-                    overflow.startAnimation(ranim);
-
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
-
-                    buttons.setVisibility(View.GONE);
-                } else {
-                    buttons.setVisibility(View.VISIBLE);
-
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate);
-                    ranim.setFillAfter(true);
-                    overflow.startAnimation(ranim);
-
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
-                }
             }
         });
 
@@ -291,8 +269,6 @@ public class ComposeActivity extends Compose {
                 });
 
                 qustomDialogBuilder.show();
-
-                overflow.performClick();
             }
         });
 
