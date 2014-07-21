@@ -117,7 +117,11 @@ public class ComposeDMActivity extends Compose {
                     }
                 } catch (Exception e) {
                     // there is no text
-                    userAutoComplete.dismiss();
+                    try {
+                        userAutoComplete.dismiss();
+                    } catch (Exception x) {
+                        // that's weird...
+                    }
                 }
 
             }

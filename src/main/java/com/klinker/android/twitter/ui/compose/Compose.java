@@ -39,6 +39,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -250,10 +251,6 @@ public abstract class Compose extends Activity implements
     }
 
     public void setUpActionBar() {
-        /*LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View customActionBarView = inflater.inflate(
-                R.layout.actionbar_send_discard, null);*/
         findViewById(R.id.send_button).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -310,15 +307,6 @@ public abstract class Compose extends Activity implements
                     }
                 });
 
-        // Show the custom action bar view and hide the normal Home icon and title.
-        /*final ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM,
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
-                        | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));*/
     }
 
     public void setUpSimilar() {
@@ -331,6 +319,15 @@ public abstract class Compose extends Activity implements
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
         reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
+
+        findViewById(R.id.prompt_pos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("talon_input", "clicked the view");
+                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .showSoftInput(reply, InputMethodManager.SHOW_FORCED);
+            }
+        });
 
         NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
