@@ -3,23 +3,17 @@ package com.klinker.android.twitter.ui.compose;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
@@ -30,11 +24,10 @@ import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.ui.scheduled_tweets.ViewScheduledTweets;
 import com.klinker.android.twitter.utils.Utils;
-import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +61,61 @@ public class ComposeActivity extends Compose {
         }
 
         if (count == 2) {
-            // todo set an on click listener to profile picture to bring up a selection dialog
+            findViewById(R.id.accounts).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String[] options = new String[3];
+
+                    options[0] = settings.myScreenName;
+                    options[1] = settings.secondScreenName;
+                    options[2] = getString(R.string.both_accounts);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int item) {
+                            NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+                            HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
+
+                            switch (item) {
+                                case 0:
+                                    useAccOne = true;
+                                    useAccTwo = false;
+
+                                    if (settings.roundContactImages) {
+                                        pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+                                    } else {
+                                        pic.loadImage(settings.myProfilePicUrl, false, null);
+                                    }
+                                    currentName.setText("@" + settings.myScreenName);
+
+                                    break;
+                                case 1:
+                                    useAccOne = false;
+                                    useAccTwo = true;
+
+                                    if (settings.roundContactImages) {
+                                        pic.loadImage(settings.secondProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+                                    } else {
+                                        pic.loadImage(settings.secondProfilePicUrl, false, null);
+                                    }
+                                    currentName.setText("@" + settings.secondScreenName);
+
+                                    break;
+                                case 2:
+                                    useAccOne = true;
+                                    useAccTwo = true;
+
+                                    pic.setImageDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+                                    currentName.setText(getString(R.string.both_accounts));
+
+                                    break;
+                            }
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            });
         }
 
         Display display = getWindowManager().getDefaultDisplay();
