@@ -38,6 +38,7 @@ import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.ui.scheduled_tweets.ViewScheduledTweets;
 import com.klinker.android.twitter.utils.Utils;
+import com.klinker.android.twitter.utils.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -418,6 +419,7 @@ public class ComposeActivity extends Compose {
         }
 
         notiId = getIntent().getLongExtra("id", 0);
+        replyText = getIntent().getStringExtra("reply_to_text");
 
         // Get intent, action and MIME type
         Intent intent = getIntent();

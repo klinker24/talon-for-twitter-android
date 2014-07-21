@@ -60,6 +60,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.TweetLinkUtils;
 import com.klinker.android.twitter.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter.utils.Utils;
@@ -76,6 +77,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.klinker.android.twitter.utils.text.TextUtils;
 import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -118,6 +120,7 @@ public abstract class Compose extends Activity implements
     public boolean isDM = false;
 
     public long notiId = 0;
+    public String replyText = "";
 
     public int currentAccount;
 
@@ -208,6 +211,13 @@ public abstract class Compose extends Activity implements
         if (getIntent().getBooleanExtra("start_attach", false)) {
             attachButton.performClick();
             overflow.performClick();
+        }
+
+        if (notiId != 0) {
+            HoloTextView replyTo = (HoloTextView) findViewById(R.id.reply_to);
+            replyTo.setText(replyText);
+            TextUtils.linkifyText(context, replyTo, null, true, "", true);
+            replyTo.setVisibility(View.VISIBLE);
         }
     }
 
@@ -420,6 +430,8 @@ public abstract class Compose extends Activity implements
             ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
             int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
 
+            b = ImageUtils.cropSquare(b);
+
             return rotateBitmap(b, orientation);
 
         } catch (Exception e) {
@@ -536,6 +548,7 @@ public abstract class Compose extends Activity implements
             //String filePath = IOUtils.getPath(imageUri, context);
             try {
                 attachImage[imagesAttached].setImageBitmap(getThumbnail(imageUri));
+                attachImage[imagesAttached].setVisibility(View.VISIBLE);
                 attachedUri[imagesAttached] = imageUri.toString();
                 imagesAttached++;
                 //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
@@ -683,6 +696,7 @@ public abstract class Compose extends Activity implements
 
                         try {
                             attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
+                            attachImage[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
                             //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
@@ -712,6 +726,7 @@ public abstract class Compose extends Activity implements
 
                         try {
                             attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
+                            attachImage[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
                             //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
@@ -742,6 +757,7 @@ public abstract class Compose extends Activity implements
 
                     try {
                         attachImage[imagesAttached].setImageBitmap(getThumbnail(Uri.parse(attachedUri[imagesAttached])));
+                        attachImage[imagesAttached].setVisibility(View.VISIBLE);
                         imagesAttached++;
                         //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
                         //numberAttached.setVisibility(View.VISIBLE);

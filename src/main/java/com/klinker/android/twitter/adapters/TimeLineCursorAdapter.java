@@ -1098,6 +1098,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 }
                 compose.putExtra("id", holder.tweetId);
+                compose.putExtra("reply_to_text", "@" + holder.screenName + ": " + holder.tweet.getText().toString());
 
                 if (isHomeTimeline) {
                     sharedPrefs.edit()

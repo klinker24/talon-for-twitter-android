@@ -843,7 +843,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.screenName = screenname;
 
         // used to find the other names on a tweet... could be optimized i guess, but only run when button is pressed
-        String text = holder.tweet.getText().toString();
+        final String text = holder.tweet.getText().toString();
         String extraNames = "";
 
         if (text.contains("@")) {
@@ -974,6 +974,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                 }
                 compose.putExtra("id", holder.tweetId);
+                compose.putExtra("reply_to_text", "@" + holder.screenName + ": " + text);
                 context.startActivity(compose);
             }
         });

@@ -236,6 +236,27 @@ public class ImageUtils {
         return output;
     }
 
+    public static Bitmap cropSquare(Bitmap currentImage) {
+        if (currentImage.getWidth() >= currentImage.getHeight()) {
+            currentImage = Bitmap.createBitmap(
+                    currentImage,
+                    currentImage.getWidth() / 2 - currentImage.getHeight() / 2,
+                    0,
+                    currentImage.getHeight(),
+                    currentImage.getHeight()
+            );
+        } else {
+            currentImage = Bitmap.createBitmap(
+                    currentImage,
+                    0,
+                    currentImage.getHeight()/2 - currentImage.getWidth()/2,
+                    currentImage.getWidth(),
+                    currentImage.getWidth()
+            );
+        }
+
+        return currentImage;
+    }
     public static Bitmap notificationResize(Context context, Bitmap currentImage) {
         try {
             int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, context.getResources().getDisplayMetrics());
