@@ -63,7 +63,7 @@ public class ComposeDMActivity extends Compose {
 
         userAutoComplete = new ListPopupWindow(context);
         userAutoComplete.setAnchorView(contactEntry);
-        userAutoComplete.setHeight(toDP(150));
+        userAutoComplete.setHeight(toDP(200));
         userAutoComplete.setWidth(toDP(275));
         userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
@@ -77,6 +77,10 @@ public class ComposeDMActivity extends Compose {
         });
 
         contactEntry.addTextChangedListener(new TextWatcher() {
+
+            int length = 0;
+            int lastLength = 0;
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
@@ -91,11 +95,13 @@ public class ComposeDMActivity extends Compose {
             public void afterTextChanged(Editable editable) {
 
                 String searchText = contactEntry.getText().toString();
+                lastLength = length;
+                length = searchText.length();
 
                 try {
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                    if (!userAutoComplete.isShowing()) {
                         userAutoComplete.show();
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                    } else if (length > lastLength + 1 || length == 0) {
                         userAutoComplete.dismiss();
                     } else if (userAutoComplete.isShowing()) {
                         String[] split = searchText.split(" ");
@@ -111,7 +117,11 @@ public class ComposeDMActivity extends Compose {
                     }
                 } catch (Exception e) {
                     // there is no text
-                    userAutoComplete.dismiss();
+                    try {
+                        userAutoComplete.dismiss();
+                    } catch (Exception x) {
+                        // that's weird...
+                    }
                 }
 
             }
@@ -127,35 +137,43 @@ public class ComposeDMActivity extends Compose {
             }
         }
 
-        ImageButton at = (ImageButton) findViewById(R.id.at_button);
-        at.setVisibility(View.GONE);
-        at.setOnClickListener(new View.OnClickListener() {
+        attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context, sharedPrefs.getInt("current_account", 1)).
-                        setTitle(getResources().getString(R.string.type_user)).
-                        setTitleColor(getResources().getColor(R.color.app_color)).
-                        setDividerColor(getResources().getColor(R.color.app_color));
+                if (imagesAttached > 0 && !sharedPrefs.getBoolean("know_twitpic_for_mult_attach", false)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
+                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_multi_summary))
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    sharedPrefs.edit().putBoolean("know_twitpic_for_mult_attach", true).commit();
+                                    attachImage();
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    attachImage();
+                }
 
-                qustomDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        contactEntry.append(qustomDialogBuilder.text.getText().toString());
-                    }
-                });
-
-                qustomDialogBuilder.show();
             }
         });
 
-        reply.setHint(getResources().getString(R.string.compose_dm_hint));
 
         if (!settings.useEmoji) {
             emojiButton.setVisibility(View.GONE);
@@ -168,7 +186,7 @@ public class ComposeDMActivity extends Compose {
                     if (emojiKeyboard.isShowing()) {
                         emojiKeyboard.setVisibility(false);
 
-                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button});
+                        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.emoji_button_changing});
                         int resource = a.getResourceId(0, 0);
                         a.recycle();
                         emojiButton.setImageResource(resource);
@@ -263,60 +281,6 @@ public class ComposeDMActivity extends Compose {
 
     private void sendStatus(String status) {
         new SendDirectMessage().execute(status);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.dm_conversation, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.menu_attach_picture:
-                // if they haven't seen the disclaimer, show it to them
-                if (!sharedPrefs.getBoolean("knows_twitpic_dm_warning", false)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
-                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_summary))
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    sharedPrefs.edit().putBoolean("knows_twitpic_dm_warning", true).commit();
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .create()
-                            .show();
-                } else {
-                    // they know and don't want to see the disclaimer again
-                    attachImage();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public ImageView attachImage;

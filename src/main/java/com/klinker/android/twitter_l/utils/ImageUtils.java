@@ -58,6 +58,28 @@ public class ImageUtils {
         }
     }
 
+    public static Bitmap cropSquare(Bitmap currentImage) {
+        if (currentImage.getWidth() >= currentImage.getHeight()) {
+            currentImage = Bitmap.createBitmap(
+                    currentImage,
+                    currentImage.getWidth() / 2 - currentImage.getHeight() / 2,
+                    0,
+                    currentImage.getHeight(),
+                    currentImage.getHeight()
+            );
+        } else {
+            currentImage = Bitmap.createBitmap(
+                    currentImage,
+                    0,
+                    currentImage.getHeight()/2 - currentImage.getWidth()/2,
+                    currentImage.getWidth(),
+                    currentImage.getWidth()
+            );
+        }
+
+        return currentImage;
+    }
+
     public static Bitmap blur(Bitmap sentBitmap) {
 
         int radius = 4;

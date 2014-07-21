@@ -69,6 +69,7 @@ public class AppSettings {
     public String myName;
     public String myBackgroundUrl;
     public String myProfilePicUrl;
+    public String secondProfilePicUrl;
     public String favoriteUserNames;
 
     public boolean isTwitterLoggedIn;
@@ -164,6 +165,7 @@ public class AppSettings {
             myName = sharedPrefs.getString("twitter_users_name_1", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_1", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
+            secondProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_1", "");
             myId = sharedPrefs.getLong("twitter_id_1", 0);
         } else {
@@ -176,6 +178,7 @@ public class AppSettings {
             myName = sharedPrefs.getString("twitter_users_name_2", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_2", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
+            secondProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_2", "");
             myId = sharedPrefs.getLong("twitter_id_2", 0);
         }

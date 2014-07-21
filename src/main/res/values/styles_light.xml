@@ -92,6 +92,7 @@ limitations under the License.
         <item name="background_card">@drawable/send_card</item>
         <item name="notification_button">@drawable/ic_action_notification_light</item>
         <item name="notification_button_empty">@drawable/ic_action_notification_none_light</item>
+        <item name="hashtag_button">@drawable/ic_action_hashtag_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="notificationSettings">@drawable/drawer_notifications_light</item>
@@ -108,6 +109,9 @@ limitations under the License.
         <item name="memManagement">@drawable/ic_action_sd_storage_light</item>
 
         <item name="searchIcon">@drawable/ic_action_search_light</item>
+        <item name="circle_overflow">@drawable/ic_action_circle_overflow_light</item>
+
+        <item name="compose_window_background">@drawable/compose_background_light</item>
 
     </style>
 
