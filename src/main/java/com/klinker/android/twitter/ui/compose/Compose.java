@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -54,6 +55,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter.ui.MainActivity;
@@ -220,6 +222,7 @@ public abstract class Compose extends Activity implements
         params.alpha = 1.0f;    // lower than one makes it more transparent
         params.dimAmount = .6f;  // set it higher if you want to dim behind the window
         getWindow().setAttributes(params);
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         // Gets the display size so that you can set the window to a percent of that
         Display display = getWindowManager().getDefaultDisplay();
@@ -240,8 +243,8 @@ public abstract class Compose extends Activity implements
         /*LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
-                R.layout.actionbar_send_discard, null);
-        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+                R.layout.actionbar_send_discard, null);*/
+        findViewById(R.id.send_button).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -284,7 +287,7 @@ public abstract class Compose extends Activity implements
                         }
                     }
                 });
-        customActionBarView.findViewById(R.id.actionbar_discard).setOnClickListener(
+        findViewById(R.id.discard_button).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -298,7 +301,7 @@ public abstract class Compose extends Activity implements
                 });
 
         // Show the custom action bar view and hide the normal Home icon and title.
-        final ActionBar actionBar = getActionBar();
+        /*final ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
@@ -319,6 +322,12 @@ public abstract class Compose extends Activity implements
         reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
         numberAttached = (HoloTextView) findViewById(R.id.number_attached);
+
+        NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+        HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
+
+        pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+        currentName.setText(settings.myName);
 
         //numberAttached.setText("0 " + getString(R.string.attached_images));
 
