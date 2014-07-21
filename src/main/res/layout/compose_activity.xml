@@ -24,22 +24,31 @@
                           android:gravity="center_vertical"
                           android:paddingLeft="12dp" >
 
-                <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
-                        android:id="@+id/profile_pic"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:minHeight="42dp" android:minWidth="42dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="true"
-                        android:maxWidth="42dp" android:maxHeight="42dp"/>
-
-                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                        android:id="@+id/current_name"
+                <LinearLayout
+                        android:id="@+id/accounts"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:singleLine="true"
-                        android:textSize="16dp"
-                        android:paddingLeft="12dp"/>
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/pressed_toast">
+
+                    <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+                            android:id="@+id/profile_pic"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:minHeight="42dp" android:minWidth="42dp"
+                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                            android:maxWidth="42dp" android:maxHeight="42dp"/>
+
+                    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                            android:id="@+id/current_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:textSize="16dp"
+                            android:paddingLeft="12dp"/>
+
+                </LinearLayout>
 
                 <ImageButton
                         android:id="@+id/discard_button"
