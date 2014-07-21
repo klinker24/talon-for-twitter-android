@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -102,7 +103,7 @@ public class ComposeActivity extends Compose {
 
         userAutoComplete = new ListPopupWindow(context);
         userAutoComplete.setAnchorView(reply);
-        userAutoComplete.setHeight(toDP(150));
+        userAutoComplete.setHeight(toDP(200));
         userAutoComplete.setWidth((int)(width * .75));
         userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
                 FollowersDataSource.getInstance(context).getCursor(currentAccount, reply.getText().toString()), reply));
@@ -117,7 +118,7 @@ public class ComposeActivity extends Compose {
 
         hashtagAutoComplete = new ListPopupWindow(context);
         hashtagAutoComplete.setAnchorView(reply);
-        hashtagAutoComplete.setHeight(toDP(150));
+        hashtagAutoComplete.setHeight(toDP(200));
         hashtagAutoComplete.setWidth((int)(width * .75));
         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
                 HashtagDataSource.getInstance(context).getCursor(reply.getText().toString()), reply));
@@ -282,13 +283,17 @@ public class ComposeActivity extends Compose {
 
                     addLocation = true;
 
-                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel_light));
+                    if (!settings.addonTheme) {
+                        location.setColorFilter(context.getResources().getColor(R.color.app_color));
+                    } else {
+                        location.setColorFilter(settings.accentInt);
+                    }
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.location_disconnected), Toast.LENGTH_SHORT).show();
 
                     addLocation = false;
 
-                    location.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_place_light));
+                    location.clearColorFilter();
                 }
             }
         });

@@ -79,6 +79,7 @@
                     android:textColor="?textColor"
                     android:padding="15dp"
                     android:layout_gravity="top"
+                    android:layout_marginBottom="12dp"
                     android:textSize="16sp"
                     android:hint="@string/compose_tweet_hint"
                     android:gravity="top"

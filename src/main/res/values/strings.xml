@@ -129,8 +129,8 @@
 
     <!-- Compose New Activity -->
     <string name="compose_activity">New Tweet</string>
-    <string name="compose_tweet_hint">Type tweet here...</string>
-    <string name="send_to">Enter user\'s screen name</string>
+    <string name="compose_tweet_hint">Type tweet...</string>
+    <string name="send_to">Type user\'s name...</string>
     <string name="direct_message_sent">Direct Message Sent</string>
     <string name="type_user">Type User</string>
     <string name="add_user">Add User</string>
@@ -495,7 +495,7 @@
     <string name="load_tweets">Load Tweets</string>
     <string name="download_portal">Download Theme Portal App</string>
     <string name="download_portal_summary">This is the Klinker Apps \"Portal\" app to stay up to date with the latest news as well as find all the best themes for Talon and EvolveSMS in one place!</string>
-    <string name="compose_dm_hint">Type direct message here...</string>
+    <string name="compose_dm_hint">Type message...</string>
     <string name="pwiccer">Pwiccer</string>
     <string name="select_shortening_service">Select a shortening service or edit the tweet.</string>
     <string name="use_shortening_service">Use Shortening Service</string>
