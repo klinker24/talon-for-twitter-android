@@ -283,60 +283,6 @@ public class ComposeDMActivity extends Compose {
         new SendDirectMessage().execute(status);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.dm_conversation, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.menu_attach_picture:
-                // if they haven't seen the disclaimer, show it to them
-                if (!sharedPrefs.getBoolean("knows_twitpic_dm_warning", false)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
-                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_summary))
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    sharedPrefs.edit().putBoolean("knows_twitpic_dm_warning", true).commit();
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .create()
-                            .show();
-                } else {
-                    // they know and don't want to see the disclaimer again
-                    attachImage();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     public ImageView attachImage;
     public String attachedUri = "";
 

@@ -3,6 +3,7 @@ package com.klinker.android.twitter.ui.compose;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,14 +21,7 @@ import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListPopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.AutoCompleteHashtagAdapter;
@@ -61,13 +56,6 @@ public class ComposeActivity extends Compose {
         setContentView(R.layout.compose_activity);
 
         setUpSimilar();
-        setUpToastBar();
-
-        selectAccounts = (LinearLayout) findViewById(R.id.select_account);
-        accountOneCheck = (CheckBox) findViewById(R.id.account_one_check);
-        accountTwoCheck = (CheckBox) findViewById(R.id.account_two_check);
-        accountOneName = (HoloTextView) findViewById(R.id.account_one_name);
-        accountTwoName = (HoloTextView) findViewById(R.id.account_two_name);
 
         int count = 0; // number of accounts logged in
 
@@ -80,20 +68,7 @@ public class ComposeActivity extends Compose {
         }
 
         if (count == 2) {
-            selectAccounts.setVisibility(View.VISIBLE);
-            accountOneName.setText("@" + settings.myScreenName);
-            accountTwoName.setText("@" + settings.secondScreenName);
-
-            if (settings.addonTheme) {
-                try {
-                    Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                    int back = resourceAddon.getIdentifier("checkmark_background", "drawable", settings.addonThemePackage);
-                    accountOneCheck.setBackgroundDrawable(resourceAddon.getDrawable(back));
-                    accountTwoCheck.setBackgroundDrawable(resourceAddon.getDrawable(back));
-                } catch (Exception e) {
-                    // theme does not include a reply entry box
-                }
-            }
+            // todo set an on click listener to profile picture to bring up a selection dialog
         }
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -251,26 +226,158 @@ public class ComposeActivity extends Compose {
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context, sharedPrefs.getInt("current_account", 1)).
-                        setTitle(getResources().getString(R.string.type_user)).
-                        setTitleColor(getResources().getColor(R.color.app_color)).
-                        setDividerColor(getResources().getColor(R.color.app_color));
+                reply.append("@");
+            }
+        });
 
-                qustomDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+        final int SAVE_DRAFT = 0;
+        final int VIEW_DRAFTS = 1;
+        final int VIEW_QUEUE = 2;
+        final int SCHEDULE = 3;
+
+        final ImageButton overflow = (ImageButton) findViewById(R.id.overflow_button);
+        overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final PopupMenu menu = new PopupMenu(context, findViewById(R.id.discard_button));
+
+                menu.getMenu().add(Menu.NONE, SAVE_DRAFT, Menu.NONE, context.getString(R.string.menu_save_draft));
+                menu.getMenu().add(Menu.NONE, VIEW_DRAFTS, Menu.NONE, context.getString(R.string.menu_view_drafts));
+                menu.getMenu().add(Menu.NONE, VIEW_QUEUE, Menu.NONE, context.getString(R.string.menu_view_queued));
+                menu.getMenu().add(Menu.NONE, SCHEDULE, Menu.NONE, context.getString(R.string.menu_schedule_tweet));
+
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case SAVE_DRAFT:
+                                if (reply.getText().length() > 0) {
+                                    QueuedDataSource.getInstance(context).createDraft(reply.getText().toString(), currentAccount);
+                                    Toast.makeText(context, getResources().getString(R.string.saved_draft), Toast.LENGTH_SHORT).show();
+                                    reply.setText("");
+                                    finish();
+                                } else {
+                                    Toast.makeText(context, getResources().getString(R.string.no_tweet), Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            case VIEW_DRAFTS:
+                                final String[] drafts = QueuedDataSource.getInstance(context).getDrafts();
+                                if (drafts.length > 0) {
+                                    final String[] draftsAndDelete = new String[drafts.length + 1];
+                                    draftsAndDelete[0] = getString(R.string.delete_all);
+                                    for (int i = 1; i < draftsAndDelete.length; i++) {
+                                        draftsAndDelete[i] = drafts[i - 1];
+                                    }
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                    builder.setItems(draftsAndDelete, new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, final int item) {
+
+                                            if (item == 0) {
+                                                // clicked the delete all item
+                                                new AlertDialog.Builder(context)
+                                                        .setMessage(getString(R.string.delete_all) + "?")
+                                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                QueuedDataSource.getInstance(context).deleteAllDrafts();
+                                                                dialogInterface.dismiss();
+                                                            }
+                                                        })
+                                                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                dialogInterface.dismiss();
+                                                            }
+                                                        })
+                                                        .create()
+                                                        .show();
+
+                                                dialog.dismiss();
+                                            } else {
+                                                new AlertDialog.Builder(context)
+                                                        .setTitle(context.getResources().getString(R.string.apply))
+                                                        .setMessage(draftsAndDelete[item])
+                                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                reply.setText(draftsAndDelete[item]);
+                                                                reply.setSelection(reply.getText().length());
+                                                                QueuedDataSource.getInstance(context).deleteDraft(draftsAndDelete[item]);
+                                                                dialogInterface.dismiss();
+                                                            }
+                                                        })
+                                                        .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                QueuedDataSource.getInstance(context).deleteDraft(draftsAndDelete[item]);
+                                                                dialogInterface.dismiss();
+                                                            }
+                                                        })
+                                                        .create()
+                                                        .show();
+
+                                                dialog.dismiss();
+                                            }
+                                        }
+                                    });
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
+                                } else {
+                                    Toast.makeText(context, R.string.no_drafts, Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            case SCHEDULE:
+                                Intent schedule = new Intent(context, ViewScheduledTweets.class);
+                                if (!reply.getText().toString().isEmpty()) {
+                                    schedule.putExtra("has_text", true);
+                                    schedule.putExtra("text", reply.getText().toString());
+                                }
+                                startActivity(schedule);
+                                finish();
+                                break;
+                            case VIEW_QUEUE:
+                                final String[] queued = QueuedDataSource.getInstance(context).getQueuedTweets(currentAccount);
+                                if (queued.length > 0) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                    builder.setItems(queued, new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, final int item) {
+
+                                            new AlertDialog.Builder(context)
+                                                    .setTitle(context.getResources().getString(R.string.keep_queued_tweet))
+                                                    .setMessage(queued[item])
+                                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            dialogInterface.dismiss();
+                                                        }
+                                                    })
+                                                    .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            QueuedDataSource.getInstance(context).deleteQueuedTweet(queued[item]);
+                                                            dialogInterface.dismiss();
+                                                        }
+                                                    })
+                                                    .create()
+                                                    .show();
+
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
+                                } else {
+                                    Toast.makeText(context, R.string.no_queued, Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                        }
+
+                        return false;
                     }
                 });
 
-                qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        reply.append(qustomDialogBuilder.text.getText().toString());
-                    }
-                });
-
-                qustomDialogBuilder.show();
+                menu.show();
             }
         });
 
@@ -279,8 +386,6 @@ public class ComposeActivity extends Compose {
             @Override
             public void onClick(View view) {
                 if (!addLocation) {
-                    Toast.makeText(context, getResources().getString(R.string.location_connected), Toast.LENGTH_SHORT).show();
-
                     addLocation = true;
 
                     if (!settings.addonTheme) {
@@ -289,8 +394,6 @@ public class ComposeActivity extends Compose {
                         location.setColorFilter(settings.accentInt);
                     }
                 } else {
-                    Toast.makeText(context, getResources().getString(R.string.location_disconnected), Toast.LENGTH_SHORT).show();
-
                     addLocation = false;
 
                     location.clearColorFilter();
@@ -507,224 +610,4 @@ public class ComposeActivity extends Compose {
         super.onPause();
     }
 
-    private boolean isToastShowing = false;
-    private boolean infoBar = false;
-
-    private View toastBar;
-    private TextView toastDescription;
-    private TextView toastButton;
-
-    private void setUpToastBar() {
-        toastBar = findViewById(R.id.toastBar);
-        toastDescription = (TextView) findViewById(R.id.toastDescription);
-        toastButton = (TextView) findViewById(R.id.toastButton);
-
-        if (settings.addonTheme) {
-            LinearLayout toastBackground = (LinearLayout) findViewById(R.id.toast_background);
-            toastBackground.setBackgroundColor(Color.parseColor("#DD" + settings.accentColor));
-        }
-    }
-
-    private void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
-        toastDescription.setText(description);
-        toastButton.setText(buttonText);
-        toastButton.setOnClickListener(listener);
-
-        toastBar.setVisibility(View.VISIBLE);
-
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                isToastShowing = true;
-                if (quit) {
-                    infoBar = true;
-                }
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (quit) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideToastBar(length);
-                            infoBar = false;
-                        }
-                    }, 3000);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
-    }
-
-    private void hideToastBar(long length) {
-        if (!isToastShowing) {
-            return;
-        }
-
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                isToastShowing = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                toastBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.compose_activity, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.menu_save_draft:
-                if (reply.getText().length() > 0) {
-                    QueuedDataSource.getInstance(this).createDraft(reply.getText().toString(), currentAccount);
-                    Toast.makeText(this, getResources().getString(R.string.saved_draft), Toast.LENGTH_SHORT).show();
-                    reply.setText("");
-                    finish();
-                } else {
-                    Toast.makeText(this, getResources().getString(R.string.no_tweet), Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.id.menu_view_drafts:
-                final String[] drafts = QueuedDataSource.getInstance(this).getDrafts();
-                if (drafts.length > 0) {
-                    final String[] draftsAndDelete = new String[drafts.length + 1];
-                    draftsAndDelete[0] = getString(R.string.delete_all);
-                    for (int i = 1; i < draftsAndDelete.length; i++) {
-                        draftsAndDelete[i] = drafts[i - 1];
-                    }
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(draftsAndDelete, new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int item) {
-
-                            if (item == 0) {
-                                // clicked the delete all item
-                                new AlertDialog.Builder(context)
-                                        .setMessage(getString(R.string.delete_all) + "?")
-                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                QueuedDataSource.getInstance(context).deleteAllDrafts();
-                                                dialogInterface.dismiss();
-                                            }
-                                        })
-                                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
-                                            }
-                                        })
-                                        .create()
-                                        .show();
-
-                                dialog.dismiss();
-                            } else {
-                                new AlertDialog.Builder(context)
-                                        .setTitle(context.getResources().getString(R.string.apply))
-                                        .setMessage(draftsAndDelete[item])
-                                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                reply.setText(draftsAndDelete[item]);
-                                                reply.setSelection(reply.getText().length());
-                                                QueuedDataSource.getInstance(context).deleteDraft(draftsAndDelete[item]);
-                                                dialogInterface.dismiss();
-                                            }
-                                        })
-                                        .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                QueuedDataSource.getInstance(context).deleteDraft(draftsAndDelete[item]);
-                                                dialogInterface.dismiss();
-                                            }
-                                        })
-                                        .create()
-                                        .show();
-
-                                dialog.dismiss();
-                            }
-                        }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                } else {
-                    Toast.makeText(context, R.string.no_drafts, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.id.menu_schedule_tweet:
-                Intent schedule = new Intent(context, ViewScheduledTweets.class);
-                if (!reply.getText().toString().isEmpty()) {
-                    schedule.putExtra("has_text", true);
-                    schedule.putExtra("text", reply.getText().toString());
-                }
-                startActivity(schedule);
-                finish();
-                return true;
-            case R.id.menu_view_queued:
-                final String[] queued = QueuedDataSource.getInstance(this).getQueuedTweets(currentAccount);
-                if (queued.length > 0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(queued, new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int item) {
-
-                            new AlertDialog.Builder(context)
-                                    .setTitle(context.getResources().getString(R.string.keep_queued_tweet))
-                                    .setMessage(queued[item])
-                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.delete_draft, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            QueuedDataSource.getInstance(context).deleteQueuedTweet(queued[item]);
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
-
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                } else {
-                    Toast.makeText(context, R.string.no_queued, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }
