@@ -34,8 +34,10 @@ public class NotificationCompose extends ComposeActivity {
         reply.setText(sharedPrefs.getString("from_notification", ""));
         reply.setSelection(reply.getText().toString().length());
         notiId = sharedPrefs.getLong("from_notification_long", 0);
+        replyText = sharedPrefs.getString("from_notification_text", "");
 
         sharedPrefs.edit().putLong("from_notification_id", 0).commit();
+        sharedPrefs.edit().putString("from_notification_text", "").commit();
         sharedPrefs.edit().putString("from_notification", "").commit();
         sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
 

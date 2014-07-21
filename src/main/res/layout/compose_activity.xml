@@ -4,7 +4,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="?compose_window_background">
+              android:background="?compose_window_background"
+              android:layout_marginBottom="5dp">
 
     <ScrollView
             android:layout_width="match_parent"
@@ -62,10 +63,18 @@
 
             </LinearLayout>
 
+            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                android:id="@+id/reply_to"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:padding="18dp"
+                android:textSize="14sp"
+                android:textColor="?dateColor"
+                android:visibility="gone"/>
+
             <com.klinker.android.twitter.manipulations.widgets.HoloEditText
                     android:id="@+id/tweet_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:textColor="?textColor"
                     android:padding="15dp"
@@ -79,60 +88,67 @@
 
             <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/prompt_pos"
-                    />
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/prompt_pos" />
 
-            <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <HorizontalScrollView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:fillViewport="true"
+                                  android:paddingLeft="16dp"
+                                  android:paddingRight="16dp" >
 
-                <ImageView
-                        android:id="@+id/picture1"
-                        android:layout_height="150dp"
-                        android:layout_width="150dp"
-                        android:padding="4dp"
-                        android:minHeight="150dp" android:minWidth="150dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="false"
-                        android:maxWidth="150dp" android:maxHeight="150dp"/>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
+                    <ImageView
+                            android:id="@+id/picture1"
+                            android:layout_height="150dp"
+                            android:layout_width="150dp"
+                            android:padding="4dp"
+                            android:background="@drawable/ic_cancel_dark"
+                            android:minHeight="150dp" android:minWidth="150dp"
+                            android:scaleType="fitXY" android:adjustViewBounds="false"
+                            android:maxWidth="150dp" android:maxHeight="150dp"
+                            android:visibility="gone"/>
 
-                <ImageView
-                        android:id="@+id/picture2"
-                        android:layout_height="150dp"
-                        android:layout_width="150dp"
-                        android:padding="4dp"
-                        android:layout_marginLeft="30dp"
-                        android:minHeight="150dp" android:minWidth="150dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="false"
-                        android:maxWidth="150dp" android:maxHeight="150dp"/>
+                    <ImageView
+                            android:id="@+id/picture2"
+                            android:layout_height="150dp"
+                            android:layout_width="150dp"
+                            android:padding="4dp"
+                            android:background="@drawable/ic_cancel_dark"
+                            android:minHeight="150dp" android:minWidth="150dp"
+                            android:scaleType="fitXY" android:adjustViewBounds="false"
+                            android:maxWidth="150dp" android:maxHeight="150dp"
+                            android:visibility="gone"/>
 
+                    <ImageView
+                            android:id="@+id/picture3"
+                            android:layout_height="150dp"
+                            android:layout_width="150dp"
+                            android:padding="4dp"
+                            android:background="@drawable/ic_cancel_dark"
+                            android:minHeight="150dp" android:minWidth="150dp"
+                            android:scaleType="fitXY" android:adjustViewBounds="false"
+                            android:maxWidth="150dp" android:maxHeight="150dp"
+                            android:visibility="gone"/>
 
-                <ImageView
-                        android:id="@+id/picture3"
-                        android:layout_height="150dp"
-                        android:layout_width="150dp"
-                        android:padding="4dp"
-                        android:layout_marginLeft="60dp"
-                        android:minHeight="150dp" android:minWidth="150dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="false"
-                        android:maxWidth="150dp" android:maxHeight="150dp"/>
+                    <ImageView
+                            android:id="@+id/picture4"
+                            android:layout_height="150dp"
+                            android:layout_width="150dp"
+                            android:padding="4dp"
+                            android:background="@drawable/ic_cancel_dark"
+                            android:minHeight="150dp" android:minWidth="150dp"
+                            android:scaleType="fitXY" android:adjustViewBounds="false"
+                            android:maxWidth="150dp" android:maxHeight="150dp"
+                            android:visibility="gone"/>
+                </LinearLayout>
 
+            </HorizontalScrollView>
 
-                <ImageView
-                        android:id="@+id/picture4"
-                        android:layout_height="150dp"
-                        android:layout_width="150dp"
-                        android:padding="4dp"
-                        android:layout_marginLeft="90dp"
-                        android:background="@drawable/pressed_toast"
-                        android:minHeight="150dp" android:minWidth="150dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="false"
-                        android:maxWidth="150dp" android:maxHeight="150dp"/>
-
-
-
-            </RelativeLayout>
             
         </LinearLayout>
 
