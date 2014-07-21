@@ -331,7 +331,6 @@ public abstract class Compose extends Activity implements
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
         reply = (EditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
-        numberAttached = (HoloTextView) findViewById(R.id.number_attached);
 
         NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
