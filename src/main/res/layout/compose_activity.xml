@@ -95,12 +95,13 @@
             <HorizontalScrollView android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:fillViewport="true"
-                                  android:paddingLeft="16dp"
-                                  android:paddingRight="16dp" >
+                                  android:paddingBottom="10dp">
 
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
+                    <View android:layout_width="16dp" android:layout_height="match_parent" />
 
                     <ImageView
                             android:id="@+id/picture1"
@@ -145,6 +146,9 @@
                             android:scaleType="fitXY" android:adjustViewBounds="false"
                             android:maxWidth="150dp" android:maxHeight="150dp"
                             android:visibility="gone"/>
+
+                    <View android:layout_width="16dp" android:layout_height="match_parent" />
+
                 </LinearLayout>
 
             </HorizontalScrollView>
