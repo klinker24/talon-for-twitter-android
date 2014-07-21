@@ -66,8 +66,8 @@ public class ComposeActivity extends Compose {
                 public void onClick(View v) {
                     String[] options = new String[3];
 
-                    options[0] = settings.myScreenName;
-                    options[1] = settings.secondScreenName;
+                    options[0] = "@" + settings.myScreenName;
+                    options[1] = "@" + settings.secondScreenName;
                     options[2] = getString(R.string.both_accounts);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -105,7 +105,11 @@ public class ComposeActivity extends Compose {
                                     useAccOne = true;
                                     useAccTwo = true;
 
-                                    pic.setImageDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+                                    TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.favUser});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
+                                    pic.setImageResource(resource);
+
                                     currentName.setText(getString(R.string.both_accounts));
 
                                     break;
