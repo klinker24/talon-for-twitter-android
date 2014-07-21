@@ -165,53 +165,68 @@
             android:gravity="center_vertical"
             android:background="?drawerDividerColor">
 
-        <ImageButton
-                android:id="@+id/attach"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:contentDescription="Attach Image"
-                android:background="@drawable/pressed_toast"
-                android:src="?attachButton"
-                android:gravity="center"
-                android:layout_gravity="center" />
+        <HorizontalScrollView android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:scrollbars="none">
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        <ImageButton
-                android:id="@+id/at_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:contentDescription="Attach User"
-                android:background="@drawable/pressed_toast"
-                android:src="?mentionItem"
-                android:gravity="center"
-                android:layout_gravity="center" />
+                <ImageButton
+                        android:id="@+id/attach"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Attach Image"
+                        android:background="@drawable/pressed_toast"
+                        android:src="?attachButton"
+                        android:gravity="center"
+                        android:layout_gravity="center" />
 
-        <ImageButton
-                android:id="@+id/location"
-                android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="?location_button"
-                android:background="@drawable/pressed_toast"
-                android:contentDescription="Add Location"
-                android:minHeight="48dp" android:minWidth="48dp"
-                android:scaleType="center" android:adjustViewBounds="true"
-                android:maxWidth="48dp" android:maxHeight="48dp" />
+                <ImageButton
+                        android:id="@+id/location"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:src="?location_button"
+                        android:background="@drawable/pressed_toast"
+                        android:contentDescription="Add Location"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp" />
 
+                <ImageButton
+                        android:id="@+id/emoji"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:contentDescription="Add Emojis"
+                        android:src="?emoji_button_changing"
+                        android:background="@drawable/pressed_toast"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp" />
 
-        <ImageButton
-                android:id="@+id/emoji"
-                android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:contentDescription="Add Emojis"
-                android:src="?emoji_button_changing"
-                android:background="@drawable/pressed_toast"
-                android:minHeight="48dp" android:minWidth="48dp"
-                android:scaleType="center" android:adjustViewBounds="true"
-                android:maxWidth="48dp" android:maxHeight="48dp" />
+                <ImageButton
+                        android:id="@+id/at_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Attach User"
+                        android:background="@drawable/pressed_toast"
+                        android:src="?mentionItem"
+                        android:gravity="center"
+                        android:layout_gravity="center" />
 
-        <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                <ImageButton
+                        android:id="@+id/hashtag_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Attach Hashtag"
+                        android:background="@drawable/pressed_toast"
+                        android:src="?hashtag_button"
+                        android:gravity="center"
+                        android:layout_gravity="center" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
 
         <LinearLayout
                 android:orientation="horizontal"

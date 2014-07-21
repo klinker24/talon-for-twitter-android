@@ -230,6 +230,14 @@ public class ComposeActivity extends Compose {
             }
         });
 
+        ImageButton hashtag = (ImageButton) findViewById(R.id.hashtag_button);
+        hashtag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reply.append("#");
+            }
+        });
+
         final int SAVE_DRAFT = 0;
         final int VIEW_DRAFTS = 1;
         final int VIEW_QUEUE = 2;
