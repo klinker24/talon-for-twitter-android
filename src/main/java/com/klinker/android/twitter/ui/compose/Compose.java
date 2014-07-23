@@ -891,6 +891,7 @@ public abstract class Compose extends Activity implements
     class updateTwitterStatus extends AsyncTask<String, String, Boolean> {
 
         String text;
+        String status;
         private boolean secondTry;
         private int remaining;
         private InputStream stream;
@@ -920,7 +921,7 @@ public abstract class Compose extends Activity implements
         }
 
         protected Boolean doInBackground(String... args) {
-            String status = args[0];
+            status = args[0];
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
                 Twitter twitter2 = Utils.getSecondTwitter(getApplicationContext());
@@ -1193,7 +1194,6 @@ public abstract class Compose extends Activity implements
 
                 if (e.getMessage().contains("the uploaded media is too large.")) {
                     tryingAgain = true;
-                    new updateTwitterStatus(text, remaining, true).execute(status);
                     return false;
                 }
             } catch (OutOfMemoryError e) {
@@ -1222,6 +1222,8 @@ public abstract class Compose extends Activity implements
                 } else {
                     makeFailedNotification(text);
                 }
+            } else {
+                new updateTwitterStatus(text, remaining, true).execute(status);
             }
         }
     }
