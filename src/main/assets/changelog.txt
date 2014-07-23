@@ -1,3 +1,8 @@
+<b>Version 2.6.0:</b><br/><br/>
+    &#8226; New compose window<br/>
+    &#8226; Small changes for sending pictures<br/>
+<br/><br/>
+
 <b>Version 2.5.4:</b><br/><br/>
     &#8226; Profile pictures getting mixed up<br/>
     &#8226; Better client muting<br/>
