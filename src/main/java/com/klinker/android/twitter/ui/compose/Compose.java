@@ -1051,7 +1051,7 @@ public abstract class Compose extends Activity implements
                             fos.close();
                         }
 
-                        if (settings.twitpic) {
+                        if (settings.twitpic || imagesAttached > 1) {
                             boolean isDone = false;
 
                             if (useAccOne) {
@@ -1189,6 +1189,8 @@ public abstract class Compose extends Activity implements
 
                                 return true;
                             } else {
+                                // TODO: It won't ever reach here, but this method doesn't work :/
+
                                 // use mine because twitter4j doesn't do multiples yet
 
                                 // has multiple images and should be done through twitters service
