@@ -592,6 +592,8 @@ public class NotificationUtils {
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
+        NotificationCompat.InboxStyle inbox = null;
+
         if (tweets.size() == 1) {
             title = tweets.get(0)[0];
             shortText = tweets.get(0)[1];
@@ -603,8 +605,18 @@ public class NotificationUtils {
             shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
             longText = "";
 
-            for(String[] s : tweets) {
-                longText += "<b>" + s[0] + ":</b> " + s[1] + "<br>";
+            inbox.setBigContentTitle(shortText);
+
+            if (tweets.size() <= 5) {
+                for (String[] s : tweets) {
+                    inbox.addLine(Html.fromHtml("<b>" + s[0] + ":</b> " + s[1]));
+                }
+            } else {
+                for (int i = 0; i < 5; i++) {
+                    inbox.addLine(Html.fromHtml("<b>" + tweets.get(i)[0] + ":</b> " + tweets.get(i)[1]));
+                }
+
+                inbox.setSummaryText("+" + (tweets.size() - 5) + " " + context.getString(R.string.tweets));
             }
 
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
@@ -629,9 +641,13 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
+        if (inbox == null) {
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
+        } else {
+            mBuilder.setStyle(inbox);
+        }
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
         }
@@ -914,7 +930,7 @@ public class NotificationUtils {
         AppSettings settings = AppSettings.getInstance(context);
 
         if (numberNew > 5) {
-            style.setSummaryText("...");
+            style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.mentions));
 
             for (int i = 0; i < 5; i++) {
                 String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
