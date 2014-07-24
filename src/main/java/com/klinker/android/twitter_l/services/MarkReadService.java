@@ -7,8 +7,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 
+<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/services/MarkReadService.java
 import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+=======
+import android.util.Log;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.ui.compose.RetryCompose;
+>>>>>>> master:src/main/java/com/klinker/android/twitter/services/MarkReadService.java
 
 public class MarkReadService extends IntentService {
 
@@ -20,6 +28,8 @@ public class MarkReadService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+
+        Log.v("talon_mark_read", "running the mark read service for account 1");
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -38,9 +48,8 @@ public class MarkReadService extends IntentService {
         // and the shared prefs are easy.
         // this is only called from the notification and there will only ever be one thing that is unread when this button is availible
 
-        MentionsDataSource.getInstance(context).markAllRead(1);
-        MentionsDataSource.getInstance(context).markAllRead(2);
-
+        MentionsDataSource.getInstance(context).markAllRead(currentAccount);
+        HomeDataSource.getInstance(context).markAllRead(currentAccount);
         InteractionsDataSource.getInstance(context).markAllRead(currentAccount);
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();

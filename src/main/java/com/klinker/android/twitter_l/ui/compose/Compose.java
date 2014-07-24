@@ -83,6 +83,7 @@ import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.*;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public abstract class Compose extends Activity implements
@@ -145,7 +146,12 @@ public abstract class Compose extends Activity implements
                     count += 23; // add 23 for the shortened url
                 }
 
-                count += imagesAttached * 23;
+                if (imagesAttached > 0) {
+                    if (settings.twitpic)
+                        count += imagesAttached * 23;
+                    else
+                        count += 23;
+                }
 
                 charRemaining.setText(140 - count + "");
             }
@@ -208,7 +214,7 @@ public abstract class Compose extends Activity implements
 
         if (getIntent().getBooleanExtra("start_attach", false)) {
             attachButton.performClick();
-            overflow.performClick();
+            //overflow.performClick();
         }
 
         if (notiId != 0) {
@@ -675,6 +681,7 @@ public abstract class Compose extends Activity implements
 
     public static final int SELECT_PHOTO = 100;
     public static final int CAPTURE_IMAGE = 101;
+    public static final int SELECT_GIF = 102;
     public static final int PWICCER = 420;
 
     public boolean pwiccer = false;
@@ -788,6 +795,28 @@ public abstract class Compose extends Activity implements
                 }
                 countHandler.post(getCount);
                 break;
+            case SELECT_GIF:
+                if(resultCode == RESULT_OK){
+                    try {
+                        Uri selectedImage = imageReturnedIntent.getData();
+
+                        String filePath = IOUtils.getPath(selectedImage, context);
+
+                        Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
+
+                        attachImage[0].setImageURI(selectedImage);
+                        attachImage[0].setVisibility(View.VISIBLE);
+                        attachedUri[0] = selectedImage.toString();
+                        imagesAttached = 1;
+
+                        attachButton.setEnabled(false);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                countHandler.post(getCount);
+                break;
         }
 
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -892,6 +921,7 @@ public abstract class Compose extends Activity implements
     class updateTwitterStatus extends AsyncTask<String, String, Boolean> {
 
         String text;
+        String status;
         private boolean secondTry;
         private int remaining;
         private InputStream stream;
@@ -921,7 +951,7 @@ public abstract class Compose extends Activity implements
         }
 
         protected Boolean doInBackground(String... args) {
-            String status = args[0];
+            status = args[0];
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
                 Twitter twitter2 = Utils.getSecondTwitter(getApplicationContext());
@@ -1031,34 +1061,38 @@ public abstract class Compose extends Activity implements
                         File[] files = new File[imagesAttached];
                         File outputDir = context.getCacheDir();
 
-                        for (int i = 0; i < imagesAttached; i++) {
-                            files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
+                        if (attachButton.isEnabled()) {
+                            for (int i = 0; i < imagesAttached; i++) {
+                                files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
 
-                            Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
-                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-                            if (secondTry) {
-                                bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+                                if (secondTry) {
+                                    bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+                                }
+
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                                byte[] bitmapdata = bos.toByteArray();
+
+                                FileOutputStream fos = new FileOutputStream(files[i]);
+                                fos.write(bitmapdata);
+                                fos.flush();
+                                fos.close();
                             }
-
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                            byte[] bitmapdata = bos.toByteArray();
-
-                            FileOutputStream fos = new FileOutputStream(files[i]);
-                            fos.write(bitmapdata);
-                            fos.flush();
-                            fos.close();
                         }
 
-                        if (settings.twitpic || imagesAttached > 1) {
+                        if (settings.twitpic && attachButton.isEnabled()) {
                             boolean isDone = false;
 
                             if (useAccOne) {
+                                // attach pics 1 - 3
                                 for (int i = 1; i < imagesAttached; i++) {
                                     TwitPicHelper helper = new TwitPicHelper(twitter, "", files[i], context);
                                     text += " " + helper.uploadForUrl();
                                 }
 
+                                // post the status with the 0th picture attached
                                 TwitPicHelper helper = new TwitPicHelper(twitter, text, files[0], context);
                                 if (addLocation) {
                                     int wait = 0;
@@ -1119,9 +1153,29 @@ public abstract class Compose extends Activity implements
                             }
                             return isDone;
                         } else {
-                            media.setMedia(files[0]);
+                            // use twitter4j's because it is easier
+                            if (attachButton.isEnabled()) {
+                                if (imagesAttached == 1) {
+                                    media.setMedia(files[0]);
+                                } else {
+                                    // has multiple images and should be done through twitters service
 
-                            if(addLocation) {
+                                    long[] mediaIds = new long[files.length];
+                                    for (int i = 0; i < files.length; i++) {
+                                        UploadedMedia upload = twitter.uploadMedia(files[i]);
+                                        mediaIds[i] = upload.getMediaId();
+                                    }
+
+                                    media.setMediaIds(mediaIds);
+
+                                }
+                            } else {
+                                // animated gif
+                                Log.v("talon_compose", "attaching animated gif");
+                                media.setMedia("animated_gif", getContentResolver().openInputStream(Uri.parse(attachedUri[0])));
+                            }
+
+                            if (addLocation) {
                                 int wait = 0;
                                 while (!mLocationClient.isConnected() && wait < 4) {
                                     try {
@@ -1138,7 +1192,7 @@ public abstract class Compose extends Activity implements
                                 }
 
                                 Location location = mLocationClient.getLastLocation();
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
                                 media.setLocation(geolocation);
                             }
 
@@ -1194,7 +1248,6 @@ public abstract class Compose extends Activity implements
 
                 if (e.getMessage().contains("the uploaded media is too large.")) {
                     tryingAgain = true;
-                    new updateTwitterStatus(text, remaining, true).execute(status);
                     return false;
                 }
             } catch (OutOfMemoryError e) {
@@ -1223,6 +1276,8 @@ public abstract class Compose extends Activity implements
                 } else {
                     makeFailedNotification(text);
                 }
+            } else {
+                new updateTwitterStatus(text, remaining, true).execute(status);
             }
         }
     }
