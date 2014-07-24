@@ -555,8 +555,6 @@ public class ComposeActivity extends Compose {
                         Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                overflow.performClick();
             }
         });
 
