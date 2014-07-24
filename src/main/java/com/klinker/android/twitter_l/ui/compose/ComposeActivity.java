@@ -539,25 +539,18 @@ public class ComposeActivity extends Compose {
                     }
 
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    try {
-                        startActivityForResult(captureIntent, CAPTURE_IMAGE);
-                    } catch (Throwable t) {
-                        // no app to preform this..? hmm, tell them that I guess
-                        Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                    }
-                } else { // attach picture
+                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                } else if (item == 1) { // attach picture
                     Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                     photoPickerIntent.setType("image/*");
-                    try {
-                        startActivityForResult(Intent.createChooser(photoPickerIntent,
+                    startActivityForResult(Intent.createChooser(photoPickerIntent,
                                 "Select Picture"), SELECT_PHOTO);
-                    } catch (Throwable t) {
-                        // no app to preform this..? hmm, tell them that I guess
-                        Toast.makeText(context, "No app available to select pictures!", Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    Intent gifIntent = new Intent();
+                    gifIntent.setType("image/gif");
+                    gifIntent.setAction(Intent.ACTION_PICK);
+                    startActivityForResult(gifIntent, SELECT_GIF);
                 }
-
-                overflow.performClick();
             }
         });
 

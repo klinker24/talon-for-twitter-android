@@ -25,6 +25,8 @@ import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverOne;
+import com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverTwo;
 import com.klinker.android.twitter_l.services.MarkReadSecondAccService;
 import com.klinker.android.twitter_l.services.MarkReadService;
 import com.klinker.android.twitter_l.services.ReadInteractionsService;
@@ -38,7 +40,6 @@ import com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToPopup;
 import com.klinker.android.twitter_l.utils.redirects.SwitchAccountsRedirect;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -116,7 +117,8 @@ public class NotificationUtils {
 
             NotificationCompat.Builder mBuilder;
 
-            //if (useExpanded) {
+            Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
+
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title[0])
                     .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
@@ -125,22 +127,10 @@ public class NotificationUtils {
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
                     .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
-                    .setDeleteIntent(readPending)
+                    .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ?
                             longText.replaceAll("FF8800", settings.accentColor) : longText)));
-
-
-            /*} else {
-                mBuilder = new NotificationCompat.Builder(context)
-                        .setContentTitle(title[0])
-                        .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setLargeIcon(getIcon(context, unreadCounts, title[1]))
-                        .setContentIntent(resultPendingIntent)
-                        .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
-                        .setDeleteIntent(readPending)
-                        .setAutoCancel(true);
-            }*/
 
             // Pebble notification
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
@@ -620,24 +610,19 @@ public class NotificationUtils {
             // return because there is a mention notification for this already
             return;
         }
-        //if (context.getResources().getBoolean(R.bool.expNotifications)) {
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(title)
-                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
-                    .setSmallIcon(smallIcon)
-                    .setLargeIcon(largeIcon)
-                    .setContentIntent(resultPendingIntent)
-                    .setAutoCancel(true)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
-        /*} else {
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(title)
-                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
-                    .setSmallIcon(smallIcon)
-                    .setLargeIcon(largeIcon)
-                    .setContentIntent(resultPendingIntent)
-                    .setAutoCancel(true);
-        }*/
+
+        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
+
+        mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(title)
+                .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
+                .setSmallIcon(smallIcon)
+                .setLargeIcon(largeIcon)
+                .setContentIntent(resultPendingIntent)
+                .setAutoCancel(true)
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -655,9 +640,6 @@ public class NotificationUtils {
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
-            /*NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(2, mBuilder.build());*/
 
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
@@ -754,26 +736,18 @@ public class NotificationUtils {
 
         AppSettings settings = AppSettings.getInstance(context);
 
-        //if (context.getResources().getBoolean(R.bool.expNotifications)) {
+        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverTwo.class);
+
         mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
                 .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                 .setSmallIcon(smallIcon)
                 .setLargeIcon(largeIcon)
                 .setContentIntent(resultPendingIntent)
-                .setDeleteIntent(readPending)
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
-        /*} else {
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(title)
-                    .setContentText(TweetLinkUtils.removeColorHtml(messageLong, settings))
-                    .setSmallIcon(smallIcon)
-                    .setLargeIcon(largeIcon)
-                    .setContentIntent(resultPendingIntent)
-                    .setDeleteIntent(readPending)
-                    .setAutoCancel(true);
-        }*/
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -791,9 +765,6 @@ public class NotificationUtils {
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
-            /*NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(9, mBuilder.build());*/
 
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
@@ -861,26 +832,18 @@ public class NotificationUtils {
 
         AppSettings settings = AppSettings.getInstance(context);
 
-        //if (context.getResources().getBoolean(R.bool.expNotifications)) {
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(title)
-                    .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
-                    .setSmallIcon(smallIcon)
-                    .setLargeIcon(largeIcon)
-                    .setContentIntent(resultPendingIntent)
-                    .setDeleteIntent(readPending)
-                    .setAutoCancel(true)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
-        /*} else {
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(title)
-                    .setContentText(TweetLinkUtils.removeColorHtml(messageLong, settings))
-                    .setSmallIcon(smallIcon)
-                    .setLargeIcon(largeIcon)
-                    .setContentIntent(resultPendingIntent)
-                    .setDeleteIntent(readPending)
-                    .setAutoCancel(true);
-        }*/
+        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverTwo.class);
+
+        mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(title)
+                .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
+                .setSmallIcon(smallIcon)
+                .setLargeIcon(largeIcon)
+                .setContentIntent(resultPendingIntent)
+                .setAutoCancel(true)
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -898,9 +861,6 @@ public class NotificationUtils {
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
-            /*NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(9, mBuilder.build());*/
 
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
@@ -995,6 +955,8 @@ public class NotificationUtils {
         Intent markRead = new Intent(context, ReadInteractionsService.class);
         PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
 
+        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
                 .setContentText(Html.fromHtml(settings.addonTheme ? smallText.replaceAll("FF8800", settings.accentColor) : smallText))
@@ -1002,7 +964,8 @@ public class NotificationUtils {
                 .setLargeIcon(icon)
                 .setContentIntent(resultPendingIntent)
                 .setTicker(title)
-                .setDeleteIntent(readPending)
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
         if(context.getResources().getBoolean(R.bool.expNotifications)) {
@@ -1025,9 +988,6 @@ public class NotificationUtils {
             mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
-            /*NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(4, mBuilder.build());*/
 
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
