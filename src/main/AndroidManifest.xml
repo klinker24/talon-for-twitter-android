@@ -583,6 +583,12 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.NotificationDeleteReceiverOne"
+                  android:exported="true"/>
+
+        <receiver android:name=".receivers.NotificationDeleteReceiverTwo"
+                  android:exported="true"/>
+
         <receiver android:name=".receivers.ConnectivityChangeReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

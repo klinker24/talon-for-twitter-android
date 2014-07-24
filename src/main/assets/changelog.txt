@@ -2,6 +2,7 @@
     &#8226; New compose window<br/>
     &#8226; Post tweets with animated GIFs (Twitter doesn't support viewing yet)<br/>
     &#8226; Upload multiple images to twitters native hosting<br/>
+    &#8226; Better clearing of notification data<br/>
     &#8226; Small changes for sending normal pictures<br/>
 <br/><br/>
 
