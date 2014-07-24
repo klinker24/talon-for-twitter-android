@@ -24,7 +24,6 @@
         - redo notifications using the message style stuff for android wear
         - reply from the second account mention notification
         - doesn't actually clear the notification stuff when swiping it away
-        - post multiple pictures using twitter's method for multiple uploads
 
     Version 2.6.0
         - More fragments to choose from

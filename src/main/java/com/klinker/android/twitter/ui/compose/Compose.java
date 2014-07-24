@@ -80,10 +80,7 @@ import java.util.regex.Pattern;
 
 import com.klinker.android.twitter.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter.utils.text.TextUtils;
-import twitter4j.GeoLocation;
-import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
+import twitter4j.*;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public abstract class Compose extends Activity implements
@@ -146,7 +143,12 @@ public abstract class Compose extends Activity implements
                     count += 23; // add 23 for the shortened url
                 }
 
-                count += imagesAttached * 23;
+                if (imagesAttached > 0) {
+                    if (settings.twitpic)
+                        count += imagesAttached * 23;
+                    else
+                        count += 23;
+                }
 
                 charRemaining.setText(140 - count + "");
             }
@@ -675,6 +677,7 @@ public abstract class Compose extends Activity implements
 
     public static final int SELECT_PHOTO = 100;
     public static final int CAPTURE_IMAGE = 101;
+    public static final int SELECT_GIF = 102;
     public static final int PWICCER = 420;
 
     public boolean pwiccer = false;
@@ -785,6 +788,28 @@ public abstract class Compose extends Activity implements
                     onBackPressed();
                 } else {
                     Toast.makeText(context, "Pwiccer failed to generate image! Is it installed?", Toast.LENGTH_SHORT).show();
+                }
+                countHandler.post(getCount);
+                break;
+            case SELECT_GIF:
+                if(resultCode == RESULT_OK){
+                    try {
+                        Uri selectedImage = imageReturnedIntent.getData();
+
+                        String filePath = IOUtils.getPath(selectedImage, context);
+
+                        Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
+
+                        attachImage[0].setImageURI(selectedImage);
+                        attachImage[0].setVisibility(View.VISIBLE);
+                        attachedUri[0] = selectedImage.toString();
+                        imagesAttached = 1;
+
+                        attachButton.setEnabled(false);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 countHandler.post(getCount);
                 break;
@@ -1032,26 +1057,28 @@ public abstract class Compose extends Activity implements
                         File[] files = new File[imagesAttached];
                         File outputDir = context.getCacheDir();
 
-                        for (int i = 0; i < imagesAttached; i++) {
-                            files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
+                        if (attachButton.isEnabled()) {
+                            for (int i = 0; i < imagesAttached; i++) {
+                                files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
 
-                            Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
-                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-                            if (secondTry) {
-                                bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+                                if (secondTry) {
+                                    bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+                                }
+
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                                byte[] bitmapdata = bos.toByteArray();
+
+                                FileOutputStream fos = new FileOutputStream(files[i]);
+                                fos.write(bitmapdata);
+                                fos.flush();
+                                fos.close();
                             }
-
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                            byte[] bitmapdata = bos.toByteArray();
-
-                            FileOutputStream fos = new FileOutputStream(files[i]);
-                            fos.write(bitmapdata);
-                            fos.flush();
-                            fos.close();
                         }
 
-                        if (settings.twitpic || imagesAttached > 1) {
+                        if (settings.twitpic && attachButton.isEnabled()) {
                             boolean isDone = false;
 
                             if (useAccOne) {
@@ -1123,94 +1150,89 @@ public abstract class Compose extends Activity implements
                             return isDone;
                         } else {
                             // use twitter4j's because it is easier
-                            if (imagesAttached == 1) {
-                                media.setMedia(files[0]);
+                            if (attachButton.isEnabled()) {
+                                if (imagesAttached == 1) {
+                                    media.setMedia(files[0]);
+                                } else {
+                                    // has multiple images and should be done through twitters service
 
-                                if (addLocation) {
-                                    int wait = 0;
-                                    while (!mLocationClient.isConnected() && wait < 4) {
-                                        try {
-                                            Thread.sleep(1500);
-                                        } catch (Exception e) {
-                                            return false;
-                                        }
-
-                                        wait++;
+                                    long[] mediaIds = new long[files.length];
+                                    for (int i = 0; i < files.length; i++) {
+                                        UploadedMedia upload = twitter.uploadMedia(files[i]);
+                                        mediaIds[i] = upload.getMediaId();
                                     }
 
-                                    if (wait == 4) {
+                                    media.setMediaIds(mediaIds);
+
+                                }
+                            } else {
+                                // animated gif
+                                Log.v("talon_compose", "attaching animated gif");
+                                media.setMedia("animated_gif", getContentResolver().openInputStream(Uri.parse(attachedUri[0])));
+                            }
+
+                            if (addLocation) {
+                                int wait = 0;
+                                while (!mLocationClient.isConnected() && wait < 4) {
+                                    try {
+                                        Thread.sleep(1500);
+                                    } catch (Exception e) {
                                         return false;
                                     }
 
-                                    Location location = mLocationClient.getLastLocation();
-                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                    media.setLocation(geolocation);
+                                    wait++;
                                 }
 
-                                twitter4j.Status s = null;
-                                if (useAccOne) {
-                                    s = twitter.updateStatus(media);
-                                }
-                                if (useAccTwo) {
-                                    s = twitter2.updateStatus(media);
+                                if (wait == 4) {
+                                    return false;
                                 }
 
-                                if (s != null) {
-                                    final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
+                                Location location = mLocationClient.getLastLocation();
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                media.setLocation(geolocation);
+                            }
 
-                                    if (hashtags != null) {
-                                        // we will add them to the auto complete
-                                        new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ArrayList<String> tags = new ArrayList<String>();
-                                                if (hashtags != null) {
-                                                    for (String s : hashtags) {
-                                                        if (!s.equals("")) {
-                                                            tags.add("#" + s);
-                                                        }
-                                                    }
-                                                }
+                            twitter4j.Status s = null;
+                            if (useAccOne) {
+                                s = twitter.updateStatus(media);
+                            }
+                            if (useAccTwo) {
+                                s = twitter2.updateStatus(media);
+                            }
 
-                                                HashtagDataSource source = HashtagDataSource.getInstance(context);
+                            if (s != null) {
+                                final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
 
-                                                for (String s : tags) {
-                                                    if (s.contains("#")) {
-                                                        // we want to add it to the auto complete
-
-                                                        source.deleteTag(s);
-                                                        source.createTag(s);
+                                if (hashtags != null) {
+                                    // we will add them to the auto complete
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ArrayList<String> tags = new ArrayList<String>();
+                                            if (hashtags != null) {
+                                                for (String s : hashtags) {
+                                                    if (!s.equals("")) {
+                                                        tags.add("#" + s);
                                                     }
                                                 }
                                             }
-                                        }).start();
-                                    }
+
+                                            HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                                            for (String s : tags) {
+                                                if (s.contains("#")) {
+                                                    // we want to add it to the auto complete
+
+                                                    source.deleteTag(s);
+                                                    source.createTag(s);
+                                                }
+                                            }
+                                        }
+                                    }).start();
                                 }
-
-                                return true;
-                            } else {
-                                // TODO: It won't ever reach here, but this method doesn't work :/
-
-                                // use mine because twitter4j doesn't do multiples yet
-
-                                // has multiple images and should be done through twitters service
-                                // we will just forget about the location right now... I'm not that good yet
-
-                                TwitterMultipleImageHelper helper = new TwitterMultipleImageHelper();
-                                boolean success = false;
-
-                                // not a great way to mark the success... but will do for now. If it fails on one, it
-                                // probably won't pass the other either.
-
-                                if (useAccOne) {
-                                    success = helper.uploadPics(files, status, twitter);
-                                }
-                                if (useAccTwo) {
-                                    success = helper.uploadPics(files, status, twitter2);
-                                }
-
-                                return success;
                             }
+
+                            return true;
                         }
 
                     }
