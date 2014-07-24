@@ -205,7 +205,7 @@ public class TwitterMultipleImageHelper {
         return new String(BASE64Encoder.encode(mac.doFinal(text))).trim();
     }
 
-    private boolean uploadPics(List<File> pics, String text, Twitter twitter) {
+    public boolean uploadPics(File[] pics, String text, Twitter twitter) {
         JSONObject jsonresponse = new JSONObject();
 
         try {

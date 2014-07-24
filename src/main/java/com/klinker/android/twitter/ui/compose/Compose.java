@@ -78,6 +78,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.klinker.android.twitter.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter.utils.text.TextUtils;
 import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
@@ -1050,15 +1051,17 @@ public abstract class Compose extends Activity implements
                             fos.close();
                         }
 
-                        if (settings.twitpic || imagesAttached > 1) {
+                        if (settings.twitpic) {
                             boolean isDone = false;
 
                             if (useAccOne) {
+                                // attach pics 1 - 3
                                 for (int i = 1; i < imagesAttached; i++) {
                                     TwitPicHelper helper = new TwitPicHelper(twitter, "", files[i], context);
                                     text += " " + helper.uploadForUrl();
                                 }
 
+                                // post the status with the 0th picture attached
                                 TwitPicHelper helper = new TwitPicHelper(twitter, text, files[0], context);
                                 if (addLocation) {
                                     int wait = 0;
@@ -1119,70 +1122,93 @@ public abstract class Compose extends Activity implements
                             }
                             return isDone;
                         } else {
-                            media.setMedia(files[0]);
+                            // use twitter4j's because it is easier
+                            if (imagesAttached == 1) {
+                                media.setMedia(files[0]);
 
-                            if(addLocation) {
-                                int wait = 0;
-                                while (!mLocationClient.isConnected() && wait < 4) {
-                                    try {
-                                        Thread.sleep(1500);
-                                    } catch (Exception e) {
+                                if (addLocation) {
+                                    int wait = 0;
+                                    while (!mLocationClient.isConnected() && wait < 4) {
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (Exception e) {
+                                            return false;
+                                        }
+
+                                        wait++;
+                                    }
+
+                                    if (wait == 4) {
                                         return false;
                                     }
 
-                                    wait++;
+                                    Location location = mLocationClient.getLastLocation();
+                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                    media.setLocation(geolocation);
                                 }
 
-                                if (wait == 4) {
-                                    return false;
+                                twitter4j.Status s = null;
+                                if (useAccOne) {
+                                    s = twitter.updateStatus(media);
+                                }
+                                if (useAccTwo) {
+                                    s = twitter2.updateStatus(media);
                                 }
 
-                                Location location = mLocationClient.getLastLocation();
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-                                media.setLocation(geolocation);
-                            }
+                                if (s != null) {
+                                    final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
 
-                            twitter4j.Status s = null;
-                            if (useAccOne) {
-                                s = twitter.updateStatus(media);
-                            }
-                            if (useAccTwo) {
-                                s = twitter2.updateStatus(media);
-                            }
+                                    if (hashtags != null) {
+                                        // we will add them to the auto complete
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ArrayList<String> tags = new ArrayList<String>();
+                                                if (hashtags != null) {
+                                                    for (String s : hashtags) {
+                                                        if (!s.equals("")) {
+                                                            tags.add("#" + s);
+                                                        }
+                                                    }
+                                                }
 
-                            if (s != null) {
-                                final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
+                                                HashtagDataSource source = HashtagDataSource.getInstance(context);
 
-                                if (hashtags != null) {
-                                    // we will add them to the auto complete
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ArrayList<String> tags = new ArrayList<String>();
-                                            if (hashtags != null) {
-                                                for (String s : hashtags) {
-                                                    if (!s.equals("")) {
-                                                        tags.add("#" + s);
+                                                for (String s : tags) {
+                                                    if (s.contains("#")) {
+                                                        // we want to add it to the auto complete
+
+                                                        source.deleteTag(s);
+                                                        source.createTag(s);
                                                     }
                                                 }
                                             }
-
-                                            HashtagDataSource source = HashtagDataSource.getInstance(context);
-
-                                            for (String s : tags) {
-                                                if (s.contains("#")) {
-                                                    // we want to add it to the auto complete
-
-                                                    source.deleteTag(s);
-                                                    source.createTag(s);
-                                                }
-                                            }
-                                        }
-                                    }).start();
+                                        }).start();
+                                    }
                                 }
-                            }
 
-                            return true;
+                                return true;
+                            } else {
+                                // use mine because twitter4j doesn't do multiples yet
+
+                                // has multiple images and should be done through twitters service
+                                // we will just forget about the location right now... I'm not that good yet
+
+                                TwitterMultipleImageHelper helper = new TwitterMultipleImageHelper();
+                                boolean success = false;
+
+                                // not a great way to mark the success... but will do for now. If it fails on one, it
+                                // probably won't pass the other either.
+
+                                if (useAccOne) {
+                                    success = helper.uploadPics(files, status, twitter);
+                                }
+                                if (useAccTwo) {
+                                    success = helper.uploadPics(files, status, twitter2);
+                                }
+
+                                return success;
+                            }
                         }
 
                     }
