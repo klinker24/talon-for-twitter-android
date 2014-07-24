@@ -332,6 +332,7 @@ public abstract class Compose extends Activity implements
         if (settings.roundContactImages) {
             pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
         } else {
+
             pic.loadImage(settings.myProfilePicUrl, false, null);
         }
         currentName.setText("@" + settings.myScreenName);
