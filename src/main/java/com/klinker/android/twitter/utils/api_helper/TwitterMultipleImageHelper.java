@@ -291,10 +291,12 @@ public class TwitterMultipleImageHelper {
                     StringBody sb_status = new StringBody(text);
                     reqEntity.addPart("status", sb_status);
 
+                    // sets the media entities for up to 4 pictures
                     for (File file : pics) {
                         FileBody sb_image = new FileBody(file);
                         reqEntity.addPart("media[]", sb_image);
                     }
+
                     request2.setEntity(reqEntity);
 
 
@@ -324,14 +326,17 @@ public class TwitterMultipleImageHelper {
                     System.out.println(he.getMessage());
                     jsonresponse.put("response_status", "error");
                     jsonresponse.put("message", "updateStatusWithMedia HttpException message=" + he.getMessage());
+                    return false;
                 } catch (NoSuchAlgorithmException nsae) {
                     System.out.println(nsae.getMessage());
                     jsonresponse.put("response_status", "error");
                     jsonresponse.put("message", "updateStatusWithMedia NoSuchAlgorithmException message=" + nsae.getMessage());
+                    return false;
                 } catch (KeyManagementException kme) {
                     System.out.println(kme.getMessage());
                     jsonresponse.put("response_status", "error");
                     jsonresponse.put("message", "updateStatusWithMedia KeyManagementException message=" + kme.getMessage());
+                    return false;
                 } finally {
                     conn.close();
                 }
@@ -339,9 +344,10 @@ public class TwitterMultipleImageHelper {
                 ioe.printStackTrace();
                 jsonresponse.put("response_status", "error");
                 jsonresponse.put("message", "updateStatusWithMedia IOException message=" + ioe.getMessage());
+                return false;
             }
         } catch (Exception e) {
-
+            return false;
         }
         return true;
     }
