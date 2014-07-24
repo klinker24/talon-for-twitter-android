@@ -12,6 +12,7 @@ import android.util.Log;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.settings.AppSettings;
 
 /**
  * Created by luke on 3/21/14.
@@ -40,7 +41,7 @@ public class MarkReadSecondAccService extends IntentService {
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         final Context context = getApplicationContext();
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        int currentAccount = AppSettings.getInstance(context).currentAccount;
 
         if (currentAccount == 1) {
             currentAccount = 2;
@@ -51,16 +52,11 @@ public class MarkReadSecondAccService extends IntentService {
         // we can just mark everything as read because it isnt taxing at all and won't do anything in the mentions if there isn't one
         // and the shared prefs are easy.
         // this is only called from the notification and there will only ever be one thing that is unread when this button is available
-        final int curr = currentAccount;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // delay this so that if switching account, it will start at the right place
-                MentionsDataSource.getInstance(context).markAllRead(curr);
-                HomeDataSource.getInstance(context).markAllRead(curr);
-                InteractionsDataSource.getInstance(context).markAllRead(curr);
-            }
-        }, 5000);
+
+        // delay this so that if switching account, it will start at the right place
+        MentionsDataSource.getInstance(context).markAllRead(currentAccount);
+        HomeDataSource.getInstance(context).markAllRead(currentAccount);
+        InteractionsDataSource.getInstance(context).markAllRead(currentAccount);
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
     }
