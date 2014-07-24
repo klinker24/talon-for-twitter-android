@@ -836,7 +836,7 @@ public class NotificationUtils {
 
         AppSettings settings = AppSettings.getInstance(context);
 
-        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
+        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverTwo.class);
 
         mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
