@@ -131,11 +131,19 @@ public class NotificationUtils {
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
 
             if (unreadCounts[1] > 1 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
+                // inbox style notification for mentions
                 mBuilder.setStyle(getMentionsInboxStyle(unreadCounts[1],
                         currentAccount,
                         context,
                         TweetLinkUtils.removeColorHtml(shortText, settings)));
-            } else {
+            } else if (unreadCounts[2] > 1 && unreadCounts[0] == 0 && unreadCounts[1] == 0) {
+                // inbox style notification for direct messages
+                mBuilder.setStyle(getDMInboxStyle(unreadCounts[1],
+                        currentAccount,
+                        context,
+                        TweetLinkUtils.removeColorHtml(shortText, settings)));
+            } else  {
+                // big text style for an unread count on timeline, mentions, and direct messages
                 mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ?
                         longText.replaceAll("FF8800", settings.accentColor) : longText)));
             }
@@ -736,6 +744,7 @@ public class NotificationUtils {
         String message;
         String messageLong;
 
+        NotificationCompat.InboxStyle inbox = null;
         if (numberNew == 1) {
             name = data.getNewestName(secondAccount);
 
@@ -749,10 +758,12 @@ public class NotificationUtils {
             message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
             messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
             largeIcon = getImage(context, name);
-        } else { // more than one mention
+        } else { // more than one dm
             message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
             messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+
+            inbox = getDMInboxStyle(numberNew, secondAccount, context, message);
         }
 
         Intent markRead = new Intent(context, MarkReadSecondAccService.class);
@@ -770,8 +781,13 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        if (inbox == null) {
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+        } else {
+            mBuilder.setStyle(inbox);
+        }
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -946,6 +962,46 @@ public class NotificationUtils {
             for (int i = 0; i <numberNew; i++) {
                 String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
                 String text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
+                String longText = "<b>@" + handle + "</b>: " + text;
+
+                style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+
+                cursor.moveToPrevious();
+            }
+        }
+
+        style.setBigContentTitle(title);
+
+        return style;
+    }
+
+    private static NotificationCompat.InboxStyle getDMInboxStyle(int numberNew, int accountNumber, Context context, String title) {
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
+
+        Cursor cursor = DMDataSource.getInstance(context).getCursor(accountNumber);
+        if (!cursor.moveToLast()) {
+            return style;
+        }
+
+        AppSettings settings = AppSettings.getInstance(context);
+
+        if (numberNew > 5) {
+            style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.direct_messages));
+
+            for (int i = 0; i < 5; i++) {
+                String handle = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                String text = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                String longText = "<b>@" + handle + "</b>: " + text;
+
+                style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+
+                cursor.moveToPrevious();
+            }
+        } else {
+
+            for (int i = 0; i <numberNew; i++) {
+                String handle = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                String text = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
                 String longText = "<b>@" + handle + "</b>: " + text;
 
                 style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
