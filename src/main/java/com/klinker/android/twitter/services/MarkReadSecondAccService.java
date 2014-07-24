@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import android.util.Log;
+import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 
@@ -24,6 +26,8 @@ public class MarkReadSecondAccService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+
+        Log.v("talon_mark_read", "running the mark read service for account 2");
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -46,16 +50,17 @@ public class MarkReadSecondAccService extends IntentService {
 
         // we can just mark everything as read because it isnt taxing at all and won't do anything in the mentions if there isn't one
         // and the shared prefs are easy.
-        // this is only called from the notification and there will only ever be one thing that is unread when this button is availible
+        // this is only called from the notification and there will only ever be one thing that is unread when this button is available
         final int curr = currentAccount;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 // delay this so that if switching account, it will start at the right place
                 MentionsDataSource.getInstance(context).markAllRead(curr);
+                HomeDataSource.getInstance(context).markAllRead(curr);
+                InteractionsDataSource.getInstance(context).markAllRead(curr);
             }
-        }, 10000);
-        InteractionsDataSource.getInstance(context).markAllRead(currentAccount);
+        }, 5000);
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
     }
