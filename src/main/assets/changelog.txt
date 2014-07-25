@@ -5,8 +5,10 @@
     &#8226; Upload multiple images to twitters native hosting<br/>
     &#8226; Better notifications for mentions, direct messages, and favorite users<br/>
     &#8226; Better clearing of notification data<br/>
+    &#8226; Support for Klinker Apps Theme Spotlight<br/>
     &#8226; Small changes for sending normal pictures<br/>
     &#8226; Random fixes and requests<br/>
+    &#8226; Added to the "Our Apps" section<br/>
 <br/><br/>
 
 <b>Version 2.5.4:</b><br/><br/>
