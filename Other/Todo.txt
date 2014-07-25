@@ -27,10 +27,10 @@
         - mute users for a time period
 
         - redo notifications using the message style stuff for android wear
-        - don't let them click the retweet button on a protected account's tweet
         - material design add on theme
         - conversation indicator on timeline
         - collage of images on the tweet viewer if there is more than one attached to the tweet
+        - broadcast receiver to change the theme package
 
 
     Version 2.6.0
