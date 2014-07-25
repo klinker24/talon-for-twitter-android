@@ -10,8 +10,16 @@
             android:title="@string/evolvesms" />
 
         <Preference
+            android:key="blur_launcher"
+            android:title="Blur - A Launcher Replacement" />
+
+        <Preference
             android:key="sliding_messaging"
             android:title="@string/sliding_messaging" />
+
+        <Preference
+            android:key="theme_spotlight"
+            android:title="Theme Spotlight" />
 
         <Preference
             android:key="theme_engine"

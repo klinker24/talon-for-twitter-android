@@ -1754,6 +1754,25 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference blur = findPreference("blur_launcher");
+        blur.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Toast.makeText(context, "Not yet... :)", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.launcher")));
+                return false;
+            }
+        });
+
+        Preference spotlight = findPreference("theme_spotlight");
+        spotlight.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.theme_spotlight")));
+                return false;
+            }
+        });
+
         Preference sm = findPreference("sliding_messaging");
         sm.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
