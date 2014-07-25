@@ -32,6 +32,7 @@ import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.compose.NotificationCompose;
+import com.klinker.android.twitter.ui.compose.NotificationComposeSecondAcc;
 import com.klinker.android.twitter.ui.compose.NotificationDMCompose;
 import com.klinker.android.twitter.ui.tweet_viewer.NotiTweetPager;
 import com.klinker.android.twitter.utils.redirects.RedirectToDMs;
@@ -842,10 +843,12 @@ public class NotificationUtils {
         NotificationCompat.Builder mBuilder;
 
         String title = context.getResources().getString(R.string.app_name) + " - " + context.getResources().getString(R.string.sec_acc);;
-        String name;
+        String name = null;
         String message;
         String messageLong;
 
+        String tweetText = null;
+        NotificationCompat.Action replyAction = null;
         if (numberNew == 1) {
             name = data.getNewestName(secondAccount);
 
@@ -859,8 +862,29 @@ public class NotificationUtils {
             }
 
             message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
-            messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
+            tweetText = data.getNewestMessage(secondAccount);
+            messageLong = "<b>@" + name + "</b>: " + tweetText;
             largeIcon = getImage(context, name);
+
+            Intent reply = new Intent(context, NotificationComposeSecondAcc.class);
+
+            sharedPrefs.edit().putString("from_notification_second", "@" + name).commit();
+            long id = data.getLastIds(secondAccount)[0];
+            PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+            sharedPrefs.edit().putLong("from_notification_long_second", id).commit();
+            sharedPrefs.edit().putString("from_notification_text_second", "@" + name + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).commit();
+
+            // Create the remote input
+            RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
+                    .setLabel("@" + name + " ")
+                    .build();
+
+            // Create the notification action
+            replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_dark,
+                    context.getResources().getString(R.string.noti_reply), replyPending)
+                    .addRemoteInput(remoteInput)
+                    .build();
+
         } else { // more than one mention
             message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
             messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
@@ -885,6 +909,7 @@ public class NotificationUtils {
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         if (numberNew == 1) {
+            mBuilder.addAction(replyAction);
             mBuilder.setStyle(new NotificationCompat.BigTextStyle()
                     .bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
         } else {
