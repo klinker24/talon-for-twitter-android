@@ -583,6 +583,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.ThemeConfigurationReceiver"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="com.klinker.android.SET_THEME"/>
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".receivers.NotificationDeleteReceiverOne"
                   android:exported="true"/>
 
