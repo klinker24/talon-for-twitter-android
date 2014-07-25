@@ -5,10 +5,12 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.adapters.ChangelogAdapter;
 import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter.utils.XmlChangelogUtils;
 
 
 public class SettingsLinkDrawerClickListener extends SettingsDrawerClickListener {
@@ -46,19 +50,24 @@ public class SettingsLinkDrawerClickListener extends SettingsDrawerClickListener
             viewPager.setCurrentItem(mPos + 7, true);
         } else if (mPos == 2) { // changelog
 
-            // changelog.txt
-            String changes = IOUtils.readChangelog(context);
-            ScrollView scrollView = new ScrollView(context);
-            TextView changeView = new TextView(context);
-            changeView.setText(Html.fromHtml(changes));
-            int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, context.getResources().getDisplayMetrics());
-            changeView.setPadding(padding, padding, padding, padding);
-            changeView.setTextSize(14);
-            scrollView.addView(changeView);
+            final ListView list = new ListView(context);
+            list.setDividerHeight(0);
+
+            new AsyncTask<Spanned[], Void, Spanned[]>() {
+                @Override
+                public Spanned[] doInBackground(Spanned[]... params) {
+                    return XmlChangelogUtils.parse(context);
+                }
+
+                @Override
+                public void onPostExecute(Spanned[] result) {
+                    list.setAdapter(new ChangelogAdapter(context, result));
+                }
+            }.execute();
 
             new AlertDialog.Builder(context)
                     .setTitle(R.string.changelog)
-                    .setView(scrollView)
+                    .setView(list)
                     .setPositiveButton(R.string.ok, null)
                     .show();
 
