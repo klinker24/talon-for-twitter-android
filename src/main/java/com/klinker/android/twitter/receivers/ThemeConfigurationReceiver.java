@@ -45,10 +45,14 @@ public class ThemeConfigurationReceiver extends BroadcastReceiver {
             Bundle metaData = app.metaData;
 
             if (metaData.getString("talon_theme").startsWith("version")) {
+
                 context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                         Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit()
                         .putString("addon_theme_package", themePackage)
-                        .putBoolean("addon_themes", true)
+                        .putBoolean("addon_themes", true);
+
+                PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putString("addon_theme_package", themePackage)
                         .commit();
                 Toast.makeText(context, "Theme set!", Toast.LENGTH_SHORT).show();
                 Log.v(TAG, "successfully saved theme as package name " + themePackage);

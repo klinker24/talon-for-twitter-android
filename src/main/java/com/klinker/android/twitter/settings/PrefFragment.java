@@ -1782,6 +1782,14 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        findPreference("theme_spotlight").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.theme_spotlight")));
+                return false;
+            }
+        });
+
         Preference smTheme = findPreference("theme_engine");
         smTheme.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
