@@ -11,7 +11,7 @@
 
         <Preference
             android:key="blur_launcher"
-            android:title="Blur - A Launcher Replacement" />
+            android:title="@string/blur" />
 
         <Preference
             android:key="sliding_messaging"
@@ -19,7 +19,7 @@
 
         <Preference
             android:key="theme_spotlight"
-            android:title="Theme Spotlight" />
+            android:title="@string/theme_spotlight" />
 
         <Preference
             android:key="theme_engine"
