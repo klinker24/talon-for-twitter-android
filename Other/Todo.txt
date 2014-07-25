@@ -27,7 +27,6 @@
         - mute users for a time period
 
         - redo notifications using the message style stuff for android wear
-        - reply from the second account mention notification
         - don't let them click the retweet button on a protected account's tweet
         - material design add on theme
         - conversation indicator on timeline
