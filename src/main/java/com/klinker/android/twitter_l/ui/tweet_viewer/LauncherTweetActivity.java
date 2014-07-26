@@ -13,6 +13,8 @@ public class LauncherTweetActivity extends TweetActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        fromLauncher = true;
+
         int acc = getIntent().getIntExtra("current_account", 0);
 
         if (acc != 0) {
