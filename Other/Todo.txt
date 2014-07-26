@@ -7,13 +7,18 @@
     - identify conversations from timeline
     - transparent status bar xposed
     - Night mode for themes
+    - easier manipulation of lists on users profiles (view all the lists they are apart of and add/remove them from them)
+    - better url regex
+    - better intent filter for the search so it doesn't get everything
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - switch mentions to save the position instead of current unread method
     - duplicate followers and following with low numbers
     - sometimes will jump down a tweet when loading data
-    - switching accounts on the launcher sometimes confuses and mixes up the timelines
+    - rotating device will sometimes jump to the top of timeline (better rotation on timeline!)
+    - when using talon theme, it will show circle profile pictures on the tweet viewer from their profile too
+
 
 -- For Release --
 
@@ -22,11 +27,33 @@
         - mute users for a time period
 
         - redo notifications using the message style stuff for android wear
-        - reply from the second account mention notification
+        - material design add on theme
+        - conversation indicator on timeline
+        - collage of images on the tweet viewer if there is more than one attached to the tweet
+        - broadcast receiver to change the theme package
+
 
     Version 2.6.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
             - second account mentions page on timeline
             - second account timeline page
+            - favorite tweets fragment
             - Activity fragment
+
+
+-- Launcher Page --
+
+    - still switches the timelines every once and awhile
+    - get the reply to text when clicking the edit text to send a new tweet from timeline to compose window
+    - start the pre-cache if they have it enabled
+    - get the right scale type for the drawer and the profile pictures on timeline
+
+
+-- Talon "L" Version --
+
+    - Profiles
+    - remove the black behind the windows...
+    - better viewing of multiple images on tweet viewer
+    - launcher page theme stuff
+    - make the launcher page work if only the "L" version is installed

@@ -12,4 +12,6 @@
     <string name="halopop">HaloPop</string>
     <string name="floating_windows">Floating Windows Guide</string>
     <string name="slideover_messaging">SlideOver Messaging</string>
+    <string name="blur">Blur - A Launcher Replacement</string>
+    <string name="theme_spotlight">Theme Spotlight</string>
 </resources>

@@ -247,8 +247,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         // delay displaying the extra content just a little bit to get rid of some weird animations
         final View extra = findViewById(R.id.extra_content);
-        final View name = findViewById(R.id.name);
-        final View screenname = findViewById(R.id.screen_name);
+        final View name = findViewById(R.id.person_info);
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -264,9 +263,6 @@ public class TweetActivity extends YouTubeBaseActivity {
                 if (name.getVisibility() != View.VISIBLE) {
                     name.setVisibility(View.VISIBLE);
                 }
-                if (screenname.getVisibility() != View.VISIBLE) {
-                    screenname.setVisibility(View.VISIBLE);
-                }
             }
 
             @Override
@@ -275,10 +271,9 @@ public class TweetActivity extends YouTubeBaseActivity {
             }
         });
         anim.setDuration(300);
-        anim.setStartOffset(200);
+        anim.setStartOffset(400);
         extra.startAnimation(anim);
         name.startAnimation(anim);
-        screenname.startAnimation(anim);
     }
 
     public void getTextFromSite(final String url, final HoloTextView browser) {
@@ -1097,7 +1092,11 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         retweetersList = new RetweetersPopupLayout(context);
-        retweetersList.setWidthByPercent(.4f);
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            retweetersList.setWidthByPercent(.4f);
+        } else {
+            retweetersList.setWidthByPercent(.6f);
+        }
         retweetersList.setHeightByPercent(.4f);
 
         viewRetweeters.setOnClickListener(new View.OnClickListener() {
@@ -1160,9 +1159,9 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
             });
 
-            LinearLayout proPicContainer = (LinearLayout) findViewById(R.id.pro_pic_container);
+            View proPicContainer = findViewById(R.id.profile_pic_contact);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
-            params.height = (int) (height * .65);
+            params.height = (int) (height * .5);
             proPicContainer.setLayoutParams(params);
 
             nametv.setOnClickListener(viewPro);
@@ -1172,7 +1171,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             profilePic.loadImage(proPic, false, null);
             profilePic.setOnClickListener(viewPro);
 
-            LinearLayout proPicContainer = (LinearLayout) findViewById(R.id.pro_pic_container);
+            View proPicContainer = findViewById(R.id.profile_pic_contact);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
             params.height = (int) (height * .4);
             proPicContainer.setLayoutParams(params);
@@ -1464,6 +1463,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     public void hideExtraContent() {
         final LinearLayout extra = (LinearLayout) findViewById(R.id.extra_content);
         final View back = findViewById(R.id.background);
+        final View name = findViewById(R.id.person_info);
         if (extra.getVisibility() == View.VISIBLE) {
             Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
             anim.setAnimationListener(new Animation.AnimationListener() {
@@ -1476,6 +1476,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 public void onAnimationEnd(Animation animation) {
                     extra.setVisibility(View.INVISIBLE);
                     back.setVisibility(View.INVISIBLE);
+                    name.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -1483,7 +1484,8 @@ public class TweetActivity extends YouTubeBaseActivity {
 
                 }
             });
-            anim.setDuration(100);
+            anim.setDuration(250);
+            name.startAnimation(anim);
             extra.startAnimation(anim);
             back.startAnimation(anim);
         }

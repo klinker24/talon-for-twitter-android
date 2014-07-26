@@ -5,6 +5,7 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:elevation="4dp"
               android:background="@android:color/white">
 
     <!-- Tweet's Content -->
@@ -19,10 +20,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white"
-                    android:paddingLeft="36dp"
-                    android:paddingRight="36dp"
-                    android:paddingBottom="36dp"
-                    android:paddingTop="12dp">
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="20dp">
 
                 <TextView
                         android:id="@+id/tweet"
@@ -60,8 +61,8 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:paddingLeft="36dp"
-                      android:paddingRight="36dp"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
                       android:paddingBottom="16dp">
 
 
@@ -129,7 +130,7 @@
 
                 </LinearLayout>
 
-                <View android:layout_width="16dp" android:layout_height="match_parent" />
+                <View android:layout_width="8dp" android:layout_height="match_parent" />
 
                 <LinearLayout android:layout_width="0dp"
                               android:layout_height="match_parent"
