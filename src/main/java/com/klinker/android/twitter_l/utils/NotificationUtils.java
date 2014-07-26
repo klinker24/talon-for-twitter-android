@@ -20,11 +20,7 @@ import android.util.Log;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.*;
 import com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverOne;
 import com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverTwo;
 import com.klinker.android.twitter_l.services.MarkReadSecondAccService;
@@ -33,6 +29,7 @@ import com.klinker.android.twitter_l.services.ReadInteractionsService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.NotificationCompose;
+import com.klinker.android.twitter_l.ui.compose.NotificationComposeSecondAcc;
 import com.klinker.android.twitter_l.ui.compose.NotificationDMCompose;
 import com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetActivity;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
@@ -128,9 +125,25 @@ public class NotificationUtils {
                     .setAutoCancel(true)
                     .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ?
-                            longText.replaceAll("FF8800", settings.accentColor) : longText)));
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            if (unreadCounts[1] > 1 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
+                // inbox style notification for mentions
+                mBuilder.setStyle(getMentionsInboxStyle(unreadCounts[1],
+                        currentAccount,
+                        context,
+                        TweetLinkUtils.removeColorHtml(shortText, settings)));
+            } else if (unreadCounts[2] > 1 && unreadCounts[0] == 0 && unreadCounts[1] == 0) {
+                // inbox style notification for direct messages
+                mBuilder.setStyle(getDMInboxStyle(unreadCounts[1],
+                        currentAccount,
+                        context,
+                        TweetLinkUtils.removeColorHtml(shortText, settings)));
+            } else  {
+                // big text style for an unread count on timeline, mentions, and direct messages
+                mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ?
+                        longText.replaceAll("FF8800", settings.accentColor) : longText)));
+            }
 
             // Pebble notification
             if(sharedPrefs.getBoolean("pebble_notification", false)) {
@@ -584,6 +597,8 @@ public class NotificationUtils {
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
+        NotificationCompat.InboxStyle inbox = null;
+
         if (tweets.size() == 1) {
             title = tweets.get(0)[0];
             shortText = tweets.get(0)[1];
@@ -595,8 +610,18 @@ public class NotificationUtils {
             shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
             longText = "";
 
-            for(String[] s : tweets) {
-                longText += "<b>" + s[0] + ":</b> " + s[1] + "<br>";
+            inbox.setBigContentTitle(shortText);
+
+            if (tweets.size() <= 5) {
+                for (String[] s : tweets) {
+                    inbox.addLine(Html.fromHtml("<b>" + s[0] + ":</b> " + s[1]));
+                }
+            } else {
+                for (int i = 0; i < 5; i++) {
+                    inbox.addLine(Html.fromHtml("<b>" + tweets.get(i)[0] + ":</b> " + tweets.get(i)[1]));
+                }
+
+                inbox.setSummaryText("+" + (tweets.size() - 5) + " " + context.getString(R.string.tweets));
             }
 
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
@@ -621,9 +646,13 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
+        if (inbox == null) {
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
+        } else {
+            mBuilder.setStyle(inbox);
+        }
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
         }
@@ -712,6 +741,7 @@ public class NotificationUtils {
         String message;
         String messageLong;
 
+        NotificationCompat.InboxStyle inbox = null;
         if (numberNew == 1) {
             name = data.getNewestName(secondAccount);
 
@@ -725,10 +755,12 @@ public class NotificationUtils {
             message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
             messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
             largeIcon = getImage(context, name);
-        } else { // more than one mention
+        } else { // more than one dm
             message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
             messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
             largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+
+            inbox = getDMInboxStyle(numberNew, secondAccount, context, message);
         }
 
         Intent markRead = new Intent(context, MarkReadSecondAccService.class);
@@ -746,8 +778,13 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        if (inbox == null) {
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+        } else {
+            mBuilder.setStyle(inbox);
+        }
 
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
@@ -802,10 +839,12 @@ public class NotificationUtils {
         NotificationCompat.Builder mBuilder;
 
         String title = context.getResources().getString(R.string.app_name) + " - " + context.getResources().getString(R.string.sec_acc);;
-        String name;
+        String name = null;
         String message;
         String messageLong;
 
+        String tweetText = null;
+        NotificationCompat.Action replyAction = null;
         if (numberNew == 1) {
             name = data.getNewestName(secondAccount);
 
@@ -819,8 +858,29 @@ public class NotificationUtils {
             }
 
             message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
-            messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
+            tweetText = data.getNewestMessage(secondAccount);
+            messageLong = "<b>@" + name + "</b>: " + tweetText;
             largeIcon = getImage(context, name);
+
+            Intent reply = new Intent(context, NotificationComposeSecondAcc.class);
+
+            sharedPrefs.edit().putString("from_notification_second", "@" + name).commit();
+            long id = data.getLastIds(secondAccount)[0];
+            PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+            sharedPrefs.edit().putLong("from_notification_long_second", id).commit();
+            sharedPrefs.edit().putString("from_notification_text_second", "@" + name + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).commit();
+
+            // Create the remote input
+            RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
+                    .setLabel("@" + name + " ")
+                    .build();
+
+            // Create the notification action
+            replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_dark,
+                    context.getResources().getString(R.string.noti_reply), replyPending)
+                    .addRemoteInput(remoteInput)
+                    .build();
+
         } else { // more than one mention
             message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
             messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
@@ -842,9 +902,20 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
+        if (numberNew == 1) {
+            mBuilder.addAction(replyAction);
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+        } else {
+            NotificationCompat.InboxStyle inbox = getMentionsInboxStyle(numberNew,
+                    secondAccount,
+                    context,
+                    TweetLinkUtils.removeColorHtml(message, settings));
+
+            mBuilder.setStyle(inbox);
+        }
         if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
         }
@@ -883,6 +954,86 @@ public class NotificationUtils {
             // Light Flow notification
             sendToLightFlow(context, title, messageLong);
         }
+    }
+
+    private static NotificationCompat.InboxStyle getMentionsInboxStyle(int numberNew, int accountNumber, Context context, String title) {
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
+
+        Cursor cursor = MentionsDataSource.getInstance(context).getCursor(accountNumber);
+        if (!cursor.moveToLast()) {
+            return style;
+        }
+
+        AppSettings settings = AppSettings.getInstance(context);
+
+        if (numberNew > 5) {
+            style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.mentions));
+
+            for (int i = 0; i < 5; i++) {
+                String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
+                String text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
+                String longText = "<b>@" + handle + "</b>: " + text;
+
+                style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+
+                cursor.moveToPrevious();
+            }
+        } else {
+
+            for (int i = 0; i <numberNew; i++) {
+                String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
+                String text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
+                String longText = "<b>@" + handle + "</b>: " + text;
+
+                style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+
+                cursor.moveToPrevious();
+            }
+        }
+
+        style.setBigContentTitle(title);
+
+        return style;
+    }
+
+    private static NotificationCompat.InboxStyle getDMInboxStyle(int numberNew, int accountNumber, Context context, String title) {
+        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
+
+        Cursor cursor = DMDataSource.getInstance(context).getCursor(accountNumber);
+        if (!cursor.moveToLast()) {
+            return style;
+        }
+
+        AppSettings settings = AppSettings.getInstance(context);
+
+        if (numberNew > 5) {
+            style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.direct_messages));
+
+            for (int i = 0; i < 5; i++) {
+                String handle = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                String text = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                String longText = "<b>@" + handle + "</b>: " + text;
+
+                style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+
+                cursor.moveToPrevious();
+            }
+        } else {
+
+            for (int i = 0; i <numberNew; i++) {
+                String handle = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                String text = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                String longText = "<b>@" + handle + "</b>: " + text;
+
+                style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+
+                cursor.moveToPrevious();
+            }
+        }
+
+        style.setBigContentTitle(title);
+
+        return style;
     }
 
     // type is either " retweeted your status", " favorited your status", or " followed you"

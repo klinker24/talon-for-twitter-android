@@ -604,6 +604,13 @@
         <provider android:name="com.klinker.android.twitter_l.utils.MySuggestionsProvider"
             android:authorities="com.klinker.android.twitter_l.MySuggestionsProvider" />
 
+        <receiver android:name=".receivers.ThemeConfigurationReceiver"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="com.klinker.android.SET_THEME"/>
+            </intent-filter>
+        </receiver>
+
         <!-- Widget -->
         <receiver android:name="com.klinker.android.twitter_l.widget.WidgetProvider"
             android:label="@string/talon_large_widget">

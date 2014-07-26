@@ -7,16 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/services/MarkReadService.java
+import android.util.Log;
+import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-=======
-import android.util.Log;
-import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter.ui.compose.RetryCompose;
->>>>>>> master:src/main/java/com/klinker/android/twitter/services/MarkReadService.java
 
 public class MarkReadService extends IntentService {
 

@@ -189,7 +189,7 @@ public class AppSettings {
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false) ||
                 defaultPrefs.getBoolean("is_logged_in_1", false) || defaultPrefs.getBoolean("is_logged_in_2", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
-        advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
+        advanceWindowed = false;//sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
         led = sharedPrefs.getBoolean("led", true);
         sound = sharedPrefs.getBoolean("sound", true);
