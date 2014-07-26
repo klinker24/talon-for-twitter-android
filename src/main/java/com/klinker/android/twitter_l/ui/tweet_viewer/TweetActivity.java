@@ -102,6 +102,8 @@ public class TweetActivity extends YouTubeBaseActivity {
     private LinearLayout webSpinner;
     private AsyncListView replyList;
 
+    protected boolean fromLauncher = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -272,8 +274,11 @@ public class TweetActivity extends YouTubeBaseActivity {
         });
         anim.setDuration(300);
         anim.setStartOffset(400);
-        extra.startAnimation(anim);
-        name.startAnimation(anim);
+
+        if (!fromLauncher) {
+            extra.startAnimation(anim);
+            name.startAnimation(anim);
+        }
     }
 
     public void getTextFromSite(final String url, final HoloTextView browser) {
@@ -1452,9 +1457,11 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
             });
             anim.setDuration(time);
-            convoDivider.startAnimation(anim);
-            convoTitle.startAnimation(anim);
-            replyList.startAnimation(anim);
+            if (!fromLauncher) {
+                convoDivider.startAnimation(anim);
+                convoTitle.startAnimation(anim);
+                replyList.startAnimation(anim);
+            }
         }
 
         findViewById(R.id.nav_bar_seperator).setVisibility(View.VISIBLE);
@@ -1485,9 +1492,11 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
             });
             anim.setDuration(250);
-            name.startAnimation(anim);
-            extra.startAnimation(anim);
-            back.startAnimation(anim);
+            if (!fromLauncher) {
+                name.startAnimation(anim);
+                extra.startAnimation(anim);
+                back.startAnimation(anim);
+            }
         }
     }
 
