@@ -214,6 +214,7 @@ public class Utils {
     public static void setUpTweetTheme(Context context, AppSettings settings) {
         Log.v("talon_theme", "setting talon theme");
         if (!settings.fastTransitions) {
+            Log.v("talon_theming", "not fast transitions");
             switch (settings.theme) {
                 case AppSettings.THEME_LIGHT:
                     context.setTheme(R.style.Theme_TalonLight_Tweet);

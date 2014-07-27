@@ -1299,6 +1299,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             params.height = (int) (height * .5);
             proPicContainer.setLayoutParams(params);
 
+            findViewById(R.id.person_info).setOnClickListener(viewPro);
             nametv.setOnClickListener(viewPro);
             screennametv.setOnClickListener(viewPro);
 
@@ -1310,6 +1311,10 @@ public class TweetActivity extends YouTubeBaseActivity {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
             params.height = (int) (height * .4);
             proPicContainer.setLayoutParams(params);
+
+            findViewById(R.id.person_info).setOnClickListener(viewPro);
+            nametv.setOnClickListener(viewPro);
+            screennametv.setOnClickListener(viewPro);
         }
 
         nametv.setText(name);

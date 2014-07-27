@@ -117,6 +117,7 @@ limitations under the License.
 
     <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight">
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.FastTransitions" parent="Theme.TalonLight.Tweet">
