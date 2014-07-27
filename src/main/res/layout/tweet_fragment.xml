@@ -219,4 +219,12 @@
           android:id="@+id/actionbar_and_status_bar"
           android:background="@color/primary"/>
 
+    <View android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@android:color/black"
+          android:alpha=".6"
+          android:visibility="gone"
+          android:id="@+id/dim" />
+
+
 </RelativeLayout>
