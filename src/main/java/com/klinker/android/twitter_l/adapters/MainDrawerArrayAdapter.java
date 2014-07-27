@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
@@ -24,7 +25,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
     public int textSize;
 
     static class ViewHolder {
-        public HoloTextView name;
+        public TextView name;
         public ImageView icon;
     }
 
@@ -49,8 +50,6 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         this.text = text;
         this.sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-
-        textSize = 15;
     }
 
     @Override
@@ -70,7 +69,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
 
             ViewHolder viewHolder = new ViewHolder();
 
-            viewHolder.name = (HoloTextView) rowView.findViewById(R.id.title);
+            viewHolder.name = (TextView) rowView.findViewById(R.id.title);
             viewHolder.icon = (ImageView) rowView.findViewById(R.id.icon);
 
             rowView.setTag(viewHolder);
@@ -79,7 +78,6 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         holder.name.setText(settingName);
-        holder.name.setTextSize(18);
 
         try {
             if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {

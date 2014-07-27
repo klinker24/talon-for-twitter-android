@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.manipulations.widgets;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -96,6 +97,12 @@ public abstract class PopupLayout extends LinearLayout {
                 dontShow = true;
             }
         }
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+        int background = a.getResourceId(0, 0);
+        a.recycle();
+
+        setBackgroundResource(background);
     }
 
     /**

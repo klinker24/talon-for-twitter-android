@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -1512,11 +1513,15 @@ public class TweetActivity extends YouTubeBaseActivity {
                         public void run() {
                             favs.setText(" " + fStatus.getFavoriteCount());
 
+                            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                            int textColor = a.getResourceId(0, 0);
+                            a.recycle();
+
                             if (fStatus.isFavorited()) {
                                 favText.setTextColor(context.getResources().getColor(R.color.accent));
                                 isFavorited = true;
                             } else {
-                                favText.setTextColor(context.getResources().getColor(android.R.color.black));
+                                favText.setTextColor(context.getResources().getColor(textColor));
                                 isFavorited = false;
                             }
                         }
@@ -1559,7 +1564,11 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         protected void onPostExecute(Boolean deleted) {
 
-            retweetText.setTextColor(context.getResources().getColor(android.R.color.black));
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+            int textColor = a.getResourceId(0, 0);
+            a.recycle();
+
+            retweetText.setTextColor(context.getResources().getColor(textColor));
 
             try {
                 if (deleted) {
@@ -1962,12 +1971,16 @@ public class TweetActivity extends YouTubeBaseActivity {
                         @Override
                         public void run() {
 
+                            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                            int textColor = a.getResourceId(0, 0);
+                            a.recycle();
+
                             retweetCount.setText(" " + retCount);
 
                             if (fRet) {
                                 retweetText.setTextColor(context.getResources().getColor(R.color.accent));
                             } else {
-                                retweetText.setTextColor(context.getResources().getColor(android.R.color.black));
+                                retweetText.setTextColor(context.getResources().getColor(textColor));
                             }
 
                             timetv.setText(timeDisplay + fVia);
@@ -1979,7 +1992,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                                 favoriteText.setTextColor(context.getResources().getColor(R.color.accent));
                                 isFavorited = true;
                             } else {
-                                favoriteText.setTextColor(context.getResources().getColor(android.R.color.black));
+                                favoriteText.setTextColor(context.getResources().getColor(textColor));
                                 isFavorited = false;
                             }
 
@@ -2031,12 +2044,16 @@ public class TweetActivity extends YouTubeBaseActivity {
                         @Override
                         public void run() {
 
+                            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
+                            int textColor = a.getResourceId(0, 0);
+                            a.recycle();
+
                             retweetCount.setText(" " + retCount);
 
                             if (fRet) {
                                 retweetText.setTextColor(context.getResources().getColor(R.color.accent));
                             } else {
-                                retweetText.setTextColor(context.getResources().getColor(android.R.color.black));
+                                retweetText.setTextColor(context.getResources().getColor(textColor));
                             }
                         }
                     });

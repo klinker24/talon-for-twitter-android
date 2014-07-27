@@ -6,7 +6,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:elevation="4dp"
-              android:background="@android:color/white">
+              android:background="?windowBackground">
 
     <!-- Tweet's Content -->
     <LinearLayout
@@ -19,7 +19,7 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/white"
+                    android:background="?windowBackground"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="10dp"
@@ -33,7 +33,7 @@
                         android:textStyle="bold"
                         android:textSize="18sp"
                         android:textIsSelectable="true"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?textColor" />
 
                 <TextView
                         android:id="@+id/time"
@@ -43,7 +43,7 @@
                         android:textSize="14sp"
                         android:fontFamily="sans-serif-light"
                         android:background="@drawable/pressed_button"
-                        android:textColor="@android:color/black"
+                        android:textColor="?textColor"
                         android:alpha=".6"/>
 
                 <TextView
@@ -52,7 +52,7 @@
                         android:layout_width="match_parent"
                         android:textSize="14sp"
                         android:fontFamily="sans-serif-light"
-                        android:textColor="@android:color/black"
+                        android:textColor="?textColor"
                         android:visibility="gone"
                         android:alpha=".6"/>
 
@@ -79,7 +79,7 @@
                         android:textAllCaps="true"
                         android:textSize="14sp"
                         android:gravity="center"
-                        android:textColor="@android:color/black"
+                        android:textColor="?textColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -88,7 +88,7 @@
                         android:layout_width="match_parent"
                         android:textSize="13sp"
                         android:gravity="right"
-                        android:textColor="@android:color/black"
+                        android:textColor="?textColor"
                         android:fontFamily="sans-serif-light"
                         android:alpha=".6"
                         android:id="@+id/fav_count" />
@@ -114,7 +114,7 @@
                             android:textAllCaps="true"
                             android:textSize="14sp"
                             android:gravity="center"
-                            android:textColor="@android:color/black"
+                            android:textColor="?textColor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -123,7 +123,7 @@
                             android:layout_width="match_parent"
                             android:textSize="13sp"
                             android:gravity="right"
-                            android:textColor="@android:color/black"
+                            android:textColor="?textColor"
                             android:fontFamily="sans-serif-light"
                             android:alpha=".6"
                             android:id="@+id/retweet_count" />
