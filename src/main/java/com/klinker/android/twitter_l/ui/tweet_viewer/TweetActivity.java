@@ -192,11 +192,13 @@ public class TweetActivity extends YouTubeBaseActivity {
             webButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mobilizedPopup == null) {
-                        mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                    if (!hidePopups()) {
+                        if (mobilizedPopup == null) {
+                            mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                        }
+                        mobilizedPopup.show();
+                        showDim();
                     }
-                    mobilizedPopup.show();
-                    showDim();
                 }
             });
         } else if (hasWebpage) {
@@ -228,11 +230,13 @@ public class TweetActivity extends YouTubeBaseActivity {
             webButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (webPopup == null) {
-                        webPopup = new WebPopupLayout(context, webLayout);
+                    if (!hidePopups()) {
+                        if (webPopup == null) {
+                            webPopup = new WebPopupLayout(context, webLayout);
+                        }
+                        webPopup.show();
+                        showDim();
                     }
-                    webPopup.show();
-                    showDim();
                 }
             });
 
@@ -266,11 +270,13 @@ public class TweetActivity extends YouTubeBaseActivity {
         viewReplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (convoPopup == null) {
-                    convoPopup = new ConversationPopupLayout(context, convo);
+                if (!hidePopups()) {
+                    if (convoPopup == null) {
+                        convoPopup = new ConversationPopupLayout(context, convo);
+                    }
+                    convoPopup.show();
+                    showDim();
                 }
-                convoPopup.show();
-                showDim();
             }
         });
 
@@ -403,25 +409,8 @@ public class TweetActivity extends YouTubeBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (retweetersPopup != null && retweetersPopup.isShowing()) {
-            retweetersPopup.hide();
-            hideDim();
-            return;
-        } else if (webPopup != null && webPopup.isShowing()) {
-            webPopup.hide();
-            hideDim();
-            return;
-        } else if (mobilizedPopup != null && mobilizedPopup.isShowing()) {
-            mobilizedPopup.hide();
-            hideDim();
-            return;
-        } else if (convoPopup != null && convoPopup.isShowing()) {
-            convoPopup.hide();
-            hideDim();
-            return;
-        } else {
+        if (!hidePopups()) {
             hideExtraContent();
-
             super.onBackPressed();
         }
     }
@@ -436,27 +425,33 @@ public class TweetActivity extends YouTubeBaseActivity {
     @Override
     public void onPause() {
         super.onPause();
-        if (retweetersPopup != null && retweetersPopup.isShowing()) {
-            retweetersPopup.hide();
-            hideDim();
-        }
-        if (webPopup != null && webPopup.isShowing()) {
-            webPopup.hide();
-            hideDim();
-        }
-        if (mobilizedPopup != null && mobilizedPopup.isShowing()) {
-            mobilizedPopup.hide();
-            hideDim();
-        }
-        if (convoPopup != null && convoPopup.isShowing()) {
-            convoPopup.hide();
-            hideDim();
-        }
+
+        hidePopups();
     }
     @Override
     public void finish() {
         isRunning = false;
         super.finish();
+    }
+
+    public boolean hidePopups() {
+        hideDim();
+
+        if (retweetersPopup != null && retweetersPopup.isShowing()) {
+            retweetersPopup.hide();
+            return true;
+        } else if (webPopup != null && webPopup.isShowing()) {
+            webPopup.hide();
+            return true;
+        } else if (mobilizedPopup != null && mobilizedPopup.isShowing()) {
+            mobilizedPopup.hide();
+            return true;
+        } else if (convoPopup != null && convoPopup.isShowing()) {
+            convoPopup.hide();
+            return true;
+        }
+
+        return false;
     }
 
     public void showDim() {
@@ -1198,10 +1193,12 @@ public class TweetActivity extends YouTubeBaseActivity {
         viewRetweeters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (retweetersPopup != null) {
-                    retweetersPopup.setOnTopOfView(viewRetweeters);
-                    retweetersPopup.show();
-                    showDim();
+                if (!hidePopups()) {
+                    if (retweetersPopup != null) {
+                        retweetersPopup.setOnTopOfView(viewRetweeters);
+                        retweetersPopup.show();
+                        showDim();
+                    }
                 }
             }
         });
@@ -1230,14 +1227,16 @@ public class TweetActivity extends YouTubeBaseActivity {
         View.OnClickListener viewPro = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfilePager.class);
-                viewProfile.putExtra("name", name);
-                viewProfile.putExtra("screenname", screenName);
-                viewProfile.putExtra("proPic", proPic);
-                viewProfile.putExtra("tweetid", tweetId);
-                viewProfile.putExtra("retweet", retweetertv.getVisibility() == View.VISIBLE);
+                if (!hidePopups()) {
+                    Intent viewProfile = new Intent(context, ProfilePager.class);
+                    viewProfile.putExtra("name", name);
+                    viewProfile.putExtra("screenname", screenName);
+                    viewProfile.putExtra("proPic", proPic);
+                    viewProfile.putExtra("tweetid", tweetId);
+                    viewProfile.putExtra("retweet", retweetertv.getVisibility() == View.VISIBLE);
 
-                context.startActivity(viewProfile);
+                    context.startActivity(viewProfile);
+                }
             }
         };
 
@@ -1252,7 +1251,9 @@ public class TweetActivity extends YouTubeBaseActivity {
             profilePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
+                    if (!hidePopups()) {
+                        context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
+                    }
                 }
             });
 
@@ -1299,11 +1300,13 @@ public class TweetActivity extends YouTubeBaseActivity {
         timetv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String data = "twitter.com/" + screenName + "/status/" + tweetId;
-                Uri weburi = Uri.parse("http://" + data);
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(launchBrowser);
+                if (!hidePopups()) {
+                    String data = "twitter.com/" + screenName + "/status/" + tweetId;
+                    Uri weburi = Uri.parse("http://" + data);
+                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                    launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(launchBrowser);
+                }
             }
         });
 
@@ -1356,14 +1359,18 @@ public class TweetActivity extends YouTubeBaseActivity {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                favoriteStatus(favoriteCount, favoriteText, tweetId);
+                if (!hidePopups()) {
+                    favoriteStatus(favoriteCount, favoriteText, tweetId);
+                }
             }
         });
 
         retweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retweetStatus(retweetCount, tweetId, retweetText);
+                if (!hidePopups()) {
+                    retweetStatus(retweetCount, tweetId, retweetText);
+                }
             }
         });
 
@@ -1426,14 +1433,16 @@ public class TweetActivity extends YouTubeBaseActivity {
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent compose = new Intent(context, ComposeActivity.class);
-                compose.putExtra("user", fsendString);
-                compose.putExtra("id", tweetId);
-                compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
+                if (!hidePopups()) {
+                    Intent compose = new Intent(context, ComposeActivity.class);
+                    compose.putExtra("user", fsendString);
+                    compose.putExtra("id", tweetId);
+                    compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
 
-                getWindow().setExitTransition(null);
+                    getWindow().setExitTransition(null);
 
-                startActivity(compose);
+                    startActivity(compose);
+                }
             }
         };
         replyButton.setOnClickListener(clickListener);
