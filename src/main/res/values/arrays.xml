@@ -131,6 +131,7 @@
 
     <string-array name="font_type">
         <item>@string/device</item>
+        <item>@string/roboto_l</item>
         <item>@string/roboto_light</item>
         <item>@string/roboto_condensed</item>
     </string-array>
@@ -139,6 +140,7 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="alert_types">

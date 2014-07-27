@@ -52,9 +52,12 @@ public class HoloTextView extends TextView {
 
             switch (Integer.parseInt(type)) {
                 case 1:
-                    typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
+                    typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Black.ttf");
                     break;
                 case 2:
+                    typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
+                    break;
+                case 3:
                     typeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-Regular.ttf");
                     break;
                 default:

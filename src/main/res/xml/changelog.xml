@@ -1,4 +1,10 @@
 <changelog>
+    <version name="2.6.1">
+        <text>Image viewer fixes</text>
+        <text>Font updates</text>
+        <text>Crash fixes</text>
+    </version>
+
     <version name="2.6.0">
         <text>New compose window</text>
         <text>View the tweet you are replying to in the compose window</text>
