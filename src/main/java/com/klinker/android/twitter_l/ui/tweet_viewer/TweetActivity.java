@@ -169,7 +169,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
             }
 
-            if (webpages.size() >= 1 && settings.inAppBrowser) {
+            if (webpages.size() >= 1) {
                 hasWebpage = true;
             } else {
                 hasWebpage = false;
@@ -180,7 +180,26 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
-        if (hasWebpage && !(settings.alwaysMobilize || (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
+        if (hasWebpage && (settings.alwaysMobilize ||
+                (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
+
+            final LinearLayout main = (LinearLayout) getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
+            final ScrollView scrollView = (ScrollView) main.findViewById(R.id.scrollview);
+            View spinner = main.findViewById(R.id.spinner);
+            HoloTextView mobilizedBrowser = (HoloTextView) scrollView.findViewById(R.id.webpage_text);
+            getTextFromSite(webpages.get(0), mobilizedBrowser, spinner, scrollView);
+
+            webButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mobilizedPopup == null) {
+                        mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                    }
+                    mobilizedPopup.show();
+                    showDim();
+                }
+            });
+        } else if (hasWebpage) {
             final LinearLayout webLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
             final WebView web = (WebView) webLayout.findViewById(R.id.webview);
             web.loadUrl(webpages.get(0));
@@ -217,25 +236,6 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
             });
 
-        } else if (hasWebpage && (settings.alwaysMobilize ||
-                (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
-
-            final LinearLayout main = (LinearLayout) getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
-            final ScrollView scrollView = (ScrollView) main.findViewById(R.id.scrollview);
-            View spinner = main.findViewById(R.id.spinner);
-            HoloTextView mobilizedBrowser = (HoloTextView) scrollView.findViewById(R.id.webpage_text);
-            getTextFromSite(webpages.get(0), mobilizedBrowser, spinner, scrollView);
-
-            webButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mobilizedPopup == null) {
-                        mobilizedPopup = new MobilizedWebPopupLayout(context, main);
-                    }
-                    mobilizedPopup.show();
-                    showDim();
-                }
-            });
         } else {
             webButton.setEnabled(false);
             webButton.setAlpha(.5f);
