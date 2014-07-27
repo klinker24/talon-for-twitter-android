@@ -129,8 +129,8 @@ public abstract class DrawerActivity extends Activity {
         mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
 
-        HoloTextView name = (HoloTextView) mDrawer.findViewById(R.id.name);
-        HoloTextView screenName = (HoloTextView) mDrawer.findViewById(R.id.screen_name);
+        TextView name = (TextView) mDrawer.findViewById(R.id.name);
+        TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
         backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
         profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic_contact);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
@@ -154,9 +154,9 @@ public abstract class DrawerActivity extends Activity {
 
                 public void onDrawerClosed(View view) {
                     if (logoutVisible) {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
+                        /*Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                         ranim.setFillAfter(true);
-                        showMoreDrawer.startAnimation(ranim);
+                        showMoreDrawer.startAnimation(ranim);*/
 
                         logoutLayout.setVisibility(View.GONE);
                         drawerList.setVisibility(View.VISIBLE);
@@ -235,9 +235,9 @@ public abstract class DrawerActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(logoutLayout.getVisibility() == View.GONE) {
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
+                    /*Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
                     ranim.setFillAfter(true);
-                    showMoreDrawer.startAnimation(ranim);
+                    showMoreDrawer.startAnimation(ranim);*/
 
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
                     anim.setAnimationListener(new Animation.AnimationListener() {
@@ -279,9 +279,9 @@ public abstract class DrawerActivity extends Activity {
 
                     logoutVisible = true;
                 } else {
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
+                    /*Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                     ranim.setFillAfter(true);
-                    showMoreDrawer.startAnimation(ranim);
+                    showMoreDrawer.startAnimation(ranim);*/
 
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
                     anim.setAnimationListener(new Animation.AnimationListener() {
@@ -406,8 +406,6 @@ public abstract class DrawerActivity extends Activity {
         try {
             name.setText(sName);
             screenName.setText("@" + sScreenName);
-            name.setTextSize(15);
-            screenName.setTextSize(15);
         } catch (Exception e) {
             // 7 inch tablet in portrait
         }

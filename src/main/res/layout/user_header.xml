@@ -7,45 +7,91 @@
 
     <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                android:id="@+id/background_image"
-               android:layout_height="120dp"
+               android:layout_height="match_parent"
                android:layout_width="match_parent"
                android:scaleType="centerCrop"
-               android:background="@drawable/pressed_button"
+               android:background="?android:attr/selectableItemBackground"
                android:contentDescription="Background Picture"
             />
+
+    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:id="@+id/profile_pic_contact"
+            android:src="?circleBorder"
+            android:minHeight="56dp" android:minWidth="56dp"
+            android:scaleType="centerCrop" android:adjustViewBounds="true"
+            android:maxWidth="56dp" android:maxHeight="56dp"
+            android:contentDescription="Profile Picture"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/pro_pic_clip"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:viewName="profile_picture"/>
 
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="8dp"
-            android:layout_marginTop="59dp"
-            android:background="@drawable/gradient">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical">
 
-        <include layout="@layout/contact_info"
-                android:layout_width="0dp"
-                android:layout_weight="3"
+        <LinearLayout
+                android:layout_toRightOf="@+id/pro_pic_layout"
+                android:layout_alignTop="@+id/pro_pic_layout"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"/>
+                android:gravity="center_vertical"
+                android:layout_weight="1">
 
-        <View android:id="@+id/divider"
-              android:background="@color/white_divider"
-              android:layout_width="1dp"
-              android:layout_height="55dp" />
+            <TextView
+                    android:id="@+id/name"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:shadowColor="?textShadowColor"
+                    android:shadowDy="1"
+                    android:shadowRadius="3"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/white"
+                    android:viewName="person_name"/>
 
-        <ImageButton
-                android:id="@+id/options"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="fill_parent"
-                android:src="@drawable/ic_action_expand_dark"
-                android:scaleType="fitCenter" android:adjustViewBounds="true"
-                android:background="@drawable/pressed_toast"
-                android:contentDescription="Options"
-                android:paddingRight="12dp"
-                android:paddingLeft="14dp"
-                />
+            <TextView
+                    android:id="@+id/screen_name"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:paddingBottom="3dp"
+                    android:shadowColor="?textShadowColor"
+                    android:shadowDy="1"
+                    android:shadowRadius="3"
+                    android:textSize="13sp"
+                    android:textColor="@android:color/white"
+                    android:viewName="person_handle"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="20dp"
+                android:layout_height="20dp">
+            <ImageButton
+                    android:id="@+id/options"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_action_expand_dark"
+                    android:maxWidth="20dp" android:maxHeight="20dp"
+                    android:scaleType="fitXY" android:adjustViewBounds="true"
+                    android:minHeight="20dp" android:minWidth="20dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Options"
+                    />
+        </LinearLayout>
+
 
     </LinearLayout>
 

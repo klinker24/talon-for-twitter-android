@@ -65,7 +65,6 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         holder.name.setText(settingName);
-        holder.name.setTextSize(18);
         holder.name.setVisibility(View.VISIBLE);
 
         if (text.get(position).equals(context.getResources().getString(R.string.ui_settings))) {

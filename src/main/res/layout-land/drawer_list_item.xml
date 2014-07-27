@@ -6,8 +6,7 @@
     android:layout_height="48dp"
     android:minHeight="48dp"
     android:gravity="center_vertical"
-    android:layout_gravity="center_vertical"
-        android:paddingLeft="6dp">
+    android:layout_gravity="center" >
 
     <ImageView android:id="@+id/icon"
         android:layout_height="28dp"
@@ -27,6 +26,7 @@
         android:textSize="14sp"
         android:fontFamily="sans-serif"
         android:layout_marginRight="16dp"
-        android:paddingStart="72dp"/>
+        android:paddingStart="72dp"
+            android:visibility="gone"/>
 
 </RelativeLayout>
