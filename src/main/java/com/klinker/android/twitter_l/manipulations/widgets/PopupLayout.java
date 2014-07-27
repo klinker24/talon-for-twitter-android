@@ -287,7 +287,11 @@ public abstract class PopupLayout extends LinearLayout {
             parent = (FrameLayout) activity.findViewById(android.R.id.content);
         }
 
-        parent.addView(this);
+        try {
+            parent.addView(this);
+        } catch (Exception e) {
+            
+        }
 
         // get the size of the screen so we know where to animate from and to
         float frameWidth = parent.getWidth();
