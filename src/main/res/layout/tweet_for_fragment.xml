@@ -22,7 +22,7 @@
                     android:background="@android:color/white"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:paddingBottom="16dp"
+                    android:paddingBottom="10dp"
                     android:paddingTop="20dp">
 
                 <TextView
@@ -95,7 +95,7 @@
 
             </LinearLayout>
 
-            <View android:layout_width="16dp" android:layout_height="match_parent" />
+            <View android:layout_width="8dp" android:layout_height="match_parent" />
 
             <LinearLayout android:layout_width="wrap_content"
                           android:layout_height="wrap_content"

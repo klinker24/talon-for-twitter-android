@@ -38,7 +38,7 @@ public class NotifyScrollView extends ScrollView {
         interceptTouch = i;
     }
 
-    @Override
+    /*@Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         final int action = ev.getAction();
         switch (action)
@@ -68,7 +68,7 @@ public class NotifyScrollView extends ScrollView {
         }
 
         return false;
-    }
+    }*/
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {

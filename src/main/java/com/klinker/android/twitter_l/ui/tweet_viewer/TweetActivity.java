@@ -7,12 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -23,6 +20,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.transition.Explode;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
@@ -41,8 +39,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
-import com.klinker.android.twitter_l.manipulations.RetweetersPopupLayout;
+import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -96,13 +93,15 @@ public class TweetActivity extends YouTubeBaseActivity {
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
 
-    private LinearLayout convoTitle;
-    private View convoDivider;
-    private LinearLayout convoSpinner;
-    private LinearLayout webSpinner;
-    private AsyncListView replyList;
-
     protected boolean fromLauncher = false;
+
+    public WebPopupLayout webPopup = null;
+    public MobilizedWebPopupLayout mobilizedPopup = null;
+    public RetweetersPopupLayout retweetersPopup = null;
+    public ConversationPopupLayout convoPopup = null;
+
+    public AsyncListView replyList;
+    public LinearLayout convoSpinner;
 
 
     @Override
@@ -133,15 +132,16 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         getFromIntent();
 
-        Utils.setUpTheme(context, settings);
+        Utils.setUpTweetTheme(context, settings);
 
         setContentView(R.layout.tweet_fragment);
 
-        convoTitle = (LinearLayout) findViewById(R.id.convo_title);
-        convoDivider = findViewById(R.id.convo_divider);
-        replyList = (AsyncListView) findViewById(R.id.listView);
-        convoSpinner = (LinearLayout) findViewById(R.id.convo_progress);
-        webSpinner = (LinearLayout) findViewById(R.id.web_progress);
+        //convoTitle = (LinearLayout) findViewById(R.id.convo_title);
+        //convoDivider = findViewById(R.id.convo_divider);
+        final View convo = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
+        replyList = (AsyncListView) convo.findViewById(R.id.listView);
+        convoSpinner = (LinearLayout) convo.findViewById(R.id.spinner);
+        //webSpinner = (LinearLayout) findViewById(R.id.web_progress);
 
         setUpTheme();
 
@@ -179,10 +179,12 @@ public class TweetActivity extends YouTubeBaseActivity {
             hasWebpage = false;
         }
 
-        WebView web = (WebView) findViewById(R.id.webview);
+        ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
         if (hasWebpage && !settings.alwaysMobilize && !(Utils.getConnectionStatus(context) && settings.mobilizeOnData)) {
+            final LinearLayout webLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
+            final WebView web = (WebView) webLayout.findViewById(R.id.webview);
             web.loadUrl(webpages.get(0));
-            webSpinner.setVisibility(View.GONE);
+            //webSpinner.setVisibility(View.GONE);
 
             web.getSettings().setBuiltInZoomControls(true);
             web.getSettings().setDisplayZoomControls(false);
@@ -204,27 +206,37 @@ public class TweetActivity extends YouTubeBaseActivity {
 
             web.setWebViewClient(new HelloWebViewClient());
 
-            // Configure the webview
-            web.setOnTouchListener(new View.OnTouchListener() {
-                // Setting on Touch Listener for handling the touch inside ScrollView
+            webButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    // Disallow the touch request for parent scroll on touch of child view
-
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    return false;
+                public void onClick(View view) {
+                    if (webPopup == null) {
+                        webPopup = new WebPopupLayout(context, webLayout);
+                    }
+                    webPopup.show();
                 }
             });
-        } else if (hasWebpage && settings.alwaysMobilize || (Utils.getConnectionStatus(context) && settings.mobilizeOnData)) {
-            web.setVisibility(View.GONE);
-            HoloTextView mobilizedBrowser = (HoloTextView) findViewById(R.id.webpage_text);
-            mobilizedBrowser.setVisibility(View.VISIBLE);
-            getTextFromSite(webpages.get(0), mobilizedBrowser);
+
+        } else if (hasWebpage && (settings.alwaysMobilize ||
+                (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
+
+            final LinearLayout main = (LinearLayout) getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
+            final ScrollView scrollView = (ScrollView) main.findViewById(R.id.scrollview);
+            View spinner = main.findViewById(R.id.spinner);
+            HoloTextView mobilizedBrowser = (HoloTextView) scrollView.findViewById(R.id.webpage_text);
+            getTextFromSite(webpages.get(0), mobilizedBrowser, spinner, scrollView);
+
+            webButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mobilizedPopup == null) {
+                        mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                    }
+                    mobilizedPopup.show();
+                }
+            });
         } else {
-            web.setVisibility(View.GONE);
-            webSpinner.setVisibility(View.GONE);
-            findViewById(R.id.web_divider).setVisibility(View.GONE);
-            findViewById(R.id.web_text).setVisibility(View.GONE);
+            webButton.setEnabled(false);
+            webButton.setAlpha(.5f);
         }
 
         // youtube player isn't working right now
@@ -238,6 +250,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             findViewById(R.id.youtube_text).setVisibility(View.GONE);
         }
 
+
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
 
@@ -246,6 +259,17 @@ public class TweetActivity extends YouTubeBaseActivity {
         builder.setThreadPoolSize(2);
 
         replyList.setItemManager(builder.build());
+
+        viewReplyButton = (ImageButton) findViewById(R.id.conversation_button);
+        viewReplyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (convoPopup == null) {
+                    convoPopup = new ConversationPopupLayout(context, convo);
+                }
+                convoPopup.show();
+            }
+        });
 
         // delay displaying the extra content just a little bit to get rid of some weird animations
         final View extra = findViewById(R.id.extra_content);
@@ -281,7 +305,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
     }
 
-    public void getTextFromSite(final String url, final HoloTextView browser) {
+    public void getTextFromSite(final String url, final HoloTextView browser, final View spinner, final ScrollView scroll) {
         Thread getText = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -315,11 +339,10 @@ public class TweetActivity extends YouTubeBaseActivity {
                         public void run() {
                             try {
                                 browser.setText(Html.fromHtml(article));
-                                //webText.setText(article);
                                 browser.setMovementMethod(LinkMovementMethod.getInstance());
                                 browser.setTextSize(settings.textSize);
-
-                                webSpinner.setVisibility(View.GONE);
+                                scroll.setVisibility(View.VISIBLE);
+                                spinner.setVisibility(View.GONE);
                             } catch (Exception e) {
                                 // fragment not attached
                             }
@@ -377,20 +400,46 @@ public class TweetActivity extends YouTubeBaseActivity {
 
     @Override
     public void onBackPressed() {
-        hideConversationSection();
-        hideExtraContent();
-        View web = findViewById(R.id.webview);
-        if (web.getVisibility() == View.VISIBLE) {
-            web.setVisibility(View.INVISIBLE);
+        if (retweetersPopup != null && retweetersPopup.isShowing()) {
+            retweetersPopup.hide();
+            return;
+        } else if (webPopup != null && webPopup.isShowing()) {
+            webPopup.hide();
+            return;
+        } else if (mobilizedPopup != null && mobilizedPopup.isShowing()) {
+            mobilizedPopup.hide();
+            return;
+        } else if (convoPopup != null && convoPopup.isShowing()) {
+            convoPopup.hide();
+            return;
+        } else {
+            hideExtraContent();
+
+            super.onBackPressed();
         }
-        super.onBackPressed();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getWindow().setExitTransition(new Explode());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (retweetersList.isShowing()) {
-            retweetersList.hide();
+        if (retweetersPopup != null && retweetersPopup.isShowing()) {
+            retweetersPopup.hide();
+        }
+        if (webPopup != null && webPopup.isShowing()) {
+            webPopup.hide();
+        }
+        if (mobilizedPopup != null && mobilizedPopup.isShowing()) {
+            mobilizedPopup.hide();
+        }
+        if (convoPopup != null && convoPopup.isShowing()) {
+            convoPopup.hide();
         }
     }
     @Override
@@ -420,8 +469,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         final int abHeight = Utils.getActionBarHeight(context);
         final View header = findViewById(R.id.profile_pic_contact);
 
-        final View bottom = findViewById(R.id.bottom);
-
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
             @Override
@@ -429,21 +476,25 @@ public class TweetActivity extends YouTubeBaseActivity {
                 final int headerHeight = header.getHeight() - abHeight;
                 final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
                 insetsBackground.setAlpha(ratio);
-
-                Rect scrollBounds = new Rect();
-                who.getHitRect(scrollBounds);
-                if (bottom.getLocalVisibleRect(scrollBounds) && replies != null && replies.size() > 3) {
-                    scroll.setInterceptTouch(false);
-                } else {
-                    scroll.setInterceptTouch(true);
-                }
             }
         });
         scroll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (retweetersList != null && retweetersList.isShowing()) {
-                    retweetersList.hide();
+                if (view instanceof ImageButton) {
+                    return false;
+                }
+                if (retweetersPopup != null && retweetersPopup.isShowing()) {
+                    retweetersPopup.hide();
+                    return true;
+                } else if (webPopup != null && webPopup.isShowing()) {
+                    webPopup.hide();
+                    return true;
+                } else if (mobilizedPopup != null && mobilizedPopup.isShowing()) {
+                    mobilizedPopup.hide();
+                    return true;
+                } else if (convoPopup != null && convoPopup.isShowing()) {
+                    convoPopup.hide();
                     return true;
                 } else {
                     return false;
@@ -455,26 +506,9 @@ public class TweetActivity extends YouTubeBaseActivity {
         LinearLayout.LayoutParams navBar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
         navBarSeperator.setLayoutParams(navBar);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-
-        View webView = findViewById(R.id.webview);
-        int dpFive = Utils.toDP(5, context);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (height * .75));
-        params.setMargins(dpFive, dpFive, dpFive, dpFive);
-        webView.setLayoutParams(params);
-
-        View footer = new View(context);
-        AbsListView.LayoutParams bar = new AbsListView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-
-        footer.setLayoutParams(bar);
-        replyList.addFooterView(footer);
-
-        LinearLayout.LayoutParams list = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                height - Utils.getActionBarHeight(context) - Utils.getStatusBarHeight(context) - Utils.toDP(75, context));
-        replyList.setLayoutParams(list);
+        if (Utils.hasNavBar(context)) {
+            navBarSeperator.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setUpWindow(boolean youtube) {
@@ -1059,8 +1093,6 @@ public class TweetActivity extends YouTubeBaseActivity {
     public NetworkedCacheableImageView[] retweeters;
     public LinearLayout viewRetweeters;
 
-    public RetweetersPopupLayout retweetersList;
-
     public void setUIElements(final View layout) {
         TextView nametv;
         TextView screennametv;
@@ -1096,20 +1128,20 @@ public class TweetActivity extends YouTubeBaseActivity {
             retweeters[i].setClipToOutline(true);
         }
 
-        retweetersList = new RetweetersPopupLayout(context);
+        retweetersPopup = new RetweetersPopupLayout(context);
         if (getResources().getBoolean(R.bool.isTablet)) {
-            retweetersList.setWidthByPercent(.4f);
+            retweetersPopup.setWidthByPercent(.4f);
         } else {
-            retweetersList.setWidthByPercent(.6f);
+            retweetersPopup.setWidthByPercent(.6f);
         }
-        retweetersList.setHeightByPercent(.4f);
+        retweetersPopup.setHeightByPercent(.4f);
 
         viewRetweeters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (retweetersList != null) {
-                    retweetersList.setOnTopOfView(viewRetweeters);
-                    retweetersList.show();
+                if (retweetersPopup != null) {
+                    retweetersPopup.setOnTopOfView(viewRetweeters);
+                    retweetersPopup.show();
                 }
             }
         });
@@ -1337,6 +1369,9 @@ public class TweetActivity extends YouTubeBaseActivity {
                 Intent compose = new Intent(context, ComposeActivity.class);
                 compose.putExtra("user", fsendString);
                 compose.putExtra("id", tweetId);
+                compose.putExtra("reply_to_text", tweet);
+
+                getWindow().setExitTransition(null);
 
                 startActivity(compose);
             }
@@ -1432,41 +1467,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
     }
 
-    public void hideConversationSection() {
-        hideConversationSection(400);
-    }
-    public void hideConversationSection(long time) {
-        if (convoDivider.getVisibility() == View.VISIBLE) {
-            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    convoDivider.setVisibility(View.GONE);
-                    convoTitle.setVisibility(View.GONE);
-                    replyList.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            anim.setDuration(time);
-            if (!fromLauncher) {
-                convoDivider.startAnimation(anim);
-                convoTitle.startAnimation(anim);
-                replyList.startAnimation(anim);
-            }
-        }
-
-        findViewById(R.id.nav_bar_seperator).setVisibility(View.VISIBLE);
-    }
-
     public void hideExtraContent() {
         final LinearLayout extra = (LinearLayout) findViewById(R.id.extra_content);
         final View back = findViewById(R.id.background);
@@ -1498,10 +1498,6 @@ public class TweetActivity extends YouTubeBaseActivity {
                 back.startAnimation(anim);
             }
         }
-    }
-
-    public void adjustConversationSectionSize(AsyncListView listView) {
-        findViewById(R.id.nav_bar_seperator).setVisibility(View.GONE);
     }
 
     public boolean isRunning = true;
@@ -1567,7 +1563,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                                 adapter = new TimelineArrayAdapter(context, replies);
                                 replyList.setAdapter(adapter);
                                 replyList.setVisibility(View.VISIBLE);
-                                adjustConversationSectionSize(replyList);
+                                //adjustConversationSectionSize(replyList);
                                 convoSpinner.setVisibility(View.GONE);
 
                             }
@@ -1657,18 +1653,16 @@ public class TweetActivity extends YouTubeBaseActivity {
                                                 adapter = new TimelineArrayAdapter(context, replies);
                                                 replyList.setAdapter(adapter);
                                                 replyList.setVisibility(View.VISIBLE);
-                                                adjustConversationSectionSize(replyList);
                                             } else {
                                                 adapter.notifyDataSetChanged();
-                                                adjustConversationSectionSize(replyList);
                                             }
                                         } else {
-                                            hideConversationSection();
+                                            disableConvoButton();
                                         }
                                     } catch (Exception e) {
                                         // none and it got the null object
                                         e.printStackTrace();
-                                        hideConversationSection();
+                                        disableConvoButton();
                                     }
                                 }
                             });
@@ -1699,7 +1693,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            hideConversationSection();
+                            disableConvoButton();
                         }
                     });
                 }
@@ -1709,6 +1703,15 @@ public class TweetActivity extends YouTubeBaseActivity {
         getReplies.setPriority(8);
         getReplies.start();
 
+    }
+
+    public ImageButton viewReplyButton;
+
+    public void disableConvoButton() {
+        if (viewReplyButton != null) {
+            viewReplyButton.setEnabled(false);
+            viewReplyButton.setAlpha(.5f);
+        }
     }
 
     public void getRetweeters() {
@@ -1742,7 +1745,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            retweetersList.setData(users);
+                            retweetersPopup.setData(users);
 
                             for (int i = 0; i < 3; i++) {
                                 try {

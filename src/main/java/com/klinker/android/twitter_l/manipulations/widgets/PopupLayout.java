@@ -47,6 +47,8 @@ public abstract class PopupLayout extends LinearLayout {
     private boolean isShowing = false;
     private ViewGroup parent = null;
 
+    protected boolean dontShow = false;
+
     public abstract View setMainLayout();
 
     // default constructor
@@ -84,7 +86,14 @@ public abstract class PopupLayout extends LinearLayout {
         addView(title);
         addView(titleDivider);
 
-        addView(setMainLayout());
+        View main = setMainLayout();
+        if (main != null) {
+            try {
+                addView(main);
+            } catch (Exception e) {
+                dontShow = true;
+            }
+        }
     }
 
     /**
@@ -152,6 +161,30 @@ public abstract class PopupLayout extends LinearLayout {
      */
     public void setParent(ViewGroup parent) {
         this.parent = parent;
+    }
+
+    /**
+     * Sets the window to just inside the full screen size
+     */
+    public void setFullScreen() {
+        // sets it to 95% of the screen width
+        setWidthByPercent(.95f);
+
+        // uses that width to set the left offset
+        float offsetLeft = (screenWidth - width) / 2;
+        setDistanceFromLeft((int) offsetLeft);
+
+        int statusBarSize = Utils.getStatusBarHeight(getContext());
+        int actionBarSize = Utils.getActionBarHeight(getContext());
+        int navBarSize = Utils.getNavBarHeight(getContext());
+
+        // set the height to 95% of the screen height
+        setHeightByPercent(1.0f);
+        height -= statusBarSize + actionBarSize + navBarSize;
+
+        // makes sure it is centered and below the
+        float usableHeight = screenHeight - statusBarSize - actionBarSize - navBarSize;
+        setDistanceFromTop((int) (statusBarSize + actionBarSize + 10 + ((usableHeight - height) / 2)));
     }
 
     /**
@@ -239,6 +272,10 @@ public abstract class PopupLayout extends LinearLayout {
      * appropriate distance from the bottom.
      */
     public void show() {
+        if (dontShow) {
+            return;
+        }
+
         final Activity activity = (Activity) getContext();
 
         // set the correct width and height for ActionButton

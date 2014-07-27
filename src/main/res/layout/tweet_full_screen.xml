@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:paddingEnd="16dp"
-            android:paddingStart="64dp"
+            android:paddingStart="56dp"
             android:paddingTop="12dp"
             android:textColor="?textColor"
             android:layoutDirection="locale"
@@ -103,7 +103,6 @@
             android:paddingRight="16dp"
             android:gravity="right"
             android:textColor="?dateColor"
-            android:text="@string/placeholder"
             android:visibility="gone"
             android:background="?android:attr/selectableItemBackgroundBorderless" />
 
@@ -113,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingRight="16dp"
-            android:paddingLeft="64dp"
+            android:paddingLeft="56dp"
             android:paddingTop="5dp"
             android:visibility="gone">
 
@@ -289,7 +288,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingRight="16dp"
-            android:paddingLeft="64dp">
+            android:paddingLeft="56dp">
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                 android:id="@+id/image"

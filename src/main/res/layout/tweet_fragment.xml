@@ -119,62 +119,62 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp"
+                        android:gravity="center">
+
+                    <ImageButton
+                            android:id="@+id/web_button"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="?links"
+                            android:contentDescription="Open Web Page"
+                            android:minHeight="48dp" android:minWidth="48dp"
+                            android:scaleType="center" android:adjustViewBounds="true"
+                            android:maxWidth="48dp" android:maxHeight="48dp"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="20dp"
+                        android:gravity="center">
+
+                    <ImageButton
+                            android:id="@+id/conversation_button"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="?directMessageItem"
+                            android:contentDescription="Open Web Page"
+                            android:minHeight="48dp" android:minWidth="48dp"
+                            android:scaleType="center" android:adjustViewBounds="true"
+                            android:maxWidth="48dp" android:maxHeight="48dp"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:id="@+id/extra_content"
                     android:visibility="invisible">
-
-                <View android:layout_width="match_parent"
-                      android:id="@+id/web_divider"
-                      android:layout_height="1dp"
-                      android:background="?drawerDividerColor"
-                      android:layout_marginLeft="36dp"
-                      android:layout_marginBottom="36dp"/>
-
-                <LinearLayout android:id="@+id/web_title"
-                              android:orientation="horizontal"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content" >
-
-                    <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:id="@+id/web_text"
-                              android:textAllCaps="true"
-                              android:text="@string/webpage"
-                              android:textSize="16sp"
-                              android:paddingLeft="36dp"
-                              android:layout_marginBottom="36dp"
-                              android:textColor="@android:color/black"
-                              android:alpha=".6"/>
-
-
-                    <LinearLayout android:id="@+id/web_progress"
-                                  android:orientation="vertical"
-                                  android:layout_height="wrap_content"
-                                  android:layout_width="wrap_content"
-                                  android:gravity="center"
-                                  android:layout_marginLeft="8dp" >
-
-                        <ProgressBar
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@android:style/Widget.Material.Light.ProgressBar.Small.Title"
-                                android:indeterminateOnly="true" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <WebView android:layout_width="match_parent" android:layout_height="500dp"
-                        android:id="@+id/webview"
-                        android:padding="30dp"/>
-
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                        android:id="@+id/webpage_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:visibility="gone"/>
 
                 <View android:layout_width="match_parent"
                       android:id="@+id/youtube_divider"
@@ -203,70 +203,11 @@
                         android:layout_margin="5dp"
                         />
 
-                <View android:layout_width="match_parent"
-                      android:id="@+id/convo_divider"
-                      android:layout_height="1dp"
-                      android:background="?drawerDividerColor"
-                      android:layout_marginLeft="36dp"
-                      android:layout_marginTop="36dp"
-                      android:layout_marginBottom="36dp"/>
-
-                <LinearLayout android:id="@+id/convo_title"
-                              android:orientation="horizontal"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content" >
-
-                    <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:id="@+id/convo_text"
-                              android:textAllCaps="true"
-                              android:text="@string/conversation"
-                              android:textSize="16sp"
-                              android:paddingLeft="36dp"
-                              android:layout_marginBottom="36dp"
-                              android:textColor="@android:color/black"
-                              android:alpha=".6"/>
-
-
-                    <LinearLayout android:id="@+id/convo_progress"
-                                  android:orientation="vertical"
-                                  android:layout_height="wrap_content"
-                                  android:layout_width="wrap_content"
-                                  android:gravity="center"
-                                  android:layout_marginLeft="8dp" >
-
-                        <ProgressBar
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@android:style/Widget.Material.Light.ProgressBar.Small.Title"
-                                android:indeterminateOnly="true" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <org.lucasr.smoothie.AsyncListView
-                        android:id="@+id/listView"
-                        android:layout_height="500dp"
-                        android:layout_width="match_parent"
-                        android:divider="@null"
-                        android:dividerHeight="0dp"
-                        android:scrollbars="vertical"
-                        android:listSelector="@android:color/transparent"
-                        android:visibility="gone"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        />
-
-                <View android:layout_width="match_parent"
-                      android:id="@+id/nav_bar_seperator"
-                      android:layout_height="56dp" />
-
-                <View android:layout_width="match_parent"
-                      android:id="@+id/bottom"
-                      android:layout_height="1dp" />
-
             </LinearLayout>
 
+            <View android:layout_width="match_parent"
+                  android:id="@+id/nav_bar_seperator"
+                  android:layout_height="56dp" />
 
         </LinearLayout>
 
