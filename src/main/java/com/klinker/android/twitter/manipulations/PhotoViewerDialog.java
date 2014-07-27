@@ -124,10 +124,12 @@ public class PhotoViewerDialog extends Activity {
         picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
-        picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
+        picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
-                if (isRunning) {
+                LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                spinner.setVisibility(View.GONE);
+                /*if (isRunning) {
                     overridePendingTransition(0, 0);
                     finish();
                     Intent restart;
@@ -146,9 +148,9 @@ public class PhotoViewerDialog extends Activity {
                     restart.putExtra("restart", false);
                     overridePendingTransition(0, 0);
                     startActivity(restart);
-                }
+                }*/
             }
-        } : null, 0, fromCache); // no transform
+        }, 0, fromCache); // no transform
 
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override

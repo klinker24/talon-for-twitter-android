@@ -207,7 +207,7 @@ public abstract class Compose extends Activity implements
             reply.setSelection(0);
         }
 
-        Utils.setActionBar(context, false);
+        //Utils.setActionBar(context, false);
 
         if (getIntent().getBooleanExtra("start_attach", false)) {
             attachButton.performClick();
@@ -360,16 +360,6 @@ public abstract class Compose extends Activity implements
                 countHandler.postDelayed(getCount, 300);
             }
         });
-
-        if (settings.addonTheme) {
-            try {
-                Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                int back = resourceAddon.getIdentifier("reply_entry_background", "drawable", settings.addonThemePackage);
-                reply.setBackgroundDrawable(resourceAddon.getDrawable(back));
-            } catch (Exception e) {
-                // theme does not include a reply entry box
-            }
-        }
     }
 
     void handleSendText(Intent intent) {

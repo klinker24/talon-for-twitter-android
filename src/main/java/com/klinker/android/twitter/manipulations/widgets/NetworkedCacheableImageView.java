@@ -279,7 +279,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             } catch (Exception e) {
 
             }
-            
+
             context.sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
         }
     }
@@ -319,6 +319,11 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             startAnimation(fadeInAnimation);
 
             getContext().sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
+
+            if (null != listener) {
+                listener.onImageLoaded(null);
+            }
+
             return true;
         } else {
             // Memory Cache doesn't have the URL, do threaded request...
@@ -367,6 +372,10 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             startAnimation(fadeInAnimation);
 
             getContext().sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
+
+            if (null != listener) {
+                listener.onImageLoaded(null);
+            }
 
             return true;
         } else {
@@ -420,6 +429,10 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             startAnimation(fadeInAnimation);
 
             getContext().sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
+
+            if (null != listener) {
+                listener.onImageLoaded(null);
+            }
 
             return true;
         } else {
