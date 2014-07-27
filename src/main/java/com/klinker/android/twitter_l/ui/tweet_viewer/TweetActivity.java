@@ -420,6 +420,8 @@ public class TweetActivity extends YouTubeBaseActivity {
         super.onResume();
 
         getWindow().setExitTransition(new Explode());
+
+        dim.setVisibility(View.GONE);
     }
 
     @Override
