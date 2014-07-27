@@ -378,7 +378,7 @@ public class MainActivity extends DrawerActivity {
 
         if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) ||
                 sharedPrefs.getBoolean("launcher_frag_switch", false) ||
-                (theme != settings.theme && !settings.addonTheme)) {
+                (theme != settings.theme && !settings.addonTheme && settings.nightMode)) {
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
                               .putBoolean("dont_refresh", true).commit();

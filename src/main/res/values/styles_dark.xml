@@ -26,6 +26,13 @@ limitations under the License.
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/accent</item>
 
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowExitTransitionOverlap">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
 
         <!-- specify shared element transitions -->
         <item name="android:windowSharedElementEnterTransition">
@@ -110,6 +117,7 @@ limitations under the License.
 
     <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark">
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.TalonDark.Tweet.FastTransitions" parent="Theme.TalonDark.Tweet">

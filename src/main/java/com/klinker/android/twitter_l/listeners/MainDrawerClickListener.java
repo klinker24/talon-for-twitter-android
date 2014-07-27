@@ -138,13 +138,15 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
             }
 
             final Intent fIntent = intent;
+            fIntent.putExtra("from_drawer", true);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         context.startActivity(fIntent);
-                        ((Activity)context).finish();
+                        ((Activity)context).overridePendingTransition(0, 0);
+                        ((Activity) context).finish();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
