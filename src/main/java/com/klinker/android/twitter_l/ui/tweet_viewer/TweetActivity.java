@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -21,6 +22,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.transition.Explode;
+import android.transition.Slide;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
@@ -305,13 +307,22 @@ public class TweetActivity extends YouTubeBaseActivity {
 
             }
         });
-        anim.setDuration(300);
-        anim.setStartOffset(400);
 
-        if (!fromLauncher) {
-            extra.startAnimation(anim);
+
+        anim.setStartOffset(400);
+        anim.setDuration(300);
+
+        if (settings.fastTransitions || fromLauncher) {
+            name.setVisibility(View.VISIBLE);
+        } else {
             name.startAnimation(anim);
         }
+        /*if (!fromLauncher) {
+            extra.startAnimation(anim);
+            name.startAnimation(anim);
+        } else {
+            name.setVisibility(View.VISIBLE);
+        }*/
     }
 
     public void getTextFromSite(final String url, final HoloTextView browser, final View spinner, final ScrollView scroll) {
@@ -419,7 +430,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     public void onResume() {
         super.onResume();
 
-        getWindow().setExitTransition(new Explode());
+        getWindow().setExitTransition(new Slide(3));
 
         dim.setVisibility(View.GONE);
     }
@@ -430,6 +441,13 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         hidePopups();
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        recreate();
+    }
+
     @Override
     public void finish() {
         isRunning = false;
@@ -562,7 +580,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         LinearLayout.LayoutParams navBar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
         navBarSeperator.setLayoutParams(navBar);
 
-        if (Utils.hasNavBar(context)) {
+        if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
             navBarSeperator.setVisibility(View.VISIBLE);
         }
     }
@@ -825,6 +843,8 @@ public class TweetActivity extends YouTubeBaseActivity {
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT, text1);
 
+                getWindow().setExitTransition(null);
+
                 startActivity(share);
                 return true;
 
@@ -842,6 +862,9 @@ public class TweetActivity extends YouTubeBaseActivity {
                     weburi = Uri.parse(webpage);
                 }
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+
+                getWindow().setExitTransition(null);
+
                 startActivity(launchBrowser);
 
                 return true;
@@ -930,6 +953,8 @@ public class TweetActivity extends YouTubeBaseActivity {
                 Intent quote = new Intent(context, ComposeActivity.class);
                 quote.putExtra("user", text);
                 quote.putExtra("id", tweetId);
+
+                getWindow().setExitTransition(null);
 
                 startActivity(quote);
 
@@ -1023,6 +1048,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                                 intent.setType("text/plain");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                                 intent.putExtra(Intent.EXTRA_TEXT, touched);
+                                getWindow().setExitTransition(null);
                                 context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
 
                                 dialog.dismiss();
@@ -1037,6 +1063,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                         intent.setType("text/plain");
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         intent.putExtra(Intent.EXTRA_TEXT, touched);
+                        getWindow().setExitTransition(null);
                         context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
                     }
                 } else {
@@ -1051,6 +1078,8 @@ public class TweetActivity extends YouTubeBaseActivity {
 
                     Intent browser = new Intent(Intent.ACTION_VIEW, uri);
                     browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    getWindow().setExitTransition(null);
 
                     startActivity(browser);
                 } catch (Exception e) {
@@ -1221,6 +1250,8 @@ public class TweetActivity extends YouTubeBaseActivity {
                     intent.putExtra("user", text);
                     intent.putExtra("id", tweetId);
 
+                    getWindow().setExitTransition(null);
+
                     startActivity(intent);
                 }
             });
@@ -1236,6 +1267,8 @@ public class TweetActivity extends YouTubeBaseActivity {
                     viewProfile.putExtra("proPic", proPic);
                     viewProfile.putExtra("tweetid", tweetId);
                     viewProfile.putExtra("retweet", retweetertv.getVisibility() == View.VISIBLE);
+
+                    getWindow().setExitTransition(null);
 
                     context.startActivity(viewProfile);
                 }
@@ -1254,6 +1287,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 @Override
                 public void onClick(View view) {
                     if (!hidePopups()) {
+                        getWindow().setExitTransition(null);
                         context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
                     }
                 }
@@ -1307,6 +1341,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     Uri weburi = Uri.parse("http://" + data);
                     Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                     launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getWindow().setExitTransition(null);
                     context.startActivity(launchBrowser);
                 }
             }
@@ -1958,6 +1993,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                                     public void onClick(View view) {
                                         Intent viewPics = new Intent(context, ViewPictures.class);
                                         viewPics.putExtra("images", images);
+                                        getWindow().setExitTransition(null);
                                         startActivity(viewPics);
                                     }
                                 });

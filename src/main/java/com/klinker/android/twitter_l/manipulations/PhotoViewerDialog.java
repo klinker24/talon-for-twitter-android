@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
@@ -111,10 +112,12 @@ public class PhotoViewerDialog extends Activity {
         picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
-        picture.loadImage(url, false, doRestart ? new NetworkedCacheableImageView.OnImageLoadedListener() {
+        picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
-                if (isRunning) {
+                LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                spinner.setVisibility(View.GONE);
+                /*if (isRunning) {
                     overridePendingTransition(0, 0);
                     finish();
                     Intent restart;
@@ -133,9 +136,9 @@ public class PhotoViewerDialog extends Activity {
                     restart.putExtra("restart", false);
                     overridePendingTransition(0, 0);
                     startActivity(restart);
-                }
+                }*/
             }
-        } : null, 0, fromCache); // no transform
+        }, 0, fromCache); // no transform
 
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
@@ -281,7 +284,12 @@ public class PhotoViewerDialog extends Activity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "talon-share-image", null);
-        return Uri.parse(path);
+        try {
+            return Uri.parse(path);
+        } catch (Exception e) {
+            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     public Bitmap decodeSampledBitmapFromResourceMemOpt(

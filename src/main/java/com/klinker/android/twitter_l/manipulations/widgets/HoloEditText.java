@@ -68,6 +68,9 @@ public class HoloEditText extends EditText {
                 case 2:
                     typeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-Regular.ttf");
                     break;
+                case 3:
+                    typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
+                    break;
                 default:
                     typeface = null;
                     break;
