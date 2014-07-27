@@ -112,6 +112,10 @@ public class ImageUtils {
 
         int scale = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
 
+        if (currentImage == null) {
+            return null;
+        }
+
         if (currentImage.getWidth() >= currentImage.getHeight()) {
             currentImage = Bitmap.createBitmap(
                     currentImage,

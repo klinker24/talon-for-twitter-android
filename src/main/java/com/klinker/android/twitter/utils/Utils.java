@@ -288,7 +288,11 @@ public class Utils {
         AppSettings settings = AppSettings.getInstance(context);
         if (settings.actionBar != null) {
             //Drawable back = settings.actionBar;
-            ((Activity) context).getActionBar().setBackgroundDrawable(settings.actionBar);
+            try {
+                ((Activity) context).getActionBar().setBackgroundDrawable(settings.actionBar);
+            } catch (Exception e) {
+                // on the compose there isnt an action bar
+            }
         }
 
         // we will only do this if it is specified with the function below

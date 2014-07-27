@@ -279,6 +279,8 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             } catch (Exception e) {
 
             }
+            
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.IMAGE_LOADED"));
         }
     }
 

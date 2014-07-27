@@ -290,7 +290,12 @@ public class PhotoViewerDialog extends Activity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "talon-share-image", null);
-        return Uri.parse(path);
+        try {
+            return Uri.parse(path);
+        } catch (Exception e) {
+            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     public Bitmap decodeSampledBitmapFromResourceMemOpt(
