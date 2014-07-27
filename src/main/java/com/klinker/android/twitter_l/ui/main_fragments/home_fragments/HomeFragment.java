@@ -128,7 +128,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             } catch (Exception e) {
 
                             }
-                            HomeDataSource.getInstance(context).markPosition(currentAccount, id);
+                            try {
+                                HomeDataSource.getInstance(context).markPosition(currentAccount, id);
+                            } catch (Exception e) {
+
+                            }
                             //HomeContentProvider.updateCurrent(currentAccount, context, id);
 
                             trueLive = true;

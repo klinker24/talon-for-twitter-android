@@ -7,8 +7,10 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -344,5 +346,12 @@ public abstract class PopupLayout extends LinearLayout {
         }, animTime);
 
         isShowing = false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        super.onTouchEvent(ev);
+        Log.i("VerticalScrollview", "onTouchEvent. action: " + ev.getAction());
+        return true;
     }
 }

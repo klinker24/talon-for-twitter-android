@@ -23,6 +23,7 @@ import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -270,28 +271,8 @@ public class SettingsPagerActivity extends FragmentActivity {
     public void setUpTheme() {
 
         AppSettings settings = AppSettings.getInstance(this);
+        Utils.setUpTweetTheme(this, settings);
 
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack);
-                break;
-        }
-
-        if (settings.addonTheme) {
-            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
-        } else {
-            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-
-            //getWindow().getDecorView().setBackgroundResource(resource);
-        }
     }
 
     @Override

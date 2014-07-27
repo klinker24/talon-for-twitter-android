@@ -213,13 +213,24 @@ public class Utils {
 
     public static void setUpTweetTheme(Context context, AppSettings settings) {
         Log.v("talon_theme", "setting talon theme");
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                context.setTheme(R.style.Theme_TalonLight_NoShadow);
-                break;
-            case AppSettings.THEME_DARK:
-                context.setTheme(R.style.Theme_TalonDark_NoShadow);
-                break;
+        if (!settings.fastTransitions) {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight_Tweet);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark_Tweet);
+                    break;
+            }
+        } else {
+            switch (settings.theme) {
+                case AppSettings.THEME_LIGHT:
+                    context.setTheme(R.style.Theme_TalonLight_Tweet_FastTransitions);
+                    break;
+                case AppSettings.THEME_DARK:
+                    context.setTheme(R.style.Theme_TalonDark_Tweet_FastTransitions);
+                    break;
+            }
         }
     }
 
@@ -269,7 +280,11 @@ public class Utils {
         AppSettings settings = AppSettings.getInstance(context);
         if (settings.actionBar != null) {
             //Drawable back = settings.actionBar;
-            ((Activity) context).getActionBar().setBackgroundDrawable(settings.actionBar);
+            try {
+                ((Activity) context).getActionBar().setBackgroundDrawable(settings.actionBar);
+            } catch (Exception e) {
+                // on the compose there isnt an action bar
+            }
         }
 
         // we will only do this if it is specified with the function below

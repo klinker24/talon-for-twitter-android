@@ -45,7 +45,7 @@ public class NotificationCompose extends ComposeActivity {
         if (voiceReply != null) {
             if (!voiceReply.equals("")) {
                 // set the text
-                reply.setText(voiceReply);
+                reply.append(voiceReply);
 
                 // send the message
                 doneClick();

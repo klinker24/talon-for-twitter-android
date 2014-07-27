@@ -108,8 +108,12 @@ limitations under the License.
         <item name="compose_window_background">@drawable/compose_background_dark</item>
     </style>
 
-    <style name="Theme.TalonDark.NoShadow" parent="@style/Theme.TalonDark">
+    <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark">
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.TalonDark.Tweet.FastTransitions" parent="Theme.TalonDark.Tweet">
+        <item name="android:windowContentTransitions">false</item>
     </style>
 
     <style name="Theme.TalonDark.Compose" parent="@style/Theme.TalonDark">

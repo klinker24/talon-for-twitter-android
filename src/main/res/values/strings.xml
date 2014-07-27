@@ -628,5 +628,7 @@
     <string name="pick_date">Pick Date</string>
     <string name="both_accounts">Both Accounts</string>
     <string name="attach_gif">Animated GIF</string>
+    <string name="roboto_l">Android "L" Roboto</string>
+    <string name="fast_transitions">Fast Transitions</string>
 
 </resources>

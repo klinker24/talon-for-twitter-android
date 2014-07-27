@@ -115,8 +115,12 @@ limitations under the License.
 
     </style>
 
-    <style name="Theme.TalonLight.NoShadow" parent="@style/Theme.TalonLight">
+    <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight">
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.TalonLight.Tweet.FastTransitions" parent="Theme.TalonLight.Tweet">
+        <item name="android:windowContentTransitions">false</item>
     </style>
 
     <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight">
@@ -137,8 +141,7 @@ limitations under the License.
     </style>
 
     <style name="Theme.TalonLight.ImageViewer" parent="@style/Theme.TalonLight">
-        <item name="android:windowEnterTransition">@transition/slide</item>
-        <item name="android:windowExitTransition">@transition/slide</item>
+        <item name="android:windowContentTransitions">false</item>
     </style>
 
     <style name="Theme.TalonLight.Compose" parent="@style/Theme.TalonLight">
