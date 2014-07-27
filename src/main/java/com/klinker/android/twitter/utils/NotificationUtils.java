@@ -971,7 +971,11 @@ public class NotificationUtils {
         AppSettings settings = AppSettings.getInstance(context);
 
         if (numberNew > 5) {
-            style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.mentions));
+            if (numberNew - 5 == 1) {
+                style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.new_mention));
+            } else {
+                style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.new_mentions));
+            }
 
             for (int i = 0; i < 5; i++) {
                 String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
@@ -1011,7 +1015,11 @@ public class NotificationUtils {
         AppSettings settings = AppSettings.getInstance(context);
 
         if (numberNew > 5) {
-            style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.direct_messages));
+            if (numberNew - 5 == 1) {
+                style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.new_direct_message));
+            } else {
+                style.setSummaryText("+" + (numberNew - 5) + " " + context.getString(R.string.new_direct_messages));
+            }
 
             for (int i = 0; i < 5; i++) {
                 String handle = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
