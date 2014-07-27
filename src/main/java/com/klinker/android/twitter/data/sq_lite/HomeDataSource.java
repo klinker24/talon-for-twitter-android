@@ -985,7 +985,9 @@ public class HomeDataSource {
         } catch (Exception e) {
         }
 
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+        }
 
         return id;
     }
