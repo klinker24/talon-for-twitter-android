@@ -64,7 +64,7 @@ public class HoloEditText extends EditText {
 
             switch (Integer.parseInt(type)) {
                 case 1:
-                    typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Black.ttf");
+                    typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Regular.ttf");
                     break;
                 case 2:
                     typeface = Typeface.createFromAsset(context.getAssets(), "Roboto-Light.ttf");
