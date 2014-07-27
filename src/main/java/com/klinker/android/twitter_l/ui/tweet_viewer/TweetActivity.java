@@ -180,7 +180,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
-        if (hasWebpage && (!settings.alwaysMobilize || (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
+        if (hasWebpage && !(settings.alwaysMobilize || (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
             final LinearLayout webLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
             final WebView web = (WebView) webLayout.findViewById(R.id.webview);
             web.loadUrl(webpages.get(0));
