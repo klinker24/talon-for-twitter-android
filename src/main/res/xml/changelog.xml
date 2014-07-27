@@ -1,7 +1,7 @@
 <changelog>
     <version name="2.6.1">
         <text>Image viewer fixes</text>
-        <text>Font updates</text>
+        <text>Updated fonts and added an Android "L" Roboto font option</text>
         <text>Crash fixes</text>
     </version>
 
