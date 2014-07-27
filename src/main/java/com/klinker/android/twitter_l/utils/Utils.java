@@ -197,60 +197,43 @@ public class Utils {
     }
 
     public static void setUpTheme(Context context, AppSettings settings) {
-        if (settings.layout == AppSettings.LAYOUT_TALON) {
-            Log.v("talon_theme", "setting talon theme");
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    context.setTheme(R.style.Theme_TalonLight);
-                    break;
-                case AppSettings.THEME_DARK:
-                    context.setTheme(R.style.Theme_TalonDark);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    context.setTheme(R.style.Theme_TalonBlack);
-                    break;
-            }
-        } else {
-            Log.v("talon_theme", "setting talon theme");
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    context.setTheme(R.style.Theme_TalonLight_Hangouts);
-                    break;
-                case AppSettings.THEME_DARK:
-                    context.setTheme(R.style.Theme_TalonDark_Hangouts);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    context.setTheme(R.style.Theme_TalonBlack_Hangouts);
-                    break;
-            }
+        Log.v("talon_theme", "setting talon theme");
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                context.setTheme(R.style.Theme_TalonLight);
+                break;
+            case AppSettings.THEME_DARK:
+                context.setTheme(R.style.Theme_TalonDark);
+                break;
+            case AppSettings.THEME_BLACK:
+                context.setTheme(R.style.Theme_TalonBlack);
+                break;
+        }
+    }
+
+    public static void setUpTweetTheme(Context context, AppSettings settings) {
+        Log.v("talon_theme", "setting talon theme");
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                context.setTheme(R.style.Theme_TalonLight_NoShadow);
+                break;
+            case AppSettings.THEME_DARK:
+                context.setTheme(R.style.Theme_TalonDark_NoShadow);
+                break;
         }
     }
 
     public static void setUpPopupTheme(Context context, AppSettings settings) {
-        if (settings.layout == AppSettings.LAYOUT_TALON) {
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    context.setTheme(R.style.Theme_TalonLight_Popup);
-                    break;
-                case AppSettings.THEME_DARK:
-                    context.setTheme(R.style.Theme_TalonDark_Popup);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    context.setTheme(R.style.Theme_TalonBlack_Popup);
-                    break;
-            }
-        } else {
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    context.setTheme(R.style.Theme_TalonLight_Hangouts_Popup);
-                    break;
-                case AppSettings.THEME_DARK:
-                    context.setTheme(R.style.Theme_TalonDark_Hangouts_Popup);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    context.setTheme(R.style.Theme_TalonBlack_Hangouts_Popup);
-                    break;
-            }
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                context.setTheme(R.style.Theme_TalonLight_Popup);
+                break;
+            case AppSettings.THEME_DARK:
+                context.setTheme(R.style.Theme_TalonDark_Popup);
+                break;
+            case AppSettings.THEME_BLACK:
+                context.setTheme(R.style.Theme_TalonBlack_Popup);
+                break;
         }
     }
 
@@ -269,30 +252,16 @@ public class Utils {
     }
 
     public static void setUpNotifTheme(Context context, AppSettings settings) {
-        if (settings.layout == AppSettings.LAYOUT_TALON) {
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    context.setTheme(R.style.Theme_TalonLight_Popup_Notif);
-                    break;
-                case AppSettings.THEME_DARK:
-                    context.setTheme(R.style.Theme_TalonDark_Popup_Notif);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    context.setTheme(R.style.Theme_TalonBlack_Popup_Notif);
-                    break;
-            }
-        } else {
-            switch (settings.theme) {
-                case AppSettings.THEME_LIGHT:
-                    context.setTheme(R.style.Theme_TalonLight_Hangouts_Popup_Notif);
-                    break;
-                case AppSettings.THEME_DARK:
-                    context.setTheme(R.style.Theme_TalonDark_Hangouts_Popup_Notif);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    context.setTheme(R.style.Theme_TalonBlack_Hangouts_Popup_Notif);
-                    break;
-            }
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                context.setTheme(R.style.Theme_TalonLight_Popup_Notif);
+                break;
+            case AppSettings.THEME_DARK:
+                context.setTheme(R.style.Theme_TalonDark_Popup_Notif);
+                break;
+            case AppSettings.THEME_BLACK:
+                context.setTheme(R.style.Theme_TalonBlack_Popup_Notif);
+                break;
         }
     }
 

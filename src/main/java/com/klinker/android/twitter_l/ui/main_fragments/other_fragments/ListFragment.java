@@ -426,7 +426,7 @@ public class ListFragment extends MainFragment {
 
         isToastShowing = false;
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

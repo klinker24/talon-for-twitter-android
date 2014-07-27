@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout android:id="@+id/spinner"
+                  android:orientation="vertical"
+                  android:layout_height="match_parent"
+                  android:layout_width="match_parent"
+                  android:gravity="center" >
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.Material.Light.ProgressBar.Large"
+                android:indeterminateOnly="true" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading_tweets"
+                android:textColor="?textColor"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginTop="5dp"
+                android:textSize="15dp"/>
+
+    </LinearLayout>
+
+    <org.lucasr.smoothie.AsyncListView
+            android:id="@+id/listView"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:scrollbars="vertical"
+            android:listSelector="@android:color/transparent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+
+</LinearLayout>
