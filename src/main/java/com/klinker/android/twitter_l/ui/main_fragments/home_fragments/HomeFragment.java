@@ -412,22 +412,12 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         if (viewPressed) {
-                            int size;
-                            if (!isLauncher()) {
-                                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            } else {
-                                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            }
-                            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 0 : 1), size);
+                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                         } else if (tweets != 0) {
                             unread = tweets;
-                            int size;
-                            if (!isLauncher()) {
-                                size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            } else {
-                                size = (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            }
-                            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 0 : 1), size);
+                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                         } else {
                             listView.setSelectionFromTop(0, 0);
                         }
