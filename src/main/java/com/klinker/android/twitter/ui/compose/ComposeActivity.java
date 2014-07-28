@@ -239,37 +239,7 @@ public class ComposeActivity extends Compose {
         attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imagesAttached > 0 && !sharedPrefs.getBoolean("know_twitpic_for_mult_attach", false)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
-                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_multi_summary))
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    sharedPrefs.edit().putBoolean("know_twitpic_for_mult_attach", true).commit();
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .create()
-                            .show();
-                } else {
-                    attachImage();
-                }
-
+                attachImage();
             }
         });
 

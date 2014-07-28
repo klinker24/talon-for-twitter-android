@@ -130,7 +130,7 @@ public abstract class Compose extends Activity implements
 
             if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
                 try {
-                    charRemaining.setText(140 - reply.getText().length() - (imagesAttached * 23) + "");
+                    charRemaining.setText(140 - reply.getText().length() - (settings.twitpic ? imagesAttached * 23 : imagesAttached > 0 ? 23 : 0) + "");
                 } catch (Exception e) {
                     charRemaining.setText("0");
                 }
