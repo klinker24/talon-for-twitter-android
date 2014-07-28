@@ -121,10 +121,11 @@ public class ProfilePager extends Activity {
         pager.setAdapter(mPagerAdapter);
         pager.setOffscreenPageLimit(3);
 
-        if (settings.addonTheme) {
-            PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-            strip.setBackgroundColor(settings.accentInt);
-        }
+        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        if (settings.theme == AppSettings.THEME_DARK)
+            strip.setBackgroundColor(getResources().getColor(R.color.darker_primary));
+        else
+            strip.setBackgroundColor(getResources().getColor(R.color.primary));
 
         Utils.setActionBar(context);
 
@@ -134,7 +135,7 @@ public class ProfilePager extends Activity {
 
     public void setUpTheme() {
 
-        Utils.setUpPopupTheme(context, settings);
+        Utils.setUpTweetTheme(context, settings);
 
         actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

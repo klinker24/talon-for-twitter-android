@@ -53,16 +53,8 @@ public class SearchPager extends Activity {
     public ViewPager mViewPager;
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -108,15 +100,15 @@ public class SearchPager extends Activity {
             translucent = false;
         }
 
-        Utils.setUpTheme(context, settings);
+        Utils.setUpTweetTheme(context, settings);
 
-        Utils.setUpTheme(context, settings);
         setContentView(R.layout.search_pager);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(null);
 
         View statusBar = findViewById(R.id.activity_status_bar);
 
@@ -137,10 +129,11 @@ public class SearchPager extends Activity {
 
         mViewPager.setOffscreenPageLimit(3);
 
-        if (settings.addonTheme) {
-            PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-            strip.setBackgroundColor(settings.accentInt);
-        }
+        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        if (settings.theme == AppSettings.THEME_DARK)
+            strip.setBackgroundColor(getResources().getColor(R.color.darker_primary));
+        else
+            strip.setBackgroundColor(getResources().getColor(R.color.primary));
 
         mViewPager.setCurrentItem(1);
 
@@ -271,7 +264,7 @@ public class SearchPager extends Activity {
 
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
-        view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
+        view.setImageResource(R.drawable.ic_action_search_dark);
 
         return true;
     }

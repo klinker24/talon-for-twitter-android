@@ -33,6 +33,8 @@ limitations under the License.
     <attr name="notificationBackground" format="color" />
     <attr name="border_color" format="color" />
     <attr name="icon_color" format="color" />
+    <attr name="drawer_subtext" format="color" />
+    <attr name="drawer_options_background" format="color" />
 
     <!-- Drawables -->
     <attr name="fullScreenTweet" format="reference"/>
@@ -95,6 +97,7 @@ limitations under the License.
     <attr name="favUser" format="reference"/>
     <attr name="listIcon" format="reference"/>
     <attr name="memManagement" format="reference"/>
+    <attr name="feedback" format="reference"/>
 
     <!-- Actionbar Icons -->
     <attr name="actionbar" format="reference"/>
