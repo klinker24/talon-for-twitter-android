@@ -115,6 +115,8 @@ public class ProfilePager extends Activity {
 
         getFromIntent();
 
+        getActionBar().setIcon(null);
+
         setContentView(R.layout.tweet_pager);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         ProfilePagerAdapter mPagerAdapter = new ProfilePagerAdapter(getFragmentManager(), context, name, screenName, proPic, tweetId, isRetweet, isMyProfile);

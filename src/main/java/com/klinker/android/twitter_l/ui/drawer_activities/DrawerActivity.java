@@ -739,7 +739,7 @@ public abstract class DrawerActivity extends Activity {
                 .setPositiveButton("More Info", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/117432358268488452276/posts/6tHkYBgPdRw")));
                         dialogInterface.dismiss();
                     }
                 })
