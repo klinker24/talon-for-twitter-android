@@ -51,10 +51,7 @@ import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
-import com.klinker.android.twitter_l.utils.EmojiUtils;
-import com.klinker.android.twitter_l.utils.SDK11;
-import com.klinker.android.twitter_l.utils.TweetLinkUtils;
-import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
@@ -1618,7 +1615,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.profilePic.setImageDrawable(null);
             }
 
-            mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId, settings.roundContactImages, holder.profilePic);
+            mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId, holder.profilePic);
 
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -1640,7 +1637,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         private Context context;
         private ViewHolder holder;
         private long id;
-        private boolean round;
         private ImageView iv;
 
         ImageUrlAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long tweetId) {
@@ -1648,16 +1644,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             mCache = cache;
             this.holder = holder;
             this.id = tweetId;
-            round = false;
             this.iv = null;
         }
 
-        ImageUrlAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long tweetId, boolean round, ImageView iv) {
+        ImageUrlAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long tweetId, ImageView iv) {
             this.context = context;
             mCache = cache;
             this.holder = holder;
             this.id = tweetId;
-            this.round = round;
             this.iv = iv;
         }
 
@@ -1705,10 +1699,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         InputStream is = new BufferedInputStream(conn.getInputStream());
 
                         b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-
-                        if (round) {
-                            b = ImageUtils.getCircle(b, context);
-                        }
 
                         try {
                             is.close();
