@@ -288,7 +288,7 @@ public abstract class MainFragment extends Fragment {
         builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
         builder.setThreadPoolSize(2);
 
-        listView.setItemManager(builder.build());
+        //listView.setItemManager(builder.build());
     }
 
     public void toTop() {
