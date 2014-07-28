@@ -629,6 +629,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
+        CacheableBitmapDrawable wrapper2 = mCache.getFromMemoryCache(holder.proPicUrl);
+
+        final boolean gotProPic;
+        if (wrapper2 == null) {
+            gotProPic = false;
+            if (holder.profilePic.getDrawable() != null) {
+                holder.profilePic.setImageDrawable(null);
+            }
+        } else {
+            gotProPic = true;
+            holder.profilePic.setImageDrawable(wrapper2);
+        }
+
         final boolean hasPicture = picture;
         mHandlers[currHandler].removeCallbacksAndMessages(null);
         mHandlers[currHandler].postDelayed(new Runnable() {
@@ -637,6 +650,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (holder.tweetId == id) {
                     if (hasPicture) {
                         loadImage(context, holder, holder.picUrl, mCache, id);
+                    }
+
+                    if (!gotProPic) {
+                        loadProPic(context, holder, holder.proPicUrl, mCache, id);
                     }
 
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
@@ -1577,6 +1594,45 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
     }
 
+    public void loadProPic(Context context, final ViewHolder holder, final String url, BitmapLruCache mCache, final long tweetId) {
+        // First check whether there's already a task running, if so cancel it
+        /*if (null != mCurrentTask) {
+            mCurrentTask.cancel(true);
+        }*/
+
+        if (url == null) {
+            return;
+        }
+
+        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
+
+        if (null != wrapper && holder.image.getVisibility() != View.GONE) {
+            // The cache has it, so just display it
+            holder.profilePic.setImageDrawable(wrapper);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+
+            holder.profilePic.startAnimation(fadeInAnimation);
+        } else {
+            // Memory Cache doesn't have the URL, do threaded request...
+            if (holder.profilePic.getDrawable() != null) {
+                holder.profilePic.setImageDrawable(null);
+            }
+
+            mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId, settings.roundContactImages, holder.profilePic);
+
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    SDK11.executeOnThreadPool(mCurrentTask, url);
+                } else {
+                    mCurrentTask.execute(url);
+                }
+            } catch (RejectedExecutionException e) {
+                // This shouldn't happen, but might.
+            }
+
+        }
+    }
+
     private static class ImageUrlAsyncTask
             extends AsyncTask<String, Void, CacheableBitmapDrawable> {
 
@@ -1584,12 +1640,25 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         private Context context;
         private ViewHolder holder;
         private long id;
+        private boolean round;
+        private ImageView iv;
 
         ImageUrlAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long tweetId) {
             this.context = context;
             mCache = cache;
             this.holder = holder;
             this.id = tweetId;
+            round = false;
+            this.iv = null;
+        }
+
+        ImageUrlAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long tweetId, boolean round, ImageView iv) {
+            this.context = context;
+            mCache = cache;
+            this.holder = holder;
+            this.id = tweetId;
+            this.round = round;
+            this.iv = iv;
         }
 
         @Override
@@ -1636,6 +1705,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         InputStream is = new BufferedInputStream(conn.getInputStream());
 
                         b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                        if (round) {
+                            b = ImageUtils.getCircle(b, context);
+                        }
 
                         try {
                             is.close();
@@ -1741,11 +1814,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             try {
                 if (result != null && holder.tweetId == id) {
-                    holder.image.setImageDrawable(result);
-                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
+                    if (iv == null) {
+                        holder.image.setImageDrawable(result);
+                        Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
 
-                    if (holder.tweetId == id) {
                         holder.image.startAnimation(fadeInAnimation);
+                    } else {
+                        iv.setImageDrawable(result);
+                        Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
+
+                        iv.startAnimation(fadeInAnimation);
                     }
                 }
 
