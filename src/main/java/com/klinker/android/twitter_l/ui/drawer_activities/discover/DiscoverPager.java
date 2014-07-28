@@ -33,7 +33,7 @@ public class DiscoverPager extends DrawerActivity {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
-        setUpTheme();
+        setUpTweetTheme();
         setContentView(R.layout.trends_activity);
         setUpDrawer(3, getResources().getString(R.string.trends));
 
@@ -55,10 +55,11 @@ public class DiscoverPager extends DrawerActivity {
 
         mViewPager.setOffscreenPageLimit(3);
 
-        if (settings.addonTheme) {
-            PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-            strip.setBackgroundColor(settings.accentInt);
-        }
+        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        if (settings.theme == AppSettings.THEME_DARK)
+            strip.setBackgroundColor(getResources().getColor(R.color.darker_primary));
+        else
+            strip.setBackgroundColor(getResources().getColor(R.color.primary));
     }
 
     @Override

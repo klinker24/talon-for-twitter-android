@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -237,7 +238,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         });
 
-        if (!userKnows) {
+        if (!userKnows && !getIntent().getBooleanExtra("open_help", false)) {
             mDrawerLayout.openDrawer(mDrawer);
         }
 
@@ -265,6 +266,16 @@ public class SettingsPagerActivity extends FragmentActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
             }
         });
+
+        if (getIntent().getBooleanExtra("open_help", false)) {
+            mViewPager.setCurrentItem(7, false);
+        }
+
+        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        if (AppSettings.getInstance(this).theme == AppSettings.THEME_DARK)
+            strip.setBackgroundColor(getResources().getColor(R.color.darker_primary));
+        else
+            strip.setBackgroundColor(getResources().getColor(R.color.primary));
 
     }
 

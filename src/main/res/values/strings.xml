@@ -630,5 +630,7 @@
     <string name="attach_gif">Animated GIF</string>
     <string name="roboto_l">Android "L" Roboto</string>
     <string name="fast_transitions">Quick Transitions</string>
+    <string name="help">Help</string>
+    <string name="send_feedback">Send Feedback</string>
 
 </resources>

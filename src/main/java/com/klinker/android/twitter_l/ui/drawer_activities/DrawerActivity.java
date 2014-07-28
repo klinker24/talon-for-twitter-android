@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.ViewPager;
@@ -36,6 +37,7 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
+import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -56,6 +58,7 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import org.lucasr.smoothie.AsyncListView;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -574,8 +577,19 @@ public abstract class DrawerActivity extends Activity {
         }
 
         if (translucent) {
+            if (getResources().getBoolean(R.bool.options_drawer)) {
+                View options = getLayoutInflater().inflate(R.layout.drawer_options, null, false);
+                drawerList.addFooterView(options);
+            }
+
             if (Utils.hasNavBar(context)) {
                 View footer = new View(context);
+                if (getResources().getBoolean(R.bool.options_drawer)) {
+                    a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawer_options_background});
+                    int background = a.getResourceId(0, 0);
+                    a.recycle();
+                    footer.setBackgroundResource(background);
+                }
                 footer.setOnClickListener(null);
                 footer.setOnLongClickListener(null);
                 ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
@@ -598,6 +612,7 @@ public abstract class DrawerActivity extends Activity {
             drawerStatusBar.setLayoutParams(status2Params);
             drawerStatusBar.setVisibility(View.VISIBLE);
         }
+
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) {
             actionBar.setDisplayHomeAsUpEnabled(false);
@@ -699,6 +714,45 @@ public abstract class DrawerActivity extends Activity {
         }
     }
 
+    public void onSettingsClicked(View v) {
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
+        Intent settings = new Intent(context, SettingsPagerActivity.class);
+        finish();
+        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+        //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+        startActivity(settings);
+    }
+
+    public void onHelpClicked(View v) {
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
+        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+        Intent settings = new Intent(context, SettingsPagerActivity.class);
+        finish();
+        settings.putExtra("open_help", true);
+        startActivity(settings);
+    }
+
+    public void onFeedbackClicked(View v) {
+        new AlertDialog.Builder(context)
+                .setTitle("Talon \"L\" Preview")
+                .setMessage("Thanks for trying the Talon \"L\" Preview Version! Right now, this is just something that is meant to be enjoyed. It is nowhere near complete, so I am not going to be taking requests, bugs, or even feedback on it. Just use it, if you like it, keep it, otherwise, uninstall.\n\nMore will come with time, but for now, enjoy!")
+                .setPositiveButton("More Info", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
     /*@Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
@@ -713,6 +767,10 @@ public abstract class DrawerActivity extends Activity {
         }
     }*/
 
+    public void setUpTweetTheme() {
+        setUpTheme();
+        Utils.setUpTweetTheme(context, settings);
+    }
     public void setUpTheme() {
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
@@ -944,6 +1002,10 @@ public abstract class DrawerActivity extends Activity {
         }
 
         noti = menu.getItem(NOTIFICATIONS);
+
+        if (getResources().getBoolean(R.bool.options_drawer)) {
+            menu.getItem(SETTINGS).setVisible(false);
+        }
 
         if (InteractionsDataSource.getInstance(context).getUnreadCount(settings.currentAccount) > 0) {
             setNotificationFilled(true);

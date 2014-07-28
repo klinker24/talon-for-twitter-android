@@ -79,4 +79,12 @@ limitations under the License.
     <color name="widget_light_trans_ab">#99FFFFFF</color>
     <color name="widget_light_trans_list">#66FFFFFF</color>
 
+
+    <!-- Drawer colors -->
+    <color name="drawer_options_background_light">#f7f7f7</color>
+    <color name="drawer_options_background_dark">#212121</color>
+    <color name="drawer_divider_color">#e5e5e5</color>
+    <color name="drawer_subtext_light">#666666</color>
+    <color name="drawer_subtext_dark">#A4A4A4</color>
+
 </resources>

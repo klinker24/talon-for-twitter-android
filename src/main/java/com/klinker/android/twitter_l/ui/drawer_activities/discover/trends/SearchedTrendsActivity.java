@@ -77,16 +77,8 @@ public class SearchedTrendsActivity extends Activity {
     private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -108,10 +100,13 @@ public class SearchedTrendsActivity extends Activity {
             setUpWindow();
         }
 
-        Utils.setUpPopupTheme(context, settings);
+        Utils.setUpTweetTheme(context, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(null);
 
         setContentView(R.layout.ptr_list_layout);
 
@@ -270,7 +265,7 @@ public class SearchedTrendsActivity extends Activity {
 
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
-        view.setImageResource(settings.theme == AppSettings.THEME_LIGHT ? R.drawable.ic_action_search_light : R.drawable.ic_action_search_dark);
+        view.setImageResource(R.drawable.ic_action_search_dark);
 
         return true;
     }
@@ -289,6 +284,9 @@ public class SearchedTrendsActivity extends Activity {
         }
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return super.onOptionsItemSelected(item);
 
             case R.id.menu_compose_with_search:
                 Intent compose = new Intent(context, ComposeActivity.class);

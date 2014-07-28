@@ -3,25 +3,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/drawer_options_background"
+              android:background="?drawer_options_background"
               android:orientation="vertical"
               android:clickable="true">
 
     <View android:layout_width="match_parent"
           android:layout_height="1dp"
-          android:background="@color/drawer_divider_color"/>
+          android:background="?drawerDividerColor"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="?drawer_options_button_background"
+            android:background="?android:attr/selectableItemBackground"
             android:onClick="onSettingsClicked">
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_settings"
+                android:src="?advancedSettings"
                 android:id="@+id/settings_image"
                 android:scaleType="centerInside"
                 android:paddingLeft="16dp"
@@ -31,7 +31,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/settings"
+                android:text="@string/menu_settings"
                 android:id="@+id/settings_button"
                 style="@style/DrawerOptionsButton"
                 android:layout_toRightOf="@+id/settings_image"/>
@@ -40,21 +40,54 @@
 
     <View android:layout_width="match_parent"
           android:layout_height="1dp"
-          android:background="@color/drawer_divider_color"/>
+          android:background="?drawerDividerColor"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="?drawer_options_button_background"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="onHelpClicked">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="?getHelp"
+                android:id="@+id/help_image"
+                android:scaleType="centerInside"
+                android:alpha=".8"
+                android:paddingLeft="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help"
+                android:id="@+id/help_button"
+                style="@style/DrawerOptionsButton"
+                android:layout_toRightOf="@+id/help_image"/>
+
+    </RelativeLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="?drawerDividerColor"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground"
             android:onClick="onFeedbackClicked">
 
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_feedback"
+                android:src="?feedback"
                 android:id="@+id/feedback_image"
                 android:scaleType="centerInside"
+                android:alpha=".8"
                 android:paddingLeft="16dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"/>
@@ -71,6 +104,6 @@
 
     <View android:layout_width="match_parent"
           android:layout_height="1dp"
-          android:background="@color/drawer_divider_color"/>
+          android:background="?drawerDividerColor"/>
 
 </LinearLayout>
