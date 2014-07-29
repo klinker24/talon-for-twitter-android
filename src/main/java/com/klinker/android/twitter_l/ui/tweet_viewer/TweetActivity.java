@@ -1478,7 +1478,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             public void onClick(View view) {
                 if (!hidePopups()) {
                     Intent compose = new Intent(context, ComposeActivity.class);
-                    compose.putExtra("user", fsendString.substring(0, fsendString.length() - 2)); // for some reason it puts a extra space here
+                    compose.putExtra("user", fsendString.substring(0, fsendString.length() - 1)); // for some reason it puts a extra space here
                     compose.putExtra("id", tweetId);
                     compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
 
