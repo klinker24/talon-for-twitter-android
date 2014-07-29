@@ -26,7 +26,6 @@
         - manual tweetmarker
         - mute users for a time period
 
-        - redo notifications using the message style stuff for android wear
         - material design add on theme
         - conversation indicator on timeline
         - collage of images on the tweet viewer if there is more than one attached to the tweet
