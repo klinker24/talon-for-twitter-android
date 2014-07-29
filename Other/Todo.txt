@@ -59,4 +59,3 @@
     - remove the black behind the windows
     - better viewing of multiple images on tweet viewer
     - launcher page theme stuff
-    - remove
