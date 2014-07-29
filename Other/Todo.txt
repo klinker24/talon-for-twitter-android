@@ -15,9 +15,9 @@
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - switch mentions to save the position instead of current unread method
     - duplicate followers and following with low numbers
-    - sometimes will jump down a tweet when loading data
     - rotating device will sometimes jump to the top of timeline (better rotation on timeline!)
-    - when using talon theme, it will show circle profile pictures on the tweet viewer from their profile too
+    - direct messages get lost if you receive one before sending and after pulling to refresh
+    - html spacing on the tweet viewer
 
 
 -- For Release --
@@ -30,7 +30,8 @@
         - material design add on theme
         - conversation indicator on timeline
         - collage of images on the tweet viewer if there is more than one attached to the tweet
-        - broadcast receiver to change the theme package
+        - remove the dependency on smoothie and roll it myself
+        - animate expanding the timeline
 
 
     Version 2.6.0
@@ -48,12 +49,13 @@
     - get the reply to text when clicking the edit text to send a new tweet from timeline to compose window
     - start the pre-cache if they have it enabled
     - get the right scale type for the drawer and the profile pictures on timeline
+    - remove smoothie dependency with new profile picture stuff
+
 
 
 -- Talon "L" Version --
 
     - Profiles
-    - remove the black behind the windows...
+    - remove the black behind the windows
     - better viewing of multiple images on tweet viewer
     - launcher page theme stuff
-    - make the launcher page work if only the "L" version is installed
