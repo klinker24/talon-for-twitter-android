@@ -75,6 +75,10 @@ public class EmojiUtils {
             }
         }
 
+        if (res == null) {
+            return;
+        }
+
         addPattern(emoticons, "\u263A", res.getIdentifier("emoji_u263a", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE0A", res.getIdentifier("emoji_u1f60a", "drawable", pack));
         addPattern(emoticons, "\uD83D\uDE00", res.getIdentifier("emoji_u1f600", "drawable", pack));
