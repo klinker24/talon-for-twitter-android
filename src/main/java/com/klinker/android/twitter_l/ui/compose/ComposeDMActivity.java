@@ -66,7 +66,7 @@ public class ComposeDMActivity extends Compose {
         userAutoComplete.setHeight(toDP(200));
         userAutoComplete.setWidth(toDP(275));
         userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                FollowersDataSource.getInstance(context).getCursor(currentAccount, contactEntry.getText().toString()), contactEntry, false));
+                FollowersDataSource.getInstance(context).getCursor(currentAccount, contactEntry.getText().toString()), contactEntry));
         userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
         userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,7 +113,7 @@ public class ComposeDMActivity extends Compose {
                         }
                         adapterText = adapterText.replace("@", "");
                         userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                                FollowersDataSource.getInstance(context).getCursor(currentAccount, adapterText), contactEntry, false));
+                                FollowersDataSource.getInstance(context).getCursor(currentAccount, adapterText), contactEntry));
                     }
                 } catch (Exception e) {
                     // there is no text

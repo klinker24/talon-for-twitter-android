@@ -9,16 +9,8 @@ import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersSQLiteHelper;
 
 public class AutoCompletePeopleAdapter extends SearchedPeopleCursorAdapter {
 
-    private boolean insertSpace;
-
     public AutoCompletePeopleAdapter(Context context, Cursor cursor, EditText text) {
         super(context, cursor, text);
-        this.insertSpace = true;
-    }
-
-    public AutoCompletePeopleAdapter(Context context, Cursor cursor, EditText text, boolean insertSpace) {
-        super(context, cursor, text);
-        this.insertSpace = insertSpace;
     }
 
     @Override
@@ -50,24 +42,29 @@ public class AutoCompletePeopleAdapter extends SearchedPeopleCursorAdapter {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String currentText = text.getText().toString();
+                String tweetText = text.getText().toString();
+                int position = text.getSelectionStart() - 1;
+                int endPosition = text.getSelectionStart();
+                int startPosition = position;
 
-                String[] split = currentText.split(" ");
-
-                split[split.length - 1] = "@" + screenName;
-
-                String newText = "";
-
-                for (String s : split) {
-                    newText += s + " ";
+                while (tweetText.charAt(position) != '@') {
+                    startPosition = position--;
                 }
 
-                if (!insertSpace) {
-                    newText = newText.substring(0, newText.length() - 1);
+                String textPart1 = tweetText.substring(0, startPosition);
+                String textPart3 = tweetText.substring(endPosition, tweetText.length());
+                boolean space = !textPart3.equals("") && !textPart3.startsWith(" ");
+                String textPart2 = screenName + (space ? " " : "");
+                if (!textPart2.startsWith("@")) {
+                    textPart2 = "@" + textPart2;
                 }
+                text.setText((textPart1 + textPart2 + textPart3).replace("@@", "@"));
 
-                text.setText(newText);
-                text.setSelection(text.getText().length());
+                try {
+                    text.setSelection(textPart1.length() + textPart2.length() - (space ? 1 : 0));
+                } catch (Exception e) {
+                    text.setSelection(text.length());
+                }
             }
         });
     }
