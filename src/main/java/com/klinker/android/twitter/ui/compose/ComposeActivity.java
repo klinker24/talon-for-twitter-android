@@ -241,7 +241,9 @@ public class ComposeActivity extends Compose {
         at.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reply.append("@");
+                int start = reply.getSelectionStart();
+                reply.getText().insert(start, "@");
+                reply.setSelection(start + 1);
             }
         });
 
@@ -249,7 +251,9 @@ public class ComposeActivity extends Compose {
         hashtag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reply.append("#");
+                int start = reply.getSelectionStart();
+                reply.getText().insert(start, "#");
+                reply.setSelection(start + 1);
             }
         });
 
