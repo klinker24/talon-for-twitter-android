@@ -22,7 +22,7 @@ allprojects {
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
 
 android {
@@ -121,6 +121,7 @@ dependencies {
     compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
     compile 'org.lucasr.smoothie:smoothie:0.1.0'
+    compile 'com.klinkerapps:launcher-apis:+'
 
     compile files('lib/httpmime-4.3.2.jar')
     compile files('lib/dashclock-api-r2.0.jar')
@@ -131,7 +132,6 @@ dependencies {
 
     compile(name:'datetimepicker', ext:'aar')
     compile(name: 'bitmap-cache', ext:'aar')
-    compile(name:'launcher-api', ext:'aar')
 }
 
 apply plugin: 'idea'

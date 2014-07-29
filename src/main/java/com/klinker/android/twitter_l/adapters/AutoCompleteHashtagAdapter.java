@@ -18,33 +18,16 @@ import com.klinker.android.twitter_l.settings.AppSettings;
  */
 public class AutoCompleteHashtagAdapter extends CursorAdapter {
 
-    private boolean insertSpace;
     private Cursor cursor;
 
     public AutoCompleteHashtagAdapter(Context context, Cursor cursor, EditText text) {
         super(context, cursor);
 
         this.cursor = cursor;
-
         this.context = context;
         this.text = text;
 
-        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
-        this.insertSpace = true;
-    }
-
-    public AutoCompleteHashtagAdapter(Context context, Cursor cursor, EditText text, boolean insertSpace) {
-        super(context, cursor);
-
-        this.cursor = cursor;
-
-        this.context = context;
-        this.text = text;
-
-        settings = AppSettings.getInstance(context);
-        inflater = LayoutInflater.from(context);
-        this.insertSpace = insertSpace;
     }
 
     protected Context context;
@@ -52,7 +35,6 @@ public class AutoCompleteHashtagAdapter extends CursorAdapter {
     private EditText text;
 
     private LayoutInflater inflater;
-    private AppSettings settings;
 
     public static class ViewHolder {
         public TextView text;
@@ -120,24 +102,29 @@ public class AutoCompleteHashtagAdapter extends CursorAdapter {
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String currentText = text.getText().toString();
+                String tweetText = text.getText().toString();
+                int position = text.getSelectionStart() - 1;
+                int endPosition = text.getSelectionStart();
+                int startPosition = position;
 
-                String[] split = currentText.split(" ");
-
-                split[split.length - 1] = tag;
-
-                String newText = "";
-
-                for (String s : split) {
-                    newText += s + " ";
+                while (tweetText.charAt(position) != '#') {
+                    startPosition = position--;
                 }
 
-                if (!insertSpace) {
-                    newText = newText.substring(0, newText.length() - 1);
+                String textPart1 = tweetText.substring(0, startPosition);
+                String textPart3 = tweetText.substring(endPosition, tweetText.length());
+                boolean space = !textPart3.equals("") && !textPart3.startsWith(" ");
+                String textPart2 = tag + (space ? " " : "");
+                if (!textPart2.startsWith("#")) {
+                    textPart2 = "#" + textPart2;
                 }
+                text.setText((textPart1 + textPart2 + textPart3).replace("##", "#"));
 
-                text.setText(newText);
-                text.setSelection(text.getText().length());
+                try {
+                    text.setSelection(textPart1.length() + textPart2.length() - (space ? 1 : 0));
+                } catch (Exception e) {
+                    text.setSelection(text.getText().length());
+                }
             }
         });
     }

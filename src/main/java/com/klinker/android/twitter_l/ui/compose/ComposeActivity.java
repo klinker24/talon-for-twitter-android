@@ -176,37 +176,31 @@ public class ComposeActivity extends Compose {
                 String searchText = reply.getText().toString();
 
                 try {
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                    int position = reply.getSelectionStart() - 1;
+                    if (searchText.charAt(position) == '@') {
                         userAutoComplete.show();
-
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                    } else if (searchText.charAt(position) == ' ') {
                         userAutoComplete.dismiss();
                     } else if (userAutoComplete.isShowing()) {
-                        String[] split = reply.getText().toString().split(" ");
-                        String adapterText;
-                        if (split.length > 1) {
-                            adapterText = split[split.length - 1];
-                        } else {
-                            adapterText = split[0];
-                        }
+                        String adapterText = "";
+                        do {
+                            adapterText = searchText.charAt(position--) + adapterText;
+                        } while (searchText.charAt(position) != '@');
                         adapterText = adapterText.replace("@", "");
                         userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context,
                                 FollowersDataSource.getInstance(context).getCursor(currentAccount, adapterText), reply));
                     }
 
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
+                    position = reply.getSelectionStart() - 1;
+                    if (searchText.charAt(position) == '#') {
                         hashtagAutoComplete.show();
-
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                    } else if (searchText.charAt(position) == ' ') {
                         hashtagAutoComplete.dismiss();
                     } else if (hashtagAutoComplete.isShowing()) {
-                        String[] split = reply.getText().toString().split(" ");
-                        String adapterText;
-                        if (split.length > 1) {
-                            adapterText = split[split.length - 1];
-                        } else {
-                            adapterText = split[0];
-                        }
+                        String adapterText = "";
+                        do {
+                            adapterText = searchText.charAt(position--) + adapterText;
+                        } while (searchText.charAt(position) != '#');
                         adapterText = adapterText.replace("#", "");
                         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
                                 HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
@@ -216,13 +210,13 @@ public class ComposeActivity extends Compose {
                     try {
                         userAutoComplete.dismiss();
                     } catch (Exception x) {
-                        // something went really wrong i guess haha
+                        // something went really wrong I guess haha
                     }
 
                     try {
                         hashtagAutoComplete.dismiss();
                     } catch (Exception x) {
-                        // something went really wrong i guess haha
+                        // something went really wrong I guess haha
                     }
                 }
 
