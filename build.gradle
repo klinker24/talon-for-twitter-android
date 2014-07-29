@@ -80,10 +80,8 @@ robolectric {
 }
 
 dependencies {
-    // Espresso
-    androidTestCompile files('lib/espresso-1.1.jar', 'lib/testrunner-1.1.jar', 'lib/testrunner-runtime-1.1.jar')
     androidTestCompile 'com.google.guava:guava:14.0.1',
-            'com.squareup.dagger:dagger:1.1.0',
+            'com.squareup.dagger:dagger:1.2.1',
             'org.hamcrest:hamcrest-integration:1.1',
             'org.hamcrest:hamcrest-core:1.1',
             'org.hamcrest:hamcrest-library:1.1'
@@ -91,7 +89,7 @@ dependencies {
     androidTestCompile('junit:junit:4.11') {
         exclude module: 'hamcrest-core'
     }
-    androidTestCompile('org.robolectric:robolectric:+') {
+    androidTestCompile('org.robolectric:robolectric:2.3') {
         exclude module: 'classworlds'
         exclude module: 'maven-artifact'
         exclude module: 'maven-artifact-manager'
@@ -111,6 +109,7 @@ dependencies {
         exclude module: 'wagon-provider-api'
     }
     androidTestCompile 'com.squareup:fest-android:1.0.+'
+    compile 'org.mockito:mockito-all:+'
 
     compile 'com.android.support:support-v13:20.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
