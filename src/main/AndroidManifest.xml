@@ -548,7 +548,8 @@
         <service android:name=".services.StopPull">
         </service>
 
-        <service android:name=".services.PreCacheService">
+        <service android:name=".services.PreCacheService"
+                android:exported="true">
         </service>
 
         <service android:name=".services.MarkReadService">
