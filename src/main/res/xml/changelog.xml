@@ -3,7 +3,9 @@
     <version name="2.6.2">
         <text>Smoooother</text>
         <text>Some timeline jumping fixes</text>
+        <text>Auto-complete now works in the middle of the tweet as well (not just the end)</text>
         <text>Avatar mixups fixed</text>
+        <text>Translation updates</text>
     </version>
 
     <version name="2.6.1">

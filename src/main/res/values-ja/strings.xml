@@ -596,6 +596,11 @@ TalonはTwitPicに画像をアップロードします。</string>
     <string name="no_clients">クライアントなし</string>
     <string name="muted_clients_summary">特定のクライアントから送信されたツイートをミュートします。</string>
     <string name="client_not_found">クライアントが見つかりません!</string>
+    <string name="pick_time">時間の指定</string>
+    <string name="pick_date">日付の指定</string>
+    <string name="both_accounts">両方のアカウント</string>
+    <string name="attach_gif">アニメGIF</string>
+    <string name="roboto_l">Android "L" Roboto</string>
     <string name="open_to_web">ツイートのURLを直接開く</string>
     <string name="open_to_web_summary">ツイートにURLが含まれている場合に、ツイート自体ではなくそのURLを直接開くようにします。</string>
 </resources>

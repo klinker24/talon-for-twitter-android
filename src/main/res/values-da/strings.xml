@@ -345,7 +345,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="backup_settings">Backup indstillinger</string>
     <string name="backup_settings_dialog">Tilføj ny backup?</string>
     <string name="backup_settings_dialog_summary">Dette vil overskrive tidligere backup\'s</string>
-    <string name="backup_success">Backup lykkedes</string>
+    <string name="backup_success">Backup oprettet</string>
     <string name="restore_success">Gendannelse lykkedes</string>
     <string name="restore_settings">Gendan indstillinger</string>
     <string name="restore_settings_summary">Sletter cache for at tilføje ændringer i tema</string>
@@ -596,6 +596,11 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="no_clients">Ingen apps</string>
     <string name="muted_clients_summary">Gør mute alle tweets fra en specifik applikation, muligt</string>
     <string name="client_not_found">App ikke fundet!</string>
+    <string name="pick_time">Vælg tidspunkt</string>
+    <string name="pick_date">Vælg dato</string>
+    <string name="both_accounts">Begge konti</string>
+    <string name="attach_gif">Animeret GIF</string>
+    <string name="roboto_l">Android "L" Roboto</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
     <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for at vise tweetet</string>
 </resources>

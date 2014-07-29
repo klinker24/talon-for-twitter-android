@@ -49,6 +49,7 @@
     - start the pre-cache if they have it enabled
     - get the right scale type for the drawer and the profile pictures on timeline
     - remove smoothie dependency with new profile picture stuff
+    - Theming stuff for android L version
 
 
 

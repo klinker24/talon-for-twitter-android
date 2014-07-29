@@ -596,6 +596,11 @@
     <string name="no_clients">Нет клиентов</string>
     <string name="muted_clients_summary">Позволяет скрывать в ленте все твиты, отправленные из определённого приложения.</string>
     <string name="client_not_found">Клиент не найден!</string>
+    <string name="pick_time">Выбрать время</string>
+    <string name="pick_date">Выбрать дату</string>
+    <string name="both_accounts">Оба аккаунта</string>
+    <string name="attach_gif">GIF-анимация</string>
+    <string name="roboto_l">Android "L" Roboto</string>
     <string name="open_to_web">Открывать ссылки в твитах</string>
     <string name="open_to_web_summary">Если твит содержит ссылку, будет открываться страница с ней, а не сам твит.</string>
 </resources>
