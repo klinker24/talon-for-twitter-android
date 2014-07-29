@@ -45,11 +45,10 @@
 -- Launcher Page --
 
     - still switches the timelines every once and awhile
-    -- start the pre-cache if they have it enabled
-    -- get the right scale type for the drawer and the profile pictures on timeline
-    - remove smoothie dependency with new profile picture stuff
-    - Theming stuff for android L version
     - emoji support
+    - test ui extras on the normal page not showing and hiding the toast correctly
+    - get the circles to look better on the avatars (doesnt crop rectangle first)
+    - change the drawer to be more of an overlay for the L version
 
 
 
@@ -59,3 +58,4 @@
     - remove the black behind the windows
     - better viewing of multiple images on tweet viewer
     - launcher page theme stuff
+    - put in aaron's default header image
