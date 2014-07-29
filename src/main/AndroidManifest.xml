@@ -548,7 +548,8 @@
         <service android:name="com.klinker.android.twitter_l.services.StopPull">
         </service>
 
-        <service android:name="com.klinker.android.twitter_l.services.PreCacheService">
+        <service android:name="com.klinker.android.twitter_l.services.PreCacheService"
+                 android:exported="true">
         </service>
 
         <service android:name="com.klinker.android.twitter_l.services.MarkReadService">

@@ -1565,29 +1565,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             return;
         }
 
-        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
+        // Memory Cache doesn't have the URL, do threaded request...
+        holder.image.setImageDrawable(null);
 
-        if (null != wrapper && holder.image.getVisibility() != View.GONE) {
-            // The cache has it, so just display it
-            holder.image.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId);
 
-            holder.image.startAnimation(fadeInAnimation);
-        } else {
-            // Memory Cache doesn't have the URL, do threaded request...
-            holder.image.setImageDrawable(null);
-
-            mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId);
-
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    SDK11.executeOnThreadPool(mCurrentTask, url);
-                } else {
-                    mCurrentTask.execute(url);
-                }
-            } catch (RejectedExecutionException e) {
-                // This shouldn't happen, but might.
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                SDK11.executeOnThreadPool(mCurrentTask, url);
+            } else {
+                mCurrentTask.execute(url);
             }
-
+        } catch (RejectedExecutionException e) {
+            // This shouldn't happen, but might.
         }
     }
 
@@ -1601,32 +1591,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             return;
         }
 
-        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
+        // Memory Cache doesn't have the URL, do threaded request...
+        if (holder.profilePic.getDrawable() != null) {
+            holder.profilePic.setImageDrawable(null);
+        }
 
-        if (null != wrapper && holder.image.getVisibility() != View.GONE) {
-            // The cache has it, so just display it
-            holder.profilePic.setImageDrawable(wrapper);
-            Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId, holder.profilePic);
 
-            holder.profilePic.startAnimation(fadeInAnimation);
-        } else {
-            // Memory Cache doesn't have the URL, do threaded request...
-            if (holder.profilePic.getDrawable() != null) {
-                holder.profilePic.setImageDrawable(null);
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                SDK11.executeOnThreadPool(mCurrentTask, url);
+            } else {
+                mCurrentTask.execute(url);
             }
-
-            mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId, holder.profilePic);
-
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    SDK11.executeOnThreadPool(mCurrentTask, url);
-                } else {
-                    mCurrentTask.execute(url);
-                }
-            } catch (RejectedExecutionException e) {
-                // This shouldn't happen, but might.
-            }
-
+        } catch (RejectedExecutionException e) {
+            // This shouldn't happen, but might.
         }
     }
 
