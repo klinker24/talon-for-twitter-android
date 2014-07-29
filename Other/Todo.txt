@@ -45,11 +45,11 @@
 -- Launcher Page --
 
     - still switches the timelines every once and awhile
-    - get the reply to text when clicking the edit text to send a new tweet from timeline to compose window
-    - start the pre-cache if they have it enabled
-    - get the right scale type for the drawer and the profile pictures on timeline
+    -- start the pre-cache if they have it enabled
+    -- get the right scale type for the drawer and the profile pictures on timeline
     - remove smoothie dependency with new profile picture stuff
     - Theming stuff for android L version
+    - emoji support
 
 
 
