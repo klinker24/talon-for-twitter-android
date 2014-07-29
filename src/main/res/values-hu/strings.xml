@@ -122,8 +122,8 @@
     <string name="follow_me_description">Kövesse @TalonAndroid és @lukeklinker felhasználókat a támogatáshoz és, hogy értesüljön a legújabb funkciókról!</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Új Tweet</string>
-    <string name="compose_tweet_hint">Ide írjon...</string>
-    <string name="send_to">Adja meg a felhasználó nevét</string>
+    <string name="compose_tweet_hint">Tweet írása...</string>
+    <string name="send_to">Írja be a felhasználó nevét...</string>
     <string name="direct_message_sent">Közvetlen üzenet elküldve</string>
     <string name="type_user">Írja be a felhasználót</string>
     <string name="add_user">Felhasználó hozzáadása</string>
@@ -242,13 +242,13 @@
     <string name="addon_themes">Kiegészítő témák</string>
     <string name="addon_note">Kattintson ide új témák kereséséhez.\n\nMEGJEGYZÉS:\n- Ez le fogja tiltani a beépített emoji billentyűzetet, amikor válaszol egy tweetre.\n- Kérjük ne küldjön hibajelentést, amíg nem tudja azt reprodukálni egyéni téma alkalmazása NÉLKÜL.</string>
     <string name="use_addon_themes">Kiegészítő téma használata</string>
-    <string name="make_a_theme">Téma készítése</string>
+    <string name="make_a_theme">Készítsen témát</string>
     <string name="layout">Elrendezés</string>
     <string name="themeing_complete">Téma alkalmazása</string>
     <string name="themeing_complete_summary">A \"Talon\" most bezáródik.\n\n
                 A változások alkalmazásához csúsztatással el kell távolítania a \"Talon-t\" a legutóbbi alkalmazások listájáról.\n\n
                 Ha a profilképek nem úgy jelennek meg, ahogy kellene (pl. kör vagy négyzet), akkor el kell távolítani és újra hozzá kell adni a widgetet.</string>
-    <string name="layout_summary">Ez a változtatás törölni fogja az alkalmazás gyorsítótárát.</string>
+    <string name="layout_summary">Ennek megváltoztatásával törlődni fog az alkalmazás gyorsítótára.</string>
     <string name="text_size">Betűméret</string>
     <string name="night_mode">Éjszakai mód</string>
     <string name="night_mode_night">Éjszaka kezdete</string>
@@ -265,7 +265,7 @@
     <string name="use_screen_name">Twitter név megjelenítése</string>
     <string name="use_screen_name_summary">A felhasználó Twitter nevének megjelenítése az idővonalon a neve helyett.</string>
     <string name="timestamp">24 órás időbélyegző</string>
-    <string name="enable_emojis">Emoji engedélyezése</string>
+    <string name="enable_emojis">Hangulatjel engedélyezése</string>
     <string name="to_market">A Play Áruházba</string>
     <string name="get_android">Android Emojik beszerzése</string>
     <string name="get_ios">iOS Emojik beszerzése</string>
@@ -276,7 +276,7 @@
     <string name="theme_dark">Sötét téma</string>
     <string name="theme_black">Fekete téma</string>
     <string name="sync_settings">Szinkronizáció beállítások</string>
-    <string name="sync_mobile_data">Mobiladat használata</string>
+    <string name="sync_mobile_data">Mobil adatkapcsolat használata</string>
     <string name="sync_mobile_data_summary">Idővonal automatikus frissítése mobiladat és WiFi használatával.</string>
     <string name="auto_sync_notifications">Automatikus frissítés értesítés beállítások</string>
     <string name="notifications">Értesítések</string>
@@ -340,13 +340,13 @@
     <string name="trimming">Karbantartás...</string>
     <string name="trim_success">Karbantartás sikeres</string>
     <string name="trim_fail">Karbantartás sikertelen</string>
-    <string name="backup_category">Mentés és visszaállítás beállítások</string>
-    <string name="backup_settings">Mentés beállítások</string>
+    <string name="backup_category">Beállítások mentése és visszaállítása</string>
+    <string name="backup_settings">Beállítások mentése</string>
     <string name="backup_settings_dialog">Új biztonsági mentés létrehozása?</string>
     <string name="backup_settings_dialog_summary">Ezzel felülírja az összes korábbi mentést.</string>
     <string name="backup_success">Biztonsági mentés sikeres</string>
     <string name="restore_success">Visszaállítás sikeres</string>
-    <string name="restore_settings">Visszaállítás beállítások</string>
+    <string name="restore_settings">Beállítások visszaállítása</string>
     <string name="restore_settings_summary">A téma változások alkalmazásához törölni fogja a gyorsítótárat.</string>
     <string name="get_help_settings">Segítség kérése</string>
     <string name="rerun_tutorial">Kezdeti lépések indítása</string>
@@ -388,7 +388,7 @@
     <string name="use_inapp_browser">Belső böngésző az idővonalon</string>
     <string name="use_browser_on_tweet">Böngésző oldal a Tweeten</string>
     <string name="dismiss_all">Összes elvetése</string>
-    <string name="handle_and_name">Twitter név és rendes név megjelenítése</string>
+    <string name="handle_and_name">Becenév és rendes név megjelenítése</string>
     <string name="notification_types">Értesítés típusok</string>
     <string name="with_talon_pull">Elérhető a \"Talon Pull\"-on keresztül</string>
     <string name="favorited_tweet">Kedvelt tweetek</string>
@@ -411,7 +411,7 @@
     <string name="muted">Némítva</string>
     <string name="auto_insert_hashtags">Hashtag auto-beillesztés</string>
     <string name="to_replies">A tweetben lévő összes hashtag beillesztése a válaszba.</string>
-    <string name="clean_now">Adatbázis törlése most</string>
+    <string name="clean_now">Adatbázis takarítása most</string>
     <string name="clean_now_summary">Magában fogalja a rendezést és a duplikációk eltávolítását az adatbázisból.</string>
     <string name="delete_conversation">Törli a beszélgetést?</string>
     <string name="deleting_messages">Üzenetek törlése</string>
@@ -468,7 +468,7 @@
     <string name="load_tweets">Tweetek betöltése</string>
     <string name="download_portal">Theme Portal alkalmazás letöltése</string>
     <string name="download_portal_summary">Ez a Klinker Apps \"Portál\" alkalmazása, melynek segítségével naprakész lehet a legújabb hírekkel, valamint egy helyen találhatja meg a Talon és az EvolveSMS legjobb témáit.</string>
-    <string name="compose_dm_hint">Ide írja az üzenetet...</string>
+    <string name="compose_dm_hint">Üzenet írása...</string>
     <string name="pwiccer">Pwiccer</string>
     <string name="select_shortening_service">Rövidítés szolgáltatás kiválasztása vagy tweet szerkesztése</string>
     <string name="use_shortening_service">Rövidítés szolgáltatás használata</string>
@@ -595,6 +595,11 @@
     <string name="no_clients">Nincsenek kliensek</string>
     <string name="muted_clients_summary">Lehetővé teszi, hogy egy adott alkalmazásból származó összes tweet némítva legyen.</string>
     <string name="client_not_found">Nem található kliens!</string>
+    <string name="pick_time">Idő megadása</string>
+    <string name="pick_date">Dátum megadása</string>
+    <string name="both_accounts">Mindkét fiók</string>
+    <string name="attach_gif">Animált GIF</string>
+    <string name="roboto_l">Android "L" Roboto</string>
     <string name="open_to_web">Weboldal megnyitása</string>
     <string name="open_to_web_summary">Ha a tweet URL-t tartalmaz, akkor a tweet helyett közvetlenül az URL-t nyitja meg.</string>
 </resources>
